@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -18,17 +19,23 @@ namespace SimpleWAWS.Controllers
 
             if (site == null)
             {
-                return View();
+                // Get the list of template names from the file system
+                string templateFolder = GetTemplateFolder();
+                var templateNames = Directory.GetFiles(templateFolder)
+                    .Select(path => Path.GetFileNameWithoutExtension(path)).ToList();
+                return View(templateNames);
             }
 
             return View("ShowSite", site);
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateSite(string submit)
+        public async Task<ActionResult> CreateSite(string template)
         {
+            string templateFile = Path.Combine(GetTemplateFolder(), template + ".zip");
+
             var siteManager = await SiteManager.GetInstanceAsync();
-            Site site = await siteManager.UseSiteAsync();
+            Site site = await siteManager.ActivateSiteAsync(templateFile);
 
             HttpCookie cookie = new HttpCookie(WAWSSiteCookie);
 
@@ -90,6 +97,13 @@ namespace SimpleWAWS.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        private string GetTemplateFolder()
+        {
+            string folder = Server.MapPath(@"~/App_Data/Templates");
+            Directory.CreateDirectory(folder);
+            return folder;
         }
     }
 }

@@ -187,7 +187,7 @@ namespace SimpleWAWS
             return new Site(this, webSiteCreateResponse.WebSite, config);
         }
 
-        public async Task<Site> UseSiteAsync()
+        public async Task<Site> ActivateSiteAsync(string templateZip)
         {
             Site site = _freeSites.Dequeue();
 
@@ -197,7 +197,7 @@ namespace SimpleWAWS
 
             var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
             var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
-            Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", @"D:\tmp\tmp\Simple.zip");
+            Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", templateZip);
 
             await Task.WhenAll(markAsInUseTask, zipUpload);
 
