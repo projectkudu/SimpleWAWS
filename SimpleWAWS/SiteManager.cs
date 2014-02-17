@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Diagnostics;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading;
 using System.Threading.Tasks;
 using Kudu.Client.Zip;
 using Microsoft.WindowsAzure;
@@ -15,12 +16,16 @@ namespace SimpleWAWS
     public class SiteManager: IDisposable
     {
         private bool _disposed;
-        private SiteNameGenerator _nameGenerator = new SiteNameGenerator();
-        private int _freeListSize;
-        private TimeSpan _siteExpiryTime;
+        private readonly SiteNameGenerator _nameGenerator = new SiteNameGenerator();
+        private readonly int _freeListSize;
+        private readonly TimeSpan _siteExpiryTime;
 
-        private Queue<Site> _freeSites = new Queue<Site>();
-        private Dictionary<string, Site> _sitesInUse = new Dictionary<string, Site>();
+        private readonly Queue<Site> _freeSites = new Queue<Site>();
+        private readonly Dictionary<string, Site> _sitesInUse = new Dictionary<string, Site>();
+
+        private Timer _timer;
+        private readonly JobHost _jobHost = new JobHost();
+
         private static object _lock = new object();
 
         public const string InUseMetadataKey = "IN_USE";
@@ -40,9 +45,9 @@ namespace SimpleWAWS
 
         public SiteManager()
         {
-            var creds = new CertificateCloudCredentials(
-                ConfigurationManager.AppSettings["subscription"],
-                new X509Certificate2(Convert.FromBase64String(ConfigurationManager.AppSettings["certificate"])));
+            var cert = new X509Certificate2(Convert.FromBase64String(ConfigurationManager.AppSettings["certificate"]));
+
+            var creds = new CertificateCloudCredentials(ConfigurationManager.AppSettings["subscription"], cert);
 
             Client = new WebSiteManagementClient(creds);
 
@@ -77,12 +82,21 @@ namespace SimpleWAWS
             }
 
             await MaintainSiteLists();
+
+            // Do maintenance on the site lists every minute
+            _timer = new Timer(OnTimerElapsed);
+            _timer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(60 * 1000));
         }
 
         public async Task MaintainSiteLists()
         {
             await AddNewSitesToFreeListAsync();
             await DeleteExpiredSitesAsync();
+        }
+
+        private void OnTimerElapsed(object state)
+        {
+            _jobHost.DoWork(() => { MaintainSiteLists().Wait(); });
         }
 
         public async Task AddNewSitesToFreeListAsync()
@@ -225,4 +239,5 @@ namespace SimpleWAWS
             Dispose(false);
         }
     }
+
 }

@@ -195,6 +195,7 @@
     <Compile Include="SiteManager.cs" />
     <Compile Include="SiteNameGenerator.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="JobHost.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
