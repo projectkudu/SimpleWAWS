@@ -8,7 +8,7 @@ using Microsoft.WindowsAzure.Management.WebSites.Models;
 
 namespace SimpleWAWS
 {
-    class Site
+    public class Site
     {
         private SiteManager _manager;
         private WebSite _webSite;

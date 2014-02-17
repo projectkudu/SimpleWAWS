@@ -12,7 +12,7 @@ using Microsoft.WindowsAzure.Management.WebSites.Models;
 
 namespace SimpleWAWS
 {
-    class SiteManager: IDisposable
+    public class SiteManager: IDisposable
     {
         private bool _disposed;
         private SiteNameGenerator _nameGenerator = new SiteNameGenerator();
@@ -21,8 +21,22 @@ namespace SimpleWAWS
 
         private Queue<Site> _freeSites = new Queue<Site>();
         private Dictionary<string, Site> _sitesInUse = new Dictionary<string, Site>();
+        private static object _lock = new object();
 
         public const string InUseMetadataKey = "IN_USE";
+
+        private static SiteManager _instance;
+        public static async Task<SiteManager> GetInstanceAsync()
+        {
+            // TODO: what's the right way of locking when using async?
+            if (_instance == null)
+            {
+                _instance = new SiteManager();
+                await _instance.LoadSiteListFromAzureAsync();
+            }
+
+            return _instance;
+        }
 
         public SiteManager()
         {
@@ -169,9 +183,21 @@ namespace SimpleWAWS
 
         public Site GetSite(string id)
         {
-            Site site = _freeSites.Dequeue();
+            Site site;
             _sitesInUse.TryGetValue(id, out site);
             return site;
+        }
+
+        public async Task DeleteSite(string id)
+        {
+            Site site;
+            _sitesInUse.TryGetValue(id, out site);
+
+            if (site != null)
+            {
+                await Client.WebSites.DeleteAsync(WebSpaceName, site.Name, new WebSiteDeleteParameters());
+                _sitesInUse.Remove(site.Id);
+            }
         }
 
         public void Dispose()

@@ -1,0 +1,17 @@
+﻿@model SimpleWAWS.Site
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Your site: @Model.Name</h1>
+    <p class="lead">Your site is ready to use!</p>
+    <p><a href="@Model.Url" class="btn btn-primary btn-large" target="_blank">Run it</a></p>
+    <p><a href="@Model.MonacoUrl" class="btn btn-primary btn-large" target="_blank">Edit it in Visual Studio Online</a></p>
+    <p><a href="@Model.ScmUrlWithCreds" class="btn btn-primary btn-large" target="_blank">Launch the Kudu dev tools</a></p>
+    @using (Html.BeginForm("DeleteSite", "Home", FormMethod.Post))
+    {
+        <p><input type="submit" name="submit" value="Delete it" class="btn btn-primary btn-large" /></p>
+    }
+</div>
