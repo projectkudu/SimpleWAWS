@@ -26,6 +26,14 @@ namespace SimpleWAWS
         // We use the password as an ID so users can't access other users's sites
         public string Id { get { return PublishingPassword; } }
 
+        public bool IsInUse
+        {
+            get
+            {
+                return _config.Metadata.ContainsKey(SiteManager.InUseMetadataKey);
+            }
+        }
+
         public string Url
         {
             get {

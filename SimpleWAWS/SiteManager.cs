@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
@@ -73,15 +74,21 @@ namespace SimpleWAWS
 
         public async Task LoadSiteListFromAzureAsync()
         {
-            var sites = await Client.WebSpaces.ListWebSitesAsync(WebSpaceName, new WebSiteListParameters());
-            foreach (WebSite webSite in sites)
+            var webSites = await Client.WebSpaces.ListWebSitesAsync(WebSpaceName, new WebSiteListParameters());
+
+            // Retrieve the config for all the sites in parallel
+            var sites = await Task.WhenAll(
+                webSites.Select(async webSite =>
+                {
+                    WebSiteGetConfigurationResponse config = await Client.WebSites.GetConfigurationAsync(WebSpaceName, webSite.Name);
+                    return new Site(this, webSite, config);
+                })
+            );
+
+            // Check if the sites are in use and place them in the right list
+            foreach (Site site in sites)
             {
-                WebSiteGetConfigurationResponse config = await Client.WebSites.GetConfigurationAsync(WebSpaceName, webSite.Name);
-
-                var site = new Site(this, webSite, config);
-
-                // Check if the site is free or in use and place it in the right list
-                if (config.Metadata.ContainsKey(InUseMetadataKey))
+                if (site.IsInUse)
                 {
                     Trace.TraceInformation("Loading site {0} into the InUse list", site.Name);
                     _sitesInUse[site.Id] = site;
@@ -93,9 +100,7 @@ namespace SimpleWAWS
                 }
             }
 
-            await MaintainSiteLists();
-
-            // Do maintenance on the site lists every minute
+            // Do maintenance on the site lists every minute (and start one right now)
             _timer = new Timer(OnTimerElapsed);
             _timer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(60 * 1000));
         }
