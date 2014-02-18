@@ -59,6 +59,14 @@ namespace SimpleWAWS
             }
         }
 
+        public string KuduConsoleWithCreds
+        {
+            get
+            {
+                return ScmUrlWithCreds + "DebugConsole";
+            }
+        }
+
         public string GitUrlWithCreds
         {
             get
