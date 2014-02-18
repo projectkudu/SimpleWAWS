@@ -232,6 +232,7 @@ namespace SimpleWAWS
 
             if (site != null)
             {
+                Trace.TraceInformation("Deleting site {0}", site.Name);
                 await Client.WebSites.DeleteAsync(WebSpaceName, site.Name, new WebSiteDeleteParameters());
                 _sitesInUse.Remove(site.Id);
             }
