@@ -4,6 +4,17 @@
     ViewBag.Title = "Home Page";
 }
 
+@section scripts {
+<script type="text/javascript">
+    $("form").submit(function () {
+        $(this).submit(function () {
+            return false;
+        });
+        return true;
+    });
+</script>
+}
+
 <div class="jumbotron">
     <h1>Try Azure Web Sites in seconds!</h1>
     <p class="lead">Choose a template to get started</p>
