@@ -8,6 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using Kudu.Client.Editor;
 using Kudu.Client.Zip;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Management.WebSites;
@@ -198,8 +199,10 @@ namespace SimpleWAWS
             var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
             var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
             Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", templateZip);
+            var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials);
+            Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
 
-            await Task.WhenAll(markAsInUseTask, zipUpload);
+            await Task.WhenAll(markAsInUseTask, zipUpload, deleteHostingStart);
 
             _sitesInUse[site.Id] = site;
 

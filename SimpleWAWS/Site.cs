@@ -59,6 +59,14 @@ namespace SimpleWAWS
             }
         }
 
+        public string ContentDownloadUrl
+        {
+            get
+            {
+                return ScmUrlWithCreds + "zip/site/wwwroot";
+            }
+        }
+
         public DateTime StartTime { get { return _webSite.LastModifiedTimeUtc; } }
         public string PublishingUserName { get { return _config.PublishingUserName; } }
         public string PublishingPassword { get { return _config.PublishingPassword; } }
