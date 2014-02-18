@@ -6,13 +6,13 @@
 
 <div class="jumbotron">
     <h1>Test Drive Azure Web Sites</h1>
-    <p class="lead">Create a temporary test site in seconds to experiance Azure Web Sites!</p>
+    <p class="lead">Create a temporary test site in seconds to experience Azure Web Sites!</p>
 
     @using (Html.BeginForm("CreateSite", "Home", FormMethod.Post))
     {
         <p>
             @foreach (var template in Model) {
-            <input type="submit" name="template" value="@template" class="btn btn-primary btn-large" />
+            <p><input type="submit" name="template" value="@template" class="btn btn-primary btn-large" /></p>
             }
         </p>
     }
