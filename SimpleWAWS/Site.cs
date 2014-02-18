@@ -67,6 +67,25 @@ namespace SimpleWAWS
             }
         }
 
+        public string TimeLeftString
+        {
+            get
+            {
+                TimeSpan timeUsed = DateTime.UtcNow - StartTime;
+                TimeSpan timeLeft;
+                if (timeUsed > _manager.SiteExpiryTime)
+                {
+                    timeLeft = TimeSpan.FromMinutes(0);
+                }
+                else
+                {
+                    timeLeft = _manager.SiteExpiryTime - timeUsed;
+                }
+
+                return String.Format("{0}m:{1:D2}s", timeLeft.Minutes, timeLeft.Seconds);
+            }
+        }
+
         public DateTime StartTime { get { return _webSite.LastModifiedTimeUtc; } }
         public string PublishingUserName { get { return _config.PublishingUserName; } }
         public string PublishingPassword { get { return _config.PublishingPassword; } }

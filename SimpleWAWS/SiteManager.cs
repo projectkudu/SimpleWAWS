@@ -21,7 +21,7 @@ namespace SimpleWAWS
         private bool _disposed;
         private readonly SiteNameGenerator _nameGenerator = new SiteNameGenerator();
         private readonly int _freeListSize;
-        private readonly TimeSpan _siteExpiryTime;
+        public readonly TimeSpan SiteExpiryTime;
 
         private readonly Queue<Site> _freeSites = new Queue<Site>();
         private readonly Dictionary<string, Site> _sitesInUse = new Dictionary<string, Site>();
@@ -65,7 +65,7 @@ namespace SimpleWAWS
 
             WebSpaceName = ConfigurationManager.AppSettings["webspace"];
             _freeListSize = Int32.Parse(ConfigurationManager.AppSettings["freeListSize"]);
-            _siteExpiryTime = TimeSpan.FromMinutes(Int32.Parse(ConfigurationManager.AppSettings["siteExpiryMinutes"]));
+            SiteExpiryTime = TimeSpan.FromMinutes(Int32.Parse(ConfigurationManager.AppSettings["siteExpiryMinutes"]));
         }
 
         public WebSiteManagementClient Client { get; set; }
@@ -129,7 +129,7 @@ namespace SimpleWAWS
             // Find all the expired sites
             foreach (var entry in _sitesInUse)
             {
-                if (DateTime.UtcNow - entry.Value.StartTime > _siteExpiryTime)
+                if (DateTime.UtcNow - entry.Value.StartTime > SiteExpiryTime)
                 {
                     siteIdsToDelete.Add(entry.Value);
                 }
