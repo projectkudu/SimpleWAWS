@@ -51,6 +51,14 @@ namespace SimpleWAWS
             }
         }
 
+        public string GitUrlWithCreds
+        {
+            get
+            {
+                return ScmUrlWithCreds + Name + ".git";
+            }
+        }
+
         public string MonacoUrl
         {
             get
