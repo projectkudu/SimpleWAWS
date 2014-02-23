@@ -69,7 +69,7 @@ namespace SimpleWAWS
             SiteExpiryTime = TimeSpan.FromMinutes(Int32.Parse(ConfigurationManager.AppSettings["siteExpiryMinutes"]));
         }
 
-        public WebSiteManagementClient Client { get; set; }
+        public IWebSiteManagementClient Client { get; set; }
         public string WebSpaceName { get; set; }
 
         public async Task LoadSiteListFromAzureAsync()
