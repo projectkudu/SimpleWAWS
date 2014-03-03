@@ -25,7 +25,7 @@ namespace SimpleWAWS
             {
                 Exception ex = Server.GetLastError();
 
-                if (Response.StatusCode != 404)
+                if (Response.StatusCode >= 500)
                 {
                     Trace.TraceError(ex.ToString());
                 }
