@@ -2,7 +2,7 @@
 
 namespace SimpleWAWS
 {
-    class SiteNameGenerator
+    public class SiteNameGenerator
     {
         private string[] _adjectives = new string[] { "Blue", "Green", "Orange", "Pink", "Purple", "Red", "Yellow", "Adventurous", "Bold", "Brave", "Bright", "Charming", "Colorful", "Cool", "Courageous",
             "Creative", "Dazzling", "Dancing", "Eager", "Fast", "Fearless", "Friendly", "Gentle", "Grazing", "Happy", "Heroic", "Hungry", "Important", "Impressive", "Ingenious", "Insightful", "Intuitive", "Laughing", "Masterful",

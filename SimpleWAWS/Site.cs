@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Management.WebSites;
 using Microsoft.WindowsAzure.Management.WebSites.Models;
 
@@ -10,15 +11,49 @@ namespace SimpleWAWS
 {
     public class Site
     {
-        private SiteManager _manager;
+        private WebSpace _webSpace;
         private WebSite _webSite;
         private WebSiteGetConfigurationResponse _config;
 
-        public Site(SiteManager manager, WebSite webSite, WebSiteGetConfigurationResponse config)
+        private const string IsSimpleWAWSKey = "SIMPLE_WAWS";
+        private const string InUseMetadataKey = "IN_USE";
+
+        public Site(WebSpace webSpace, WebSite webSite)
         {
-            _manager = manager;
+            _webSpace = webSpace;
+            _webSite = webSite;
+        }
+
+        public Site(WebSite webSite, WebSiteGetConfigurationResponse config)
+        {
             _webSite = webSite;
             _config = config;
+        }
+
+        public async Task LoadConfigurationAsync()
+        {
+            _config = await _webSpace.GetConfigurationAsync(Name);
+        }
+
+        public async Task InitializeNewSite()
+        {
+            var updateParams = Util.CreateWebSiteUpdateConfigurationParameters();
+
+            // Mark it as our site
+            updateParams.Metadata = new Dictionary<string, string> {
+                {IsSimpleWAWSKey, "1"}
+            };
+
+            // Turn on Monaco
+            updateParams.AppSettings = new Dictionary<string, string> {
+                {"WEBSITE_NODE_DEFAULT_VERSION", "0.10.21"},
+                {"MONACO_EXTENSION_VERSION", "beta"}
+            };
+
+            await _webSpace.UpdateConfigurationAsync(Name, updateParams);
+
+            // Get all the configuration
+            _config = await _webSpace.GetConfigurationAsync(Name);
         }
 
         public string Name { get { return _webSite.Name; } }
@@ -26,11 +61,19 @@ namespace SimpleWAWS
         // We use the password as an ID so users can't access other users's sites
         public string Id { get { return PublishingPassword; } }
 
+        public bool IsSimpleWAWS
+        {
+            get
+            {
+                return _config.Metadata.ContainsKey(IsSimpleWAWSKey);
+            }
+        }
+
         public bool IsInUse
         {
             get
             {
-                return _config.Metadata.ContainsKey(SiteManager.InUseMetadataKey);
+                return _config.Metadata.ContainsKey(InUseMetadataKey);
             }
         }
 
@@ -97,13 +140,13 @@ namespace SimpleWAWS
             {
                 TimeSpan timeUsed = DateTime.UtcNow - StartTime;
                 TimeSpan timeLeft;
-                if (timeUsed > _manager.SiteExpiryTime)
+                if (timeUsed > SiteManager.SiteExpiryTime)
                 {
                     timeLeft = TimeSpan.FromMinutes(0);
                 }
                 else
                 {
-                    timeLeft = _manager.SiteExpiryTime - timeUsed;
+                    timeLeft = SiteManager.SiteExpiryTime - timeUsed;
                 }
 
                 return String.Format("{0}m:{1:D2}s", timeLeft.Minutes, timeLeft.Seconds);
@@ -114,16 +157,20 @@ namespace SimpleWAWS
         public string PublishingUserName { get { return _config.PublishingUserName; } }
         public string PublishingPassword { get { return _config.PublishingPassword; } }
 
+        public Task DeleteAndCreateReplacementAsync()
+        {
+            return _webSpace.DeleteAndCreateReplacementAsync(this);
+        }
+
         public async Task MarkAsInUseAsync()
         {
             _webSite.LastModifiedTimeUtc = DateTime.UtcNow;
 
             var updateParams = Util.CreateWebSiteUpdateConfigurationParameters();
-            updateParams.Metadata = new Dictionary<string, string> {
-                {SiteManager.InUseMetadataKey, "true"}
-            };
+            _config.Metadata[InUseMetadataKey] = "true";
+            updateParams.Metadata = _config.Metadata;
 
-            await _manager.Client.WebSites.UpdateConfigurationAsync(_manager.WebSpaceName, Name, updateParams);
+            await _webSpace.UpdateConfigurationAsync(Name, updateParams);
         }
 
         public override string ToString()
