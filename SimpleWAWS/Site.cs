@@ -51,9 +51,11 @@ namespace SimpleWAWS
             };
 
             await _webSpace.UpdateConfigurationAsync(Name, updateParams);
+            Trace.TraceInformation("Updated initial config for site '{0}' in {1}", this, _webSpace);
 
             // Get all the configuration
             _config = await _webSpace.GetConfigurationAsync(Name);
+            Trace.TraceInformation("Read the configuration for site '{0}' in {1}", this, _webSpace);
         }
 
         public string Name { get { return _webSite.Name; } }

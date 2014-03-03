@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using Microsoft.WindowsAzure;
@@ -65,16 +66,49 @@ namespace SimpleWAWS
         private async Task CreateNewSiteAsync()
         {
             // Create a blank new site
-            WebSiteCreateResponse webSiteCreateResponse = await Client.WebSites.CreateAsync(_webSpaceName,
-                new WebSiteCreateParameters
-                {
-                    Name = await GenerateSiteNameAsync(),
-                    WebSpaceName = _webSpaceName
-                });
+
+            string siteName = await GenerateSiteNameAsync();
+
+            //Trace.TraceInformation("Creating site '{0}' in {1}", siteName, this);
+
+            WebSiteCreateResponse webSiteCreateResponse = await Foo(
+                () => Client.WebSites.CreateAsync(_webSpaceName,
+                    new WebSiteCreateParameters
+                    {
+                        Name = siteName,
+                        WebSpaceName = _webSpaceName
+                    }),
+                "Creating site '{0}' in {1}", siteName, this);
+
+            //Trace.TraceInformation("Created site '{0}' in {1}", siteName, this);
 
             var site = new Site(this, webSiteCreateResponse.WebSite);
             await site.InitializeNewSite();
             RegisterSite(site);
+        }
+
+        async Task<T> Foo<T>(Func<Task<T>> action, string messageFormat, params object[] args)
+        {
+            string message = String.Format(messageFormat, args);
+            int attempt = 1;
+            for (; ; )
+            {
+                try
+                {
+                    Trace.TraceInformation("Before {0} (attempt #{1})", message, attempt);
+                    T ret = await action();
+                    Trace.TraceInformation("Completed {0}", message);
+                    return ret;
+                }
+                catch (CloudException e)
+                {
+                    Trace.TraceInformation("Failed {0} (attempt #{1}): ", message, attempt, e);
+
+                    if (e.Response.StatusCode != HttpStatusCode.Conflict) throw;
+                    
+                    if (++attempt > 3) throw;
+                }
+            }
         }
 
         private void RegisterSite(Site site)
