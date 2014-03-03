@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using Kudu.Client.Zip;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Management.WebSites;
@@ -45,7 +47,16 @@ namespace SimpleWAWS
 
         public SiteManager()
         {
-            var cert = new X509Certificate2(Convert.FromBase64String(ConfigurationManager.AppSettings["certificate"]));
+            string pfxPath = ConfigurationManager.AppSettings["pfxPath"];
+            if (String.IsNullOrEmpty(pfxPath))
+            {
+                pfxPath = @"App_Data\cert.pfx";
+            }
+
+            pfxPath = Path.Combine(HttpRuntime.AppDomainAppPath, pfxPath);
+            var cert = new X509Certificate2(
+                pfxPath,
+                ConfigurationManager.AppSettings["pfxPassword"]);
 
             var creds = new CertificateCloudCredentials(ConfigurationManager.AppSettings["subscription"], cert);
 
