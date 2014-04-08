@@ -53,7 +53,8 @@ namespace SimpleWAWS
             pfxPath = Path.Combine(HttpRuntime.AppDomainAppPath, pfxPath);
             _cert = new X509Certificate2(
                 pfxPath,
-                ConfigurationManager.AppSettings["pfxPassword"]);
+                ConfigurationManager.AppSettings["pfxPassword"],
+                X509KeyStorageFlags.MachineKeySet);
 
             WebSpaceName = ConfigurationManager.AppSettings["webspace"];
             SiteExpiryTime = TimeSpan.FromMinutes(Int32.Parse(ConfigurationManager.AppSettings["siteExpiryMinutes"]));
