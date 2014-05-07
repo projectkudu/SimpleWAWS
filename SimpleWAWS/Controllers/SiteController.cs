@@ -10,7 +10,7 @@ using SimpleWAWS.Code;
 
 namespace SimpleWAWS.Controllers
 {
-    [Route("api/site")]
+    [RoutePrefix("api/site")]
     public class SiteController : ApiController
     {
         [Route("{siteId}")]

@@ -26,14 +26,17 @@
         <br/>
         <br/>
         <div class="btn-group templates" data-toggle="buttons-radio" data-bind="foreach: templates">
-            <div class="" data-toggle="buttons-radio" data-bind="if: $root.selectedLanguage() === $data.language">
-                <button type="button" class="btn btn-lg btn-default" data-bind="text: $data.name, click: function(data, event) {$root.selectTemplate(event);}"></button>
+            <div style="display: inline" data-toggle="buttons-radio" data-bind="if: $root.selectedLanguage() === $data.language">
+                <button type="button" class="btn btn-lg btn-default" data-bind="text: $data.name, click: function(data, event) {$data.select(event);}, attr: { value: $data.id }"></button>
             </div>
         </div>
     </div>
     <div>
         <h3 class="page-header">2) Create your web application</h3>
         <button id="create-site" type="button" class="btn btn-lg btn-success">Create Site</button>
+        <br />
+        <br />
+        <pre data-bind="text: ko.toJSON(siteJson, null, 2)" style="display: block; width: 90%"></pre>
     </div>
     <div>
         <h3 class="page-header">3) Work with your web application</h3>

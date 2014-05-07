@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Management.WebSites.Models;
+using Newtonsoft.Json;
 
 namespace SimpleWAWS.Code
 {
@@ -56,11 +57,14 @@ namespace SimpleWAWS.Code
             Trace.TraceInformation("Read the configuration for site '{0}' in {1}", this, _webSpace);
         }
 
+        [JsonProperty("name")]
         public string Name { get { return _webSite.Name; } }
 
+        [JsonProperty("id")]
         // We use the password as an ID so users can't access other users's sites
         public string Id { get { return PublishingPassword; } }
 
+        [JsonProperty("isSimpleWAWS")]
         public bool IsSimpleWAWS
         {
             get
@@ -69,6 +73,7 @@ namespace SimpleWAWS.Code
             }
         }
 
+        [JsonProperty("isInUse")]
         public bool IsInUse
         {
             get
@@ -77,6 +82,7 @@ namespace SimpleWAWS.Code
             }
         }
 
+        [JsonProperty("url")]
         public string Url
         {
             get {
@@ -84,6 +90,7 @@ namespace SimpleWAWS.Code
             }
         }
 
+        [JsonProperty("scmUrl")]
         public string ScmUrl
         {
             get
@@ -93,6 +100,7 @@ namespace SimpleWAWS.Code
             }
         }
 
+        [JsonProperty("scmUrlWithCreds")]
         public string ScmUrlWithCreds
         {
             get
@@ -102,6 +110,7 @@ namespace SimpleWAWS.Code
             }
         }
 
+        [JsonProperty("kuduConsoleWithCreds")]
         public string KuduConsoleWithCreds
         {
             get
@@ -110,6 +119,7 @@ namespace SimpleWAWS.Code
             }
         }
 
+        [JsonProperty("gitUrlWithCreds")]
         public string GitUrlWithCreds
         {
             get
@@ -118,6 +128,7 @@ namespace SimpleWAWS.Code
             }
         }
 
+        [JsonProperty("monacoUrl")]
         public string MonacoUrl
         {
             get
@@ -126,6 +137,7 @@ namespace SimpleWAWS.Code
             }
         }
 
+        [JsonProperty("contentDownloadUrl")]
         public string ContentDownloadUrl
         {
             get
@@ -134,6 +146,7 @@ namespace SimpleWAWS.Code
             }
         }
 
+        [JsonProperty("timeLeftString")]
         public string TimeLeftString
         {
             get
@@ -153,8 +166,13 @@ namespace SimpleWAWS.Code
             }
         }
 
+        [JsonProperty("startTime")]
         public DateTime StartTime { get { return _webSite.LastModifiedTimeUtc; } }
+
+        [JsonProperty("publishingUserName")]
         public string PublishingUserName { get { return _config.PublishingUserName; } }
+
+        [JsonProperty("publishingPassword")]
         public string PublishingPassword { get { return _config.PublishingPassword; } }
 
         public Task DeleteAndCreateReplacementAsync()

@@ -18,6 +18,8 @@ namespace SimpleWAWS.Code
         public string FileName { get; set; }
         [JsonProperty("repo")]
         public string Repo { get; set; }
+        [JsonProperty("publisher")]
+        public string Publisher { get; set; }
         [JsonProperty("language")]
         public string Language { get; set; }
     }
