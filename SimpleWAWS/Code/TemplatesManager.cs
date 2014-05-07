@@ -20,20 +20,27 @@ namespace SimpleWAWS.Code
             }
         }
 
-        private static string TemplatesDefinition
-        {
-            get { return Path.Combine(TemplatesFolder, "templates.json"); }
-        }
-
         private static IEnumerable<Template> _templatesList;
 
         static TemplatesManager()
         {
             try
             {
-                var jsonFile = File.ReadAllText(TemplatesDefinition);
-                _templatesList = JsonConvert.DeserializeObject<Template[]>(jsonFile);
-                //TODO: Implement a FileSystemWatcher for changes in templates.json
+                _templatesList = new List<Template>();
+                var list = _templatesList as List<Template>;
+                foreach (var languagePath in Directory.GetDirectories(TemplatesFolder))
+                {
+                    foreach (var template in Directory.GetFiles(languagePath))
+                    {
+                        list.Add(new Template
+                        {
+                            Name = Path.GetFileNameWithoutExtension(template),
+                            FileName = Path.GetFileName(template),
+                            Language = Path.GetFileName(languagePath)
+                        });
+                    }
+                }
+                //TODO: Implement a FileSystemWatcher for changes in the directory
             }
             catch (Exception)
             {
@@ -50,7 +57,7 @@ namespace SimpleWAWS.Code
     {
         public static string GetFullPath(this Template value)
         {
-            return Path.Combine(TemplatesManager.TemplatesFolder, value.FileName);
+            return Path.Combine(TemplatesManager.TemplatesFolder, value.Language, value.FileName);
         }
     }
 }

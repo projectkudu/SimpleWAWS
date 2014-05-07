@@ -3,10 +3,8 @@ var idCookieValue = "Id";
 
 var Template = (function () {
     function Template(json) {
-        this.id = json.id;
         this.name = json.name;
         this.fileName = json.fileName;
-        this.repo = json.repo;
         this.language = json.language;
     }
     Template.prototype.select = function (event) {
@@ -64,7 +62,7 @@ function initSite() {
             if (data != null) {
                 viewModel.siteJson(data);
             } else {
-                viewModel.siteJson(undefined);
+                viewModel.siteJson("");
                 $.removeCookie(wawsSiteCookie);
             }
         });
@@ -79,7 +77,7 @@ window.onload = function () {
         $.ajax({
             type: "POST",
             url: "/api/site",
-            data: viewModel.selectedTemplate().id.toString(),
+            data: JSON.stringify(viewModel.selectedTemplate()),
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 viewModel.siteJson(data);

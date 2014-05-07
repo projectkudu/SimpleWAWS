@@ -10,16 +10,10 @@ namespace SimpleWAWS.Code
 {
     public class Template
     {
-        [JsonProperty("id")]
-        public int Id { get; set; }
         [JsonProperty("name")]
         public string Name { get; set; }
         [JsonProperty("fileName")]
         public string FileName { get; set; }
-        [JsonProperty("repo")]
-        public string Repo { get; set; }
-        [JsonProperty("publisher")]
-        public string Publisher { get; set; }
         [JsonProperty("language")]
         public string Language { get; set; }
     }

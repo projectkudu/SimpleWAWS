@@ -12,7 +12,7 @@
         </div>
         <div class="btn-group templates" data-toggle="buttons-radio" data-bind="foreach: templates">
             <div style="display: inline" data-toggle="buttons-radio" data-bind="if: $root.selectedLanguage() === $data.language">
-                <button type="button" class="btn btn-lg btn-default" data-bind="text: $data.name, click: function(data, event) {$data.select(event);}, attr: { value: $data.id }"></button>
+                <button type="button" class="btn btn-lg btn-default" data-bind="text: $data.name, click: function(data, event) {$data.select(event);}"></button>
             </div>
         </div>
     </div>
@@ -26,11 +26,11 @@
     </div>
     <div>
         <h3 class="page-header">4) Get started with a 30 days free trial</h3>
-        <button id="create-site" type="button" class="btn btn-lg btn-success" style="width: 200px">Try for free</button>
+        <button id="try-free" type="button" class="btn btn-lg btn-success" style="width: 200px">Try for free</button>
     </div>
     <div>
         <h3 class="page-header">Learn more</h3>
-        <button id="create-site" type="button" class="btn btn-lg btn-info">Azure Websites Documentation</button>
+        <button id="learn" type="button" class="btn btn-lg btn-info">Azure Websites Documentation</button>
         <br />
         <br />
         <br />

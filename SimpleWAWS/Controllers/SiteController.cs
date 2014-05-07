@@ -22,13 +22,16 @@ namespace SimpleWAWS.Controllers
         }
 
         [HttpPost]
-        public async Task<Site> Post([FromBody]int templateId)
+        public async Task<Site> Post([FromBody] Template template)
         {
             var siteManager = await SiteManager.GetInstanceAsync();
             return
                 await
-                    siteManager.ActivateSiteAsync(
-                        TemplatesManager.GetTemplates().SingleOrDefault(t => t.Id == templateId).GetFullPath());
+                    siteManager.ActivateSiteAsync(template == null
+                        ? null
+                        : TemplatesManager.GetTemplates()
+                            .SingleOrDefault(t => t.Name == template.Name && t.Language == template.Language)
+                            .GetFullPath());
         }
 
         [Route("{siteId}")]
