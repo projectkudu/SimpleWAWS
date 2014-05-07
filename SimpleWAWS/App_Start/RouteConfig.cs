@@ -14,6 +14,12 @@ namespace SimpleWAWS
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "pubprofile",
+                url: "pub",
+                defaults: new { controller = "Home", action = "GetPublishProfileAsync" }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

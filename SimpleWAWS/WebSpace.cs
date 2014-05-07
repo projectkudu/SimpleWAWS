@@ -170,6 +170,11 @@ namespace SimpleWAWS
         {
             return Client.WebSites.DeleteAsync(_webSpaceName, webSiteName, new WebSiteDeleteParameters());
         }
+
+        public Task<WebSiteGetPublishProfileResponse> GetPublishProfileAsync(string webSiteName)
+        {
+            return Client.WebSites.GetPublishProfileAsync(_webSpaceName, webSiteName);
+        }
         #endregion
 
         public override string ToString()

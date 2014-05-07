@@ -62,6 +62,20 @@ namespace SimpleWAWS.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public async Task<ActionResult> GetPublishProfileAsync()
+        {
+            Site site = await GetCurrentSiteAsync();
+            if (site == null)
+            {
+                return new HttpNotFoundResult();
+            }
+
+            var profile = await site.GetPublishProfileAsync();
+
+            return Json(profile, JsonRequestBehavior.AllowGet);
+        }
+
         private async Task<Site> GetCurrentSiteAsync()
         {
             string siteId = GetCurrentSiteId();

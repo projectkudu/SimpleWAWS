@@ -164,6 +164,11 @@ namespace SimpleWAWS
             return _webSpace.DeleteAndCreateReplacementAsync(this);
         }
 
+        public Task<WebSiteGetPublishProfileResponse> GetPublishProfileAsync()
+        {
+            return _webSpace.GetPublishProfileAsync(Name);
+        }
+
         public async Task MarkAsInUseAsync()
         {
             _webSite.LastModifiedTimeUtc = DateTime.UtcNow;
