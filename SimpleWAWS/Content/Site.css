@@ -45,3 +45,26 @@ input[type="checkbox"].input-validation-error {
     display: none;
 }
 
+.languages {
+    display: block;
+    margin-bottom: 60px;
+    padding-bottom: 30px;
+}
+
+.templates {
+    display: block;
+}
+
+.wa-button-primary {
+    content: "";
+    display: inline-block;
+    height: 30px;
+    margin-top: -15px;
+    margin-left: 10px;
+    padding-top: 10px;
+    width: 30px;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAH8SURBVEhLtZYBUQQxDEVPAhKQgAQkIAEJSEACEnAADsABSMABOFjyOvc7aZvupsfwZ97MbZo2bZLu7Wnbtiw3xoPxarx3YGPs2ojmDoTGjnvj08iKjdwa0VqV0HiGE7KIFyd7NFjYg6335XmagdBo3Bk/hsTCV0bk6yHQsyGxBgcYfAeDQWolUpyum4NgvjxD6psHgwkSO8+ccgZzFXw4ee/4ZSAm+LFL8cGbNb0TdUTs7i8n7aFU6hfKWOwaJNAwuANpU0eHzdPBHUdktNg0oIaqAwcQ7NuQjjbrD8aNqYG5n4h0+wl7rAZ/MhBNWwNrN5m0eajfhyGVRSdQFlSyioE0SL1zBuZngjdxMGgnnLp31tiqZsGlJnB0dy8NjJjbryeVwNRV6h0Ze0vgm4zfUVCQanNJ1ME7ZtBVRASdNSiNKNXAeq2VO7ZANijIl7/LGri5Y0lWgkLzrpDR1znzN0hmVN8X4yioT3NZ3w/qC2Ll1Fl02pJm8IP+6qzWeg9fkpqZ3onTIl4mR+nLwBp6HdNHdcw7AddJHc6E2X3M4L/bhpdT83DGB0fZDz2Br24JYq1hfvPgwFENgdg5G9jreMbw0SkRpQs3PRg6aAx9h0k8052cCvgd+ew2aGgMYAM+AzPhg2+0RkNo3IG00XAsTlqB38tNGBr/n+30C3zicplc+p4TAAAAAElFTkSuQmCC);
+    background-position: 1px 10px;
+    background-repeat: no-repeat;
+    overflow: visible;
+}

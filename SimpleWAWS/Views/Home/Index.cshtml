@@ -4,27 +4,12 @@
     ViewBag.Title = "Home Page";
 }
 
-@section scripts {
-<script type="text/javascript">
-    $("form").submit(function () {
-        $(this).submit(function () {
-            return false;
-        });
-        return true;
-    });
-</script>
-}
-
-
 <div>
     <div>
         <h3 class="page-header">1) Select a template for your web application</h3>
         <div class="btn-group languages" data-toggle="buttons-radio" data-bind="foreach: languages">
             <button type="button" class="btn btn-lg btn-primary language" data-bind="text: $data, click: function(data, event) {$root.selectLanguage(event);}"></button>
         </div>
-        <br/>
-        <br/>
-        <br/>
         <div class="btn-group templates" data-toggle="buttons-radio" data-bind="foreach: templates">
             <div style="display: inline" data-toggle="buttons-radio" data-bind="if: $root.selectedLanguage() === $data.language">
                 <button type="button" class="btn btn-lg btn-default" data-bind="text: $data.name, click: function(data, event) {$data.select(event);}, attr: { value: $data.id }"></button>
@@ -34,24 +19,19 @@
     <div>
         <h3 class="page-header">2) Create your web application</h3>
         <button id="create-site" type="button" class="btn btn-lg btn-success">Create Site</button>
-        <br />
-        <br />
-        <pre data-bind="text: ko.toJSON(siteJson, null, 2)" style="display: block; width: 90%"></pre>
     </div>
     <div>
         <h3 class="page-header">3) Work with your web application</h3>
-        <br />
-        <br />
-        <br />
+        <pre data-bind="text: ko.toJSON(siteJson, null, 2)" style="display: block; width: 90%"></pre>
     </div>
     <div>
         <h3 class="page-header">4) Get started with a 30 days free trial</h3>
-        <br />
-        <br />
-        <br />
+        <button id="create-site" type="button" class="btn btn-lg btn-success" style="width: 200px">Try for free</button>
     </div>
     <div>
         <h3 class="page-header">Learn more</h3>
+        <button id="create-site" type="button" class="btn btn-lg btn-info">Azure Websites Documentation</button>
+        <br />
         <br />
         <br />
         <br />
