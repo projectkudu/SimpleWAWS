@@ -1,10 +1,14 @@
 ﻿body {
-    padding-top: 50px;
+    max-width: 1500px;
+    margin: auto;
     padding-bottom: 20px;
+    background: #505050;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
+    width: 100%;
+    background: white;
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -40,3 +44,4 @@ input[type="checkbox"].input-validation-error {
 .validation-summary-valid {
     display: none;
 }
+

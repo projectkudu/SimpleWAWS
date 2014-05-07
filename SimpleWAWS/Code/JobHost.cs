@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Hosting;
 
-namespace SimpleWAWS
+namespace SimpleWAWS.Code
 {
     public class JobHost : IRegisteredObject
     {

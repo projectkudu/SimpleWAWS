@@ -13,9 +13,8 @@ using Kudu.Client.Editor;
 using Kudu.Client.Zip;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Management.WebSites;
-using Microsoft.WindowsAzure.Management.WebSites.Models;
 
-namespace SimpleWAWS
+namespace SimpleWAWS.Code
 {
     public class SiteManager
     {
@@ -157,19 +156,21 @@ namespace SimpleWAWS
             Trace.TraceInformation("Site {0} is now in use", site.Name);
 
             Task markAsInUseTask = site.MarkAsInUseAsync();
+            if (templateZip != null)
+            {
+                var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+                var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
+                Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", templateZip);
+                var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials);
+                Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
 
-            var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-            var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
-            Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", templateZip);
-            var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials);
-            Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
 
-            // Wait at most one second for tasks to complete, then let them finish on their own
-            // TODO: how to deal with errors. Ongoing tasks should be tracked by the Site object.
-            await Task.WhenAny(
-                Task.WhenAll(markAsInUseTask, zipUpload, deleteHostingStart),
-                Task.Delay(1000));
-
+                // Wait at most one second for tasks to complete, then let them finish on their own
+                // TODO: how to deal with errors. Ongoing tasks should be tracked by the Site object.
+                await Task.WhenAny(
+                    Task.WhenAll(markAsInUseTask, zipUpload, deleteHostingStart),
+                    Task.Delay(1000));
+            }
             _sitesInUse[site.Id] = site;
 
             return site;

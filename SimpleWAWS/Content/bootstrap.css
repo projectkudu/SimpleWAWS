@@ -559,7 +559,8 @@ h4 small,
 .page-header {
   padding-bottom: 9px;
   margin: 40px 0 20px;
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: 1px solid black;
+    width: 500px;
 }
 
 ul,
@@ -1243,7 +1244,7 @@ pre code {
 
 @media (min-width: 1200px) {
   .container {
-    max-width: 1170px;
+    max-width: 1500px;
   }
   .col-lg-1,
   .col-lg-2,
@@ -4025,8 +4026,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .navbar {
   position: relative;
   z-index: 1000;
-  min-height: 50px;
-  margin-bottom: 20px;
+  min-height: 100px;
   border: 1px solid transparent;
 }
 
@@ -4168,10 +4168,9 @@ textarea.input-group-sm > .input-group-btn > .btn {
 
 .navbar-fixed-top,
 .navbar-fixed-bottom {
-  position: fixed;
-  right: 0;
-  left: 0;
-  border-width: 0 0 1px;
+  position: relative;
+    width: 100%;
+  
 }
 
 @media (min-width: 768px) {
@@ -4189,11 +4188,12 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .navbar-fixed-bottom {
   bottom: 0;
   margin-bottom: 0;
+  height: 300px;
 }
 
 .navbar-brand {
   float: left;
-  padding: 15px 15px;
+  padding: 15px 80px;
   font-size: 18px;
   line-height: 20px;
 }
@@ -4275,6 +4275,9 @@ textarea.input-group-sm > .input-group-btn > .btn {
   .navbar-nav {
     float: left;
     margin: 0;
+    padding-top: 60px;
+    padding-left: 100px;
+    position: absolute;
   }
   .navbar-nav > li {
     float: left;
@@ -4501,8 +4504,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse {
-  background-color: #222222;
-  border-color: #080808;
+  background-color: black;
+  border-color: black;
 }
 
 .navbar-inverse .navbar-brand {
@@ -4520,7 +4523,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse .navbar-nav > li > a {
-  color: #999999;
+  color: white;
 }
 
 .navbar-inverse .navbar-nav > li > a:hover,

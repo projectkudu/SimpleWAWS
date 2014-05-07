@@ -15,15 +15,46 @@
 </script>
 }
 
-<div class="jumbotron">
-    <h1>Try Azure Web Sites in seconds!</h1>
-    <p class="lead">Choose a template to get started</p>
 
-    @using (Html.BeginForm("CreateSite", "Home", FormMethod.Post))
-    {
-        foreach (var template in Model) {
-        <p><input type="submit" name="template" value="@template" class="btn btn-primary btn-large" /></p>
-        }
-    }
+<div>
+    <div>
+        <h3 class="page-header">1) Select a template for your web application</h3>
+        <div class="btn-group languages" data-toggle="buttons-radio" data-bind="foreach: languages">
+            <button type="button" class="btn btn-lg btn-primary language" data-bind="text: $data, click: function(data, event) {$root.selectLanguage(event);}"></button>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <div class="btn-group templates" data-toggle="buttons-radio" data-bind="foreach: templates">
+            <div class="" data-toggle="buttons-radio" data-bind="if: $root.selectedLanguage() === $data.language">
+                <button type="button" class="btn btn-lg btn-default" data-bind="text: $data.name, click: function(data, event) {$root.selectTemplate(event);}"></button>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h3 class="page-header">2) Create your web application</h3>
+        <button id="create-site" type="button" class="btn btn-lg btn-success">Create Site</button>
+    </div>
+    <div>
+        <h3 class="page-header">3) Work with your web application</h3>
+        <br />
+        <br />
+        <br />
+    </div>
+    <div>
+        <h3 class="page-header">4) Get started with a 30 days free trial</h3>
+        <br />
+        <br />
+        <br />
+    </div>
+    <div>
+        <h3 class="page-header">Learn more</h3>
+        <br />
+        <br />
+        <br />
+    </div>
 </div>
 
+<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/knockout/knockout-3.0.0.js"></script>
+<script type="text/javascript" src="/Scripts/jquery.cookie.js"></script>
+<script type="text/javascript" src="/Scripts/site.js"></script>

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SimpleWAWS
+namespace SimpleWAWS.Code
 {
     public class SiteNameGenerator
     {

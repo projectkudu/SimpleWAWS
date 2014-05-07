@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.WindowsAzure.Management.WebSites.Models;
+﻿using Microsoft.WindowsAzure.Management.WebSites.Models;
 
-namespace SimpleWAWS
+namespace SimpleWAWS.Code
 {
     class Util
     {

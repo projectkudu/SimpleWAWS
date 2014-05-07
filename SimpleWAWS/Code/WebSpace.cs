@@ -5,12 +5,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Web;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Management.WebSites;
 using Microsoft.WindowsAzure.Management.WebSites.Models;
 
-namespace SimpleWAWS
+namespace SimpleWAWS.Code
 {
     public class WebSpace
     {
