@@ -13,6 +13,7 @@ namespace SimpleWAWS.Code
         private WebSpace _webSpace;
         private WebSite _webSite;
         private WebSiteGetConfigurationResponse _config;
+        private WebSiteGetPublishProfileResponse _publishingProfile;
 
         private const string IsSimpleWAWSKey = "SIMPLE_WAWS";
         private const string InUseMetadataKey = "IN_USE";
@@ -32,6 +33,7 @@ namespace SimpleWAWS.Code
         public async Task LoadConfigurationAsync()
         {
             _config = await _webSpace.GetConfigurationAsync(Name);
+            _publishingProfile = await _webSpace.GetPublishingProfile(Name);
         }
 
         public async Task InitializeNewSite()
@@ -168,6 +170,17 @@ namespace SimpleWAWS.Code
 
         [JsonProperty("startTime")]
         public DateTime StartTime { get { return _webSite.LastModifiedTimeUtc; } }
+
+        [JsonProperty("publishingUrl")]
+        public string PublishingUrl
+        {
+            get
+            {
+                return _publishingProfile.PublishProfiles.FirstOrDefault() == null
+                    ? null
+                    : _publishingProfile.PublishProfiles.FirstOrDefault().PublishUrl;
+            }
+        }
 
         [JsonProperty("publishingUserName")]
         public string PublishingUserName { get { return _config.PublishingUserName; } }

@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Management.WebSites;
 using Microsoft.WindowsAzure.Management.WebSites.Models;
@@ -158,6 +159,11 @@ namespace SimpleWAWS.Code
         public Task<WebSiteGetConfigurationResponse> GetConfigurationAsync(string webSiteName)
         {
             return Client.WebSites.GetConfigurationAsync(_webSpaceName, webSiteName);
+        }
+
+        public Task<WebSiteGetPublishProfileResponse> GetPublishingProfile(string webSiteName)
+        {
+            return Client.WebSites.GetPublishProfileAsync(_webSpaceName, webSiteName);
         }
 
         public Task<OperationResponse> UpdateConfigurationAsync(string webSiteName, WebSiteUpdateConfigurationParameters parameters)
