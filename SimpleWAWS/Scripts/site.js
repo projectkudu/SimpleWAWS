@@ -62,7 +62,7 @@ function initSite() {
             if (data != null) {
                 viewModel.siteJson(data);
             } else {
-                viewModel.siteJson("");
+                viewModel.siteJson(undefined);
                 $.removeCookie(wawsSiteCookie);
             }
         });

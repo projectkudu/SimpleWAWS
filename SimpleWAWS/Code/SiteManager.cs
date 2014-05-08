@@ -183,6 +183,18 @@ namespace SimpleWAWS.Code
             return site;
         }
 
+        public async Task ResetAllFreeSites()
+        {
+            var list = _freeSites.ToList();
+            var taskList = list.Select(site => site.MarkAsInUseAsync()).ToList();
+            await Task.WhenAll(taskList);
+            _freeSites.Clear();
+            list.ForEach(l => _sitesInUse[l.Id] = l);
+            taskList.Clear();
+            taskList.AddRange(list.Select(site => DeleteSite(site.Id)));
+            await Task.WhenAll(taskList);
+        }
+
         public async Task DeleteSite(string id)
         {
             Site site;

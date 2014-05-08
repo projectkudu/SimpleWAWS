@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using System.Web.Hosting;
+using Kudu.Client.Editor;
 using Microsoft.WindowsAzure.Management.WebSites.Models;
 using Newtonsoft.Json;
+using SimpleWAWS.Kudu;
 
 namespace SimpleWAWS.Code
 {
@@ -56,6 +60,13 @@ namespace SimpleWAWS.Code
 
             // Get all the configuration
             _config = await _webSpace.GetConfigurationAsync(Name);
+
+            var credentials = new NetworkCredential(PublishingUserName, PublishingPassword);
+            var vfsManager = new RemoteVfsManager(ScmUrl + "vfs/", credentials);
+            await vfsManager.Put("site/applicationHost.xdt", HostingEnvironment.MapPath("~/App_Data/applicationHost.xdt"));
+            var processManager = new ProcessManager(ScmUrl, credentials);
+            await processManager.Kill();
+
             Trace.TraceInformation("Read the configuration for site '{0}' in {1}", this, _webSpace);
         }
 
@@ -135,7 +146,7 @@ namespace SimpleWAWS.Code
         {
             get
             {
-                return ScmUrlWithCreds + "dev";
+                return Url + "dev";
             }
         }
 

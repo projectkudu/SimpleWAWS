@@ -207,6 +207,7 @@
     </Compile>
     <Compile Include="Kudu\HttpClientHelper.cs" />
     <Compile Include="Kudu\KuduRemoteClientBase.cs" />
+    <Compile Include="Kudu\ProcessManager.cs" />
     <Compile Include="Kudu\RemoteVfsManager.cs" />
     <Compile Include="Kudu\RemoteZipManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

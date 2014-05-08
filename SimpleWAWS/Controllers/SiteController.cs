@@ -21,6 +21,13 @@ namespace SimpleWAWS.Controllers
             return siteManager.GetSite(siteId);
         }
 
+        [Route("reset")]
+        public async Task Get()
+        {
+            var siteManager = await SiteManager.GetInstanceAsync();
+            await siteManager.ResetAllFreeSites();
+        }
+
         [HttpPost]
         public async Task<Site> Post([FromBody] Template template)
         {
