@@ -61,6 +61,7 @@ function initSite() {
         $.getJSON("/api/site/" + cookie, function (data) {
             if (data != null) {
                 viewModel.siteJson(data);
+                startCountDown(viewModel.siteJson().timeLeftString);
             } else {
                 viewModel.siteJson(undefined);
                 $.removeCookie(wawsSiteCookie);
@@ -69,11 +70,56 @@ function initSite() {
     }
 }
 
+function startCountDown(init) {
+    if (init !== undefined) {
+        var reg = '(\\d+)(m)?(:)(\\d+)(s)?';
+        var pattern = new RegExp(reg, "i");
+        var match = pattern.exec(init);
+        countDown(parseInt(match[1]), parseInt(match[4]));
+    }
+}
+
+function countDown(minutes, seconds) {
+    var siteJson = viewModel.siteJson();
+    if (siteJson != undefined) {
+        siteJson.timeLeftString = minutes + "m:" + ("0" + seconds).slice(-2) + "s";
+        viewModel.siteJson(siteJson);
+        seconds--;
+        if (seconds === -1 && minutes !== 0) {
+            seconds = 59;
+            minutes--;
+        } else if (seconds === -1 && minutes === 0) {
+            //set to red
+            $(".site-info-valid").removeClass("site-info-valid").addClass("site-info-not-valid");
+            siteJson.url = "http://azure.microsoft.com/en-us/pricing/free-trial/";
+            siteJson.monacoUrl = "http://azure.microsoft.com/en-us/pricing/free-trial/";
+            siteJson.kuduConsoleWithCreds = "http://azure.microsoft.com/en-us/pricing/free-trial/";
+            siteJson.contentDownloadUrl = "http://azure.microsoft.com/en-us/pricing/free-trial/";
+            viewModel.siteJson(siteJson);
+            return;
+        } else if (minutes === 0 && !$(".countdown").hasClass("site-info-not-valid")) {
+            $(".countdown").addClass("site-info-not-valid");
+        }
+        if (minutes === 0 && seconds <= 10 && !$(".countdown").hasClass("slow")) {
+            $(".countdown").addClass("slow");
+        }
+        setTimeout(countDown, 1000, minutes, seconds);
+    }
+}
+
 window.onload = function () {
     initViewModel();
     initTemplates();
     initSite();
     $("#create-site").click(function () {
+        var cookie = $.cookie(wawsSiteCookie);
+        if (cookie !== undefined) {
+            viewModel.siteJson(undefined);
+            $.ajax({
+                type: "DELETE",
+                url: "/api/site" + cookie
+            });
+        }
         $.ajax({
             type: "POST",
             url: "/api/site",
@@ -81,6 +127,7 @@ window.onload = function () {
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 viewModel.siteJson(data);
+                startCountDown(viewModel.siteJson().timeLeftString);
                 $.cookie(wawsSiteCookie, data.id);
             }
         });

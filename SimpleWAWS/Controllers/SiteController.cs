@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Hosting;
@@ -22,13 +25,26 @@ namespace SimpleWAWS.Controllers
         }
 
         [Route("reset")]
-        public async Task Get()
+        public async Task Reset()
         {
             var siteManager = await SiteManager.GetInstanceAsync();
             await siteManager.ResetAllFreeSites();
         }
 
-        [HttpPost]
+        [Route("getpublishingprofile/{siteId}")]
+        public async Task<HttpResponseMessage> GetPublishingProfile(string siteId)
+        {
+            var response = Request.CreateResponse();
+            var siteManager = await SiteManager.GetInstanceAsync();
+            var site = siteManager.GetSite(siteId);
+            response.Content = await site.GetPublishingProfile();
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+            response.Content.Headers.ContentDisposition =
+                new ContentDispositionHeaderValue("attachment") { FileName = string.Format("{0}.publishsettings", site.Name) };
+            return response;
+        }
+
+    [HttpPost]
         public async Task<Site> Post([FromBody] Template template)
         {
             var siteManager = await SiteManager.GetInstanceAsync();

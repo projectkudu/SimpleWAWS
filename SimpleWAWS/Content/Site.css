@@ -9,7 +9,7 @@
 .body-content {
     width: 100%;
     background: white;
-    padding-left: 15px;
+    padding-left: 90px;
     padding-right: 15px;
 }
 
@@ -69,11 +69,20 @@ input[type="checkbox"].input-validation-error {
     overflow: visible;
 }
 
-.site-name {
+.site-info-valid {
     color: green;
 }
 
-.exclamation-sign {
-    color: green;
-    font-size: 1.5em;
+.site-info-not-valid {
+    color: red;
 }
+
+.slow {
+    animation:             blink 2000ms linear infinite;
+        -moz-animation:    blink 2000ms linear infinite; 
+        -webkit-animation: blink 2000ms linear infinite; 
+}
+
+@keyframes             blink { 0% {opacity:0;} 50% {opacity:1;} 100% {opacity:0;} }
+    @-moz-keyframes    blink { 0% {opacity:0;} 50% {opacity:1;} 100% {opacity:0;} }
+    @-webkit-keyframes blink { 0% {opacity:0;} 50% {opacity:1;} 100% {opacity:0;} }

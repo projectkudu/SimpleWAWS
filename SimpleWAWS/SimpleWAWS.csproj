@@ -197,6 +197,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Code\Extensions.cs" />
     <Compile Include="Code\Template.cs" />
     <Compile Include="Code\TemplatesManager.cs" />
     <Compile Include="Controllers\HomeController.cs" />

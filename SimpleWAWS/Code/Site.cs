@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Hosting;
 using Kudu.Client.Editor;
@@ -119,7 +122,7 @@ namespace SimpleWAWS.Code
             get
             {
                 string scmHostName = _webSite.EnabledHostNames.First(n => n.Contains(".scm."));
-                return String.Format("https://{0}:{1}@{2}/", PublishingUserName, PublishingPassword, scmHostName);
+                return String.Format("https://{0}:{1}@{2}/basicAuth", PublishingUserName, PublishingPassword, scmHostName);
             }
         }
 
@@ -220,5 +223,19 @@ namespace SimpleWAWS.Code
             return Name;
         }
 
+        public Task<StreamContent> GetPublishingProfile()
+        {
+            var xmlList =
+                _publishingProfile.PublishProfiles.Select(profile => profile.Serialize());
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append("<publishData>");
+            foreach (var profile in xmlList)
+            {
+                stringBuilder.Append(profile);
+            }
+            stringBuilder.Append("</publishData>");
+
+            return Task.FromResult(new StreamContent(stringBuilder.ToString().ToStream()));
+        }
     }
 }
