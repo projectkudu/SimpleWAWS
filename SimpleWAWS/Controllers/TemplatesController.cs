@@ -14,7 +14,9 @@ namespace SimpleWAWS.Controllers
     {
         public IEnumerable<Template> Get()
         {
-            return TemplatesManager.GetTemplates();
+            var list = TemplatesManager.GetTemplates().ToList();
+            list.Add(new Template() {Name = "Empty Site", Language = "Empty Site"});
+            return list;
         }
     }
 }

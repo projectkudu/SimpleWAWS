@@ -150,18 +150,18 @@ namespace SimpleWAWS.Code
             }
         }
 
-        public async Task<Site> ActivateSiteAsync(string templateZip)
+        public async Task<Site> ActivateSiteAsync(Template template)
         {
             Site site = _freeSites.Dequeue();
 
             Trace.TraceInformation("Site {0} is now in use", site.Name);
 
             Task markAsInUseTask = site.MarkAsInUseAsync();
-            if (templateZip != null)
+            if (template != null)
             {
                 var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
                 var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
-                Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", templateZip);
+                Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.GetFullPath());
                 var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials);
                 Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
 
