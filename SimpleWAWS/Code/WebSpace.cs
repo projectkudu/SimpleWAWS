@@ -143,9 +143,11 @@ namespace SimpleWAWS.Code
         public async Task DeleteAndCreateReplacementAsync(Site site)
         {
             // Delete the site, and create a new one to replace it
-            await Task.WhenAll(
-                DeleteAsync(site),
-                EnsureCorrectSiteCountAsync());
+            await DeleteAsync(site);
+            await EnsureCorrectSiteCountAsync();
+            //await Task.WhenAll(
+            //    DeleteAsync(site),
+            //    EnsureCorrectSiteCountAsync());
         }
 
         public async Task DeleteAsync(Site site)

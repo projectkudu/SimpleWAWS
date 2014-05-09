@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+  <system.applicationHost>
+    <sites>
+      <site name="%XDT_SITENAME%" xdt:Locator="Match(name)">
+        <application path="/Dev" xdt:Locator="Match(path)" xdt:Transform="Remove" />
+        <application path="/Dev" applicationPool="%XDT_APPPOOLNAME%" xdt:Transform="Insert">
+          <virtualDirectory path="/" physicalPath="D:\Program Files (x86)\SiteExtensions\Monaco\1.0.0-20140503" />
+        </application>
+      </site>
+    </sites>
+  </system.applicationHost>
+</configuration>

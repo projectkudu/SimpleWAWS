@@ -59,7 +59,7 @@ namespace SimpleWAWS.Code
             Trace.TraceInformation("Updated initial config for site '{0}' in {1}", this, _webSpace);
 
             // Get all the configuration
-            _config = await _webSpace.GetConfigurationAsync(Name);
+            await LoadConfigurationAsync();
 
             var credentials = new NetworkCredential(PublishingUserName, PublishingPassword);
             var vfsManager = new RemoteVfsManager(ScmUrl + "vfs/", credentials);

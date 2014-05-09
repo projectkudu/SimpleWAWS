@@ -68,3 +68,12 @@ input[type="checkbox"].input-validation-error {
     background-repeat: no-repeat;
     overflow: visible;
 }
+
+.site-name {
+    color: green;
+}
+
+.exclamation-sign {
+    color: red;
+    font-size: 2em;
+}

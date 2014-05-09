@@ -22,19 +22,29 @@
     </div>
     <div>
         <h3 class="page-header">3) Work with your web application</h3>
-        <pre data-bind="text: ko.toJSON(siteJson, null, 2)" style="display: block; width: 90%"></pre>
-    </div>
-    <div>
-        <h3 class="page-header">4) Get started with a 30 days free trial</h3>
-        <button id="try-free" type="button" class="btn btn-lg btn-success" style="width: 200px">Try for free</button>
-    </div>
-    <div>
-        <h3 class="page-header">Learn more</h3>
-        <button id="learn" type="button" class="btn btn-lg btn-info">Azure Websites Documentation</button>
-        <br />
-        <br />
-        <br />
-        <br />
+        <div class="site-section">
+            <div style="font-size: 5em">Your site is: <a data-bind="attr: {href: siteJson.url}"><span class="site-name" data-bind="text: siteJson.name"></span></a><span class="exclamation-sign">!</span></div>
+            <div>You have: <span class="countdown" data-bind="text: siteJson.timeLeftString"></span></div>
+            <div class="btn-group-lg ">
+                <a data-bind="attr: {href: siteJson.url}" class="btn btn-success btn-lg" target="_blank">Run it</a>
+                <a data-bind="attr: {href: siteJson.monacoUrl}" class="btn btn-primary btn-lg" target="_blank">Edit in Visual Studio Online</a>
+                <a data-bind="attr: {href: siteJson.kuduConsoleWithCreds}" class="btn btn-primary btn-lg" target="_blank">Kudu Console</a>
+                <a data-bind="attr: {href: siteJson.contentDownloadUrl}" class="btn btn-primary btn-lg" target="_blank">Download Content</a>
+                <pre data-bind="text: ko.toJSON(siteJson, null, 2)" style="display: block; width: 90%"></pre>
+            </div>
+        </div>
+        <div>
+            <h3 class="page-header">4) Get started with a 30 days free trial</h3>
+            <button id="try-free" type="button" class="btn btn-lg btn-success" style="width: 200px">Try for free</button>
+        </div>
+        <div>
+            <h3 class="page-header">Learn more</h3>
+            <button id="learn" type="button" class="btn btn-lg btn-info">Azure Websites Documentation</button>
+            <br />
+            <br />
+            <br />
+            <br />
+        </div>
     </div>
 </div>
 
