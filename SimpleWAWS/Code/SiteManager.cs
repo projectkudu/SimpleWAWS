@@ -168,9 +168,10 @@ namespace SimpleWAWS.Code
 
                 // Wait at most one second for tasks to complete, then let them finish on their own
                 // TODO: how to deal with errors. Ongoing tasks should be tracked by the Site object.
-                await Task.WhenAny(
-                    Task.WhenAll(markAsInUseTask, zipUpload, deleteHostingStart),
-                    Task.Delay(1000));
+                //await Task.WhenAny(
+                //    Task.WhenAll(markAsInUseTask, zipUpload, deleteHostingStart),
+                //    Task.Delay(3000));
+                await Task.WhenAll(markAsInUseTask, zipUpload, deleteHostingStart);
             }
             _sitesInUse[site.Id] = site;
 

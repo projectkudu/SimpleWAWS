@@ -58,6 +58,7 @@ function initTemplates() {
 function initSite() {
     var cookie = $.cookie(wawsSiteCookie);
     if (cookie !== undefined) {
+        $("#loading").show();
         $.getJSON("/api/site/" + cookie, function (data) {
             if (data != null) {
                 viewModel.siteJson(data);
@@ -66,6 +67,7 @@ function initSite() {
                 viewModel.siteJson(undefined);
                 $.removeCookie(wawsSiteCookie);
             }
+            $("#loading").hide();
         });
     }
 }
@@ -112,6 +114,7 @@ window.onload = function () {
     initTemplates();
     initSite();
     $("#create-site").click(function () {
+        $("#loading").show();
         var cookie = $.cookie(wawsSiteCookie);
         if (cookie !== undefined) {
             viewModel.siteJson(undefined);
@@ -125,10 +128,11 @@ window.onload = function () {
             url: "/api/site",
             data: JSON.stringify(viewModel.selectedTemplate()),
             contentType: "application/json; charset=utf-8",
-            success: function (data) {
+            success: function(data) {
                 viewModel.siteJson(data);
                 startCountDown(viewModel.siteJson().timeLeftString);
                 $.cookie(wawsSiteCookie, data.id);
+                $("#loading").hide();
             }
         });
     });
