@@ -122,7 +122,7 @@ namespace SimpleWAWS.Code
             get
             {
                 string scmHostName = _webSite.EnabledHostNames.First(n => n.Contains(".scm."));
-                return String.Format("https://{0}:{1}@{2}/basicAuth", PublishingUserName, PublishingPassword, scmHostName);
+                return String.Format("https://{0}:{1}@{2}/", PublishingUserName, PublishingPassword, scmHostName);
             }
         }
 
