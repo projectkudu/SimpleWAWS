@@ -117,7 +117,7 @@ window.onload = function () {
             viewModel.siteJson(undefined);
             $.ajax({
                 type: "DELETE",
-                url: "/api/site" + cookie
+                url: "/api/site/" + cookie
             });
         }
         $.ajax({

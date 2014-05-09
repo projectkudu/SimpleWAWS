@@ -158,7 +158,7 @@ namespace SimpleWAWS.Code
         {
             get
             {
-                return ScmUrlWithCreds + "zip/site/wwwroot";
+                return Url + "kudu/zip/site/wwwroot";
             }
         }
 

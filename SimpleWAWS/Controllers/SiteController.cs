@@ -24,7 +24,8 @@ namespace SimpleWAWS.Controllers
             return siteManager.GetSite(siteId);
         }
 
-        [Route("reset")]
+        [Route("~/api/reset")]
+        [HttpGet]
         public async Task Reset()
         {
             var siteManager = await SiteManager.GetInstanceAsync();
