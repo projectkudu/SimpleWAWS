@@ -72,6 +72,7 @@ function initSite() {
     }
 }
 
+var currentTimeout = 0;
 function startCountDown(init) {
     if (init !== undefined) {
         var reg = '(\\d+)(m)?(:)(\\d+)(s)?';
@@ -105,7 +106,7 @@ function countDown(minutes, seconds) {
         if (minutes === 0 && seconds <= 10 && !$(".countdown").hasClass("slow")) {
             $(".countdown").addClass("slow");
         }
-        setTimeout(countDown, 1000, minutes, seconds);
+        currentTimeout = setTimeout(countDown, 1000, minutes, seconds);
     }
 }
 
@@ -117,6 +118,7 @@ window.onload = function () {
         $("#loading").show();
         var cookie = $.cookie(wawsSiteCookie);
         if (cookie !== undefined) {
+            clearTimeout(currentTimeout);
             viewModel.siteJson(undefined);
             $.ajax({
                 type: "DELETE",
@@ -128,7 +130,7 @@ window.onload = function () {
             url: "/api/site",
             data: JSON.stringify(viewModel.selectedTemplate()),
             contentType: "application/json; charset=utf-8",
-            success: function(data) {
+            success: function (data) {
                 viewModel.siteJson(data);
                 startCountDown(viewModel.siteJson().timeLeftString);
                 $.cookie(wawsSiteCookie, data.id);
