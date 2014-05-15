@@ -141,41 +141,42 @@ namespace SimpleWAWS.Code
                     siteIdsToDelete.Add(entry.Value);
                 }
             }
-
+            var deleteTasks = new List<Task>();
             // Delete them
             foreach (var site in siteIdsToDelete)
             {
                 Trace.TraceInformation("Deleting expired site {0}", site.Name);
-                await site.DeleteAndCreateReplacementAsync();
+                deleteTasks.Add(site.DeleteAndCreateReplacementAsync());
             }
+            await Task.WhenAll(deleteTasks);
         }
 
         public async Task<Site> ActivateSiteAsync(Template template)
         {
-            Site site = _freeSites.Dequeue();
-
-            Trace.TraceInformation("Site {0} is now in use", site.Name);
-
-            Task markAsInUseTask = site.MarkAsInUseAsync();
-            if (template != null)
+            try
             {
-                var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-                var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
-                Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.GetFullPath());
-                var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials);
-                Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
+                Site site = _freeSites.Dequeue();
 
+                Trace.TraceInformation("Site {0} is now in use", site.Name);
+                if (template != null)
+                {
+                    var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+                    var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
+                    Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.GetFullPath());
+                    var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials);
+                    Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
 
-                // Wait at most one second for tasks to complete, then let them finish on their own
-                // TODO: how to deal with errors. Ongoing tasks should be tracked by the Site object.
-                //await Task.WhenAny(
-                //    Task.WhenAll(markAsInUseTask, zipUpload, deleteHostingStart),
-                //    Task.Delay(3000));
-                await Task.WhenAll(markAsInUseTask, zipUpload, deleteHostingStart);
+                    await Task.WhenAll(zipUpload, deleteHostingStart);
+                }
+                await site.MarkAsInUseAsync();
+                _sitesInUse[site.Id] = site;
+
+                return site;
             }
-            _sitesInUse[site.Id] = site;
-
-            return site;
+            catch (InvalidOperationException ioe)
+            {
+                throw new Exception("No free sites are available, try again later", ioe);
+            }
         }
 
         public Site GetSite(string id)
