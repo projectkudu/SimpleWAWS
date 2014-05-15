@@ -17,16 +17,18 @@ namespace SimpleWAWS.Code
         private SiteManager _manager;
         public IWebSiteManagementClient Client { get; private set; }
         private string _webSpaceName;
+        private string _webSpaceRegion;
         private readonly SiteNameGenerator _nameGenerator;
         public List<Site> Sites { get; private set; }
 
         private readonly int _sitesPerWebSpace;
 
-        public WebSpace(SiteManager manager, IWebSiteManagementClient client, string webSpaceName, SiteNameGenerator nameGenerator)
+        public WebSpace(SiteManager manager, IWebSiteManagementClient client, string geoRegion, SiteNameGenerator nameGenerator)
         {
             _manager = manager;
             Client = client;
-            _webSpaceName = webSpaceName;
+            _webSpaceName = geoRegion.Replace(" ", "").ToLower() + "webspace";
+            _webSpaceRegion = geoRegion;
             _nameGenerator = nameGenerator;
 
             _sitesPerWebSpace = Int32.Parse(ConfigurationManager.AppSettings["sitesPerWebspace"]);
@@ -34,8 +36,17 @@ namespace SimpleWAWS.Code
 
         public async Task LoadAndCreateSitesAsync()
         {
-            var webSitesRepsonses = await Client.WebSpaces.ListWebSitesAsync(_webSpaceName, new WebSiteListParameters());
-            Sites = webSitesRepsonses.Select(webSitesRepsonse => new Site(this, webSitesRepsonse)).ToList();
+            try
+            {
+                var webSitesRepsonses = await Client.WebSpaces.ListWebSitesAsync(_webSpaceName, new WebSiteListParameters());
+                Sites = webSitesRepsonses.Select(webSitesRepsonse => new Site(this, webSitesRepsonse)).ToList();
+            }
+            catch (Exception ex)
+            {
+                //assume webspace doesn't exist
+                Trace.TraceError(ex.ToString());
+                Sites = new List<Site>();
+            }
 
             // Load the configuration for all the sites in parallel
             await Task.WhenAll(Sites.Select(s => s.LoadConfigurationAsync()));
@@ -76,7 +87,13 @@ namespace SimpleWAWS.Code
                     new WebSiteCreateParameters
                     {
                         Name = siteName,
-                        WebSpaceName = _webSpaceName
+                        WebSpaceName = _webSpaceName,
+                        WebSpace = new WebSiteCreateParameters.WebSpaceDetails
+                        {
+                            GeoRegion = _webSpaceRegion,
+                            Name = _webSpaceName,
+                            Plan = "VirtualDedicatedPlan"
+                        }
                     }),
                 "Creating site '{0}' in {1}", siteName, this);
 
@@ -145,9 +162,6 @@ namespace SimpleWAWS.Code
             // Delete the site, and create a new one to replace it
             await DeleteAsync(site);
             await EnsureCorrectSiteCountAsync();
-            //await Task.WhenAll(
-            //    DeleteAsync(site),
-            //    EnsureCorrectSiteCountAsync());
         }
 
         public async Task DeleteAsync(Site site)

@@ -15,19 +15,14 @@ using SimpleWAWS.Code;
 
 namespace SimpleWAWS.Controllers
 {
-    [RoutePrefix("api/site")]
     public class SiteController : ApiController
     {
-        [Route("{siteId}")]
-        [HttpGet]
-        public async Task<HttpResponseMessage> Get(string siteId)
+        public async Task<HttpResponseMessage> GetSite(string siteId)
         {
             var siteManager = await SiteManager.GetInstanceAsync();
             return Request.CreateResponse(HttpStatusCode.OK, siteManager.GetSite(siteId));
         }
 
-        [Route("~/api/reset")]
-        [HttpGet]
         public async Task<HttpResponseMessage> Reset()
         {
             var siteManager = await SiteManager.GetInstanceAsync();
@@ -35,11 +30,10 @@ namespace SimpleWAWS.Controllers
             return Request.CreateResponse(HttpStatusCode.Accepted);
         }
 
-        [Route("getpublishingprofile/{siteId}")]
         public async Task<HttpResponseMessage> GetPublishingProfile(string siteId)
         {
-            var response = Request.CreateResponse();
             var siteManager = await SiteManager.GetInstanceAsync();
+            var response = Request.CreateResponse();
             var site = siteManager.GetSite(siteId);
             response.Content = await site.GetPublishingProfile();
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
@@ -48,8 +42,7 @@ namespace SimpleWAWS.Controllers
             return response;
         }
 
-        [HttpPost]
-        public async Task<HttpResponseMessage> Post([FromBody] Template template)
+        public async Task<HttpResponseMessage> CreateSite(Template template)
         {
             try
             {
@@ -68,9 +61,7 @@ namespace SimpleWAWS.Controllers
             }
         }
 
-        [Route("{siteId}")]
-        [HttpDelete]
-        public async Task<HttpResponseMessage> Delete(string siteId)
+        public async Task<HttpResponseMessage> DeleteSite(string siteId)
         {
             var siteManager = await SiteManager.GetInstanceAsync();
             await siteManager.DeleteSite(siteId);

@@ -1,29 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Http.Formatting;
-using System.Web;
 using System.Web.Http;
-using System.Web.Mvc;
-using System.Web.Optimization;
 using System.Web.Routing;
-using SimpleWAWS.App_Start;
 
 namespace SimpleWAWS
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class SimpleWawsService : System.Web.HttpApplication
     {
         protected void Application_Start()
         {
-            AreaRegistration.RegisterAllAreas();
-            GlobalConfiguration.Configure(WebApiConfig.Register);
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
+            //Configure Json formatter
             GlobalConfiguration.Configuration.Formatters.Clear();
-            var jsonFormatter = new JsonMediaTypeFormatter();
-            GlobalConfiguration.Configuration.Formatters.Add(jsonFormatter);
+            GlobalConfiguration.Configuration.Formatters.Add(new JsonMediaTypeFormatter());
+
+            //Templates Routes
+            RouteTable.Routes.MapHttpRoute("templates", "api/templates", new { controller = "Templates", action = "Get"});
+
+            //Site Api Routes
+            RouteTable.Routes.MapHttpRoute("get-site", "api/site/{siteId}", new { controller = "Site", action = "GetSite" }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("create-site", "api/site", new { controller = "Site", action = "CreateSite" }, new { verb = new HttpMethodConstraint("POST") });
+            RouteTable.Routes.MapHttpRoute("get-site-publishing-profile", "api/site/getpublishingprofile/{siteId}", new { controller = "Site", action = "GetPublishingProfile" }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("delete-site", "api/site/{siteId}", new { controller = "Site", action = "DeleteSite" }, new { verb = new HttpMethodConstraint("DELETE") });
+            //TODO: this is only for testing. Make sure to remove it later
+            RouteTable.Routes.MapHttpRoute("reset-all-free-sites", "api/site/reset", new { controller = "Site", action = "Reset" }, new { verb = new HttpMethodConstraint("GET") });
+            
+
         }
 
         protected void Application_Error(object sender, EventArgs e)

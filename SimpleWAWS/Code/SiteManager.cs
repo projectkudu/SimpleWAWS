@@ -95,16 +95,15 @@ namespace SimpleWAWS.Code
         IEnumerable<WebSpace> GetAllWebSpaces()
         {
             string[] subscriptions = ConfigurationManager.AppSettings["subscriptions"].Split(',');
-            string[] webspaces = ConfigurationManager.AppSettings["webspaces"].Split(',');
+            string[] geoRegions = ConfigurationManager.AppSettings["geoRegions"].Split(',');
 
             foreach (string subscription in subscriptions)
             {
                 var creds = new CertificateCloudCredentials(subscription, _cert);
                 var client = new WebSiteManagementClient(creds);
-
-                foreach (string webSpace in webspaces)
+                foreach (var geoRegion in geoRegions)
                 {
-                    yield return new WebSpace(this, client, webSpace, _nameGenerator);
+                    yield return new WebSpace(this, client, geoRegion, _nameGenerator);
                 }
             }
         }
@@ -189,13 +188,10 @@ namespace SimpleWAWS.Code
         public async Task ResetAllFreeSites()
         {
             var list = _freeSites.ToList();
-            var taskList = list.Select(site => site.MarkAsInUseAsync()).ToList();
-            await Task.WhenAll(taskList);
+            await Task.WhenAll(list.Select(site => site.MarkAsInUseAsync()).ToList());
             _freeSites.Clear();
             list.ForEach(l => _sitesInUse[l.Id] = l);
-            taskList.Clear();
-            taskList.AddRange(list.Select(site => DeleteSite(site.Id)));
-            await Task.WhenAll(taskList);
+            await Task.WhenAll(list.Select(site => DeleteSite(site.Id)));
         }
 
         public async Task DeleteSite(string id)
