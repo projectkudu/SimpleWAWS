@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Routing;
+using SimpleWAWS.Code;
 
 namespace SimpleWAWS
 {
@@ -22,10 +23,14 @@ namespace SimpleWAWS
             RouteTable.Routes.MapHttpRoute("create-site", "api/site", new { controller = "Site", action = "CreateSite" }, new { verb = new HttpMethodConstraint("POST") });
             RouteTable.Routes.MapHttpRoute("get-site-publishing-profile", "api/site/getpublishingprofile/{siteId}", new { controller = "Site", action = "GetPublishingProfile" }, new { verb = new HttpMethodConstraint("GET") });
             RouteTable.Routes.MapHttpRoute("delete-site", "api/site/{siteId}", new { controller = "Site", action = "DeleteSite" }, new { verb = new HttpMethodConstraint("DELETE") });
+            RouteTable.Routes.MapHttpRoute("login", "api/Login", new {controller = "Login", action = "Login"});
             //TODO: this is only for testing. Make sure to remove it later
             RouteTable.Routes.MapHttpRoute("reset-all-free-sites", "api/site/reset", new { controller = "Site", action = "Reset" }, new { verb = new HttpMethodConstraint("GET") });
-            
+        }
 
+        protected void Application_AuthenticateRequest(Object sender, EventArgs e)
+        {
+            SecurityManager.ValidateAuthentication(Context);
         }
 
         protected void Application_Error(object sender, EventArgs e)
