@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Web;
 using System.Web.Security;
-using System.Web.UI.WebControls;
 using WindowsLive;
 
 namespace SimpleWAWS.Code
@@ -19,7 +15,6 @@ namespace SimpleWAWS.Code
         private const string EncryptionReason = "ProtectCookie";
         private const string LoginSessionCookie = "loginsession";
         private static readonly WindowsLiveLogin WindowsLiveLogin = new WindowsLiveLogin(true);
-        private static readonly DateTime ExpiredCookie = DateTime.UtcNow.AddYears(-10);
         private const int SessionCookieHoursValid = 8;
         public static void ValidateAuthentication(HttpContext context)
         {
@@ -27,7 +22,6 @@ namespace SimpleWAWS.Code
                 return;
             ValidateLoginCookie(context);
         }
-
 
         private static void ValidateLoginCookie(HttpContext context)
         {

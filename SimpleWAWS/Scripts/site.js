@@ -1,6 +1,4 @@
-﻿var wawsSiteCookie = "WAWSSiteId";
-var idCookieValue = "Id";
-
+﻿
 var Template = (function () {
     function Template(json) {
         this.name = json.name;
@@ -56,20 +54,16 @@ function initTemplates() {
 }
 
 function initSite() {
-    var cookie = $.cookie(wawsSiteCookie);
-    if (cookie !== undefined) {
-        $("#loading").show();
-        $.getJSON("/api/site/" + cookie, function (data) {
-            if (data != null) {
-                viewModel.siteJson(data);
-                startCountDown(viewModel.siteJson().timeLeftString);
-            } else {
-                viewModel.siteJson(undefined);
-                $.removeCookie(wawsSiteCookie);
-            }
-            $("#loading").hide();
-        });
-    }
+    $("#loading").show();
+    $.getJSON("/api/site", function (data) {
+        if (data != null) {
+            viewModel.siteJson(data);
+            startCountDown(viewModel.siteJson().timeLeftString);
+        } else {
+            viewModel.siteJson(undefined);
+        }
+        $("#loading").hide();
+    });
 }
 
 var currentTimeout = 0;
@@ -92,7 +86,6 @@ function countDown(minutes, seconds) {
             seconds = 59;
             minutes--;
         } else if (seconds === -1 && minutes === 0) {
-            //set to red
             $(".site-info-valid").removeClass("site-info-valid").addClass("site-info-not-valid");
             siteJson.url = "http://azure.microsoft.com/en-us/pricing/free-trial/";
             siteJson.monacoUrl = "http://azure.microsoft.com/en-us/pricing/free-trial/";
@@ -116,16 +109,7 @@ window.onload = function () {
     initSite();
     $("#create-site").click(function () {
         $("#loading").show();
-        var cookie = $.cookie(wawsSiteCookie);
-        if (cookie !== undefined) {
-            clearTimeout(currentTimeout);
-            viewModel.siteJson(undefined);
-            $.ajax({
-                type: "DELETE",
-                url: "/api/site/" + cookie
-            });
-        }
-        $.ajax({
+       $.ajax({
             type: "POST",
             url: "/api/site",
             data: JSON.stringify(viewModel.selectedTemplate()),
@@ -133,7 +117,6 @@ window.onload = function () {
             success: function (data) {
                 viewModel.siteJson(data);
                 startCountDown(viewModel.siteJson().timeLeftString);
-                $.cookie(wawsSiteCookie, data.id);
                 $("#loading").hide();
             }
         });

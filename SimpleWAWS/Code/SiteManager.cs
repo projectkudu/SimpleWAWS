@@ -75,10 +75,10 @@ namespace SimpleWAWS.Code
             // Check if the sites are in use and place them in the right list
             foreach (Site site in allSites)
             {
-                if (site.IsInUse)
+                if (site.UserId != null)
                 {
                     Trace.TraceInformation("Loading site {0} into the InUse list", site.Name);
-                    _sitesInUse[site.Id] = site;
+                    _sitesInUse[site.UserId] = site;
                 }
                 else
                 {
@@ -125,7 +125,7 @@ namespace SimpleWAWS.Code
 
         public void OnSiteDeleted(Site site)
         {
-            _sitesInUse.Remove(site.Id);
+            _sitesInUse.Remove(site.UserId);
         }
 
         public async Task DeleteExpiredSitesAsync()
@@ -150,7 +150,7 @@ namespace SimpleWAWS.Code
             await Task.WhenAll(deleteTasks);
         }
 
-        public async Task<Site> ActivateSiteAsync(Template template)
+        public async Task<Site> ActivateSiteAsync(Template template, string userId)
         {
             try
             {
@@ -167,8 +167,8 @@ namespace SimpleWAWS.Code
 
                     await Task.WhenAll(zipUpload, deleteHostingStart);
                 }
-                await site.MarkAsInUseAsync();
-                _sitesInUse[site.Id] = site;
+                await site.MarkAsInUseAsync(userId);
+                _sitesInUse[site.UserId] = site;
 
                 return site;
             }
@@ -178,26 +178,26 @@ namespace SimpleWAWS.Code
             }
         }
 
-        public Site GetSite(string id)
+        public Site GetSite(string userId)
         {
             Site site;
-            _sitesInUse.TryGetValue(id, out site);
+            _sitesInUse.TryGetValue(userId, out site);
             return site;
         }
 
-        public async Task ResetAllFreeSites()
+        public async Task ResetAllFreeSites(string userId)
         {
             var list = _freeSites.ToList();
-            await Task.WhenAll(list.Select(site => site.MarkAsInUseAsync()).ToList());
+            await Task.WhenAll(list.Select(site => site.MarkAsInUseAsync(userId)).ToList());
             _freeSites.Clear();
-            list.ForEach(l => _sitesInUse[l.Id] = l);
-            await Task.WhenAll(list.Select(site => DeleteSite(site.Id)));
+            list.ForEach(l => _sitesInUse[l.UserId] = l);
+            await Task.WhenAll(list.Select(site => DeleteSite(site.UserId)));
         }
 
-        public async Task DeleteSite(string id)
+        public async Task DeleteSite(string userId)
         {
             Site site;
-            _sitesInUse.TryGetValue(id, out site);
+            _sitesInUse.TryGetValue(userId, out site);
 
             if (site != null)
             {

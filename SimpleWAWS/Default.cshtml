@@ -23,7 +23,7 @@
     </div>
     <div>
         <h3 class="page-header">3) Work with your web application</h3>
-        <div class="site-section" data-bind="if: siteJson() !== undefined">
+        <div class="site-section" data-bind="if: siteJson() !== undefined, visible: true" style="display: none">
             <div style="font-size: 5em">Your site is: <a data-bind="attr: {href: siteJson().url}" target="_blank"><span class="site-info-valid" data-bind="text: siteJson().name"></span></a></div>
             <div style="font-size: 3em">You have: <span class="countdown" data-bind="text: siteJson().timeLeftString"></span></div>
             <div class="btn-group-lg ">

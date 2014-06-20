@@ -17,16 +17,16 @@ namespace SimpleWAWS.Controllers
 {
     public class SiteController : ApiController
     {
-        public async Task<HttpResponseMessage> GetSite(string siteId)
+        public async Task<HttpResponseMessage> GetSite()
         {
             var siteManager = await SiteManager.GetInstanceAsync();
-            return Request.CreateResponse(HttpStatusCode.OK, siteManager.GetSite(siteId));
+            return Request.CreateResponse(HttpStatusCode.OK, siteManager.GetSite(HttpContext.Current.User.Identity.Name));
         }
 
         public async Task<HttpResponseMessage> Reset()
         {
             var siteManager = await SiteManager.GetInstanceAsync();
-            await siteManager.ResetAllFreeSites();
+            await siteManager.ResetAllFreeSites(HttpContext.Current.User.Identity.Name);
             return Request.CreateResponse(HttpStatusCode.Accepted);
         }
 
@@ -47,12 +47,14 @@ namespace SimpleWAWS.Controllers
             try
             {
                 var siteManager = await SiteManager.GetInstanceAsync();
+                await siteManager.DeleteSite(HttpContext.Current.User.Identity.Name);
                 var site = 
                     await
                         siteManager.ActivateSiteAsync(template == null
                             ? null
                             : TemplatesManager.GetTemplates()
-                                .SingleOrDefault(t => t.Name == template.Name && t.Language == template.Language));
+                                .SingleOrDefault(t => t.Name == template.Name && t.Language == template.Language),
+                                HttpContext.Current.User.Identity.Name);
                 return Request.CreateResponse(HttpStatusCode.OK, site);
             }
             catch (Exception ex)
@@ -61,10 +63,10 @@ namespace SimpleWAWS.Controllers
             }
         }
 
-        public async Task<HttpResponseMessage> DeleteSite(string siteId)
+        public async Task<HttpResponseMessage> DeleteSite()
         {
             var siteManager = await SiteManager.GetInstanceAsync();
-            await siteManager.DeleteSite(siteId);
+            await siteManager.DeleteSite(HttpContext.Current.User.Identity.Name);
             return Request.CreateResponse(HttpStatusCode.Accepted);
         }
     }

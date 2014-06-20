@@ -4,9 +4,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Cache;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Hosting;
 using Kudu.Client.Editor;
 using Microsoft.WindowsAzure.Management.WebSites.Models;
@@ -23,7 +25,7 @@ namespace SimpleWAWS.Code
         private WebSiteGetPublishProfileResponse _publishingProfile;
 
         private const string IsSimpleWAWSKey = "SIMPLE_WAWS";
-        private const string InUseMetadataKey = "IN_USE";
+        private const string UserIdMetadataKey = "USERID";
 
         public Site(WebSpace webSpace, WebSite webSite)
         {
@@ -76,9 +78,9 @@ namespace SimpleWAWS.Code
         [JsonProperty("name")]
         public string Name { get { return _webSite.Name; } }
 
-        [JsonProperty("id")]
+        //[JsonProperty("id")]
         // We use the password as an ID so users can't access other users's sites
-        public string Id { get { return PublishingPassword; } }
+        //public string Id { get { return PublishingPassword; } }
 
         [JsonProperty("isSimpleWAWS")]
         public bool IsSimpleWAWS
@@ -89,14 +91,16 @@ namespace SimpleWAWS.Code
             }
         }
 
-        [JsonProperty("isInUse")]
-        public bool IsInUse
+        public string UserId
         {
             get
             {
-                return _config.Metadata.ContainsKey(InUseMetadataKey);
+                string userId;
+                _config.Metadata.TryGetValue(UserIdMetadataKey, out userId);
+                return userId;
             }
         }
+
 
         [JsonProperty("url")]
         public string Url
@@ -207,12 +211,12 @@ namespace SimpleWAWS.Code
             return _webSpace.DeleteAndCreateReplacementAsync(this);
         }
 
-        public async Task MarkAsInUseAsync()
+        public async Task MarkAsInUseAsync(string userId)
         {
             _webSite.LastModifiedTimeUtc = DateTime.UtcNow;
 
             var updateParams = Util.CreateWebSiteUpdateConfigurationParameters();
-            _config.Metadata[InUseMetadataKey] = "true";
+            _config.Metadata[UserIdMetadataKey] = userId;
             updateParams.Metadata = _config.Metadata;
 
             await _webSpace.UpdateConfigurationAsync(Name, updateParams);
