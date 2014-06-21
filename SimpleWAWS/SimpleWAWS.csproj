@@ -139,14 +139,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authentication\AADProvider.cs" />
+    <Compile Include="Authentication\Constants.cs" />
+    <Compile Include="Authentication\IAuthProvider.cs" />
     <Compile Include="Code\Extensions.cs" />
     <Compile Include="Code\SecurityManager.cs" />
     <Compile Include="Code\SimpleIdentity.cs" />
     <Compile Include="Code\SimplePrincipal.cs" />
     <Compile Include="Code\Template.cs" />
     <Compile Include="Code\TemplatesManager.cs" />
-    <Compile Include="Code\WindowsLiveLogin.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\SiteController.cs" />
     <Compile Include="Controllers\TemplatesController.cs" />
     <Compile Include="Global.asax.cs">
