@@ -4,12 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Security;
 using Microsoft.WindowsAzure.Management.WebSites.Models;
 
 namespace SimpleWAWS.Code
 {
     public static class Extensions
     {
+        private const string DefaultEncryptReason = "DefaultEncryptReason";
         public static string Serialize(this WebSiteGetPublishProfileResponse.PublishProfile profile)
         {
             var stringBuilder = new StringBuilder();
@@ -55,6 +57,24 @@ namespace SimpleWAWS.Code
             writer.Flush();
             stream.Position = 0;
             return stream;
+        }
+
+        public static string Encrypt(this string str, string reason = null)
+        {
+            var valueBytes = Encoding.Default.GetBytes(str);
+            var encryptedBytes = MachineKey.Protect(valueBytes, reason ?? DefaultEncryptReason);
+            return Convert.ToBase64String(encryptedBytes);
+        }
+
+        public static string Decrypt(this string str, string reason = null)
+        {
+            var encryptesBytes = Convert.FromBase64String(str);
+            var decryptedBytes = MachineKey.Unprotect(encryptesBytes, reason ?? DefaultEncryptReason);
+            if (decryptedBytes != null)
+            {
+                return Encoding.Default.GetString(decryptedBytes);
+            }
+            throw new Exception("decrypted value is null");
         }
     }
 }
