@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.IdentityModel.Selectors;
 using System.Net;
-using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
 using System.Text;
 using System.Web;
@@ -49,6 +47,7 @@ namespace SimpleWAWS.Authentication
             }
 
             var user = ValidateJWT(jwt);
+
             if (user == null)
             {
                 return false;
@@ -104,10 +103,10 @@ namespace SimpleWAWS.Authentication
             return builder.ToString();
         }
 
-        private IPrincipal ValidateJWT(string bearer)
+        private IPrincipal ValidateJWT(string jwt)
         {
             var handler = new JwtSecurityTokenHandler { CertificateValidator = X509CertificateValidator.None };
-            if (!handler.CanReadToken(bearer))
+            if (!handler.CanReadToken(jwt))
             {
                 return null;
             }
@@ -115,19 +114,10 @@ namespace SimpleWAWS.Authentication
             {
                 ValidAudience = ConfigurationManager.AppSettings[Constants.AADAppId],
                 ValidateIssuer = false,
-                IssuerSigningTokens = GetIssuerTokens()
+                IssuerSigningTokens = OpenIdConfiguration.GetIssuerSigningKeys(jwt)
             };
-            var user = handler.ValidateToken(bearer, parameters);
+            var user = handler.ValidateToken(jwt, parameters);
             return user;
-        }
-
-        public IEnumerable<SecurityToken> GetIssuerTokens()
-        {
-            yield return
-                new X509SecurityToken(
-                    new X509Certificate2(
-                        Convert.FromBase64String(
-                            "MIIDPjCCAiqgAwIBAgIQsRiM0jheFZhKk49YD0SK1TAJBgUrDgMCHQUAMC0xKzApBgNVBAMTImFjY291bnRzLmFjY2Vzc2NvbnRyb2wud2luZG93cy5uZXQwHhcNMTQwMTAxMDcwMDAwWhcNMTYwMTAxMDcwMDAwWjAtMSswKQYDVQQDEyJhY2NvdW50cy5hY2Nlc3Njb250cm9sLndpbmRvd3MubmV0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkSCWg6q9iYxvJE2NIhSyOiKvqoWCO2GFipgH0sTSAs5FalHQosk9ZNTztX0ywS/AHsBeQPqYygfYVJL6/EgzVuwRk5txr9e3n1uml94fLyq/AXbwo9yAduf4dCHTP8CWR1dnDR+Qnz/4PYlWVEuuHHONOw/blbfdMjhY+C/BYM2E3pRxbohBb3x//CfueV7ddz2LYiH3wjz0QS/7kjPiNCsXcNyKQEOTkbHFi3mu0u13SQwNddhcynd/GTgWN8A+6SN1r4hzpjFKFLbZnBt77ACSiYx+IHK4Mp+NaVEi5wQtSsjQtI++XsokxRDqYLwus1I1SihgbV/STTg5enufuwIDAQABo2IwYDBeBgNVHQEEVzBVgBDLebM6bK3BjWGqIBrBNFeNoS8wLTErMCkGA1UEAxMiYWNjb3VudHMuYWNjZXNzY29udHJvbC53aW5kb3dzLm5ldIIQsRiM0jheFZhKk49YD0SK1TAJBgUrDgMCHQUAA4IBAQCJ4JApryF77EKC4zF5bUaBLQHQ1PNtA1uMDbdNVGKCmSf8M65b8h0NwlIjGGGy/unK8P6jWFdm5IlZ0YPTOgzcRZguXDPj7ajyvlVEQ2K2ICvTYiRQqrOhEhZMSSZsTKXFVwNfW6ADDkN3bvVOVbtpty+nBY5UqnI7xbcoHLZ4wYD251uj5+lo13YLnsVrmQ16NCBYq2nQFNPuNJw6t3XUbwBHXpF46aLT1/eGf/7Xx6iy8yPJX4DyrpFTutDz882RWofGEO5t4Cw+zZg70dJ/hH/ODYRMorfXEW+8uKmXMKmX2wyxMKvfiPbTy5LmAU8Jvjs2tLg4rOBcXWLAIarZ")));
         }
 
         private string GetBearer(HttpContext context)
@@ -137,7 +127,7 @@ namespace SimpleWAWS.Authentication
             if (jwt != null) return jwt;
             var authHeader = context.Request.Headers["Authorization"];
             if (authHeader == null || authHeader.IndexOf(Constants.BearerHeader, StringComparison.InvariantCultureIgnoreCase) == -1) return null;
-            return authHeader.Substring(Constants.BearerHeader.Length + 1);
+            return authHeader.Substring(Constants.BearerHeader.Length).Trim();
         }
 
         private bool ValidDateTimeSessionCookie(DateTime date)

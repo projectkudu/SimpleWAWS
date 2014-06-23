@@ -142,8 +142,9 @@
     <Compile Include="Authentication\AADProvider.cs" />
     <Compile Include="Authentication\Constants.cs" />
     <Compile Include="Authentication\IAuthProvider.cs" />
+    <Compile Include="Authentication\OpenIdConfiguration.cs" />
+    <Compile Include="Authentication\SecurityManager.cs" />
     <Compile Include="Code\Extensions.cs" />
-    <Compile Include="Code\SecurityManager.cs" />
     <Compile Include="Code\SimpleIdentity.cs" />
     <Compile Include="Code\SimplePrincipal.cs" />
     <Compile Include="Code\Template.cs" />
