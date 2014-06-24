@@ -34,15 +34,15 @@ namespace SimpleWAWS
 
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
         {
-            //if (Request.Path.Equals(ConfigurationManager.AppSettings["RedirectUrl"],
-            //    StringComparison.InvariantCultureIgnoreCase))
-            //{
-            //    SecurityManager.HandleCallBack(Context);
-            //}
-            //else
-            //{
-            //    SecurityManager.AuthenticateRequest(Context);
-            //}
+            if (Request.Path.Equals(ConfigurationManager.AppSettings["RedirectUrl"],
+                StringComparison.InvariantCultureIgnoreCase))
+            {
+                SecurityManager.HandleCallBack(Context);
+            }
+            else
+            {
+                SecurityManager.AuthenticateRequest(Context);
+            }
         }
 
         protected void Application_Error(object sender, EventArgs e)

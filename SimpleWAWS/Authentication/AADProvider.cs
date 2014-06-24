@@ -60,14 +60,14 @@ namespace SimpleWAWS.Authentication
         public HttpCookie CreateSessionCookie(IPrincipal user)
         {
             var value = string.Format("{0};{1}", user.Identity.Name, DateTime.UtcNow);
-            return new HttpCookie(Constants.LoginSessionCookie, value.Encrypt(Constants.EncryptionReason)) {Path = "/"};
+            return new HttpCookie(Constants.LoginSessionCookie, Uri.EscapeDataString(value.Encrypt(Constants.EncryptionReason))) {Path = "/"};
         }
 
         public bool TryAuthenticateSessionCookie(HttpContext context)
         {
             try
             {
-                var loginSessionCookie = WebUtility.UrlDecode(context.Request.Cookies[Constants.LoginSessionCookie].Value).Decrypt(Constants.EncryptionReason);
+                var loginSessionCookie = Uri.UnescapeDataString(context.Request.Cookies[Constants.LoginSessionCookie].Value).Decrypt(Constants.EncryptionReason);
                 var user = loginSessionCookie.Split(';')[0];
                 var date = DateTime.Parse(loginSessionCookie.Split(';')[1]);
                 if (ValidDateTimeSessionCookie(date))
