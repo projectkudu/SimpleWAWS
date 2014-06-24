@@ -1,55 +1,147 @@
 ﻿<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Try WAWS Now</title>
-    <link href="/Content/bootstrap.css" rel="stylesheet" />
-    <link href="/Content/Site.css" rel="stylesheet" />
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.2/css/font-awesome.css" rel="stylesheet" />
-    <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.0.min.js"></script>
-</head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a href="/Home" class="navbar-brand"><img class="navbar-brand" src="/Content/images/azure-logo.png" /></a>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Try WAWS Now</title>
+        <!--<link href="/Content/bootstrap.css" rel="stylesheet" />-->
+        <link href="/Content/Site.css" rel="stylesheet" />
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.2/css/font-awesome.css" rel="stylesheet" />
+        <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.0.min.js"></script>
+    </head>
+    <body class="wa-fullWidth page-home">
+            <div class="wa-container">
+                <header>
+                    <div class="wa-content">
+                        <ul class="site-login">
+                            <li class="phone" style="display: list-item;">
+                                <span class="geophone-label vwo_loaded">Questions? Call us:</span>
+                                <span data-contol="geophone" class="vwo_loaded">1-800-856-5038</span> 
+                            </li>
+                            <li>
+                                <a href="http://azure.microsoft.com/en-us/account/">My Account</a> 
+                            </li>
+                            <li>
+                                <a href="https://manage.windowsazure.com">Portal</a> 
+                            </li>
+                            <li class="search">
+                                <div class="wa-text wa-text-light wa-textSearch" data-control="textbox">
+                                    <input type="text" id="MainSearchBox" class="wa-filter-input" placeholder="Search" onkeypress="return checkForEnterKey(event, 'MainSearchBox');"> <button type="button" id="header-search-button" class="search-button" title="Search" onclick="doSearch('MainSearchBox'); return false;" ms.title="link | " ms.cmpgrp="search" ms.cmptyp="search box" ms.interactiontype="2"></button> 
+                                </div> 
+                            </li> 
+                        </ul>
+                        <a class="logo" href="/"><img src="//acom.azurecomcdn.net/80C57D/cdn/css/20140623-0934-228/images/logo.png?t=popn" height="21" width="165" alt="Microsoft Azure"></a>
+                        <a class="wa-button wa-button-freeTrial" href="http://azure.microsoft.com/en-us/pricing/free-trial/"><span>Free trial</span></a>
+                        <div class="site-navigation">
+                            <nav>
+                                <ul class="dev-navigation dev-navigation-b">
+                                    <li id="menu-variation-1" class="nav-expander" style="display: list-item;">
+                                        <a href="http://azure.microsoft.com/en-us/solutions">Features</a>
+                                    </li>
+                                    <li class="nav-expander">
+                                        <a href="http://azure.microsoft.com/en-us/pricing">Pricing</a>
+                                    </li>
+                                    <li class="nav-expander">
+                                        <a href="http://azure.microsoft.com/en-us/documentation/">Documentation</a>
+                                    </li>
+                                    <li class="nav-expander">
+                                        <a href="http://azure.microsoft.com/en-us/downloads/">Downloads</a>
+                                    </li>
+                                    <li class="nav-expander">
+                                        <a href="http://azure.microsoft.com/en-us/gallery/store/">Add-ons</a>
+                                    </li>
+                                    <li class="nav-expander">
+                                        <a href="http://azure.microsoft.com/en-us/community">Community</a>
+                                    </li>
+                                    <li class="nav-expander">
+                                        <a href="http://azure.microsoft.com/en-us/support">Support</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </header>
+                @RenderBody()
+                <footer>
+                    <div class="wa-content">
+                        <div class="footer-map">
+                            <ul class="social">
+                                <li class="header">Go Social</li>
+                                <li class="facebook">
+                                    <a href="http://go.microsoft.com/fwlink/?linkid=306390&amp;clcid=0x409">Facebook</a>
+                                </li>
+                                <li class="twitter">
+                                    <a href="http://go.microsoft.com/fwlink/?linkid=306391&amp;clcid=0x409">Twitter</a>
+                                </li>
+                                <li class="rss">
+                                    <a href="http://go.microsoft.com/fwlink/?linkid=306392&amp;clcid=0x409">Rss</a>
+                                </li>
+                                <li class="newsletter">
+                                    <a href="http://go.microsoft.com/fwlink/?linkid=306393&amp;clcid=0x409">Newsletter</a>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li class="header"><a href="http://azure.microsoft.com/en-us/">Microsoft Azure</a></li>
+                                <li><a href="http://azure.microsoft.com/en-us/solutions/">Features</a></li>
+                                <li><a href="http://azure.microsoft.com/en-us/services/">Services</a></li>
+                                <li><a href="http://azure.microsoft.com/en-us/regions/">Regions</a></li>
+                                <li><a href="http://azure.microsoft.com/en-us/case-studies/">Case Studies</a></li>
+                                <li><a href="http://azure.microsoft.com/en-us/pricing/overview/">Pricing</a></li>
+                                <li><a href="http://azure.microsoft.com/en-us/pricing/calculator/">Calculator</a></li>
+                                <li><a href="http://azure.microsoft.com/en-us/documentation/">Documentation</a></li>
+                                <li><a href="http://azure.microsoft.com/en-us/downloads/?sdk=net">Downloads</a></li>
+                                <li><a href="http://azure.microsoft.com/en-us/gallery/store/overview/">Add-ons</a></li>
+                                <li><a href="http://windowsazure.cn/zh-cn/">Microsoft Azure in China</a></li>
+                            </ul>
+                            <ul>
+                                <li class="header"><a href="http://go.microsoft.com/fwlink/?linkid=394285&amp;clcid=0x409">Community</a></li>
+                                <li><a href="http://azure.microsoft.com/blog/">Blogs</a></li>
+                                <li><a href="http://azure.microsoft.com/en-us/updates/">Service Updates</a></li>
+                                <li><a href="http://azure.microsoft.com/en-us/support/forums/">Forums</a></li>
+                                <li><a href="http://azure.microsoft.com/en-us/community/events/">Events</a><br><br></li>
+                                <li></li>
+                                <li class="header"><a href="http://azure.microsoft.com/en-us/support/options/">Support</a></li>
+                                <li><a href="http://azure.microsoft.com/en-us/support/forums/">Forums</a></li>
+                                <li><a href="http://status.azure.com">Service Dashboard</a></li>
+                                <li><a href="http://azure.microsoft.com/en-us/support/options/">Support</a></li>
+                            </ul>
+                            <ul>
+                                <li class="header"><a href="https://account.windowsazure.com">Account</a></li>
+                                <li><a href="https://account.windowsazure.com/subscriptions/">Subscriptions</a></li>
+                                <li><a href="https://account.windowsazure.com/profile/">Profile</a></li>
+                                <li><a href="http://azure.microsoft.com/en-us/services/preview/">Preview Features</a></li>
+                                <li><a href="https://manage.windowsazure.com/">Management Portal</a></li>
+                                <li class="header trust-center"><a href="http://azure.microsoft.com/en-us/support/trust-center/">Trust Center</a></li>
+                                <li><a href="http://azure.microsoft.com/en-us/support/trust-center/security/">Security</a></li>
+                                <li><a href="http://azure.microsoft.com/en-us/support/trust-center/privacy/">Privacy</a></li>
+                                <li><a href="http://azure.microsoft.com/en-us/support/trust-center/compliance/">Compliance</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-bottom">
+                            <ul class="legal">
+                                <li>
+                                    <a href="http://support.microsoft.com/contactus/?ws=mscom">Contact Us</a>
+                                </li>
+                                <li>
+                                    <a href="http://go.microsoft.com/fwlink/p/?linkid=222682&amp;clcid=0x409">Trademarks</a>
+                                </li>
+                                <li>
+                                    <a href="http://go.microsoft.com/fwlink/p/?linkid=131004&amp;clcid=0x409">Privacy &amp; Cookies</a>
+                                </li>
+                                <li class="loc-hide">
+                                    <a href="http://feedback.azure.com/">Feedback</a>
+                                </li>
+                            </ul>
+                            <div class="footer-copyright">
+                                <a href="http://www.microsoft.com">
+                                    <img alt="Microsoft" src="//acom.azurecomcdn.net/80C57D/cdn/css/20140623-0934-228/images/microsoft-logo.png?t=popn">
+                                </a>
+                                <span>© 2014 Microsoft</span>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+                @RenderSection("scripts", required: false)
             </div>
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="~/#">Features</a></li>
-                    <li><a href="~/#">Pricing</a></li>
-                    <li><a href="http://azure.microsoft.com/en-us/documentation/">Documentation</a></li>
-                    <li><a href="http://azure.microsoft.com/en-us/downloads/">Downloads</a></li>
-                    <li><a href="http://azure.microsoft.com/en-us/gallery/store/">Add-ons</a></li>
-                    <li><a href="~/#">Community</a></li>
-                    <li><a href="~/#">Support</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-    </div>
-    <div class="navbar navbar-inverse navbar-fixed-bottom">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <!--<a href="/Home" class="navbar-brand"><img class="navbar-brand" src="/Content/images/azure-logo.png" /></a>-->
-            </div>
-        </div>
-    </div>
-
-    @RenderSection("scripts", required: false)
-
-</body>
+    </body>
 </html>

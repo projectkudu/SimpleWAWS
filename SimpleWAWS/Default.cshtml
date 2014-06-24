@@ -2,54 +2,96 @@
     Layout = "~/_Layout.cshtml";
     Page.Title = "Try It Now";
 }
-<div>
-    <div>
-        <h3 class="page-header">1) Select a template for your web application</h3>
-        <div class="btn-group languages" data-toggle="buttons-radio" data-bind="foreach: languages">
-            <button type="button" class="btn btn-lg btn-primary language" data-bind="text: $data, click: function(data, event) {$root.selectLanguage(event);}"></button>
-        </div>
-        <div class="btn-group templates" data-toggle="buttons-radio" data-bind="foreach: templates">
-            <div style="display: inline" data-toggle="buttons-radio" data-bind="if: $root.selectedLanguage() === $data.language">
-                <button type="button" class="btn btn-lg btn-default" data-bind="text: $data.name, click: function(data, event) {$data.select(event);}"></button>
-            </div>
+
+<section class="wa-section wa-section-blue wa-section-mini wa-section-compute">
+    <div class="wa-content">
+        <div class="wa-spacer-9down">
+            <h1>Create your website</h1>
+            <h3>High throughput, low latency data access to power fast, scalable Azure applications.</h3>
         </div>
     </div>
-    <div>
-        <h3 class="page-header">2) Create your web application</h3>
-        <button id="create-site" type="button" class="btn btn-lg btn-success">Create Site</button>
+</section>
+<section class="wa-section">
+    <div class="wa-content wa-content-4up">
+        <h2>1) Select a template and create your web application</h2>
+        <div>
+            <label for="wa-dropdown-language">Change language:</label>
+            <div class="wa-dropdown-container wa-dropdown-medium">
+                <select id="wa-dropdown-language" class="wa-dropdown" data-bind="foreach: languages">
+                    <option class="" data-bind="text: $data, attr: {value: $data}, click: function(data, event) {$root.selectLanguage(event);}"></option>
+                </select>
+                <span class="wa-dropdown-value" data-bind="text: selectedLanguage()"></span>
+                <span class="wa-dropdown-arrow"></span>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <div data-bind="foreach: templates">
+            <!-- ko if: $root.selectedLanguage() === $data.language -->
+            <div class="website-template-container">
+                <a href="#" data-bind="click: function(data, event) {data.select(event);}">
+                    <img src="Content/images/Large.png">
+                    <div class="website-template-name" data-bind="text: $data.name"></div>
+                </a>
+            </div>
+            <!-- /ko -->
+        </div>
+        <br />
+        <br />
+        <div style="display: inline-block">
+            <a id="create-site" href="#" class="wa-button wa-button-primary">Create</a>
+        </div>
         <div class="spinner">
             <i id="loading" class="fa fa-spinner fa-spin" title="Please wait" style="display: none"></i>
         </div>
     </div>
-    <div>
-        <h3 class="page-header">3) Work with your web application</h3>
-        <div class="site-section" data-bind="if: siteJson() !== undefined, visible: true" style="display: none">
-            <div style="font-size: 5em">Your site is: <a data-bind="attr: {href: siteJson().url}" target="_blank"><span class="site-info-valid" data-bind="text: siteJson().name"></span></a></div>
-            <div style="font-size: 3em">You have: <span class="countdown" data-bind="text: siteJson().timeLeftString"></span></div>
-            <div class="btn-group-lg ">
-                <a data-bind="attr: {href: siteJson().url}" class="btn btn-success btn-lg" target="_blank">Run it</a>
-                <a data-bind="attr: {href: siteJson().monacoUrl}" class="btn btn-primary btn-lg" target="_blank">Edit in Visual Studio Online</a>
-                <a data-bind="attr: {href: '/api/site/getpublishingprofile/' + siteJson().id}" class="btn btn-primary btn-lg" target="_blank">Download Publishing Profile</a>
-                <a data-bind="attr: {href: siteJson().contentDownloadUrl}" class="btn btn-primary btn-lg" target="_blank">Download Content</a>
-                <!--<pre data-bind="text: ko.toJSON(siteJson, null, 2)" style="display: block; width: 90%"></pre>-->
+    <div class="wa-content wa-content-4up wa-content-divided">
+        <h2>2) Work with your web application</h2>
+        <!-- ko if: siteJson() !== undefined -->
+        <div data-bind="with: siteJson">
+            <h3 data-bind="if: url !== undefined, visible: true" style="display: none">
+                Your site has been created at <a data-bind="attr: {href: url}, text: url" target="_blank"></a>
+            </h3>
+            <div class="work-with-site-tools">
+                <a data-bind="attr: {href: monacoUrl}" target="_blank"><img class="work-with-site-tools-img" src="Content/images/VSO.png" /><div class="website-template-name">Edit with VSO</div></a>
             </div>
-            <div style="font-size: 1.5em; padding-top: 10px">git URL: <input data-bind="attr: {value: siteJson().gitUrlWithCreds}" type="text" class="input-lg" readonly="readonly" onclick="this.select();"></div>
+            <div class="work-with-site-tools">
+                <a data-bind="attr: {href: contentDownloadUrl}" target="_blank"><img class="work-with-site-tools-img" src="Content/images/DownloadSite.png" /><div class="website-template-name">Download site content</div></a>
+            </div>
+            <div class="work-with-site-tools">
+                <a data-bind="attr: {href: '/api/site/getpublishingprofile'}" target="_blank"><img class="work-with-site-tools-img" src="Content/images/DownloadPublishing.png" /><div class="website-template-name">Download publishing profile</div></a>
+            </div>
+            <div class="work-with-site-tools">
+                <a data-bind="attr: {href: monacoUrl}"target="_blank"><img class="work-with-site-tools-img" src="Content/images/delete.png" /><div class="website-template-name">Delete the site</div></a>
+            </div>
         </div>
+        <!-- /ko -->
+        <!-- ko if: siteJson() === undefined -->
         <div>
-            <h3 class="page-header">4) Get started with a 30 days free trial</h3>
-            <a id="try-free" href="http://azure.microsoft.com/en-us/pricing/free-trial/" target="_blank" class="btn btn-lg btn-success" style="width: 200px">Try for free</a>
+            <div class="work-with-site-tools">
+                <a><img class="work-with-site-tools-img" src="Content/images/VSO.png" /><div class="website-template-name">Edit with VSO</div></a>
+            </div>
+            <div class="work-with-site-tools">
+                <a><img class="work-with-site-tools-img" src="Content/images/DownloadSite.png" /><div class="website-template-name">Download site content</div></a>
+            </div>
+            <div class="work-with-site-tools">
+                <a><img class="work-with-site-tools-img" src="Content/images/DownloadPublishing.png" /><div class="website-template-name">Download publishing profile</div></a>
+            </div>
+            <div class="work-with-site-tools">
+                <a><img class="work-with-site-tools-img" src="Content/images/delete.png" /><div class="website-template-name">Delete the site</div></a>
+            </div>
+            <!--<pre data-bind="text: ko.toJSON(siteJson, null, 2)" style="display: block; width: 90%"></pre>-->
         </div>
-        <div>
-            <h3 class="page-header">Learn more</h3>
-            <a id="learn" class="btn btn-lg btn-info">Azure Websites Documentation</a>
-            <br />
-            <br />
-            <br />
-            <br />
-        </div>
+        <!-- /ko -->
     </div>
-</div>
+
+    <div class="wa-content wa-content-4up wa-content-divided">
+        <h2>3) Get more for free</h2>
+        <h3 style="font-size: 23px;">Create your own website. Sign up for a free 30-day trial and create up to 10 websites for free.</h3>
+        <br />
+        <a href="http://azure.microsoft.com/en-us/pricing/free-trial/" class="wa-button wa-button-primary">Free trial</a>
+    </div>
+</section>
 
 <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/knockout/knockout-3.0.0.js"></script>
-<script type="text/javascript" src="/Scripts/jquery.cookie.js"></script>
 <script type="text/javascript" src="/Scripts/site.js"></script>

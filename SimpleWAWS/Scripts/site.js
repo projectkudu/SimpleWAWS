@@ -1,4 +1,6 @@
-﻿
+﻿var wawsSiteCookie = "WAWSSiteId";
+var idCookieValue = "Id";
+
 var Template = (function () {
     function Template(json) {
         this.name = json.name;
@@ -6,8 +8,8 @@ var Template = (function () {
         this.language = json.language;
     }
     Template.prototype.select = function (event) {
-        $(".templates .btn").removeClass("active");
-        $(event.target).addClass("active");
+        $(".website-template-container").removeClass("website-template-container-selected");
+        $(event.target).parentsUntil(".website-template-container").parent().addClass("website-template-container-selected");
         viewModel.selectedTemplate(this);
     };
     return Template;
@@ -49,7 +51,9 @@ function initTemplates() {
             viewModel.templates.push(new Template(data[i]));
         }
     }).done(function () {
-        $(".languages .btn").first().click();
+        if (viewModel.templates().length > 0) {
+            viewModel.selectedLanguage(viewModel.templates()[0].language);
+        }
     });
 }
 
@@ -58,7 +62,7 @@ function initSite() {
     $.getJSON("/api/site", function (data) {
         if (data != null) {
             viewModel.siteJson(data);
-            startCountDown(viewModel.siteJson().timeLeftString);
+            //startCountDown(viewModel.siteJson().timeLeftString);
         } else {
             viewModel.siteJson(undefined);
         }
@@ -86,6 +90,7 @@ function countDown(minutes, seconds) {
             seconds = 59;
             minutes--;
         } else if (seconds === -1 && minutes === 0) {
+            //set to red
             $(".site-info-valid").removeClass("site-info-valid").addClass("site-info-not-valid");
             siteJson.url = "http://azure.microsoft.com/en-us/pricing/free-trial/";
             siteJson.monacoUrl = "http://azure.microsoft.com/en-us/pricing/free-trial/";
@@ -103,22 +108,30 @@ function countDown(minutes, seconds) {
     }
 }
 
+//get spinner into typescript
 window.onload = function () {
     initViewModel();
     initTemplates();
     initSite();
-    $("#create-site").click(function () {
+    $("#create-site").click(function (e) {
+        e.preventDefault();
         $("#loading").show();
-       $.ajax({
+        $.ajax({
             type: "POST",
             url: "/api/site",
             data: JSON.stringify(viewModel.selectedTemplate()),
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 viewModel.siteJson(data);
-                startCountDown(viewModel.siteJson().timeLeftString);
+
+                //startCountDown(viewModel.siteJson().timeLeftString);
                 $("#loading").hide();
             }
         });
+    });
+    $('select').on('change', function (e) {
+        var optionSelected = $("option:selected", this);
+        var valueSelected = this.value;
+        viewModel.selectedLanguage(valueSelected);
     });
 };

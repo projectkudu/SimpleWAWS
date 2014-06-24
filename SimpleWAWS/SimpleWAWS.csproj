@@ -170,6 +170,14 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\images\azure-logo.png" />
+    <Content Include="Content\images\delete.png" />
+    <Content Include="Content\images\DownloadPublishing.png" />
+    <Content Include="Content\images\DownloadSite.png" />
+    <Content Include="Content\images\filter-search-spyglass.png" />
+    <Content Include="Content\images\footer-sprite.png" />
+    <Content Include="Content\images\icon-search.png" />
+    <Content Include="Content\images\Large.png" />
+    <Content Include="Content\images\VSO.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />

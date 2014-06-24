@@ -30,11 +30,11 @@ namespace SimpleWAWS.Controllers
             return Request.CreateResponse(HttpStatusCode.Accepted);
         }
 
-        public async Task<HttpResponseMessage> GetPublishingProfile(string siteId)
+        public async Task<HttpResponseMessage> GetPublishingProfile()
         {
             var siteManager = await SiteManager.GetInstanceAsync();
             var response = Request.CreateResponse();
-            var site = siteManager.GetSite(siteId);
+            var site = siteManager.GetSite(HttpContext.Current.User.Identity.Name);
             response.Content = await site.GetPublishingProfile();
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
             response.Content.Headers.ContentDisposition =
