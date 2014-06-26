@@ -94,14 +94,7 @@ function countDown(minutes, seconds) {
             seconds = 59;
             minutes--;
         } else if (seconds === -1 && minutes === 0) {
-            //set to red
-            //$(".site-info-valid").removeClass("site-info-valid").addClass("site-info-not-valid");
-            //siteJson.url = "http://azure.microsoft.com/en-us/pricing/free-trial/";
-            //siteJson.monacoUrl = "http://azure.microsoft.com/en-us/pricing/free-trial/";
-            //siteJson.kuduConsoleWithCreds = "http://azure.microsoft.com/en-us/pricing/free-trial/";
-            //siteJson.contentDownloadUrl = "http://azure.microsoft.com/en-us/pricing/free-trial/";
-            //viewModel.siteJson(siteJson);
-            viewModel.siteJson(undefined);
+            deleteSite();
             $("#site-expired").show();
             return;
         } else if (minutes === 0 && !$(".countdown").hasClass("site-info-not-valid")) {
@@ -115,7 +108,9 @@ function countDown(minutes, seconds) {
 }
 
 function deleteSite(event) {
-    event.preventDefault();
+    if (event) {
+        event.preventDefault();
+    }
     $.ajax({
         type: "DELETE",
         url: "/api/site"
