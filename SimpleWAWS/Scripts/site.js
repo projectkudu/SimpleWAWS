@@ -93,7 +93,6 @@ function countDown(minutes, seconds) {
             seconds = 59;
             minutes--;
         } else if (seconds === -1 && minutes === 0) {
-            deleteSite();
             $("#site-expired").show();
             return;
         } else if (minutes === 0 && !$(".countdown").hasClass("site-info-not-valid")) {
@@ -115,6 +114,7 @@ function deleteSite(event) {
         url: "/api/site"
     });
     viewModel.siteJson(undefined);
+    scrollToTop();
 }
 
 function toggleSpinner() {
@@ -127,9 +127,24 @@ function handleGetSite(data) {
     if (data != null) {
     viewModel.siteJson(data);
     startCountDown(viewModel.siteJson().timeLeftString);
+    scrollSitePartToView();
     } else {
         viewModel.siteJson(undefined);
     }
+}
+
+function scrollSitePartToView() {
+    scrollHelper($("#work-with-your-site").offset().top-100);
+}
+
+function scrollToTop() {
+    scrollHelper(0);
+}
+
+function scrollHelper(index) {
+    $("html, body").animate({
+        scrollTop: index
+    }, 900);
 }
 
 function handleGetSiteError(xhr, error, errorThrown) {
@@ -167,5 +182,6 @@ window.onload = function () {
     $("#dismiss-site-expire").click(function (e) {
         e.preventDefault();
         $("#site-expired").hide();
+        deleteSite();
     });
 };
