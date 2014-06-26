@@ -29,7 +29,7 @@
         <div data-bind="foreach: templates">
             <!-- ko if: $root.selectedLanguage() === $data.language -->
             <div class="website-template-container">
-                <a href="#" data-bind="click: function(data, event) {data.select(event);}">
+                <a class="select-template-anchor" href="#" data-bind="click: function(data, event) {data.select(event);}">
                     <img data-bind="attr: {src: $data.icon_uri}" alt="" />
                     <div class="website-template-name" data-bind="text: $data.name"></div>
                 </a>
@@ -68,7 +68,7 @@
             <div class="work-with-site-tools">
                 <a data-bind="click: function(data, event) {$root.deleteSite(event);}" href="#"><img class="work-with-site-tools-img" src="Content/images/delete.png" /><div class="website-template-name">Delete the site</div></a>
             </div>
-            <div style="margin-top: 60px">Your free site will expire in : <span class="countdown" data-bind="text: siteJson().timeLeftString"></span></div>
+            <div style="margin-top: 60px">Your free site will expire in : <span class="countdown" data-bind="text: timeLeft"></span></div>
         </div>
         <!-- /ko -->
         <!-- ko if: siteJson() === undefined -->

@@ -10,7 +10,7 @@ var Template = (function () {
     }
     Template.prototype.select = function (event) {
         $(".website-template-container").removeClass("website-template-container-selected");
-        $(event.target).parentsUntil(".website-template-container").parent().addClass("website-template-container-selected");
+        var parent = $(event.target).closest("div").addClass("website-template-container-selected");
         viewModel.selectedTemplate(this);
     };
     return Template;
@@ -31,6 +31,7 @@ function initViewModel() {
     viewModel.selectedLanguage = ko.observable();
     viewModel.selectedTemplate = ko.observable();
     viewModel.templates = ko.observableArray();
+    viewModel.timeLeft = ko.observable();
     viewModel.languages = ko.computed(function () {
         var languages = ko.utils.arrayMap(viewModel.templates(), function (item) {
             return item.language;
@@ -43,8 +44,10 @@ function initViewModel() {
         } else if (e) {
             viewModel.selectedLanguage($(e.target).text());
         }
-        $(".website-template-container").removeClass("website-template-container-selected");
-        $(".website-template-container").first().addClass("website-template-container-selected");
+        //        $(".website-template-container").removeClass("website-template-container-selected");
+        setTimeout(function () {
+            $(".select-template-anchor").first().click();
+        }, 10);
     };
     ko.applyBindings(viewModel);
 }
@@ -85,10 +88,8 @@ function startCountDown(init) {
 }
 
 function countDown(minutes, seconds) {
-    var siteJson = viewModel.siteJson();
-    if (siteJson != undefined) {
-        siteJson.timeLeftString = minutes + "m:" + ("0" + seconds).slice(-2) + "s";
-        viewModel.siteJson(siteJson);
+    if ( viewModel.siteJson() != undefined) {
+        viewModel.timeLeft(minutes + "m:" + ("0" + seconds).slice(-2) + "s");
         seconds--;
         if (seconds === -1 && minutes !== 0) {
             seconds = 59;
