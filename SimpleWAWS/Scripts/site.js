@@ -32,6 +32,7 @@ function initViewModel() {
     viewModel.selectedTemplate = ko.observable();
     viewModel.templates = ko.observableArray();
     viewModel.timeLeft = ko.observable();
+    viewModel.createRunning = ko.observable(false);
     viewModel.languages = ko.computed(function () {
         var languages = ko.utils.arrayMap(viewModel.templates(), function (item) {
             return item.language;
@@ -118,11 +119,7 @@ function deleteSite(event) {
 
 function toggleSpinner() {
     $("#error-message").hide();
-    if ($("#loading").is(":visible")) {
-        $("#loading").hide();
-    } else {
-        $("#loading").show();
-    }
+    viewModel.createRunning(!viewModel.createRunning());
 }
 
 function handleGetSite(data) {
@@ -152,7 +149,6 @@ window.onload = function () {
     initSite();
     $("#create-site").click(function (e) {
         e.preventDefault();
-        //$("#loading").show();
         toggleSpinner();
         $.ajax({
             type: "POST",

@@ -42,10 +42,12 @@
             <a id="create-site" href="#" class="wa-button wa-button-primary">Create</a>
         </div>
         <div class="spinner">
-            <i id="loading" class="fa fa-spinner fa-spin" title="Please wait" style="display: none; margin-top: 10px"></i>
+            <!-- ko if: createRunning  -->
+            <i id="loading" class="fa fa-spinner fa-spin" title="Please wait" style="margin-top: 10px"></i>
+            <!-- /ko -->
             <i id="error-message" class="fa fa-warning" style="display: none; margin-top: 10px" data-bind="attr: {title: errorMessage}"></i>
         </div>
-        <!-- ko if: siteJson() !== undefined -->
+        <!-- ko if: siteJson() !== undefined || createRunning -->
         <div class="ui-blocker"></div>
         <!-- /ko -->
     </div>
