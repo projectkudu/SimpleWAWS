@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
@@ -23,8 +24,8 @@ namespace SimpleWAWS.Code
         public static TimeSpan SiteExpiryTime;
         private X509Certificate2 _cert;
 
-        private readonly Queue<Site> _freeSites = new Queue<Site>();
-        private readonly Dictionary<string, Site> _sitesInUse = new Dictionary<string, Site>();
+        private readonly ConcurrentQueue<Site> _freeSites = new ConcurrentQueue<Site>();
+        private readonly ConcurrentDictionary<string, Site> _sitesInUse = new ConcurrentDictionary<string, Site>();
 
         private Timer _timer;
         private readonly JobHost _jobHost = new JobHost();
@@ -42,7 +43,7 @@ namespace SimpleWAWS.Code
             return _instance;
         }
 
-        public SiteManager()
+        private SiteManager()
         {
             string pfxPath = ConfigurationManager.AppSettings["pfxPath"];
             if (String.IsNullOrEmpty(pfxPath))
@@ -60,9 +61,9 @@ namespace SimpleWAWS.Code
             SiteExpiryTime = TimeSpan.FromMinutes(Int32.Parse(ConfigurationManager.AppSettings["siteExpiryMinutes"]));
         }
 
-        public string WebSpaceName { get; set; }
+        private string WebSpaceName { get; set; }
 
-        public async Task LoadSiteListFromAzureAsync()
+        private async Task LoadSiteListFromAzureAsync()
         {
             List<WebSpace> webSpaces = GetAllWebSpaces().ToList();
 
@@ -73,12 +74,17 @@ namespace SimpleWAWS.Code
             List<Site> allSites = webSpaces.SelectMany(ws => ws.Sites).ToList();
 
             // Check if the sites are in use and place them in the right list
+            var tasksList = new List<Task>();
             foreach (Site site in allSites)
             {
                 if (site.UserId != null)
                 {
                     Trace.TraceInformation("Loading site {0} into the InUse list", site.Name);
-                    _sitesInUse[site.UserId] = site;
+                    if (!_sitesInUse.TryAdd(site.UserId, site))
+                    {
+                        Trace.TraceError("user {0} already had a site in the dictionary extra site is {1}. This shouldn't happen. Deleting and replacing the site.", site.UserId, site.Name);
+                        tasksList.Add(site.DeleteAndCreateReplacementAsync());
+                    }
                 }
                 else
                 {
@@ -86,13 +92,13 @@ namespace SimpleWAWS.Code
                     _freeSites.Enqueue(site);
                 }
             }
-
+            await Task.WhenAll(tasksList);
             // Do maintenance on the site lists every minute (and start one right now)
             _timer = new Timer(OnTimerElapsed);
             _timer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(60 * 1000));
         }
 
-        IEnumerable<WebSpace> GetAllWebSpaces()
+        private IEnumerable<WebSpace> GetAllWebSpaces()
         {
             string[] subscriptions = ConfigurationManager.AppSettings["subscriptions"].Split(',');
             string[] geoRegions = ConfigurationManager.AppSettings["geoRegions"].Split(',');
@@ -108,7 +114,7 @@ namespace SimpleWAWS.Code
             }
         }
 
-        public async Task MaintainSiteLists()
+        private async Task MaintainSiteLists()
         {
             await DeleteExpiredSitesAsync();
         }
@@ -125,10 +131,18 @@ namespace SimpleWAWS.Code
 
         public void OnSiteDeleted(Site site)
         {
-            _sitesInUse.Remove(site.UserId);
+            if (site.UserId != null)
+            {
+                Site temp;
+                _sitesInUse.TryRemove(site.UserId, out temp);
+            }
+            else
+            {
+                Trace.TraceWarning("site {0} was being deleted and it had a null UserId. Might point to an inconsistency in the data", site.Name);
+            }
         }
 
-        public async Task DeleteExpiredSitesAsync()
+        private async Task DeleteExpiredSitesAsync()
         {
             var siteIdsToDelete = new List<Site>();
 
@@ -154,23 +168,35 @@ namespace SimpleWAWS.Code
         {
             try
             {
-                Site site = _freeSites.Dequeue();
-
-                Trace.TraceInformation("Site {0} is now in use", site.Name);
-                if (template != null)
+                Site site;
+                if (_freeSites.TryDequeue(out site))
                 {
-                    var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-                    var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
-                    Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.GetFullPath());
-                    var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials);
-                    Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
+                    Trace.TraceInformation("Site {0} is now in use", site.Name);
+                    if (template != null)
+                    {
+                        var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+                        var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
+                        Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.GetFullPath());
+                        var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials);
+                        Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
 
-                    await Task.WhenAll(zipUpload, deleteHostingStart);
+                        await Task.WhenAll(zipUpload, deleteHostingStart);
+                    }
+                    if (!_sitesInUse.TryAdd(userId, site))
+                    {
+                        await site.DeleteAndCreateReplacementAsync();
+                        throw new Exception("Can't have more than 1 free site at a time");
+                    }
+                    else
+                    {
+                        await site.MarkAsInUseAsync(userId);
+                    }
+                    return site;
                 }
-                await site.MarkAsInUseAsync(userId);
-                _sitesInUse[site.UserId] = site;
-
-                return site;
+                else
+                {
+                    throw new Exception("No free sites are available, try again later");
+                }
             }
             catch (InvalidOperationException ioe)
             {
@@ -187,11 +213,20 @@ namespace SimpleWAWS.Code
 
         public async Task ResetAllFreeSites(string userId)
         {
-            var list = _freeSites.ToList();
-            await Task.WhenAll(list.Select(site => site.MarkAsInUseAsync(userId)).ToList());
-            _freeSites.Clear();
-            list.ForEach(l => _sitesInUse[l.UserId] = l);
-            await Task.WhenAll(list.Select(site => DeleteSite(site.UserId)));
+            var list = new List<Site>();
+            while (!_freeSites.IsEmpty)
+            {
+                Site temp;
+                if (_freeSites.TryDequeue(out temp))
+                {
+                    list.Add(temp);
+                }
+            }
+            await Task.WhenAll(list.Select(site =>
+            {
+                Trace.TraceInformation("Deleting site {0}", site.Name);
+                return site.DeleteAndCreateReplacementAsync();
+            }));
         }
 
         public async Task DeleteSite(string userId)
@@ -204,6 +239,16 @@ namespace SimpleWAWS.Code
                 Trace.TraceInformation("Deleting site {0}", site.Name);
                 await site.DeleteAndCreateReplacementAsync();
             }
+        }
+
+        public IEnumerable<Site> GetAllFreeSites()
+        {
+            return _freeSites.ToList();
+        }
+
+        public IEnumerable<Site> GetAllInUseSites()
+        {
+            return _sitesInUse.ToList().Select(s => s.Value);
         }
     }
 

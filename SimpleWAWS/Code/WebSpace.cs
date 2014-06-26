@@ -39,6 +39,9 @@ namespace SimpleWAWS.Code
             try
             {
                 var webSitesRepsonses = await Client.WebSpaces.ListWebSitesAsync(_webSpaceName, new WebSiteListParameters());
+                //TODO: there is a bug that I think happens when the "try it now" site restarts while a site from the free list is being created
+                //TODO: that bug will cause us to get an incomplete webSiteResponse object here. 
+                //TODO: I think we should retry for a second or 2 and then give up and assume the webspace is empty
                 Sites = webSitesRepsonses.Select(webSitesRepsonse => new Site(this, webSitesRepsonse)).ToList();
             }
             catch (Exception ex)

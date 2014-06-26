@@ -31,6 +31,10 @@ namespace SimpleWAWS.Code
         {
             _webSpace = webSpace;
             _webSite = webSite;
+            if (_webSite.EnabledHostNames.Count < 2)
+            {
+                Trace.TraceError("Odd bug, we get an incomplete site object. see comment in LoadAndCreateSitesAsync()");
+            }
         }
 
         public Site(WebSite webSite, WebSiteGetConfigurationResponse config)
