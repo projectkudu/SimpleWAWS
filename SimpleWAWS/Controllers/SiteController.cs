@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Http;
+using Newtonsoft.Json;
 using SimpleWAWS.Code;
 
 namespace SimpleWAWS.Controllers
@@ -30,6 +31,15 @@ namespace SimpleWAWS.Controllers
             return Request.CreateResponse(HttpStatusCode.Accepted);
         }
 
+        public async Task<HttpResponseMessage> GetAll()
+        {
+            var siteManager = await SiteManager.GetInstanceAsync();
+            var freeSites = siteManager.GetAllFreeSites();
+            var inUseSites = siteManager.GetAllInUseSites();
+            return Request.CreateResponse(HttpStatusCode.OK,
+                new { freeSiteCount = freeSites.Count(), inUseSitesCount = inUseSites.Count(), freeSites = freeSites, inUseSites = inUseSites});
+        }
+
         public async Task<HttpResponseMessage> GetPublishingProfile()
         {
             var siteManager = await SiteManager.GetInstanceAsync();
@@ -47,7 +57,10 @@ namespace SimpleWAWS.Controllers
             try
             {
                 var siteManager = await SiteManager.GetInstanceAsync();
-                await siteManager.DeleteSite(HttpContext.Current.User.Identity.Name);
+                if (siteManager.GetSite(HttpContext.Current.User.Identity.Name) != null)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.ServiceUnavailable, "Can't have more than 1 free site at a time");
+                }
                 var site = 
                     await
                         siteManager.ActivateSiteAsync(template == null

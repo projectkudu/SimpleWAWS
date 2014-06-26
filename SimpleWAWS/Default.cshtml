@@ -30,7 +30,7 @@
             <!-- ko if: $root.selectedLanguage() === $data.language -->
             <div class="website-template-container">
                 <a href="#" data-bind="click: function(data, event) {data.select(event);}">
-                    <img src="Content/images/Large.png">
+                    <img data-bind="attr: {src: $data.icon_uri}" alt="" />
                     <div class="website-template-name" data-bind="text: $data.name"></div>
                 </a>
             </div>
@@ -42,8 +42,12 @@
             <a id="create-site" href="#" class="wa-button wa-button-primary">Create</a>
         </div>
         <div class="spinner">
-            <i id="loading" class="fa fa-spinner fa-spin" title="Please wait" style="display: none"></i>
+            <i id="loading" class="fa fa-spinner fa-spin" title="Please wait" style="display: none; margin-top: 10px"></i>
+            <i id="error-message" class="fa fa-warning" style="display: none; margin-top: 10px" data-bind="attr: {title: errorMessage}"></i>
         </div>
+        <!-- ko if: siteJson() !== undefined -->
+        <div class="ui-blocker"></div>
+        <!-- /ko -->
     </div>
     <div class="wa-content wa-content-4up wa-content-divided">
         <h2>2) Work with your web application</h2>
@@ -62,8 +66,9 @@
                 <a data-bind="attr: {href: '/api/site/getpublishingprofile'}" target="_blank"><img class="work-with-site-tools-img" src="Content/images/DownloadPublishing.png" /><div class="website-template-name">Download publishing profile</div></a>
             </div>
             <div class="work-with-site-tools">
-                <a data-bind="attr: {href: monacoUrl}"target="_blank"><img class="work-with-site-tools-img" src="Content/images/delete.png" /><div class="website-template-name">Delete the site</div></a>
+                <a data-bind="click: function(data, event) {$root.deleteSite(event);}" href="#"><img class="work-with-site-tools-img" src="Content/images/delete.png" /><div class="website-template-name">Delete the site</div></a>
             </div>
+            <div style="margin-top: 60px">Your free site will expire in : <span class="countdown" data-bind="text: siteJson().timeLeftString"></span></div>
         </div>
         <!-- /ko -->
         <!-- ko if: siteJson() === undefined -->
@@ -82,6 +87,7 @@
             </div>
             <!--<pre data-bind="text: ko.toJSON(siteJson, null, 2)" style="display: block; width: 90%"></pre>-->
         </div>
+        <div class="ui-blocker"></div>
         <!-- /ko -->
     </div>
 
@@ -92,6 +98,15 @@
         <a href="http://azure.microsoft.com/en-us/pricing/free-trial/" class="wa-button wa-button-primary">Free trial</a>
     </div>
 </section>
-
+<div id="site-expired" style="display: none">
+    <div class="full-site-blocker"></div>
+    <div class="site-expired-notification-blade">
+        <div class="site-expired-notification">
+            <h2 style="color: white; margin-bottom: 90px">Your site has expired. You can try creating another site or signup for a free 30-day trial account.</h2>
+            <a id="dismiss-site-expire" href="#" class="wa-button wa-button-slate">Dismiss</a> 
+            <a href="http://azure.microsoft.com/en-us/pricing/free-trial/" class="wa-button wa-button-primary">Free trial</a>
+        </div>
+    </div>
+</div>
 <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/knockout/knockout-3.0.0.js"></script>
 <script type="text/javascript" src="/Scripts/site.js"></script>

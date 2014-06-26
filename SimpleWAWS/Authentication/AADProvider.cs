@@ -32,7 +32,8 @@ namespace SimpleWAWS.Authentication
             }
             else
             {
-                context.Response.StatusCode = 403; //Forbidden
+                context.Response.RedirectLocation = ConfigurationManager.AppSettings["LoginErrorPage"];
+                context.Response.StatusCode = 302; //Forbidden
             }
             context.Response.End();
         }

@@ -20,6 +20,16 @@ namespace SimpleWAWS.Code
             }
         }
 
+        internal static string ImagesFolder
+        {
+            get
+            {
+                var folder = HostingEnvironment.MapPath(@"~/Content/images/packages");
+                Directory.CreateDirectory(folder);
+                return folder;
+            }
+        }
+
         private static IEnumerable<Template> _templatesList;
 
         static TemplatesManager()
@@ -32,11 +42,13 @@ namespace SimpleWAWS.Code
                 {
                     foreach (var template in Directory.GetFiles(languagePath))
                     {
+                        var iconUri = Path.Combine(ImagesFolder, string.Format("{0}.png", Path.GetFileNameWithoutExtension(template)));
                         list.Add(new Template
                         {
                             Name = Path.GetFileNameWithoutExtension(template),
                             FileName = Path.GetFileName(template),
-                            Language = Path.GetFileName(languagePath)
+                            Language = Path.GetFileName(languagePath),
+                            IconUrl = File.Exists(iconUri) ? new Uri(string.Format("/Content/images/packages/{0}.png", Uri.EscapeDataString(Path.GetFileNameWithoutExtension(template))), UriKind.Relative) : new Uri("/Content/images/Large.png", UriKind.Relative)
                         });
                     }
                 }

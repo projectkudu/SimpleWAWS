@@ -16,5 +16,7 @@ namespace SimpleWAWS.Code
         public string FileName { get; set; }
         [JsonProperty("language")]
         public string Language { get; set; }
+        [JsonProperty("icon_uri")]
+        public Uri IconUrl { get; set; }
     }
 }

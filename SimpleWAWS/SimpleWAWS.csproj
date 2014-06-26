@@ -177,6 +177,16 @@
     <Content Include="Content\images\footer-sprite.png" />
     <Content Include="Content\images\icon-search.png" />
     <Content Include="Content\images\Large.png" />
+    <Content Include="Content\images\packages\Apache Tomcat.png" />
+    <Content Include="Content\images\packages\Blob Storage Replicator.png" />
+    <Content Include="Content\images\packages\BlogEngine.png" />
+    <Content Include="Content\images\packages\django.png" />
+    <Content Include="Content\images\packages\ExpressJs.png" />
+    <Content Include="Content\images\packages\Ghost Blog.png" />
+    <Content Include="Content\images\packages\Hello C#.png" />
+    <Content Include="Content\images\packages\Hello PHP.png" />
+    <Content Include="Content\images\packages\HTML.png" />
+    <Content Include="Content\images\packages\Node Starter.png" />
     <Content Include="Content\images\VSO.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -185,6 +195,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="App_Data\applicationHost.xdt" />
     <Content Include="Default.cshtml" />
+    <Content Include="Sorry.cshtml" />
     <None Include="Properties\PublishProfiles\trytrytry.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery.cookie.js" />

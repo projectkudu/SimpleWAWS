@@ -6,6 +6,7 @@ var Template = (function () {
         this.name = json.name;
         this.fileName = json.fileName;
         this.language = json.language;
+        this.icon_uri = json.icon_uri;
     }
     Template.prototype.select = function (event) {
         $(".website-template-container").removeClass("website-template-container-selected");
@@ -26,6 +27,7 @@ var viewModel;
 function initViewModel() {
     viewModel = this;
     viewModel.siteJson = ko.observable();
+    viewModel.errorMessage = ko.observable();
     viewModel.selectedLanguage = ko.observable();
     viewModel.selectedTemplate = ko.observable();
     viewModel.templates = ko.observableArray();
@@ -35,11 +37,14 @@ function initViewModel() {
         });
         return ko.utils.arrayGetDistinctValues(languages).sort();
     });
-    viewModel.selectLanguage = function (event) {
-        $(".languages .btn").removeClass("active");
-        $(event.target).addClass("active");
-        viewModel.selectedLanguage($(event.target).text());
-        $(".templates .btn").first().click();
+    viewModel.selectLanguage = function (e) {
+        if (typeof e === "string") {
+            viewModel.selectedLanguage(e);
+        } else if (e) {
+            viewModel.selectedLanguage($(e.target).text());
+        }
+        $(".website-template-container").removeClass("website-template-container-selected");
+        $(".website-template-container").first().addClass("website-template-container-selected");
     };
     ko.applyBindings(viewModel);
 }
@@ -52,21 +57,20 @@ function initTemplates() {
         }
     }).done(function () {
         if (viewModel.templates().length > 0) {
-            viewModel.selectedLanguage(viewModel.templates()[0].language);
+            viewModel.selectLanguage(viewModel.templates()[0].language);
         }
     });
 }
 
 function initSite() {
-    $("#loading").show();
-    $.getJSON("/api/site", function (data) {
-        if (data != null) {
-            viewModel.siteJson(data);
-            //startCountDown(viewModel.siteJson().timeLeftString);
-        } else {
-            viewModel.siteJson(undefined);
-        }
-        $("#loading").hide();
+    toggleSpinner();
+    $.ajax({
+        type: "GET",
+        url: "/api/site",
+        data: "",
+        contentType: "application/json; charset=utf-8",
+        success: handleGetSite,
+        error: handleGetSiteError
     });
 }
 
@@ -91,12 +95,14 @@ function countDown(minutes, seconds) {
             minutes--;
         } else if (seconds === -1 && minutes === 0) {
             //set to red
-            $(".site-info-valid").removeClass("site-info-valid").addClass("site-info-not-valid");
-            siteJson.url = "http://azure.microsoft.com/en-us/pricing/free-trial/";
-            siteJson.monacoUrl = "http://azure.microsoft.com/en-us/pricing/free-trial/";
-            siteJson.kuduConsoleWithCreds = "http://azure.microsoft.com/en-us/pricing/free-trial/";
-            siteJson.contentDownloadUrl = "http://azure.microsoft.com/en-us/pricing/free-trial/";
-            viewModel.siteJson(siteJson);
+            //$(".site-info-valid").removeClass("site-info-valid").addClass("site-info-not-valid");
+            //siteJson.url = "http://azure.microsoft.com/en-us/pricing/free-trial/";
+            //siteJson.monacoUrl = "http://azure.microsoft.com/en-us/pricing/free-trial/";
+            //siteJson.kuduConsoleWithCreds = "http://azure.microsoft.com/en-us/pricing/free-trial/";
+            //siteJson.contentDownloadUrl = "http://azure.microsoft.com/en-us/pricing/free-trial/";
+            //viewModel.siteJson(siteJson);
+            viewModel.siteJson(undefined);
+            $("#site-expired").show();
             return;
         } else if (minutes === 0 && !$(".countdown").hasClass("site-info-not-valid")) {
             $(".countdown").addClass("site-info-not-valid");
@@ -108,30 +114,69 @@ function countDown(minutes, seconds) {
     }
 }
 
-//get spinner into typescript
+function deleteSite(event) {
+    event.preventDefault();
+    $.ajax({
+        type: "DELETE",
+        url: "/api/site"
+    });
+    viewModel.siteJson(undefined);
+}
+
+function toggleSpinner() {
+    $("#error-message").hide();
+    if ($("#loading").is(":visible")) {
+        $("#loading").hide();
+    } else {
+        $("#loading").show();
+    }
+}
+
+function handleGetSite(data) {
+    toggleSpinner();
+    if (data != null) {
+    viewModel.siteJson(data);
+    startCountDown(viewModel.siteJson().timeLeftString);
+    } else {
+        viewModel.siteJson(undefined);
+    }
+}
+
+function handleGetSiteError(xhr, error, errorThrown) {
+    toggleSpinner();
+    if (xhr.responseText) {
+        var serverError = JSON.parse(xhr.responseText);
+        viewModel.errorMessage(serverError.ExceptionMessage ? serverError.ExceptionMessage : serverError.Message);
+    } else {
+        viewModel.errorMessage("There was an error");
+    }
+    $("#error-message").show();
+}
+
 window.onload = function () {
     initViewModel();
     initTemplates();
     initSite();
     $("#create-site").click(function (e) {
         e.preventDefault();
-        $("#loading").show();
+        //$("#loading").show();
+        toggleSpinner();
         $.ajax({
             type: "POST",
             url: "/api/site",
             data: JSON.stringify(viewModel.selectedTemplate()),
             contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                viewModel.siteJson(data);
-
-                //startCountDown(viewModel.siteJson().timeLeftString);
-                $("#loading").hide();
-            }
+            success: handleGetSite,
+            error: handleGetSiteError
         });
     });
-    $('select').on('change', function (e) {
+    $("select").on("change", function (e) {
         var optionSelected = $("option:selected", this);
         var valueSelected = this.value;
-        viewModel.selectedLanguage(valueSelected);
+        viewModel.selectLanguage(valueSelected);
+    });
+    $("#dismiss-site-expire").click(function (e) {
+        e.preventDefault();
+        $("#site-expired").hide();
     });
 };
