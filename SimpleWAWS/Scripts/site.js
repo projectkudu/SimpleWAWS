@@ -44,10 +44,7 @@ function initViewModel() {
         } else if (e) {
             viewModel.selectedLanguage($(e.target).text());
         }
-        //        $(".website-template-container").removeClass("website-template-container-selected");
-        setTimeout(function () {
-            $(".select-template-anchor").first().click();
-        }, 10);
+        $(".select-template-anchor").first().click();
     };
     ko.applyBindings(viewModel);
 }
