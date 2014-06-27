@@ -190,6 +190,7 @@ namespace SimpleWAWS.Code
                     else
                     {
                         await site.MarkAsInUseAsync(userId);
+                        site.FireAndForget();
                     }
                     return site;
                 }

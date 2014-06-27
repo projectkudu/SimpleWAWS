@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Cache;
 using System.Net.Http;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -244,6 +245,26 @@ namespace SimpleWAWS.Code
             stringBuilder.Append("</publishData>");
 
             return Task.FromResult(new StreamContent(stringBuilder.ToString().ToStream()));
+        }
+
+        public void FireAndForget()
+        {
+            try
+            {
+                var httpHeaders = "GET / HTTP/1.0\r\n" +
+                "Host: " + this._webSite.HostNames[0] + "\r\n" +
+                "\r\n";
+                using (var tcpClient = new TcpClient(this._webSite.HostNames[0], 80))
+                {
+                    tcpClient.Client.Send(Encoding.ASCII.GetBytes(httpHeaders));
+                    tcpClient.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                //log and ignore any tcp exceptions
+                Trace.TraceWarning(ex.ToString());
+            }
         }
     }
 }
