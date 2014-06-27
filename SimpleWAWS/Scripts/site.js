@@ -1,7 +1,4 @@
-﻿var wawsSiteCookie = "WAWSSiteId";
-var idCookieValue = "Id";
-
-var Template = (function () {
+﻿var Template = (function () {
     function Template(json) {
         this.name = json.name;
         this.fileName = json.fileName;
