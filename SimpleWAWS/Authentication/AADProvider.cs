@@ -133,7 +133,7 @@ namespace SimpleWAWS.Authentication
 
         private bool ValidDateTimeSessionCookie(DateTime date)
         {
-            return date < DateTime.UtcNow.Add(Constants.SessionCookieValidTimeSpan);
+            return date.Add(Constants.SessionCookieValidTimeSpan) > DateTime.UtcNow;
         }
     }
 }
