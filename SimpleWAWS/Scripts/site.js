@@ -57,10 +57,21 @@ function initTemplates() {
             viewModel.templates.push(new Template(data[i]));
         }
     }).done(function () {
+        viewModel.templates.sort(helloSort);
         if (viewModel.templates().length > 0) {
             viewModel.selectLanguage(getCorrectDefaultLanguage(viewModel.templates()));
         }
     });
+}
+
+function helloSort(a, b) {
+    if (a.name.toUpperCase().indexOf("HELLO") !== -1) {
+        return -1;
+    } else if (b.name.toUpperCase().indexOf("HELLO") !== -1) {
+        return 1;
+    } else {
+        return a.name.localeCompare(b.name);
+    }
 }
 
 function getCorrectDefaultLanguage(templates) {
