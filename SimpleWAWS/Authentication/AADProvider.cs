@@ -100,7 +100,7 @@ namespace SimpleWAWS.Authentication
             builder.AppendFormat("&client_id={0}", ConfigurationManager.AppSettings[Constants.AADAppId]);
             builder.AppendFormat("&response_mode=query");
             builder.AppendFormat("&nonce={0}", Guid.NewGuid());
-            builder.AppendFormat("&state={0}", WebUtility.UrlEncode("/"));
+            builder.AppendFormat("&state={0}", context.Request.Url.PathAndQuery);
             return builder.ToString();
         }
 

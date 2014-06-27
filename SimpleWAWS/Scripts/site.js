@@ -58,9 +58,26 @@ function initTemplates() {
         }
     }).done(function () {
         if (viewModel.templates().length > 0) {
-            viewModel.selectLanguage(viewModel.templates()[0].language);
+            viewModel.selectLanguage(getCorrectDefaultLanguage(viewModel.templates()));
         }
     });
+}
+
+function getCorrectDefaultLanguage(templates) {
+    var regex = new RegExp("[\\?&]language=([^&#]*)"),
+            results = regex.exec(location.search);
+    result = results === null ? null : decodeURIComponent(results[1].replace(/\+/g, " "));
+    if (result === null) {
+        return templates[0].language;
+    } else {
+        result = result.toUpperCase();
+        for (var i = 0; i < templates.length; i++) {
+            if (templates[i].language.toUpperCase() === result) {
+                return templates[i].language;
+            }
+        }
+        return templates[0].language
+    }
 }
 
 function initSite() {
