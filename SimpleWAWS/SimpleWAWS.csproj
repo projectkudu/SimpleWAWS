@@ -183,6 +183,7 @@
     <Content Include="Content\images\packages\django.png" />
     <Content Include="Content\images\packages\ExpressJs.png" />
     <Content Include="Content\images\packages\Ghost Blog.png" />
+    <Content Include="Content\images\git.png" />
     <Content Include="Content\images\packages\Hello C#.png" />
     <Content Include="Content\images\packages\Hello PHP.png" />
     <Content Include="Content\images\packages\HTML.png" />
