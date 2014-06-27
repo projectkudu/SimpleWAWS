@@ -68,12 +68,11 @@
                 <a data-bind="attr: {href: '/api/site/getpublishingprofile'}" target="_blank"><img class="work-with-site-tools-img" src="Content/images/DownloadPublishing.png" /><div class="website-template-name">Download publishing profile</div></a>
             </div>
             <div class="work-with-site-tools">
-                <a data-bind="click: function(data, event) {$root.deleteSite(event);}" href="#"><img class="work-with-site-tools-img" src="Content/images/delete.png" /><div class="website-template-name">Delete the site</div></a>
-            </div>
-            <div class="work-with-site-tools-git" style="margin: inherit">
                 <img class="work-with-site-tools-img" src="Content/images/git.png" />
-                <pre class="prettyprint prettyprinted" style="display: inline-block"><span class="pln" data-bind="text: gitUrlWithCreds"> </span></pre>
-                <!--<input type="text" readonly="readonly" onclick="this.select();" value="">-->
+                <input type="text" readonly="readonly" onclick="this.select();" style="margin-left: -20px; margin-top: 8px; height: 20px; border: 2px inset" data-bind="value: gitUrlWithCreds">
+            </div>
+            <div class="work-with-site-tools">
+                <a data-bind="click: function(data, event) {$root.deleteSite(event);}" href="#"><img class="work-with-site-tools-img" src="Content/images/delete.png" /><div class="website-template-name">Delete the site</div></a>
             </div>
             <div style="margin-top: 60px">Your free site will expire in : <span class="countdown" data-bind="text: timeLeft"></span></div>
         </div>
@@ -90,11 +89,10 @@
                 <a><img class="work-with-site-tools-img" src="Content/images/DownloadPublishing.png" /><div class="website-template-name">Download publishing profile</div></a>
             </div>
             <div class="work-with-site-tools">
-                <a><img class="work-with-site-tools-img" src="Content/images/delete.png" /><div class="website-template-name">Delete the site</div></a>
-            </div>
-            <!--<pre data-bind="text: ko.toJSON(siteJson, null, 2)" style="display: block; width: 90%"></pre>-->
-            <div class="work-with-site-tools-git" style="margin: inherit">
                 <img class="work-with-site-tools-img" src="Content/images/git.png" />
+            </div>
+            <div class="work-with-site-tools">
+                <a><img class="work-with-site-tools-img" src="Content/images/delete.png" /><div class="website-template-name">Delete the site</div></a>
             </div>
         </div>
         <div class="ui-blocker"></div>
