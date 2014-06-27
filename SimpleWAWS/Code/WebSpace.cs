@@ -163,8 +163,22 @@ namespace SimpleWAWS.Code
         public async Task DeleteAndCreateReplacementAsync(Site site)
         {
             // Delete the site, and create a new one to replace it
-            await DeleteAsync(site);
-            await EnsureCorrectSiteCountAsync();
+            // Make sure that deleting a site doesn't throw any errors. 
+            // a site might be in a bad state that might cause deleting to fail
+            await SafeGuard(async () => await DeleteAsync(site));
+            await SafeGuard(async () => await EnsureCorrectSiteCountAsync());
+        }
+
+        private async Task SafeGuard(Func<Task> action)
+        {
+            try
+            {
+                await action();
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError(e.ToString());
+            }
         }
 
         public async Task DeleteAsync(Site site)

@@ -166,9 +166,9 @@ namespace SimpleWAWS.Code
 
         public async Task<Site> ActivateSiteAsync(Template template, string userId)
         {
+            Site site = null;
             try
             {
-                Site site;
                 if (_freeSites.TryDequeue(out site))
                 {
                     Trace.TraceInformation("Site {0} is now in use", site.Name);
@@ -179,7 +179,6 @@ namespace SimpleWAWS.Code
                         Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.GetFullPath());
                         var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials);
                         Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
-
                         await Task.WhenAll(zipUpload, deleteHostingStart);
                     }
                     if (!_sitesInUse.TryAdd(userId, site))
@@ -199,10 +198,16 @@ namespace SimpleWAWS.Code
                     throw new Exception("No free sites are available, try again later");
                 }
             }
-            catch (InvalidOperationException ioe)
+            catch (Exception e)
             {
-                throw new Exception("No free sites are available, try again later", ioe);
+                Trace.TraceError(e.ToString());
             }
+            //if we are here that means a bad exception happened above, but we might leak a site if we don't remove the site and replace it correctly.
+            if (site != null)
+            {
+                await site.DeleteAndCreateReplacementAsync();
+            }
+            throw new Exception("No free sites are available, try again later");
         }
 
         public Site GetSite(string userId)
