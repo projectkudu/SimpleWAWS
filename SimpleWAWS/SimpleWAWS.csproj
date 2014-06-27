@@ -168,7 +168,6 @@
     <Compile Include="Code\WebSpace.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap.css" />
     <Content Include="Content\images\azure-logo.png" />
     <Content Include="Content\images\delete.png" />
     <Content Include="Content\images\DownloadPublishing.png" />
@@ -192,17 +191,11 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="App_Data\applicationHost.xdt" />
     <Content Include="Default.cshtml" />
     <Content Include="Sorry.cshtml" />
     <None Include="Properties\PublishProfiles\trytrytry.pubxml" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery.cookie.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\site.js" />
-    <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
