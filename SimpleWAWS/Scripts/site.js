@@ -81,27 +81,25 @@ function startCountDown(init) {
         var reg = '(\\d+)(m)?(:)(\\d+)(s)?';
         var pattern = new RegExp(reg, "i");
         var match = pattern.exec(init);
-        countDown(parseInt(match[1]), parseInt(match[4]));
+        var expireDateTime = new Date();
+        expireDateTime.setMinutes(expireDateTime.getMinutes() + parseInt(match[1]));
+        expireDateTime.setSeconds(expireDateTime.getSeconds() + parseInt(match[4]));
+        countDown(expireDateTime);
     }
 }
 
-function countDown(minutes, seconds) {
-    if ( viewModel.siteJson() != undefined) {
-        viewModel.timeLeft(minutes + "m:" + ("0" + seconds).slice(-2) + "s");
-        seconds--;
-        if (seconds === -1 && minutes !== 0) {
-            seconds = 59;
-            minutes--;
-        } else if (seconds === -1 && minutes === 0) {
+function countDown(expireDateTime) {
+    if (viewModel.siteJson() != undefined) {
+        var now = new Date();
+        var diff = expireDateTime - now;
+        if (diff <= 0) {
+            viewModel.timeLeft("00m:00s");
             $("#site-expired").show();
             return;
-        } else if (minutes === 0 && !$(".countdown").hasClass("site-info-not-valid")) {
-            $(".countdown").addClass("site-info-not-valid");
         }
-        if (minutes === 0 && seconds <= 10 && !$(".countdown").hasClass("slow")) {
-            $(".countdown").addClass("slow");
-        }
-        currentTimeout = setTimeout(countDown, 1000, minutes, seconds);
+        diff = diff / 1000;
+        viewModel.timeLeft(("0" +Math.floor(diff/60)).slice(-2) + "m:" + ("0" + Math.floor(diff%60)).slice(-2) + "s");
+        currentTimeout = setTimeout(countDown, 1000, expireDateTime);
     }
 }
 
@@ -181,7 +179,7 @@ window.onload = function () {
     });
     $("#dismiss-site-expire").click(function (e) {
         e.preventDefault();
-        $("#site-expired").hide();
         deleteSite();
+        $("#site-expired").hide();
     });
 };
