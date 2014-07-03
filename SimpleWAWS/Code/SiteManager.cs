@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Kudu.Client.Editor;
 using Kudu.Client.Zip;
+using Microsoft.ApplicationInsights.Telemetry.Services;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Management.WebSites;
 
@@ -184,6 +185,7 @@ namespace SimpleWAWS.Code
                     if (!_sitesInUse.TryAdd(userId, site))
                     {
                         await site.DeleteAndCreateReplacementAsync();
+                        ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.UserErrors.MoreThanOneWebsite);
                         throw new Exception("Can't have more than 1 free site at a time");
                     }
                     else
@@ -195,12 +197,22 @@ namespace SimpleWAWS.Code
                 }
                 else
                 {
+                    ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.ServerErrors.NoFreeSites);
                     throw new Exception("No free sites are available, try again later");
                 }
             }
             catch (Exception e)
             {
+                ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.ServerErrors.GeneralException,
+                    new Dictionary<string, object> {{"ExMessage", e.Message}});
                 Trace.TraceError(e.ToString());
+            }
+            finally
+            {
+                ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.ServerStatistics.NumberOfFreeSites,
+                    new Dictionary<string, object> {{"Number", _freeSites.Count}});
+                ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.ServerStatistics.NumberOfUsedSites,
+                    new Dictionary<string, object> { { "Number", _sitesInUse.Count } });
             }
             //if we are here that means a bad exception happened above, but we might leak a site if we don't remove the site and replace it correctly.
             if (site != null)

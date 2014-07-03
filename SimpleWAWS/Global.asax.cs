@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Routing;
+using Microsoft.ApplicationInsights.Telemetry.Services;
 using SimpleWAWS.Authentication;
 using SimpleWAWS.Code;
 
@@ -35,6 +36,13 @@ namespace SimpleWAWS
 
             //Register auth provider
             SecurityManager.SetAuthProvider(new AADProvider());
+            ServerAnalytics.Start(ConfigurationManager.AppSettings["AppInsightsId"]);
+        }
+
+        protected void Application_BeginRequest(object sender, EventArgs e)
+        {
+            ServerAnalytics.BeginRequest();
+            ServerAnalytics.CurrentRequest.LogEvent(Request.Url.AbsolutePath);
         }
 
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
@@ -49,6 +57,7 @@ namespace SimpleWAWS
             {
                 SecurityManager.AuthenticateRequest(Context);
             }
+            ServerAnalytics.CurrentRequest.AppUserId = Context.User.Identity.Name;
         }
 
         protected void Application_Error(object sender, EventArgs e)

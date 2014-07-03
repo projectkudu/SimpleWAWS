@@ -39,6 +39,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.ApplicationInsights">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.0.8.0-build10578\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights.Platform">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.0.8.0-build10578\lib\net45\Microsoft.ApplicationInsights.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights.Telemetry.Services, Version=0.7.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Telemetry.Services.0.7.1.0\lib\net35\Microsoft.ApplicationInsights.Telemetry.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights.Telemetry.Web, Version=0.7.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Telemetry.Services.0.7.1.0\lib\net35\Microsoft.ApplicationInsights.Telemetry.Web.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Threading.Tasks">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.165\lib\net45\Microsoft.Threading.Tasks.dll</HintPath>
@@ -144,6 +158,7 @@
     <Compile Include="Authentication\IAuthProvider.cs" />
     <Compile Include="Authentication\OpenIdConfiguration.cs" />
     <Compile Include="Authentication\SecurityManager.cs" />
+    <Compile Include="Code\AppInsightsEvents.cs" />
     <Compile Include="Code\Extensions.cs" />
     <Compile Include="Code\SimpleIdentity.cs" />
     <Compile Include="Code\SimplePrincipal.cs" />
@@ -194,6 +209,7 @@
     <Content Include="App_Data\applicationHost.xdt" />
     <Content Include="Default.cshtml" />
     <Content Include="Sorry.cshtml" />
+    <Content Include="ApplicationInsights.config" />
     <None Include="Properties\PublishProfiles\trytrytry.pubxml" />
     <Content Include="Scripts\site.js" />
     <Content Include="Web.config">

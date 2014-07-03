@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Http;
+using Microsoft.ApplicationInsights.Telemetry.Services;
 using Newtonsoft.Json;
 using SimpleWAWS.Code;
 
@@ -42,6 +43,7 @@ namespace SimpleWAWS.Controllers
 
         public async Task<HttpResponseMessage> GetPublishingProfile()
         {
+            ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.UserActions.DownloadPublishingProfile);
             var siteManager = await SiteManager.GetInstanceAsync();
             var response = Request.CreateResponse();
             var site = siteManager.GetSite(HttpContext.Current.User.Identity.Name);
@@ -54,32 +56,44 @@ namespace SimpleWAWS.Controllers
 
         public async Task<HttpResponseMessage> CreateSite(Template template)
         {
+            var createSiteEvent =
+                ServerAnalytics.CurrentRequest.StartTimedEvent(AppInsightsEvents.UserActions.CreateWebsite,
+                    new Dictionary<string, object> {{"Template", template.Name}, {"Language", template.Language}});
             try
             {
                 var siteManager = await SiteManager.GetInstanceAsync();
                 if (siteManager.GetSite(HttpContext.Current.User.Identity.Name) != null)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.ServiceUnavailable, "Can't have more than 1 free site at a time");
+                    ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.UserErrors.MoreThanOneWebsite);
+                    return Request.CreateErrorResponse(HttpStatusCode.ServiceUnavailable,
+                        "Can't have more than 1 free site at a time");
                 }
-                var site = 
+                var site =
                     await
                         siteManager.ActivateSiteAsync(template == null
                             ? null
                             : TemplatesManager.GetTemplates()
                                 .SingleOrDefault(t => t.Name == template.Name && t.Language == template.Language),
-                                HttpContext.Current.User.Identity.Name);
+                            HttpContext.Current.User.Identity.Name);
                 return Request.CreateResponse(HttpStatusCode.OK, site);
             }
             catch (Exception ex)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.ServiceUnavailable, ex.Message);
             }
+            finally
+            {
+                createSiteEvent.End();
+            }
         }
 
         public async Task<HttpResponseMessage> DeleteSite()
         {
+            var deleteSiteEvent =
+                ServerAnalytics.CurrentRequest.StartTimedEvent(AppInsightsEvents.UserActions.DeleteWebsite);
             var siteManager = await SiteManager.GetInstanceAsync();
             await siteManager.DeleteSite(HttpContext.Current.User.Identity.Name);
+            deleteSiteEvent.End();
             return Request.CreateResponse(HttpStatusCode.Accepted);
         }
     }
