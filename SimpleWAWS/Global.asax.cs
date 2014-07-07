@@ -56,8 +56,8 @@ namespace SimpleWAWS
                 StringComparison.InvariantCultureIgnoreCase))
             {
                 SecurityManager.AuthenticateRequest(Context);
+                ServerAnalytics.CurrentRequest.AppUserId = Context.User.Identity.Name;
             }
-            ServerAnalytics.CurrentRequest.AppUserId = Context.User.Identity.Name;
         }
 
         protected void Application_Error(object sender, EventArgs e)

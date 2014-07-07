@@ -29,6 +29,7 @@ namespace SimpleWAWS.Code
         private readonly ConcurrentDictionary<string, Site> _sitesInUse = new ConcurrentDictionary<string, Site>();
 
         private Timer _timer;
+        private int _logCounter = 0;
         private readonly JobHost _jobHost = new JobHost();
 
         private static SiteManager _instance;
@@ -122,7 +123,17 @@ namespace SimpleWAWS.Code
 
         private void OnTimerElapsed(object state)
         {
-            _jobHost.DoWork(() => { MaintainSiteLists().Wait(); });
+            _jobHost.DoWork(() =>
+            {
+                MaintainSiteLists().Wait();
+                _logCounter++;
+                if (_logCounter % 5 == 0)
+                {
+                    //log only every 5 minutes
+                    LogQueueStatistics();
+                    _logCounter = 0;
+                }
+            });
         }
 
         public void OnSiteCreated(Site site)
@@ -209,10 +220,7 @@ namespace SimpleWAWS.Code
             }
             finally
             {
-                ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.ServerStatistics.NumberOfFreeSites,
-                    new Dictionary<string, object> {{"Number", _freeSites.Count}});
-                ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.ServerStatistics.NumberOfUsedSites,
-                    new Dictionary<string, object> { { "Number", _sitesInUse.Count } });
+                LogQueueStatistics();
             }
             //if we are here that means a bad exception happened above, but we might leak a site if we don't remove the site and replace it correctly.
             if (site != null)
@@ -267,6 +275,14 @@ namespace SimpleWAWS.Code
         public IEnumerable<Site> GetAllInUseSites()
         {
             return _sitesInUse.ToList().Select(s => s.Value);
+        }
+
+        private void LogQueueStatistics()
+        {
+            ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.ServerStatistics.NumberOfFreeSites,
+                    new Dictionary<string, object> { { "Number", _freeSites.Count } });
+            ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.ServerStatistics.NumberOfUsedSites,
+                new Dictionary<string, object> { { "Number", _sitesInUse.Count } });
         }
     }
 
