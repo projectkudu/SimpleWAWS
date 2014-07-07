@@ -181,6 +181,27 @@ function handleGetSiteError(xhr, error, errorThrown) {
     $("#error-message").show();
 }
 
+function freeTrialClick(event) {
+    if (appInsights) {
+        appInsights.logEvent(
+        "UserActions/FreeTrial",
+        { source: $(event.target).closest("a").id }
+    );
+    }
+}
+
+function checkForEnterKey(event, searchBoxId) {
+    if (event.keyCode === 13 /*Enter key*/) {
+        doSearch(searchBoxId);
+    }
+}
+
+function doSearch(searchBoxId) {
+    var baseUrl = "http://azure.microsoft.com/en-us/searchresults/?query=";
+    var searchItems = encodeURIComponent($("#" + searchBoxId).val());
+    window.location.href = baseUrl + searchItems;
+}
+
 window.onload = function () {
     initViewModel();
     initTemplates();

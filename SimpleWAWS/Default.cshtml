@@ -53,30 +53,32 @@
     </div>
     <div id="work-with-your-site" class="wa-content wa-content-4up wa-content-divided">
         <h2>2) Work with your web application</h2>
-        <!-- ko if: siteJson() !== undefined -->
-        <div data-bind="with: siteJson">
-            <h3 data-bind="if: url !== undefined, visible: true" style="display: none">
-                Your site has been created at <a data-bind="attr: {href: url}, text: url" target="_blank"></a>
-            </h3>
-            <div class="work-with-site-tools">
-                <a data-bind="attr: {href: monacoUrl}" target="_blank"><img class="work-with-site-tools-img" src="Content/images/VSO.png" /><div class="website-template-name">Edit with Visual Studio Online</div></a>
+        <div data-bind="visible: true" style="display: none">
+            <!-- ko if: siteJson() !== undefined -->
+            <div data-bind="with: siteJson">
+                <h3 data-bind="if: url !== undefined, visible: true" style="display: none">
+                    Your site has been created at <a data-bind="attr: {href: url}, text: url" target="_blank"></a>
+                </h3>
+                <div class="work-with-site-tools">
+                    <a data-bind="attr: {href: monacoUrl}" target="_blank"><img class="work-with-site-tools-img" src="Content/images/VSO.png" /><div class="website-template-name">Edit with Visual Studio Online</div></a>
+                </div>
+                <div class="work-with-site-tools">
+                    <a data-bind="attr: {href: contentDownloadUrl}" target="_blank"><img class="work-with-site-tools-img" src="Content/images/DownloadSite.png" /><div class="website-template-name">Download site content</div></a>
+                </div>
+                <div class="work-with-site-tools">
+                    <a data-bind="attr: {href: '/api/site/getpublishingprofile'}" target="_blank"><img class="work-with-site-tools-img" src="Content/images/DownloadPublishing.png" /><div class="website-template-name">Download publishing profile</div></a>
+                </div>
+                <div class="work-with-site-tools">
+                    <img class="work-with-site-tools-img" src="Content/images/git.png" />
+                    <input type="text" readonly="readonly" onclick="this.select();" style="margin-left: -20px; margin-top: 8px; height: 20px; border: 2px inset" data-bind="value: gitUrlWithCreds">
+                </div>
+                <div class="work-with-site-tools">
+                    <a data-bind="click: function(data, event) {$root.deleteSite(event);}" href="#"><img class="work-with-site-tools-img" src="Content/images/delete.png" /><div class="website-template-name">Delete the site</div></a>
+                </div>
+                <div style="margin-top: 60px">Your free site will expire in : <span class="countdown" data-bind="text: timeLeft"></span></div>
             </div>
-            <div class="work-with-site-tools">
-                <a data-bind="attr: {href: contentDownloadUrl}" target="_blank"><img class="work-with-site-tools-img" src="Content/images/DownloadSite.png" /><div class="website-template-name">Download site content</div></a>
-            </div>
-            <div class="work-with-site-tools">
-                <a data-bind="attr: {href: '/api/site/getpublishingprofile'}" target="_blank"><img class="work-with-site-tools-img" src="Content/images/DownloadPublishing.png" /><div class="website-template-name">Download publishing profile</div></a>
-            </div>
-            <div class="work-with-site-tools">
-                <img class="work-with-site-tools-img" src="Content/images/git.png" />
-                <input type="text" readonly="readonly" onclick="this.select();" style="margin-left: -20px; margin-top: 8px; height: 20px; border: 2px inset" data-bind="value: gitUrlWithCreds">
-            </div>
-            <div class="work-with-site-tools">
-                <a data-bind="click: function(data, event) {$root.deleteSite(event);}" href="#"><img class="work-with-site-tools-img" src="Content/images/delete.png" /><div class="website-template-name">Delete the site</div></a>
-            </div>
-            <div style="margin-top: 60px">Your free site will expire in : <span class="countdown" data-bind="text: timeLeft"></span></div>
+            <!-- /ko -->
         </div>
-        <!-- /ko -->
         <!-- ko if: siteJson() === undefined -->
         <div>
             <div class="work-with-site-tools">
@@ -103,7 +105,7 @@
         <h2>3) Get more for free</h2>
         <h3 style="font-size: 23px;">Create your own website. Sign up for a free 30-day trial and create up to 10 websites for free.</h3>
         <br />
-        <a href="http://azure.microsoft.com/en-us/pricing/free-trial/" class="wa-button wa-button-primary">Free trial</a>
+        <a href="http://azure.microsoft.com/en-us/pricing/free-trial/" target="_blank" id="free-trial-step" onclick="freeTrialClick(event);" class="wa-button wa-button-primary">Free trial</a>
     </div>
 </section>
 <div id="site-expired" style="display: none">
@@ -112,7 +114,7 @@
         <div class="site-expired-notification">
             <h2 style="color: white; margin-bottom: 90px">Your site has expired. You can try creating another site or signup for a free 30-day trial account.</h2>
             <a id="dismiss-site-expire" href="#" class="wa-button wa-button-slate">Dismiss</a> 
-            <a href="http://azure.microsoft.com/en-us/pricing/free-trial/" class="wa-button wa-button-primary">Free trial</a>
+            <a href="http://azure.microsoft.com/en-us/pricing/free-trial/" id="free-trial-dismiss" target="_blank" onclick="freeTrialClick(event);" class="wa-button wa-button-primary">Free trial</a>
         </div>
     </div>
 </div>
