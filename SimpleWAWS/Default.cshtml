@@ -30,7 +30,7 @@
             <!-- ko if: $root.selectedLanguage() === $data.language -->
             <div class="website-template-container">
                 <a class="select-template-anchor" href="#" data-bind="click: function(data, event) {data.select(event);}">
-                    <img data-bind="attr: {src: $data.icon_uri}" alt="" />
+                    <img data-bind="attr: {src: $data.icon_uri}" alt="" style="width: 115px; height: 115px"/>
                     <div class="website-template-name" data-bind="text: $data.name"></div>
                 </a>
             </div>

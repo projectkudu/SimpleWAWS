@@ -185,7 +185,7 @@ function freeTrialClick(event) {
     if (appInsights) {
         appInsights.logEvent(
         "UserActions/FreeTrial",
-        { source: $(event.target).closest("a").id }
+        { source: $(event.target).closest("a").attr('id') }
     );
     }
 }

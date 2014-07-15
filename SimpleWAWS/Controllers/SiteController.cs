@@ -25,6 +25,7 @@ namespace SimpleWAWS.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, siteManager.GetSite(HttpContext.Current.User.Identity.Name));
         }
 
+        [HttpGet]
         public async Task<HttpResponseMessage> Reset()
         {
             var siteManager = await SiteManager.GetInstanceAsync();

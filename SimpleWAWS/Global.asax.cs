@@ -36,13 +36,6 @@ namespace SimpleWAWS
 
             //Register auth provider
             SecurityManager.SetAuthProvider(new AADProvider());
-            ServerAnalytics.Start(ConfigurationManager.AppSettings["AppInsightsId"]);
-        }
-
-        protected void Application_BeginRequest(object sender, EventArgs e)
-        {
-            ServerAnalytics.BeginRequest();
-            ServerAnalytics.CurrentRequest.LogEvent(Request.Url.AbsolutePath);
         }
 
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)

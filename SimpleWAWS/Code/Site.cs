@@ -62,7 +62,8 @@ namespace SimpleWAWS.Code
             // Turn on Monaco
             updateParams.AppSettings = new Dictionary<string, string> {
                 {"WEBSITE_NODE_DEFAULT_VERSION", "0.10.21"},
-                {"MONACO_EXTENSION_VERSION", "beta"}
+                {"MONACO_EXTENSION_VERSION", "beta"},
+                {"WEBSITE_TRY_MODE", "1"}
             };
 
             await _webSpace.UpdateConfigurationAsync(Name, updateParams);
@@ -222,8 +223,10 @@ namespace SimpleWAWS.Code
 
             var updateParams = Util.CreateWebSiteUpdateConfigurationParameters();
             _config.Metadata[UserIdMetadataKey] = userId;
+            _config.AppSettings["LAST_MODIFIED_TIME_UTC"] = DateTime.UtcNow.ToString();
+            _config.AppSettings["TRY_SITE_LIFE_TIME_MINUTES"] = 15.ToString();
             updateParams.Metadata = _config.Metadata;
-
+            updateParams.AppSettings = _config.AppSettings;
             await _webSpace.UpdateConfigurationAsync(Name, updateParams);
         }
 
