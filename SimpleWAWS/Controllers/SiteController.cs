@@ -70,9 +70,13 @@ namespace SimpleWAWS.Controllers
 
         public async Task<HttpResponseMessage> CreateSite(Template template)
         {
+            if (template == null)
+            {
+                template = Template.EmptySiteTemplate;
+            }
             var createSiteEvent =
                 ServerAnalytics.CurrentRequest.StartTimedEvent(AppInsightsEvents.UserActions.CreateWebsite,
-                    new Dictionary<string, object> {{"Template", template.Name}, {"Language", template.Language}});
+                    new Dictionary<string, object> { { "Template", template.Name }, { "Language", template.Language } });
             try
             {
                 var siteManager = await SiteManager.GetInstanceAsync();
@@ -86,9 +90,8 @@ namespace SimpleWAWS.Controllers
                 }
                 var site =
                     await
-                        siteManager.ActivateSiteAsync(template == null
-                            ? null
-                            : TemplatesManager.GetTemplates()
+                        siteManager.ActivateSiteAsync(
+                            TemplatesManager.GetTemplates()
                                 .SingleOrDefault(t => t.Name == template.Name && t.Language == template.Language),
                             HttpContext.Current.User.Identity.Name);
                 Trace.TraceInformation("##### User {0}, created site language {1}, template {2}", HttpContext.Current.User.Identity.Name, template.Language, template.Name);
@@ -96,7 +99,7 @@ namespace SimpleWAWS.Controllers
             }
             catch (Exception ex)
             {
-                Trace.TraceError("### User {0} got error {1}", HttpContext.Current.User.Identity.Name,ex.Message);
+                Trace.TraceError("### User {0} got error {1}", HttpContext.Current.User.Identity.Name, ex.Message);
                 return Request.CreateErrorResponse(HttpStatusCode.ServiceUnavailable, ex.Message);
             }
             finally

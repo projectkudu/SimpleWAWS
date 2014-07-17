@@ -21,5 +21,10 @@ namespace SimpleWAWS.Code
 
         [JsonProperty("icon_class")]
         public string IconClass { get; set; }
+
+        public static Template EmptySiteTemplate
+        {
+            get { return new Template() { Name = "Empty Site", Language = "Empty Site", IconClass = "sprite-Large" }; }
+        }
     }
 }

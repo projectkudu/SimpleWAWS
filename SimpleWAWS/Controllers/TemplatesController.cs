@@ -15,7 +15,7 @@ namespace SimpleWAWS.Controllers
         public IEnumerable<Template> Get()
         {
             var list = TemplatesManager.GetTemplates().ToList();
-            list.Add(new Template() { Name = "Empty Site", Language = "Empty Site", IconClass = "sprite-Large" });
+            list.Add(Template.EmptySiteTemplate);
             return list;
         }
     }
