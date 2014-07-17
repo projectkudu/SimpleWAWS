@@ -75,6 +75,7 @@ namespace SimpleWAWS.Code
             var credentials = new NetworkCredential(PublishingUserName, PublishingPassword);
             var vfsManager = new RemoteVfsManager(ScmUrl + "vfs/", credentials);
             await vfsManager.Put("site/applicationHost.xdt", HostingEnvironment.MapPath("~/App_Data/applicationHost.xdt"));
+            await vfsManager.Put("site/scmApp/web.config", HostingEnvironment.MapPath("~/App_Data/web.config.file"));
             var processManager = new ProcessManager(ScmUrl, credentials);
             await processManager.Kill();
 
@@ -168,7 +169,7 @@ namespace SimpleWAWS.Code
         {
             get
             {
-                return Url + "kudu/zip/site/wwwroot";
+                return Url + "scm/kudu/zip/site/wwwroot";
             }
         }
 

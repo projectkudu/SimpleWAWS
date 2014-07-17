@@ -5,10 +5,14 @@
       <site name="%XDT_SITENAME%" xdt:Locator="Match(name)">
         <application path="/Dev" xdt:Locator="Match(path)" xdt:Transform="Remove" />
         <application path="/Dev" xdt:Transform="Insert">
-          <virtualDirectory path="/" physicalPath="D:\Program Files (x86)\SiteExtensions\Monaco\1.0.0-20140606" />
+          <virtualDirectory path="/" physicalPath="D:\Program Files (x86)\SiteExtensions\Monaco\1.0.0-20140715" />
         </application>
-        <application path="/kudu" xdt:Locator="Match(path)" xdt:Transform="Remove" />
-        <application path="/kudu" xdt:Transform="Insert">
+        <application path="/scm" xdt:Locator="Match(path)" xdt:Transform="Remove" />
+        <application path="/scm" xdt:Transform="Insert">
+          <virtualDirectory path="/" physicalPath="D:\home\site\scmApp" />
+        </application>
+        <application path="/scm/kudu" xdt:Locator="Match(path)" xdt:Transform="Remove" />
+        <application path="/scm/kudu" xdt:Transform="Insert">
           <virtualDirectory path="/" physicalPath="D:\Program Files (x86)\SiteExtensions\Kudu\28.30713.1026" />
         </application>
       </site>
