@@ -28,13 +28,25 @@ namespace SimpleWAWS.Controllers
         [HttpGet]
         public async Task<HttpResponseMessage> Reset()
         {
+            SecurityManager.EnsureAdmin(HttpContext.Current);
             var siteManager = await SiteManager.GetInstanceAsync();
-            await siteManager.ResetAllFreeSites(HttpContext.Current.User.Identity.Name);
+            await siteManager.ResetAllFreeSites();
             return Request.CreateResponse(HttpStatusCode.Accepted);
         }
 
-        public async Task<HttpResponseMessage> GetAll()
+        [HttpGet]
+        public async Task<HttpResponseMessage> DropAndReloadFromAzure()
         {
+            SecurityManager.EnsureAdmin(HttpContext.Current);
+            var siteManager = await SiteManager.GetInstanceAsync();
+            await siteManager.DropAndReloadFromAzure();
+            return Request.CreateResponse(HttpStatusCode.Accepted);
+        }
+
+        [HttpGet]
+        public async Task<HttpResponseMessage> All()
+        {
+            SecurityManager.EnsureAdmin(HttpContext.Current);
             var siteManager = await SiteManager.GetInstanceAsync();
             var freeSites = siteManager.GetAllFreeSites();
             var inUseSites = siteManager.GetAllInUseSites();

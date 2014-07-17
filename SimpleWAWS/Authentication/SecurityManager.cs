@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Configuration;
+using System.Web;
 using SimpleWAWS.Authentication;
 
 namespace SimpleWAWS.Code
@@ -20,6 +21,15 @@ namespace SimpleWAWS.Code
         public static void HandleCallBack(HttpContext context)
         {
             _authProvider.HandleCallBack(context);
+        }
+
+        public static void EnsureAdmin(HttpContext context)
+        {
+            if (context.User.Identity.Name != ConfigurationManager.AppSettings["AdminUserId"])
+            {
+                context.Response.StatusCode = 403; //Forbidden
+                context.Response.End();
+            }
         }
     }
 }

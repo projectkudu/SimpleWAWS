@@ -201,7 +201,7 @@ namespace SimpleWAWS.Code
                     }
                     else
                     {
-                        await site.MarkAsInUseAsync(userId);
+                        await site.MarkAsInUseAsync(userId, SiteExpiryTime);
                         site.FireAndForget();
                     }
                     return site;
@@ -237,7 +237,7 @@ namespace SimpleWAWS.Code
             return site;
         }
 
-        public async Task ResetAllFreeSites(string userId)
+        public async Task ResetAllFreeSites()
         {
             var list = new List<Site>();
             while (!_freeSites.IsEmpty)
@@ -255,6 +255,17 @@ namespace SimpleWAWS.Code
             }));
         }
 
+        public async Task DropAndReloadFromAzure()
+        {
+            while (!_freeSites.IsEmpty)
+            {
+                Site temp;
+                _freeSites.TryDequeue(out temp);
+            }
+            _sitesInUse.Clear();
+            await LoadSiteListFromAzureAsync();
+        }
+
         public async Task DeleteSite(string userId)
         {
             Site site;
@@ -267,14 +278,14 @@ namespace SimpleWAWS.Code
             }
         }
 
-        public IEnumerable<Site> GetAllFreeSites()
+        public IReadOnlyCollection<Site> GetAllFreeSites()
         {
             return _freeSites.ToList();
         }
 
-        public IEnumerable<Site> GetAllInUseSites()
+        public IReadOnlyCollection<Site> GetAllInUseSites()
         {
-            return _sitesInUse.ToList().Select(s => s.Value);
+            return _sitesInUse.ToList().Select(s => s.Value).ToList();
         }
 
         private void LogQueueStatistics()
