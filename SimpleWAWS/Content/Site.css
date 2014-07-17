@@ -9021,3 +9021,12 @@ div.sprite-VSO{ background-position: 0 -1520px; width: 50px; height: 50px; }
 div.sprite-delete{ background-position: 0 -1620px; width: 50px; height: 50px; }
 div.sprite-django{ background-position: 0 -1720px; width: 115px; height: 115px; }
 div.sprite-git{ background-position: 0 -1885px; width: 50px; height: 50px; }
+
+#error-message-text {
+    font-size: large;
+    width: 700px;
+    display: inline-block;
+    position: absolute;
+    top: 15px;
+    left: 50px;
+}
