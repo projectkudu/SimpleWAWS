@@ -85,10 +85,6 @@ namespace SimpleWAWS.Code
         [JsonProperty("name")]
         public string Name { get { return _webSite.Name; } }
 
-        //[JsonProperty("id")]
-        // We use the password as an ID so users can't access other users's sites
-        //public string Id { get { return PublishingPassword; } }
-
         [JsonProperty("isSimpleWAWS")]
         public bool IsSimpleWAWS
         {
@@ -218,14 +214,14 @@ namespace SimpleWAWS.Code
             return _webSpace.DeleteAndCreateReplacementAsync(this);
         }
 
-        public async Task MarkAsInUseAsync(string userId)
+        public async Task MarkAsInUseAsync(string userId, TimeSpan lifeTime)
         {
             _webSite.LastModifiedTimeUtc = DateTime.UtcNow;
 
             var updateParams = Util.CreateWebSiteUpdateConfigurationParameters();
             _config.Metadata[UserIdMetadataKey] = userId;
             _config.AppSettings["LAST_MODIFIED_TIME_UTC"] = DateTime.UtcNow.ToString();
-            _config.AppSettings["TRY_SITE_LIFE_TIME_MINUTES"] = 15.ToString();
+            _config.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = lifeTime.Minutes.ToString();
             updateParams.Metadata = _config.Metadata;
             updateParams.AppSettings = _config.AppSettings;
             await _webSpace.UpdateConfigurationAsync(Name, updateParams);
