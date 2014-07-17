@@ -225,7 +225,9 @@ namespace SimpleWAWS.Code
             //if we are here that means a bad exception happened above, but we might leak a site if we don't remove the site and replace it correctly.
             if (site != null)
             {
-                await site.DeleteAndCreateReplacementAsync();
+                //no need to await this call
+                //this call is to fix our internal state, return an error right away to the caller
+                site.DeleteAndCreateReplacementAsync();
             }
             throw new Exception("No free sites are available, try again later");
         }
