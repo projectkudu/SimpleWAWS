@@ -61,6 +61,7 @@ namespace SimpleWAWS.Authentication
         public HttpCookie CreateSessionCookie(IPrincipal user)
         {
             var value = string.Format("{0};{1}", user.Identity.Name, DateTime.UtcNow);
+            Trace.TraceInformation("###### User {0} logged in, session created", user.Identity.Name);
             return new HttpCookie(Constants.LoginSessionCookie, Uri.EscapeDataString(value.Encrypt(Constants.EncryptionReason))) {Path = "/"};
         }
 
@@ -68,7 +69,9 @@ namespace SimpleWAWS.Authentication
         {
             try
             {
-                var loginSessionCookie = Uri.UnescapeDataString(context.Request.Cookies[Constants.LoginSessionCookie].Value).Decrypt(Constants.EncryptionReason);
+                var loginSessionCookie =
+                    Uri.UnescapeDataString(context.Request.Cookies[Constants.LoginSessionCookie].Value)
+                        .Decrypt(Constants.EncryptionReason);
                 var user = loginSessionCookie.Split(';')[0];
                 var date = DateTime.Parse(loginSessionCookie.Split(';')[1]);
                 if (ValidDateTimeSessionCookie(date))
@@ -77,10 +80,14 @@ namespace SimpleWAWS.Authentication
                     return true;
                 }
             }
+            catch (NullReferenceException)
+            {
+                // we need to authenticate
+            }
             catch (Exception e)
             {
                 // we need to authenticate
-                //TODO: log the error 
+                //but also log the error
                 Trace.TraceError(e.ToString());
             }
             return false;

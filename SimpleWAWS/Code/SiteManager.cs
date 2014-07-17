@@ -197,7 +197,7 @@ namespace SimpleWAWS.Code
                     {
                         await site.DeleteAndCreateReplacementAsync();
                         ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.UserErrors.MoreThanOneWebsite);
-                        throw new Exception("Can't have more than 1 free site at a time");
+                        throw new Exception("You can't have more than 1 free site at a time");
                     }
                     else
                     {

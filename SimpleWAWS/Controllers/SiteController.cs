@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -78,8 +79,10 @@ namespace SimpleWAWS.Controllers
                 if (siteManager.GetSite(HttpContext.Current.User.Identity.Name) != null)
                 {
                     ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.UserErrors.MoreThanOneWebsite);
+                    Trace.TraceError("### User {0} got error {1}", HttpContext.Current.User.Identity.Name,
+                        "You can't have more than 1 free site at a time");
                     return Request.CreateErrorResponse(HttpStatusCode.ServiceUnavailable,
-                        "Can't have more than 1 free site at a time");
+                        "You can't have more than 1 free site at a time");
                 }
                 var site =
                     await
@@ -88,10 +91,12 @@ namespace SimpleWAWS.Controllers
                             : TemplatesManager.GetTemplates()
                                 .SingleOrDefault(t => t.Name == template.Name && t.Language == template.Language),
                             HttpContext.Current.User.Identity.Name);
+                Trace.TraceInformation("##### User {0}, created site language {1}, template {2}", HttpContext.Current.User.Identity.Name, template.Language, template.Name);
                 return Request.CreateResponse(HttpStatusCode.OK, site);
             }
             catch (Exception ex)
             {
+                Trace.TraceError("### User {0} got error {1}", HttpContext.Current.User.Identity.Name,ex.Message);
                 return Request.CreateErrorResponse(HttpStatusCode.ServiceUnavailable, ex.Message);
             }
             finally
