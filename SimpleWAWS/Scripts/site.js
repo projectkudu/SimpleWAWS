@@ -3,11 +3,11 @@
         this.name = json.name;
         this.fileName = json.fileName;
         this.language = json.language;
-        this.icon_uri = json.icon_uri;
+        this.icon_class = json.icon_class;
     }
     Template.prototype.select = function (event) {
         $(".website-template-container").removeClass("website-template-container-selected");
-        var parent = $(event.target).closest("div").addClass("website-template-container-selected");
+        var parent = $(event.target).closest(".website-template-container").addClass("website-template-container-selected");
         viewModel.selectedTemplate(this);
     };
     return Template;

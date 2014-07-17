@@ -48,7 +48,7 @@ namespace SimpleWAWS.Code
                             Name = Path.GetFileNameWithoutExtension(template),
                             FileName = Path.GetFileName(template),
                             Language = Path.GetFileName(languagePath),
-                            IconUrl = File.Exists(iconUri) ? new Uri(string.Format("/Content/images/packages/{0}.png", Uri.EscapeDataString(Path.GetFileNameWithoutExtension(template))), UriKind.Relative) : new Uri("/Content/images/Large.png", UriKind.Relative)
+                            IconClass = File.Exists(iconUri) ? string.Format("sprite-{0}", Path.GetFileNameWithoutExtension(template).Replace(" ", "").Replace("#", "Sharp")) : "sprite-Large"
                         });
                     }
                 }

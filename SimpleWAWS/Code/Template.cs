@@ -12,11 +12,14 @@ namespace SimpleWAWS.Code
     {
         [JsonProperty("name")]
         public string Name { get; set; }
+
         [JsonProperty("fileName")]
         public string FileName { get; set; }
+
         [JsonProperty("language")]
         public string Language { get; set; }
-        [JsonProperty("icon_uri")]
-        public Uri IconUrl { get; set; }
+
+        [JsonProperty("icon_class")]
+        public string IconClass { get; set; }
     }
 }

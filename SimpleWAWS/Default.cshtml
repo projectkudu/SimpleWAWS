@@ -1,13 +1,13 @@
 ﻿@{
     Layout = "~/_Layout.cshtml";
-    Page.Title = "Try It Now";
+    Page.Title = "Try Azure Websites now";
 }
 
 <section class="wa-section wa-section-blue wa-section-mini wa-section-compute">
     <div class="wa-content">
         <div class="wa-spacer-9down">
             <h1>Create your website</h1>
-            <h3>High throughput, low latency data access to power fast, scalable Azure applications.</h3>
+            <h3>Create and deploy web sites in seconds, as powerful as you need them to be.</h3>
         </div>
     </div>
 </section>
@@ -28,9 +28,9 @@
         <br/>
         <div data-bind="foreach: templates">
             <!-- ko if: $root.selectedLanguage() === $data.language -->
-            <div class="website-template-container">
+            <div class="website-template-container" data-bind="visible: true" style="display: none">
                 <a class="select-template-anchor" href="#" data-bind="click: function(data, event) {data.select(event);}">
-                    <img data-bind="attr: {src: $data.icon_uri}" alt="" style="width: 115px; height: 115px"/>
+                    <div class="icons" data-bind="css: $data.icon_class" style="width: 115px; height: 115px"></div>
                     <div class="website-template-name" data-bind="text: $data.name"></div>
                 </a>
             </div>
@@ -60,20 +60,20 @@
                     Your site has been created at <a data-bind="attr: {href: url}, text: url" target="_blank"></a>
                 </h3>
                 <div class="work-with-site-tools">
-                    <a data-bind="attr: {href: monacoUrl}" target="_blank"><img class="work-with-site-tools-img" src="Content/images/VSO.png" /><div class="website-template-name">Edit with Visual Studio Online</div></a>
+                    <a data-bind="attr: {href: monacoUrl}" target="_blank"><div class="work-with-site-tools-img icons sprite-VSO"></div><div class="website-template-name">Edit with Visual Studio Online</div></a>
                 </div>
                 <div class="work-with-site-tools">
-                    <a data-bind="attr: {href: contentDownloadUrl}" target="_blank"><img class="work-with-site-tools-img" src="Content/images/DownloadSite.png" /><div class="website-template-name">Download site content</div></a>
+                    <a data-bind="attr: {href: contentDownloadUrl}" target="_blank"><div class="work-with-site-tools-img icons sprite-DownloadSite"></div><div class="website-template-name">Download site content</div></a>
                 </div>
                 <div class="work-with-site-tools">
-                    <a data-bind="attr: {href: '/api/site/getpublishingprofile'}" target="_blank"><img class="work-with-site-tools-img" src="Content/images/DownloadPublishing.png" /><div class="website-template-name">Download publishing profile</div></a>
+                    <a data-bind="attr: {href: '/api/site/getpublishingprofile'}" target="_blank"><div class="work-with-site-tools-img icons sprite-DownloadPublishing"></div><div class="website-template-name">Download publishing profile</div></a>
                 </div>
                 <div class="work-with-site-tools">
-                    <img class="work-with-site-tools-img" src="Content/images/git.png" />
+                    <div class="work-with-site-tools-img icons sprite-git"></div>
                     <input type="text" readonly="readonly" onclick="this.select();" style="margin-left: -20px; margin-top: 8px; height: 20px; border: 2px inset" data-bind="value: gitUrlWithCreds">
                 </div>
                 <div class="work-with-site-tools">
-                    <a data-bind="click: function(data, event) {$root.deleteSite(event);}" href="#"><img class="work-with-site-tools-img" src="Content/images/delete.png" /><div class="website-template-name">Delete the site</div></a>
+                    <a data-bind="click: function(data, event) {$root.deleteSite(event);}" href="#"><div class="work-with-site-tools-img icons sprite-delete"></div><div class="website-template-name">Delete the site</div></a>
                 </div>
                 <div style="margin-top: 60px">Your free site will expire in : <span class="countdown" data-bind="text: timeLeft"></span></div>
             </div>
@@ -82,19 +82,19 @@
         <!-- ko if: siteJson() === undefined -->
         <div>
             <div class="work-with-site-tools">
-                <a><img class="work-with-site-tools-img" src="Content/images/VSO.png" /><div class="website-template-name">Edit with Visual Studio Online</div></a>
+                <a><div class="work-with-site-tools-img icons sprite-VSO"></div><div class="website-template-name">Edit with Visual Studio Online</div></a>
             </div>
             <div class="work-with-site-tools">
-                <a><img class="work-with-site-tools-img" src="Content/images/DownloadSite.png" /><div class="website-template-name">Download site content</div></a>
+                <a><div class="work-with-site-tools-img icons sprite-DownloadSite"></div><div class="website-template-name">Download site content</div></a>
             </div>
             <div class="work-with-site-tools">
-                <a><img class="work-with-site-tools-img" src="Content/images/DownloadPublishing.png" /><div class="website-template-name">Download publishing profile</div></a>
+                <a><div class="work-with-site-tools-img icons sprite-DownloadPublishing"></div><div class="website-template-name">Download publishing profile</div></a>
             </div>
             <div class="work-with-site-tools">
-                <img class="work-with-site-tools-img" src="Content/images/git.png" />
+                <div class="work-with-site-tools-img icons sprite-git"></div>
             </div>
             <div class="work-with-site-tools">
-                <a><img class="work-with-site-tools-img" src="Content/images/delete.png" /><div class="website-template-name">Delete the site</div></a>
+                <a><div class="work-with-site-tools-img icons sprite-delete"></div><div class="website-template-name">Delete the site</div></a>
             </div>
         </div>
         <div class="ui-blocker"></div>

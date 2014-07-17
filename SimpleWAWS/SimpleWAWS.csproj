@@ -183,7 +183,12 @@
     <Compile Include="Code\WebSpace.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\fonts\segoe-ui\bold\latest.svg" />
+    <Content Include="Content\fonts\segoe-ui\light\latest.svg" />
+    <Content Include="Content\fonts\segoe-ui\normal\latest.svg" />
+    <Content Include="Content\fonts\segoe-ui\semibold\latest.svg" />
     <Content Include="Content\images\azure-logo.png" />
+    <Content Include="Content\images\csg-53c5c728a92dc.png" />
     <Content Include="Content\images\delete.png" />
     <Content Include="Content\images\DownloadPublishing.png" />
     <Content Include="Content\images\DownloadSite.png" />
@@ -209,14 +214,30 @@
     <Content Include="Content\images\packages\Personal Site.png" />
     <Content Include="Content\images\packages\Photo Gallery.png" />
     <Content Include="Content\images\packages\PHP Empty Site.png" />
+    <Content Include="Content\images\packages\PHP Starter Site.png" />
     <Content Include="Content\images\VSO.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="App_Data\applicationHost.xdt" />
+    <Content Include="App_Data\applicationHost.xdt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Default.cshtml" />
     <Content Include="Sorry.cshtml" />
     <Content Include="ApplicationInsights.config" />
+    <Content Include="App_Data\web.config.file" />
+    <Content Include="Content\fonts\segoe-ui\bold\latest.eot" />
+    <Content Include="Content\fonts\segoe-ui\bold\latest.ttf" />
+    <Content Include="Content\fonts\segoe-ui\bold\latest.woff" />
+    <Content Include="Content\fonts\segoe-ui\light\latest.eot" />
+    <Content Include="Content\fonts\segoe-ui\light\latest.ttf" />
+    <Content Include="Content\fonts\segoe-ui\light\latest.woff" />
+    <Content Include="Content\fonts\segoe-ui\normal\latest.eot" />
+    <Content Include="Content\fonts\segoe-ui\normal\latest.ttf" />
+    <Content Include="Content\fonts\segoe-ui\normal\latest.woff" />
+    <Content Include="Content\fonts\segoe-ui\semibold\latest.eot" />
+    <Content Include="Content\fonts\segoe-ui\semibold\latest.ttf" />
+    <Content Include="Content\fonts\segoe-ui\semibold\latest.woff" />
     <None Include="Properties\PublishProfiles\trytrytry.pubxml" />
     <Content Include="Scripts\site.js" />
     <Content Include="Web.config">
