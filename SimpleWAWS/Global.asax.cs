@@ -30,9 +30,11 @@ namespace SimpleWAWS
             RouteTable.Routes.MapHttpRoute("create-site", "api/site", new { controller = "Site", action = "CreateSite" }, new { verb = new HttpMethodConstraint("POST") });
             RouteTable.Routes.MapHttpRoute("get-site-publishing-profile", "api/site/getpublishingprofile", new { controller = "Site", action = "GetPublishingProfile" }, new { verb = new HttpMethodConstraint("GET") });
             RouteTable.Routes.MapHttpRoute("delete-site", "api/site", new { controller = "Site", action = "DeleteSite" }, new { verb = new HttpMethodConstraint("DELETE") });
-            //TODO: this is only for testing. Make sure to remove it later
-            RouteTable.Routes.MapHttpRoute("get-all-sites", "api/site/getall", new { controller = "Site", action = "GetAll" }, new { verb = new HttpMethodConstraint("GET") });
-            RouteTable.Routes.MapHttpRoute("reset-all-free-sites", "api/reset", new { controller = "Site", action = "Reset" }, new { verb = new HttpMethodConstraint("GET") });
+
+            //Admin Only Routes
+            RouteTable.Routes.MapHttpRoute("get-all-sites", "api/site/all", new { controller = "Site", action = "All" }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("reset-all-free-sites", "api/site/reset", new { controller = "Site", action = "Reset" }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("reload-all-free-sites", "api/site/reload", new { controller = "Site", action = "DropAndReloadFromAzure" }, new { verb = new HttpMethodConstraint("GET") });
 
             //Register auth provider
             SecurityManager.SetAuthProvider(new AADProvider());
