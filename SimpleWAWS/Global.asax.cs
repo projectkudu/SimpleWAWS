@@ -14,6 +14,7 @@ namespace SimpleWAWS
     {
         protected void Application_Start()
         {
+            Trace.TraceInformation(">>>>>>>Application started");
             //Configure Json formatter
             GlobalConfiguration.Configuration.Formatters.Clear();
             GlobalConfiguration.Configuration.Formatters.Add(new JsonMediaTypeFormatter());
