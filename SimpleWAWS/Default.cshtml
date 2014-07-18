@@ -18,7 +18,7 @@
             <label for="wa-dropdown-language">Change language:</label>
             <div class="wa-dropdown-container wa-dropdown-medium">
                 <select id="wa-dropdown-language" class="wa-dropdown" data-bind="foreach: languages">
-                    <option class="" data-bind="text: $data, attr: {value: $data}, click: function(data, event) {$root.selectLanguage(event);}"></option>
+                    <option class="wa-dropdown-language-option" data-bind="text: $data, attr: {value: $data}, click: function(data, event) {$root.selectLanguage(event);}"></option>
                 </select>
                 <span class="wa-dropdown-value" data-bind="text: selectedLanguage()"></span>
                 <span class="wa-dropdown-arrow"></span>

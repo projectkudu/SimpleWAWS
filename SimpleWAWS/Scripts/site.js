@@ -57,6 +57,7 @@ function initTemplates() {
         viewModel.templates.sort(helloSort);
         if (viewModel.templates().length > 0) {
             viewModel.selectLanguage(getCorrectDefaultLanguage(viewModel.templates()));
+            $("option.wa-dropdown-language-option[value='" + getCorrectDefaultLanguage(viewModel.templates()) + "']").prop('selected', true);
         }
     });
 }
