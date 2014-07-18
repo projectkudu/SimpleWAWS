@@ -159,6 +159,7 @@
     <Compile Include="Authentication\OpenIdConfiguration.cs" />
     <Compile Include="Authentication\SecurityManager.cs" />
     <Compile Include="Code\AppInsightsEvents.cs" />
+    <Compile Include="Code\Exceptions.cs" />
     <Compile Include="Code\Extensions.cs" />
     <Compile Include="Code\SimpleIdentity.cs" />
     <Compile Include="Code\SimplePrincipal.cs" />
@@ -256,7 +257,9 @@
     <Folder Include="App_Start\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <PropertyGroup>

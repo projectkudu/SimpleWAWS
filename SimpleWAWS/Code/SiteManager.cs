@@ -183,7 +183,10 @@ namespace SimpleWAWS.Code
             {
                 if (_freeSites.TryDequeue(out site))
                 {
+                    //mark site in use as soon as it's checked out so that if there is a reload it will be sorted out to the used queue.
+                    await site.MarkAsInUseAsync(userId, SiteExpiryTime);
                     Trace.TraceInformation("Site {0} is now in use", site.Name);
+
                     if (template != null)
                     {
                         var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
@@ -193,27 +196,42 @@ namespace SimpleWAWS.Code
                         Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
                         await Task.WhenAll(zipUpload, deleteHostingStart);
                     }
-                    if (!_sitesInUse.TryAdd(userId, site))
+
+                    var addedSite = _sitesInUse.GetOrAdd(userId, site);
+                    if (addedSite.PublishingPassword == site.PublishingPassword)
                     {
-                        await site.DeleteAndCreateReplacementAsync();
-                        ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.UserErrors.MoreThanOneWebsite);
-                        throw new Exception("You can't have more than 1 free site at a time");
+                        //this means we just added the site for the user.
+                        //update the LastModifiedTime and FireAndForget
+                        await addedSite.MarkAsInUseAsync(userId, SiteExpiryTime);
+                        addedSite.FireAndForget();
+                        return addedSite;
                     }
                     else
                     {
-                        await site.MarkAsInUseAsync(userId, SiteExpiryTime);
-                        site.FireAndForget();
+                        //this means the user is trying to add more than 1 site.
+                        //delete the new site that's not yet added to the used list
+                        await site.DeleteAndCreateReplacementAsync();
+                        ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.UserErrors.MoreThanOneWebsite);
+                        throw new MoreThanOneSiteException("You can't have more than 1 free site at a time");
                     }
-                    return site;
                 }
                 else
                 {
                     ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.ServerErrors.NoFreeSites);
-                    throw new Exception("No free sites are available, try again later");
+                    throw new NoFreeSitesException("No free sites are available currently. Please try again later.");
                 }
+            }
+            catch (MoreThanOneSiteException)
+            {
+                throw;
+            }
+            catch (NoFreeSitesException)
+            {
+                throw;
             }
             catch (Exception e)
             {
+                //unknown exception, log it
                 ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.ServerErrors.GeneralException,
                     new Dictionary<string, object> {{"ExMessage", e.Message}});
                 Trace.TraceError(e.ToString());
@@ -229,7 +247,7 @@ namespace SimpleWAWS.Code
                 //this call is to fix our internal state, return an error right away to the caller
                 site.DeleteAndCreateReplacementAsync();
             }
-            throw new Exception("No free sites are available, try again later");
+            throw new Exception("An Error occured. Please try again later.");
         }
 
         public Site GetSite(string userId)
