@@ -66,6 +66,9 @@ namespace SimpleWAWS.Code
                 {"WEBSITE_TRY_MODE", "1"}
             };
 
+            //Mark site's ScmType as LocalGit so that cloning an empty repo gives back the site content
+            updateParams.ScmType = "LocalGit";
+
             await _webSpace.UpdateConfigurationAsync(Name, updateParams);
             Trace.TraceInformation("Updated initial config for site '{0}' in {1}", this, _webSpace);
 
