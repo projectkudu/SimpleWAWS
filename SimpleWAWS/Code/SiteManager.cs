@@ -26,6 +26,7 @@ namespace SimpleWAWS.Code
         private X509Certificate2 _cert;
 
         private readonly ConcurrentQueue<Site> _freeSites = new ConcurrentQueue<Site>();
+        private readonly ConcurrentDictionary<string, Task> _sitesInProgress = new ConcurrentDictionary<string, Task>();
         private readonly ConcurrentDictionary<string, Site> _sitesInUse = new ConcurrentDictionary<string, Site>();
 
         private Timer _timer;
@@ -96,8 +97,11 @@ namespace SimpleWAWS.Code
             }
             await Task.WhenAll(tasksList);
             // Do maintenance on the site lists every minute (and start one right now)
-            _timer = new Timer(OnTimerElapsed);
-            _timer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(60 * 1000));
+            if (_timer == null)
+            {
+                _timer = new Timer(OnTimerElapsed);
+                _timer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(60 * 1000));
+            }
         }
 
         private IEnumerable<WebSpace> GetAllWebSpaces()
@@ -179,12 +183,15 @@ namespace SimpleWAWS.Code
         public async Task<Site> ActivateSiteAsync(Template template, string userId)
         {
             Site site = null;
+            var tokenSource = new CancellationTokenSource();
             try
             {
                 if (_freeSites.TryDequeue(out site))
                 {
                     //mark site in use as soon as it's checked out so that if there is a reload it will be sorted out to the used queue.
                     await site.MarkAsInUseAsync(userId, SiteExpiryTime);
+                    var siteCreationTask = Task.Delay(Timeout.Infinite, tokenSource.Token);
+                    _sitesInProgress.AddOrUpdate(userId, s => siteCreationTask, (s, task) => siteCreationTask);
                     Trace.TraceInformation("Site {0} is now in use", site.Name);
 
                     if (template != null)
@@ -238,6 +245,9 @@ namespace SimpleWAWS.Code
             }
             finally
             {
+                Task temp;
+                _sitesInProgress.TryRemove(userId, out temp);
+                tokenSource.Cancel();
                 LogQueueStatistics();
             }
             //if we are here that means a bad exception happened above, but we might leak a site if we don't remove the site and replace it correctly.
@@ -250,10 +260,30 @@ namespace SimpleWAWS.Code
             throw new Exception("An Error occured. Please try again later.");
         }
 
-        public Site GetSite(string userId)
+        public async Task<Site> GetSite(string userId)
         {
             Site site;
             _sitesInUse.TryGetValue(userId, out site);
+            if (site == null)
+            {
+                Task temp;
+                if (_sitesInProgress.TryGetValue(userId, out temp))
+                {
+                    try
+                    {
+                        await temp;
+                    }
+                    catch (TaskCanceledException)
+                    {
+                        //expected
+                    }
+                    catch (Exception e)
+                    {
+                        Trace.TraceError(e.ToString());
+                    }
+                    _sitesInUse.TryGetValue(userId, out site);
+                }
+            }
             return site;
         }
 

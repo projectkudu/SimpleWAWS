@@ -23,7 +23,7 @@ namespace SimpleWAWS.Controllers
         public async Task<HttpResponseMessage> GetSite()
         {
             var siteManager = await SiteManager.GetInstanceAsync();
-            return Request.CreateResponse(HttpStatusCode.OK, siteManager.GetSite(HttpContext.Current.User.Identity.Name));
+            return Request.CreateResponse(HttpStatusCode.OK, await siteManager.GetSite(HttpContext.Current.User.Identity.Name));
         }
 
         [HttpGet]
@@ -60,7 +60,7 @@ namespace SimpleWAWS.Controllers
             ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.UserActions.DownloadPublishingProfile);
             var siteManager = await SiteManager.GetInstanceAsync();
             var response = Request.CreateResponse();
-            var site = siteManager.GetSite(HttpContext.Current.User.Identity.Name);
+            var site = await siteManager.GetSite(HttpContext.Current.User.Identity.Name);
             response.Content = await site.GetPublishingProfile();
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
             response.Content.Headers.ContentDisposition =
@@ -80,7 +80,7 @@ namespace SimpleWAWS.Controllers
             try
             {
                 var siteManager = await SiteManager.GetInstanceAsync();
-                if (siteManager.GetSite(HttpContext.Current.User.Identity.Name) != null)
+                if ((await siteManager.GetSite(HttpContext.Current.User.Identity.Name)) != null)
                 {
                     ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.UserErrors.MoreThanOneWebsite);
                     Trace.TraceError("### User {0} got error {1}", HttpContext.Current.User.Identity.Name,
