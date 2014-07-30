@@ -220,6 +220,7 @@ namespace SimpleWAWS.Code
 
             var updateParams = Util.CreateWebSiteUpdateConfigurationParameters();
             _config.Metadata[UserIdMetadataKey] = userId;
+            _config.AppSettings["USER_ID"] = userId;
             _config.AppSettings["LAST_MODIFIED_TIME_UTC"] = DateTime.UtcNow.ToString();
             _config.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = lifeTime.Minutes.ToString();
             updateParams.Metadata = _config.Metadata;
