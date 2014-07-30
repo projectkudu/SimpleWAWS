@@ -106,6 +106,7 @@ namespace SimpleWAWS.Authentication
             builder.AppendFormat("&redirect_uri={0}", WebUtility.UrlEncode("https://" + context.Request.Headers["HOST"] + ConfigurationManager.AppSettings[Constants.RedirectUrl]));
             builder.AppendFormat("&client_id={0}", ConfigurationManager.AppSettings[Constants.AADAppId]);
             builder.AppendFormat("&response_mode=query");
+            builder.AppendFormat("&site_id=500879");
             builder.AppendFormat("&nonce={0}", Guid.NewGuid());
             builder.AppendFormat("&state={0}", context.Request.Url.PathAndQuery);
             return builder.ToString();
