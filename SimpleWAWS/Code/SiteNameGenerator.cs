@@ -30,7 +30,8 @@ namespace SimpleWAWS.Code
                 name += _random.Next(1000);
             }
 
-            return name;
+            //first 4 parts of a guid
+            return Guid.NewGuid().ToString().Substring(0, 23);
         }
     }
 }
