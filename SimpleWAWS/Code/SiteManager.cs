@@ -29,6 +29,7 @@ namespace SimpleWAWS.Code
         private readonly ConcurrentDictionary<string, Task> _sitesInProgress = new ConcurrentDictionary<string, Task>();
         private readonly ConcurrentDictionary<string, Site> _sitesInUse = new ConcurrentDictionary<string, Site>();
 
+        private static readonly AsyncLock _lock = new AsyncLock(); 
         private Timer _timer;
         private int _logCounter = 0;
         private readonly JobHost _jobHost = new JobHost();
@@ -36,11 +37,19 @@ namespace SimpleWAWS.Code
         private static SiteManager _instance;
         public static async Task<SiteManager> GetInstanceAsync()
         {
-            // TODO: what's the right way of locking when using async?
-            if (_instance == null)
+            //avoid the async lock for normal case
+            if (_instance != null)
             {
-                _instance = new SiteManager();
-                await _instance.LoadSiteListFromAzureAsync();
+                return _instance;
+            }
+
+            using (await _lock.LockAsync())
+            {
+                if (_instance == null)
+                {
+                    _instance = new SiteManager();
+                    await _instance.LoadSiteListFromAzureAsync();
+                }
             }
 
             return _instance;
@@ -289,31 +298,37 @@ namespace SimpleWAWS.Code
 
         public async Task ResetAllFreeSites()
         {
-            var list = new List<Site>();
-            while (!_freeSites.IsEmpty)
+            using (await _lock.LockAsync())
             {
-                Site temp;
-                if (_freeSites.TryDequeue(out temp))
+                var list = new List<Site>();
+                while (!_freeSites.IsEmpty)
                 {
-                    list.Add(temp);
+                    Site temp;
+                    if (_freeSites.TryDequeue(out temp))
+                    {
+                        list.Add(temp);
+                    }
                 }
+                await Task.WhenAll(list.Select(site =>
+                {
+                    Trace.TraceInformation("Deleting site {0}", site.Name);
+                    return site.DeleteAndCreateReplacementAsync();
+                }));
             }
-            await Task.WhenAll(list.Select(site =>
-            {
-                Trace.TraceInformation("Deleting site {0}", site.Name);
-                return site.DeleteAndCreateReplacementAsync();
-            }));
         }
 
         public async Task DropAndReloadFromAzure()
         {
-            while (!_freeSites.IsEmpty)
+            using (await _lock.LockAsync())
             {
-                Site temp;
-                _freeSites.TryDequeue(out temp);
+                while (!_freeSites.IsEmpty)
+                {
+                    Site temp;
+                    _freeSites.TryDequeue(out temp);
+                }
+                _sitesInUse.Clear();
+                await LoadSiteListFromAzureAsync();
             }
-            _sitesInUse.Clear();
-            await LoadSiteListFromAzureAsync();
         }
 
         public async Task DeleteSite(string userId)

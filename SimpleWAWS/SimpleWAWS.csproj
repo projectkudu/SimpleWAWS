@@ -159,6 +159,7 @@
     <Compile Include="Authentication\OpenIdConfiguration.cs" />
     <Compile Include="Authentication\SecurityManager.cs" />
     <Compile Include="Code\AppInsightsEvents.cs" />
+    <Compile Include="Code\AsyncLock.cs" />
     <Compile Include="Code\Exceptions.cs" />
     <Compile Include="Code\Extensions.cs" />
     <Compile Include="Code\SimpleIdentity.cs" />
