@@ -32,7 +32,7 @@ namespace SimpleWAWS.Authentication
 
         private static void UpdateKeysMap()
         {
-            var request = WebRequest.Create(ConfigurationManager.AppSettings[Constants.AADIssuerKeys]);
+            var request = (HttpWebRequest)WebRequest.Create(ConfigurationManager.AppSettings[Constants.AADIssuerKeys]);
             JWTSingingKeys keys = null;
             using (var response = request.GetResponse())
             {

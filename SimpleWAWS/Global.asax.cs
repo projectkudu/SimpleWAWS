@@ -43,12 +43,7 @@ namespace SimpleWAWS
 
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
         {
-            if (Request.Path.Equals(ConfigurationManager.AppSettings["RedirectUrl"],
-                StringComparison.InvariantCultureIgnoreCase))
-            {
-                SecurityManager.HandleCallBack(Context);
-            }
-            else if (!Request.Path.Equals(ConfigurationManager.AppSettings["LoginErrorPage"],
+            if (!Request.Path.Equals(ConfigurationManager.AppSettings["LoginErrorPage"],
                 StringComparison.InvariantCultureIgnoreCase))
             {
                 SecurityManager.AuthenticateRequest(Context);

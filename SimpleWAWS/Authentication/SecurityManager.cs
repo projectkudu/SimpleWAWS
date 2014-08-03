@@ -18,11 +18,6 @@ namespace SimpleWAWS.Code
             _authProvider.AuthenticateRequest(context);
         }
 
-        public static void HandleCallBack(HttpContext context)
-        {
-            _authProvider.HandleCallBack(context);
-        }
-
         public static void EnsureAdmin(HttpContext context)
         {
             if (context.User.Identity.Name != ConfigurationManager.AppSettings["AdminUserId"])
