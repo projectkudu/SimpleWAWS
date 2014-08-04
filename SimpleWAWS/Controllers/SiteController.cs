@@ -51,8 +51,9 @@ namespace SimpleWAWS.Controllers
             var siteManager = await SiteManager.GetInstanceAsync();
             var freeSites = siteManager.GetAllFreeSites();
             var inUseSites = siteManager.GetAllInUseSites();
+            var inProgressCount = siteManager.GetAllInProgressSitesCount();
             return Request.CreateResponse(HttpStatusCode.OK,
-                new { freeSiteCount = freeSites.Count(), inUseSitesCount = inUseSites.Count(), freeSites = freeSites, inUseSites = inUseSites});
+                new { freeSiteCount = freeSites.Count(), inProgressSitesCount = inProgressCount, inUseSitesCount = inUseSites.Count(), freeSites = freeSites, inUseSites = inUseSites });
         }
 
         public async Task<HttpResponseMessage> GetPublishingProfile()

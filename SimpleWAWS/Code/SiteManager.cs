@@ -200,6 +200,7 @@ namespace SimpleWAWS.Code
                     //mark site in use as soon as it's checked out so that if there is a reload it will be sorted out to the used queue.
                     await site.MarkAsInUseAsync(userId, SiteExpiryTime);
                     var siteCreationTask = Task.Delay(Timeout.Infinite, tokenSource.Token);
+                    //This should not be awaited. this is retuning the infinite task from above
                     _sitesInProgress.AddOrUpdate(userId, s => siteCreationTask, (s, task) => siteCreationTask);
                     Trace.TraceInformation("Site {0} is now in use", site.Name);
 
@@ -351,6 +352,11 @@ namespace SimpleWAWS.Code
         public IReadOnlyCollection<Site> GetAllInUseSites()
         {
             return _sitesInUse.ToList().Select(s => s.Value).ToList();
+        }
+
+        public int GetAllInProgressSitesCount()
+        {
+            return this._sitesInProgress.Count;
         }
 
         private void LogQueueStatistics()
