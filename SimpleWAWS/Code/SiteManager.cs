@@ -265,7 +265,7 @@ namespace SimpleWAWS.Code
             {
                 //no need to await this call
                 //this call is to fix our internal state, return an error right away to the caller
-                site.DeleteAndCreateReplacementAsync();
+                ThreadPool.QueueUserWorkItem(async o => await site.DeleteAndCreateReplacementAsync());
             }
             throw new Exception("An Error occured. Please try again later.");
         }

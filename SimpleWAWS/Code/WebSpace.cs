@@ -122,7 +122,7 @@ namespace SimpleWAWS.Code
                 }
                 catch (CloudException e)
                 {
-                    Trace.TraceInformation("Failed {0} (attempt #{1}): ", message, attempt, e);
+                    Trace.TraceInformation("Failed {0} (attempt #{1}): {2}", message, attempt, e);
 
                     if (e.Response.StatusCode != HttpStatusCode.Conflict) throw;
                     
