@@ -131,7 +131,7 @@ namespace SimpleWAWS.Authentication
                 var puidClaim = user.Claims.FirstOrDefault(c => c.Type == "puid" || c.Type == "altsecid");
                 if (puidClaim != null && puidClaim.Value != null)
                 {
-                    Trace.TraceInformation("USER_PUID_VALUE, {0}, {1}", user.Identity.Name, puidClaim.Value.Split(':').Last());
+                    Trace.TraceInformation("USER_PUID_VALUE; {0}; {1}", user.Identity.Name, puidClaim.Value.Split(':').Last());
                 }
                 return user;
             }
