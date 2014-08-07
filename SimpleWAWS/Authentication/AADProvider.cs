@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Diagnostics;
 using System.IdentityModel.Selectors;
+using System.Linq;
 using System.Net;
 using System.Security.Principal;
 using System.Text;
@@ -127,6 +128,11 @@ namespace SimpleWAWS.Authentication
             try
             {
                 var user = handler.ValidateToken(jwt, parameters);
+                var puidClaim = user.Claims.FirstOrDefault(c => c.Type == "puid" || c.Type == "altsecid");
+                if (puidClaim != null && puidClaim.Value != null)
+                {
+                    Trace.TraceInformation("USER_PUID_VALUE, {0}, {1}", user.Identity.Name, puidClaim.Value.Split(':').Last());
+                }
                 return user;
             }
             catch (Exception e)
