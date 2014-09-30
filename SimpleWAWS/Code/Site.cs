@@ -101,7 +101,7 @@ namespace SimpleWAWS.Code
         {
             get
             {
-                string userId;
+                string userId = null;
                 _config.Metadata.TryGetValue(UserIdMetadataKey, out userId);
                 return userId;
             }
@@ -212,6 +212,8 @@ namespace SimpleWAWS.Code
         [JsonProperty("publishingPassword")]
         public string PublishingPassword { get { return _config.PublishingPassword; } }
 
+        public bool Ready { get { return _config != null && _config.Metadata != null && _webSite.EnabledHostNames.Count == 2; } }
+
         public Task DeleteAndCreateReplacementAsync()
         {
             return _webSpace.DeleteAndCreateReplacementAsync(this);
@@ -225,7 +227,7 @@ namespace SimpleWAWS.Code
             _config.Metadata[UserIdMetadataKey] = userId;
             _config.AppSettings["USER_ID"] = userId;
             _config.AppSettings["LAST_MODIFIED_TIME_UTC"] = DateTime.UtcNow.ToString();
-            _config.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = lifeTime.Minutes.ToString();
+            _config.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = lifeTime.TotalMinutes.ToString();
             updateParams.Metadata = _config.Metadata;
             updateParams.AppSettings = _config.AppSettings;
             await _webSpace.UpdateConfigurationAsync(Name, updateParams);

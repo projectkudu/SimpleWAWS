@@ -19,6 +19,7 @@ namespace SimpleWAWS.Code
         private string _webSpaceName;
         private string _webSpaceRegion;
         private readonly SiteNameGenerator _nameGenerator;
+        private readonly AsyncLock _lock = new AsyncLock();
         public List<Site> Sites { get; private set; }
 
         private readonly int _sitesPerWebSpace;
@@ -64,16 +65,19 @@ namespace SimpleWAWS.Code
         // Create additional sites if needed to reach the desired count, or delete some if we have too many
         public async Task EnsureCorrectSiteCountAsync()
         {
-            int neededSites = _sitesPerWebSpace - Sites.Count;
-            if (neededSites > 0)
+            using (await this._lock.LockAsync())
             {
-                Trace.TraceInformation("Creating {0} new sites in {1}", neededSites, this);
-                await Task.WhenAll(Enumerable.Range(0, neededSites).Select(x => CreateNewSiteAsync()));
-            }
-            else
-            {
-                // If we have too many, delete some
-                await Task.WhenAll(Sites.Take(-neededSites).ToList().Select(site => DeleteAsync(site)));
+                int neededSites = _sitesPerWebSpace - Sites.Count;
+                if (neededSites > 0)
+                {
+                    Trace.TraceInformation("Creating {0} new sites in {1}", neededSites, this);
+                    await Task.WhenAll(Enumerable.Range(0, neededSites).Select(x => CreateNewSiteAsync()));
+                }
+                else
+                {
+                    // If we have too many, delete some
+                    await Task.WhenAll(Sites.Take(-neededSites).ToList().Select(site => DeleteAsync(site)));
+                }
             }
         }
 
@@ -165,20 +169,8 @@ namespace SimpleWAWS.Code
             // Delete the site, and create a new one to replace it
             // Make sure that deleting a site doesn't throw any errors. 
             // a site might be in a bad state that might cause deleting to fail
-            await SafeGuard(async () => await DeleteAsync(site));
-            await SafeGuard(async () => await EnsureCorrectSiteCountAsync());
-        }
-
-        private async Task SafeGuard(Func<Task> action)
-        {
-            try
-            {
-                await action();
-            }
-            catch (Exception e)
-            {
-                Trace.TraceError(e.ToString());
-            }
+            await Util.SafeGuard(async () => await DeleteAsync(site));
+            await Util.SafeGuard(async () => await EnsureCorrectSiteCountAsync());
         }
 
         public async Task DeleteAsync(Site site)

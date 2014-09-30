@@ -1,4 +1,7 @@
-﻿using Microsoft.WindowsAzure.Management.WebSites.Models;
+﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using Microsoft.WindowsAzure.Management.WebSites.Models;
 
 namespace SimpleWAWS.Code
 {
@@ -15,6 +18,18 @@ namespace SimpleWAWS.Code
                 HandlerMappings = null,
                 Metadata = null
             };
+        }
+
+        public static async Task SafeGuard(Func<Task> action)
+        {
+            try
+            {
+                await action();
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError(e.ToString());
+            }
         }
 
     }

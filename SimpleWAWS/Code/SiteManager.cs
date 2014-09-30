@@ -80,10 +80,10 @@ namespace SimpleWAWS.Code
             List<WebSpace> webSpaces = GetAllWebSpaces().ToList();
 
             // Ask all webspaces to load their site lists (in parallel)
-            await Task.WhenAll(webSpaces.Select(ws => ws.LoadAndCreateSitesAsync()));
+            await Task.WhenAll(webSpaces.Select(ws => Util.SafeGuard(ws.LoadAndCreateSitesAsync)));
 
             // Get a list of all the sites across all subscriptions/webspaces
-            List<Site> allSites = webSpaces.SelectMany(ws => ws.Sites).ToList();
+            List<Site> allSites = webSpaces.SelectMany(ws => ws.Sites).Where(s => s.Ready).ToList();
 
             // Check if the sites are in use and place them in the right list
             var tasksList = new List<Task>();
