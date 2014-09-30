@@ -9004,23 +9004,25 @@ table {
 
 
 div.icons {
-    background: url(/Content/images/csg-53c5c728a92dc.png) no-repeat top left;
+    background: url(/Content/images/csg-53ee2f885fd82.png) no-repeat top left;
 }
 
-div.sprite-ASPNETEmptySite, div.sprite-ASPNETStarterSite, div.sprite-Bakery, div.sprite-BlogEngine, div.sprite-HelloCSharp, div.sprite-PersonalSite, div.sprite-PhotoGallery{ background-position: 0 0; width: 115px; height: 115px; }
-div.sprite-Boilerplate, div.sprite-HTML5EmptySite{ background-position: 0 -165px; width: 115px; height: 115px; }
-div.sprite-Bottle{ background-position: 0 -330px; width: 115px; height: 115px; }
-div.sprite-DownloadPublishing{ background-position: 0 -495px; width: 50px; height: 50px; }
-div.sprite-DownloadSite{ background-position: 0 -595px; width: 50px; height: 50px; }
-div.sprite-ExpressJs, div.sprite-NodeJSEmptySite, div.sprite-NodeStarter{ background-position: 0 -695px; width: 115px; height: 115px; }
-div.sprite-Flask{ background-position: 0 -860px; width: 115px; height: 115px; }
-div.sprite-GhostBlog{ background-position: 0 -1025px; width: 115px; height: 115px; }
-div.sprite-Large{ background-position: 0 -1190px; width: 115px; height: 115px; }
-div.sprite-PHPEmptySite, div.sprite-PHPStarterSite{ background-position: 0 -1355px; width: 115px; height: 115px; }
-div.sprite-VSO{ background-position: 0 -1520px; width: 50px; height: 50px; }
-div.sprite-delete{ background-position: 0 -1620px; width: 50px; height: 50px; }
-div.sprite-django{ background-position: 0 -1720px; width: 115px; height: 115px; }
-div.sprite-git{ background-position: 0 -1885px; width: 50px; height: 50px; }
+div.sprite-ASPNETEmptySite, div.sprite-ASPNETStarterSite, div.sprite-Bakery, div.sprite-BlogEngine, div.sprite-HelloCSharp, div.sprite-PersonalSite, div.sprite-PhotoGallery{ background-position: 0 0; width: 115px; height: 115px; } 
+div.sprite-Boilerplate, div.sprite-HTML5EmptySite{ background-position: 0 -165px; width: 115px; height: 115px; } 
+div.sprite-Bottle{ background-position: 0 -330px; width: 115px; height: 115px; } 
+div.sprite-DownloadPublishing{ background-position: 0 -495px; width: 50px; height: 50px; } 
+div.sprite-DownloadSite{ background-position: 0 -595px; width: 50px; height: 50px; } 
+div.sprite-ExpressJs, div.sprite-NodeJSEmptySite, div.sprite-NodeStarter{ background-position: 0 -695px; width: 115px; height: 115px; } 
+div.sprite-Flask{ background-position: 0 -860px; width: 115px; height: 115px; } 
+div.sprite-GhostBlog{ background-position: 0 -1025px; width: 115px; height: 115px; } 
+div.sprite-Large{ background-position: 0 -1190px; width: 115px; height: 115px; } 
+div.sprite-PHPEmptySite, div.sprite-PHPStarterSite{ background-position: 0 -1355px; width: 115px; height: 115px; } 
+div.sprite-TypeScript{ background-position: 0 -1520px; width: 115px; height: 115px; } 
+div.sprite-VSO{ background-position: 0 -1685px; width: 50px; height: 50px; } 
+div.sprite-delete{ background-position: 0 -1785px; width: 50px; height: 50px; } 
+div.sprite-django{ background-position: 0 -1885px; width: 115px; height: 115px; } 
+div.sprite-git{ background-position: -165px 0; width: 50px; height: 50px; } 
+
 
 #error-message-text {
     font-size: large;
