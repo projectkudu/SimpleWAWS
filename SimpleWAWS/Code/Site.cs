@@ -8,6 +8,7 @@ using System.Net.Cache;
 using System.Net.Http;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Hosting;
@@ -93,7 +94,7 @@ namespace SimpleWAWS.Code
         {
             get
             {
-                return _config.Metadata.ContainsKey(IsSimpleWAWSKey);
+                return Regex.IsMatch(Name, "^[A-F0-9]{8}-0ee0-4-231-b9ee$", RegexOptions.IgnoreCase);
             }
         }
 

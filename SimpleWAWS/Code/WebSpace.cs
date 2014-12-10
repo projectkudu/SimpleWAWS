@@ -76,7 +76,9 @@ namespace SimpleWAWS.Code
                 else
                 {
                     // If we have too many, delete some
-                    await Task.WhenAll(Sites.Take(-neededSites).ToList().Select(site => DeleteAsync(site)));
+                    var sitesToRemove = Sites.Where(s => s.UserId == null).Take(-neededSites).ToList();
+                    Sites = Sites.Where(s => !sitesToRemove.Contains(s)).ToList();
+                    await Task.WhenAll(sitesToRemove.Select(DeleteAsync));
                 }
             }
         }
