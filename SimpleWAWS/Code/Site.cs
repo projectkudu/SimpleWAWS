@@ -160,7 +160,7 @@ namespace SimpleWAWS.Code
         {
             get
             {
-                return Url + "dev";
+                return ScmUrl + "dev";
             }
         }
 
@@ -169,7 +169,7 @@ namespace SimpleWAWS.Code
         {
             get
             {
-                return Url + "scm/kudu/zip/site/wwwroot";
+                return ScmUrl + "zip/site/wwwroot";
             }
         }
 

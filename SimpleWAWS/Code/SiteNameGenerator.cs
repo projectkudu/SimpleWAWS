@@ -31,7 +31,7 @@ namespace SimpleWAWS.Code
             }
 
             //first 4 parts of a guid
-            return Guid.NewGuid().ToString().Substring(0, 23);
+            return string.Format("{0}-0ee0-4-231-b9ee", Guid.NewGuid().ToString().Substring(0, 8));
         }
     }
 }
