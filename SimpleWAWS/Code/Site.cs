@@ -62,7 +62,7 @@ namespace SimpleWAWS.Code
 
             // Turn on Monaco
             updateParams.AppSettings = new Dictionary<string, string> {
-                {"WEBSITE_NODE_DEFAULT_VERSION", "0.10.21"},
+                {"WEBSITE_NODE_DEFAULT_VERSION", "0.10.32"},
                 {"MONACO_EXTENSION_VERSION", "beta"},
                 {"WEBSITE_TRY_MODE", "1"}
             };
@@ -75,13 +75,6 @@ namespace SimpleWAWS.Code
 
             // Get all the configuration
             await LoadConfigurationAsync();
-
-            var credentials = new NetworkCredential(PublishingUserName, PublishingPassword);
-            var vfsManager = new RemoteVfsManager(ScmUrl + "vfs/", credentials);
-            await vfsManager.Put("site/applicationHost.xdt", HostingEnvironment.MapPath("~/App_Data/applicationHost.xdt"));
-            await vfsManager.Put("site/scmApp/web.config", HostingEnvironment.MapPath("~/App_Data/web.config.file"));
-            var processManager = new ProcessManager(ScmUrl, credentials);
-            await processManager.Kill();
 
             Trace.TraceInformation("Read the configuration for site '{0}' in {1}", this, _webSpace);
         }
