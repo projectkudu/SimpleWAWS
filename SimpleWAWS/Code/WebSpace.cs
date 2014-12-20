@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Management.WebSites;
 using Microsoft.WindowsAzure.Management.WebSites.Models;
@@ -178,7 +177,7 @@ namespace SimpleWAWS.Code
         public async Task DeleteAsync(Site site)
         {
             Sites.Remove(site);
-            _manager.OnSiteDeleted(site);
+            await _manager.OnSiteDeletedAsync(site);
             await DeleteAsync(site.Name);
         }
 

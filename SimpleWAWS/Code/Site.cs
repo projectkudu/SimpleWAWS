@@ -28,6 +28,7 @@ namespace SimpleWAWS.Code
 
         private const string IsSimpleWAWSKey = "SIMPLE_WAWS";
         private const string UserIdMetadataKey = "USERID";
+        private const string SiteUniqueIdMetadataKey = "SITEUNIQUEID";
 
         public Site(WebSpace webSpace, WebSite webSite)
         {
@@ -57,7 +58,8 @@ namespace SimpleWAWS.Code
 
             // Mark it as our site
             updateParams.Metadata = new Dictionary<string, string> {
-                {IsSimpleWAWSKey, "1"}
+                {IsSimpleWAWSKey, "1"},
+                {SiteUniqueIdMetadataKey, Guid.NewGuid().ToString()}
             };
 
             // Turn on Monaco
@@ -67,7 +69,7 @@ namespace SimpleWAWS.Code
                 {"WEBSITE_TRY_MODE", "1"}
             };
 
-            //Mark site's ScmType as LocalGit so that cloning an empty repo gives back the site content
+            // Mark site's ScmType as LocalGit so that cloning an empty repo gives back the site content
             updateParams.ScmType = "LocalGit";
 
             await _webSpace.UpdateConfigurationAsync(Name, updateParams);
@@ -98,6 +100,16 @@ namespace SimpleWAWS.Code
                 string userId = null;
                 _config.Metadata.TryGetValue(UserIdMetadataKey, out userId);
                 return userId;
+            }
+        }
+
+        public string SiteUniqueId
+        {
+            get
+            {
+                string siteuniqueId = null;
+                _config.Metadata.TryGetValue(SiteUniqueIdMetadataKey, out siteuniqueId);
+                return siteuniqueId;
             }
         }
 
@@ -224,6 +236,10 @@ namespace SimpleWAWS.Code
             _config.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = lifeTime.TotalMinutes.ToString();
             updateParams.Metadata = _config.Metadata;
             updateParams.AppSettings = _config.AppSettings;
+
+            // Turn on HttpLogging for analytics later on.
+            updateParams.HttpLoggingEnabled = true;
+
             await _webSpace.UpdateConfigurationAsync(Name, updateParams);
         }
 

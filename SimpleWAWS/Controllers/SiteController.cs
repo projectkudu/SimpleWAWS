@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Runtime.InteropServices;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.Hosting;
 using System.Web.Http;
 using Microsoft.ApplicationInsights.Telemetry.Services;
-using Newtonsoft.Json;
 using SimpleWAWS.Code;
 
 namespace SimpleWAWS.Controllers
@@ -23,7 +18,8 @@ namespace SimpleWAWS.Controllers
         public async Task<HttpResponseMessage> GetSite()
         {
             var siteManager = await SiteManager.GetInstanceAsync();
-            return Request.CreateResponse(HttpStatusCode.OK, await siteManager.GetSite(HttpContext.Current.User.Identity.Name));
+            return Request.CreateResponse(HttpStatusCode.OK,
+                await siteManager.GetSite(HttpContext.Current.User.Identity.Name));
         }
 
         [HttpGet]
@@ -53,7 +49,14 @@ namespace SimpleWAWS.Controllers
             var inUseSites = siteManager.GetAllInUseSites();
             var inProgressCount = siteManager.GetAllInProgressSitesCount();
             return Request.CreateResponse(HttpStatusCode.OK,
-                new { freeSiteCount = freeSites.Count(), inProgressSitesCount = inProgressCount, inUseSitesCount = inUseSites.Count(), freeSites = freeSites, inUseSites = inUseSites });
+                new
+                {
+                    freeSiteCount = freeSites.Count(),
+                    inProgressSitesCount = inProgressCount,
+                    inUseSitesCount = inUseSites.Count(),
+                    freeSites = freeSites,
+                    inUseSites = inUseSites
+                });
         }
 
         public async Task<HttpResponseMessage> GetPublishingProfile()
@@ -84,8 +87,10 @@ namespace SimpleWAWS.Controllers
                 if ((await siteManager.GetSite(HttpContext.Current.User.Identity.Name)) != null)
                 {
                     ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.UserErrors.MoreThanOneWebsite);
-                    Trace.TraceError("### User {0} got error {1}", HttpContext.Current.User.Identity.Name,
-                        "You can't have more than 1 free site at a time");
+
+                    Trace.TraceError("{0}; {1}; {2}", AnalyticsEvents.UserGotError,
+                        HttpContext.Current.User.Identity.Name, "You can't have more than 1 free site at a time");
+
                     return Request.CreateErrorResponse(HttpStatusCode.ServiceUnavailable,
                         "You can't have more than 1 free site at a time");
                 }
@@ -95,12 +100,16 @@ namespace SimpleWAWS.Controllers
                             TemplatesManager.GetTemplates()
                                 .SingleOrDefault(t => t.Name == template.Name && t.Language == template.Language),
                             HttpContext.Current.User.Identity.Name);
-                Trace.TraceInformation("##### User {0}, created site language {1}, template {2}", HttpContext.Current.User.Identity.Name, template.Language, template.Name);
+
+                Trace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
+                    AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName, HttpContext.Current.User.Identity.Name,
+                    template.Language, template.Name, site.SiteUniqueId);
+
                 return Request.CreateResponse(HttpStatusCode.OK, site);
             }
             catch (Exception ex)
             {
-                Trace.TraceError("### User {0} got error {1}", HttpContext.Current.User.Identity.Name, ex.Message);
+                Trace.TraceError("{0}; {1}; {2}", AnalyticsEvents.UserGotError, HttpContext.Current.User.Identity.Name, ex.Message);
                 return Request.CreateErrorResponse(HttpStatusCode.ServiceUnavailable, ex.Message);
             }
             finally

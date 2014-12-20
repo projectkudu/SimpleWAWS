@@ -64,7 +64,7 @@ namespace SimpleWAWS.Authentication
         private HttpCookie CreateSessionCookie(IPrincipal user)
         {
             var value = string.Format("{0};{1}", user.Identity.Name, DateTime.UtcNow);
-            Trace.TraceInformation("###### User {0} logged in, session created", user.Identity.Name);
+            Trace.TraceInformation("{0}; {1}", AnalyticsEvents.UserLoggedIn, user.Identity.Name);
             return new HttpCookie(Constants.LoginSessionCookie, Uri.EscapeDataString(value.Encrypt(Constants.EncryptionReason))) { Path = "/" };
         }
 
@@ -131,7 +131,7 @@ namespace SimpleWAWS.Authentication
                 var puidClaim = user.Claims.FirstOrDefault(c => c.Type == "puid" || c.Type == "altsecid");
                 if (puidClaim != null && puidClaim.Value != null)
                 {
-                    Trace.TraceInformation("USER_PUID_VALUE; {0}; {1}", user.Identity.Name, puidClaim.Value.Split(':').Last());
+                    Trace.TraceInformation("{0}; {1}; {2}", AnalyticsEvents.UserPuidValue, user.Identity.Name, puidClaim.Value.Split(':').Last());
                 }
                 return user;
             }

@@ -16,6 +16,7 @@ using Kudu.Client.Zip;
 using Microsoft.ApplicationInsights.Telemetry.Services;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Management.WebSites;
+using Newtonsoft.Json;
 
 namespace SimpleWAWS.Code
 {
@@ -154,8 +155,9 @@ namespace SimpleWAWS.Code
             _freeSites.Enqueue(site);
         }
 
-        public void OnSiteDeleted(Site site)
+        public async Task OnSiteDeletedAsync(Site site)
         {
+            await Util.SafeGuard(async () => await LogActiveUsageStatistics(site));
             if (site.UserId != null)
             {
                 Site temp;
@@ -165,6 +167,17 @@ namespace SimpleWAWS.Code
             {
                 Trace.TraceWarning("site {0} was being deleted and it had a null UserId. Might point to an inconsistency in the data", site.Name);
             }
+        }
+
+        private async Task LogActiveUsageStatistics(Site site)
+        {
+            var credentials = new NetworkCredential(site.UserId, site.PublishingPassword);
+            var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
+            using (var httpContentStream = await zipManager.GetZipFileStreamAsync("LogFiles/http/RawLogs"))
+            {
+                await StorageHelper.UploadBlob(site.Name, httpContentStream);
+            }
+            await StorageHelper.AddQueueMessage(JsonConvert.SerializeObject(new {BlobName = site.SiteUniqueId}));
         }
 
         private async Task DeleteExpiredSitesAsync()

@@ -27,13 +27,18 @@ namespace Kudu.Client.Zip
             }
         }
 
-
         public async Task PutZipFileAsync(string path, string localZipPath)
         {
             using (var stream = File.OpenRead(localZipPath))
             {
                 await PutZipStreamAsync(path, stream);
             }
+        }
+
+        public async Task<Stream> GetZipFileStreamAsync(string path)
+        {
+            var response = await Client.GetAsync(new Uri(path, UriKind.Relative), HttpCompletionOption.ResponseHeadersRead);
+            return await response.Content.ReadAsStreamAsync();
         }
     }
 }
