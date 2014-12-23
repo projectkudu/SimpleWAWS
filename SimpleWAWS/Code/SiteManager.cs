@@ -213,7 +213,9 @@ namespace SimpleWAWS.Code
                     //mark site in use as soon as it's checked out so that if there is a reload it will be sorted out to the used queue.
                     await site.MarkAsInUseAsync(userId, SiteExpiryTime);
                     var siteCreationTask = Task.Delay(Timeout.Infinite, tokenSource.Token);
-                    //This should not be awaited. this is retuning the infinite task from above
+                    // This should not be awaited. this is retuning the infinite task from above
+                    // The purpose of this task is to block the GetSiteAsync() call until the site in progress is done.
+                    // When the site is no longer in progress, we cancel the task using the cancellation token.
                     _sitesInProgress.AddOrUpdate(userId, s => siteCreationTask, (s, task) => siteCreationTask);
                     Trace.TraceInformation("Site {0} is now in use", site.Name);
 

@@ -15,7 +15,10 @@ namespace SimpleWAWS.Code
         public const string UserGotError = "USER_GOT_ERROR";
 
         // Event format "##### User {userName}, created site language {language}, template {template}"
-        public const string UserCreatedSiteWithLanguageAndTemplateName = "#####";
+        public const string OldUserCreatedSiteWithLanguageAndTemplateName = "#####";
+
+        // Event format "USER_CREATED_SITE_WITH_LANGUAGE_AND_TEMPLATE; {userName}; {language}; {template}; {siteUniqueId}"
+        public const string UserCreatedSiteWithLanguageAndTemplateName = "USER_CREATED_SITE_WITH_LANGUAGE_AND_TEMPLATE";
 
         public const string UserPuidValue = "USER_PUID_VALUE";
         public const string ApplicationStarted = ">>>>>>>";
