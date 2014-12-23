@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -77,9 +77,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.13-preview\lib\net45\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration">
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.1.8.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.WebSites, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.WebSites.0.9.14-preview\lib\net40\Microsoft.WindowsAzure.Management.WebSites.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=4.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WindowsAzure.Storage.4.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -177,6 +185,7 @@
     <Compile Include="Code\Extensions.cs" />
     <Compile Include="Code\SimpleIdentity.cs" />
     <Compile Include="Code\SimplePrincipal.cs" />
+    <Compile Include="Code\StorageHelper.cs" />
     <Compile Include="Code\Template.cs" />
     <Compile Include="Code\TemplatesManager.cs" />
     <Compile Include="Controllers\SiteController.cs" />
@@ -204,6 +213,7 @@
     <Content Include="Content\fonts\segoe-ui\semibold\latest.svg" />
     <Content Include="Content\images\azure-logo.png" />
     <Content Include="Content\images\csg-53c5c728a92dc.png" />
+    <Content Include="Content\images\csg-53ee2f885fd82.png" />
     <Content Include="Content\images\delete.png" />
     <Content Include="Content\images\DownloadPublishing.png" />
     <Content Include="Content\images\DownloadSite.png" />
@@ -216,20 +226,27 @@
     <Content Include="Content\images\packages\Bakery.png" />
     <Content Include="Content\images\packages\BlogEngine.png" />
     <Content Include="Content\images\packages\Boilerplate.png" />
-    <Content Include="Content\images\packages\Bottle.png" />
+    <Content Include="Content\images\packages\Bottle.jpg" />
+    <Content Include="Content\images\packages\delete.png" />
     <Content Include="Content\images\packages\django.png" />
+    <Content Include="Content\images\packages\DownloadPublishing.png" />
+    <Content Include="Content\images\packages\DownloadSite.png" />
     <Content Include="Content\images\packages\ExpressJs.png" />
     <Content Include="Content\images\packages\Flask.png" />
     <Content Include="Content\images\packages\Ghost Blog.png" />
     <Content Include="Content\images\git.png" />
+    <Content Include="Content\images\packages\git.png" />
     <Content Include="Content\images\packages\Hello C#.png" />
     <Content Include="Content\images\packages\HTML5 Empty Site.png" />
+    <Content Include="Content\images\packages\Large.png" />
     <Content Include="Content\images\packages\Node JS Empty Site.png" />
     <Content Include="Content\images\packages\Node Starter.png" />
     <Content Include="Content\images\packages\Personal Site.png" />
     <Content Include="Content\images\packages\Photo Gallery.png" />
     <Content Include="Content\images\packages\PHP Empty Site.png" />
     <Content Include="Content\images\packages\PHP Starter Site.png" />
+    <Content Include="Content\images\packages\TypeScript.png" />
+    <Content Include="Content\images\packages\VSO.png" />
     <Content Include="Content\images\VSO.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -253,7 +270,6 @@
     <Content Include="Content\fonts\segoe-ui\semibold\latest.eot" />
     <Content Include="Content\fonts\segoe-ui\semibold\latest.ttf" />
     <Content Include="Content\fonts\segoe-ui\semibold\latest.woff" />
-    <None Include="Properties\PublishProfiles\trytrytry.pubxml" />
     <Content Include="Scripts\site.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

@@ -171,13 +171,13 @@ namespace SimpleWAWS.Code
 
         private async Task LogActiveUsageStatistics(Site site)
         {
-            var credentials = new NetworkCredential(site.UserId, site.PublishingPassword);
+            var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
             var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
             using (var httpContentStream = await zipManager.GetZipFileStreamAsync("LogFiles/http/RawLogs"))
             {
-                await StorageHelper.UploadBlob(site.Name, httpContentStream);
+                await StorageHelper.UploadBlob(site.SiteUniqueId, httpContentStream);
             }
-            await StorageHelper.AddQueueMessage(JsonConvert.SerializeObject(new {BlobName = site.SiteUniqueId}));
+            await StorageHelper.AddQueueMessage(new {BlobName = site.SiteUniqueId});
         }
 
         private async Task DeleteExpiredSitesAsync()

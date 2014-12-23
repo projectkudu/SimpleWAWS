@@ -8,6 +8,8 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Queue;
+using Newtonsoft.Json;
+using System.Configuration;
 
 namespace SimpleWAWS.Code
 {
@@ -25,17 +27,17 @@ namespace SimpleWAWS.Code
 
         public static async Task UploadBlob(string blobName, Stream contentStream)
         {
-            var container = BlobClient.GetContainerReference("freesitesiislogs");
+            var container = BlobClient.GetContainerReference(ConfigurationManager.AppSettings["FreeSitesIISLogsBlob"]);
             await container.CreateIfNotExistsAsync();
             var blob = container.GetBlockBlobReference(blobName);
             await blob.UploadFromStreamAsync(contentStream);
         }
 
-        public static async Task AddQueueMessage(string message)
+        public static async Task AddQueueMessage(object message)
         {
-            var queue = QueueClient.GetQueueReference("freesitesiislogsqueue");
+            var queue = QueueClient.GetQueueReference(ConfigurationManager.AppSettings["FreeSitesIISLogsQueue"]);
             await queue.CreateIfNotExistsAsync();
-            await queue.AddMessageAsync(new CloudQueueMessage(message));
+            await queue.AddMessageAsync(new CloudQueueMessage(JsonConvert.SerializeObject(message)));
         }
     }
 }
