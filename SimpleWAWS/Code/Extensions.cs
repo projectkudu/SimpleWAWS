@@ -76,5 +76,11 @@ namespace SimpleWAWS.Code
             }
             throw new Exception("decrypted value is null");
         }
+
+        public static bool IsAjaxRequest(this HttpContext context)
+        {
+            return context.Request.Headers["X-Requested-With"] != null &&
+                   context.Request.Headers["X-Requested-With"].Equals("XMLHttpRequest", StringComparison.OrdinalIgnoreCase);
+        }
     }
 }

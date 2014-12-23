@@ -182,6 +182,17 @@ function handleGetSiteError(xhr, error, errorThrown) {
     $("#error-message").show();
 }
 
+function handleGetSiteError(xhr, error, errorThrown) {
+    toggleSpinner();
+    if (xhr.responseText) {
+        var serverError = JSON.parse(xhr.responseText);
+        viewModel.errorMessage(serverError.ExceptionMessage ? serverError.ExceptionMessage : serverError.Message);
+    } else {
+        viewModel.errorMessage("There was an error");
+    }
+    $("#error-message").show();
+}
+
 function freeTrialClick(event) {
     if (appInsights) {
         appInsights.logEvent(
@@ -212,7 +223,7 @@ window.onload = function () {
         toggleSpinner();
         $.ajax({
             type: "POST",
-            url: "/api/site",
+            url: "/api/site?language=" + encodeURIComponent(viewModel.selectedTemplate().language) + "&name=" + encodeURIComponent(viewModel.selectedTemplate().name),
             data: JSON.stringify(viewModel.selectedTemplate()),
             contentType: "application/json; charset=utf-8",
             success: handleGetSite,

@@ -7,6 +7,7 @@ using System.Web.Routing;
 using Microsoft.ApplicationInsights.Telemetry.Services;
 using SimpleWAWS.Authentication;
 using SimpleWAWS.Code;
+using System.Web;
 
 namespace SimpleWAWS
 {
@@ -24,18 +25,18 @@ namespace SimpleWAWS
                 args.ErrorContext.Handled = true;
             };
             //Templates Routes
-            RouteTable.Routes.MapHttpRoute("templates", "api/templates", new { controller = "Templates", action = "Get"});
+            RouteTable.Routes.MapHttpRoute("templates", "api/templates", new { controller = "Templates", action = "Get", authenticated = false });
 
             //Site Api Routes
-            RouteTable.Routes.MapHttpRoute("get-site", "api/site", new { controller = "Site", action = "GetSite" }, new { verb = new HttpMethodConstraint("GET") });
-            RouteTable.Routes.MapHttpRoute("create-site", "api/site", new { controller = "Site", action = "CreateSite" }, new { verb = new HttpMethodConstraint("POST") });
-            RouteTable.Routes.MapHttpRoute("get-site-publishing-profile", "api/site/getpublishingprofile", new { controller = "Site", action = "GetPublishingProfile" }, new { verb = new HttpMethodConstraint("GET") });
-            RouteTable.Routes.MapHttpRoute("delete-site", "api/site", new { controller = "Site", action = "DeleteSite" }, new { verb = new HttpMethodConstraint("DELETE") });
+            RouteTable.Routes.MapHttpRoute("get-site", "api/site", new { controller = "Site", action = "GetSite", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("create-site", "api/site", new { controller = "Site", action = "CreateSite", authenticated = true }, new { verb = new HttpMethodConstraint("POST") });
+            RouteTable.Routes.MapHttpRoute("get-site-publishing-profile", "api/site/getpublishingprofile", new { controller = "Site", action = "GetPublishingProfile", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("delete-site", "api/site", new { controller = "Site", action = "DeleteSite", authenticated = true }, new { verb = new HttpMethodConstraint("DELETE") });
 
             //Admin Only Routes
-            RouteTable.Routes.MapHttpRoute("get-all-sites", "api/site/all", new { controller = "Site", action = "All" }, new { verb = new HttpMethodConstraint("GET") });
-            RouteTable.Routes.MapHttpRoute("reset-all-free-sites", "api/site/reset", new { controller = "Site", action = "Reset" }, new { verb = new HttpMethodConstraint("GET") });
-            RouteTable.Routes.MapHttpRoute("reload-all-free-sites", "api/site/reload", new { controller = "Site", action = "DropAndReloadFromAzure" }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("get-all-sites", "api/site/all", new { controller = "Site", action = "All", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("reset-all-free-sites", "api/site/reset", new { controller = "Site", action = "Reset", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("reload-all-free-sites", "api/site/reload", new { controller = "Site", action = "DropAndReloadFromAzure", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
 
             //Register auth provider
             SecurityManager.SetAuthProvider(new AADProvider());
@@ -43,8 +44,21 @@ namespace SimpleWAWS
 
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
         {
-            if (!Request.Path.Equals(ConfigurationManager.AppSettings["LoginErrorPage"],
-                StringComparison.InvariantCultureIgnoreCase))
+            if (SecurityManager.HasToken(HttpContext.Current))
+            {
+                // This is a login redirect
+                SecurityManager.AuthenticateRequest(Context);
+            }
+
+            var route = RouteTable.Routes.GetRouteData(new HttpContextWrapper(HttpContext.Current));
+            // If the route is not registerd in the WebAPI RouteTable
+            //      then it's not an API route, which means it's a resource (*.js, *.css, *.cshtml), not authenticated.
+            if (route == null) return;
+
+            // If the route doesn't have authenticated value assume true
+            var isAuthenticated = route.Values["authenticated"] == null || (bool) route.Values["authenticated"];
+
+            if (isAuthenticated)
             {
                 SecurityManager.AuthenticateRequest(Context);
                 ServerAnalytics.CurrentRequest.AppUserId = Context.User.Identity.Name;

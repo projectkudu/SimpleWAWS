@@ -18,20 +18,30 @@ namespace SimpleWAWS.Authentication
         {
             if (!TryAuthenticateSessionCookie(context))
             {
-                switch (TryAuthenticateBarrer(context))
+                switch (TryAuthenticateBearer(context))
                 {
                     case TokenResults.DoesntExist:
-                        context.Response.RedirectLocation = GetLoginUrl(context);
-                        context.Response.StatusCode = 302; //Redirect
+                        if (context.IsAjaxRequest())
+                        {
+                            context.Response.Headers["LoginUrl"] = GetLoginUrl(context);
+                            context.Response.StatusCode = 403; // Forbidden
+                        }
+                        else
+                        {
+                            context.Response.RedirectLocation = GetLoginUrl(context);
+                            context.Response.StatusCode = 302; // Redirect
+                        }
                         break;
                     case TokenResults.ExistAndWrong:
+                        // Ajax can never send an invalid Bearer token
                         context.Response.RedirectLocation = ConfigurationManager.AppSettings["LoginErrorPage"];
-                        context.Response.StatusCode = 302; //Redirect
+                        context.Response.StatusCode = 302; // Redirect
                         break;
                     case TokenResults.ExistsAndCorrect:
+                        // Ajax can never send Bearer token
                         context.Response.Cookies.Add(CreateSessionCookie(context.User));
                         context.Response.RedirectLocation = context.Request["state"];
-                        context.Response.StatusCode = 302; //Redirect
+                        context.Response.StatusCode = 302; // Redirect
                         break;
                     default:
                         //this should never happen
@@ -41,7 +51,12 @@ namespace SimpleWAWS.Authentication
             }
         }
 
-        private TokenResults TryAuthenticateBarrer(HttpContext context)
+        public bool HasToken(HttpContext context)
+        {
+            return GetBearer(context) != null;
+        }
+
+        private TokenResults TryAuthenticateBearer(HttpContext context)
         {
             var jwt = GetBearer(context);
 
@@ -107,7 +122,7 @@ namespace SimpleWAWS.Authentication
             builder.AppendFormat("&resource={0}", WebUtility.UrlEncode("https://management.core.windows.net/"));
             builder.AppendFormat("&site_id={0}", "500879");
             builder.AppendFormat("&nonce={0}", Guid.NewGuid());
-            builder.AppendFormat("&state={0}", context.Request.Url.PathAndQuery);
+            builder.AppendFormat("&state={0}", context.IsAjaxRequest() ? string.Format("/{0}", context.Request.Url.Query) : context.Request.Url.PathAndQuery);
             return builder.ToString();
         }
 
