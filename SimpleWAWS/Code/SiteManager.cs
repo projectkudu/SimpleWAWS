@@ -157,9 +157,9 @@ namespace SimpleWAWS.Code
 
         public async Task OnSiteDeletedAsync(Site site)
         {
-            await Util.SafeGuard(async () => await LogActiveUsageStatistics(site));
             if (site.UserId != null)
             {
+                await Util.SafeGuard(async () => await LogActiveUsageStatistics(site));
                 Site temp;
                 _sitesInUse.TryRemove(site.UserId, out temp);
             }
