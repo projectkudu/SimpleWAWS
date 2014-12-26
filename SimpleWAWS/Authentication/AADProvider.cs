@@ -122,7 +122,7 @@ namespace SimpleWAWS.Authentication
             builder.AppendFormat("&resource={0}", WebUtility.UrlEncode("https://management.core.windows.net/"));
             builder.AppendFormat("&site_id={0}", "500879");
             builder.AppendFormat("&nonce={0}", Guid.NewGuid());
-            builder.AppendFormat("&state={0}", context.IsAjaxRequest() ? string.Format("/{0}", context.Request.Url.Query) : context.Request.Url.PathAndQuery);
+            builder.AppendFormat("&state={0}", WebUtility.UrlEncode(context.IsAjaxRequest() ? string.Format("/{0}", context.Request.Url.Query) : context.Request.Url.PathAndQuery));
             return builder.ToString();
         }
 

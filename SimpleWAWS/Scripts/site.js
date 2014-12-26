@@ -21,6 +21,14 @@ var Site = (function () {
 
 var viewModel;
 
+//http://stackoverflow.com/a/901144/3234163
+function getQueryStringBytName(name){
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? undefined : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
 function initViewModel() {
     viewModel = this;
     viewModel.siteJson = ko.observable();
@@ -73,10 +81,8 @@ function helloSort(a, b) {
 }
 
 function getCorrectDefaultLanguage(templates) {
-    var regex = new RegExp("[\\?&]language=([^&#]*)"),
-            results = regex.exec(location.search);
-    result = results === null ? null : decodeURIComponent(results[1].replace(/\+/g, " "));
-    if (result === null) {
+    var result = getQueryStringBytName("language");
+    if (result === undefined) {
         return templates[0].language;
     } else {
         result = result.toUpperCase();
@@ -91,7 +97,7 @@ function getCorrectDefaultLanguage(templates) {
 
 function initSite() {
     toggleSpinner();
-    $.ajax({
+    return $.ajax({
         type: "GET",
         url: "/api/site",
         data: "",
@@ -133,12 +139,12 @@ function deleteSite(event) {
     if (event) {
         event.preventDefault();
     }
-    $.ajax({
+    viewModel.siteJson(undefined);
+    scrollToTop();
+    return $.ajax({
         type: "DELETE",
         url: "/api/site"
     });
-    viewModel.siteJson(undefined);
-    scrollToTop();
 }
 
 function toggleSpinner() {
@@ -146,19 +152,8 @@ function toggleSpinner() {
     viewModel.createRunning(!viewModel.createRunning());
 }
 
-function handleGetSite(data) {
-    toggleSpinner();
-    if (data != null) {
-    viewModel.siteJson(data);
-    startCountDown(viewModel.siteJson().timeLeftString);
-    scrollSitePartToView();
-    } else {
-        viewModel.siteJson(undefined);
-    }
-}
-
 function scrollSitePartToView() {
-    scrollHelper($("#work-with-your-site").offset().top-100);
+    scrollHelper($("#work-with-your-site").offset().top-170);
 }
 
 function scrollToTop() {
@@ -171,28 +166,50 @@ function scrollHelper(index) {
     }, 900);
 }
 
+function handleGetSite(data) {
+    toggleSpinner();
+    if (data != null) {
+        viewModel.siteJson(data);
+        startCountDown(viewModel.siteJson().timeLeftString);
+        scrollSitePartToView();
+    } else {
+        viewModel.siteJson(undefined);
+    }
+}
+
+function isJSON(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
 function handleGetSiteError(xhr, error, errorThrown) {
     toggleSpinner();
+    if (xhr.status === 403) return; //this is expected if we are not logged in.
+    handleGenericHttpError(xhr, error, errorThrown);
+}
+
+function handleCreateSiteError(xhr, error, errorThrown) {
+    toggleSpinner();
+    if (xhr.status === 403 && xhr.getResponseHeader("LoginUrl") !== null) {
+        window.location = xhr.getResponseHeader("LoginUrl");
+        return;
+    }
+    handleGenericHttpError(xhr, error, errorThrown);
+}
+
+function handleGenericHttpError(xhr, error, errorThrown) {
     if (xhr.responseText) {
-        var serverError = JSON.parse(xhr.responseText);
+        var serverError = isJSON(xhr.responseText) ? JSON.parse(xhr.responseText) : xhr.responseText;
         viewModel.errorMessage(serverError.ExceptionMessage ? serverError.ExceptionMessage : serverError.Message);
     } else {
         viewModel.errorMessage("There was an error");
     }
     $("#error-message").show();
 }
-
-function handleGetSiteError(xhr, error, errorThrown) {
-    toggleSpinner();
-    if (xhr.responseText) {
-        var serverError = JSON.parse(xhr.responseText);
-        viewModel.errorMessage(serverError.ExceptionMessage ? serverError.ExceptionMessage : serverError.Message);
-    } else {
-        viewModel.errorMessage("There was an error");
-    }
-    $("#error-message").show();
-}
-
 function freeTrialClick(event) {
     if (appInsights) {
         appInsights.logEvent(
@@ -214,21 +231,57 @@ function doSearch(searchBoxId) {
     window.location.href = baseUrl + searchItems;
 }
 
+function createSite(template) {
+
+    if (!template) {
+        template = viewModel.selectedTemplate();
+    }
+
+    toggleSpinner();
+    return $.ajax({
+        type: "POST",
+        url: "/api/site?language=" + encodeURIComponent(template.language) + "&name=" + encodeURIComponent(template.name),
+        data: JSON.stringify(template),
+        contentType: "application/json; charset=utf-8",
+        success: handleGetSite,
+        error: handleCreateSiteError
+    });
+}
+
+function getSiteToCreate(){
+    var language = getQueryStringBytName("language");
+    var templateName = getQueryStringBytName("name");
+    if (language !== undefined && templateName !== undefined)
+        return {
+            name: templateName,
+            language: language
+        };
+}
+
+function isCreateSite() {
+    return getSiteToCreate() !== undefined;
+}
+
+function clearQueryString() {
+    if (history.pushState) {
+        var language = getQueryStringBytName("language");
+        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?language=' + encodeURIComponent(language);
+        window.history.pushState({ path: newurl }, '', newurl);
+    }
+}
+
 window.onload = function () {
     initViewModel();
     initTemplates();
-    initSite();
+    if (isCreateSite()) {
+        createSite(getSiteToCreate()).error(function () { initSite().always(function () { $("#error-message").show(); }); });
+        clearQueryString();
+    } else {
+        initSite();
+    }
     $("#create-site").click(function (e) {
         e.preventDefault();
-        toggleSpinner();
-        $.ajax({
-            type: "POST",
-            url: "/api/site?language=" + encodeURIComponent(viewModel.selectedTemplate().language) + "&name=" + encodeURIComponent(viewModel.selectedTemplate().name),
-            data: JSON.stringify(viewModel.selectedTemplate()),
-            contentType: "application/json; charset=utf-8",
-            success: handleGetSite,
-            error: handleGetSiteError
-        });
+        createSite();
     });
     $("select").on("change", function (e) {
         var optionSelected = $("option:selected", this);
