@@ -8,6 +8,9 @@
         <div class="wa-spacer-9down">
             <h1>Create your website</h1>
             <h3>Create and deploy web sites in seconds, as powerful as you need them to be.</h3>
+            <h4 style="width: 800px;">
+                This Azure Websites trial experience does not require an Azure subscription and it is free of charge and commitment.
+            </h4>
         </div>
     </div>
 </section>
@@ -26,7 +29,7 @@
         </div>
         <br/>
         <br/>
-        <div data-bind="foreach: templates">
+        <div id="templates-div" data-bind="foreach: templates">
             <!-- ko if: $root.selectedLanguage() === $data.language -->
             <div class="website-template-container" data-bind="visible: true" style="display: none">
                 <a class="select-template-anchor" href="#" data-bind="click: function(data, event) {data.select(event);}">
@@ -75,7 +78,10 @@
                 </div>
                 <div class="work-with-site-tools">
                     <div class="work-with-site-tools-img icons sprite-git"></div>
-                    <input type="text" readonly="readonly" onclick="this.select();" style="margin-left: -20px; margin-top: 8px; height: 20px; border: 2px inset" data-bind="value: gitUrlWithCreds">
+                    <a href="#" onclick="gitUrlClick(event)">
+                        <div class="website-template-name">Clone or push with git</div>
+                        <input id="git-url-input" type="text" readonly="readonly" onclick="this.select();" style="margin-left: -20px; margin-top: 8px; height: 20px; border: 2px inset" data-bind="value: gitUrlWithCreds">
+                    </a>
                 </div>
                 <div class="work-with-site-tools">
                     <a data-bind="click: function(data, event) {$root.deleteSite(event);}" href="#"><div class="work-with-site-tools-img icons sprite-delete"></div><div class="website-template-name">Delete the site</div></a>
@@ -96,7 +102,7 @@
                 <a><div class="work-with-site-tools-img icons sprite-DownloadPublishing"></div><div class="website-template-name">Download publishing profile</div></a>
             </div>
             <div class="work-with-site-tools">
-                <div class="work-with-site-tools-img icons sprite-git"></div>
+                <a><div class="work-with-site-tools-img icons sprite-git"></div><div class="website-template-name">Clone or push with git</div></a>
             </div>
             <div class="work-with-site-tools">
                 <a><div class="work-with-site-tools-img icons sprite-delete"></div><div class="website-template-name">Delete the site</div></a>

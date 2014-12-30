@@ -73,10 +73,12 @@ namespace SimpleWAWS.Controllers
 
         public async Task<HttpResponseMessage> CreateSite(Template template)
         {
-            if (template == null)
-            {
-                template = Template.EmptySiteTemplate;
-            }
+            //Template names should be unique even between languages
+            template = template == null 
+                ? Template.EmptySiteTemplate
+                : TemplatesManager.GetTemplates()
+                                  .FirstOrDefault(t => t.Name == template.Name);
+
             var createSiteEvent =
                 ServerAnalytics.CurrentRequest.StartTimedEvent(AppInsightsEvents.UserActions.CreateWebsite,
                     new Dictionary<string, object> { { "Template", template.Name }, { "Language", template.Language } });
@@ -93,12 +95,7 @@ namespace SimpleWAWS.Controllers
                     return Request.CreateErrorResponse(HttpStatusCode.ServiceUnavailable,
                         "You can't have more than 1 free site at a time");
                 }
-                var site =
-                    await
-                        siteManager.ActivateSiteAsync(
-                            TemplatesManager.GetTemplates()
-                                .SingleOrDefault(t => t.Name == template.Name && t.Language == template.Language),
-                            HttpContext.Current.User.Identity.Name);
+                var site = await siteManager.ActivateSiteAsync(template, HttpContext.Current.User.Identity.Name);
 
                 Trace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
                     AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName, HttpContext.Current.User.Identity.Name,

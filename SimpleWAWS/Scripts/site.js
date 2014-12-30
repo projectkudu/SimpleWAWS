@@ -42,7 +42,7 @@ function initViewModel() {
         var languages = ko.utils.arrayMap(viewModel.templates(), function (item) {
             return item.language;
         });
-        return ko.utils.arrayGetDistinctValues(languages).sort();
+        return ko.utils.arrayGetDistinctValues(languages).sort(defaultSort);
     });
     viewModel.selectLanguage = function (e) {
         if (typeof e === "string") {
@@ -50,11 +50,14 @@ function initViewModel() {
         } else if (e) {
             viewModel.selectedLanguage($(e.target).text());
         }
-        $(".select-template-anchor").first().click();
+        if (viewModel.selectedTemplate() && viewModel.selectedTemplate().language === viewModel.selectedLanguage()) {
+            selectTemplate(viewModel.selectedTemplate());
+        } else {
+            $(".select-template-anchor").first().click();
+        }
     };
     ko.applyBindings(viewModel);
 }
-;
 
 function initTemplates() {
     $.getJSON("/api/templates", function (data) {
@@ -64,10 +67,21 @@ function initTemplates() {
     }).done(function () {
         viewModel.templates.sort(helloSort);
         if (viewModel.templates().length > 0) {
-            viewModel.selectLanguage(getCorrectDefaultLanguage(viewModel.templates()));
-            $("option.wa-dropdown-language-option[value='" + getCorrectDefaultLanguage(viewModel.templates()) + "']").prop('selected', true);
+            viewModel.selectLanguage(getCorrectDefaultLanguage(viewModel.languages()));
+            $("option.wa-dropdown-language-option[value='" + getCorrectDefaultLanguage(viewModel.languages()) + "']").prop('selected', true);
         }
     });
+}
+
+function defaultSort(a, b) {
+    if (a.toUpperCase() === "DEFAULT") {
+        return -1;
+    } else if (b.toUpperCase() === "DEFAULT") {
+        return 1;
+    }
+    else {
+        return a.localeCompare(b);
+    }
 }
 
 function helloSort(a, b) {
@@ -80,18 +94,18 @@ function helloSort(a, b) {
     }
 }
 
-function getCorrectDefaultLanguage(templates) {
+function getCorrectDefaultLanguage(languages) {
     var result = getQueryStringBytName("language");
     if (result === undefined) {
-        return templates[0].language;
+        return languages[0];
     } else {
         result = result.toUpperCase();
-        for (var i = 0; i < templates.length; i++) {
-            if (templates[i].language.toUpperCase() === result) {
-                return templates[i].language;
+        for (var i = 0; i < languages.length; i++) {
+            if (languages[i].toUpperCase() === result) {
+                return languages[i];
             }
         }
-        return templates[0].language
+        return languages[0];
     }
 }
 
@@ -193,11 +207,11 @@ function handleGetSiteError(xhr, error, errorThrown) {
 }
 
 function handleCreateSiteError(xhr, error, errorThrown) {
-    toggleSpinner();
     if (xhr.status === 403 && xhr.getResponseHeader("LoginUrl") !== null) {
         window.location = xhr.getResponseHeader("LoginUrl");
         return;
     }
+    toggleSpinner();
     handleGenericHttpError(xhr, error, errorThrown);
 }
 
@@ -210,6 +224,7 @@ function handleGenericHttpError(xhr, error, errorThrown) {
     }
     $("#error-message").show();
 }
+
 function freeTrialClick(event) {
     if (appInsights) {
         appInsights.logEvent(
@@ -270,11 +285,26 @@ function clearQueryString() {
     }
 }
 
+function selectTemplate(template) {
+    $("#templates-div")
+        .find(".sprite-" + template.name.replace(/ /g, "").replace(/\./g, "\\."))
+        .closest(".website-template-container")
+        .addClass("website-template-container-selected");
+}
+
+function gitUrlClick(event) {
+    event.preventDefault();
+    $('#git-url-input').select();
+}
+
 window.onload = function () {
     initViewModel();
     initTemplates();
     if (isCreateSite()) {
-        createSite(getSiteToCreate()).error(function () { initSite().always(function () { $("#error-message").show(); }); });
+        var template = getSiteToCreate();
+        viewModel.selectedTemplate(template);
+        selectTemplate(template);
+        createSite(template).error(function () { initSite().always(function () { $("#error-message").show(); }); });
         clearQueryString();
     } else {
         initSite();

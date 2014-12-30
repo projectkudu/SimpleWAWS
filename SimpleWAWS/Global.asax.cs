@@ -39,7 +39,7 @@ namespace SimpleWAWS
             RouteTable.Routes.MapHttpRoute("reload-all-free-sites", "api/site/reload", new { controller = "Site", action = "DropAndReloadFromAzure", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
 
             //Register auth provider
-            SecurityManager.SetAuthProvider(new AADProvider());
+            SecurityManager.InitAuthProviders();
         }
 
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
