@@ -2,12 +2,14 @@
 using System.Web;
 using SimpleWAWS.Authentication;
 using System.Collections.Generic;
+using System;
 
 namespace SimpleWAWS.Code
 {
     public static class SecurityManager
     {
-        private static readonly Dictionary<string, IAuthProvider> _authProviders = new Dictionary<string,IAuthProvider>();
+        private static readonly Dictionary<string, IAuthProvider> _authProviders =
+            new Dictionary<string, IAuthProvider>(StringComparer.InvariantCultureIgnoreCase);
 
         private static IAuthProvider GetAuthProvider(HttpContext context)
         {
@@ -28,8 +30,10 @@ namespace SimpleWAWS.Code
 
         public static void InitAuthProviders()
         {
-            _authProviders.Add("aad", new AADProvider()); // Constants.DefaultAuthProvider
-            _authProviders.Add("facebook", new FacebookAuthProvider()); 
+            _authProviders.Add("AAD", new AADProvider());
+            _authProviders.Add("Facebook", new FacebookAuthProvider());
+            _authProviders.Add("Twitter", new TwitterAuthProvider());
+            _authProviders.Add("Google", new GoogleAuthProvider());
         }
 
         public static void AuthenticateRequest(HttpContext context)

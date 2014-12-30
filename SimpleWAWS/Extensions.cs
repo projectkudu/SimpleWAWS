@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Security;
 using Microsoft.WindowsAzure.Management.WebSites.Models;
 
-namespace SimpleWAWS.Code
+namespace SimpleWAWS
 {
     public static class Extensions
     {

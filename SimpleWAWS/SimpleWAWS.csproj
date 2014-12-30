@@ -177,15 +177,17 @@
     <Compile Include="Authentication\BaseAuthProvider.cs" />
     <Compile Include="Authentication\Constants.cs" />
     <Compile Include="Authentication\FacebookAuthProvider.cs" />
+    <Compile Include="Authentication\GoogleAuthProvider.cs" />
     <Compile Include="Authentication\IAuthProvider.cs" />
     <Compile Include="Authentication\OpenIdConfiguration.cs" />
     <Compile Include="Authentication\SecurityManager.cs" />
     <Compile Include="Authentication\TokenResults.cs" />
+    <Compile Include="Authentication\TwitterAuthProvider.cs" />
     <Compile Include="Code\AnalyticsEvents.cs" />
     <Compile Include="Code\AppInsightsEvents.cs" />
     <Compile Include="Code\AsyncLock.cs" />
     <Compile Include="Code\Exceptions.cs" />
-    <Compile Include="Code\Extensions.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Code\SimpleIdentity.cs" />
     <Compile Include="Code\SimplePrincipal.cs" />
     <Compile Include="Code\StorageHelper.cs" />
@@ -293,6 +295,7 @@
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Login.cshtml" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <PropertyGroup>

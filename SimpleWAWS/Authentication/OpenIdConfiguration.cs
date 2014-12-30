@@ -32,18 +32,22 @@ namespace SimpleWAWS.Authentication
 
         private static void UpdateKeysMap()
         {
-            var request = (HttpWebRequest)WebRequest.Create(ConfigurationManager.AppSettings[Constants.AADIssuerKeys]);
-            JWTSingingKeys keys = null;
-            using (var response = request.GetResponse())
+            var issuers = ConfigurationManager.AppSettings[Constants.AADIssuerKeys].Split(';');
+            foreach (var issuer in issuers)
             {
-                using (var reader = new StreamReader(response.GetResponseStream()))
+                var request = (HttpWebRequest)WebRequest.Create(issuer);
+                JWTSingingKeys keys = null;
+                using (var response = request.GetResponse())
                 {
-                    keys = JsonConvert.DeserializeObject<JWTSingingKeys>(reader.ReadToEnd());
+                    using (var reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        keys = JsonConvert.DeserializeObject<JWTSingingKeys>(reader.ReadToEnd());
+                    }
                 }
-            }
-            foreach (var jwtSingingKey in keys.Keys)
-            {
-                ThumbprintKeyMap[jwtSingingKey.Thumbprint] = jwtSingingKey.GetSecurityTokens();
+                foreach (var jwtSingingKey in keys.Keys)
+                {
+                    ThumbprintKeyMap[jwtSingingKey.Thumbprint] = jwtSingingKey.GetSecurityTokens();
+                }
             }
         }
 

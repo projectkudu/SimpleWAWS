@@ -1,18 +1,19 @@
 ﻿using System;
-using System.Configuration;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
 
 namespace SimpleWAWS.Authentication
 {
-    public class FacebookAuthProvider : BaseAuthProvider
+    public class TwitterAuthProvider : BaseAuthProvider
     {
         protected override string GetLoginUrl(HttpContext context)
         {
             var builder = new StringBuilder();
             builder.Append("https://www.facebook.com/dialog/oauth");
-            builder.Append("?response_type=id_token");
+            builder.Append("?response_type=token");
             builder.AppendFormat("&redirect_uri={0}", WebUtility.UrlEncode(string.Format("https://{0}/", context.Request.Headers["HOST"])));
             builder.AppendFormat("&client_id={0}", "316276778571954");
             builder.AppendFormat("&scope={0}", "email");

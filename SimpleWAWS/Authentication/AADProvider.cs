@@ -16,7 +16,7 @@ namespace SimpleWAWS.Authentication
             builder.Append("?response_type=id_token");
             builder.AppendFormat("&redirect_uri={0}", WebUtility.UrlEncode(string.Format("https://{0}/", context.Request.Headers["HOST"])));
             builder.AppendFormat("&client_id={0}", ConfigurationManager.AppSettings[Constants.AADAppId]);
-            builder.AppendFormat("&response_mode=query");
+            builder.Append("&response_mode=query");
             builder.AppendFormat("&resource={0}", WebUtility.UrlEncode("https://management.core.windows.net/"));
             builder.AppendFormat("&site_id={0}", "500879");
             builder.AppendFormat("&nonce={0}", Guid.NewGuid());
