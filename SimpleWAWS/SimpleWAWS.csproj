@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -174,10 +174,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authentication\AADProvider.cs" />
+    <Compile Include="Authentication\BaseAuthProvider.cs" />
     <Compile Include="Authentication\Constants.cs" />
+    <Compile Include="Authentication\FacebookAuthProvider.cs" />
     <Compile Include="Authentication\IAuthProvider.cs" />
     <Compile Include="Authentication\OpenIdConfiguration.cs" />
     <Compile Include="Authentication\SecurityManager.cs" />
+    <Compile Include="Authentication\TokenResults.cs" />
     <Compile Include="Code\AnalyticsEvents.cs" />
     <Compile Include="Code\AppInsightsEvents.cs" />
     <Compile Include="Code\AsyncLock.cs" />
@@ -212,8 +215,8 @@
     <Content Include="Content\fonts\segoe-ui\normal\latest.svg" />
     <Content Include="Content\fonts\segoe-ui\semibold\latest.svg" />
     <Content Include="Content\images\azure-logo.png" />
-    <Content Include="Content\images\csg-53c5c728a92dc.png" />
     <Content Include="Content\images\csg-53ee2f885fd82.png" />
+    <Content Include="Content\images\csg-54a1e97433b7e.png" />
     <Content Include="Content\images\delete.png" />
     <Content Include="Content\images\DownloadPublishing.png" />
     <Content Include="Content\images\DownloadSite.png" />
