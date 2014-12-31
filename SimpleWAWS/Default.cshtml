@@ -48,6 +48,7 @@
         <div id="login-options" style="display: none; margin-left: 30px">
             <a href="#" onclick="handleCreateClick(event, 'aad')" class="create-site-action wa-button microsoft-login">Microsoft Account</a>
             <a class="create-site-action" onclick="handleCreateClick(event, 'google')" href="#"><div class="google-login sprite-google"></div></a>
+            <a class="create-site-action" onclick="handleCreateClick(event, 'facebook')" href="#"><div class="facebook-login"></div></a>
         </div>
         <div class="spinner">
             <!-- ko if: createRunning  -->
@@ -136,4 +137,3 @@
 </div>
 <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/knockout/knockout-3.0.0.js"></script>
 <script type="text/javascript" src="/Scripts/site.js"></script>
-<script src="https://apis.google.com/js/client:platform.js" async defer></script>

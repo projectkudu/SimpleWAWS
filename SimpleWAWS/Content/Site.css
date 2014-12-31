@@ -9061,7 +9061,6 @@ div.sprite-git{ background-position: -165px 0; width: 50px; height: 50px; }
     font-size: 17px;
     line-height: 25px;
     display: inline-block;
-    margin-right: 10px;
     top: -9px;
     
     font-family: wf_segoe-ui_light,"Segoe UI Light","Segoe WP Light","Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
@@ -9076,4 +9075,15 @@ div.sprite-git{ background-position: -165px 0; width: 50px; height: 50px; }
 
 .microsoft-login:hover {
     background-color: #00356c;
+}
+
+div.facebook-login {
+    background: url(/Content/images/Logins/facebook.png) no-repeat top left;
+    background-position: 0 0;
+    background-size: 85%;
+    width: 221px;
+    height: 49px;
+    display: inline-block;
+    top: 4px;
+    position: relative;
 }

@@ -7,7 +7,7 @@ using SimpleWAWS.Code;
 
 namespace SimpleWAWS.Authentication
 {
-    public class AADProvider : BaseAuthProvider
+    public class AADProvider : BaseOpenIdConnectAuthProvider
     {
         protected override string GetLoginUrl(HttpContext context)
         {
@@ -27,6 +27,11 @@ namespace SimpleWAWS.Authentication
         protected override string GetValidAudiance()
         {
             return ConfigurationManager.AppSettings[Constants.AADAppId];
+        }
+
+        protected override string GetIssuerName()
+        {
+            return "AAD";
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Web;
 
 namespace SimpleWAWS.Authentication
 {
-    public class GoogleAuthProvider : BaseAuthProvider
+    public class GoogleAuthProvider : BaseOpenIdConnectAuthProvider
     {
         protected override string GetLoginUrl(HttpContext context)
         {
@@ -24,6 +24,11 @@ namespace SimpleWAWS.Authentication
         protected override string GetValidAudiance()
         {
             return "504310977207-tk3fjp3s6mk6ph8m3gsnkhaan49ejjaa.apps.googleusercontent.com";
+        }
+
+        protected override string GetIssuerName()
+        {
+            return "Google";
         }
     }
 }
