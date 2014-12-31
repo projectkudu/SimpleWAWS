@@ -182,6 +182,7 @@ function scrollHelper(index) {
 
 function handleGetSite(data) {
     toggleSpinner();
+    $("#create-site").show();
     if (data != null) {
         viewModel.siteJson(data);
         startCountDown(viewModel.siteJson().timeLeftString);
@@ -206,7 +207,6 @@ function handleGetSiteError(xhr, error, errorThrown) {
         // This is expected if we are not logged in.
         //  Disable create, and show login
         $("#login-options").css('display', 'inline-block');
-        $("#create-blocker").show();
         return;
     }
     handleGenericHttpError(xhr, error, errorThrown);
