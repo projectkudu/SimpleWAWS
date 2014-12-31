@@ -14,6 +14,8 @@ namespace SimpleWAWS.Authentication
     public abstract class BaseAuthProvider : IAuthProvider
     {
         private const string emailClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress";
+        private const string upnClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn";
+        private const string nameClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
         private const string issuerClaimType = "iss";
         private const string puidClaimType = "puid";
         private const string altSecIdClaimType = "altsecid";
@@ -102,7 +104,9 @@ namespace SimpleWAWS.Authentication
             try
             {
                 var user = handler.ValidateToken(jwt, parameters);
+                var upnClaim = user.Claims.Where(c => c.Type == upnClaimType).Select(c => c.Value).FirstOrDefault();
                 var emailClaim = user.Claims.Where(c => c.Type == emailClaimType).Select(c => c.Value).FirstOrDefault();
+                var nameClaim = user.Claims.Where(c => c.Type == nameClaimType).Select(c => c.Value).FirstOrDefault();
                 var issuerClaim = user.Claims.Where(c => c.Type == issuerClaimType).Select(c => c.Value).FirstOrDefault();
                 var puidClaim = user.Claims.Where(c => c.Type == puidClaimType || c.Type == altSecIdClaimType).Select(c => c.Value).FirstOrDefault();
 
@@ -111,7 +115,7 @@ namespace SimpleWAWS.Authentication
                     Trace.TraceInformation("{0}; {1}; {2}", AnalyticsEvents.UserPuidValue, user.Identity.Name, puidClaim.Split(':').Last());
                 }
 
-                return new TryWebsitesPrincipal(new TryWebsitesIdentity(emailClaim, puidClaim, issuerClaim));
+                return new TryWebsitesPrincipal(new TryWebsitesIdentity(upnClaim ?? emailClaim ?? user.Identity.Name, puidClaim, issuerClaim));
             }
             catch (Exception e)
             {

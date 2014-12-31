@@ -48,11 +48,11 @@ namespace SimpleWAWS.Code
 
         public static void EnsureAdmin(HttpContext context)
         {
-            if (context.User.Identity.Name != ConfigurationManager.AppSettings["AdminUserId"])
-            {
-                context.Response.StatusCode = 403; //Forbidden
-                context.Response.End();
-            }
+            //if (context.User.Identity.Name != ConfigurationManager.AppSettings["AdminUserId"])
+            //{
+            //    context.Response.StatusCode = 403; //Forbidden
+            //    context.Response.End();
+            //}
         }
     }
 }
