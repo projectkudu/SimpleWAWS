@@ -87,7 +87,7 @@ namespace SimpleWAWS
         {
             return value.Length % 4 == 0
                 ? value
-                : value.PadRight(value.Length + value.Length % 4, '=');
+                : value.PadRight(value.Length + (4 - value.Length % 4), '=');
         }
     }
 }
