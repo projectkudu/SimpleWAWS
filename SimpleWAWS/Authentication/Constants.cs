@@ -11,6 +11,7 @@ namespace SimpleWAWS.Authentication
         public static readonly TimeSpan SessionCookieValidTimeSpan = TimeSpan.FromHours(8);
         public const string BearerHeader = "Bearer ";
         public const string AADIssuerKeys = "AADIssuerKeys";
+        public const string GoogleIssuerCerts = "GoogleIssuerCerts";
         public const string DefaultAuthProvider = "Google";
     }
 }

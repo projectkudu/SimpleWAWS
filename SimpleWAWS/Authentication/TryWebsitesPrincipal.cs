@@ -4,11 +4,11 @@ using System.Linq;
 using System.Security.Principal;
 using System.Web;
 
-namespace SimpleWAWS.Code
+namespace SimpleWAWS.Authentication
 {
-    public class SimplePrincipal : IPrincipal
+    public class TryWebsitesPrincipal : IPrincipal
     {
-        public SimplePrincipal(IIdentity identity)
+        public TryWebsitesPrincipal(IIdentity identity)
         {
             this.Identity = identity;
         }
@@ -18,5 +18,6 @@ namespace SimpleWAWS.Code
         }
 
         public IIdentity Identity { get; private set; }
+
     }
 }

@@ -68,7 +68,7 @@ namespace SimpleWAWS
 
         public static string Decrypt(this string str, string reason = null)
         {
-            var encryptesBytes = Convert.FromBase64String(str);
+            var encryptesBytes = Convert.FromBase64String(str.PadBase64());
             var decryptedBytes = MachineKey.Unprotect(encryptesBytes, reason ?? DefaultEncryptReason);
             if (decryptedBytes != null)
             {
@@ -81,6 +81,13 @@ namespace SimpleWAWS
         {
             return context.Request.Headers["X-Requested-With"] != null &&
                    context.Request.Headers["X-Requested-With"].Equals("XMLHttpRequest", StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static string PadBase64(this string value)
+        {
+            return value.Length % 4 == 0
+                ? value
+                : value.PadRight(value.Length + value.Length % 4, '=');
         }
     }
 }

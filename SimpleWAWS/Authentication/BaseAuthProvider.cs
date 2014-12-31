@@ -13,6 +13,11 @@ namespace SimpleWAWS.Authentication
 {
     public abstract class BaseAuthProvider : IAuthProvider
     {
+        private const string emailClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress";
+        private const string issuerClaimType = "iss";
+        private const string puidClaimType = "puid";
+        private const string altSecIdClaimType = "altsecid";
+
         public void AuthenticateRequest(HttpContext context)
         {
             if (!TryAuthenticateSessionCookie(context))
@@ -58,6 +63,7 @@ namespace SimpleWAWS.Authentication
         abstract protected string GetLoginUrl(HttpContext context);
         abstract protected string GetValidAudiance();
 
+
         protected TokenResults TryAuthenticateBearer(HttpContext context)
         {
             var jwt = GetBearer(context);
@@ -96,12 +102,16 @@ namespace SimpleWAWS.Authentication
             try
             {
                 var user = handler.ValidateToken(jwt, parameters);
-                var puidClaim = user.Claims.FirstOrDefault(c => c.Type == "puid" || c.Type == "altsecid");
-                if (puidClaim != null && puidClaim.Value != null)
+                var emailClaim = user.Claims.Where(c => c.Type == emailClaimType).Select(c => c.Value).FirstOrDefault();
+                var issuerClaim = user.Claims.Where(c => c.Type == issuerClaimType).Select(c => c.Value).FirstOrDefault();
+                var puidClaim = user.Claims.Where(c => c.Type == puidClaimType || c.Type == altSecIdClaimType).Select(c => c.Value).FirstOrDefault();
+
+                if (puidClaim != null)
                 {
-                    Trace.TraceInformation("{0}; {1}; {2}", AnalyticsEvents.UserPuidValue, user.Identity.Name, puidClaim.Value.Split(':').Last());
+                    Trace.TraceInformation("{0}; {1}; {2}", AnalyticsEvents.UserPuidValue, user.Identity.Name, puidClaim.Split(':').Last());
                 }
-                return user;
+
+                return new TryWebsitesPrincipal(new TryWebsitesIdentity(emailClaim, puidClaim, issuerClaim));
             }
             catch (Exception e)
             {
@@ -114,8 +124,9 @@ namespace SimpleWAWS.Authentication
 
         protected HttpCookie CreateSessionCookie(IPrincipal user)
         {
-            var value = string.Format("{0};{1}", user.Identity.Name, DateTime.UtcNow);
-            Trace.TraceInformation("{0}; {1}", AnalyticsEvents.UserLoggedIn, user.Identity.Name);
+            var identity = user.Identity as TryWebsitesIdentity;
+            var value = string.Format("{0};{1};{2};{3}", identity.Email, identity.Puid, identity.Issuer, DateTime.UtcNow);
+            Trace.TraceInformation("{0};{1};{2}", AnalyticsEvents.UserLoggedIn, identity.Email, identity.Issuer);
             return new HttpCookie(Constants.LoginSessionCookie, Uri.EscapeDataString(value.Encrypt(Constants.EncryptionReason))) { Path = "/" };
         }
 
@@ -126,11 +137,14 @@ namespace SimpleWAWS.Authentication
                 var loginSessionCookie =
                     Uri.UnescapeDataString(context.Request.Cookies[Constants.LoginSessionCookie].Value)
                         .Decrypt(Constants.EncryptionReason);
-                var user = loginSessionCookie.Split(';')[0];
-                var date = DateTime.Parse(loginSessionCookie.Split(';')[1]);
+                var splited = loginSessionCookie.Split(';');
+                var date = DateTime.Parse(loginSessionCookie.Split(';')[3]);
                 if (ValidDateTimeSessionCookie(date))
                 {
-                    context.User = new SimplePrincipal(new SimpleIdentity(user, "MSA"));
+                    var email = splited[0];
+                    var puid = splited[1];
+                    var issuer = splited[2];
+                    context.User = new TryWebsitesPrincipal(new TryWebsitesIdentity(email, puid, issuer));
                     return true;
                 }
             }

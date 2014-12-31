@@ -13,51 +13,67 @@ namespace SimpleWAWS.Authentication
 {
     public static class OpenIdConfiguration
     {
-        private static readonly Dictionary<string, IEnumerable<SecurityToken>> ThumbprintKeyMap = new Dictionary<string, IEnumerable<SecurityToken>>();
+        private static readonly Dictionary<string, IEnumerable<SecurityToken>> SigningKeyMap = new Dictionary<string, IEnumerable<SecurityToken>>();
 
         public static IEnumerable<SecurityToken> GetIssuerSigningKeys(string jwt)
         {
-            var thumbprint = GetX5TFromJWT(jwt);
-            if (ThumbprintKeyMap.ContainsKey(thumbprint))
+            var signingKey = GetSigningKeyFromJWT(jwt);
+            if (SigningKeyMap.ContainsKey(signingKey))
             {
-                return ThumbprintKeyMap[thumbprint];
+                return SigningKeyMap[signingKey];
             }
             UpdateKeysMap();
-            if (!ThumbprintKeyMap.ContainsKey(thumbprint))
+            if (!SigningKeyMap.ContainsKey(signingKey))
             {
                 throw new Exception("Unknown singing cert from issuer");
             }
-            return ThumbprintKeyMap[thumbprint];
+            return SigningKeyMap[signingKey];
         }
 
         private static void UpdateKeysMap()
         {
-            var issuers = ConfigurationManager.AppSettings[Constants.AADIssuerKeys].Split(';');
-            foreach (var issuer in issuers)
+            var aadIssuerKeys = ConfigurationManager.AppSettings[Constants.AADIssuerKeys];
+            var googleIssuerCerts = ConfigurationManager.AppSettings[Constants.GoogleIssuerCerts];
+            var content = GetContentFromUrl(aadIssuerKeys);
+            var aadKeys = JsonConvert.DeserializeObject<JWTSingingKeys>(content);
+            foreach (var jwtSingingKey in aadKeys.Keys)
             {
-                var request = (HttpWebRequest)WebRequest.Create(issuer);
-                JWTSingingKeys keys = null;
-                using (var response = request.GetResponse())
+                SigningKeyMap[jwtSingingKey.Thumbprint] = jwtSingingKey.GetSecurityTokens();
+            }
+
+            content = GetContentFromUrl(googleIssuerCerts);
+            var googleCerts = JsonConvert.DeserializeObject<Dictionary<string, string>>(content);
+            foreach (var certPair in googleCerts)
+            {
+                SigningKeyMap[certPair.Key] = GetCertFromOpenSSLCert(certPair.Value);
+            }
+        }
+
+        private static string GetContentFromUrl(string url)
+        {
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            using (var response = request.GetResponse())
+            {
+                using (var reader = new StreamReader(response.GetResponseStream()))
                 {
-                    using (var reader = new StreamReader(response.GetResponseStream()))
-                    {
-                        keys = JsonConvert.DeserializeObject<JWTSingingKeys>(reader.ReadToEnd());
-                    }
-                }
-                foreach (var jwtSingingKey in keys.Keys)
-                {
-                    ThumbprintKeyMap[jwtSingingKey.Thumbprint] = jwtSingingKey.GetSecurityTokens();
+                    return reader.ReadToEnd();
                 }
             }
         }
 
 
-        public static string GetX5TFromJWT(string jwt)
+        private static string GetSigningKeyFromJWT(string jwt)
         {
             var encodedSingingInfo = jwt.Substring(0, jwt.IndexOf('.'));
-            var singingInfoString = Encoding.UTF8.GetString(Convert.FromBase64String(encodedSingingInfo));
-            var singingInfo = JsonConvert.DeserializeObject<JWTSingingInfo>(singingInfoString);
-            return singingInfo.Thumbprint;
+            var singingInfoString = Encoding.UTF8.GetString(Convert.FromBase64String(encodedSingingInfo.PadBase64()));
+            var signingInfo = JsonConvert.DeserializeObject<JWTSingingInfo>(singingInfoString);
+            return signingInfo.Thumbprint ?? signingInfo.KeyId;
+        }
+
+        private static IEnumerable<SecurityToken> GetCertFromOpenSSLCert(string rawCert)
+        {
+            var certBytes = Encoding.UTF8.GetBytes(rawCert.Replace("\\n", "\n"));
+            yield return new X509SecurityToken(new X509Certificate2(certBytes));
         }
 
         private class JWTSingingInfo
@@ -68,6 +84,8 @@ namespace SimpleWAWS.Authentication
             public string Algorithm { get; set; }
             [JsonProperty("x5t")]
             public string Thumbprint { get; set; }
+            [JsonProperty("kid")]
+            public string KeyId { get; set; }
         }
 
         private class JWTSingingKeys
@@ -87,7 +105,7 @@ namespace SimpleWAWS.Authentication
             {
                 foreach (var rawCert in this.CertificateRawData)
                 {
-                    yield return new X509SecurityToken(new X509Certificate2(Convert.FromBase64String(rawCert)));
+                    yield return new X509SecurityToken(new X509Certificate2(Convert.FromBase64String(rawCert.PadBase64())));
                 }
             }
         }
