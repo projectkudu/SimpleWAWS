@@ -22,7 +22,7 @@ var Site = (function () {
 var viewModel;
 
 //http://stackoverflow.com/a/901144/3234163
-function getQueryStringBytName(name){
+function getQueryStringBytName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
         results = regex.exec(location.search);
@@ -144,7 +144,7 @@ function countDown(expireDateTime) {
             return;
         }
         diff = diff / 1000;
-        viewModel.timeLeft(("0" +Math.floor(diff/60)).slice(-2) + "m:" + ("0" + Math.floor(diff%60)).slice(-2) + "s");
+        viewModel.timeLeft(("0" + Math.floor(diff / 60)).slice(-2) + "m:" + ("0" + Math.floor(diff % 60)).slice(-2) + "s");
         currentTimeout = setTimeout(countDown, 1000, expireDateTime);
     }
 }
@@ -167,7 +167,7 @@ function toggleSpinner() {
 }
 
 function scrollSitePartToView() {
-    scrollHelper($("#work-with-your-site").offset().top-170);
+    scrollHelper($("#work-with-your-site").offset().top - 170);
 }
 
 function scrollToTop() {
@@ -202,7 +202,13 @@ function isJSON(str) {
 
 function handleGetSiteError(xhr, error, errorThrown) {
     toggleSpinner();
-    if (xhr.status === 403) return; //this is expected if we are not logged in.
+    if (xhr.status === 403) {
+        // This is expected if we are not logged in.
+        //  Disable create, and show login
+        $("#login-options").css('display', 'inline-block');
+        $("#create-blocker").show();
+        return;
+    }
     handleGenericHttpError(xhr, error, errorThrown);
 }
 
@@ -246,7 +252,7 @@ function doSearch(searchBoxId) {
     window.location.href = baseUrl + searchItems;
 }
 
-function createSite(template) {
+function createSite(template, source) {
 
     if (!template) {
         template = viewModel.selectedTemplate();
@@ -255,7 +261,7 @@ function createSite(template) {
     toggleSpinner();
     return $.ajax({
         type: "POST",
-        url: "/api/site?language=" + encodeURIComponent(template.language) + "&name=" + encodeURIComponent(template.name),
+        url: "/api/site?language=" + encodeURIComponent(template.language) + (source ? "&provider=" + source : ""),// + "&name=" + encodeURIComponent(template.name),
         data: JSON.stringify(template),
         contentType: "application/json; charset=utf-8",
         success: handleGetSite,
@@ -263,7 +269,7 @@ function createSite(template) {
     });
 }
 
-function getSiteToCreate(){
+function getSiteToCreate() {
     var language = getQueryStringBytName("language");
     var templateName = getQueryStringBytName("name");
     if (language !== undefined && templateName !== undefined)
@@ -280,21 +286,25 @@ function isCreateSite() {
 function clearQueryString() {
     if (history.pushState) {
         var language = getQueryStringBytName("language");
-        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?language=' + encodeURIComponent(language);
-        window.history.pushState({ path: newurl }, '', newurl);
+        if (language) {
+            var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?language=' + encodeURIComponent(language);
+            window.history.pushState({ path: newurl }, '', newurl);
+        }
     }
 }
 
 function selectTemplate(template) {
-    $("#templates-div")
-        .find(".sprite-" + template.name.replace(/ /g, "").replace(/\./g, "\\."))
-        .closest(".website-template-container")
-        .addClass("website-template-container-selected");
+    $("#templates-div").find(".sprite-" + template.name.replace(/\s/g, "").replace(/\./g, "\\.")).closest(".website-template-container").addClass("website-template-container-selected");
 }
 
 function gitUrlClick(event) {
     event.preventDefault();
     $('#git-url-input').select();
+}
+
+function handleCreateClick(event, source) {
+    event.preventDefault();
+    createSite(undefined, source);
 }
 
 window.onload = function () {
@@ -305,14 +315,14 @@ window.onload = function () {
         viewModel.selectedTemplate(template);
         selectTemplate(template);
         createSite(template).error(function () { initSite().always(function () { $("#error-message").show(); }); });
-        clearQueryString();
     } else {
         initSite();
     }
-    $("#create-site").click(function (e) {
-        e.preventDefault();
-        createSite();
-    });
+    clearQueryString();
+    //$(".create-site-action").click(function (e) {
+    //    e.preventDefault();
+    //    createSite();
+    //});
     $("select").on("change", function (e) {
         var optionSelected = $("option:selected", this);
         var valueSelected = this.value;

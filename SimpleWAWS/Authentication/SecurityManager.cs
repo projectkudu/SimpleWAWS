@@ -3,6 +3,8 @@ using System.Web;
 using SimpleWAWS.Authentication;
 using System.Collections.Generic;
 using System;
+using System.Net;
+using System.Text.RegularExpressions;
 
 namespace SimpleWAWS.Code
 {
@@ -11,11 +13,23 @@ namespace SimpleWAWS.Code
         private static readonly Dictionary<string, IAuthProvider> _authProviders =
             new Dictionary<string, IAuthProvider>(StringComparer.InvariantCultureIgnoreCase);
 
+        private static string SelectedProvider(HttpContext context)
+        {
+            if (!string.IsNullOrEmpty(context.Request.QueryString["provider"]))
+                return context.Request.QueryString["provider"];
+
+            var state = context.Request.QueryString["state"];
+            if (string.IsNullOrEmpty(state))
+                return Constants.DefaultAuthProvider;
+
+            state = WebUtility.UrlDecode(state);
+            var match = Regex.Match(state, "provider=([^&]+)", RegexOptions.IgnoreCase);
+            return match.Success ? match.Groups[1].Value : Constants.DefaultAuthProvider;
+        }
+
         private static IAuthProvider GetAuthProvider(HttpContext context)
         {
-            var requestedAuthProvider = string.IsNullOrEmpty(string.Empty)
-                                        ? Constants.DefaultAuthProvider
-                                        : string.Empty;
+            var requestedAuthProvider = SelectedProvider(context);
 
             IAuthProvider authProvider;
             if (_authProviders.TryGetValue(requestedAuthProvider, out authProvider))

@@ -9002,6 +9002,15 @@ table {
     vertical-align: middle;
 }
 
+div.google-login {
+    background: url(/Content/images/Logins/google.png) no-repeat top left;
+    display: inline-block;
+}
+
+.sprite-google{ background-position: 0 0; width: 221px; height: 49px; } 
+.sprite-google:hover{ background-position: 0 -99px; width: 221px; height: 49px; } 
+.sprite-google:active{ background-position: 0 -198px; width: 221px; height: 49px; } 
+
 
 div.icons {
     background: url(/Content/images/csg-54a1e97433b7e.png) no-repeat top left;
@@ -9031,4 +9040,40 @@ div.sprite-git{ background-position: -165px 0; width: 50px; height: 50px; }
     position: absolute;
     top: 15px;
     left: 50px;
+}
+
+.microsoft-login:after {
+    background: url(/Content/images/Logins/microsoft-logo.png) no-repeat;
+    background-size: 100%;
+    content: "";
+    display: inline-block;
+    height: 30px;
+    margin-top: -15px;
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    width: 30px;
+    background-repeat: no-repeat;
+}
+
+.microsoft-login {
+    background-color: #004185;
+    font-size: 17px;
+    line-height: 25px;
+    display: inline-block;
+    margin-right: 10px;
+    top: -9px;
+    
+    font-family: wf_segoe-ui_light,"Segoe UI Light","Segoe WP Light","Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
+    font-weight: 400;
+    color: #fff;
+    padding: 6px 20px 9px;
+    text-align: center;
+    vertical-align: bottom;
+    padding: 6px 20px 9px 50px;
+    position: relative;
+}
+
+.microsoft-login:hover {
+    background-color: #00356c;
 }

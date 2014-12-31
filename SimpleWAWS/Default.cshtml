@@ -27,8 +27,8 @@
                 <span class="wa-dropdown-arrow"></span>
             </div>
         </div>
-        <br/>
-        <br/>
+        <br />
+        <br />
         <div id="templates-div" data-bind="foreach: templates">
             <!-- ko if: $root.selectedLanguage() === $data.language -->
             <div class="website-template-container" data-bind="visible: true" style="display: none">
@@ -41,8 +41,13 @@
         </div>
         <br />
         <br />
-        <div style="display: inline-block">
-            <a id="create-site" href="#" class="wa-button wa-button-primary">Create</a>
+        <div style="display: inline; float: left; position: relative">
+            <a id="create-site" onclick="handleCreateClick(event)" href="#" class="create-site-action wa-button wa-button-primary">Create</a>
+            <div id="create-blocker" class="ui-blocker" style="display: none"></div>
+        </div>
+        <div id="login-options" style="display: none; margin-left: 30px">
+            <a href="#" onclick="handleCreateClick(event, 'aad')" class="create-site-action wa-button microsoft-login">Microsoft Account</a>
+            <a class="create-site-action" onclick="handleCreateClick(event, 'google')" href="#"><div class="google-login sprite-google"></div></a>
         </div>
         <div class="spinner">
             <!-- ko if: createRunning  -->
@@ -124,10 +129,11 @@
     <div class="site-expired-notification-blade">
         <div class="site-expired-notification">
             <h2 style="color: white; margin-bottom: 90px">Your site has expired. You can try creating another site or signup for a free 30-day trial account.</h2>
-            <a id="dismiss-site-expire" href="#" class="wa-button wa-button-slate">Dismiss</a> 
+            <a id="dismiss-site-expire" href="#" class="wa-button wa-button-slate">Dismiss</a>
             <a href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id=try_websites" id="free-trial-dismiss" target="_blank" onclick="freeTrialClick(event);" class="wa-button wa-button-primary">Free trial</a>
         </div>
     </div>
 </div>
 <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/knockout/knockout-3.0.0.js"></script>
 <script type="text/javascript" src="/Scripts/site.js"></script>
+<script src="https://apis.google.com/js/client:platform.js" async defer></script>
