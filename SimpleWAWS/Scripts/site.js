@@ -206,19 +206,23 @@ function handleGetSiteError(xhr, error, errorThrown) {
     if (xhr.status === 403) {
         // This is expected if we are not logged in.
         //  Disable create, and show login
-        $("#login-options").css('display', 'inline-block');
         return;
     }
     handleGenericHttpError(xhr, error, errorThrown);
 }
 
-function handleCreateSiteError(xhr, error, errorThrown) {
-    if (xhr.status === 403 && xhr.getResponseHeader("LoginUrl") !== null) {
+function handleCreateSiteError(xhr, error, errorThrown, source) {
+    if (xhr.status === 403 && !source) {
+        //this means user is not loged in, and hasn't selected a login yet
+        toggleSpinner();
+        $('#login-box').fadeIn(600);
+        $('#login-dark-blocker').show();
+    } else if (xhr.status === 403 && xhr.getResponseHeader("LoginUrl") !== null) {
         window.location = xhr.getResponseHeader("LoginUrl");
-        return;
+    } else {
+        toggleSpinner();
+        handleGenericHttpError(xhr, error, errorThrown);
     }
-    toggleSpinner();
-    handleGenericHttpError(xhr, error, errorThrown);
 }
 
 function handleGenericHttpError(xhr, error, errorThrown) {
@@ -261,11 +265,11 @@ function createSite(template, source) {
     toggleSpinner();
     return $.ajax({
         type: "POST",
-        url: "/api/site?language=" + encodeURIComponent(template.language) + (source ? "&provider=" + source : ""),// + "&name=" + encodeURIComponent(template.name),
+        url: "/api/site?language=" + encodeURIComponent(template.language) + (source ? "&provider=" + source + "&name=" + encodeURIComponent(template.name) : ""),// + "&name=" + encodeURIComponent(template.name),
         data: JSON.stringify(template),
         contentType: "application/json; charset=utf-8",
         success: handleGetSite,
-        error: handleCreateSiteError
+        error: function (xhr, error, errorThrown) { handleCreateSiteError(xhr, error, errorThrown, source); }
     });
 }
 
@@ -310,6 +314,7 @@ function handleCreateClick(event, source) {
 window.onload = function () {
     initViewModel();
     initTemplates();
+
     if (isCreateSite()) {
         var template = getSiteToCreate();
         viewModel.selectedTemplate(template);
@@ -318,19 +323,26 @@ window.onload = function () {
     } else {
         initSite();
     }
+
     clearQueryString();
-    //$(".create-site-action").click(function (e) {
-    //    e.preventDefault();
-    //    createSite();
-    //});
+
     $("select").on("change", function (e) {
         var optionSelected = $("option:selected", this);
         var valueSelected = this.value;
         viewModel.selectLanguage(valueSelected);
     });
+
     $("#dismiss-site-expire").click(function (e) {
         e.preventDefault();
         deleteSite();
         $("#site-expired").hide();
+    });
+
+    $(document).mouseup(function (e) {
+        var container = $("#login-box");
+        if (!container.is(e.target) && container.has(e.target).length === 0) {
+            container.fadeOut(300);
+            $('#login-dark-blocker').hide();
+        }
     });
 };
