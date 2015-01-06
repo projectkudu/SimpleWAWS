@@ -44,24 +44,28 @@ namespace SimpleWAWS
 
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
         {
-            if (SecurityManager.HasToken(HttpContext.Current))
+            if (!SecurityManager.TryAuthenticateSessionCookie(Context))
             {
-                // This is a login redirect
-                SecurityManager.AuthenticateRequest(Context);
-            }
+                if (SecurityManager.HasToken(HttpContext.Current))
+                {
+                    // This is a login redirect
+                    SecurityManager.AuthenticateRequest(Context);
+                    return;
+                }
 
-            var route = RouteTable.Routes.GetRouteData(new HttpContextWrapper(HttpContext.Current));
-            // If the route is not registerd in the WebAPI RouteTable
-            //      then it's not an API route, which means it's a resource (*.js, *.css, *.cshtml), not authenticated.
-            if (route == null) return;
+                var route = RouteTable.Routes.GetRouteData(new HttpContextWrapper(HttpContext.Current));
+                // If the route is not registerd in the WebAPI RouteTable
+                //      then it's not an API route, which means it's a resource (*.js, *.css, *.cshtml), not authenticated.
+                if (route == null) return;
 
-            // If the route doesn't have authenticated value assume true
-            var isAuthenticated = route.Values["authenticated"] == null || (bool) route.Values["authenticated"];
+                // If the route doesn't have authenticated value assume true
+                var isAuthenticated = route.Values["authenticated"] == null || (bool)route.Values["authenticated"];
 
-            if (isAuthenticated)
-            {
-                SecurityManager.AuthenticateRequest(Context);
-                ServerAnalytics.CurrentRequest.AppUserId = Context.User.Identity.Name;
+                if (isAuthenticated)
+                {
+                    SecurityManager.AuthenticateRequest(Context);
+                    ServerAnalytics.CurrentRequest.AppUserId = Context.User.Identity.Name;
+                }
             }
         }
 

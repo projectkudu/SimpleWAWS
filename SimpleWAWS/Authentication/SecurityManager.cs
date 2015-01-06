@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 namespace SimpleWAWS.Code
 {
@@ -62,11 +63,47 @@ namespace SimpleWAWS.Code
 
         public static void EnsureAdmin(HttpContext context)
         {
-            //if (context.User.Identity.Name != ConfigurationManager.AppSettings["AdminUserId"])
-            //{
-            //    context.Response.StatusCode = 403; //Forbidden
-            //    context.Response.End();
-            //}
+            if (context.User.Identity.Name != ConfigurationManager.AppSettings["AdminUserId"])
+            {
+                context.Response.StatusCode = 403; //Forbidden
+                context.Response.End();
+            }
+        }
+
+        public static bool TryAuthenticateSessionCookie(HttpContext context)
+        {
+            try
+            {
+                var loginSessionCookie =
+                    Uri.UnescapeDataString(context.Request.Cookies[Constants.LoginSessionCookie].Value)
+                        .Decrypt(Constants.EncryptionReason);
+                var splited = loginSessionCookie.Split(';');
+                var date = DateTime.Parse(loginSessionCookie.Split(';')[3]);
+                if (ValidDateTimeSessionCookie(date))
+                {
+                    var email = splited[0];
+                    var puid = splited[1];
+                    var issuer = splited[2];
+                    context.User = new TryWebsitesPrincipal(new TryWebsitesIdentity(email, puid, issuer));
+                    return true;
+                }
+            }
+            catch (NullReferenceException)
+            {
+                // we need to authenticate
+            }
+            catch (Exception e)
+            {
+                // we need to authenticate
+                //but also log the error
+                Trace.TraceError(e.ToString());
+            }
+            return false;
+        }
+
+        private static bool ValidDateTimeSessionCookie(DateTime date)
+        {
+            return date.Add(Constants.SessionCookieValidTimeSpan) > DateTime.UtcNow;
         }
     }
 }

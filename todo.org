@@ -8,3 +8,8 @@
 ** TODO Do we need anymore info from FacebookUser?
 ** TODO Do we need to talk to Google's or Microsoft's Graph API?
 ** TODO Add Twitter login
+** TODO Remove OWIN stuff
+
+* Logistics stuff
+
+** TODO Create Official Facebook and Google accounts for 
