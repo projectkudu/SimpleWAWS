@@ -43,10 +43,12 @@
         <br />
         <div style="display: inline; float: left; position: relative">
             <a id="create-site" onclick="handleCreateClick(event)" href="#" class="create-site-action wa-button wa-button-primary">Create</a>
-            <div id="login-box" class="login-box" style="display: none; width: 280px; top: -27px">
+            <div id="login-box" class="login-box" style="display: none">
                 <div id="login-options" style="display: block; margin-left: 30px">
                     <div class="wa-heading5" style="position: relative; margin-right: 8px">Log in first to create a site</div>
                     <div class="login-option"><a href="#" onclick="handleCreateClick(event, 'aad')" class="create-site-action wa-button microsoft-login">Microsoft Account</a></div>
+                    <div class="login-option"><a class="create-site-action" onclick="handleCreateClick(event, 'google')" href="#"><div class="google-login sprite-google"></div></a></div>
+                    <div class="login-option"><a class="create-site-action" onclick="handleCreateClick(event, 'facebook')" href="#"><div class="facebook-login"></div></a></div>
                 </div>
             </div>
         </div>
