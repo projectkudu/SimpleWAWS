@@ -9036,7 +9036,7 @@ div.sprite-DownloadSite{ background-position: 0 -595px; width: 50px; height: 50p
 div.sprite-ExpressJs, div.sprite-NodeJSEmptySite, div.sprite-NodeStarter{ background-position: 0 -695px; width: 115px; height: 115px; } 
 div.sprite-Flask{ background-position: 0 -860px; width: 115px; height: 115px; } 
 div.sprite-GhostBlog{ background-position: 0 -1025px; width: 115px; height: 115px; } 
-div.sprite-Large{ background-position: 0 -1190px; width: 115px; height: 115px; } 
+div.sprite-Large, div.sprite-JavaCoffeeShop{ background-position: 0 -1190px; width: 115px; height: 115px; } 
 div.sprite-PHPEmptySite, div.sprite-PHPStarterSite{ background-position: 0 -1355px; width: 115px; height: 115px; } 
 div.sprite-TypeScript{ background-position: 0 -1520px; width: 115px; height: 115px; } 
 div.sprite-VSO{ background-position: 0 -1685px; width: 50px; height: 50px; } 

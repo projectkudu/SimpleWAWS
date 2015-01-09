@@ -43,12 +43,14 @@ namespace SimpleWAWS.Code
                     foreach (var template in Directory.GetFiles(languagePath))
                     {
                         var iconUri = Path.Combine(ImagesFolder, string.Format("{0}.png", Path.GetFileNameWithoutExtension(template)));
+                        var cssClass = Path.GetFileNameWithoutExtension(template).Replace(" ", "").Replace("#", "Sharp");
+                        var iconCssClass = File.Exists(iconUri) ? string.Format("sprite-{0}", cssClass) : "sprite-Large";
                         list.Add(new Template
                         {
                             Name = Path.GetFileNameWithoutExtension(template),
                             FileName = Path.GetFileName(template),
                             Language = Path.GetFileName(languagePath),
-                            IconClass = File.Exists(iconUri) ? string.Format("sprite-{0}", Path.GetFileNameWithoutExtension(template).Replace(" ", "").Replace("#", "Sharp")) : "sprite-Large"
+                            IconClass = string.Format("{0} {1}", iconCssClass, cssClass)
                         });
                     }
                 }

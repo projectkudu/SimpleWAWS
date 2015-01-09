@@ -9,7 +9,7 @@
             <h1>Create your website</h1>
             <h3>Create and deploy web sites in seconds, as powerful as you need them to be.</h3>
             <h4 style="width: 800px;">
-                This Azure Websites trial experience does not require an Azure subscription and it is free of charge and commitment.
+                Be our guest for up to an hour of sandboxed Azure Websites experience with no Azure subscription, free of charge and commitment. Stay longer for the full Azure Websites experience with the Azure free trial subscription.
             </h4>
         </div>
     </div>
@@ -43,12 +43,10 @@
         <br />
         <div style="display: inline; float: left; position: relative">
             <a id="create-site" onclick="handleCreateClick(event)" href="#" class="create-site-action wa-button wa-button-primary">Create</a>
-            <div id="login-box" class="login-box" style="display: none">
+            <div id="login-box" class="login-box" style="display: none; width: 280px; top: -27px">
                 <div id="login-options" style="display: block; margin-left: 30px">
                     <div class="wa-heading5" style="position: relative; margin-right: 8px">Log in first to create a site</div>
                     <div class="login-option"><a href="#" onclick="handleCreateClick(event, 'aad')" class="create-site-action wa-button microsoft-login">Microsoft Account</a></div>
-                    <div class="login-option"><a class="create-site-action" onclick="handleCreateClick(event, 'google')" href="#"><div class="google-login sprite-google"></div></a></div>
-                    <div class="login-option"><a class="create-site-action" onclick="handleCreateClick(event, 'facebook')" href="#"><div class="facebook-login"></div></a></div>
                 </div>
             </div>
         </div>
@@ -69,6 +67,7 @@
     </div>
     <div id="work-with-your-site" class="wa-content wa-content-4up wa-content-divided">
         <h2>2) Work with your web application</h2>
+        <h5 style="margin-top: -15px; margin-left: 83px">for an <strong>hour</strong>, or sign up for a trial and stay for a month!</h5>
         <div data-bind="visible: true" style="display: none">
             <!-- ko if: siteJson() !== undefined -->
             <div data-bind="with: siteJson">

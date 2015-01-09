@@ -78,14 +78,31 @@ namespace SimpleWAWS.Code
                     Uri.UnescapeDataString(context.Request.Cookies[Constants.LoginSessionCookie].Value)
                         .Decrypt(Constants.EncryptionReason);
                 var splited = loginSessionCookie.Split(';');
-                var date = DateTime.Parse(loginSessionCookie.Split(';')[3]);
-                if (ValidDateTimeSessionCookie(date))
+                if (splited.Length == 2)
                 {
-                    var email = splited[0];
-                    var puid = splited[1];
-                    var issuer = splited[2];
-                    context.User = new TryWebsitesPrincipal(new TryWebsitesIdentity(email, puid, issuer));
-                    return true;
+                    var user = splited[0];
+                    var date = DateTime.Parse(splited[1]);
+                    if (ValidDateTimeSessionCookie(date))
+                    {
+                        context.User = new TryWebsitesPrincipal(new TryWebsitesIdentity(user, user, "Old"));
+                        return true;
+                    }
+                }
+                else if (splited.Length == 4)
+                {
+                    var date = DateTime.Parse(loginSessionCookie.Split(';')[3]);
+                    if (ValidDateTimeSessionCookie(date))
+                    {
+                        var email = splited[0];
+                        var puid = splited[1];
+                        var issuer = splited[2];
+                        context.User = new TryWebsitesPrincipal(new TryWebsitesIdentity(email, puid, issuer));
+                        return true;
+                    }
+                }
+                else
+                {
+                    return false;
                 }
             }
             catch (NullReferenceException)

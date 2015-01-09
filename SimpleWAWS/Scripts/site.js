@@ -298,7 +298,10 @@ function clearQueryString() {
 }
 
 function selectTemplate(template) {
-    $("#templates-div").find(".sprite-" + template.name.replace(/\s/g, "").replace(/\./g, "\\.")).closest(".website-template-container").addClass("website-template-container-selected");
+    $("#templates-div")
+        .find("." + template.name.replace(/\s/g, "").replace(/\./g, "\\."))
+        .closest(".website-template-container")
+        .addClass("website-template-container-selected");
 }
 
 function gitUrlClick(event) {
