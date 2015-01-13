@@ -159,9 +159,9 @@ namespace SimpleWAWS.Code
         {
             if (site.UserId != null)
             {
-                await Util.SafeGuard(async () => await LogActiveUsageStatistics(site));
                 Site temp;
                 _sitesInUse.TryRemove(site.UserId, out temp);
+                await Util.SafeGuard(async () => await LogActiveUsageStatistics(site));
             }
             else
             {
