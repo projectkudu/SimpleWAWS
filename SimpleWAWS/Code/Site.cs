@@ -49,6 +49,30 @@ namespace SimpleWAWS.Code
         public async Task LoadConfigurationAsync()
         {
             _config = await _webSpace.GetConfigurationAsync(Name);
+
+            // This is done to make sure every site we read has Monaco enabled.
+            // Otherwise the users will hit a 404 when they browse to Monaco
+            var updateConfig = false;
+            if (!_config.AppSettings.ContainsKey("MONACO_EXTENSION_VERSION"))
+            {
+                _config.AppSettings.Add("MONACO_EXTENSION_VERSION", "beta");
+                updateConfig = true;
+            }
+
+            if (!_config.AppSettings.ContainsKey("WEBSITE_TRY_MODE"))
+            {
+                _config.AppSettings.Add("WEBSITE_TRY_MODE", "1");
+                updateConfig = true;
+            }
+
+            if (updateConfig)
+            {
+                var updateParams = Util.CreateWebSiteUpdateConfigurationParameters();
+                updateParams.Metadata = _config.Metadata;
+                updateParams.AppSettings = _config.AppSettings;
+                await _webSpace.UpdateConfigurationAsync(Name, updateParams);
+            }
+
             _publishingProfile = await _webSpace.GetPublishingProfile(Name);
         }
 
