@@ -92,7 +92,7 @@ namespace SimpleWAWS.Controllers
                     Trace.TraceError("{0}; {1}; {2}", AnalyticsEvents.UserGotError,
                         HttpContext.Current.User.Identity.Name, "You can't have more than 1 free site at a time");
 
-                    return Request.CreateErrorResponse(HttpStatusCode.ServiceUnavailable,
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                         "You can't have more than 1 free site at a time");
                 }
                 var site = await siteManager.ActivateSiteAsync(template, HttpContext.Current.User.Identity.Name);
