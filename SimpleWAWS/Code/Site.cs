@@ -21,7 +21,6 @@ namespace SimpleWAWS.Code
 {
     public class Site
     {
-        private WebSpace _webSpace;
         private WebSite _webSite;
         private WebSiteGetConfigurationResponse _config;
         private WebSiteGetPublishProfileResponse _publishingProfile;
@@ -30,9 +29,12 @@ namespace SimpleWAWS.Code
         private const string UserIdMetadataKey = "USERID";
         private const string SiteUniqueIdMetadataKey = "SITEUNIQUEID";
 
+        [JsonIgnore]
+        public WebSpace WebSpace { get; private set; }
+
         public Site(WebSpace webSpace, WebSite webSite)
         {
-            _webSpace = webSpace;
+            WebSpace = webSpace;
             _webSite = webSite;
             if (_webSite.EnabledHostNames.Count < 2)
             {
@@ -48,7 +50,7 @@ namespace SimpleWAWS.Code
 
         public async Task LoadConfigurationAsync()
         {
-            _config = await _webSpace.GetConfigurationAsync(Name);
+            _config = await WebSpace.GetConfigurationAsync(Name);
 
             // This is done to make sure every site we read has Monaco enabled.
             // Otherwise the users will hit a 404 when they browse to Monaco
@@ -70,10 +72,10 @@ namespace SimpleWAWS.Code
                 var updateParams = Util.CreateWebSiteUpdateConfigurationParameters();
                 updateParams.Metadata = _config.Metadata;
                 updateParams.AppSettings = _config.AppSettings;
-                await _webSpace.UpdateConfigurationAsync(Name, updateParams);
+                await WebSpace.UpdateConfigurationAsync(Name, updateParams);
             }
 
-            _publishingProfile = await _webSpace.GetPublishingProfile(Name);
+            _publishingProfile = await WebSpace.GetPublishingProfile(Name);
         }
 
         public async Task InitializeNewSite()
@@ -96,13 +98,13 @@ namespace SimpleWAWS.Code
             // Mark site's ScmType as LocalGit so that cloning an empty repo gives back the site content
             updateParams.ScmType = "LocalGit";
 
-            await _webSpace.UpdateConfigurationAsync(Name, updateParams);
-            Trace.TraceInformation("Updated initial config for site '{0}' in {1}", this, _webSpace);
+            await WebSpace.UpdateConfigurationAsync(Name, updateParams);
+            Trace.TraceInformation("Updated initial config for site '{0}' in {1}", this, WebSpace);
 
             // Get all the configuration
             await LoadConfigurationAsync();
 
-            Trace.TraceInformation("Read the configuration for site '{0}' in {1}", this, _webSpace);
+            Trace.TraceInformation("Read the configuration for site '{0}' in {1}", this, WebSpace);
         }
 
         [JsonProperty("name")]
@@ -244,9 +246,12 @@ namespace SimpleWAWS.Code
 
         public bool Ready { get { return _config != null && _config.Metadata != null && _webSite.EnabledHostNames.Count == 2; } }
 
+        [JsonProperty("isRbacEnabled")]
+        public bool IsRbacEnabled { get; set; }
+
         public Task DeleteAndCreateReplacementAsync()
         {
-            return _webSpace.DeleteAndCreateReplacementAsync(this);
+            return WebSpace.DeleteAndCreateReplacementAsync(this);
         }
 
         public async Task MarkAsInUseAsync(string userId, TimeSpan lifeTime)
@@ -264,7 +269,7 @@ namespace SimpleWAWS.Code
             // Turn on HttpLogging for analytics later on.
             updateParams.HttpLoggingEnabled = true;
 
-            await _webSpace.UpdateConfigurationAsync(Name, updateParams);
+            await WebSpace.UpdateConfigurationAsync(Name, updateParams);
         }
 
         public override string ToString()

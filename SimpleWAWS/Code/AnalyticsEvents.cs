@@ -22,5 +22,7 @@ namespace SimpleWAWS.Code
 
         public const string UserPuidValue = "USER_PUID_VALUE";
         public const string ApplicationStarted = ">>>>>>>";
+        public const string ErrorInRemoveRbacUser = "ERROR_REMOVE_RBAC_USER";
+        public const string ErrorInAddRbacUser = "ERROR_ADD_RBAC_USER";
     }
 }

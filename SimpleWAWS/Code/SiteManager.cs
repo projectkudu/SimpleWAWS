@@ -17,6 +17,8 @@ using Microsoft.ApplicationInsights.Telemetry.Services;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Management.WebSites;
 using Newtonsoft.Json;
+using SimpleWAWS.Authentication;
+using System.Security.Principal;
 
 namespace SimpleWAWS.Code
 {
@@ -125,7 +127,7 @@ namespace SimpleWAWS.Code
                 var client = new WebSiteManagementClient(creds);
                 foreach (var geoRegion in geoRegions)
                 {
-                    yield return new WebSpace(this, client, geoRegion, _nameGenerator);
+                    yield return new WebSpace(this, client, geoRegion, _nameGenerator, subscription);
                 }
             }
         }
@@ -160,6 +162,7 @@ namespace SimpleWAWS.Code
             if (site.UserId != null)
             {
                 Site temp;
+                await RbackHelper.RemoveRbacUser(site);
                 _sitesInUse.TryRemove(site.UserId, out temp);
                 await Util.SafeGuard(async () => await LogActiveUsageStatistics(site));
             }
@@ -202,9 +205,16 @@ namespace SimpleWAWS.Code
             await Task.WhenAll(deleteTasks);
         }
 
-        public async Task<Site> ActivateSiteAsync(Template template, string userId)
+        public async Task<Site> ActivateSiteAsync(Template template, IIdentity genericUserIdentity)
         {
             Site site = null;
+            var userIdentity = genericUserIdentity as TryWebsitesIdentity;
+            if (userIdentity == null)
+            {
+                throw new InvalidUserIdentityException("userIdentity was empty");
+            }
+
+            var userId = userIdentity.Name;
             var tokenSource = new CancellationTokenSource();
             try
             {
@@ -212,6 +222,12 @@ namespace SimpleWAWS.Code
                 {
                     //mark site in use as soon as it's checked out so that if there is a reload it will be sorted out to the used queue.
                     await site.MarkAsInUseAsync(userId, SiteExpiryTime);
+                    var rbacTask = Task.FromResult(false);
+                    if (!string.IsNullOrEmpty(userIdentity.Puid))
+                    {
+                        rbacTask = RbackHelper.AddRbacUser(userIdentity.Puid, userIdentity.Email, site);
+                    }
+
                     var siteCreationTask = Task.Delay(Timeout.Infinite, tokenSource.Token);
                     // This should not be awaited. this is retuning the infinite task from above
                     // The purpose of this task is to block the GetSiteAsync() call until the site in progress is done.
@@ -236,6 +252,7 @@ namespace SimpleWAWS.Code
                         //update the LastModifiedTime and FireAndForget
                         await addedSite.MarkAsInUseAsync(userId, SiteExpiryTime);
                         addedSite.FireAndForget();
+                        site.IsRbacEnabled = await rbacTask;
                         return addedSite;
                     }
                     else

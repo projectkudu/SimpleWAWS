@@ -20,18 +20,22 @@ namespace SimpleWAWS.Code
         private readonly SiteNameGenerator _nameGenerator;
         private readonly AsyncLock _lock = new AsyncLock();
         public List<Site> Sites { get; private set; }
+        public string SubscriptionId { get; private set; }
+        public string ResourceGroup { get; private set; }
 
         private readonly int _sitesPerWebSpace;
 
-        public WebSpace(SiteManager manager, IWebSiteManagementClient client, string geoRegion, SiteNameGenerator nameGenerator)
+        public WebSpace(SiteManager manager, IWebSiteManagementClient client, string geoRegion, SiteNameGenerator nameGenerator, string subscriptionId)
         {
             _manager = manager;
             Client = client;
             _webSpaceName = geoRegion.Replace(" ", "").ToLower() + "webspace";
             _webSpaceRegion = geoRegion;
             _nameGenerator = nameGenerator;
-
             _sitesPerWebSpace = Int32.Parse(ConfigurationManager.AppSettings["sitesPerWebspace"]);
+
+            SubscriptionId = subscriptionId;
+            ResourceGroup = "Default-Web-" + geoRegion.Replace(" ", "");
         }
 
         public async Task LoadAndCreateSitesAsync()
