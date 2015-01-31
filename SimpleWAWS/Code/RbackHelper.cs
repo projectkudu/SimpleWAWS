@@ -3,6 +3,7 @@ using ARMClient.Library;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -14,24 +15,29 @@ namespace SimpleWAWS.Code
 {
     public static class RbackHelper
     {
+        private static readonly dynamic GraphClient;
+        private static readonly dynamic CsmClient;
+        public static RbackHelper()
+        {
+            GraphClient = ARMLib.GetDynamicClient(apiVersion: ConfigurationManager.AppSettings["rbacGraphApiVersion"], url: string.Format("{0}/{1}", ConfigurationManager.AppSettings["graphApiBaseUrl"], ConfigurationManager.AppSettings["tryWebsitesTenantId"]))
+                    .ConfigureLogin(LoginType.Upn, ConfigurationManager.AppSettings["grapAndCsmUserName"], ConfigurationManager.AppSettings["graphAndCsmPassword"]);
+
+            CsmClient = ARMLib.GetDynamicClient(apiVersion: ConfigurationManager.AppSettings["rbacCsmApiVersion"])
+                .ConfigureLogin(LoginType.Upn, ConfigurationManager.AppSettings["grapAndCsmUserName"], ConfigurationManager.AppSettings["graphAndCsmPassword"]);
+
+        }
         public static async Task<bool> AddRbacUser(string puidOrAltSec, string emailAddress, Site site)
         {
             var puid = puidOrAltSec.Split(':').Last();
             try
             {
-                var graphClient = ARMLib.GetDynamicClient(apiVersion: "1.42-previewInternal", url: "https://graph.windows.net/590d33be-69d3-46c7-b4f8-02a61d7658af")
-                    .ConfigureLogin(LoginType.Upn, "userName", "password");
-
-                var csmClient = ARMLib.GetDynamicClient(apiVersion: "2014-07-01-preview")
-                    .ConfigureLogin(LoginType.Upn, "userName", "password");
-
                 //check if user is already in directory
-                var user = await graphClient.Users.Query("$filter=netId eq '" + puid + "' or alternativeSecurityIds/any(x:x/type eq 1 and x/identityProvider eq null and x/key eq X'" + puid + "')").GetAsync<JObject>();
+                var user = await GraphClient.Users.Query("$filter=netId eq '" + puid + "' or alternativeSecurityIds/any(x:x/type eq 1 and x/identityProvider eq null and x/key eq X'" + puid + "')").GetAsync<JObject>();
                 string oid = null;
                 if (user.value.Count == 0)
                 {
                     // invite user
-                    var invite = await graphClient.Users.PostAsync<JObject>(new
+                    var invite = await GraphClient.Users.PostAsync<JObject>(new
                     {
                         creationType = "Invitation",
                         displayName = emailAddress,
@@ -40,7 +46,7 @@ namespace SimpleWAWS.Code
                     });
 
                     // redeem invite
-                    var redemption = await graphClient.RedeemInvitation.PostAsync<JObject>(new
+                    var redemption = await GraphClient.RedeemInvitation.PostAsync<JObject>(new
                     {
                         altSecIds = new[]{ new {
                             identityProvider = (string)null,
@@ -62,9 +68,12 @@ namespace SimpleWAWS.Code
                 }
 
                 // add rbac contributer
+                // after adding a user, CSM can't find the user for a while.
+                // pulling on Graph GET doesn't work, because that would return 200 while CSM still doesn't
+                // recognize the new user.
                 for (int i = 0; i < 30; i++)
                 {
-                    var response = (HttpResponseMessage)await csmClient.Subscriptions[site.WebSpace.SubscriptionId]
+                    var response = (HttpResponseMessage)await CsmClient.Subscriptions[site.WebSpace.SubscriptionId]
                                                             .ResourceGroups[site.WebSpace.ResourceGroup]
                                                             .Providers["Microsoft.Web"]
                                                             .Sites[site.Name]
@@ -102,14 +111,8 @@ namespace SimpleWAWS.Code
         {
             try
             {
-                var graphClient = ARMLib.GetDynamicClient(apiVersion: "1.42-previewInternal", url: "https://graph.windows.net")
-                                        .ConfigureLogin(LoginType.Upn, "userName", "password");
-
-                var csmClient = ARMLib.GetDynamicClient(apiVersion: "2014-07-01-preview")
-                                      .ConfigureLogin(LoginType.Upn, "userName", "password");
-
                 //remove rbac policy
-                var rbacClient = csmClient.Subscriptions[site.WebSpace.SubscriptionId]
+                var rbacClient = CsmClient.Subscriptions[site.WebSpace.SubscriptionId]
                                           .ResourceGroups[site.WebSpace.ResourceGroup]
                                           .Providers["Microsoft.Web"]
                                           .Sites[site.Name]
@@ -120,7 +123,7 @@ namespace SimpleWAWS.Code
                 await rbacClient.DeleteAsync();
 
                 //remove user from tenant
-                await graphClient["590d33be-69d3-46c7-b4f8-02a61d7658af"].Users[rbacPolicy.properties.principalId].DeleteAsync();
+                await GraphClient.Users[rbacPolicy.properties.principalId].DeleteAsync();
             }
             catch(Exception e)
             {
@@ -173,7 +176,7 @@ namespace SimpleWAWS.Code
             }
         }
 
-        public static string RemoveNewLines(this string value)
+        private static string RemoveNewLines(this string value)
         {
             return value.Replace("\r\n", "_").Replace('\n', '_');
         }
