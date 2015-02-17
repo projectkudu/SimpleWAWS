@@ -95,6 +95,7 @@ namespace SimpleWAWS.Code
                 if (site.UserId != null)
                 {
                     Trace.TraceInformation("Loading site {0} into the InUse list", site.Name);
+                    site.IsRbacEnabled = await RbackHelper.CheckIfRbacEnabled(site);
                     if (!_sitesInUse.TryAdd(site.UserId, site))
                     {
                         Trace.TraceError("user {0} already had a site in the dictionary extra site is {1}. This shouldn't happen. Deleting and replacing the site.", site.UserId, site.Name);
@@ -222,11 +223,7 @@ namespace SimpleWAWS.Code
                 {
                     //mark site in use as soon as it's checked out so that if there is a reload it will be sorted out to the used queue.
                     await site.MarkAsInUseAsync(userId, SiteExpiryTime);
-                    var rbacTask = Task.FromResult(false);
-                    if (!string.IsNullOrEmpty(userIdentity.Puid))
-                    {
-                        rbacTask = RbackHelper.AddRbacUser(userIdentity.Puid, userIdentity.Email, site);
-                    }
+                    var rbacTask = RbackHelper.AddRbacUser(userIdentity.Puid, userIdentity.Email, site);
 
                     var siteCreationTask = Task.Delay(Timeout.Infinite, tokenSource.Token);
                     // This should not be awaited. this is retuning the infinite task from above

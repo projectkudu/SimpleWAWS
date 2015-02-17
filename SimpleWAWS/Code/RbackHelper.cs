@@ -17,7 +17,7 @@ namespace SimpleWAWS.Code
     {
         private static readonly dynamic GraphClient;
         private static readonly dynamic CsmClient;
-        public static RbackHelper()
+        static RbackHelper()
         {
             GraphClient = ARMLib.GetDynamicClient(apiVersion: ConfigurationManager.AppSettings["rbacGraphApiVersion"], url: string.Format("{0}/{1}", ConfigurationManager.AppSettings["graphApiBaseUrl"], ConfigurationManager.AppSettings["tryWebsitesTenantId"]))
                     .ConfigureLogin(LoginType.Upn, ConfigurationManager.AppSettings["grapAndCsmUserName"], ConfigurationManager.AppSettings["graphAndCsmPassword"]);
@@ -28,7 +28,14 @@ namespace SimpleWAWS.Code
         }
         public static async Task<bool> AddRbacUser(string puidOrAltSec, string emailAddress, Site site)
         {
+            if (!string.IsNullOrEmpty(puidOrAltSec) &&
+                puidOrAltSec.IndexOf("live.com", StringComparison.OrdinalIgnoreCase) != -1)
+            {
+                return false;
+            }
+
             var puid = puidOrAltSec.Split(':').Last();
+
             try
             {
                 //check if user is already in directory
@@ -128,6 +135,28 @@ namespace SimpleWAWS.Code
             catch(Exception e)
             {
                 Trace.TraceError("{0}; {1}; {2}", AnalyticsEvents.ErrorInRemoveRbacUser, e.GetBaseException().Message.RemoveNewLines(), site.SiteUniqueId);
+            }
+        }
+
+        public static async Task<bool> CheckIfRbacEnabled(Site site)
+        {
+            try
+            {
+                //remove rbac policy
+                var rbacClient = CsmClient.Subscriptions[site.WebSpace.SubscriptionId]
+                                          .ResourceGroups[site.WebSpace.ResourceGroup]
+                                          .Providers["Microsoft.Web"]
+                                          .Sites[site.Name]
+                                          .Providers["Microsoft.Authorization"]
+                                          .RoleAssignments[site.SiteUniqueId];
+
+                var rbacPolicy = (HttpResponseMessage) await rbacClient.GetAsync();
+                return rbacPolicy.IsSuccessStatusCode;
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError("{0}; {1}; {2}", AnalyticsEvents.ErrorInCheckRbacUser, e.GetBaseException().Message.RemoveNewLines(), site.SiteUniqueId);
+                return false;
             }
         }
 

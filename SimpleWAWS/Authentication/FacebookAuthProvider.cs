@@ -28,7 +28,7 @@ namespace SimpleWAWS.Authentication
             builder.Append("https://www.facebook.com/dialog/oauth");
             builder.Append("?response_type=signed_request%20token");
             builder.AppendFormat("&redirect_uri={0}", WebUtility.UrlEncode(string.Format("https://{0}/Login", context.Request.Headers["HOST"])));
-            builder.AppendFormat("&client_id={0}", "316276778571954");
+            builder.AppendFormat("&client_id={0}", ConfigurationManager.AppSettings["FacebookAppId"]);
             builder.AppendFormat("&scope={0}", "email");
             builder.AppendFormat("&state={0}", WebUtility.UrlEncode(context.IsAjaxRequest() ? string.Format("/{0}", context.Request.Url.Query) : context.Request.Url.PathAndQuery));
             return builder.ToString();

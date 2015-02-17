@@ -24,5 +24,6 @@ namespace SimpleWAWS.Code
         public const string ApplicationStarted = ">>>>>>>";
         public const string ErrorInRemoveRbacUser = "ERROR_REMOVE_RBAC_USER";
         public const string ErrorInAddRbacUser = "ERROR_ADD_RBAC_USER";
+        public const string ErrorInCheckRbacUser = "ERROR_CHECK_RBAC_USER";
     }
 }
