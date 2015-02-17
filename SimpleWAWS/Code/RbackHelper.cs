@@ -28,8 +28,8 @@ namespace SimpleWAWS.Code
         }
         public static async Task<bool> AddRbacUser(string puidOrAltSec, string emailAddress, Site site)
         {
-            if (!string.IsNullOrEmpty(puidOrAltSec) &&
-                puidOrAltSec.IndexOf("live.com", StringComparison.OrdinalIgnoreCase) != -1)
+            if (string.IsNullOrEmpty(puidOrAltSec) ||
+                puidOrAltSec.IndexOf("live.com", StringComparison.OrdinalIgnoreCase) == -1)
             {
                 return false;
             }
