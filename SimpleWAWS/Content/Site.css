@@ -8897,7 +8897,7 @@ table {
     display: inline-block;
     vertical-align: top;
     width: 110px;
-    margin: 25px;
+    margin: 20px;
     text-align: center;
 }
 
@@ -9025,7 +9025,7 @@ div.google-login {
 
 
 div.icons {
-    background: url(/Content/images/csg-54a1e97433b7e.png) no-repeat top left;
+    background: url(/Content/images/csg-54e3b7f2a19fc.png) no-repeat top left;
 }
 
 div.sprite-ASPNETEmptySite, div.sprite-ASPNETStarterSite, div.sprite-Bakery, div.sprite-BlogEngine, div.sprite-HelloCSharp, div.sprite-PersonalSite, div.sprite-PhotoGallery{ background-position: 0 0; width: 115px; height: 115px; } 
@@ -9037,12 +9037,16 @@ div.sprite-ExpressJs, div.sprite-NodeJSEmptySite, div.sprite-NodeStarter{ backgr
 div.sprite-Flask{ background-position: 0 -860px; width: 115px; height: 115px; } 
 div.sprite-GhostBlog{ background-position: 0 -1025px; width: 115px; height: 115px; } 
 div.sprite-Large, div.sprite-JavaCoffeeShop{ background-position: 0 -1190px; width: 115px; height: 115px; } 
-div.sprite-PHPEmptySite, div.sprite-PHPStarterSite{ background-position: 0 -1355px; width: 115px; height: 115px; } 
-div.sprite-TypeScript{ background-position: 0 -1520px; width: 115px; height: 115px; } 
-div.sprite-VSO{ background-position: 0 -1685px; width: 50px; height: 50px; } 
-div.sprite-delete{ background-position: 0 -1785px; width: 50px; height: 50px; } 
-div.sprite-django{ background-position: 0 -1885px; width: 115px; height: 115px; } 
-div.sprite-git{ background-position: -165px 0; width: 50px; height: 50px; } 
+div.sprite-MicrosoftAzure{ background-position: 0 -1355px; width: 50px; height: 50px; } 
+div.sprite-PHPEmptySite, div.sprite-PHPStarterSite{ background-position: 0 -1455px; width: 115px; height: 115px; } 
+div.sprite-TypeScript{ background-position: 0 -1620px; width: 115px; height: 115px; } 
+div.sprite-VSO{ background-position: 0 -1785px; width: 50px; height: 50px; } 
+div.sprite-delete{ background-position: 0 -1885px; width: 50px; height: 50px; } 
+div.sprite-django{ background-position: -165px 0; width: 115px; height: 115px; } 
+div.sprite-git{ background-position: -165px -165px; width: 50px; height: 50px; } 
+
+
+
 
 
 #error-message-text {

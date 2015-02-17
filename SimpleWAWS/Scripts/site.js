@@ -265,7 +265,7 @@ function createSite(template, source) {
     toggleSpinner();
     return $.ajax({
         type: "POST",
-        url: "/api/site?language=" + encodeURIComponent(template.language) + (source ? "&provider=" + source + "&name=" + encodeURIComponent(template.name) : ""),// + "&name=" + encodeURIComponent(template.name),
+        url: "/api/site?language=" + encodeURIComponent(template.language) + (source ? "&provider=" + source + "&name=" + encodeURIComponent(template.name) : ""),
         data: JSON.stringify(template),
         contentType: "application/json; charset=utf-8",
         success: handleGetSite,

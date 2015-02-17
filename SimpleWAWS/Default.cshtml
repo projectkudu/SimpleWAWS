@@ -86,6 +86,11 @@
                 <h3 data-bind="if: url !== undefined, visible: true" style="display: none">
                     Your site has been created at <a data-bind="attr: {href: url}, text: url" target="_blank"></a>
                 </h3>
+                <!-- ko if: isRbacEnabled-->
+                <div class="work-with-site-tools">
+                    <a href="https://portal.azure.com/trywebsitesnowhotmail.onmicrosoft.com"><div class="work-with-site-tools-img icons sprite-MicrosoftAzure"></div><div class="website-template-name">Manage in Azure Portal</div></a>
+                </div>
+                <!-- /ko -->
                 <div class="work-with-site-tools">
                     <a data-bind="attr: {href: monacoUrl}" target="_blank"><div class="work-with-site-tools-img icons sprite-VSO"></div><div class="website-template-name">Edit with Visual Studio Online</div></a>
                 </div>
@@ -111,6 +116,9 @@
         </div>
         <!-- ko if: siteJson() === undefined -->
         <div>
+            <div class="work-with-site-tools">
+                <a><div class="work-with-site-tools-img icons sprite-MicrosoftAzure"></div><div class="website-template-name">Manage in Azure Portal</div></a>
+            </div>
             <div class="work-with-site-tools">
                 <a><div class="work-with-site-tools-img icons sprite-VSO"></div><div class="website-template-name">Edit with Visual Studio Online</div></a>
             </div>
