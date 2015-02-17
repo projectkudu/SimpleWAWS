@@ -330,6 +330,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Login.cshtml" />
+    <Content Include="Logout.cshtml" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <PropertyGroup>
