@@ -13,6 +13,15 @@
 
     appInsights.start("003bf9bd-f263-4f3f-98dc-13f44296a261");
     appInsights.logPageView();
+    $(document).ready(function () {
+        if (document.cookie.indexOf("loginsession") != -1) {
+            $("#portal-link").hide();
+            $("#logout-link").show();
+        } else {
+            $("#portal-link").show();
+            $("#logout-link").hide();
+        }
+    });
         </script>
     </head>
     <body class="wa-fullWidth page-home">
@@ -27,8 +36,11 @@
                             <li>
                                 <a href="http://azure.microsoft.com/en-us/account/?WT.mc_id=try_websites">My Account</a> 
                             </li>
-                            <li>
-                                <a href="https://manage.windowsazure.com">Portal</a> 
+                            <li id="portal-link" style="display: none">
+                                <a href="https://manage.windowsazure.com">Portal</a>
+                            </li>
+                            <li id="logout-link" style="display: none">
+                                <a href="~/Logout">Logout</a>
                             </li>
                             <li class="search">
                                 <div class="wa-text wa-text-light wa-textSearch" data-control="textbox">
