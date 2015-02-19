@@ -182,7 +182,10 @@ namespace SimpleWAWS.Code
         {
             Sites.Remove(site);
             await _manager.OnSiteDeletedAsync(site);
-            await DeleteAsync(site.Name);
+            if (site.IsSimpleWAWS)
+            {
+                await DeleteAsync(site.Name);
+            }
         }
 
         #region Simple IWebSiteManagementClient wrappers

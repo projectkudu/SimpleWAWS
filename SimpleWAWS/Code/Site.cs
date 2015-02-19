@@ -115,7 +115,9 @@ namespace SimpleWAWS.Code
         {
             get
             {
-                return Regex.IsMatch(Name, "^[A-F0-9]{8}-0ee0-4-231-b9ee$", RegexOptions.IgnoreCase);
+                return !string.IsNullOrEmpty(Name) &&
+                       Regex.IsMatch(Name, "^[A-F0-9]{8}-0ee0-4-231-b9ee$", RegexOptions.IgnoreCase) &&
+                       Name.IndexOf("try", StringComparison.OrdinalIgnoreCase) == -1;
             }
         }
 
