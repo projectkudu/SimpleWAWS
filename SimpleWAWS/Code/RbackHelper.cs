@@ -17,12 +17,16 @@ namespace SimpleWAWS.Code
     {
         private static readonly dynamic GraphClient;
         private static readonly dynamic CsmClient;
+        private static readonly dynamic websitesCsmClient;
         static RbackHelper()
         {
             GraphClient = ARMLib.GetDynamicClient(apiVersion: ConfigurationManager.AppSettings["rbacGraphApiVersion"], url: string.Format("{0}/{1}", ConfigurationManager.AppSettings["graphApiBaseUrl"], ConfigurationManager.AppSettings["tryWebsitesTenantId"]))
                     .ConfigureLogin(LoginType.Upn, ConfigurationManager.AppSettings["grapAndCsmUserName"], ConfigurationManager.AppSettings["graphAndCsmPassword"]);
 
             CsmClient = ARMLib.GetDynamicClient(apiVersion: ConfigurationManager.AppSettings["rbacCsmApiVersion"])
+                .ConfigureLogin(LoginType.Upn, ConfigurationManager.AppSettings["grapAndCsmUserName"], ConfigurationManager.AppSettings["graphAndCsmPassword"]);
+
+            websitesCsmClient = ARMLib.GetDynamicClient(apiVersion: ConfigurationManager.AppSettings["websitesCsmClient"])
                 .ConfigureLogin(LoginType.Upn, ConfigurationManager.AppSettings["grapAndCsmUserName"], ConfigurationManager.AppSettings["graphAndCsmPassword"]);
 
         }
@@ -96,22 +100,32 @@ namespace SimpleWAWS.Code
                                                             });
                     if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
                     {
-                        Trace.TraceInformation(await response.Content.ReadAsStringAsync());
                         await Task.Delay(1000);
+                    }
+                    else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    {
+                        await websitesCsmClient.Subscriptions[site.WebSpace.SubscriptionId]
+                                               .ResourceGroups[site.WebSpace.ResourceGroup]
+                                               .Providers["Microsoft.Web"]
+                                               .Sites[site.Name]
+                                               .PutAsync(new
+                                               {
+                                                   properties = new { },
+                                                   location = "west us"
+                                               });
                     }
                     else
                     {
                         response.EnsureSuccessStatusCode();
-                        break;
+                        return true;
                     }
                 }
             }
             catch (Exception e)
             {
-                Trace.TraceError("{0}; {1}; {2}; {3}", AnalyticsEvents.ErrorInAddRbacUser, e.GetBaseException().Message.RemoveNewLines(), puidOrAltSec, emailAddress);
-                return false;
+                Trace.TraceError("{0}; {1}; {2}; {3}; {4}", AnalyticsEvents.ErrorInAddRbacUser, e.GetBaseException().Message.RemoveNewLines(), e.GetBaseException().StackTrace.RemoveNewLines(), puidOrAltSec, emailAddress);
             }
-            return true;
+            return false;
         }
 
         public static async Task RemoveRbacUser(Site site)
