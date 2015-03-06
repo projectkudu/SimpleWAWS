@@ -75,10 +75,9 @@ namespace SimpleWAWS.Controllers
         public async Task<HttpResponseMessage> CreateSite(Template template)
         {
             //Template names should be unique even between languages
-            template = template == null 
-                ? Template.EmptySiteTemplate
-                : TemplatesManager.GetTemplates()
-                                  .FirstOrDefault(t => t.Name == template.Name);
+            template = TemplatesManager.GetTemplates()
+                                       .FirstOrDefault(t => t.Name == template.Name);
+            template = template ?? Template.EmptySiteTemplate;
 
             var createSiteEvent =
                 ServerAnalytics.CurrentRequest.StartTimedEvent(AppInsightsEvents.UserActions.CreateWebsite,

@@ -232,7 +232,7 @@ namespace SimpleWAWS.Code
                     _sitesInProgress.AddOrUpdate(userId, s => siteCreationTask, (s, task) => siteCreationTask);
                     Trace.TraceInformation("Site {0} is now in use", site.Name);
 
-                    if (template != null)
+                    if (template != null && template.FileName != null)
                     {
                         var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
                         var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);

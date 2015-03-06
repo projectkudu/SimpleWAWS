@@ -77,7 +77,6 @@ namespace SimpleWAWS.Code
 
             _publishingProfile = await WebSpace.GetPublishingProfile(Name);
         }
-
         public async Task InitializeNewSite()
         {
             var updateParams = Util.CreateWebSiteUpdateConfigurationParameters();
