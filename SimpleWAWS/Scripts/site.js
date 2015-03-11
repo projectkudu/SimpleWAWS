@@ -236,12 +236,7 @@ function handleGenericHttpError(xhr, error, errorThrown) {
 }
 
 function freeTrialClick(event) {
-    if (appInsights) {
-        appInsights.logEvent(
-        "UserActions/FreeTrial",
-        { source: $(event.target).closest("a").attr('id') }
-    );
-    }
+   
 }
 
 function checkForEnterKey(event, searchBoxId) {

@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 using System.Web;
 using Kudu.Client.Editor;
 using Kudu.Client.Zip;
-using Microsoft.ApplicationInsights.Telemetry.Services;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Management.WebSites;
 using Newtonsoft.Json;
@@ -257,13 +256,11 @@ namespace SimpleWAWS.Code
                         //this means the user is trying to add more than 1 site.
                         //delete the new site that's not yet added to the used list
                         await site.DeleteAndCreateReplacementAsync();
-                        ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.UserErrors.MoreThanOneWebsite);
                         throw new MoreThanOneSiteException("You can't have more than 1 free site at a time");
                     }
                 }
                 else
                 {
-                    ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.ServerErrors.NoFreeSites);
                     throw new NoFreeSitesException("No free sites are available currently. Please try again later.");
                 }
             }
@@ -278,8 +275,6 @@ namespace SimpleWAWS.Code
             catch (Exception e)
             {
                 //unknown exception, log it
-                ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.ServerErrors.GeneralException,
-                    new Dictionary<string, object> {{"ExMessage", e.Message}});
                 Trace.TraceError(e.ToString());
             }
             finally
@@ -390,10 +385,6 @@ namespace SimpleWAWS.Code
 
         private void LogQueueStatistics()
         {
-            ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.ServerStatistics.NumberOfFreeSites,
-                    new Dictionary<string, object> { { "Number", _freeSites.Count } });
-            ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.ServerStatistics.NumberOfUsedSites,
-                new Dictionary<string, object> { { "Number", _sitesInUse.Count } });
         }
     }
 

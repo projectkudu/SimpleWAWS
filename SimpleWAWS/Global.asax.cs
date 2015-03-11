@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Routing;
-using Microsoft.ApplicationInsights.Telemetry.Services;
 using SimpleWAWS.Authentication;
 using SimpleWAWS.Code;
 using System.Web;
@@ -64,7 +63,6 @@ namespace SimpleWAWS
                 if (isAuthenticated)
                 {
                     SecurityManager.AuthenticateRequest(Context);
-                    ServerAnalytics.CurrentRequest.AppUserId = Context.User.Identity.Name;
                 }
             }
         }

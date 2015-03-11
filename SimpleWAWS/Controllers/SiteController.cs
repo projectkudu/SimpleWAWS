@@ -8,7 +8,6 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using Microsoft.ApplicationInsights.Telemetry.Services;
 using SimpleWAWS.Code;
 using SimpleWAWS.Authentication;
 
@@ -61,7 +60,6 @@ namespace SimpleWAWS.Controllers
 
         public async Task<HttpResponseMessage> GetPublishingProfile()
         {
-            ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.UserActions.DownloadPublishingProfile);
             var siteManager = await SiteManager.GetInstanceAsync();
             var response = Request.CreateResponse();
             var site = await siteManager.GetSite(HttpContext.Current.User.Identity.Name);
@@ -79,16 +77,11 @@ namespace SimpleWAWS.Controllers
                                        .FirstOrDefault(t => t.Name == template.Name);
             template = template ?? Template.EmptySiteTemplate;
 
-            var createSiteEvent =
-                ServerAnalytics.CurrentRequest.StartTimedEvent(AppInsightsEvents.UserActions.CreateWebsite,
-                    new Dictionary<string, object> { { "Template", template.Name }, { "Language", template.Language } });
             try
             {
                 var siteManager = await SiteManager.GetInstanceAsync();
                 if ((await siteManager.GetSite(HttpContext.Current.User.Identity.Name)) != null)
                 {
-                    ServerAnalytics.CurrentRequest.LogEvent(AppInsightsEvents.UserErrors.MoreThanOneWebsite);
-
                     Trace.TraceError("{0}; {1}; {2}", AnalyticsEvents.UserGotError,
                         HttpContext.Current.User.Identity.Name, "You can't have more than 1 free site at a time");
 
@@ -108,19 +101,12 @@ namespace SimpleWAWS.Controllers
                 Trace.TraceError("{0}; {1}; {2}", AnalyticsEvents.UserGotError, HttpContext.Current.User.Identity.Name, ex.Message);
                 return Request.CreateErrorResponse(HttpStatusCode.ServiceUnavailable, ex.Message);
             }
-            finally
-            {
-                createSiteEvent.End();
-            }
         }
 
         public async Task<HttpResponseMessage> DeleteSite()
         {
-            var deleteSiteEvent =
-                ServerAnalytics.CurrentRequest.StartTimedEvent(AppInsightsEvents.UserActions.DeleteWebsite);
             var siteManager = await SiteManager.GetInstanceAsync();
             await siteManager.DeleteSite(HttpContext.Current.User.Identity.Name);
-            deleteSiteEvent.End();
             return Request.CreateResponse(HttpStatusCode.Accepted);
         }
     }
