@@ -4,10 +4,11 @@
         this.fileName = json.fileName;
         this.language = json.language;
         this.icon_class = json.icon_class;
+        this.appService = json.appService;
     }
     Template.prototype.select = function (event) {
-        $(".website-template-container").removeClass("website-template-container-selected");
-        var parent = $(event.target).closest(".website-template-container").addClass("website-template-container-selected");
+        $(".website-template-container").removeClass("box-container-selected");
+        var parent = $(event.target).closest(".website-template-container").addClass("box-container-selected");
         viewModel.selectedTemplate(this);
     };
     return Template;
@@ -20,6 +21,9 @@ var Site = (function () {
 })();
 
 var viewModel;
+
+// for now Mobile has only 1 template. If this changes, we will need to have actual template array for Mobile as well.
+var mobileTemplate;
 
 //http://stackoverflow.com/a/901144/3234163
 function getQueryStringBytName(name) {
@@ -56,13 +60,36 @@ function initViewModel() {
             $(".select-template-anchor").first().click();
         }
     };
+    viewModel.appServices = ko.observable([{
+        label: "web app",
+        name: "Web",
+        id: 0,
+        icon_url: "/Content/images/Azure Websites.png"
+    }, {
+        label: "mobile app",
+        name: "Mobile",
+        id: 1,
+        icon_url: "/Content/images/Mobile Services.png"
+    }].map(function (e) {
+        e.select = function (event) {
+            $(".appservice-container").removeClass("box-container-selected");
+            var parent = $(event.target).closest(".appservice-container").addClass("box-container-selected");
+            viewModel.selectedAppService(e);
+        };
+        return e;
+    }));
+    viewModel.selectedAppService = ko.observable(viewModel.appServices()[0]);
     ko.applyBindings(viewModel);
 }
 
 function initTemplates() {
-    $.getJSON("/api/templates", function (data) {
+    return $.getJSON("/api/templates", function (data) {
         for (var i = 0; i < data.length; i++) {
-            viewModel.templates.push(new Template(data[i]));
+            if (data[i].appService.toUpperCase() === "WEB") {
+                viewModel.templates.push(new Template(data[i]));
+            } else if (data[i].appService.toUpperCase() === "MOBILE") {
+                mobileTemplate = new Template(data[i]);
+            }
         }
     }).done(function () {
         viewModel.templates.sort(helloSort);
@@ -158,16 +185,20 @@ function deleteSite(event) {
     return $.ajax({
         type: "DELETE",
         url: "/api/site"
-    });
+    })
 }
 
 function toggleSpinner() {
-    $("#error-message").hide();
+    $(".error-message").hide();
     viewModel.createRunning(!viewModel.createRunning());
 }
 
 function scrollSitePartToView() {
-    scrollHelper($("#work-with-your-site").offset().top - 170);
+    if (viewModel.selectedAppService().id === 0 /*Web*/) {
+        scrollHelper($("#work-with-your-site").offset().top - 170);
+    } else if (viewModel.selectedAppService().id === 1 /*Mobile*/) {
+        scrollHelper($("#work-with-your-mobile").offset().top - 170);
+    }
 }
 
 function scrollToTop() {
@@ -185,6 +216,7 @@ function handleGetSite(data) {
     $("#create-site").show();
     if (data != null) {
         viewModel.siteJson(data);
+        pickAppService(data.appService);
         startCountDown(viewModel.siteJson().timeLeftString);
         scrollSitePartToView();
     } else {
@@ -215,7 +247,7 @@ function handleCreateSiteError(xhr, error, errorThrown, source) {
     if (xhr.status === 403 && !source) {
         //this means user is not loged in, and hasn't selected a login yet
         toggleSpinner();
-        $('#login-box').fadeIn(600);
+        $('.login-box').fadeIn(600);
         $('#login-dark-blocker').show();
     } else if (xhr.status === 403 && xhr.getResponseHeader("LoginUrl") !== null) {
         window.location = xhr.getResponseHeader("LoginUrl");
@@ -232,11 +264,11 @@ function handleGenericHttpError(xhr, error, errorThrown) {
     } else {
         viewModel.errorMessage("There was an error");
     }
-    $("#error-message").show();
+    $(".error-message").show();
 }
 
 function freeTrialClick(event) {
-   
+
 }
 
 function checkForEnterKey(event, searchBoxId) {
@@ -252,15 +284,17 @@ function doSearch(searchBoxId) {
 }
 
 function createSite(template, source) {
-
-    if (!template) {
+    var appService = viewModel.selectedAppService();
+    if (appService.id == 1 /*mobile*/) {
+        template = mobileTemplate;
+    } else if (!template) {
         template = viewModel.selectedTemplate();
     }
 
     toggleSpinner();
     return $.ajax({
         type: "POST",
-        url: "/api/site?language=" + encodeURIComponent(template.language) + (source ? "&provider=" + source + "&name=" + encodeURIComponent(template.name) : ""),
+        url: "/api/site?language=" + encodeURIComponent(template.language) + (source ? "&provider=" + source + "&name=" + encodeURIComponent(template.name) : "") + "&appServiceName=" + appService.name.split(" ")[0],
         data: JSON.stringify(template),
         contentType: "application/json; charset=utf-8",
         success: handleGetSite,
@@ -271,10 +305,12 @@ function createSite(template, source) {
 function getSiteToCreate() {
     var language = getQueryStringBytName("language");
     var templateName = getQueryStringBytName("name");
+    var appService = getQueryStringBytName("appServiceName");
     if (language !== undefined && templateName !== undefined)
         return {
             name: templateName,
-            language: language
+            language: language,
+            appService: appService
         };
 }
 
@@ -296,7 +332,7 @@ function selectTemplate(template) {
     $("#templates-div")
         .find("." + template.name.replace(/\s/g, "").replace(/\./g, "\\."))
         .closest(".website-template-container")
-        .addClass("website-template-container-selected");
+        .addClass("container-selected");
 }
 
 function gitUrlClick(event) {
@@ -309,20 +345,35 @@ function handleCreateClick(event, source) {
     createSite(undefined, source);
 }
 
+function pickAppService(name) {
+    name = (name ? name : getQueryStringBytName("appServiceName"));
+    name = (name ? name.toUpperCase() : name);
+    switch (name) {
+        case "MOBILE":
+            viewModel.selectedAppService(viewModel.appServices()[1]);
+            break;
+        case "WEB":
+        default:
+            viewModel.selectedAppService(viewModel.appServices()[0]);
+    }
+}
+
 window.onload = function () {
     initViewModel();
-    initTemplates();
-
-    if (isCreateSite()) {
-        var template = getSiteToCreate();
-        viewModel.selectedTemplate(template);
-        selectTemplate(template);
-        createSite(template).error(function () { initSite().always(function () { $("#error-message").show(); }); });
-    } else {
-        initSite();
-    }
-
-    clearQueryString();
+    pickAppService();
+    initTemplates().done(function () {
+        if (isCreateSite()) {
+            var template = getSiteToCreate();
+            if (template.appService.toUpperCase() === "WEB") {
+                viewModel.selectedTemplate(template);
+                selectTemplate(template);
+            }
+            createSite(template).error(function () { initSite().always(function () { $(".error-message").show(); }); });
+        } else {
+            initSite();
+        }
+        clearQueryString();
+    });
 
     $("select").on("change", function (e) {
         var optionSelected = $("option:selected", this);
@@ -337,10 +388,33 @@ window.onload = function () {
     });
 
     $(document).mouseup(function (e) {
-        var container = $("#login-box");
+        var container = $(".login-box");
         if (!container.is(e.target) && container.has(e.target).length === 0) {
             container.fadeOut(300);
             $('#login-dark-blocker').hide();
         }
     });
 };
+
+if (!Array.prototype.find) {
+    Array.prototype.find = function (predicate) {
+        if (this == null) {
+            throw new TypeError('Array.prototype.find called on null or undefined');
+        }
+        if (typeof predicate !== 'function') {
+            throw new TypeError('predicate must be a function');
+        }
+        var list = Object(this);
+        var length = list.length >>> 0;
+        var thisArg = arguments[1];
+        var value;
+
+        for (var i = 0; i < length; i++) {
+            value = list[i];
+            if (predicate.call(thisArg, value, i, list)) {
+                return value;
+            }
+        }
+        return undefined;
+    };
+}

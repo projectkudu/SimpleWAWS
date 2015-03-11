@@ -105,6 +105,7 @@
     <Reference Include="System.IdentityModel.Tokens.ValidatingIssuerNameRegistry">
       <HintPath>..\packages\System.IdentityModel.Tokens.ValidatingIssuerNameRegistry.4.5.1\lib\net45\System.IdentityModel.Tokens.ValidatingIssuerNameRegistry.dll</HintPath>
     </Reference>
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http.Extensions">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.18\lib\net45\System.Net.Http.Extensions.dll</HintPath>
@@ -187,9 +188,15 @@
     <Compile Include="Authentication\TryWebsitesPrincipal.cs" />
     <Compile Include="Authentication\TwitterAuthProvider.cs" />
     <Compile Include="Code\AnalyticsEvents.cs" />
+    <Compile Include="Code\AppService.cs" />
     <Compile Include="Code\AsyncLock.cs" />
+    <Compile Include="Code\DelegatingStream.cs" />
     <Compile Include="Code\Exceptions.cs" />
+    <Compile Include="Code\MobileClientPlatform.cs" />
+    <Compile Include="Code\MobileHelper.cs" />
     <Compile Include="Code\RbackHelper.cs" />
+    <Compile Include="Controllers\ApiAppController.cs" />
+    <Compile Include="Controllers\FlowController.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Code\StorageHelper.cs" />
     <Compile Include="Code\Template.cs" />

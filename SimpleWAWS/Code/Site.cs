@@ -16,6 +16,7 @@ using Kudu.Client.Editor;
 using Microsoft.WindowsAzure.Management.WebSites.Models;
 using Newtonsoft.Json;
 using SimpleWAWS.Kudu;
+using Newtonsoft.Json.Converters;
 
 namespace SimpleWAWS.Code
 {
@@ -27,6 +28,7 @@ namespace SimpleWAWS.Code
 
         private const string IsSimpleWAWSKey = "SIMPLE_WAWS";
         private const string UserIdMetadataKey = "USERID";
+        private const string AppServiceMetadataKey = "APP_SERVICE_METADATA";
         private const string SiteUniqueIdMetadataKey = "SITEUNIQUEID";
 
         [JsonIgnore]
@@ -250,17 +252,38 @@ namespace SimpleWAWS.Code
         [JsonProperty("isRbacEnabled")]
         public bool IsRbacEnabled { get; set; }
 
+        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonProperty("appService")]
+        public AppService AppService 
+        {
+            get
+            {
+                string appServiceString = null;
+                AppService appService;
+                _config.Metadata.TryGetValue(AppServiceMetadataKey, out appServiceString);
+                if (Enum.TryParse<AppService>(appServiceString, out appService))
+                {
+                    return appService;
+                }
+                else
+                {
+                    return AppService.Web;
+                }
+            }
+        }
+
         public Task DeleteAndCreateReplacementAsync()
         {
             return WebSpace.DeleteAndCreateReplacementAsync(this);
         }
 
-        public async Task MarkAsInUseAsync(string userId, TimeSpan lifeTime)
+        public async Task MarkAsInUseAsync(string userId, TimeSpan lifeTime, AppService appService = AppService.Web)
         {
             _webSite.LastModifiedTimeUtc = DateTime.UtcNow;
 
             var updateParams = Util.CreateWebSiteUpdateConfigurationParameters();
             _config.Metadata[UserIdMetadataKey] = userId;
+            _config.Metadata[AppServiceMetadataKey] = appService.ToString();
             _config.AppSettings["USER_ID"] = userId;
             _config.AppSettings["LAST_MODIFIED_TIME_UTC"] = DateTime.UtcNow.ToString();
             _config.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = lifeTime.TotalMinutes.ToString();

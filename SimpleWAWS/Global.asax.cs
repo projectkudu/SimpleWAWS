@@ -30,6 +30,7 @@ namespace SimpleWAWS
             RouteTable.Routes.MapHttpRoute("get-site", "api/site", new { controller = "Site", action = "GetSite", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
             RouteTable.Routes.MapHttpRoute("create-site", "api/site", new { controller = "Site", action = "CreateSite", authenticated = true }, new { verb = new HttpMethodConstraint("POST") });
             RouteTable.Routes.MapHttpRoute("get-site-publishing-profile", "api/site/getpublishingprofile", new { controller = "Site", action = "GetPublishingProfile", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("get-mobile-client-app", "api/site/mobileclient/{platformString}", new { controller = "Site", action = "GetMobileClientZip", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
             RouteTable.Routes.MapHttpRoute("delete-site", "api/site", new { controller = "Site", action = "DeleteSite", authenticated = true }, new { verb = new HttpMethodConstraint("DELETE") });
 
             //Admin Only Routes

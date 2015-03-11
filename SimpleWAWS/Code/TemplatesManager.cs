@@ -45,12 +45,14 @@ namespace SimpleWAWS.Code
                         var iconUri = Path.Combine(ImagesFolder, string.Format("{0}.png", Path.GetFileNameWithoutExtension(template)));
                         var cssClass = Path.GetFileNameWithoutExtension(template).Replace(" ", "").Replace("#", "Sharp");
                         var iconCssClass = File.Exists(iconUri) ? string.Format("sprite-{0}", cssClass) : "sprite-Large";
+                        var language = Path.GetFileName(languagePath);
                         list.Add(new Template
                         {
                             Name = Path.GetFileNameWithoutExtension(template),
                             FileName = Path.GetFileName(template),
-                            Language = Path.GetFileName(languagePath),
-                            IconClass = string.Format("{0} {1}", iconCssClass, cssClass)
+                            Language = language,
+                            IconClass = string.Format("{0} {1}", iconCssClass, cssClass),
+                            AppService =  language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) ? AppService.Mobile : AppService.Web
                         });
                     }
                 }

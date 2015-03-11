@@ -70,6 +70,27 @@ namespace SimpleWAWS.Controllers
             return response;
         }
 
+        public async Task<HttpResponseMessage> GetMobileClientZip(string platformString)
+        {
+            var siteManager = await SiteManager.GetInstanceAsync();
+            var site = await siteManager.GetSite(HttpContext.Current.User.Identity.Name);
+            MobileClientPlatform platform;
+            if (site.AppService != AppService.Mobile)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Wrong app service");
+            }
+
+            if (!Enum.TryParse<MobileClientPlatform>(platformString, out platform))
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Unsupported platform");
+            }
+
+            var response = Request.CreateResponse();
+            var replacement = new Dictionary<string, string> {{"ZUMOAPPURL", site.Url}};
+            response.Content = MobileHelper.CreateClientZip(platform, replacement);
+            return response;
+        }
+
         public async Task<HttpResponseMessage> CreateSite(Template template)
         {
             //Template names should be unique even between languages

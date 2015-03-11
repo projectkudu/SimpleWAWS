@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace SimpleWAWS.Code
 {
@@ -21,6 +22,10 @@ namespace SimpleWAWS.Code
 
         [JsonProperty("icon_class")]
         public string IconClass { get; set; }
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonProperty("appService")]
+        public AppService AppService { get; set; }
 
         public static Template EmptySiteTemplate
         {

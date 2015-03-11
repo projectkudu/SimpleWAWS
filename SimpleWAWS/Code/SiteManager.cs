@@ -208,6 +208,7 @@ namespace SimpleWAWS.Code
         public async Task<Site> ActivateSiteAsync(Template template, IIdentity genericUserIdentity)
         {
             Site site = null;
+            AppService appService = template != null ? template.AppService : AppService.Web;
             var userIdentity = genericUserIdentity as TryWebsitesIdentity;
             if (userIdentity == null)
             {
@@ -221,7 +222,7 @@ namespace SimpleWAWS.Code
                 if (_freeSites.TryDequeue(out site))
                 {
                     //mark site in use as soon as it's checked out so that if there is a reload it will be sorted out to the used queue.
-                    await site.MarkAsInUseAsync(userId, SiteExpiryTime);
+                    await site.MarkAsInUseAsync(userId, SiteExpiryTime, appService);
                     var rbacTask = RbackHelper.AddRbacUser(userIdentity.Puid, userIdentity.Email, site);
 
                     var siteCreationTask = Task.Delay(Timeout.Infinite, tokenSource.Token);
@@ -246,7 +247,7 @@ namespace SimpleWAWS.Code
                     {
                         //this means we just added the site for the user.
                         //update the LastModifiedTime and FireAndForget
-                        await addedSite.MarkAsInUseAsync(userId, SiteExpiryTime);
+                        await addedSite.MarkAsInUseAsync(userId, SiteExpiryTime, appService);
                         addedSite.FireAndForget();
                         site.IsRbacEnabled = await rbacTask;
                         return addedSite;

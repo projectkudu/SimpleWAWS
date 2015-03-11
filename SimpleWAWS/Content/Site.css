@@ -7194,7 +7194,7 @@ table {
     margin-top: 30px;
 }
 
-.wa-content + .wa-content-divided {
+.wa-content-divided {
     border-top: 1px solid #dedede;
     padding-top: 30px;
 }
@@ -8863,7 +8863,7 @@ table {
     display: block !important;
 }
 
-.website-template-container {
+.box-container {
     padding: 5px;
     margin-right: 20px;
     width: 115px;
@@ -8871,12 +8871,12 @@ table {
     vertical-align: top;
 }
 
-.website-template-container:hover {
+.box-container:hover {
     border: 2px solid #00abec;
     padding: 3px;
 }
 
-.website-template-container-selected {
+.box-container-selected {
     border: 2px solid #00abec;
     padding: 3px;
 }
@@ -8884,6 +8884,11 @@ table {
 .website-template-name {
     margin-top: 5px;
     margin-left: 1px;
+}
+
+.appservice-name {
+    margin-top: 5px;
+    text-align: center;
 }
 
 .work-with-site-tools-img {

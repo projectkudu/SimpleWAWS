@@ -1,90 +1,205 @@
 ﻿@{
     Layout = "~/_Layout.cshtml";
-    Page.Title = "Try Azure Websites now";
+    Page.Title = "Try app service now";
 }
 
 <section class="wa-section wa-section-blue wa-section-mini wa-section-compute">
     <div class="wa-content">
-        <h1>Create your website</h1>
+        <h1>Create your app service</h1>
         <div class="wa-spacer">
-            <h5>Be our guest for up to an hour of sandboxed Azure Websites experience with no Azure subscription, free of charge and commitment. Stay longer for the full Azure Websites experience with the Azure free trial subscription.</h5>
-            <h5>Azure Websites is a fully managed Platform-as-a-Service (PaaS) that enables you to build, deploy and scale enterprise-grade web Apps in seconds. Focus on your application code, and let Azure take care of the infrastructure to scale and securely run it for you.</h5>
-            <a href="http://azure.microsoft.com/en-us/services/websites/" class="wa-arrowLink wa-arrowLink-light">For more information about Azure Websites click here</a>
+            <h5 style="width: 800px;">Azure App Service is a cloud app service that integrates everything you need to quickly and easily build web and mobile apps for any platform or device</h5>
+            <h5 style="width: 800px;">Be out guest for up to an hour of sandboxed Azure App Service experiance with no Azure subscription, free of charge and commitment. Stay longer for the full Azure App Service experience with an Azure free trial subscription.</h5>
         </div>
-        <div class="wa-spacer  wa-spacer-aside wa-spacer-asideLight">
-            <div>
-
-            </div>
-            <video width="440" controls poster="https://trywebsites.blob.core.windows.net/publics/poster.PNG" preload="none">
-                <source src="https://trywebsites.blob.core.windows.net/publics/TryWebsites.mp4" type="video/mp4">
-                <source src="https://trywebsites.blob.core.windows.net/publics/TryWebsites.webm" type="video/webm">
-                <source src="https://trywebsites.blob.core.windows.net/publics/TryWebsites.ogv" type="video/ogg">
-            </video>
-        </div>
-
     </div>
 </section>
 <section class="wa-section">
     <div class="wa-content wa-content-4up">
-        <h2>1) Select a template and create your web application</h2>
-        <div>
-            <label for="wa-dropdown-language">Change language:</label>
-            <div class="wa-dropdown-container wa-dropdown-medium">
-                <select id="wa-dropdown-language" class="wa-dropdown" data-bind="foreach: languages">
-                    <option class="wa-dropdown-language-option" data-bind="text: $data, attr: {value: $data}, click: function(data, event) {$root.selectLanguage(event);}"></option>
-                </select>
-                <span class="wa-dropdown-value" data-bind="text: selectedLanguage()"></span>
-                <span class="wa-dropdown-arrow"></span>
-            </div>
-        </div>
+        <h2>1) Select your app service</h2>
         <br />
         <br />
-        <div id="templates-div" data-bind="foreach: templates">
-            <!-- ko if: $root.selectedLanguage() === $data.language -->
-            <div class="website-template-container" data-bind="visible: true" style="display: none">
-                <a class="select-template-anchor" href="#" data-bind="click: function(data, event) {data.select(event);}">
-                    <div class="icons" data-bind="css: $data.icon_class" style="width: 115px; height: 115px"></div>
-                    <div class="website-template-name" data-bind="text: $data.name"></div>
+        <div id="appservices-div" data-bind="foreach: appServices">
+            <div class="appservice-container box-container" data-bind="css: selectedAppService().id === $index() ? 'box-container-selected' : ''">
+                <a class="select-appservice-anchor" href="#" data-bind="click: function(data, event) {data.select(event);}">
+                    <img data-bind="attr:{src: $data.icon_url}" style="width: 115px; height: 115px" />
+                    <div class="appservice-name" data-bind="text: $data.label"></div>
                 </a>
             </div>
-            <!-- /ko -->
         </div>
         <br />
         <br />
-        <div style="display: inline; float: left; position: relative">
-            <a id="create-site" onclick="handleCreateClick(event)" href="#" class="create-site-action wa-button wa-button-primary">Create</a>
-            <div id="login-box" class="login-box" style="display: none">
-                <div id="login-options" style="display: block; margin-left: 30px">
-                    <div class="wa-heading5" style="position: relative; margin-right: 8px">Log in first to create a site</div>
-                    <div class="login-option"><a href="#" onclick="handleCreateClick(event, 'aad')" class="create-site-action wa-button microsoft-login">Microsoft Account</a></div>
-                    <div class="login-option"><a class="create-site-action" onclick="handleCreateClick(event, 'google')" href="#"><div class="google-login sprite-google"></div></a></div>
-                    <div class="login-option"><a class="create-site-action" onclick="handleCreateClick(event, 'facebook')" href="#"><div class="facebook-login"></div></a></div>
-                </div>
-            </div>
-        </div>
-        <div class="spinner">
-            <!-- ko if: createRunning  -->
-            <i id="loading" class="fa fa-spinner fa-spin" title="Please wait" style="margin-top: 10px"></i>
-            <!-- /ko -->
-        </div>
-        <div class="spinner" style="margin-left: 70px">
-            <div id="error-message" style="display: none;">
-                <i class="fa fa-warning" style="margin-top: 10px" data-bind="attr: {title: errorMessage}"></i>
-                <span id="error-message-text" data-bind="text: errorMessage"></span>
-            </div>
-        </div>
         <!-- ko if: siteJson() !== undefined || createRunning -->
         <div class="ui-blocker"></div>
         <!-- /ko -->
     </div>
-    <div id="work-with-your-site" class="wa-content wa-content-4up wa-content-divided">
-        <h2>2) Work with your web application</h2>
-        <h5 style="margin-top: -15px; margin-left: 83px">for an <strong>hour</strong>, or sign up for a trial and stay for a month!</h5>
-        <div data-bind="visible: true" style="display: none">
+    <div data-bind="visible: selectedAppService().id === 0">
+        <div class="wa-content wa-content-4up wa-content-divided">
+            <h2>2) Select a template and create your web app</h2>
+            <div>
+                <label for="wa-dropdown-language">Change language:</label>
+                <div class="wa-dropdown-container wa-dropdown-medium">
+                    <select id="wa-dropdown-language" class="wa-dropdown" data-bind="foreach: languages">
+                        <option class="wa-dropdown-language-option" data-bind="text: $data, attr: {value: $data}, click: function(data, event) {$root.selectLanguage(event);}"></option>
+                    </select>
+                    <span class="wa-dropdown-value" data-bind="text: selectedLanguage()"></span>
+                    <span class="wa-dropdown-arrow"></span>
+                </div>
+            </div>
+            <br />
+            <br />
+            <div id="templates-div" data-bind="foreach: templates">
+                <!-- ko if: $root.selectedLanguage() === $data.language -->
+                <!-- ko if: $index() === 0 -->
+                <div class="website-template-container box-container box-container-selected" data-bind="visible: true" style="display: none">
+                    <a class="select-template-anchor" href="#" data-bind="click: function(data, event) {data.select(event);}">
+                        <div class="icons" data-bind="css: $data.icon_class" style="width: 115px; height: 115px"></div>
+                        <div class="website-template-name" data-bind="text: $data.name"></div>
+                    </a>
+                </div>
+                <!-- /ko -->
+                <!-- ko if: $index() !== 0 -->
+                <div class="website-template-container box-container" data-bind="visible: true" style="display: none">
+                    <a class="select-template-anchor" href="#" data-bind="click: function(data, event) {data.select(event);}">
+                        <div class="icons" data-bind="css: $data.icon_class" style="width: 115px; height: 115px"></div>
+                        <div class="website-template-name" data-bind="text: $data.name"></div>
+                    </a>
+                </div>
+                <!-- /ko  -->
+                <!-- /ko -->
+            </div>
+            <br />
+            <br />
+            <div style="display: inline; float: left; position: relative">
+                <a id="create-site" onclick="handleCreateClick(event)" href="#" class="create-site-action wa-button wa-button-primary">Create</a>
+                <div class="login-box" style="display: none">
+                    <div style="display: block; margin-left: 30px">
+                        <div class="wa-heading5" style="position: relative; margin-right: 8px">Log in first to create a web app</div>
+                        <div class="login-option"><a href="#" onclick="handleCreateClick(event, 'aad')" class="create-site-action wa-button microsoft-login">Microsoft Account</a></div>
+                        <div class="login-option"><a class="create-site-action" onclick="handleCreateClick(event, 'google')" href="#"><div class="google-login sprite-google"></div></a></div>
+                        <div class="login-option"><a class="create-site-action" onclick="handleCreateClick(event, 'facebook')" href="#"><div class="facebook-login"></div></a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="spinner">
+                <!-- ko if: createRunning  -->
+                <i class="fa fa-spinner fa-spin" title="Please wait" style="margin-top: 10px"></i>
+                <!-- /ko -->
+            </div>
+            <div class="spinner" style="margin-left: 70px">
+                <div class="error-message" style="display: none;">
+                    <i class="fa fa-warning" style="margin-top: 10px" data-bind="attr: {title: errorMessage}"></i>
+                    <span class="error-message-text" data-bind="text: errorMessage"></span>
+                </div>
+            </div>
+            <!-- ko if: siteJson() !== undefined || createRunning -->
+            <div class="ui-blocker"></div>
+            <!-- /ko -->
+        </div>
+        <div id="work-with-your-site" class="wa-content wa-content-4up wa-content-divided">
+            <h2>3) Work with your web app</h2>
+            <h5 style="margin-top: -15px; margin-left: 83px">for an <strong>hour</strong>, or sign up for a trial and stay for a month!</h5>
+            <div data-bind="visible: true" style="display: none">
+                <!-- ko if: siteJson() !== undefined -->
+                <div data-bind="with: siteJson">
+                    <h3 data-bind="if: url !== undefined, visible: true" style="display: none">
+                        Your site has been created at <a data-bind="attr: {href: url}, text: url" target="_blank"></a>
+                    </h3>
+                    <!-- ko if: isRbacEnabled-->
+                    <div class="work-with-site-tools">
+                        <a href="https://portal.azure.com/trywebsitesnowhotmail.onmicrosoft.com" target="_blank"><div class="work-with-site-tools-img icons sprite-MicrosoftAzure"></div><div class="website-template-name">Manage in Azure Portal</div></a>
+                    </div>
+                    <!-- /ko -->
+                    <div class="work-with-site-tools">
+                        <a data-bind="attr: {href: monacoUrl}" target="_blank"><div class="work-with-site-tools-img icons sprite-VSO"></div><div class="website-template-name">Edit with Visual Studio Online</div></a>
+                    </div>
+                    <div class="work-with-site-tools">
+                        <a data-bind="attr: {href: contentDownloadUrl}" target="_blank"><div class="work-with-site-tools-img icons sprite-DownloadSite"></div><div class="website-template-name">Download site content</div></a>
+                    </div>
+                    <div class="work-with-site-tools">
+                        <a data-bind="attr: {href: '/api/site/getpublishingprofile'}" target="_blank"><div class="work-with-site-tools-img icons sprite-DownloadPublishing"></div><div class="website-template-name">Download publishing profile</div></a>
+                    </div>
+                    <div class="work-with-site-tools">
+                        <div class="work-with-site-tools-img icons sprite-git"></div>
+                        <a href="#" onclick="gitUrlClick(event)">
+                            <div class="website-template-name">Clone or push with git</div>
+                            <input id="git-url-input" type="text" readonly="readonly" onclick="this.select();" style="margin-left: -20px; margin-top: 8px; height: 20px; border: 2px inset" data-bind="value: gitUrlWithCreds">
+                        </a>
+                    </div>
+                    <div class="work-with-site-tools">
+                        <a data-bind="click: function(data, event) {$root.deleteSite(event);}" href="#"><div class="work-with-site-tools-img icons sprite-delete"></div><div class="website-template-name">Delete the site</div></a>
+                    </div>
+                    <div style="margin-top: 60px">Your free site will expire in : <span class="countdown" data-bind="text: timeLeft"></span></div>
+                </div>
+                <!-- /ko -->
+            </div>
+            <!-- ko if: siteJson() === undefined -->
+            <div>
+                <div class="work-with-site-tools">
+                    <a><div class="work-with-site-tools-img icons sprite-MicrosoftAzure"></div><div class="website-template-name">Manage in Azure Portal</div></a>
+                </div>
+                <div class="work-with-site-tools">
+                    <a><div class="work-with-site-tools-img icons sprite-VSO"></div><div class="website-template-name">Edit with Visual Studio Online</div></a>
+                </div>
+                <div class="work-with-site-tools">
+                    <a><div class="work-with-site-tools-img icons sprite-DownloadSite"></div><div class="website-template-name">Download site content</div></a>
+                </div>
+                <div class="work-with-site-tools">
+                    <a><div class="work-with-site-tools-img icons sprite-DownloadPublishing"></div><div class="website-template-name">Download publishing profile</div></a>
+                </div>
+                <div class="work-with-site-tools">
+                    <a><div class="work-with-site-tools-img icons sprite-git"></div><div class="website-template-name">Clone or push with git</div></a>
+                </div>
+                <div class="work-with-site-tools">
+                    <a><div class="work-with-site-tools-img icons sprite-delete"></div><div class="website-template-name">Delete the site</div></a>
+                </div>
+            </div>
+            <div class="ui-blocker"></div>
+            <!-- /ko -->
+        </div>
+        <div class="wa-content wa-content-4up wa-content-divided">
+            <h2>4) Get more for free</h2>
+            <h3 style="font-size: 23px;">Create your own web apps. Sign up for a free 30-day trial and create up to 10 web apps for free.</h3>
+            <br />
+            <a href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id=try_websites" target="_blank" id="free-trial-step" onclick="freeTrialClick(event);" class="wa-button wa-button-primary">Free trial</a>
+        </div>
+    </div>
+
+    <div data-bind="visible: selectedAppService().id === 1">
+        <div class="wa-content wa-content-4up wa-content-divided">
+            <h2>2) Create a mobile app</h2>
+            <br />
+            <div style="display: inline; float: left; position: relative">
+                <a id="create-mobile" onclick="handleCreateClick(event)" href="#" class="create-site-action wa-button wa-button-primary">Create</a>
+                <div class="login-box" style="display: none">
+                    <div style="display: block; margin-left: 30px">
+                        <div class="wa-heading5" style="position: relative; margin-right: 8px">Log in first to create a mobile app</div>
+                        <div class="login-option"><a href="#" onclick="handleCreateClick(event, 'aad')" class="create-site-action wa-button microsoft-login">Microsoft Account</a></div>
+                        <div class="login-option"><a class="create-site-action" onclick="handleCreateClick(event, 'google')" href="#"><div class="google-login sprite-google"></div></a></div>
+                        <div class="login-option"><a class="create-site-action" onclick="handleCreateClick(event, 'facebook')" href="#"><div class="facebook-login"></div></a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="spinner">
+                <!-- ko if: createRunning  -->
+                <i class="fa fa-spinner fa-spin" title="Please wait" style="margin-top: 10px"></i>
+                <!-- /ko -->
+            </div>
+            <div class="spinner" style="margin-left: 70px">
+                <div class="error-message" style="display: none;">
+                    <i class="fa fa-warning" style="margin-top: 10px" data-bind="attr: {title: errorMessage}"></i>
+                    <span class="error-message-text" data-bind="text: errorMessage"></span>
+                </div>
+            </div>
+            <!-- ko if: siteJson() !== undefined || createRunning -->
+            <div class="ui-blocker"></div>
+            <!-- /ko -->
+        </div>
+        <div id="work-with-your-mobile" class="wa-content wa-content-4up wa-content-divided">
+            <h2>3) Work with your mobile app</h2>
+            <br />
             <!-- ko if: siteJson() !== undefined -->
             <div data-bind="with: siteJson">
                 <h3 data-bind="if: url !== undefined, visible: true" style="display: none">
-                    Your site has been created at <a data-bind="attr: {href: url}, text: url" target="_blank"></a>
+                    Your mobile app has been created at <a data-bind="attr: {href: url}, text: url" target="_blank"></a>
                 </h3>
                 <!-- ko if: isRbacEnabled-->
                 <div class="work-with-site-tools">
@@ -92,65 +207,50 @@
                 </div>
                 <!-- /ko -->
                 <div class="work-with-site-tools">
-                    <a data-bind="attr: {href: monacoUrl}" target="_blank"><div class="work-with-site-tools-img icons sprite-VSO"></div><div class="website-template-name">Edit with Visual Studio Online</div></a>
+                    <a data-bind="attr: {href: contentDownloadUrl}" target="_blank"><div class="work-with-site-tools-img icons sprite-DownloadSite"></div><div class="website-template-name">Download .NET backend</div></a>
                 </div>
                 <div class="work-with-site-tools">
-                    <a data-bind="attr: {href: contentDownloadUrl}" target="_blank"><div class="work-with-site-tools-img icons sprite-DownloadSite"></div><div class="website-template-name">Download site content</div></a>
+                    <a data-bind="attr: {href: '/api/site/mobileclient/Windows'}" target="_blank"><div class="work-with-site-tools-img icons sprite-DownloadPublishing"></div><div class="website-template-name">Download Windows App Client</div></a>
                 </div>
                 <div class="work-with-site-tools">
-                    <a data-bind="attr: {href: '/api/site/getpublishingprofile'}" target="_blank"><div class="work-with-site-tools-img icons sprite-DownloadPublishing"></div><div class="website-template-name">Download publishing profile</div></a>
+                    <a data-bind="click: function(data, event) {$root.deleteSite(event);}" href="#"><div class="work-with-site-tools-img icons sprite-delete"></div><div class="website-template-name">Delete the mobile app</div></a>
                 </div>
-                <div class="work-with-site-tools">
-                    <div class="work-with-site-tools-img icons sprite-git"></div>
-                    <a href="#" onclick="gitUrlClick(event)">
-                        <div class="website-template-name">Clone or push with git</div>
-                        <input id="git-url-input" type="text" readonly="readonly" onclick="this.select();" style="margin-left: -20px; margin-top: 8px; height: 20px; border: 2px inset" data-bind="value: gitUrlWithCreds">
-                    </a>
-                </div>
-                <div class="work-with-site-tools">
-                    <a data-bind="click: function(data, event) {$root.deleteSite(event);}" href="#"><div class="work-with-site-tools-img icons sprite-delete"></div><div class="website-template-name">Delete the site</div></a>
-                </div>
-                <div style="margin-top: 60px">Your free site will expire in : <span class="countdown" data-bind="text: timeLeft"></span></div>
+                <div style="margin-top: 60px">Your free mobile app will expire in : <span class="countdown" data-bind="text: timeLeft"></span></div>
             </div>
             <!-- /ko -->
+            <!-- ko if: siteJson() === undefined -->
+            <div>
+                <div class="work-with-site-tools">
+                    <a><div class="work-with-site-tools-img icons sprite-MicrosoftAzure"></div><div class="website-template-name">Manage in Azure Portal</div></a>
+                </div>
+                <div class="work-with-site-tools">
+                    <a><div class="work-with-site-tools-img icons sprite-DownloadSite"></div><div class="website-template-name">Download .NET backend</div></a>
+                </div>
+                <div class="work-with-site-tools">
+                    <a><div class="work-with-site-tools-img icons sprite-DownloadPublishing"></div><div class="website-template-name">Download Windows App Client</div></a>
+                </div>
+                <div class="work-with-site-tools">
+                    <a><div class="work-with-site-tools-img icons sprite-delete"></div><div class="website-template-name">Delete the site</div></a>
+                </div>
+            </div>
+            <!-- /ko -->
+            <!-- ko if: siteJson() === undefined -->
+            <div class="ui-blocker"></div>
+            <!-- /ko -->
         </div>
-        <!-- ko if: siteJson() === undefined -->
-        <div>
-            <div class="work-with-site-tools">
-                <a><div class="work-with-site-tools-img icons sprite-MicrosoftAzure"></div><div class="website-template-name">Manage in Azure Portal</div></a>
-            </div>
-            <div class="work-with-site-tools">
-                <a><div class="work-with-site-tools-img icons sprite-VSO"></div><div class="website-template-name">Edit with Visual Studio Online</div></a>
-            </div>
-            <div class="work-with-site-tools">
-                <a><div class="work-with-site-tools-img icons sprite-DownloadSite"></div><div class="website-template-name">Download site content</div></a>
-            </div>
-            <div class="work-with-site-tools">
-                <a><div class="work-with-site-tools-img icons sprite-DownloadPublishing"></div><div class="website-template-name">Download publishing profile</div></a>
-            </div>
-            <div class="work-with-site-tools">
-                <a><div class="work-with-site-tools-img icons sprite-git"></div><div class="website-template-name">Clone or push with git</div></a>
-            </div>
-            <div class="work-with-site-tools">
-                <a><div class="work-with-site-tools-img icons sprite-delete"></div><div class="website-template-name">Delete the site</div></a>
-            </div>
+        <div class="wa-content wa-content-4up wa-content-divided">
+            <h2>4) Get more for free</h2>
+            <h3 style="font-size: 23px;">Create your own mobile apps. Sign up for a free 30-day trial and create up to 10 mobile apps for free.</h3>
+            <br />
+            <a href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id=try_websites" target="_blank" class="wa-button wa-button-primary">Free trial</a>
         </div>
-        <div class="ui-blocker"></div>
-        <!-- /ko -->
-    </div>
-
-    <div class="wa-content wa-content-4up wa-content-divided">
-        <h2>3) Get more for free</h2>
-        <h3 style="font-size: 23px;">Create your own website. Sign up for a free 30-day trial and create up to 10 websites for free.</h3>
-        <br />
-        <a href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id=try_websites" target="_blank" id="free-trial-step" onclick="freeTrialClick(event);" class="wa-button wa-button-primary">Free trial</a>
     </div>
 </section>
 <div id="site-expired" style="display: none">
     <div class="full-site-blocker"></div>
     <div class="site-expired-notification-blade">
         <div class="site-expired-notification">
-            <h2 style="color: white; margin-bottom: 90px">Your site has expired. You can try creating another site or signup for a free 30-day trial account.</h2>
+            <h2 style="color: white; margin-bottom: 90px">Your app service has expired. You can try creating another app service or signup for a free 30-day trial account.</h2>
             <a id="dismiss-site-expire" href="#" class="wa-button wa-button-slate">Dismiss</a>
             <a href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id=try_websites" id="free-trial-dismiss" target="_blank" onclick="freeTrialClick(event);" class="wa-button wa-button-primary">Free trial</a>
         </div>

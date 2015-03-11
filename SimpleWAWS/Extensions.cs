@@ -6,6 +6,7 @@ using System.Text;
 using System.Web;
 using System.Web.Security;
 using Microsoft.WindowsAzure.Management.WebSites.Models;
+using System.IO.Compression;
 
 namespace SimpleWAWS
 {
@@ -88,6 +89,38 @@ namespace SimpleWAWS
             return value.Length % 4 == 0
                 ? value
                 : value.PadRight(value.Length + (4 - value.Length % 4), '=');
+        }
+
+        public static void AddFile(this ZipArchive archive, string fileName, string zipRoot)
+        {
+            using (var stream = File.Open(fileName, FileMode.Open))
+            {
+                archive.AddFile(fileName, zipRoot, stream);
+            }
+        }
+
+        public static void AddFile(this ZipArchive archive, string fileName, string zipRoot, Stream contentStream)
+        {
+            var entry = archive.CreateEntry(fileName.FixFileNameForZip(zipRoot), CompressionLevel.Fastest);
+            using (var zipStream = entry.Open())
+            {
+                contentStream.CopyTo(zipStream);
+            }
+        }
+
+        public static string FixFileNameForZip(this string value, string zipRoot)
+        {
+            return value.Substring(zipRoot.Length).TrimStart(new[] { '\\' }).Replace('\\', '/');
+        }
+
+        public static Stream AsStream(this string value)
+        {
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(value);
+            writer.Flush();
+            stream.Position = 0;
+            return stream;
         }
     }
 }
