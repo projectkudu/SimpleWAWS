@@ -101,7 +101,7 @@
                 <!-- ko if: siteJson() !== undefined -->
                 <div data-bind="with: siteJson">
                     <h3 data-bind="if: url !== undefined, visible: true" style="display: none">
-                        Your site has been created at <a data-bind="attr: {href: url}, text: url" target="_blank"></a>
+                        Your web app has been created at <a data-bind="attr: {href: url}, text: url" target="_blank"></a>
                     </h3>
                     <!-- ko if: isRbacEnabled-->
                     <div class="work-with-site-tools">
@@ -112,7 +112,7 @@
                         <a data-bind="attr: {href: monacoUrl}" target="_blank"><div class="work-with-site-tools-img icons sprite-VSO"></div><div class="website-template-name">Edit with Visual Studio Online</div></a>
                     </div>
                     <div class="work-with-site-tools">
-                        <a data-bind="attr: {href: contentDownloadUrl}" target="_blank"><div class="work-with-site-tools-img icons sprite-DownloadSite"></div><div class="website-template-name">Download site content</div></a>
+                        <a data-bind="attr: {href: contentDownloadUrl}" target="_blank"><div class="work-with-site-tools-img icons sprite-DownloadSite"></div><div class="website-template-name">Download web app content</div></a>
                     </div>
                     <div class="work-with-site-tools">
                         <a data-bind="attr: {href: '/api/site/getpublishingprofile'}" target="_blank"><div class="work-with-site-tools-img icons sprite-DownloadPublishing"></div><div class="website-template-name">Download publishing profile</div></a>
@@ -125,9 +125,9 @@
                         </a>
                     </div>
                     <div class="work-with-site-tools">
-                        <a data-bind="click: function(data, event) {$root.deleteSite(event);}" href="#"><div class="work-with-site-tools-img icons sprite-delete"></div><div class="website-template-name">Delete the site</div></a>
+                        <a data-bind="click: function(data, event) {$root.deleteSite(event);}" href="#"><div class="work-with-site-tools-img icons sprite-delete"></div><div class="website-template-name">Delete the web app</div></a>
                     </div>
-                    <div style="margin-top: 60px">Your free site will expire in : <span class="countdown" data-bind="text: timeLeft"></span></div>
+                    <div style="margin-top: 60px">Your free web app will expire in : <span class="countdown" data-bind="text: timeLeft"></span></div>
                 </div>
                 <!-- /ko -->
             </div>
@@ -140,7 +140,7 @@
                     <a><div class="work-with-site-tools-img icons sprite-VSO"></div><div class="website-template-name">Edit with Visual Studio Online</div></a>
                 </div>
                 <div class="work-with-site-tools">
-                    <a><div class="work-with-site-tools-img icons sprite-DownloadSite"></div><div class="website-template-name">Download site content</div></a>
+                    <a><div class="work-with-site-tools-img icons sprite-DownloadSite"></div><div class="website-template-name">Download web app content</div></a>
                 </div>
                 <div class="work-with-site-tools">
                     <a><div class="work-with-site-tools-img icons sprite-DownloadPublishing"></div><div class="website-template-name">Download publishing profile</div></a>
@@ -149,7 +149,7 @@
                     <a><div class="work-with-site-tools-img icons sprite-git"></div><div class="website-template-name">Clone or push with git</div></a>
                 </div>
                 <div class="work-with-site-tools">
-                    <a><div class="work-with-site-tools-img icons sprite-delete"></div><div class="website-template-name">Delete the site</div></a>
+                    <a><div class="work-with-site-tools-img icons sprite-delete"></div><div class="website-template-name">Delete the web app</div></a>
                 </div>
             </div>
             <div class="ui-blocker"></div>
@@ -207,6 +207,9 @@
                 </div>
                 <!-- /ko -->
                 <div class="work-with-site-tools">
+                    <a data-bind="attr: {href: monacoUrl}" target="_blank"><div class="work-with-site-tools-img icons sprite-VSO"></div><div class="website-template-name">Edit with Visual Studio Online</div></a>
+                </div>
+                <div class="work-with-site-tools">
                     <a data-bind="attr: {href: contentDownloadUrl}" target="_blank"><div class="work-with-site-tools-img icons sprite-DownloadSite"></div><div class="website-template-name">Download .NET backend</div></a>
                 </div>
                 <div class="work-with-site-tools">
@@ -222,6 +225,9 @@
             <div>
                 <div class="work-with-site-tools">
                     <a><div class="work-with-site-tools-img icons sprite-MicrosoftAzure"></div><div class="website-template-name">Manage in Azure Portal</div></a>
+                </div>
+                <div class="work-with-site-tools">
+                    <a><div class="work-with-site-tools-img icons sprite-VSO"></div><div class="website-template-name">Edit with Visual Studio Online</div></a>
                 </div>
                 <div class="work-with-site-tools">
                     <a><div class="work-with-site-tools-img icons sprite-DownloadSite"></div><div class="website-template-name">Download .NET backend</div></a>
