@@ -9162,3 +9162,10 @@ div.facebook-login {
 .wa-heading5 {
     margin: 10px 8px 25px 10px; 
 }
+
+div.app-service {
+    background: url(/Content/images/csg-55108643d332f.png) no-repeat top left;
+}
+
+div.sprite-AzureWebsites{ background-position: 0 0; width: 115px; height: 115px; } 
+div.sprite-MobileServices{ background-position: 0 -165px; width: 115px; height: 115px; } 

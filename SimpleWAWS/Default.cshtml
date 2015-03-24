@@ -20,7 +20,7 @@
         <div id="appservices-div" data-bind="foreach: appServices">
             <div class="appservice-container box-container" data-bind="css: selectedAppService().id === $index() ? 'box-container-selected' : ''">
                 <a class="select-appservice-anchor" href="#" data-bind="click: function(data, event) {data.select(event);}">
-                    <img data-bind="attr:{src: $data.icon_url}" style="width: 115px; height: 115px" />
+                    <div class="app-service" data-bind="css: $data.sprite_class"></div>
                     <div class="appservice-name" data-bind="text: $data.label"></div>
                 </a>
             </div>

@@ -64,12 +64,14 @@ function initViewModel() {
         label: "web app",
         name: "Web",
         id: 0,
-        icon_url: "/Content/images/Azure Websites.png"
+        icon_url: "/Content/images/Azure Websites.png",
+        sprite_class: "sprite-AzureWebsites"
     }, {
         label: "mobile app",
         name: "Mobile",
         id: 1,
-        icon_url: "/Content/images/Mobile Services.png"
+        icon_url: "/Content/images/Mobile Services.png",
+        sprite_class: "sprite-MobileServices"
     }].map(function (e) {
         e.select = function (event) {
             $(".appservice-container").removeClass("box-container-selected");
