@@ -5,10 +5,10 @@
 
 <section class="wa-section wa-section-blue wa-section-mini wa-section-compute">
     <div class="wa-content">
-        <h1>Create your App Service app</h1>
+        <h1>Create your temporary App Service app</h1>
         <div class="wa-spacer">
             <h5 style="width: 800px;">Azure App Service is a cloud app service that integrates everything you need to quickly and easily build web and mobile apps for any platform or device.</h5>
-            <h5 style="width: 800px;">Be our guest for up to an hour of sandboxed Azure App Service experiance with no Azure subscription, free of charge and commitment. Stay longer for the full Azure App Service experience with an Azure free trial subscription.</h5>
+            <h5 style="width: 800px;">Be our guest for up to an hour of temporary sandboxed Azure App Service experience with no Azure subscription, free of charge and commitment. Stay longer for the full Azure App Service experience with an Azure free trial subscription.</h5>
         </div>
     </div>
 </section>
@@ -48,15 +48,6 @@
             <br />
             <div id="templates-div" data-bind="foreach: templates">
                 <!-- ko if: $root.selectedLanguage() === $data.language -->
-                <!-- ko if: $index() === 0 -->
-                <div class="website-template-container box-container box-container-selected" data-bind="visible: true" style="display: none">
-                    <a class="select-template-anchor" href="#" data-bind="click: function(data, event) {data.select(event);}">
-                        <div class="icons" data-bind="css: $data.icon_class" style="width: 115px; height: 115px"></div>
-                        <div class="website-template-name" data-bind="text: $data.name"></div>
-                    </a>
-                </div>
-                <!-- /ko -->
-                <!-- ko if: $index() !== 0 -->
                 <div class="website-template-container box-container" data-bind="visible: true" style="display: none">
                     <a class="select-template-anchor" href="#" data-bind="click: function(data, event) {data.select(event);}">
                         <div class="icons" data-bind="css: $data.icon_class" style="width: 115px; height: 115px"></div>
@@ -244,8 +235,20 @@
             <div class="ui-blocker"></div>
             <!-- /ko -->
         </div>
+    </div>
+    <div data-bind="visible: selectedAppService().id === 2">
         <div class="wa-content wa-content-4up wa-content-divided">
-            <h2>3) Get more for free</h2>
+            <h2>2) Try it now for free</h2>
+            <h3 style="font-size: 23px;">The sandboxed API app experience is not here yet.</h3>
+            <h3 style="font-size: 23px;">Create web, mobile, logic, and API apps. Sign up for a free 30-day trial and create up to 10 apps of any type for free.</h3>
+            <br />
+            <a href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id=try_websites" target="_blank" class="wa-button wa-button-primary">Free trial</a>
+        </div>
+    </div>
+    <div data-bind="visible: selectedAppService().id === 3">
+        <div class="wa-content wa-content-4up wa-content-divided">
+            <h2>2) Try it now for free</h2>
+            <h3 style="font-size: 23px;">The sandboxed logic app experience is not here yet.</h3>
             <h3 style="font-size: 23px;">Create web, mobile, logic, and API apps. Sign up for a free 30-day trial and create up to 10 apps of any type for free.</h3>
             <br />
             <a href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id=try_websites" target="_blank" class="wa-button wa-button-primary">Free trial</a>

@@ -9122,7 +9122,7 @@ div.facebook-login {
     margin-left: 15px;
     position: absolute;
     left: 145px;
-    top: -84px;
+    top: -93px;
     z-index: 1001;
 }
 
@@ -9164,8 +9164,11 @@ div.facebook-login {
 }
 
 div.app-service {
-    background: url(/Content/images/csg-55108643d332f.png) no-repeat top left;
+    background: url(/Content/images/appServices.png) no-repeat top left;
 }
 
-div.sprite-AzureWebsites{ background-position: 0 0; width: 115px; height: 115px; } 
-div.sprite-MobileServices{ background-position: 0 -165px; width: 115px; height: 115px; } 
+div.sprite-APIApps{ background-position: 0 0; width: 115px; height: 115px; }
+div.sprite-AzureWebsites{ background-position: 0 -165px; width: 115px; height: 115px; }
+div.sprite-LogicApp{ background-position: 0 -330px; width: 115px; height: 115px; }
+div.sprite-MobileServices{ background-position: 0 -495px; width: 115px; height: 115px; }
+

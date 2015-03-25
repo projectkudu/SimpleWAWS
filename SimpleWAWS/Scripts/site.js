@@ -72,14 +72,24 @@ function initViewModel() {
         id: 1,
         icon_url: "/Content/images/Mobile Services.png",
         sprite_class: "sprite-MobileServices"
-    }].map(function (e) {
+    }, {
+        label: "API app",
+        name: "Api",
+        id: 2,
+        sprite_class: "sprite-APIApps"
+    }, {
+        label: "logic app",
+        name: "Logic",
+        id: 3,
+        sprite_class: "sprite-LogicApp"
+    }]);
+    viewModel.appServices().map(function (e) {
         e.select = function (event) {
             $(".appservice-container").removeClass("box-container-selected");
             var parent = $(event.target).closest(".appservice-container").addClass("box-container-selected");
             viewModel.selectedAppService(e);
         };
-        return e;
-    }));
+    });
     viewModel.selectedAppService = ko.observable(viewModel.appServices()[0]);
     ko.applyBindings(viewModel);
 }
@@ -330,11 +340,12 @@ function clearQueryString() {
     }
 }
 
-function selectTemplate(template) {
+function selectTemplate(template, clearSelection) {
+    if (clearSelection) $(".website-template-container").removeClass("box-container-selected");
     $("#templates-div")
         .find("." + template.name.replace(/\s/g, "").replace(/\./g, "\\."))
         .closest(".website-template-container")
-        .addClass("container-selected");
+        .addClass("box-container-selected");
 }
 
 function gitUrlClick(event) {
@@ -360,7 +371,7 @@ function pickAppService(name) {
     }
 }
 
-window.onload = function () {
+$(document).ready(function () {
     initViewModel();
     pickAppService();
     initTemplates().done(function () {
@@ -368,7 +379,7 @@ window.onload = function () {
             var template = getSiteToCreate();
             if (template.appService.toUpperCase() === "WEB") {
                 viewModel.selectedTemplate(template);
-                selectTemplate(template);
+                selectTemplate(template, true);
             }
             createSite(template).error(function () { initSite().always(function () { $(".error-message").show(); }); });
         } else {
@@ -396,7 +407,7 @@ window.onload = function () {
             $('#login-dark-blocker').hide();
         }
     });
-};
+});
 
 if (!Array.prototype.find) {
     Array.prototype.find = function (predicate) {

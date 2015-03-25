@@ -8,6 +8,17 @@
         <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.2/css/font-awesome.css" rel="stylesheet" />
         <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.0.min.js"></script>
         <link rel="shortcut icon" href="/favicon.ico?v=3" />
+        <script type="text/javascript">
+    $(document).ready(function () {
+        if (document.cookie.indexOf("loginsession") != -1) {
+            $("#portal-link").hide();
+            $("#logout-link").show();
+        } else {
+            $("#portal-link").show();
+            $("#logout-link").hide();
+        }
+    });
+        </script>
     </head>
     <body class="wa-fullWidth page-home">
             <div class="wa-container">
@@ -40,7 +51,7 @@
                             <nav>
                                 <ul class="dev-navigation dev-navigation-b">
                                     <li id="menu-variation-1" class="nav-expander" style="display: list-item;">
-                                        <a href="http://azure.microsoft.com/en-us/solutions/?WT.mc_id=try_websites">Features</a>
+                                        <a href="http://azure.microsoft.com/en-us/services/app-service/?WT.mc_id=try_websites">Features</a>
                                     </li>
                                     <li class="nav-expander">
                                         <a href="http://azure.microsoft.com/en-us/pricing/?WT.mc_id=try_websites">Pricing</a>
