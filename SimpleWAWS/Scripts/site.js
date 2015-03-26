@@ -27,7 +27,7 @@ var viewModel;
 //http://stackoverflow.com/a/901144/3234163
 function getQueryStringBytName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)", "i"),
         results = regex.exec(location.search);
     return results === null ? undefined : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
