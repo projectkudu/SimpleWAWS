@@ -22,8 +22,7 @@ var Site = (function () {
 
 var viewModel;
 
-// for now Mobile has only 1 template. If this changes, we will need to have actual template array for Mobile as well.
-var mobileTemplate;
+
 
 //http://stackoverflow.com/a/901144/3234163
 function getQueryStringBytName(name) {
@@ -40,6 +39,8 @@ function initViewModel() {
     viewModel.selectedLanguage = ko.observable();
     viewModel.selectedTemplate = ko.observable();
     viewModel.templates = ko.observableArray();
+    // for now Mobile has only 1 template. If this changes, we will need to have actual template array for Mobile as well.
+    viewModel.mobileTemplates = ko.observableArray();
     viewModel.timeLeft = ko.observable();
     viewModel.createRunning = ko.observable(false);
     viewModel.languages = ko.computed(function () {
@@ -60,7 +61,7 @@ function initViewModel() {
             $(".select-template-anchor").first().click();
         }
     };
-    viewModel.appServices = ko.observable([{
+    viewModel.appServices = ko.observableArray([{
         label: "web app",
         name: "Web",
         id: 0,
@@ -91,6 +92,55 @@ function initViewModel() {
         };
     });
     viewModel.selectedAppService = ko.observable(viewModel.appServices()[0]);
+    viewModel.mobileClients = ko.observableArray([{
+        name: "Windows",
+        icon_url: "/Content/images/Windows.png",
+        icon_class: "sprite-Windows",
+        steps: {
+            preText: "Install Visual Studio Professional 2013 (Update 4)",
+            preHref: "https://go.microsoft.com/fwLink/?LinkID=391934&clcid=0x409",
+            clientText: "Download the Windows client app",
+            clientHref: "/api/site/mobileclient/Windows"
+        }
+    }, {
+        name: "Native iOS",
+        icon_url: "/Content/images/ios.png",
+        icon_class: "sprite-ios",
+        steps: {
+            preText: "Install Xcode (v4.4+)",
+            preHref: "https://go.microsoft.com/fwLink/?LinkID=266532&clcid=0x409",
+            clientText: "Download the iOS client app",
+            clientHref: "/api/site/mobileclient/NativeiOS"
+        }
+
+    }, {
+        name: "Xamarin iOS",
+        icon_url: "/Content/images/xamarin.png",
+        icon_class: "sprite-Xamarin",
+        steps: {
+            preText: "Install Xamarin Studio for Windows or OS X",
+            preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
+            clientText: "Download the Xamarin iOS client app",
+            clientHref: "/api/site/mobileclient/XamariniOS"
+        }
+
+    }, {
+        name: "Xamarin Android",
+        icon_url: "/Content/images/xamarin.png",
+        icon_class: "sprite-Xamarin",
+        steps: {
+            preText: "Install Xamarin Studio for Windows or OS X",
+            preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
+            clientText: "Download the Xamarin Android client app",
+            clientHref: "/api/site/mobileclient/XamarinAndroid"
+        }
+    }]);
+    viewModel.selectedMobileClient = ko.observable(viewModel.mobileClients()[0]);
+    viewModel.mobileClients().map(function (e) {
+        e.select = function (event) {
+            viewModel.selectedMobileClient(this);
+        };
+    });
     ko.applyBindings(viewModel);
 }
 
@@ -100,7 +150,9 @@ function initTemplates() {
             if (data[i].appService.toUpperCase() === "WEB") {
                 viewModel.templates.push(new Template(data[i]));
             } else if (data[i].appService.toUpperCase() === "MOBILE") {
-                mobileTemplate = new Template(data[i]);
+                var temp = new Template(data[i]);
+                temp.icon_class = "sprite-todolist";
+                viewModel.mobileTemplates.push(temp);
             }
         }
     }).done(function () {
@@ -209,7 +261,7 @@ function scrollSitePartToView() {
     if (viewModel.selectedAppService().id === 0 /*Web*/) {
         scrollHelper($("#work-with-your-site").offset().top - 170);
     } else if (viewModel.selectedAppService().id === 1 /*Mobile*/) {
-        scrollHelper($("#work-with-your-mobile").offset().top - 170);
+        scrollHelper($("#build-run-your-mobile-app").offset().top - 170);
     }
 }
 
@@ -298,7 +350,7 @@ function doSearch(searchBoxId) {
 function createSite(template, source) {
     var appService = viewModel.selectedAppService();
     if (appService.id == 1 /*mobile*/) {
-        template = mobileTemplate;
+        template = viewModel.mobileTemplates()[0];
     } else if (!template) {
         template = viewModel.selectedTemplate();
     }

@@ -91,11 +91,11 @@ namespace SimpleWAWS
                 : value.PadRight(value.Length + (4 - value.Length % 4), '=');
         }
 
-        public static void AddFile(this ZipArchive archive, string fileName, string zipRoot)
+        public static void AddFile(this ZipArchive archive, string fileName, string zippedName, string zipRoot)
         {
             using (var stream = File.Open(fileName, FileMode.Open))
             {
-                archive.AddFile(fileName, zipRoot, stream);
+                archive.AddFile(zippedName, zipRoot, stream);
             }
         }
 

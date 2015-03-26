@@ -7,6 +7,9 @@ namespace SimpleWAWS.Code
 {
     public enum MobileClientPlatform
     {
-        Windows
+        Windows,
+        NativeiOS,
+        XamariniOS,
+        XamarinAndroid
     }
 }

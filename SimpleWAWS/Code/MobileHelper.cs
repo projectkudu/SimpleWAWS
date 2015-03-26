@@ -14,40 +14,41 @@ namespace SimpleWAWS.Code
 {
     public static class MobileHelper
     {
-
         public static PushStreamContent CreateClientZip(MobileClientPlatform platform, Dictionary<string, string> replacements)
         {
-            if (platform == MobileClientPlatform.Windows)
+            var clientPath = HostingEnvironment.MapPath(string.Format("~/App_Data/MobileClientApp/{0}", platform.ToString()));
+            return CreateZip(string.Format("{0}.zip", platform.ToString()), zip =>
             {
-                return CreateZip("Windows_Universal.zip", zip =>
+                foreach (var fileName in Directory.GetFiles(clientPath, "*", SearchOption.AllDirectories))
                 {
-                    var rootPath = HostingEnvironment.MapPath("~/App_Data/MobileClientApp/Windows");
-                    foreach (var fileName in Directory.GetFiles(rootPath, "*", SearchOption.AllDirectories))
+                    var content = File.ReadAllText(fileName);
+                    var replacedFileName = fileName;
+
+                    if (string.IsNullOrEmpty(Path.GetExtension(fileName)) || Path.GetExtension(fileName) == ".png")
                     {
-                        if (fileName.EndsWith("App.xaml.cs", StringComparison.OrdinalIgnoreCase))
+                        foreach (var pair in replacements)
                         {
-                            var content = File.ReadAllText(fileName);
-
-                            foreach (var pair in replacements)
-                                content = content.Replace(pair.Key, pair.Value);
-
-                            using (var contentStream = content.AsStream())
-                            {
-                                zip.AddFile(fileName, rootPath, contentStream);
-                            }
+                            replacedFileName = replacedFileName.Replace(pair.Key, pair.Value);
                         }
-                        else
+
+                        zip.AddFile(fileName, replacedFileName, clientPath);
+                    }
+                    else
+                    {
+                        foreach (var pair in replacements)
                         {
-                            zip.AddFile(fileName, rootPath);
+                            content = content.Replace(pair.Key, pair.Value);
+                            replacedFileName = replacedFileName.Replace(pair.Key, pair.Value);
+                        }
+
+                        using (var contentStream = content.AsStream())
+                        {
+                            zip.AddFile(replacedFileName, clientPath, contentStream);
                         }
                     }
-                });
-            }
-            else
-            {
-                throw new Exception(string.Format("{0} is an unsuppoerted Platform", platform));
-            }
-        }
+                }
+            });
+       }
 
         private static PushStreamContent CreateZip(string fileName, Action<ZipArchive> onZip)
         {

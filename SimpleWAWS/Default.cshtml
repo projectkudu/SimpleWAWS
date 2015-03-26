@@ -55,7 +55,6 @@
                     </a>
                 </div>
                 <!-- /ko  -->
-                <!-- /ko -->
             </div>
             <br />
             <br />
@@ -158,6 +157,16 @@
         <div class="wa-content wa-content-4up wa-content-divided">
             <h2>2) Create your mobile app</h2>
             <br />
+            <div id="mobile-templates-div" data-bind="foreach: mobileTemplates">
+                <div class="mobile-template-container box-container box-container-selected" data-bind="visible: true" style="display: none">
+                    <a class="select-template-anchor" href="#" data-bind="click: function(data, event) {data.select(event);}">
+                        <div class="mobile-icons" data-bind="css: $data.icon_class" style="width: 90px; height: 90px"></div>
+                        <div class="website-template-name" data-bind="text: $data.name"></div>
+                    </a>
+                </div>
+            </div>
+            <br />
+            <br />
             <div style="display: inline; float: left; position: relative">
                 <a id="create-mobile" onclick="handleCreateClick(event)" href="#" class="create-site-action wa-button wa-button-primary">Create</a>
                 <div class="login-box" style="display: none">
@@ -184,8 +193,28 @@
             <div class="ui-blocker"></div>
             <!-- /ko -->
         </div>
+        <div id="build-run-your-mobile-app" class="wa-content wa-content-4up wa-content-divided">
+            <h2>3) Build and run your mobile client app</h2>
+            <div id="mobile-client-div" data-bind="foreach: mobileClients">
+                <div class="mobile-template-container box-container" data-bind="css: selectedMobileClient().name === $data.name ? 'box-container-selected' : '', visible: true" style="display: none">
+                    <a class="select-template-anchor" href="#" data-bind="click: function(data, event) {data.select(event);}">
+                        <div class="mobile-icons" data-bind="css: $data.icon_class" style="width: 90px; height: 90px"></div>
+                        <div class="website-template-name" data-bind="text: $data.name"></div>
+                    </a>
+                </div>
+            </div>
+            <div id="mobile-client-info-div" data-bind="foreach: mobileClients">
+                <div data-bind="visible: selectedMobileClient().name === $data.name" style="margin-top: 20px">
+                    <h3 >3.1) Prerequisite: <a target="_blank" data-bind="text: $data.steps.preText, attr: {href: $data.steps.preHref}"></a></h3>
+                    <h3 >3.2) <a target="_blank" data-bind="text: $data.steps.clientText, attr: {href: $data.steps.clientHref}"></a></h3>
+                </div>
+            </div>
+            <!-- ko if: siteJson() === undefined -->
+            <div class="ui-blocker"></div>
+            <!-- /ko -->
+        </div>
         <div id="work-with-your-mobile" class="wa-content wa-content-4up wa-content-divided">
-            <h2>3) Work with your mobile app</h2>
+            <h2>4) Work with your mobile app</h2>
             <br />
             <!-- ko if: siteJson() !== undefined -->
             <div data-bind="with: siteJson">
@@ -199,12 +228,6 @@
                 <!-- /ko -->
                 <div class="work-with-site-tools">
                     <a data-bind="attr: {href: monacoUrl}" target="_blank"><div class="work-with-site-tools-img icons sprite-VSO"></div><div class="website-template-name">Edit with Visual Studio Online</div></a>
-                </div>
-                <div class="work-with-site-tools">
-                    <a data-bind="attr: {href: contentDownloadUrl}" target="_blank"><div class="work-with-site-tools-img icons sprite-DownloadSite"></div><div class="website-template-name">Download .NET backend</div></a>
-                </div>
-                <div class="work-with-site-tools">
-                    <a data-bind="attr: {href: '/api/site/mobileclient/Windows'}" target="_blank"><div class="work-with-site-tools-img icons sprite-DownloadPublishing"></div><div class="website-template-name">Download Windows App Client</div></a>
                 </div>
                 <div class="work-with-site-tools">
                     <a data-bind="click: function(data, event) {$root.deleteSite(event);}" href="#"><div class="work-with-site-tools-img icons sprite-delete"></div><div class="website-template-name">Delete the mobile app</div></a>
@@ -221,19 +244,19 @@
                     <a><div class="work-with-site-tools-img icons sprite-VSO"></div><div class="website-template-name">Edit with Visual Studio Online</div></a>
                 </div>
                 <div class="work-with-site-tools">
-                    <a><div class="work-with-site-tools-img icons sprite-DownloadSite"></div><div class="website-template-name">Download .NET backend</div></a>
-                </div>
-                <div class="work-with-site-tools">
-                    <a><div class="work-with-site-tools-img icons sprite-DownloadPublishing"></div><div class="website-template-name">Download Windows App Client</div></a>
-                </div>
-                <div class="work-with-site-tools">
-                    <a><div class="work-with-site-tools-img icons sprite-delete"></div><div class="website-template-name">Delete the site</div></a>
+                    <a><div class="work-with-site-tools-img icons sprite-delete"></div><div class="website-template-name">Delete the mobile app</div></a>
                 </div>
             </div>
             <!-- /ko -->
             <!-- ko if: siteJson() === undefined -->
             <div class="ui-blocker"></div>
             <!-- /ko -->
+        </div>
+        <div class="wa-content wa-content-4up wa-content-divided">
+            <h2>5) Get more for free</h2>
+            <h3 style="font-size: 23px;">Create web, mobile, logic, and API apps. Sign up for a free 30-day trial and create up to 10 apps of any type for free.</h3>
+            <br />
+            <a href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id=try_websites" target="_blank" id="free-trial-step" onclick="freeTrialClick(event);" class="wa-button wa-button-primary">Free trial</a>
         </div>
     </div>
     <div data-bind="visible: selectedAppService().id === 2">

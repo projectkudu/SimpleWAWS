@@ -9054,7 +9054,7 @@ div.sprite-git{ background-position: -165px -165px; width: 50px; height: 50px; }
 
 
 
-#error-message-text {
+span.error-message-text {
     font-size: large;
     width: 700px;
     display: inline-block;
@@ -9172,3 +9172,11 @@ div.sprite-AzureWebsites{ background-position: 0 -165px; width: 115px; height: 1
 div.sprite-LogicApp{ background-position: 0 -330px; width: 115px; height: 115px; }
 div.sprite-MobileServices{ background-position: 0 -495px; width: 115px; height: 115px; }
 
+div.mobile-icons {
+    background: url(/Content/images/mobile-clients.png) no-repeat top left;
+}
+
+div.sprite-Windows{ background-position: 0 0; width: 90px; height: 90px; } 
+div.sprite-Xamarin{ background-position: 0 -140px; width: 90px; height: 80px; } 
+div.sprite-ios{ background-position: 0 -270px; width: 90px; height: 90px; } 
+div.sprite-todolist{ background-position: 0 -410px; width: 90px; height: 90px; } 

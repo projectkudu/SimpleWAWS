@@ -86,7 +86,13 @@ namespace SimpleWAWS.Controllers
             }
 
             var response = Request.CreateResponse();
-            var replacement = new Dictionary<string, string> {{"ZUMOAPPURL", site.Url}};
+            var replacement = new Dictionary<string, string> 
+            {
+                { "ZUMOAPPURL", site.Url },
+                { "ZUMOAPPNAME", "TryMobileApp" },
+                { "ZUMOGATEWAYURL", site.Url },
+                { "ZUMONETRUNTIMESERVERPORT", "44300" }
+            };
             response.Content = MobileHelper.CreateClientZip(platform, replacement);
             return response;
         }

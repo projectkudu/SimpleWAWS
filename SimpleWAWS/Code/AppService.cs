@@ -8,6 +8,8 @@ namespace SimpleWAWS.Code
     public enum AppService
     {
         Web,
-        Mobile
+        Mobile,
+        Api,
+        Logic
     }
 }

@@ -147,7 +147,7 @@ namespace SimpleWAWS.Code
         public string Url
         {
             get {
-                return String.Format("http://{0}/", _webSite.HostNames[0]);
+                return String.Format("https://{0}/", _webSite.HostNames[0]);
             }
         }
 
