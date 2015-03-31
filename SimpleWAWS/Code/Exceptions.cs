@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace SimpleWAWS.Code
+namespace SimpleWAWS.Models
 {
-    public class MoreThanOneSiteException : Exception
+    public class MoreThanOneResourceGroupException : Exception
     {
-        public MoreThanOneSiteException(string message)
+        public MoreThanOneResourceGroupException(string message)
             : base(message)
         { }
     }
 
-    public class NoFreeSitesException : Exception
+    public class NoFreeResourceGroupsException : Exception
     {
-        public NoFreeSitesException(string message)
+        public NoFreeResourceGroupsException(string message)
             : base(message)
         { }
     }

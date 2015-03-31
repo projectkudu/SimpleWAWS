@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace SimpleWAWS.Code
+namespace SimpleWAWS.Models
 {
     //http://blogs.msdn.com/b/pfxteam/archive/2012/02/12/10266988.aspx
     public sealed class AsyncLock

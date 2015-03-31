@@ -5,11 +5,8 @@ using System.Web;
 
 namespace SimpleWAWS.Models
 {
-    public enum MobileClientPlatform
+    public class CsmArrayWrapper<T>
     {
-        Windows,
-        NativeiOS,
-        XamariniOS,
-        XamarinAndroid
+        public CsmWrapper<T>[] value { get; set; }
     }
 }

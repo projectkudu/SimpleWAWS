@@ -11,7 +11,7 @@ using Microsoft.WindowsAzure.Storage.Queue;
 using Newtonsoft.Json;
 using System.Configuration;
 
-namespace SimpleWAWS.Code
+namespace SimpleWAWS.Models
 {
     public static class StorageHelper
     {

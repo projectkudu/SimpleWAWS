@@ -5,11 +5,7 @@ using System.Web;
 
 namespace SimpleWAWS.Models
 {
-    public enum MobileClientPlatform
+    public class ApiTemplate : BaseTemplate
     {
-        Windows,
-        NativeiOS,
-        XamariniOS,
-        XamarinAndroid
     }
 }

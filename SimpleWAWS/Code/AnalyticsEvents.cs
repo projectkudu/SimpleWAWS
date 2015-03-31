@@ -1,6 +1,8 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Collections.Generic;
-namespace SimpleWAWS.Code
+using SimpleWAWS.Code;
+
+namespace SimpleWAWS.Models
 {
     public static class AnalyticsEvents
     {

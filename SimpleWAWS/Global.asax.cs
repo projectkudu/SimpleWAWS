@@ -5,7 +5,7 @@ using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Routing;
 using SimpleWAWS.Authentication;
-using SimpleWAWS.Code;
+using SimpleWAWS.Models;
 using System.Web;
 
 namespace SimpleWAWS

@@ -7,7 +7,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 
-namespace SimpleWAWS.Code
+namespace SimpleWAWS.Models
 {
     public static class SecurityManager
     {

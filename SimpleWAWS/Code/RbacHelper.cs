@@ -11,14 +11,14 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace SimpleWAWS.Code
+namespace SimpleWAWS.Models
 {
-    public static class RbackHelper
+    public static class RbacHelper
     {
         private static readonly dynamic GraphClient;
         private static readonly dynamic CsmClient;
         private static readonly dynamic websitesCsmClient;
-        static RbackHelper()
+        static RbacHelper()
         {
             GraphClient = ARMLib.GetDynamicClient(apiVersion: ConfigurationManager.AppSettings["rbacGraphApiVersion"], url: string.Format("{0}/{1}", ConfigurationManager.AppSettings["graphApiBaseUrl"], ConfigurationManager.AppSettings["tryWebsitesTenantId"]))
                     .ConfigureLogin(LoginType.Upn, ConfigurationManager.AppSettings["grapAndCsmUserName"], ConfigurationManager.AppSettings["graphAndCsmPassword"]);
@@ -30,7 +30,7 @@ namespace SimpleWAWS.Code
                 .ConfigureLogin(LoginType.Upn, ConfigurationManager.AppSettings["grapAndCsmUserName"], ConfigurationManager.AppSettings["graphAndCsmPassword"]);
 
         }
-        public static async Task<bool> AddRbacUser(string puidOrAltSec, string emailAddress, Site site)
+        public static async Task<bool> AddRbacUser(string puidOrAltSec, string emailAddress, ResourceGroup resourceGroup)
         {
             if (string.IsNullOrEmpty(puidOrAltSec) ||
                 puidOrAltSec.IndexOf("live.com", StringComparison.OrdinalIgnoreCase) == -1)
@@ -84,17 +84,17 @@ namespace SimpleWAWS.Code
                 // recognize the new user.
                 for (int i = 0; i < 30; i++)
                 {
-                    var response = (HttpResponseMessage)await CsmClient.Subscriptions[site.WebSpace.SubscriptionId]
-                                                            .ResourceGroups[site.WebSpace.ResourceGroup]
+                    var response = (HttpResponseMessage)await CsmClient.Subscriptions[resourceGroup.SubscriptionId]
+                                                            .ResourceGroups[resourceGroup.ResourceGroupName]
                                                             .Providers["Microsoft.Web"]
-                                                            .Sites[site.Name]
+                                                            //.Sites[site.SiteName]
                                                             .Providers["Microsoft.Authorization"]
-                                                            .RoleAssignments[site.SiteUniqueId]
+                                                            .RoleAssignments[resourceGroup.ResourceUniqueId]
                                                             .PutAsync(new
                                                             {
                                                                 properties = new
                                                                 {
-                                                                    roleDefinitionId = "/subscriptions/" + site.WebSpace.SubscriptionId + "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c",
+                                                                    roleDefinitionId = "/subscriptions/" + resourceGroup.SubscriptionId + "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c",
                                                                     principalId = oid
                                                                 }
                                                             });
@@ -104,10 +104,10 @@ namespace SimpleWAWS.Code
                     }
                     else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                     {
-                        await websitesCsmClient.Subscriptions[site.WebSpace.SubscriptionId]
-                                               .ResourceGroups[site.WebSpace.ResourceGroup]
+                        await websitesCsmClient.Subscriptions[resourceGroup.SubscriptionId]
+                                               .ResourceGroups[resourceGroup.ResourceGroupName]
                                                .Providers["Microsoft.Web"]
-                                               .Sites[site.Name]
+                                               //.Sites[site.SiteName]
                                                .PutAsync(new
                                                {
                                                    properties = new { },
@@ -128,17 +128,17 @@ namespace SimpleWAWS.Code
             return false;
         }
 
-        public static async Task RemoveRbacUser(Site site)
+        public static async Task RemoveRbacUser(ResourceGroup resourceGroup)
         {
             try
             {
                 //remove rbac policy
-                var rbacClient = CsmClient.Subscriptions[site.WebSpace.SubscriptionId]
-                                          .ResourceGroups[site.WebSpace.ResourceGroup]
+                var rbacClient = CsmClient.Subscriptions[resourceGroup.SubscriptionId]
+                                          .ResourceGroups[resourceGroup.ResourceGroupName]
                                           .Providers["Microsoft.Web"]
-                                          .Sites[site.Name]
+                                          //.Sites[site.SiteName]
                                           .Providers["Microsoft.Authorization"]
-                                          .RoleAssignments[site.SiteUniqueId];
+                                          .RoleAssignments[resourceGroup.ResourceUniqueId];
 
                 var rbacPolicy = await rbacClient.GetAsync<JObject>();
                 await rbacClient.DeleteAsync();
@@ -148,28 +148,28 @@ namespace SimpleWAWS.Code
             }
             catch(Exception e)
             {
-                Trace.TraceError("{0}; {1}; {2}", AnalyticsEvents.ErrorInRemoveRbacUser, e.GetBaseException().Message.RemoveNewLines(), site.SiteUniqueId);
+                Trace.TraceError("{0}; {1}; {2}", AnalyticsEvents.ErrorInRemoveRbacUser, e.GetBaseException().Message.RemoveNewLines(), resourceGroup.ResourceUniqueId);
             }
         }
 
-        public static async Task<bool> CheckIfRbacEnabled(Site site)
+        public static async Task<bool> CheckIfRbacEnabled(ResourceGroup resourceGroup)
         {
             try
             {
                 //remove rbac policy
-                var rbacClient = CsmClient.Subscriptions[site.WebSpace.SubscriptionId]
-                                          .ResourceGroups[site.WebSpace.ResourceGroup]
+                var rbacClient = CsmClient.Subscriptions[resourceGroup.SubscriptionId]
+                                          .ResourceGroups[resourceGroup.ResourceGroupName]
                                           .Providers["Microsoft.Web"]
-                                          .Sites[site.Name]
+                                          //.Sites[site.SiteName]
                                           .Providers["Microsoft.Authorization"]
-                                          .RoleAssignments[site.SiteUniqueId];
+                                          .RoleAssignments[resourceGroup.ResourceUniqueId];
 
                 var rbacPolicy = (HttpResponseMessage) await rbacClient.GetAsync();
                 return rbacPolicy.IsSuccessStatusCode;
             }
             catch (Exception e)
             {
-                Trace.TraceError("{0}; {1}; {2}", AnalyticsEvents.ErrorInCheckRbacUser, e.GetBaseException().Message.RemoveNewLines(), site.SiteUniqueId);
+                Trace.TraceError("{0}; {1}; {2}", AnalyticsEvents.ErrorInCheckRbacUser, e.GetBaseException().Message.RemoveNewLines(), resourceGroup.ResourceUniqueId);
                 return false;
             }
         }

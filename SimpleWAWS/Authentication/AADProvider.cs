@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Net;
 using System.Text;
 using System.Web;
-using SimpleWAWS.Code;
+using SimpleWAWS.Models;
 
 namespace SimpleWAWS.Authentication
 {

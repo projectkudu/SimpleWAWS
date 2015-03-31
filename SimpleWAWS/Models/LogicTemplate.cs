@@ -5,11 +5,7 @@ using System.Web;
 
 namespace SimpleWAWS.Models
 {
-    public enum MobileClientPlatform
+    public class LogicTemplate : BaseTemplate
     {
-        Windows,
-        NativeiOS,
-        XamariniOS,
-        XamarinAndroid
     }
 }

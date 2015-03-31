@@ -5,11 +5,8 @@ using System.Web;
 
 namespace SimpleWAWS.Models
 {
-    public enum MobileClientPlatform
+    public class CsmResourceGroup
     {
-        Windows,
-        NativeiOS,
-        XamariniOS,
-        XamarinAndroid
+        public string provisioningState { get; set; }
     }
 }
