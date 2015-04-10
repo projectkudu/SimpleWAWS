@@ -331,8 +331,15 @@ function handleGenericHttpError(xhr, error, errorThrown) {
     $(".error-message").show();
 }
 
-function freeTrialClick(event) {
+function freeTrialClick() {
+    telemetryEvent("FreeTrialClick");
+}
 
+function telemetryEvent(event) {
+    $.ajax({
+        type: "POST",
+        url: "/api/telemetry/" + event
+    });
 }
 
 function checkForEnterKey(event, searchBoxId) {

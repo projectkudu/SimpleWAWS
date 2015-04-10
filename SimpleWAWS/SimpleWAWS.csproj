@@ -195,8 +195,10 @@
     <Compile Include="Code\MobileClientPlatform.cs" />
     <Compile Include="Code\MobileHelper.cs" />
     <Compile Include="Code\RbackHelper.cs" />
+    <Compile Include="Code\TelemetryEvent.cs" />
     <Compile Include="Controllers\ApiAppController.cs" />
     <Compile Include="Controllers\FlowController.cs" />
+    <Compile Include="Controllers\TelemetryController.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Code\StorageHelper.cs" />
     <Compile Include="Code\Template.cs" />

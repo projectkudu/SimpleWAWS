@@ -1,4 +1,5 @@
-﻿
+﻿using System.Linq;
+using System.Collections.Generic;
 namespace SimpleWAWS.Code
 {
     public static class AnalyticsEvents
@@ -25,5 +26,12 @@ namespace SimpleWAWS.Code
         public const string ErrorInRemoveRbacUser = "ERROR_REMOVE_RBAC_USER";
         public const string ErrorInAddRbacUser = "ERROR_ADD_RBAC_USER";
         public const string ErrorInCheckRbacUser = "ERROR_CHECK_RBAC_USER";
+
+        public const string FreeTrialClick = "FREE_TRIAL_CLICK";
+        public const string IbizaClick = "IBIZA_CLICK";
+        public const string MonacoClick = "MONACO_CLICK";
+
+        public static readonly Dictionary<TelemetryEvent, string> TelemetryEventsMap = new[] { TelemetryEvent.FreeTrialClick, TelemetryEvent.IbizaClick, TelemetryEvent.MonacoClick }.Zip(new [] {FreeTrialClick, IbizaClick, MonacoClick}, (a, b) => new { Key = a, Value = b }).ToDictionary(a => a.Key, b => b.Value);
+
     }
 }
