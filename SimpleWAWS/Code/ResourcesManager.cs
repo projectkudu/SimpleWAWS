@@ -248,7 +248,7 @@ namespace SimpleWAWS.Models
         public async Task<ResourceGroup> ActivateWebApp(WebsiteTemplate template, TryWebsitesIdentity userIdenity)
         {
             // Start site specific stuff
-            return await ActivateResourceGroup(userIdenity, AppService.Web, async (resourceGroup) =>
+            return await ActivateResourceGroup(userIdenity, AppService.Web, async resourceGroup =>
                 {
                     var site = resourceGroup.Sites.First();
                     if (template != null && template.FileName != null)
@@ -268,13 +268,49 @@ namespace SimpleWAWS.Models
         // ARM
         public async Task<ResourceGroup> ActivateMobileApp(MobileTemplate template, TryWebsitesIdentity userIdentity)
         {
-            return await ActivateResourceGroup(userIdentity, AppService.Mobile, resourceGroup => { return Task.FromResult(resourceGroup); });
+            return await ActivateResourceGroup(userIdentity, AppService.Mobile, resourceGroup =>
+            {
+                return Task.FromResult(resourceGroup);
+            });
         }
 
         // ARM
         public async Task<ResourceGroup> ActivateApiApp(ApiTemplate template, TryWebsitesIdentity userIdenity)
         {
-            return await ActivateResourceGroup(userIdenity, AppService.Api, resourceGroup => { return Task.FromResult(resourceGroup); });
+            return await ActivateResourceGroup(userIdenity, AppService.Api, async resourceGroup =>
+            {
+                var apiApp = new ApiApp
+                {
+                    MicroserviceId = template.Name,
+                    ResourceGroupName = resourceGroup.ResourceGroupName,
+                    SubscriptionId = resourceGroup.SubscriptionId,
+                    Location = resourceGroup.GeoRegion
+                };
+
+                var csmTemplate = await apiApp.GenerateCsmTemplate();
+
+                var templateWrapper = new CsmTemplateWrapper
+                {
+                    properties = new CsmTemplateProperties
+                    {
+                        mode = "Incremental",
+                        parameters = apiApp.GenerateTemplateParameters(),
+                        template = csmTemplate
+                    }
+                };
+
+                var deployment = new CsmDeployment
+                {
+                    DeploymentName = resourceGroup.ResourceUniqueId,
+                    SubscriptionId = resourceGroup.SubscriptionId,
+                    ResourceGroupName = resourceGroup.ResourceGroupName,
+                    CsmTemplate = templateWrapper
+                };
+
+                await deployment.Deploy();
+
+                return resourceGroup;
+            });
         }
 
         // ARM

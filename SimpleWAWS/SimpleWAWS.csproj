@@ -189,7 +189,10 @@
     <Compile Include="Authentication\TryWebsitesPrincipal.cs" />
     <Compile Include="Authentication\TwitterAuthProvider.cs" />
     <Compile Include="Code\AnalyticsEvents.cs" />
+    <Compile Include="Code\CsmExtensions\CsmApiAppExtensions.cs" />
+    <Compile Include="Code\CsmExtensions\CsmDeploymentExtensions.cs" />
     <Compile Include="Code\TaskExtensions.cs" />
+    <Compile Include="Models\ApiApp.cs" />
     <Compile Include="Models\AppService.cs" />
     <Compile Include="Code\AsyncLock.cs" />
     <Compile Include="Code\Constants.cs" />
@@ -210,6 +213,8 @@
     <Compile Include="Code\StorageHelper.cs" />
     <Compile Include="Models\ApiTemplate.cs" />
     <Compile Include="Models\BaseTemplate.cs" />
+    <Compile Include="Models\CsmDeployment.cs" />
+    <Compile Include="Models\CsmTemplateWrapper.cs" />
     <Compile Include="Models\LogicTemplate.cs" />
     <Compile Include="Models\MobileTemplate.cs" />
     <Compile Include="Models\WebsiteTemplate.cs" />
