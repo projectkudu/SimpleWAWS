@@ -6,11 +6,17 @@ using System.Web;
 
 namespace SimpleWAWS.Models
 {
-    public class ApiApp
+    public class ApiApp : BaseResource
     {
-        public string SubscriptionId { get; set; }
+        private const string _csmIdTemplate = "/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.AppService/{2}";
 
-        public string ResourceGroupName { get; set; }
+        public override string CsmId
+        {
+            get
+            {
+                return string.Format(_csmIdTemplate, SubscriptionId, ResourceGroupName, ApiAppName);
+            }
+        }
 
         public string MicroserviceId { get; set; }
 

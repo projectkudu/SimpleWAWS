@@ -8,8 +8,18 @@ using System.Web;
 
 namespace SimpleWAWS.Models
 {
-    public class ResourceGroup
+    public class ResourceGroup : BaseResource
     {
+        private const string _csmIdTemplate = "/subscriptions/{0}/resourceGroups/{1}";
+
+        public override string CsmId
+        {
+            get
+            {
+                return string.Format(_csmIdTemplate, SubscriptionId, ResourceGroupName);
+            }
+        }
+
         public string UserId
         {
             get { return Tags.ContainsKey(Constants.UserId) ? Tags[Constants.UserId] : null; }
@@ -25,14 +35,12 @@ namespace SimpleWAWS.Models
             get { return ResourceGroupName.Split('_').LastOrDefault(); }
         }
 
-        public string SubscriptionId { get; private set; }
-
-        public string ResourceGroupName { get; private set; }
-
         [JsonConverter(typeof(StringEnumConverter))]
         public AppService AppService { get; set; }
 
         public IEnumerable<Site> Sites { get; set; }
+
+        public IEnumerable<ApiApp> ApiApps { get; set; }
 
         public string GeoRegion 
         {
@@ -42,6 +50,7 @@ namespace SimpleWAWS.Models
         public bool IsRbacEnabled
         {
             get { return bool.Parse(Tags[Constants.IsRbacEnabled]); }
+            set { Tags[Constants.IsRbacEnabled] = value.ToString(); }
         }
 
         public Dictionary<string, string> Tags { get; set; }

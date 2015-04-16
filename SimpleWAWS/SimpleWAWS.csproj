@@ -212,11 +212,15 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Code\StorageHelper.cs" />
     <Compile Include="Models\ApiTemplate.cs" />
+    <Compile Include="Models\BaseResource.cs" />
     <Compile Include="Models\BaseTemplate.cs" />
     <Compile Include="Models\CsmDeployment.cs" />
     <Compile Include="Models\CsmTemplateWrapper.cs" />
+    <Compile Include="Models\GraphArrayWrapper.cs" />
+    <Compile Include="Models\GraphUser.cs" />
     <Compile Include="Models\LogicTemplate.cs" />
     <Compile Include="Models\MobileTemplate.cs" />
+    <Compile Include="Models\RbacUser.cs" />
     <Compile Include="Models\WebsiteTemplate.cs" />
     <Compile Include="Code\TemplatesManager.cs" />
     <Compile Include="Controllers\SiteController.cs" />

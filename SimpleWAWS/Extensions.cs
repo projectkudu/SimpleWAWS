@@ -97,6 +97,11 @@ namespace SimpleWAWS
                 : value.PadRight(value.Length + (4 - value.Length % 4), '=');
         }
 
+        public static string RemoveNewLines(this string value)
+        {
+            return value.Replace("\r\n", "_").Replace('\n', '_');
+        }
+
         public static void AddFile(this ZipArchive archive, string fileName, string zippedName, string zipRoot)
         {
             using (var stream = File.Open(fileName, FileMode.Open))

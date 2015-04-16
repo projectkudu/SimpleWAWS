@@ -1,6 +1,7 @@
 ﻿using ARMClient.Authentication.AADAuthentication;
 using ARMClient.Library;
 using Newtonsoft.Json.Linq;
+using SimpleWAWS;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -219,9 +220,6 @@ namespace SimpleWAWS.Models
             }
         }
 
-        private static string RemoveNewLines(this string value)
-        {
-            return value.Replace("\r\n", "_").Replace('\n', '_');
-        }
+
     }
 }

@@ -177,6 +177,11 @@ namespace SimpleWAWS.Models
             var tokenSource = new CancellationTokenSource();
             try
             {
+                if (_resourceGroupsInUse.TryGetValue(userId, out resourceGroup))
+                {
+                    throw new MoreThanOneResourceGroupException("You can't have more than 1 free resource at a time");
+                }
+
                 if (_freeResourceGroups.TryDequeue(out resourceGroup))
                 {
                     //mark site in use as soon as it's checked out so that if there is a reload it will be sorted out to the used queue.
@@ -251,6 +256,7 @@ namespace SimpleWAWS.Models
             return await ActivateResourceGroup(userIdenity, AppService.Web, async resourceGroup =>
                 {
                     var site = resourceGroup.Sites.First();
+                    var rbacTask = resourceGroup.AddResourceGroupRbac(userIdenity.Puid, userIdenity.Email);
                     if (template != null && template.FileName != null)
                     {
                         var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
@@ -261,6 +267,7 @@ namespace SimpleWAWS.Models
                         await Task.WhenAll(zipUpload, deleteHostingStart);
                     }
                     site.FireAndForget();
+                    //resourceGroup.IsRbacEnabled = await rbacTask;
                     return resourceGroup;
                 });
         }
@@ -282,6 +289,7 @@ namespace SimpleWAWS.Models
                 var apiApp = new ApiApp
                 {
                     MicroserviceId = template.Name,
+                    ApiAppName = Guid.NewGuid().ToString().Replace("-", ""),
                     ResourceGroupName = resourceGroup.ResourceGroupName,
                     SubscriptionId = resourceGroup.SubscriptionId,
                     Location = resourceGroup.GeoRegion
@@ -307,8 +315,13 @@ namespace SimpleWAWS.Models
                     CsmTemplate = templateWrapper
                 };
 
-                await deployment.Deploy();
+                await deployment.Deploy(block: true);
 
+                //TODO load api apps
+                resourceGroup.ApiApps = Enumerable.Repeat(apiApp, 1);
+
+                await resourceGroup.Load();
+                resourceGroup.IsRbacEnabled = await resourceGroup.AddResourceGroupRbac(userIdenity.Puid, userIdenity.Email);
                 return resourceGroup;
             });
         }

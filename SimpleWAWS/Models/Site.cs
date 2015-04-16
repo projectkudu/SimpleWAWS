@@ -22,13 +22,17 @@ using SimpleWAWS.Code.CsmExtensions;
 
 namespace SimpleWAWS.Models
 {
-    public class Site
+    public class Site : BaseResource
     {
-        [JsonIgnore]
-        public string SubscriptionId { get; private set; }
+        private string _csmIdTemplate = "/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Web/sites/{2}";
 
-        [JsonIgnore]
-        public string ResourceGroupName { get; private set; }
+        public override string CsmId
+        {
+            get
+            {
+                return string.Format(_csmIdTemplate, SubscriptionId, ResourceGroupName, SiteName);
+            }
+        }
 
         [JsonProperty("name")]
         public string SiteName { get; private set; }

@@ -38,7 +38,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task<ResourceGroup> Update(this ResourceGroup resourceGroup)
         {
-            var csmResponse = await csmClient.HttpInvoke(HttpMethod.Put, CsmTemplates.ResourceGroup.Bind(resourceGroup), new { properties = new {}, tags = resourceGroup.Tags });
+            var csmResponse = await csmClient.HttpInvoke(HttpMethod.Put, CsmTemplates.ResourceGroup.Bind(resourceGroup), new { properties = new {}, tags = resourceGroup.Tags, location = resourceGroup.GeoRegion });
             csmResponse.EnsureSuccessStatusCode();
             return resourceGroup;
         }
@@ -145,6 +145,15 @@ namespace SimpleWAWS.Code.CsmExtensions
             resourceGroup.Tags[Constants.LifeTimeInMinutes] = lifeTime.TotalMinutes.ToString();
             resourceGroup.Tags[Constants.AppService] = appService.ToString();
             return await Update(resourceGroup);
+        }
+
+        public static async Task<bool> AddResourceGroupRbac(this ResourceGroup resourceGroup, string puidOrAltSec, string emailAddress)
+        {
+            return (await Task.WhenAll(
+                resourceGroup.Sites.Select(s => s.AddRbacAccess(puidOrAltSec, emailAddress, resourceGroup.ResourceUniqueId))
+                .Concat(resourceGroup.ApiApps.Select(s => s.AddRbacAccess(puidOrAltSec, emailAddress, resourceGroup.ResourceUniqueId))))
+                )
+                .All(e => e);
         }
 
         private static bool IsSimpleWaws(CsmWrapper<CsmResourceGroup> csmResourceGroup)
