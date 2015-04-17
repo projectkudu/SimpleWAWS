@@ -22,19 +22,19 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         static CsmManager()
         {
+            Func<string, string> config = (s) => ConfigurationManager.AppSettings[s] ?? Environment.GetEnvironmentVariable(s);
             csmClient = ARMLib.GetDynamicClient(apiVersion: "")
-                .ConfigureLogin(LoginType.Upn, Environment.GetEnvironmentVariable("TryUserName"), Environment.GetEnvironmentVariable("TryPassword"));
+                .ConfigureLogin(LoginType.Upn, config("TryUserName"), config("TryPassword"));
 
             graphClient = ARMLib.GetDynamicClient(apiVersion: "")
-                .ConfigureLogin(LoginType.Upn, ConfigurationManager.AppSettings["grapAndCsmUserName"], ConfigurationManager.AppSettings["graphAndCsmPassword"]);
+                .ConfigureLogin(LoginType.Upn, config("grapAndCsmUserName"), config("graphAndCsmPassword"));
         }
 
-        public static async Task<bool> AddRbacAccess(this BaseResource csmResource, string puidOrAltSec, string emailAddress, string uniqueId)
+        public static async Task<bool> AddRbacAccess(this BaseResource csmResource, string puidOrAltSec, string emailAddress)
         {
             if (csmResource == null ||
                 string.IsNullOrEmpty(puidOrAltSec) ||
                 string.IsNullOrEmpty(emailAddress) ||
-                string.IsNullOrEmpty(uniqueId) ||
                 puidOrAltSec.IndexOf("live.com", StringComparison.OrdinalIgnoreCase) == -1)
             {
                 return false;
@@ -98,7 +98,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 for (var i = 0; i < 30; i++)
                 {
                     var csmResponse = await csmClient.HttpInvoke(HttpMethod.Put,
-                        new Uri(string.Concat(CsmTemplates.CsmRootUrl, csmResource.CsmId, "/providers/Microsoft.Authorization/RoleAssignments/", uniqueId, "?api-version=", ConfigurationManager.AppSettings["rbacCsmApiVersion"])),
+                        new Uri(string.Concat(CsmTemplates.CsmRootUrl, csmResource.CsmId, "/providers/Microsoft.Authorization/RoleAssignments/", Guid.NewGuid().ToString(), "?api-version=", ConfigurationManager.AppSettings["rbacCsmApiVersion"])),
                         new
                         {
                             properties = new

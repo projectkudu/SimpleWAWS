@@ -14,7 +14,6 @@ namespace SimpleWAWS.Models
         public string SpriteName { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
-        [JsonProperty("appService")]
         public AppService AppService { get; set; }
     }
 }

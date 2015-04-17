@@ -56,6 +56,19 @@ namespace SimpleWAWS.Models
                         });
                     }
                 }
+                list.Add(new WebsiteTemplate
+                    {
+                        Name = "TrySamplesTodoList",
+                        FileName = "alsdasd",
+                        Language = "Api",
+                        SpriteName = "sprite-APIApps",
+                        AppService = AppService.Api
+                    });
+                list.Add(new WebsiteTemplate
+                    {
+                        Name = "TrySamplesContactList",
+                        AppService = AppService.Api
+                    });
                 //TODO: Implement a FileSystemWatcher for changes in the directory
             }
             catch (Exception)

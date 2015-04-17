@@ -8,7 +8,13 @@ namespace SimpleWAWS.Models
 {
     public class ApiApp : BaseResource
     {
-        private const string _csmIdTemplate = "/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.AppService/{2}";
+        public ApiApp(string subscriptionId, string resourceGroupName, string apiAppName)
+            : base(subscriptionId, resourceGroupName)
+        {
+            this.ApiAppName = apiAppName;
+        }
+
+        private const string _csmIdTemplate = "/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.AppService/apiapps/{2}";
 
         public override string CsmId
         {
@@ -22,7 +28,7 @@ namespace SimpleWAWS.Models
 
         public string Location { get; set; }
 
-        public string ApiAppName { get; set; }
+        public string ApiAppName { get; private set; }
 
         public JObject GeneratePayload()
         {

@@ -214,8 +214,11 @@
     <Compile Include="Models\ApiTemplate.cs" />
     <Compile Include="Models\BaseResource.cs" />
     <Compile Include="Models\BaseTemplate.cs" />
+    <Compile Include="Models\CsmApiApp.cs" />
     <Compile Include="Models\CsmDeployment.cs" />
+    <Compile Include="Models\CsmGateway.cs" />
     <Compile Include="Models\CsmTemplateWrapper.cs" />
+    <Compile Include="Models\Gateway.cs" />
     <Compile Include="Models\GraphArrayWrapper.cs" />
     <Compile Include="Models\GraphUser.cs" />
     <Compile Include="Models\LogicTemplate.cs" />

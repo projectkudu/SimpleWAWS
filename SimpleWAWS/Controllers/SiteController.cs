@@ -13,7 +13,7 @@ using SimpleWAWS.Authentication;
 
 namespace SimpleWAWS.Controllers
 {
-    public class ResourcesController : ApiController
+    public class SiteController : ApiController
     {
         public async Task<HttpResponseMessage> GetSite()
         {
@@ -115,7 +115,7 @@ namespace SimpleWAWS.Controllers
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                         "You can't have more than 1 free site at a time");
                 }
-                var resourceGroup = await resourceManager.ActivateWebApp(template, HttpContext.Current.User.Identity as TryWebsitesIdentity);
+                ResourceGroup resourceGroup =  await resourceManager.ActivateApiApp(new ApiTemplate { Name = template.Name }, HttpContext.Current.User.Identity as TryWebsitesIdentity);
 
                 Trace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
                     AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName, HttpContext.Current.User.Identity.Name,

@@ -286,12 +286,9 @@ namespace SimpleWAWS.Models
         {
             return await ActivateResourceGroup(userIdenity, AppService.Api, async resourceGroup =>
             {
-                var apiApp = new ApiApp
+                var apiApp = new ApiApp(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, Guid.NewGuid().ToString().Replace("-", ""))
                 {
                     MicroserviceId = template.Name,
-                    ApiAppName = Guid.NewGuid().ToString().Replace("-", ""),
-                    ResourceGroupName = resourceGroup.ResourceGroupName,
-                    SubscriptionId = resourceGroup.SubscriptionId,
                     Location = resourceGroup.GeoRegion
                 };
 

@@ -27,11 +27,38 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             resourceGroup.Tags = csmResourceGroup.tags;
 
+            await Task.WhenAll(LoadSites(resourceGroup), LoadApiApps(resourceGroup), LoadGateways(resourceGroup));
+
+            return resourceGroup;
+        }
+        public static async Task<ResourceGroup> LoadSites(this ResourceGroup resourceGroup)
+        {
             var csmSitesResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.Sites.Bind(resourceGroup));
             csmSitesResponse.EnsureSuccessStatusCode();
 
             var csmSites = await csmSitesResponse.Content.ReadAsAsync<CsmArrayWrapper<CsmSite>>();
             resourceGroup.Sites = await Task.WhenAll(csmSites.value.Select(async cs => await Load(new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, cs.name), cs)));
+            return resourceGroup;
+        }
+
+        public static async Task<ResourceGroup> LoadApiApps(this ResourceGroup resourceGroup)
+        {
+            var csmApiAppsResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.ApiApps.Bind(resourceGroup));
+            csmApiAppsResponse.EnsureSuccessStatusCode();
+
+            var csmApiApps = await csmApiAppsResponse.Content.ReadAsAsync<CsmArrayWrapper<CsmApiApp>>();
+            resourceGroup.ApiApps = csmApiApps.value.Select(a => new ApiApp(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, a.name));
+
+            return resourceGroup;
+        }
+
+        public static async Task<ResourceGroup> LoadGateways(this ResourceGroup resourceGroup)
+        {
+            var csmGatewaysResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.Gateways.Bind(resourceGroup));
+            csmGatewaysResponse.EnsureSuccessStatusCode();
+
+            var csmGateway = await csmGatewaysResponse.Content.ReadAsAsync<CsmArrayWrapper<CsmGateway>>();
+            resourceGroup.Gateways =csmGateway.value.Select(g => new Gateway(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, g.name));
 
             return resourceGroup;
         }
@@ -150,8 +177,8 @@ namespace SimpleWAWS.Code.CsmExtensions
         public static async Task<bool> AddResourceGroupRbac(this ResourceGroup resourceGroup, string puidOrAltSec, string emailAddress)
         {
             return (await Task.WhenAll(
-                resourceGroup.Sites.Select(s => s.AddRbacAccess(puidOrAltSec, emailAddress, resourceGroup.ResourceUniqueId))
-                .Concat(resourceGroup.ApiApps.Select(s => s.AddRbacAccess(puidOrAltSec, emailAddress, resourceGroup.ResourceUniqueId))))
+                resourceGroup.Sites.Select(s => s.AddRbacAccess(puidOrAltSec, emailAddress))
+                .Concat(resourceGroup.ApiApps.Select(s => s.AddRbacAccess(puidOrAltSec, emailAddress))))
                 )
                 .All(e => e);
         }

@@ -53,9 +53,8 @@ namespace SimpleWAWS.Models
         private const string SiteUniqueIdMetadataKey = "SITEUNIQUEID";
 
         public Site(string subscriptionId, string resourceGroupName, string name)
+            : base (subscriptionId, resourceGroupName)
         {
-            this.SubscriptionId = subscriptionId;
-            this.ResourceGroupName = resourceGroupName;
             this.SiteName = name;
         }
 

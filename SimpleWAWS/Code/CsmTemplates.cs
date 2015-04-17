@@ -35,11 +35,16 @@ namespace SimpleWAWS.Code
         public static readonly CsmTemplate SiteConfig= new CsmTemplate(Site.TemplateUrl + "/Config/web", websitesApiVersion);
         public static readonly CsmTemplate SitePublishingProfile= new CsmTemplate(Site.TemplateUrl + "/publishxml", websitesApiVersion);
 
+        public static readonly CsmTemplate ApiApps = new CsmTemplate(ResourceGroups.TemplateUrl + "/providers/Microsoft.AppService/apiapps", appServiceApiVersion);
+        public static readonly CsmTemplate ApiApp = new CsmTemplate(ApiApps.TemplateUrl + "/{apiAppName}", appServiceApiVersion);
+
+        public static readonly CsmTemplate Gateways = new CsmTemplate(ResourceGroups.TemplateUrl + "/providers/Microsoft.AppService/gateways", appServiceApiVersion);
+        public static readonly CsmTemplate Gateway = new CsmTemplate(Gateways.TemplateUrl + "/{gatewayName}", appServiceApiVersion);
+
         public static readonly CsmTemplate GraphTenant = new CsmTemplate("https://graph.windows.net/{tenantId}", graphApiVersion);
         public static readonly CsmTemplate GraphUsers = new CsmTemplate(GraphTenant.TemplateUrl + "/users", graphApiVersion);
         public static readonly CsmTemplate GraphUser = new CsmTemplate(GraphUsers.TemplateUrl + "/{userId}", graphApiVersion);
         public static readonly CsmTemplate GraphSearchUsers = new CsmTemplate(GraphUsers.TemplateUrl + "/?$filter=netId eq '{userPuid}' or alternativeSecurityIds/any(x:x/type eq 1 and x/identityProvider eq null and x/key eq X'{userPuid}')", graphApiVersion);
         public static readonly CsmTemplate GraphRedeemInvite = new CsmTemplate(GraphTenant.TemplateUrl + "/redeemInvitation", graphApiVersion);
-
     }
 }
