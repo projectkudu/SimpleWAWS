@@ -44,6 +44,8 @@ namespace SimpleWAWS.Models
 
         public IEnumerable<Gateway> Gateways { get; set; }
 
+        public IEnumerable<ServerFarm> ServerFarms { get; set; }
+
         public string GeoRegion 
         {
             get { return Tags[Constants.GeoRegion]; }
@@ -68,8 +70,11 @@ namespace SimpleWAWS.Models
         public ResourceGroup(string subsciptionId, string resourceGroupName)
             : base(subsciptionId, resourceGroupName)
         {
-            Sites = Enumerable.Empty<Site>();
-            Tags = new Dictionary<string, string>();
+            this.Sites = Enumerable.Empty<Site>();
+            this.ApiApps = Enumerable.Empty<ApiApp>();
+            this.Gateways = Enumerable.Empty<Gateway>();
+            this.ServerFarms = Enumerable.Empty<ServerFarm>();
+            this.Tags = new Dictionary<string, string>();
         }
     }
 }

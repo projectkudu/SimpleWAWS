@@ -1,6 +1,7 @@
 ﻿using ARMClient.Library;
 using Newtonsoft.Json.Linq;
 using SimpleWAWS.Models;
+using SimpleWAWS.Models.CsmModels;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -19,6 +20,9 @@ namespace SimpleWAWS.Code.CsmExtensions
     {
         private static readonly ARMLib csmClient;
         private static readonly ARMLib graphClient;
+
+        private const string _readerRole = "acdd72a7-3385-48ef-bd42-f606fba81ae7";
+        private const string _contributorRold = "b24988ac-6180-42a0-ab88-20f7382dd24c";
 
         static CsmManager()
         {
@@ -45,6 +49,10 @@ namespace SimpleWAWS.Code.CsmExtensions
                 TenantId = ConfigurationManager.AppSettings["tryWebsitesTenantId"],
                 UserPuid = puidOrAltSec.Split(':').Last()
             };
+
+            var rbacRole = csmResource is ServerFarm
+                ? _readerRole
+                : _contributorRold;
 
             try
             {
@@ -103,7 +111,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                         {
                             properties = new
                             {
-                                roleDefinitionId = "/subscriptions/" + csmResource.SubscriptionId + "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c",
+                                roleDefinitionId = string.Concat("/subscriptions/", csmResource.SubscriptionId, "/providers/Microsoft.Authorization/roleDefinitions/", rbacRole),
                                 principalId = oid
                             }
                         });

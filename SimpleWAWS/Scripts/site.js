@@ -378,11 +378,11 @@ function createSite(template, source) {
 }
 
 function handleApi2(event) {
-    createApiApp('TrySamplesTodoList');
+    createApiApp('TrySamplesContactList');
 }
 
 function handleApi1(event) {
-    createApiApp('TrySamplesContactList');
+    createApiApp('TrySamplesTodoList');
 }
 
 function createApiApp(name) {

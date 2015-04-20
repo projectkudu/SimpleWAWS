@@ -1,4 +1,5 @@
 ﻿using SimpleWAWS.Models;
+using SimpleWAWS.Models.CsmModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             resourceGroup.Tags = csmResourceGroup.tags;
 
-            await Task.WhenAll(LoadSites(resourceGroup), LoadApiApps(resourceGroup), LoadGateways(resourceGroup));
+            await Task.WhenAll(LoadSites(resourceGroup), LoadApiApps(resourceGroup), LoadGateways(resourceGroup), LoadServerFarms(resourceGroup));
 
             return resourceGroup;
         }
@@ -59,6 +60,17 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             var csmGateway = await csmGatewaysResponse.Content.ReadAsAsync<CsmArrayWrapper<CsmGateway>>();
             resourceGroup.Gateways =csmGateway.value.Select(g => new Gateway(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, g.name));
+
+            return resourceGroup;
+        }
+
+        public static async Task<ResourceGroup> LoadServerFarms(this ResourceGroup resourceGroup)
+        {
+            var csmServerFarmsResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.ServerFarms.Bind(resourceGroup));
+            csmServerFarmsResponse.EnsureSuccessStatusCode();
+
+            var csmServerFarms = await csmServerFarmsResponse.Content.ReadAsAsync<CsmArrayWrapper<CsmServerFarm>>();
+            resourceGroup.ServerFarms = csmServerFarms.value.Select(s => new ServerFarm(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, s.name));
 
             return resourceGroup;
         }
@@ -178,8 +190,9 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             return (await Task.WhenAll(
                 resourceGroup.Sites.Select(s => s.AddRbacAccess(puidOrAltSec, emailAddress))
-                .Concat(resourceGroup.ApiApps.Select(s => s.AddRbacAccess(puidOrAltSec, emailAddress))))
-                )
+                .Concat(resourceGroup.ApiApps.Select(s => s.AddRbacAccess(puidOrAltSec, emailAddress)))
+                .Concat(resourceGroup.Gateways.Select(s => s.AddRbacAccess(puidOrAltSec,emailAddress)))
+                .Concat(resourceGroup.ServerFarms.Select(s => s.AddRbacAccess(puidOrAltSec, emailAddress)))))
                 .All(e => e);
         }
 

@@ -21,6 +21,7 @@ using System.Security.Principal;
 using ARMClient.Library;
 using SimpleWAWS.Code;
 using SimpleWAWS.Code.CsmExtensions;
+using SimpleWAWS.Models.CsmModels;
 
 namespace SimpleWAWS.Models
 {
@@ -67,7 +68,8 @@ namespace SimpleWAWS.Models
         private async Task LoadAzureResources()
         {
             // Load all subscriptions
-            var subscriptions = await Task.WhenAll(ConfigurationManager.AppSettings["subscriptions"].Split(',').Select(s => Util.SafeGuard(() => new Subscription(s).Load())).Where(s => s != null));
+            var subscriptions = (await Task.WhenAll(ConfigurationManager.AppSettings["subscriptions"].Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => Util.SafeGuard(() => new Subscription(s).Load())))).Where(s => s != null);
 
             //Create Trial resources if they are not already created
             await Task.WhenAll(subscriptions.Select(s => s.MakeTrialSubscription()));
@@ -314,10 +316,11 @@ namespace SimpleWAWS.Models
 
                 await deployment.Deploy(block: true);
 
-                //TODO load api apps
-                resourceGroup.ApiApps = Enumerable.Repeat(apiApp, 1);
-
+                // After a deployment, we have no idea what changes happened in the resource group
+                // we should reload it.
+                // TODO: consider reloading the resourceGroup along with the deployment itself.
                 await resourceGroup.Load();
+
                 resourceGroup.IsRbacEnabled = await resourceGroup.AddResourceGroupRbac(userIdenity.Puid, userIdenity.Email);
                 return resourceGroup;
             });

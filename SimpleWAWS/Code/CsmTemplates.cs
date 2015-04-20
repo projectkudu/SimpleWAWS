@@ -35,11 +35,14 @@ namespace SimpleWAWS.Code
         public static readonly CsmTemplate SiteConfig= new CsmTemplate(Site.TemplateUrl + "/Config/web", websitesApiVersion);
         public static readonly CsmTemplate SitePublishingProfile= new CsmTemplate(Site.TemplateUrl + "/publishxml", websitesApiVersion);
 
-        public static readonly CsmTemplate ApiApps = new CsmTemplate(ResourceGroups.TemplateUrl + "/providers/Microsoft.AppService/apiapps", appServiceApiVersion);
+        public static readonly CsmTemplate ApiApps = new CsmTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.AppService/apiapps", appServiceApiVersion);
         public static readonly CsmTemplate ApiApp = new CsmTemplate(ApiApps.TemplateUrl + "/{apiAppName}", appServiceApiVersion);
 
-        public static readonly CsmTemplate Gateways = new CsmTemplate(ResourceGroups.TemplateUrl + "/providers/Microsoft.AppService/gateways", appServiceApiVersion);
+        public static readonly CsmTemplate Gateways = new CsmTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.AppService/gateways", appServiceApiVersion);
         public static readonly CsmTemplate Gateway = new CsmTemplate(Gateways.TemplateUrl + "/{gatewayName}", appServiceApiVersion);
+
+        public static readonly CsmTemplate ServerFarms = new CsmTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Web/serverFarms", websitesApiVersion);
+        public static readonly CsmTemplate ServerFarm = new CsmTemplate(ServerFarms.TemplateUrl + "/{serverFarmName}", websitesApiVersion);
 
         public static readonly CsmTemplate GraphTenant = new CsmTemplate("https://graph.windows.net/{tenantId}", graphApiVersion);
         public static readonly CsmTemplate GraphUsers = new CsmTemplate(GraphTenant.TemplateUrl + "/users", graphApiVersion);
