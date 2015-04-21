@@ -47,30 +47,28 @@ namespace SimpleWAWS
 
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
         {
-            if (!SecurityManager.TryAuthenticateSessionCookie(Context))
-            {
-                if (SecurityManager.HasToken(HttpContext.Current))
-                {
-                    // This is a login redirect
-                    SecurityManager.AuthenticateRequest(Context);
-                    return;
-                }
+            //if (!SecurityManager.TryAuthenticateSessionCookie(Context))
+            //{
+            //    if (SecurityManager.HasToken(HttpContext.Current))
+            //    {
+            //        // This is a login redirect
+            //        SecurityManager.AuthenticateRequest(Context);
+            //        return;
+            //    }
 
-                var route = RouteTable.Routes.GetRouteData(new HttpContextWrapper(HttpContext.Current));
-                // If the route is not registerd in the WebAPI RouteTable
-                //      then it's not an API route, which means it's a resource (*.js, *.css, *.cshtml), not authenticated.
-                // If the route doesn't have authenticated value assume true
-                var isAuthenticated = route != null && (route.Values["authenticated"] == null || (bool)route.Values["authenticated"]);
+            //    var route = RouteTable.Routes.GetRouteData(new HttpContextWrapper(HttpContext.Current));
+            //    // If the route is not registerd in the WebAPI RouteTable
+            //    //      then it's not an API route, which means it's a resource (*.js, *.css, *.cshtml), not authenticated.
+            //    if (route == null) return;
 
-                if (isAuthenticated)
-                {
-                    SecurityManager.AuthenticateRequest(Context);
-                }
-                else
-                {
-                    SecurityManager.HandleAnonymousUser(Context);
-                }
-            }
+            //    // If the route doesn't have authenticated value assume true
+            //    var isAuthenticated = route.Values["authenticated"] == null || (bool)route.Values["authenticated"];
+
+            //    if (isAuthenticated)
+            //    {
+            //        SecurityManager.AuthenticateRequest(Context);
+            //    }
+            //}
         }
 
         protected void Application_Error(object sender, EventArgs e)
