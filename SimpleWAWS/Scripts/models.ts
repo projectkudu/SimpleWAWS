@@ -2,21 +2,36 @@
     id: number;
     title: string;
     sref: string;
-    previous: string;
-    next: string;
-    onNext(): ng.IPromise<any>|void;
-    onPrevious(): ng.IPromise<boolean>|void;
+    nextClass?: string;
+    nextText?: string;
+    onNext?: () => ng.IPromise<any>|void;
+    onPrevious?: () => ng.IPromise<boolean>|void;
 }
 
 interface IAppService {
     name: string;
     sprite: string;
+    title: string;
     steps: IStep[];
-    templates: any[];
+    templates: ITemplate[];
+}
+
+interface ITemplate {
+    name: string;
+    sprite: string;
+    appService: string;
+    language?: string;
+    fileName?: string;
 }
 
 interface IAppControllerScope extends ng.IScope {
     currentAppService: IAppService;
     nextState(index: number): string;
-    swap();
+    currentStep: any;
+    nextStep: IStep;
+    previousStep: IStep;
+    appServices: IAppService[];
+    selectAppService(appService: IAppService);
+    setNextAndPreviousSteps(index: number);
+    getStateLink(step: IStep);
 }

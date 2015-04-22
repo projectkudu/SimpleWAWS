@@ -30,14 +30,14 @@ namespace SimpleWAWS.Models
             }
         }
 
-        private static IEnumerable<WebsiteTemplate> _templatesList;
+        private static IEnumerable<BaseTemplate> _templatesList;
 
         static TemplatesManager()
         {
             try
             {
-                _templatesList = new List<WebsiteTemplate>();
-                var list = _templatesList as List<WebsiteTemplate>;
+                _templatesList = new List<BaseTemplate>();
+                var list = _templatesList as List<BaseTemplate>;
                 foreach (var languagePath in Directory.GetDirectories(TemplatesFolder))
                 {
                     foreach (var template in Directory.GetFiles(languagePath))
@@ -56,28 +56,27 @@ namespace SimpleWAWS.Models
                         });
                     }
                 }
-                list.Add(new WebsiteTemplate
+                list.Add(new ApiTemplate
                     {
                         Name = "TrySamplesTodoList",
-                        FileName = "alsdasd",
-                        Language = "Api",
                         SpriteName = "sprite-APIApps",
                         AppService = AppService.Api
                     });
-                list.Add(new WebsiteTemplate
+                list.Add(new ApiTemplate
                     {
                         Name = "TrySamplesContactList",
+                        SpriteName = "sprite-APIApps",
                         AppService = AppService.Api
                     });
                 //TODO: Implement a FileSystemWatcher for changes in the directory
             }
             catch (Exception)
             {
-                _templatesList = Enumerable.Empty<WebsiteTemplate>();
+                _templatesList = Enumerable.Empty<BaseTemplate>();
             }
         }
 
-        public static IEnumerable<WebsiteTemplate> GetTemplates()
+        public static IEnumerable<BaseTemplate> GetTemplates()
         {
             return _templatesList;
         }

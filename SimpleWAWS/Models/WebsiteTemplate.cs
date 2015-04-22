@@ -11,8 +11,10 @@ namespace SimpleWAWS.Models
 {
     public class WebsiteTemplate : BaseTemplate
     {
+        [JsonProperty(PropertyName="fileName")]
         public string FileName { get; set; }
 
+        [JsonProperty(PropertyName="language")]
         public string Language { get; set; }
 
         public static WebsiteTemplate EmptySiteTemplate

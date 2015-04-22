@@ -97,7 +97,7 @@ namespace SimpleWAWS.Controllers
             return response;
         }
 
-        public async Task<HttpResponseMessage> CreateSite(WebsiteTemplate template)
+        public async Task<HttpResponseMessage> CreateSite(BaseTemplate template)
         {
             //Template names should be unique even between languages
             template = TemplatesManager.GetTemplates()
@@ -117,9 +117,9 @@ namespace SimpleWAWS.Controllers
                 }
                 ResourceGroup resourceGroup =  await resourceManager.ActivateApiApp(new ApiTemplate { Name = template.Name }, HttpContext.Current.User.Identity as TryWebsitesIdentity);
 
-                Trace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
-                    AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName, HttpContext.Current.User.Identity.Name,
-                    template.Language, template.Name, resourceGroup.ResourceUniqueId);
+                //Trace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
+                //    AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName, HttpContext.Current.User.Identity.Name,
+                //    template.Language, template.Name, resourceGroup.ResourceUniqueId);
 
                 return Request.CreateResponse(HttpStatusCode.OK, resourceGroup);
             }

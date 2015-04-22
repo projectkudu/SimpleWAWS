@@ -2752,6 +2752,14 @@ sup {
         background-color: #ffb900;
     }
 
+.wa-button-gray {
+    background-color: #a5a5a5;
+}
+
+    .wa-button-gray:hover {
+        background-color: #565656;
+    }
+
 .wa-button-row {
     margin-top: 20px;
 }
@@ -9180,3 +9188,47 @@ div.sprite-Windows{ background-position: 0 0; width: 90px; height: 90px; }
 div.sprite-Xamarin{ background-position: 0 -140px; width: 90px; height: 80px; } 
 div.sprite-ios{ background-position: 0 -270px; width: 90px; height: 90px; } 
 div.sprite-todolist{ background-position: 0 -410px; width: 90px; height: 90px; } 
+
+/* numbered buttons */
+#status-buttons {
+    margin-top: 20px;
+}
+
+#status-buttons a {
+    color: #D5D5D5;
+    display: inline-block;
+    font-size: 15px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+#status-buttons span {
+    color: white;
+    font-size: 60px;
+    font-family: wf_segoe-ui_light,"Segoe UI Light","Segoe WP Light","Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
+    font-weight: 100;
+}
+
+#status-buttons a:hover {
+    text-decoration: none;
+}
+
+/* we will style the span as the circled number */
+#status-buttons span {
+    background: #D5D5D5;
+    display: block;
+    height: 60px;
+    margin: 0 auto 20px;
+    padding-top: 30px;
+    width: 90px;
+    border-radius: 50%;
+}
+
+/* active buttons turn light green-blue*/
+#status-buttons a.active span {
+    background: #565656;
+}
+
+#status-buttons a.active {
+    color: #565656;
+}

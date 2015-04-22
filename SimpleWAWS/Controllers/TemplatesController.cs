@@ -12,7 +12,7 @@ namespace SimpleWAWS.Controllers
 {
     public class TemplatesController : ApiController
     {
-        public IEnumerable<WebsiteTemplate> Get()
+        public IEnumerable<BaseTemplate> Get()
         {
             var list = TemplatesManager.GetTemplates().ToList();
             list.Add(WebsiteTemplate.EmptySiteTemplate);

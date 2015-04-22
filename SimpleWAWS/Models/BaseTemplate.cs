@@ -9,10 +9,13 @@ namespace SimpleWAWS.Models
 {
     public abstract class BaseTemplate
     {
+        [JsonProperty(PropertyName="name")]
         public string Name { get; set; }
 
+        [JsonProperty(PropertyName="sprite")]
         public string SpriteName { get; set; }
 
+        [JsonProperty(PropertyName="appService")]
         [JsonConverter(typeof(StringEnumConverter))]
         public AppService AppService { get; set; }
     }

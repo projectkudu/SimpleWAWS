@@ -13,11 +13,35 @@
     </div>
 </section>
 
-<div ng-repeat="step in currentAppService.steps">
-    <a ui-sref-active="active" ui-sref="{{ step.sref }}"><span>{{ step.id }}</span> {{ step.title }}</a>
+<div id="status-buttons" class="text-center wa-content" >
+    <a ng-repeat="step in currentAppService.steps" ui-sref-active-eq="active" ui-sref="{{ step.sref }}"><span>{{ step.id }}</span> {{ step.title }}</a>
 </div>
 
-<div id="things" ui-view=""></div>
+<div class="wa-content wa-content-4up wa-content-divided" ui-view></div>
 
+<div ng-if="currentStep.id === 1" class="wa-content wa-content-4up" style="margin-top: -20px">
+        <h2>Select your App Service</h2>
+        <br />
+        <br />
+    
+        <div id="appservices-div" >
+            <div ng-repeat="appService in appServices" class="appservice-container box-container" ng-class="currentAppService.name === appService.name ? 'box-container-selected' : ''">
+                <a class="select-appservice-anchor" href="#" ng-click="selectAppService(appService)">
+                    <div class="app-service" ng-class="appService.sprite"></div>
+                    <div class="appservice-name">{{ appService.title }}</div>
+                </a>
+            </div>
+        </div>
+        <br />
+        <br />
+        
 
-<a ng-click="swap()">swap</a>
+        <!-- 
+        <div class="ui-blocker"></div>
+        -->
+</div>
+
+<div class="wa-content wa-content-4up wa-content-divided" style="margin-bottom: 20px">
+    <a ng-if="previousStep" href="#" ng-href="{{ getStateLink(previousStep) }}" class="wa-button wa-button-gray">Previous</a>
+    <a ng-if="nextStep" href="#" class="wa-button" ng-href="{{ getStateLink(nextStep) }}" ng-class="currentStep.nextClass ? currentStep.nextClass : 'wa-button-alt'">{{ currentStep.nextText ? currentStep.nextText : 'Next' }}</a>
+</div>
