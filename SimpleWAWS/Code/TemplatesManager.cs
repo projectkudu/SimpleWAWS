@@ -58,13 +58,13 @@ namespace SimpleWAWS.Models
                 }
                 list.Add(new ApiTemplate
                     {
-                        Name = "TrySamplesTodoList",
+                        Name = "Todo List",
                         SpriteName = "sprite-APIApps",
                         AppService = AppService.Api
                     });
                 list.Add(new ApiTemplate
                     {
-                        Name = "TrySamplesContactList",
+                        Name = "Contact List",
                         SpriteName = "sprite-APIApps",
                         AppService = AppService.Api
                     });

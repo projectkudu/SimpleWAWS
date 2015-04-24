@@ -34,4 +34,10 @@ interface IAppControllerScope extends ng.IScope {
     selectAppService(appService: IAppService);
     setNextAndPreviousSteps(index: number);
     getStateLink(step: IStep);
+    getLanguage(template: ITemplate): string;
+    selectLanguage(language: string);
+    ngModels: any;
+    selectedTemplate: ITemplate;
+    selectTemplate(template: ITemplate);
+    changeLanguage();
 }

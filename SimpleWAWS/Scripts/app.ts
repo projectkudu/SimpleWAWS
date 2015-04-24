@@ -1,4 +1,4 @@
-﻿angular.module("tryApp", ["ui.router"])
+﻿angular.module("tryApp", ["ui.router", "angular.filter"])
     .config(["$stateProvider", "$urlRouterProvider", "$locationProvider", ($stateProvider: ng.ui.IStateProvider, $urlRouterProvider: ng.ui.IUrlRouterProvider, $locationProvider: ng.ILocationProvider) => {
     var homeState: ng.ui.IState = {
         name: "home",
@@ -75,8 +75,16 @@
 }])
     .controller("appController", ["$scope", "$http", "$timeout", "$rootScope", "$state", function ($scope: IAppControllerScope, $http: ng.IHttpService, $timeout: ng.ITimeoutService, $rootScope: ng.IRootScopeService, $state: ng.ui.IStateService) {
 
+    $state.go("home");
+
+    $scope.getLanguage = (template) => {
+        return template.language;
+    };
+
+    $scope.ngModels = {};
+
     $scope.appServices = [{
-        name: "webapp",
+        name: "Web",
         sprite: "sprite-AzureWebsites",
         title: "Web App",
         steps: [{
@@ -94,13 +102,9 @@
                 title: "Work with your app",
                 sref: "home.webapp.work",
             }],
-        templates: [{
-            name: "Empty Site",
-            sprite: "sprite-Large",
-
-        }]
+        templates: []
     }, {
-            name: "mobileapp",
+            name: "Mobile",
             sprite: "sprite-MobileServices",
             title: "Mobile App",
             steps: [{
@@ -122,13 +126,9 @@
                     title: "Work with your app",
                     sref: "home.mobileapp.work",
                 }],
-            templates: [{
-                name: "Todo List",
-                sprite: "sprite-todolist",
-                appService: "mobile"
-            }]
+            templates: []
         }, {
-            name: "apiapp",
+            name: "Api",
             sprite: "sprite-APIApps",
             title: "API App",
             steps: [{
@@ -148,7 +148,7 @@
                 }],
             templates: []
         }, {
-            name: "logicapp",
+            name: "Logic",
             sprite: "sprite-LogicApp",
             title: "Logic App",
             steps: [{
@@ -162,12 +162,14 @@
                 }],
             templates: []
         }];
-    $scope.currentAppService = $scope.appServices[0];
 
     $scope.selectAppService = (appService) => {
         $scope.currentAppService = appService;
         $scope.setNextAndPreviousSteps(0);
+        $scope.ngModels.selectedLanguage = $scope.currentAppService.templates[0].language;
+        $scope.selectedTemplate = $scope.currentAppService.templates[0];
     };
+
     $scope.nextState = (index) => {
         if (index < $scope.currentAppService.steps.length) {
             return $scope.currentAppService.steps[index].sref;
@@ -181,7 +183,11 @@
         $scope.previousStep = $scope.currentAppService.steps[index - 1];
     };
 
+    $scope.currentAppService = $scope.appServices[0];
     $scope.setNextAndPreviousSteps(0);
+
+
+
 
     $rootScope.$on('$stateChangeStart',
         (event, toState, toParams, fromState, fromParams) => {
@@ -198,9 +204,41 @@
         return $state.href(step.sref);
     };
 
+    $scope.selectTemplate = (template) => {
+        $scope.selectedTemplate = template;
+    };
 
+    $scope.changeLanguage = () => {
+        $scope.selectedTemplate = $scope.currentAppService.templates.find(t => t.language === $scope.ngModels.selectedLanguage);
+    };
 
-}]).run(function ($rootScope, $state, $stateParams) {
-    $rootScope.$state = $state;
-    $rootScope.$stateParams = $stateParams;
+    initTemplates();
+
+    function initTemplates() {
+        $http({
+            method: "GET",
+            url: "api/templates"
+        })
+            .success((data: ITemplate[]) => {
+            $scope.appServices.forEach(a => {
+                a.templates = data.filter(e => e.appService === a.name);
+            });
+            $scope.ngModels.selectedLanguage = $scope.currentAppService.templates[0].language;
+            $scope.selectedTemplate = $scope.currentAppService.templates[0];
+        });
+    }
+
+    }])
+    .run(($rootScope, $state: ng.ui.IStateService, $stateParams: ng.ui.IStateParamsService) => {
+        $rootScope.$state = $state;
+        $rootScope.$stateParams = $stateParams;
+        $state.go("home");
+    })
+    .filter("filterBySelectedLanguage",() => {
+    return (templates: ITemplate[], language: string): any => {
+        if (language === undefined)
+            return templates;
+        else
+            return templates.filter(t => t.language === language);
+    };
 });
