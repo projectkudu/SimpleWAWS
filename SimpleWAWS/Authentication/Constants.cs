@@ -13,5 +13,6 @@ namespace SimpleWAWS.Authentication
         public const string AADIssuerKeys = "AADIssuerKeys";
         public const string GoogleIssuerCerts = "GoogleIssuerCerts";
         public const string DefaultAuthProvider = "AAD";
+        public const string AnonymousUser = "aus";
     }
 }

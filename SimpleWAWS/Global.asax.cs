@@ -14,7 +14,7 @@ namespace SimpleWAWS
     {
         protected void Application_Start()
         {
-            Trace.TraceInformation("{0}Application started", AnalyticsEvents.ApplicationStarted);
+            Trace.TraceInformation("{0} Application started", AnalyticsEvents.ApplicationStarted);
             //Configure Json formatter
             GlobalConfiguration.Configuration.Formatters.Clear();
             GlobalConfiguration.Configuration.Formatters.Add(new JsonMediaTypeFormatter());
@@ -59,14 +59,16 @@ namespace SimpleWAWS
                 var route = RouteTable.Routes.GetRouteData(new HttpContextWrapper(HttpContext.Current));
                 // If the route is not registerd in the WebAPI RouteTable
                 //      then it's not an API route, which means it's a resource (*.js, *.css, *.cshtml), not authenticated.
-                if (route == null) return;
-
                 // If the route doesn't have authenticated value assume true
-                var isAuthenticated = route.Values["authenticated"] == null || (bool)route.Values["authenticated"];
+                var isAuthenticated = route != null && (route.Values["authenticated"] == null || (bool)route.Values["authenticated"]);
 
                 if (isAuthenticated)
                 {
                     SecurityManager.AuthenticateRequest(Context);
+                }
+                else
+                {
+                    SecurityManager.HandleAnonymousUser(Context);
                 }
             }
         }

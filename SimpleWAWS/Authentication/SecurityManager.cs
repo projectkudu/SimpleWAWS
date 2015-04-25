@@ -118,6 +118,29 @@ namespace SimpleWAWS.Code
             return false;
         }
 
+        public static void HandleAnonymousUser(HttpContext context)
+        {
+            try
+            {
+                var userCookie = context.Request.Cookies[Constants.AnonymousUser];
+                var user = string.Empty;
+                if (userCookie == null)
+                {
+                    user = Guid.NewGuid().ToString();
+                    context.Response.Cookies.Add(new HttpCookie(Constants.AnonymousUser, Uri.EscapeDataString(user.Encrypt(Constants.EncryptionReason))) { Path = "/", Expires = DateTime.UtcNow.AddDays(1) });
+                }
+                else
+                {
+                    user = Uri.UnescapeDataString(userCookie.Value).Decrypt(Constants.EncryptionReason);
+                }
+                context.User = new TryWebsitesPrincipal(new TryWebsitesIdentity(user, null, "Anonymous"));
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError("Error Adding anonymous user: " + e.ToString());
+            }
+        }
+
         private static bool ValidDateTimeSessionCookie(DateTime date)
         {
             return date.Add(Constants.SessionCookieValidTimeSpan) > DateTime.UtcNow;
