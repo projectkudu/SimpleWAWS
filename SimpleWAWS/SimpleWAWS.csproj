@@ -322,12 +322,15 @@
     <Content Include="Content\fonts\segoe-ui\semibold\latest.ttf" />
     <Content Include="Content\fonts\segoe-ui\semibold\latest.woff" />
     <Content Include="Scripts\site.js" />
+    <Content Include="templates\api-work.html" />
     <Content Include="templates\clients.html" />
     <Content Include="templates\comingsoon.html" />
     <Content Include="templates\empty-shell.html" />
+    <Content Include="templates\logic-work.html" />
+    <Content Include="templates\mobile-work.html" />
     <Content Include="templates\templates.html" />
     <Content Include="templates\steps.html" />
-    <Content Include="templates\work.html" />
+    <Content Include="templates\web-work.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

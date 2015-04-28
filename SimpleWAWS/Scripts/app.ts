@@ -18,7 +18,7 @@
             url: "/templates?language&name"
         }, {
             name: "home.webapp.work",
-            templateUrl: "templates/work.html",
+            templateUrl: "templates/web-work.html",
             url: "/work"
         }];
 
@@ -36,7 +36,7 @@
             url: "/clients"
         }, {
             name: "home.mobileapp.work",
-            templateUrl: "templates/work.html",
+            templateUrl: "templates/mobile-work.html",
             url: "/work"
         }];
 
@@ -50,7 +50,7 @@
             url: "/templates?language&name"
         }, {
             name: "home.apiapp.work",
-            templateUrl: "/templates/work.html",
+            templateUrl: "/templates/api-work.html",
             url: "/work"
         }];
 
@@ -166,8 +166,11 @@
     $scope.selectAppService = (appService) => {
         $scope.currentAppService = appService;
         $scope.setNextAndPreviousSteps(0);
-        $scope.ngModels.selectedLanguage = $scope.currentAppService.templates[0].language;
-        $scope.selectedTemplate = $scope.currentAppService.templates[0];
+        //TODO: better way to get default language
+        $scope.ngModels.selectedLanguage = $scope.currentAppService.templates[0].language ? "Default" : undefined;
+        $scope.selectedTemplate = $scope.ngModels.selectedLanguage
+            ? $scope.currentAppService.templates.find(t => t.language === $scope.ngModels.selectedLanguage)
+            : $scope.currentAppService.templates[0];
     };
 
     $scope.nextState = (index) => {
@@ -223,17 +226,18 @@
             $scope.appServices.forEach(a => {
                 a.templates = data.filter(e => e.appService === a.name);
             });
-            $scope.ngModels.selectedLanguage = $scope.currentAppService.templates[0].language;
-            $scope.selectedTemplate = $scope.currentAppService.templates[0];
+            //TODO: better way to choose default language
+            $scope.ngModels.selectedLanguage = "Default";//$scope.currentAppService.templates[0].language;
+            $scope.selectedTemplate = $scope.currentAppService.templates.find(t => t.language === $scope.ngModels.selectedLanguage);
         });
     }
 
-    }])
+}])
     .run(($rootScope, $state: ng.ui.IStateService, $stateParams: ng.ui.IStateParamsService) => {
-        $rootScope.$state = $state;
-        $rootScope.$stateParams = $stateParams;
-        $state.go("home");
-    })
+    $rootScope.$state = $state;
+    $rootScope.$stateParams = $stateParams;
+    $state.go("home");
+})
     .filter("filterBySelectedLanguage",() => {
     return (templates: ITemplate[], language: string): any => {
         if (language === undefined)
@@ -241,4 +245,20 @@
         else
             return templates.filter(t => t.language === language);
     };
+    })
+    //http://stackoverflow.com/a/14996261/3234163
+    .directive("selectOnClick", function () {
+    return {
+        restrict: "A",
+        link: (scope, element, attrs) => {
+            element.on("click", function () {
+                this.select();
+            });
+        }
+    };
 });
+//.filter("orderByDefaultFirstSort",() => {
+//    return (languages: string[]): string[]=> {
+
+//    };
+//});

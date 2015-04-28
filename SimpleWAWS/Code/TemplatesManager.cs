@@ -50,7 +50,7 @@ namespace SimpleWAWS.Models
                         {
                             Name = Path.GetFileNameWithoutExtension(template),
                             FileName = Path.GetFileName(template),
-                            Language = language,
+                            Language = language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) ? null : language,
                             SpriteName = string.Format("{0} {1}", iconCssClass, cssClass),
                             AppService =  language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) ? AppService.Mobile : AppService.Web
                         });

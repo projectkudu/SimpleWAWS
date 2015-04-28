@@ -3,7 +3,6 @@
     <label for="wa-dropdown-language">Change language:</label>
     <div class="wa-dropdown-container wa-dropdown-medium">
         <select id="wa-dropdown-language" class="wa-dropdown" ng-model="ngModels.selectedLanguage" ng-options="language for language in currentAppService.templates | unique: 'language' | map: getLanguage" ng-change="changeLanguage()">
-            <!--<option ng-repeat="language in currentAppService.templates | unique: 'language' | map: getLanguage" class="wa-dropdown-language-option" value="{{ language }}">{{ language }}</option>-->
         </select>
         <span class="wa-dropdown-value">{{ ngModels.selectedLanguage }}</span>
         <span class="wa-dropdown-arrow"></span>

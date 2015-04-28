@@ -5,7 +5,7 @@ using System.Web;
 
 namespace SimpleWAWS.Models
 {
-    public class MobileTemplate
+    public class MobileTemplate : BaseTemplate
     {
     }
 }

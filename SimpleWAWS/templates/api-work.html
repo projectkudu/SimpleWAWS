@@ -1,0 +1,14 @@
+﻿<h2>Work with your {{ currentAppService.title }}</h2>
+<h5 style="margin-top: -15px; margin-left: 83px">for an <strong>hour</strong>, or sign up for a trial and stay for a month!</h5>
+<div>
+    <h3>
+        Your {{ currentAppService.title }} has been created at <a ng-href="resource.apiApps[0].url" target="_blank"></a>
+    </h3>
+    <div class="work-with-site-tools">
+        <a ng-href="resource.apiApps[0].ibiza" target="_blank"><div class="work-with-site-tools-img icons sprite-MicrosoftAzure"></div><div class="website-template-name">Manage in Azure Portal</div></a>
+    </div>
+    <div class="work-with-site-tools">
+       <a ng-click="deleteResourceGroup()" href="#"><div class="work-with-site-tools-img icons sprite-delete"></div><div class="website-template-name">Delete the {{ currentAppService.title }}</div></a>
+    </div>
+    <div style="margin-top: 60px">Your free {{ currentAppService.title }} will expire in : <span class="countdown" ng-bind="timeLeft"></span></div>
+</div>
