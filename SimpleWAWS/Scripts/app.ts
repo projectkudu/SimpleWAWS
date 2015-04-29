@@ -77,6 +77,8 @@
 
     $state.go("home");
 
+    $scope.running = false;
+
     $scope.getLanguage = (template) => {
         return template.language;
     };
@@ -101,6 +103,8 @@
                 id: 3,
                 title: "Work with your app",
                 sref: "home.webapp.work",
+                previousText: "Delete",
+                previousClass: "wa-button-red"
             }],
         templates: []
     }, {
@@ -121,6 +125,8 @@
                     id: 3,
                     title: "download your client",
                     sref: "home.mobileapp.clients",
+                    previousText: "Delete",
+                    previousClass: "wa-button-red"
                 }, {
                     id: 4,
                     title: "Work with your app",
@@ -145,6 +151,8 @@
                     id: 3,
                     title: "Work with your app",
                     sref: "home.apiapp.work",
+                    previousText: "Delete",
+                    previousClass: "wa-button-red"
                 }],
             templates: []
         }, {
@@ -198,8 +206,6 @@
                 console.log(toState);
                 var step = $scope.currentAppService.steps.find((s) => s.sref === toState.name);
                 $scope.setNextAndPreviousSteps(step.id - 1);
-                // transitionTo() promise will be rejected with 
-                // a 'transition prevented' error
             });
         });
 
@@ -213,6 +219,23 @@
 
     $scope.changeLanguage = () => {
         $scope.selectedTemplate = $scope.currentAppService.templates.find(t => t.language === $scope.ngModels.selectedLanguage);
+    };
+
+    $scope.goToNextState = () => {
+        if ($scope.currentStep.nextText === "Create") {
+            //$http();
+            $scope.running = true;
+            $timeout(() => {
+                $scope.running = false;
+                $state.go($scope.nextStep.sref);
+            }, 5000);
+        } else {
+            $state.go($scope.nextStep.sref);
+        }
+    };
+
+    $scope.goToPreviousState = () => {
+        $state.go($scope.previousStep.sref);
     };
 
     initTemplates();

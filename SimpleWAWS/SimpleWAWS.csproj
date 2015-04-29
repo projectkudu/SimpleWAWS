@@ -230,7 +230,7 @@
     <Compile Include="Models\ServerFarm.cs" />
     <Compile Include="Models\WebsiteTemplate.cs" />
     <Compile Include="Code\TemplatesManager.cs" />
-    <Compile Include="Controllers\SiteController.cs" />
+    <Compile Include="Controllers\ResourceController.cs" />
     <Compile Include="Controllers\TemplatesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

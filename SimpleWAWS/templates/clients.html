@@ -1,1 +1,15 @@
-﻿this is the clients
+﻿<h2>Build and run your mobile client app</h2>
+<div id="mobile-client-div" data-bind="foreach: mobileClients">
+    <div class="mobile-template-container box-container" data-bind="css: selectedMobileClient().name === $data.name ? 'box-container-selected' : '', visible: true" style="display: none">
+        <a class="select-template-anchor" href="#" data-bind="click: function(data, event) {data.select(event);}">
+            <div class="mobile-icons" data-bind="css: $data.icon_class" style="width: 90px; height: 90px"></div>
+            <div class="website-template-name" data-bind="text: $data.name"></div>
+        </a>
+    </div>
+</div>
+<div id="mobile-client-info-div" data-bind="foreach: mobileClients">
+    <div data-bind="visible: selectedMobileClient().name === $data.name" style="margin-top: 20px">
+        <h3 >3.1) Prerequisite: <a target="_blank" data-bind="text: $data.steps.preText, attr: {href: $data.steps.preHref}"></a></h3>
+        <h3 >3.2) <a target="_blank" data-bind="text: $data.steps.clientText, attr: {href: $data.steps.clientHref}"></a></h3>
+    </div>
+</div>

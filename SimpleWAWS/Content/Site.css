@@ -2760,6 +2760,14 @@ sup {
         background-color: #565656;
     }
 
+.wa-button-red {
+    background-color: #ff1525;
+}
+
+    .wa-button-red:hover {
+        background-color: #d9000f;
+    }
+
 .wa-button-row {
     margin-top: 20px;
 }
@@ -9192,6 +9200,7 @@ div.sprite-todolist{ background-position: 0 -410px; width: 90px; height: 90px; }
 /* numbered buttons */
 #status-buttons {
     margin-top: 20px;
+    pointer-events: none;
 }
 
 #status-buttons a {

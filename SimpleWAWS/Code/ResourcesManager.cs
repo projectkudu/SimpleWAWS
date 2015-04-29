@@ -252,13 +252,18 @@ namespace SimpleWAWS.Models
         }
 
         // ARM
-        public async Task<ResourceGroup> ActivateWebApp(WebsiteTemplate template, TryWebsitesIdentity userIdenity)
+        public async Task<ResourceGroup> ActivateWebApp(WebsiteTemplate template, TryWebsitesIdentity userIdentity)
         {
             // Start site specific stuff
-            return await ActivateResourceGroup(userIdenity, AppService.Web, async resourceGroup =>
+            return await ActivateResourceGroup(userIdentity, AppService.Web, async resourceGroup =>
                 {
+
+                    Trace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
+                            AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
+                            template.Language, template.Name, resourceGroup.ResourceUniqueId);
+
                     var site = resourceGroup.Sites.First();
-                    var rbacTask = resourceGroup.AddResourceGroupRbac(userIdenity.Puid, userIdenity.Email);
+                    var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email);
                     if (template != null && template.FileName != null)
                     {
                         var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
@@ -279,15 +284,25 @@ namespace SimpleWAWS.Models
         {
             return await ActivateResourceGroup(userIdentity, AppService.Mobile, resourceGroup =>
             {
+
+                Trace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
+                            AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
+                            "Mobile", template.Name, resourceGroup.ResourceUniqueId);
+
                 return Task.FromResult(resourceGroup);
             });
         }
 
         // ARM
-        public async Task<ResourceGroup> ActivateApiApp(ApiTemplate template, TryWebsitesIdentity userIdenity)
+        public async Task<ResourceGroup> ActivateApiApp(ApiTemplate template, TryWebsitesIdentity userIdentity)
         {
-            return await ActivateResourceGroup(userIdenity, AppService.Api, async resourceGroup =>
+            return await ActivateResourceGroup(userIdentity, AppService.Api, async resourceGroup =>
             {
+
+                Trace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
+                            AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
+                            "Api", template.Name, resourceGroup.ResourceUniqueId);
+
                 var apiApp = new ApiApp(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, Guid.NewGuid().ToString().Replace("-", ""))
                 {
                     MicroserviceId = template.Name,
@@ -321,7 +336,7 @@ namespace SimpleWAWS.Models
                 // TODO: consider reloading the resourceGroup along with the deployment itself.
                 await resourceGroup.Load();
 
-                resourceGroup.IsRbacEnabled = await resourceGroup.AddResourceGroupRbac(userIdenity.Puid, userIdenity.Email);
+                resourceGroup.IsRbacEnabled = await resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email);
                 return resourceGroup;
             });
         }

@@ -4,6 +4,8 @@
     sref: string;
     nextClass?: string;
     nextText?: string;
+    previousClass?: string;
+    previousText?: string;
     onNext?: () => ng.IPromise<any>|void;
     onPrevious?: () => ng.IPromise<boolean>|void;
 }
@@ -27,7 +29,7 @@ interface ITemplate {
 interface IAppControllerScope extends ng.IScope {
     currentAppService: IAppService;
     nextState(index: number): string;
-    currentStep: any;
+    currentStep: IStep;
     nextStep: IStep;
     previousStep: IStep;
     appServices: IAppService[];
@@ -40,4 +42,7 @@ interface IAppControllerScope extends ng.IScope {
     selectedTemplate: ITemplate;
     selectTemplate(template: ITemplate);
     changeLanguage();
+    goToNextState();
+    goToPreviousState();
+    running: boolean;
 }

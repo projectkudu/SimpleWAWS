@@ -23,8 +23,5 @@
             <input id="git-url-input" type="text" readonly="readonly" style="margin-left: -20px; margin-top: 8px; height: 20px; border: 2px inset" ng-bind="resource.sites[0].gitUrlWithCreds" selectOnClick>
         </a>
     </div>
-    <div class="work-with-site-tools">
-       <a ng-click="deleteResourceGroup()" href="#"><div class="work-with-site-tools-img icons sprite-delete"></div><div class="website-template-name">Delete the {{ currentAppService.title }}</div></a>
-    </div>
     <div style="margin-top: 60px">Your free {{ currentAppService.title }} will expire in : <span class="countdown" ng-bind="timeLeft"></span></div>
 </div>
