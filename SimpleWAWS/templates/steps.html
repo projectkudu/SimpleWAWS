@@ -38,8 +38,20 @@
     </div>
 
     <div class="wa-content wa-content-4up wa-content-divided" style="margin-bottom: 20px">
-        <a ng-if="previousStep" href="#" class="wa-button" ng-click="goToPreviousState()" ng-class="currentStep.previousClass ? currentStep.previousClass : 'wa-button-gray'">{{ currentStep.previousText ? currentStep.previousText : 'Previous' }}</a>
-        <a ng-if="nextStep" href="#" class="wa-button" ng-click="goToNextState()" ng-class="currentStep.nextClass ? currentStep.nextClass : 'wa-button-alt'">{{ currentStep.nextText ? currentStep.nextText : 'Next' }}</a>
+
+        <div style="display: inline; float: left; position: relative">
+            <a ng-if="previousStep" href="#" class="wa-button" ng-click="goToPreviousState()" ng-class="currentStep.previousClass ? currentStep.previousClass : 'wa-button-gray'">{{ currentStep.previousText ? currentStep.previousText : 'Previous' }}</a>
+            <a ng-if="nextStep" href="#" class="wa-button" ng-click="goToNextState()" ng-class="currentStep.nextClass ? currentStep.nextClass : 'wa-button-alt'">{{ currentStep.nextText ? currentStep.nextText : 'Next' }}</a>
+            <div class="login-box"  ng-show="loginOptions">
+                <div style="display: block; margin-left: 30px">
+                    <div class="wa-heading5" style="position: relative; margin-right: 8px">Log in first to create a {{ currentAppService.title }}</div>
+                    <div class="login-option"><a href="#" ng-click="handleLoginClick('aad')" class="create-site-action wa-button microsoft-login">Microsoft Account</a></div>
+                    <div class="login-option"><a class="create-site-action" ng-click="handleLoginClick('aad')" href="#"><div class="google-login sprite-google"></div></a></div>
+                    <div class="login-option"><a class="create-site-action" ng-click="handleLoginClick('aad')" href="#"><div class="facebook-login"></div></a></div>
+                </div>
+            </div>
+        </div>
+
 
         <div class="spinner">
             <i ng-if="running" class="fa fa-spinner fa-spin" title="Please wait" style="margin-top: 10px"></i>
@@ -55,3 +67,5 @@
 
     <div class="ui-blocker" ng-if="running"></div>
 </div>
+
+<div id="login-dark-blocker" class="dark-full-site-blocker" ng-show="loginOptions" ng-click="loginOptions = false;"></div>

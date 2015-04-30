@@ -48,10 +48,6 @@ namespace SimpleWAWS.Models
 
         public string ScmHostName { get; set; }
 
-        private const string UserIdMetadataKey = "USERID";
-        private const string AppServiceMetadataKey = "APP_SERVICE_METADATA";
-        private const string SiteUniqueIdMetadataKey = "SITEUNIQUEID";
-
         public Site(string subscriptionId, string resourceGroupName, string name)
             : base (subscriptionId, resourceGroupName)
         {
@@ -126,28 +122,6 @@ namespace SimpleWAWS.Models
 
         [JsonProperty("publishingPassword")]
         public string PublishingPassword { get; set; }
-
-        [JsonProperty("isRbacEnabled")]
-        public bool IsRbacEnabled { get; set; }
-
-       public async Task MarkAsInUseAsync(string userId, TimeSpan lifeTime, AppService appService = AppService.Web)
-        {
-            await CsmManager.Update(this, new { properties = new { lastModifiedTimeUtc = DateTime.UtcNow.ToString() } });
-
-            AppSettings["USER_ID"] = userId;
-            AppSettings["LAST_MODIFIED_TIME_UTC"] = DateTime.UtcNow.ToString();
-            AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = lifeTime.TotalMinutes.ToString();
-
-            await CsmManager.UpdateAppSettings(this);
-
-            Metadata[UserIdMetadataKey] = userId;
-            Metadata[AppServiceMetadataKey] = appService.ToString();
-
-            await CsmManager.UpdateMetadata(this);
-
-            // Turn on HttpLogging for analytics later on.
-            await CsmManager.UpdateConfig(this, new { properties = new { httpLoggingEnabled = true } });
-        }
 
         public void FireAndForget()
         {

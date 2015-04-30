@@ -74,7 +74,20 @@ namespace SimpleWAWS.Code.CsmExtensions
             site.HostName = csmSite.properties.hostNames.FirstOrDefault();
             site.ScmHostName = csmSite.properties.enabledHostNames.FirstOrDefault(h => h.IndexOf(".scm.", StringComparison.OrdinalIgnoreCase) != -1);
 
-            await Task.WhenAll(LoadAppSettings(site), LoadMetadata(site), UpdateConfig(site, new { properties = new { scmType = "LocalGit" } }));
+            await Task.WhenAll(LoadAppSettings(site), LoadMetadata(site), LoadPublishingCredentials(site), UpdateConfig(site, new { properties = new { scmType = "LocalGit" } }));
+            return site;
+        }
+
+        public static async Task<Site> LoadPublishingCredentials(this Site site)
+        {
+            Validate.ValidateCsmSite(site);
+
+            var response = await csmClient.HttpInvoke(HttpMethod.Post, CsmTemplates.SitePublishingCredentials.Bind(site));
+            var publishingCredentials = await response.Content.ReadAsAsync<CsmWrapper<CsmSitePublishingCredentials>>();
+
+            site.PublishingUserName = publishingCredentials.properties.publishingUserName;
+            site.PublishingPassword = publishingCredentials.properties.publishingPassword;
+
             return site;
         }
 

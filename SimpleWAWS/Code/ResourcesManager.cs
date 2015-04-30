@@ -252,12 +252,11 @@ namespace SimpleWAWS.Models
         }
 
         // ARM
-        public async Task<ResourceGroup> ActivateWebApp(WebsiteTemplate template, TryWebsitesIdentity userIdentity)
+        public async Task<ResourceGroup> ActivateWebApp(WebsiteTemplate template, TryWebsitesIdentity userIdentity, AppService temp = AppService.Web)
         {
             // Start site specific stuff
-            return await ActivateResourceGroup(userIdentity, AppService.Web, async resourceGroup =>
+            return await ActivateResourceGroup(userIdentity, temp, async resourceGroup =>
                 {
-
                     Trace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
                             AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
                             template.Language, template.Name, resourceGroup.ResourceUniqueId);
@@ -280,17 +279,9 @@ namespace SimpleWAWS.Models
         }
 
         // ARM
-        public async Task<ResourceGroup> ActivateMobileApp(MobileTemplate template, TryWebsitesIdentity userIdentity)
+        public async Task<ResourceGroup> ActivateMobileApp(WebsiteTemplate template, TryWebsitesIdentity userIdentity)
         {
-            return await ActivateResourceGroup(userIdentity, AppService.Mobile, resourceGroup =>
-            {
-
-                Trace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
-                            AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
-                            "Mobile", template.Name, resourceGroup.ResourceUniqueId);
-
-                return Task.FromResult(resourceGroup);
-            });
+            return await ActivateWebApp(template, userIdentity, AppService.Mobile);
         }
 
         // ARM
@@ -336,7 +327,10 @@ namespace SimpleWAWS.Models
                 // TODO: consider reloading the resourceGroup along with the deployment itself.
                 await resourceGroup.Load();
 
-                resourceGroup.IsRbacEnabled = await resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email);
+                var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email);
+                var publicAccessTask = resourceGroup.ApiApps.Select(a => a.SetAccessLevel("PublicAnonymous"));
+                resourceGroup.IsRbacEnabled = await rbacTask;
+                await Task.WhenAll(publicAccessTask);
                 return resourceGroup;
             });
         }

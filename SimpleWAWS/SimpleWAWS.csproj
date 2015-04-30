@@ -219,6 +219,7 @@
     <Compile Include="Models\CsmModels\CsmApiApp.cs" />
     <Compile Include="Models\CsmModels\CsmDeployment.cs" />
     <Compile Include="Models\CsmModels\CsmGateway.cs" />
+    <Compile Include="Models\CsmModels\CsmSitePublishingCredentials.cs" />
     <Compile Include="Models\CsmModels\CsmServerFarm.cs" />
     <Compile Include="Models\CsmModels\CsmTemplateWrapper.cs" />
     <Compile Include="Models\Gateway.cs" />

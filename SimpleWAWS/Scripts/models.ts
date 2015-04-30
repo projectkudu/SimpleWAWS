@@ -45,4 +45,10 @@ interface IAppControllerScope extends ng.IScope {
     goToNextState();
     goToPreviousState();
     running: boolean;
+    resource: any;
+    loginOptions: boolean;
+    handleLoginClick(method: string);
+    mobileClients: any[];
+    selectedMobileClient: any;
+    selectMobileClient(any);
 }

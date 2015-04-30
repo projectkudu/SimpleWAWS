@@ -36,7 +36,15 @@ namespace SimpleWAWS.Models
         }
 
         [JsonConverter(typeof(StringEnumConverter))]
-        public AppService AppService { get; set; }
+        public AppService AppService 
+        {
+            get
+            {
+                var appService = AppService.Web;
+                Enum.TryParse<AppService>(Tags[Constants.AppService], out appService);
+                return appService;
+            }
+        }
 
         public IEnumerable<Site> Sites { get; set; }
 

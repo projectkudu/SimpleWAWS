@@ -1,4 +1,15 @@
 ﻿angular.module("tryApp", ["ui.router", "angular.filter"])
+    //http://stackoverflow.com/a/14996261/3234163
+    .directive("selectOnClick", function () {
+    return {
+        restrict: "A",
+        link: function(scope, element, attrs) {
+            element.on("click", function (s) {
+                this.select();
+            });
+        }
+    };
+})
     .config(["$stateProvider", "$urlRouterProvider", "$locationProvider", ($stateProvider: ng.ui.IStateProvider, $urlRouterProvider: ng.ui.IUrlRouterProvider, $locationProvider: ng.ILocationProvider) => {
     var homeState: ng.ui.IState = {
         name: "home",
@@ -73,17 +84,13 @@
     $locationProvider.html5Mode(true);
 
 }])
-    .controller("appController", ["$scope", "$http", "$timeout", "$rootScope", "$state", function ($scope: IAppControllerScope, $http: ng.IHttpService, $timeout: ng.ITimeoutService, $rootScope: ng.IRootScopeService, $state: ng.ui.IStateService) {
+    .controller("appController", ["$scope", "$http", "$timeout", "$rootScope", "$state", "$location", function ($scope: IAppControllerScope, $http: ng.IHttpService, $timeout: ng.ITimeoutService, $rootScope: ng.IRootScopeService, $state: ng.ui.IStateService, $location: ng.ILocationService) {
 
-    $state.go("home");
-
-    $scope.running = false;
 
     $scope.getLanguage = (template) => {
         return template.language;
     };
 
-    $scope.ngModels = {};
 
     $scope.appServices = [{
         name: "Web",
@@ -171,6 +178,50 @@
             templates: []
         }];
 
+    $scope.mobileClients = [{
+        name: "Windows",
+        icon_url: "/Content/images/Windows.png",
+        sprite: "sprite-Windows",
+        steps: {
+            preText: "Install Visual Studio Professional 2013 (Update 4)",
+            preHref: "https://go.microsoft.com/fwLink/?LinkID=391934&clcid=0x409",
+            clientText: "Download the Windows client app",
+            clientHref: "/api/site/mobileclient/Windows"
+        }
+    }, {
+        name: "Native iOS",
+        icon_url: "/Content/images/ios.png",
+        sprite: "sprite-ios",
+        steps: {
+            preText: "Install Xcode (v4.4+)",
+            preHref: "https://go.microsoft.com/fwLink/?LinkID=266532&clcid=0x409",
+            clientText: "Download the iOS client app",
+            clientHref: "/api/site/mobileclient/NativeiOS"
+        }
+
+    }, {
+        name: "Xamarin iOS",
+        icon_url: "/Content/images/xamarin.png",
+        sprite: "sprite-Xamarin",
+        steps: {
+            preText: "Install Xamarin Studio for Windows or OS X",
+            preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
+            clientText: "Download the Xamarin iOS client app",
+            clientHref: "/api/site/mobileclient/XamariniOS"
+        }
+
+    }, {
+        name: "Xamarin Android",
+        icon_url: "/Content/images/xamarin.png",
+        sprite: "sprite-Xamarin",
+        steps: {
+            preText: "Install Xamarin Studio for Windows or OS X",
+            preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
+            clientText: "Download the Xamarin Android client app",
+            clientHref: "/api/site/mobileclient/XamarinAndroid"
+        }
+    }]
+
     $scope.selectAppService = (appService) => {
         $scope.currentAppService = appService;
         $scope.setNextAndPreviousSteps(0);
@@ -179,6 +230,10 @@
         $scope.selectedTemplate = $scope.ngModels.selectedLanguage
             ? $scope.currentAppService.templates.find(t => t.language === $scope.ngModels.selectedLanguage)
             : $scope.currentAppService.templates[0];
+    };
+
+    $scope.selectMobileClient = (client) => {
+        $scope.selectedMobileClient = client;
     };
 
     $scope.nextState = (index) => {
@@ -200,14 +255,11 @@
 
 
 
-    $rootScope.$on('$stateChangeStart',
-        (event, toState, toParams, fromState, fromParams) => {
-            $timeout(() => {
-                console.log(toState);
-                var step = $scope.currentAppService.steps.find((s) => s.sref === toState.name);
-                $scope.setNextAndPreviousSteps(step.id - 1);
-            });
-        });
+    $rootScope.$on('$stateChangeStart',(event, toState, toParams, fromState, fromParams) => {
+        console.log(toState);
+        var step = $scope.currentAppService.steps.find((s) => s.sref === toState.name);
+        $scope.setNextAndPreviousSteps(step.id - 1);
+    });
 
     $scope.getStateLink = (step) => {
         return $state.href(step.sref);
@@ -223,25 +275,69 @@
 
     $scope.goToNextState = () => {
         if ($scope.currentStep.nextText === "Create") {
-            //$http();
             $scope.running = true;
-            $timeout(() => {
-                $scope.running = false;
+            $http({
+                url: "api/resource",
+                method: "POST",
+                data: $scope.selectedTemplate
+            }).success((data) => {
+                $scope.resource = data;
                 $state.go($scope.nextStep.sref);
-            }, 5000);
+            }).error((err, status) => {
+                if (status === 403) {
+                    //show login options
+                    $scope.loginOptions = true;
+                } else {
+                    $scope.ngModels.errorMessage = err.Message;
+                }
+            }).finally(() => {
+                $scope.running = false;
+            });
         } else {
             $state.go($scope.nextStep.sref);
         }
     };
 
     $scope.goToPreviousState = () => {
-        $state.go($scope.previousStep.sref);
+        if ($scope.currentStep.previousText === "Delete") {
+            $scope.running = true;
+            $http({
+                url: "api/resource",
+                method: "DELETE"
+            });
+
+            $timeout(() => {
+                $scope.running = false;
+                $state.go($scope.previousStep.sref);
+            }, 3000);
+
+        } else {
+            $state.go($scope.previousStep.sref);
+        }
     };
 
-    initTemplates();
+    $scope.handleLoginClick = (method) => {
+        $http({
+            url: "api/resource?appService=" + $scope.currentAppService.name + "&templateName=" + $scope.selectedTemplate.name + ($scope.selectedTemplate.language ? $scope.selectedTemplate.language : ""),
+            method: "POST"
+        }).error((err, status, headers) => {
+            (<any>window).location = headers("LoginUrl");
+        });
+    };
+
+    initTemplates().finally(() => initState());
 
     function initTemplates() {
-        $http({
+
+        $scope.loginOptions = false;
+        $scope.running = true;
+        $scope.ngModels = {};
+        $scope.resource = {};
+        $scope.selectedMobileClient = $scope.mobileClients[0];
+
+        $state.go("home");
+
+        return $http({
             method: "GET",
             url: "api/templates"
         })
@@ -254,6 +350,36 @@
             $scope.selectedTemplate = $scope.currentAppService.templates.find(t => t.language === $scope.ngModels.selectedLanguage);
         });
     }
+
+    function initState() {
+        if ($location.search().appService) {
+            $scope.selectAppService($scope.appServices.find(a => a.name === $location.search().appService));
+            $scope.selectTemplate($scope.currentAppService.templates.find(t => t.name === $location.search().templateName));
+            if ($location.search().language) {
+                $scope.ngModels.selectedLanguage = $location.search().language;
+            }
+            $state.go($scope.currentAppService.steps[1].sref).then(() => {
+                    $scope.goToNextState();
+                });
+            $scope.running = false;
+        } else {
+            $http({
+                url: "api/resource",
+                method: "GET"
+            }).success((data: any) => {
+                console.log(data);
+                if (!data) return;
+                $scope.resource = data;
+                $scope.selectAppService($scope.appServices.find(a => a.name === data.AppService));
+                $state.go("home." + data.AppService.toLowerCase() + "app.work");
+            }).error((err) => {
+                console.log(err);
+            }).finally(() => {
+                $scope.running = false;
+            });
+        }
+    }
+
 
 }])
     .run(($rootScope, $state: ng.ui.IStateService, $stateParams: ng.ui.IStateParamsService) => {
@@ -268,18 +394,9 @@
         else
             return templates.filter(t => t.language === language);
     };
-    })
-    //http://stackoverflow.com/a/14996261/3234163
-    .directive("selectOnClick", function () {
-    return {
-        restrict: "A",
-        link: (scope, element, attrs) => {
-            element.on("click", function () {
-                this.select();
-            });
-        }
-    };
-});
+    }).config(["$httpProvider", function ($httpProvider) {
+    $httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+}]);
 //.filter("orderByDefaultFirstSort",() => {
 //    return (languages: string[]): string[]=> {
 

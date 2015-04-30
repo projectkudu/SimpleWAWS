@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using SimpleWAWS.Models;
+using SimpleWAWS.Models.CsmModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,11 @@ namespace SimpleWAWS.Code.CsmExtensions
             csmResponse.EnsureSuccessStatusCode();
             var response = await csmResponse.Content.ReadAsAsync<JObject>();
             return (JObject) response["value"];
+        }
+
+        public static async Task SetAccessLevel(this ApiApp apiApp, string accessLevel)
+        {
+            var csmResponse = await csmClient.HttpInvoke("PATCH", CsmTemplates.ApiApp.Bind(apiApp), new CsmWrapper<CsmApiApp> { properties = new CsmApiApp { accessLevel = accessLevel } });
         }
     }
 }

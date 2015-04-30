@@ -58,13 +58,13 @@ namespace SimpleWAWS.Models
                 }
                 list.Add(new ApiTemplate
                     {
-                        Name = "Todo List",
+                        Name = "TrySamplesTodoList",
                         SpriteName = "sprite-APIApps",
                         AppService = AppService.Api
                     });
                 list.Add(new ApiTemplate
                     {
-                        Name = "Contact List",
+                        Name = "TrySamplesContactList",
                         SpriteName = "sprite-APIApps",
                         AppService = AppService.Api
                     });
@@ -85,7 +85,8 @@ namespace SimpleWAWS.Models
     {
         public static string GetFullPath(this WebsiteTemplate value)
         {
-            return Path.Combine(TemplatesManager.TemplatesFolder, value.Language, value.FileName);
+            var language = value.Language ?? "Mobile";
+            return Path.Combine(TemplatesManager.TemplatesFolder, language, value.FileName);
         }
     }
 }

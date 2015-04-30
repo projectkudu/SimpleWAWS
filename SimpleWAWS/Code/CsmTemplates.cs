@@ -28,12 +28,13 @@ namespace SimpleWAWS.Code
 
         public static readonly CsmTemplate Sites = new CsmTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Web/sites", websitesApiVersion);
         public static readonly CsmTemplate Site = new CsmTemplate(Sites.TemplateUrl + "/{siteName}", websitesApiVersion);
-        public static readonly CsmTemplate GetSiteAppSettings= new CsmTemplate(Site.TemplateUrl + "/Config/AppSettings/list", websitesApiVersion);
-        public static readonly CsmTemplate PutSiteAppSettings= new CsmTemplate(Site.TemplateUrl + "/Config/AppSettings", websitesApiVersion);
-        public static readonly CsmTemplate GetSiteMetadata= new CsmTemplate(Site.TemplateUrl + "/Config/Metadata/list", websitesApiVersion);
-        public static readonly CsmTemplate PutSiteMetadata= new CsmTemplate(Site.TemplateUrl + "/Config/Metadata", websitesApiVersion);
-        public static readonly CsmTemplate SiteConfig= new CsmTemplate(Site.TemplateUrl + "/Config/web", websitesApiVersion);
-        public static readonly CsmTemplate SitePublishingProfile= new CsmTemplate(Site.TemplateUrl + "/publishxml", websitesApiVersion);
+        public static readonly CsmTemplate GetSiteAppSettings = new CsmTemplate(Site.TemplateUrl + "/Config/AppSettings/list", websitesApiVersion);
+        public static readonly CsmTemplate PutSiteAppSettings = new CsmTemplate(Site.TemplateUrl + "/Config/AppSettings", websitesApiVersion);
+        public static readonly CsmTemplate GetSiteMetadata = new CsmTemplate(Site.TemplateUrl + "/Config/Metadata/list", websitesApiVersion);
+        public static readonly CsmTemplate PutSiteMetadata = new CsmTemplate(Site.TemplateUrl + "/Config/Metadata", websitesApiVersion);
+        public static readonly CsmTemplate SiteConfig = new CsmTemplate(Site.TemplateUrl + "/Config/web", websitesApiVersion);
+        public static readonly CsmTemplate SitePublishingCredentials = new CsmTemplate(Site.TemplateUrl + "/Config/PublishingCredentials/list", websitesApiVersion);
+        public static readonly CsmTemplate SitePublishingProfile = new CsmTemplate(Site.TemplateUrl + "/publishxml", websitesApiVersion);
 
         public static readonly CsmTemplate ApiApps = new CsmTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.AppService/apiapps", appServiceApiVersion);
         public static readonly CsmTemplate ApiApp = new CsmTemplate(ApiApps.TemplateUrl + "/{apiAppName}", appServiceApiVersion);

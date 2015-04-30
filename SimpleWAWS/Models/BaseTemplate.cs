@@ -7,7 +7,7 @@ using System.Web;
 
 namespace SimpleWAWS.Models
 {
-    public abstract class BaseTemplate
+    public class BaseTemplate
     {
         [JsonProperty(PropertyName="name")]
         public string Name { get; set; }

@@ -2,25 +2,25 @@
 <h5 style="margin-top: -15px; margin-left: 83px">for an <strong>hour</strong>, or sign up for a trial and stay for a month!</h5>
 <div>
     <h3>
-        Your {{ currentAppService.title }} has been created at <a ng-href="resource.sites[0].url" target="_blank"></a>
+        Your {{ currentAppService.title }} has been created at <a ng-href="ngModels.resource.Sites[0].url" target="_blank">{{ resource.Sites[0].url }}</a>
     </h3>
     <div class="work-with-site-tools">
-        <a ng-href="resource.sites[0].ibiza" target="_blank"><div class="work-with-site-tools-img icons sprite-MicrosoftAzure"></div><div class="website-template-name">Manage in Azure Portal</div></a>
+        <a href="https://portal.azure.com/ahmelsayedhotmail.onmicrosoft.com" target="_blank"><div class="work-with-site-tools-img icons sprite-MicrosoftAzure"></div><div class="website-template-name">Manage in Azure Portal</div></a>
     </div>
     <div class="work-with-site-tools">
-        <a ng-href="resource.sites[0].monacoUrl}" target="_blank"><div class="work-with-site-tools-img icons sprite-VSO"></div><div class="website-template-name">Edit with Visual Studio Online "Monaco"</div></a>
+        <a ng-href="{{ resource.Sites[0].monacoUrl }}" target="_blank"><div class="work-with-site-tools-img icons sprite-VSO"></div><div class="website-template-name">Edit with Visual Studio Online "Monaco"</div></a>
     </div>
     <div class="work-with-site-tools">
-        <a ng-href="resource.sites[0].contentDownloadUrl}" target="_blank"><div class="work-with-site-tools-img icons sprite-DownloadSite"></div><div class="website-template-name">Download {{ currentAppService.title }} content</div></a>
+        <a ng-href="{{ resource.Sites[0].contentDownloadUrl }}" target="_blank"><div class="work-with-site-tools-img icons sprite-DownloadSite"></div><div class="website-template-name">Download {{ currentAppService.title }} content</div></a>
     </div>
     <div class="work-with-site-tools">
         <a href="/api/site/getpublishingprofile" target="_blank"><div class="work-with-site-tools-img icons sprite-DownloadPublishing"></div><div class="website-template-name">Download publishing profile</div></a>
     </div>
     <div class="work-with-site-tools">
         <div class="work-with-site-tools-img icons sprite-git"></div>
-        <a href="#">
+        <a href="#" >
             <div class="website-template-name">Clone or push with git</div>
-            <input id="git-url-input" type="text" readonly="readonly" style="margin-left: -20px; margin-top: 8px; height: 20px; border: 2px inset" ng-bind="resource.sites[0].gitUrlWithCreds" selectOnClick>
+            <input id="git-url-input" type="text" readonly="readonly" style="margin-left: -20px; margin-top: 8px; height: 20px; border: 2px inset" ng-model="resource.Sites[0].gitUrlWithCreds" select-on-click />
         </a>
     </div>
     <div style="margin-top: 60px">Your free {{ currentAppService.title }} will expire in : <span class="countdown" ng-bind="timeLeft"></span></div>

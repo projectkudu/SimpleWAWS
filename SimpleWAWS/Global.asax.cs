@@ -31,17 +31,15 @@ namespace SimpleWAWS
 
             //Resources Api Routes
             RouteTable.Routes.MapHttpRoute("get-resource", "api/resource", new { controller = "Resource", action = "GetResource", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
-            RouteTable.Routes.MapHttpRoute("create-webapp", "api/resource/webapp", new { controller = "Resource", action = "CreateWebApp", authenticated = true }, new { verb = new HttpMethodConstraint("POST") });
-            RouteTable.Routes.MapHttpRoute("create-mobileapp", "api/resource/mobileapp", new { controller = "Resource", action = "CreateMobileApp", authenticated = true }, new { verb = new HttpMethodConstraint("POST") });
-            RouteTable.Routes.MapHttpRoute("create-apiapp", "api/resource/apiapp", new { controller = "Resource", action = "CreateApiApp", authenticated = true }, new { verb = new HttpMethodConstraint("POST") });
+            RouteTable.Routes.MapHttpRoute("create-resource", "api/resource", new { controller = "Resource", action = "CreateResource", authenticated = true }, new { verb = new HttpMethodConstraint("POST") });
             RouteTable.Routes.MapHttpRoute("get-webapp-publishing-profile", "api/site/getpublishingprofile", new { controller = "Resource", action = "GetWebAppPublishingProfile", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
             RouteTable.Routes.MapHttpRoute("get-mobile-client-app", "api/site/mobileclient/{platformString}", new { controller = "Resource", action = "GetMobileClientZip", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
             RouteTable.Routes.MapHttpRoute("delete-resource", "api/resource", new { controller = "Resource", action = "DeleteResource", authenticated = true }, new { verb = new HttpMethodConstraint("DELETE") });
 
             //Admin Only Routes
-            RouteTable.Routes.MapHttpRoute("get-all-resources", "api/site/all", new { controller = "Resource", action = "All", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
-            RouteTable.Routes.MapHttpRoute("reset-all-free-resources", "api/site/reset", new { controller = "Resource", action = "Reset", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
-            RouteTable.Routes.MapHttpRoute("reload-all-free-resources", "api/site/reload", new { controller = "Resource", action = "DropAndReloadFromAzure", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("get-all-resources", "api/resource/all", new { controller = "Resource", action = "All", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("reset-all-free-resources", "api/resource/reset", new { controller = "Resource", action = "Reset", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("reload-all-free-resources", "api/resource/reload", new { controller = "Resource", action = "DropAndReloadFromAzure", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
 
             //Register auth provider
             SecurityManager.InitAuthProviders();
