@@ -10,6 +10,6 @@
 <div id="mobile-client-info-div">
     <div ng-repeat="client in mobileClients" ng-if="selectedMobileClient.name === client.name" style="margin-top: 20px">
         <h3 >3.1) Prerequisite: <a target="_blank" ng-bind="client.steps.preText" ng-href="{{ client.steps.preHref }}"></a></h3>
-        <h3 >3.2) <a target="_blank" ng-bind="client.steps.clientText" ng-href="{{ client.steps.preHref }}"></a></h3>
+        <h3 >3.2) <a target="_blank" ng-bind="client.steps.clientText" ng-href="{{ client.steps.clientHref }}"></a></h3>
     </div>
 </div>

@@ -186,7 +186,7 @@
             preText: "Install Visual Studio Professional 2013 (Update 4)",
             preHref: "https://go.microsoft.com/fwLink/?LinkID=391934&clcid=0x409",
             clientText: "Download the Windows client app",
-            clientHref: "/api/site/mobileclient/Windows"
+            clientHref: "/api/resource/mobileclient/Windows"
         }
     }, {
         name: "Native iOS",
@@ -196,7 +196,7 @@
             preText: "Install Xcode (v4.4+)",
             preHref: "https://go.microsoft.com/fwLink/?LinkID=266532&clcid=0x409",
             clientText: "Download the iOS client app",
-            clientHref: "/api/site/mobileclient/NativeiOS"
+            clientHref: "/api/resource/mobileclient/NativeiOS"
         }
 
     }, {
@@ -207,7 +207,7 @@
             preText: "Install Xamarin Studio for Windows or OS X",
             preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
             clientText: "Download the Xamarin iOS client app",
-            clientHref: "/api/site/mobileclient/XamariniOS"
+            clientHref: "/api/resource/mobileclient/XamariniOS"
         }
 
     }, {
@@ -218,7 +218,7 @@
             preText: "Install Xamarin Studio for Windows or OS X",
             preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
             clientText: "Download the Xamarin Android client app",
-            clientHref: "/api/site/mobileclient/XamarinAndroid"
+            clientHref: "/api/resource/mobileclient/XamarinAndroid"
         }
     }]
 
