@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Configuration;
 
 namespace SimpleWAWS.Models
 {
@@ -28,6 +29,30 @@ namespace SimpleWAWS.Models
         public DateTime StartTime 
         {
             get { return DateTime.Parse(Tags[Constants.StartTime]); }
+        }
+
+        private readonly TimeSpan UsageTimeSpan = TimeSpan.FromMinutes(int.Parse(ConfigurationManager.AppSettings["siteExpiryMinutes"]));
+
+        public int MyProperty { get; set; }
+
+        [JsonProperty("timeLeftString")]
+        public string TimeLeft
+        {
+            get
+            {
+                TimeSpan timeUsed = DateTime.UtcNow - StartTime;
+                TimeSpan timeLeft;
+                if (timeUsed > UsageTimeSpan)
+                {
+                    timeLeft = TimeSpan.FromMinutes(0);
+                }
+                else
+                {
+                    timeLeft = UsageTimeSpan - timeUsed;
+                }
+
+                return String.Format("{0}m:{1:D2}s", timeLeft.Minutes, timeLeft.Seconds);
+            }
         }
 
         public string ResourceUniqueId 

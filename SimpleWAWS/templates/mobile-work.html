@@ -2,7 +2,7 @@
 <h5 style="margin-top: -15px; margin-left: 83px">for an <strong>hour</strong>, or sign up for a trial and stay for a month!</h5>
 <div>
     <h3>
-        Your {{ currentAppService.title }} has been created at <a ng-href="ngModels.resource.mobileApps[0].url" target="_blank"></a>
+        Your {{ currentAppService.title }} has been created at <a ng-href="{{ resource.Sites[0].mobileUrl }}" target="_blank">{{ resource.Sites[0].mobileUrl }}</a>
     </h3>
     <div class="work-with-site-tools">
         <a ng-href="ngModels.resource.mobileApps[0].ibiza" target="_blank"><div class="work-with-site-tools-img icons sprite-MicrosoftAzure"></div><div class="website-template-name">Manage in Azure Portal</div></a>

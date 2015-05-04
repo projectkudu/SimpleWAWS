@@ -63,6 +63,15 @@ namespace SimpleWAWS.Models
             }
         }
 
+        [JsonProperty("mobileUrl")]
+        public string MobileUrl
+        {
+            get
+            {
+                return Url + "jsclient";
+            }
+        }
+
         [JsonProperty("scmUrl")]
         public string ScmUrl
         {

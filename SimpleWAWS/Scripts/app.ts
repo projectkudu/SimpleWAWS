@@ -282,6 +282,7 @@
                 data: $scope.selectedTemplate
             }).success((data) => {
                 $scope.resource = data;
+                startCountDown($scope.resource.timeLeftString);
                 $state.go($scope.nextStep.sref);
             }).error((err, status) => {
                 if (status === 403) {
@@ -372,6 +373,7 @@
                 $scope.resource = data;
                 $scope.selectAppService($scope.appServices.find(a => a.name === data.AppService));
                 $state.go("home." + data.AppService.toLowerCase() + "app.work");
+                startCountDown(data.timeLeftString);
             }).error((err) => {
                 console.log(err);
             }).finally(() => {
@@ -380,6 +382,30 @@
         }
     }
 
+function startCountDown(init) {
+    if (init !== undefined) {
+        var reg = '(\\d+)(m)?(:)(\\d+)(s)?';
+        var pattern = new RegExp(reg, "i");
+        var match = pattern.exec(init);
+        var expireDateTime = new Date();
+        expireDateTime.setMinutes(expireDateTime.getMinutes() + parseInt(match[1]));
+        expireDateTime.setSeconds(expireDateTime.getSeconds() + parseInt(match[4]));
+        countDown(expireDateTime);
+    }
+}
+
+function countDown(expireDateTime) {
+    var now: any = new Date();
+    var diff = expireDateTime - now;
+    if (diff <= 0) {
+        $scope.timeLeft = "00m:00s";
+        //$("#site-expired").show();
+        return;
+    }
+    diff = diff / 1000;
+    $scope.timeLeft = ("0" + Math.floor(diff / 60)).slice(-2) + "m:" + ("0" + Math.floor(diff % 60)).slice(-2) + "s";
+    $timeout(() => countDown(expireDateTime), 1000);
+}
 
 }])
     .run(($rootScope, $state: ng.ui.IStateService, $stateParams: ng.ui.IStateParamsService) => {
