@@ -5,7 +5,7 @@
         Your {{ currentAppService.title }} has been created at <a ng-href="ngModels.resource.Sites[0].url" target="_blank">{{ resource.Sites[0].url }}</a>
     </h3>
     <div class="work-with-site-tools">
-        <a href="https://portal.azure.com/ahmelsayedhotmail.onmicrosoft.com" target="_blank"><div class="work-with-site-tools-img icons sprite-MicrosoftAzure"></div><div class="website-template-name">Manage in Azure Portal</div></a>
+        <a ng-href="https://portal.azure.com/ahmelsayedhotmail.onmicrosoft.com#resource{{ resource.Sites[0].CsmId }}" target="_blank"><div class="work-with-site-tools-img icons sprite-MicrosoftAzure"></div><div class="website-template-name">Manage in Azure Portal</div></a>
     </div>
     <div class="work-with-site-tools">
         <a ng-href="{{ resource.Sites[0].monacoUrl }}" target="_blank"><div class="work-with-site-tools-img icons sprite-VSO"></div><div class="website-template-name">Edit with Visual Studio Online "Monaco"</div></a>

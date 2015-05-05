@@ -43,7 +43,7 @@ namespace SimpleWAWS.Models
                     foreach (var template in Directory.GetFiles(languagePath))
                     {
                         var iconUri = Path.Combine(ImagesFolder, string.Format("{0}.png", Path.GetFileNameWithoutExtension(template)));
-                        var cssClass = Path.GetFileNameWithoutExtension(template).Replace(" ", "").Replace("#", "Sharp");
+                        var cssClass = Path.GetFileNameWithoutExtension(template).Replace(" ", "").Replace("#", "Sharp").Replace(".", "");
                         var iconCssClass = File.Exists(iconUri) ? string.Format("sprite-{0}", cssClass) : "sprite-Large";
                         var language = Path.GetFileName(languagePath);
                         list.Add(new WebsiteTemplate
@@ -51,21 +51,23 @@ namespace SimpleWAWS.Models
                             Name = Path.GetFileNameWithoutExtension(template),
                             FileName = Path.GetFileName(template),
                             Language = language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) ? null : language,
-                            SpriteName = string.Format("{0} {1}", iconCssClass, cssClass),
+                            SpriteName = language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) ? "sprite-TodoList TodoList" : string.Format("{0} {1}", iconCssClass, cssClass),
                             AppService =  language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) ? AppService.Mobile : AppService.Web
                         });
                     }
                 }
                 list.Add(new ApiTemplate
                     {
-                        Name = "TrySamplesTodoList",
-                        SpriteName = "sprite-APIApps",
+                        ApiTemplateName = "TrySamplesTodoList",
+                        Name = "Todo List",
+                        SpriteName = "sprite-TodoList TodoList",
                         AppService = AppService.Api
                     });
                 list.Add(new ApiTemplate
                     {
-                        Name = "TrySamplesContactList",
-                        SpriteName = "sprite-APIApps",
+                        ApiTemplateName = "TrySamplesContactList",
+                        Name = "Contact List",
+                        SpriteName = "sprite-ASPNETEmptySite ASPNETEmptySite",
                         AppService = AppService.Api
                     });
                 //TODO: Implement a FileSystemWatcher for changes in the directory

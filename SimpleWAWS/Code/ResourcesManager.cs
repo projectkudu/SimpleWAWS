@@ -292,11 +292,11 @@ namespace SimpleWAWS.Models
 
                 Trace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
                             AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
-                            "Api", template.Name, resourceGroup.ResourceUniqueId);
+                            "Api", template.ApiTemplateName, resourceGroup.ResourceUniqueId);
 
                 var apiApp = new ApiApp(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, Guid.NewGuid().ToString().Replace("-", ""))
                 {
-                    MicroserviceId = template.Name,
+                    MicroserviceId = template.ApiTemplateName,
                     Location = resourceGroup.GeoRegion
                 };
 

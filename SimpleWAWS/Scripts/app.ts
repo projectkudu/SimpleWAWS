@@ -94,15 +94,15 @@
 
     $scope.appServices = [{
         name: "Web",
-        sprite: "sprite-AzureWebsites",
+        sprite: "sprite-WebApp",
         title: "Web App",
         steps: [{
             id: 1,
-            title: "Select your App Service",
+            title: "Select App Service",
             sref: "home",
         }, {
                 id: 2,
-                title: "Select template and create",
+                title: "Select template",
                 sref: "home.webapp.templates",
                 nextClass: "wa-button-primary",
                 nextText: "Create"
@@ -116,41 +116,41 @@
         templates: []
     }, {
             name: "Mobile",
-            sprite: "sprite-MobileServices",
+            sprite: "sprite-MobileApp",
             title: "Mobile App",
             steps: [{
                 id: 1,
-                title: "Select your App Service",
+                title: "Select App Service",
                 sref: "home",
             }, {
                     id: 2,
-                    title: "Select template and create",
+                    title: "Select template",
                     sref: "home.mobileapp.templates",
                     nextClass: "wa-button-primary",
                     nextText: "Create"
                 }, {
                     id: 3,
-                    title: "download your client",
+                    title: "Download client",
                     sref: "home.mobileapp.clients",
                     previousText: "Delete",
                     previousClass: "wa-button-red"
                 }, {
                     id: 4,
                     title: "Work with your app",
-                    sref: "home.mobileapp.work",
+                    sref: "home.mobileapp.work"
                 }],
             templates: []
         }, {
             name: "Api",
-            sprite: "sprite-APIApps",
+            sprite: "sprite-ApiApp",
             title: "API App",
             steps: [{
                 id: 1,
-                title: "Select your App Service",
+                title: "Select App Service",
                 sref: "home",
             }, {
                     id: 2,
-                    title: "Select template and create",
+                    title: "Select template",
                     sref: "home.apiapp.templates",
                     nextClass: "wa-button-primary",
                     nextText: "Create"
@@ -168,11 +168,11 @@
             title: "Logic App",
             steps: [{
                 id: 1,
-                title: "Select your App Service",
+                title: "Select App Service",
                 sref: "home"
             }, {
                     id: 2,
-                    title: "Coming Soon",
+                    title: "Coming soon",
                     sref: "home.logicapp.comingsoon"
                 }],
             templates: []
@@ -324,6 +324,13 @@
         }).error((err, status, headers) => {
             (<any>window).location = headers("LoginUrl");
         });
+    };
+
+    $scope.getApiSiteUrl = () => {
+        var apiSite = $scope.resource.Sites.find((s) => s.Name.startsWith("TrySamples"));
+        return apiSite
+            ? apiSite.url
+            : $scope.resource.Sites[0].url;
     };
 
     initTemplates().finally(() => initState());

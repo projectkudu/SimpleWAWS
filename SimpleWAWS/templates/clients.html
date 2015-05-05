@@ -2,7 +2,7 @@
 <div id="mobile-client-div" data-bind="foreach: mobileClients">
     <div ng-repeat="client in mobileClients" class="mobile-template-container box-container" ng-class="selectedMobileClient.name === client.name ? 'box-container-selected' : ''">
         <a class="select-template-anchor" href="#" ng-click="selectMobileClient(client)">
-            <div class="mobile-icons" ng-class="client.sprite" style="width: 90px; height: 90px"></div>
+            <div class="mobile-icons" ng-class="client.sprite" style="width: 115px; height: 115px"></div>
             <div class="website-template-name" ng-bind="client.name"></div>
         </a>
     </div>
