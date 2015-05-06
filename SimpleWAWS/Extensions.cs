@@ -84,6 +84,12 @@ namespace SimpleWAWS
                    context.Request.Headers["X-Requested-With"].Equals("XMLHttpRequest", StringComparison.OrdinalIgnoreCase);
         }
 
+        public static bool IsBrowserRequest(this HttpContext context)
+        {
+            return context.Request.UserAgent != null
+                && (context.Request.UserAgent.StartsWith("Mozilla/") || context.Request.UserAgent.StartsWith("Opera/"));
+        }
+
         public static string PadBase64(this string value)
         {
             return value.Length % 4 == 0

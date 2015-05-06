@@ -122,6 +122,7 @@ namespace SimpleWAWS.Code
         {
             try
             {
+                if (!context.IsBrowserRequest()) return;
                 var userCookie = context.Request.Cookies[Constants.AnonymousUser];
                 var user = string.Empty;
                 if (userCookie == null)
@@ -132,8 +133,8 @@ namespace SimpleWAWS.Code
                 else
                 {
                     user = Uri.UnescapeDataString(userCookie.Value).Decrypt(Constants.EncryptionReason);
+                    context.User = new TryWebsitesPrincipal(new TryWebsitesIdentity(user, null, "Anonymous"));
                 }
-                context.User = new TryWebsitesPrincipal(new TryWebsitesIdentity(user, null, "Anonymous"));
             }
             catch (Exception e)
             {
