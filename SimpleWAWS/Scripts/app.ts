@@ -323,7 +323,7 @@
 
     $scope.handleLoginClick = (method) => {
         $http({
-            url: "api/resource?appService=" + $scope.currentAppService.name + "&templateName=" + $scope.selectedTemplate.name + ($scope.selectedTemplate.language ? "&language=" + $scope.selectedTemplate.language : "") + "&provider=" + method,
+            url: "api/resource?appService=" + $scope.currentAppService.name + "&templateName=" + $scope.selectedTemplate.name + ($scope.selectedTemplate.language ? "&language=" + $scope.selectedTemplate.language : "") + "&provider=" + method + "&autoCreate=true",
             method: "POST"
         }).error((err, status, headers) => {
             (<any>window).location = headers("LoginUrl");
@@ -335,6 +335,12 @@
         return apiSite
             ? apiSite.url
             : $scope.resource.Sites[0].url;
+    };
+
+    $scope.dismissSiteExpired = () => {
+        delete $scope.siteExpired;
+        delete $scope.resource;
+        $state.go($scope.currentAppService.steps[1].sref);
     };
 
     initTemplates().finally(() => initState());
@@ -370,9 +376,12 @@
             if ($location.search().language) {
                 $scope.ngModels.selectedLanguage = $location.search().language;
             }
+            var autoCreate = $location.search().autoCreate;
             $state.go($scope.currentAppService.steps[1].sref).then(() => {
+                if (autoCreate) {
                     $scope.goToNextState();
-                });
+                }
+            });
             $scope.running = false;
         } else {
             $http({
@@ -410,7 +419,7 @@ function countDown(expireDateTime) {
     var diff = expireDateTime - now;
     if (diff <= 0) {
         $scope.timeLeft = "00m:00s";
-        //$("#site-expired").show();
+        $scope.siteExpired = true;
         return;
     }
     diff = diff / 1000;

@@ -53,4 +53,6 @@ interface IAppControllerScope extends ng.IScope {
     selectMobileClient(any);
     timeLeft: string;
     getApiSiteUrl(): string;
+    siteExpired: boolean;
+    dismissSiteExpired();
 }

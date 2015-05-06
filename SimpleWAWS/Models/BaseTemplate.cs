@@ -21,7 +21,7 @@ namespace SimpleWAWS.Models
 
         public string CreateQueryString()
         {
-            return string.Concat("appService=", AppService.ToString(), "templateName=", Name);
+            return string.Concat("appService=", AppService.ToString(), "&templateName=", Name, "&autoCreate=true");
         }
     }
 }

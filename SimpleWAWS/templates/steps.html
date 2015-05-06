@@ -70,3 +70,13 @@
 </div>
 
 <div id="login-dark-blocker" class="dark-full-site-blocker" ng-show="loginOptions" ng-click="loginOptions = false;"></div>
+<div id="site-expired" ng-if="siteExpired">
+    <div class="full-site-blocker"></div>
+    <div class="site-expired-notification-blade">
+        <div class="site-expired-notification">
+            <h2 style="color: white; margin-bottom: 90px">Your {{ currentAppService.title }} has expired. You can try creating another app service or signup for a free 30-day trial account.</h2>
+            <a id="dismiss-site-expire" href="#" class="wa-button wa-button-slate" ng-click="dismissSiteExpired()">Dismiss</a>
+            <a href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id=try_websites" id="free-trial-dismiss" target="_blank" onclick="freeTrialClick();" class="wa-button wa-button-primary">Free trial</a>
+        </div>
+    </div>
+</div>
