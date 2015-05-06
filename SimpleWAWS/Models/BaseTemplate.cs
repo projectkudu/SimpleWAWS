@@ -18,5 +18,10 @@ namespace SimpleWAWS.Models
         [JsonProperty(PropertyName="appService")]
         [JsonConverter(typeof(StringEnumConverter))]
         public AppService AppService { get; set; }
+
+        public string CreateQueryString()
+        {
+            return string.Concat("appService=", AppService.ToString(), "templateName=", Name);
+        }
     }
 }

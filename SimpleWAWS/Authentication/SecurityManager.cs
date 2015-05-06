@@ -6,6 +6,8 @@ using System;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace SimpleWAWS.Models
 {
@@ -98,7 +100,7 @@ namespace SimpleWAWS.Models
                         var issuer = splited[2];
                         context.User = new TryWebsitesPrincipal(new TryWebsitesIdentity(email, puid, issuer));
                         return true;
-                    }
+                    } 
                 }
                 else
                 {
@@ -139,6 +141,19 @@ namespace SimpleWAWS.Models
             {
                 Trace.TraceError("Error Adding anonymous user: " + e.ToString());
             }
+        }
+
+        public static HttpResponseMessage RedirectToAAD(string redirectContext)
+        {
+            var response = new HttpResponseMessage(HttpStatusCode.Forbidden);
+
+            response.Headers.Add("LoginUrl", (_authProviders["AAD"] as AADProvider).GetLoginUrl(HttpContext.Current));
+
+            if (HttpContext.Current.Response.Cookies[Constants.LoginSessionCookie] != null)
+            {
+                response.Headers.AddCookies(new [] { new CookieHeaderValue(Constants.LoginSessionCookie, string.Empty){ Expires = DateTime.UtcNow.AddDays(-1), Path = "/" } });
+            }
+            return response;
         }
 
         private static bool ValidDateTimeSessionCookie(DateTime date)

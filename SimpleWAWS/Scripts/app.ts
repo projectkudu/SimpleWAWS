@@ -256,7 +256,7 @@
 
 
     $rootScope.$on('$stateChangeStart',(event, toState, toParams, fromState, fromParams) => {
-        console.log(toState);
+        delete $scope.ngModels.errorMessage;
         var step = $scope.currentAppService.steps.find((s) => s.sref === toState.name);
         $scope.setNextAndPreviousSteps(step.id - 1);
     });
@@ -284,10 +284,14 @@
                 $scope.resource = data;
                 startCountDown($scope.resource.timeLeftString);
                 $state.go($scope.nextStep.sref);
-            }).error((err, status) => {
+            }).error((err, status, headers) => {
                 if (status === 403) {
                     //show login options
-                    $scope.loginOptions = true;
+                    if ($scope.currentAppService.name === "Api" && headers("LoginUrl")) {
+                        (<any>window).location = headers("LoginUrl");
+                    } else {
+                        $scope.loginOptions = true;
+                    }
                 } else {
                     $scope.ngModels.errorMessage = err.Message;
                 }
@@ -319,7 +323,7 @@
 
     $scope.handleLoginClick = (method) => {
         $http({
-            url: "api/resource?appService=" + $scope.currentAppService.name + "&templateName=" + $scope.selectedTemplate.name + ($scope.selectedTemplate.language ? $scope.selectedTemplate.language : ""),
+            url: "api/resource?appService=" + $scope.currentAppService.name + "&templateName=" + $scope.selectedTemplate.name + ($scope.selectedTemplate.language ? "&language=" + $scope.selectedTemplate.language : "") + "&provider=" + method,
             method: "POST"
         }).error((err, status, headers) => {
             (<any>window).location = headers("LoginUrl");

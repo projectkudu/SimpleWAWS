@@ -11,6 +11,7 @@ using System.Web.Http;
 using SimpleWAWS.Models;
 using SimpleWAWS.Authentication;
 using SimpleWAWS.Code.CsmExtensions;
+using System.Threading;
 
 namespace SimpleWAWS.Controllers
 {
@@ -25,7 +26,7 @@ namespace SimpleWAWS.Controllers
         [HttpGet]
         public async Task<HttpResponseMessage> Reset()
         {
-            //SecurityManager.EnsureAdmin(HttpContext.Current);
+            SecurityManager.EnsureAdmin(HttpContext.Current);
             var resourceManager = await ResourcesManager.GetInstanceAsync();
             await resourceManager.ResetAllFreeResourceGroups();
             return Request.CreateResponse(HttpStatusCode.Accepted);
@@ -34,7 +35,7 @@ namespace SimpleWAWS.Controllers
         [HttpGet]
         public async Task<HttpResponseMessage> DropAndReloadFromAzure()
         {
-            //SecurityManager.EnsureAdmin(HttpContext.Current);
+            SecurityManager.EnsureAdmin(HttpContext.Current);
             var resourceManager = await ResourcesManager.GetInstanceAsync();
             await resourceManager.DropAndReloadFromAzure();
             return Request.CreateResponse(HttpStatusCode.Accepted);
@@ -43,7 +44,7 @@ namespace SimpleWAWS.Controllers
         [HttpGet]
         public async Task<HttpResponseMessage> All()
         {
-            //SecurityManager.EnsureAdmin(HttpContext.Current);
+            SecurityManager.EnsureAdmin(HttpContext.Current);
             var resourceManager = await ResourcesManager.GetInstanceAsync();
             var freeSites = resourceManager.GetAllFreeResourceGroups();
             var inUseSites = resourceManager.GetAllInUseResourceGroups();
@@ -137,11 +138,17 @@ namespace SimpleWAWS.Controllers
                         resourceGroup = await resourceManager.ActivateMobileApp(template as WebsiteTemplate, HttpContext.Current.User.Identity as TryWebsitesIdentity);
                         break;
                     case AppService.Api:
+                        if ((HttpContext.Current.User.Identity as TryWebsitesIdentity).Issuer != "AAD")
+                            return SecurityManager.RedirectToAAD(template.CreateQueryString());
                         resourceGroup = await resourceManager.ActivateApiApp(template as ApiTemplate, HttpContext.Current.User.Identity as TryWebsitesIdentity);
                         break;
                 }
 
                 return Request.CreateResponse(HttpStatusCode.OK, resourceGroup);
+            }
+            catch (ThreadAbortException)
+            {
+                throw;
             }
             catch (Exception ex)
             {

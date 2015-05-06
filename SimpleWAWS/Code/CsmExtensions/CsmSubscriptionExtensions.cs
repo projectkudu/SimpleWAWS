@@ -37,6 +37,18 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             subscription.ResourceGroups = subscription.ResourceGroups.Union(newResourceGroups);
 
+            if (subscription.ResourceGroups.Count() > geoRegions.Count())
+            {
+                //we have extra resourceGroups. We should delete it.
+                //get resourceGroups per geoRegion
+
+                //await geoRegions.Select(gr => subscription.ResourceGroups.Where(rg => rg.ResourceGroupName.StartsWith(string.Format("{0}_{1}", Constants.TryResourceGroupPrefix, gr.Replace(" ", Constants.TryResourceGroupSeparator)))))
+                //          .Where(l => l.Count() > 1)
+                //          .Select(l => l.Where(s => s.UserId != null))
+                //          .Skip(1)
+                //          .
+            }
+
             await Task.WhenAll(subscription.ResourceGroups.Select(rg => PutInDesiredState(rg)));
 
             return subscription;

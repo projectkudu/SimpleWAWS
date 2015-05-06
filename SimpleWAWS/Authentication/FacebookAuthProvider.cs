@@ -22,7 +22,7 @@ namespace SimpleWAWS.Authentication
                     context.Request.QueryString["signed_request"] != null);
         }
 
-        protected override string GetLoginUrl(HttpContext context)
+        public override string GetLoginUrl(HttpContext context)
         {
             var builder = new StringBuilder();
             builder.Append("https://www.facebook.com/dialog/oauth");

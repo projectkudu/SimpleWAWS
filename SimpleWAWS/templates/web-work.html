@@ -1,5 +1,4 @@
 ﻿<h2>Work with your {{ currentAppService.title }}</h2>
-<h5 style="margin-top: -15px; margin-left: 83px">for an <strong>hour</strong>, or sign up for a trial and stay for a month!</h5>
 <div>
     <h3>
         Your {{ currentAppService.title }} has been created at <a ng-href="ngModels.resource.Sites[0].url" target="_blank">{{ resource.Sites[0].url }}</a>
@@ -23,5 +22,7 @@
             <input id="git-url-input" type="text" readonly="readonly" style="margin-left: -20px; margin-top: 8px; height: 20px; border: 2px inset" ng-model="resource.Sites[0].gitUrlWithCreds" select-on-click />
         </a>
     </div>
-    <div style="margin-top: 60px">Your free {{ currentAppService.title }} will expire in : <span class="countdown" ng-bind="timeLeft"></span></div>
+    <div style="margin-top: 10px; margin-bottom: 20px"><strong>Your free {{ currentAppService.title }} is available for one hour and will expire in: <span class="countdown" ng-bind="timeLeft"></span></strong></div>
+    <h2>Would you like to get more for free?</h2>
+    <h6>Create more web, mobile, logic and API apps. Sign up for a free 30-day trial and create up to 10 apps of any type for free.</h6>
 </div>

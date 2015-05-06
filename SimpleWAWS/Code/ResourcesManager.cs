@@ -118,17 +118,24 @@ namespace SimpleWAWS.Models
         // ARM
         private void OnTimerElapsed(object state)
         {
-            _jobHost.DoWork(() =>
+            try
             {
-                MaintainResourceGroupLists().Wait();
-                _logCounter++;
-                if (_logCounter % 5 == 0)
+                _jobHost.DoWork(() =>
                 {
-                    //log only every 5 minutes
-                    LogQueueStatistics();
-                    _logCounter = 0;
-                }
-            });
+                    MaintainResourceGroupLists().Wait();
+                    _logCounter++;
+                    if (_logCounter % 5 == 0)
+                    {
+                        //log only every 5 minutes
+                        LogQueueStatistics();
+                        _logCounter = 0;
+                    }
+                });
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError(e.ToString());
+            }
         }
 
         // ARM
@@ -273,7 +280,7 @@ namespace SimpleWAWS.Models
                         await Task.WhenAll(zipUpload, deleteHostingStart);
                     }
                     site.FireAndForget();
-                    //resourceGroup.IsRbacEnabled = await rbacTask;
+                    resourceGroup.IsRbacEnabled = await rbacTask;
                     return resourceGroup;
                 });
         }

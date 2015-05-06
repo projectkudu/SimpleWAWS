@@ -66,8 +66,9 @@ namespace SimpleWAWS.Models
             get
             {
                 var appService = AppService.Web;
-                Enum.TryParse<AppService>(Tags[Constants.AppService], out appService);
-                return appService;
+                return Tags.ContainsKey(Constants.AppService) && Enum.TryParse<AppService>(Tags[Constants.AppService], out appService)
+                    ? appService
+                    : AppService.Web;
             }
         }
 

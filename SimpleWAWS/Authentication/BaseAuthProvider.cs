@@ -14,7 +14,7 @@ namespace SimpleWAWS.Authentication
     {
         public abstract void AuthenticateRequest(HttpContext context);
         public abstract bool HasToken(HttpContext context);
-        protected abstract string GetLoginUrl(HttpContext context);
+        public abstract string GetLoginUrl(HttpContext context);
 
         protected void AuthenticateRequest(HttpContext context, Func<HttpContext, TokenResults> providerSpecificAuthMethod)
         {
