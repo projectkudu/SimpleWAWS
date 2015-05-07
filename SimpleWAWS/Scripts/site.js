@@ -365,7 +365,7 @@ function createSite(template, source) {
     toggleSpinner();
     return $.ajax({
         type: "POST",
-        url: "/api/site?language=" + encodeURIComponent(template.language) + (source ? "&provider=" + source + "&name=" + encodeURIComponent(template.name) : "") + "&appServiceName=" + appService.name.split(" ")[0],
+        url: "/api/site?language=" + encodeURIComponent(template.language) + (source ? "&provider=" + source + "&name=" + encodeURIComponent(template.name) : "") + "&appServiceName=" + appService.name.split(" ")[0] + "&autoCreate=true",
         data: JSON.stringify(template),
         contentType: "application/json; charset=utf-8",
         success: handleGetSite,
@@ -440,7 +440,9 @@ $(document).ready(function () {
                 viewModel.selectedTemplate(template);
                 selectTemplate(template, true);
             }
-            createSite(template).error(function () { initSite().always(function () { $(".error-message").show(); }); });
+            if (getQueryStringBytName("autoCreate")) {
+                createSite(template).error(function () { initSite().always(function () { $(".error-message").show(); }); });
+            }
         } else {
             initSite();
         }
