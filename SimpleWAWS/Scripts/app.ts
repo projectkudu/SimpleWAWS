@@ -110,8 +110,7 @@
                 id: 3,
                 title: "Work with your app",
                 sref: "home.webapp.work",
-                previousText: "Delete",
-                previousClass: "wa-button-red"
+                onPrevious: () => { $scope.confirmDelete = true; }
             }],
         templates: []
     }, {
@@ -132,8 +131,7 @@
                     id: 3,
                     title: "Download client",
                     sref: "home.mobileapp.clients",
-                    previousText: "Delete",
-                    previousClass: "wa-button-red"
+                onPrevious: () => { $scope.confirmDelete = true; }
                 }, {
                     id: 4,
                     title: "Work with your app",
@@ -158,8 +156,7 @@
                     id: 3,
                     title: "Work with your app",
                     sref: "home.apiapp.work",
-                    previousText: "Delete",
-                    previousClass: "wa-button-red"
+                onPrevious: () => { $scope.confirmDelete = true; }
                 }],
             templates: []
         }, {
@@ -277,7 +274,7 @@
         if ($scope.currentStep.nextText === "Create") {
             $scope.running = true;
             $http({
-                url: "api/resource",
+                url: "api/resource" + "?appService=" + $scope.currentAppService.name + "&templateName=" + $scope.selectedTemplate.name + ($scope.selectedTemplate.language ? "&language=" + $scope.selectedTemplate.language : "") + "&autoCreate=true",
                 method: "POST",
                 data: $scope.selectedTemplate
             }).success((data) => {
@@ -303,19 +300,23 @@
         }
     };
 
+    $scope.deleteResource = () => {
+        $scope.confirmDelete = false;
+        $scope.running = true;
+        $http({
+            url: "api/resource",
+            method: "DELETE"
+        });
+
+        $timeout(() => {
+            $scope.running = false;
+            $state.go($scope.previousStep.sref);
+        }, 3000);
+    };
+
     $scope.goToPreviousState = () => {
-        if ($scope.currentStep.previousText === "Delete") {
-            $scope.running = true;
-            $http({
-                url: "api/resource",
-                method: "DELETE"
-            });
-
-            $timeout(() => {
-                $scope.running = false;
-                $state.go($scope.previousStep.sref);
-            }, 3000);
-
+        if ($scope.currentStep.onPrevious) {
+            $scope.currentStep.onPrevious();
         } else {
             $state.go($scope.previousStep.sref);
         }
@@ -331,7 +332,7 @@
     };
 
     $scope.getApiSiteUrl = () => {
-        var apiSite = $scope.resource.Sites.find((s) => s.Name.startsWith("TrySamples"));
+        var apiSite = $scope.resource.Sites.find((s) => s.name.startsWith("TrySamples"));
         return apiSite
             ? apiSite.url
             : $scope.resource.Sites[0].url;
@@ -388,14 +389,12 @@
                 url: "api/resource",
                 method: "GET"
             }).success((data: any) => {
-                console.log(data);
                 if (!data) return;
                 $scope.resource = data;
                 $scope.selectAppService($scope.appServices.find(a => a.name === data.AppService));
                 $state.go("home." + data.AppService.toLowerCase() + "app.work");
                 startCountDown(data.timeLeftString);
             }).error((err) => {
-                console.log(err);
             }).finally(() => {
                 $scope.running = false;
             });

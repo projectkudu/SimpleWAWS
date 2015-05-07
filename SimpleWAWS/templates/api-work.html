@@ -1,7 +1,7 @@
 ﻿<h2>Work with your {{ currentAppService.title }}</h2>
 <div>
     <h3>
-        Your {{ currentAppService.title }} has been created at <a ng-href="{{ getApiSiteUrl() }}" target="_blank">{{ resource.Sites[0].url }}</a>
+        Your {{ currentAppService.title }} has been created at <a ng-href="{{ getApiSiteUrl() }}" target="_blank">{{ getApiSiteUrl() }}</a>
     </h3>
     <div class="work-with-site-tools">
         <a ng-href="https://portal.azure.com/ahmelsayedhotmail.onmicrosoft.com#resource{{ resource.ApiApps[0].CsmId }}" target="_blank"><div class="work-with-site-tools-img icons sprite-MicrosoftAzure"></div><div class="website-template-name">Manage in Azure Portal</div></a>

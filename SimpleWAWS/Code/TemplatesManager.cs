@@ -67,8 +67,15 @@ namespace SimpleWAWS.Models
                     {
                         ApiTemplateName = "TrySamplesContactList",
                         Name = "Contact List",
-                        SpriteName = "sprite-ASPNETEmptySite ASPNETEmptySite",
+                        SpriteName = "sprite-TodoList TodoList",
                         AppService = AppService.Api
+                    });
+                list.Add(new LogicTemplate
+                    {
+                        Name = "Ping Site",
+                        SpriteName = "sprite-ASPNETEmptySite ASPNETEmptySite",
+                        AppService = AppService.Logic,
+                        CsmTemplateFilePath = HostingEnvironment.MapPath("~/App_Data/PingSite.json")
                     });
                 //TODO: Implement a FileSystemWatcher for changes in the directory
             }

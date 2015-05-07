@@ -41,6 +41,17 @@
 
         <div style="display: inline; float: left; position: relative">
             <a ng-if="previousStep" href="#" class="wa-button" ng-click="goToPreviousState()" ng-class="currentStep.previousClass ? currentStep.previousClass : 'wa-button-gray'">{{ currentStep.previousText ? currentStep.previousText : 'Previous' }}</a>
+            <div id="confirm-box" class="confirm-box" ng-show="confirmDelete">
+                <div class="confirm-content">
+                    <div class="confirm-message">Going back will delete the current {{ currentAppService.title }}.</div>
+                    <a id="yes-delete-confirm" href="#" class="wa-button wa-button-red confirm-answer" ng-click="deleteResource()">
+                        Delete
+                    </a>
+                    <a href="#" class="wa-button wa-button-gray confirm-answer" ng-click="confirmDelete = false;">
+                        Cancel
+                    </a>
+                </div>
+            </div>
             <a ng-if="nextStep" href="#" class="wa-button" ng-click="goToNextState()" ng-class="currentStep.nextClass ? currentStep.nextClass : 'wa-button-alt'">{{ currentStep.nextText ? currentStep.nextText : 'Next' }}</a>
             <a ng-if="!nextStep" href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id=try_websites" target="_blank" onclick="freeTrialClick();" class="wa-button wa-button-primary">Free trial</a>
             <div class="login-box"  ng-show="loginOptions">
@@ -69,7 +80,7 @@
     <div class="ui-blocker" ng-if="running"></div>
 </div>
 
-<div id="login-dark-blocker" class="dark-full-site-blocker" ng-show="loginOptions" ng-click="loginOptions = false;"></div>
+<div id="login-dark-blocker" class="dark-full-site-blocker" ng-show="loginOptions || confirmDelete" ng-click="loginOptions = false; confirmDelete = false;"></div>
 <div id="site-expired" ng-if="siteExpired">
     <div class="full-site-blocker"></div>
     <div class="site-expired-notification-blade">

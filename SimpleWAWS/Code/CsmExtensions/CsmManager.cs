@@ -27,10 +27,10 @@ namespace SimpleWAWS.Code.CsmExtensions
         static CsmManager()
         {
             Func<string, string> config = (s) => ConfigurationManager.AppSettings[s] ?? Environment.GetEnvironmentVariable(s);
-            csmClient = ARMLib.GetDynamicClient(apiVersion: "")
+            csmClient = ARMLib.GetDynamicClient(apiVersion: "", retryCount: 3)
                 .ConfigureLogin(LoginType.Upn, config("TryUserName"), config("TryPassword"));
 
-            graphClient = ARMLib.GetDynamicClient(apiVersion: "")
+            graphClient = ARMLib.GetDynamicClient(apiVersion: "", retryCount: 3)
                 .ConfigureLogin(LoginType.Upn, config("grapAndCsmUserName"), config("graphAndCsmPassword"));
         }
 

@@ -142,6 +142,11 @@ namespace SimpleWAWS.Controllers
                             return SecurityManager.RedirectToAAD(template.CreateQueryString());
                         resourceGroup = await resourceManager.ActivateApiApp(template as ApiTemplate, HttpContext.Current.User.Identity as TryWebsitesIdentity);
                         break;
+                    case AppService.Logic:
+                        if ((HttpContext.Current.User.Identity as TryWebsitesIdentity).Issuer != "AAD")
+                            return SecurityManager.RedirectToAAD(template.CreateQueryString());
+                        resourceGroup = await resourceManager.ActivateLogicApp(template as LogicTemplate, HttpContext.Current.User.Identity as TryWebsitesIdentity);
+                        break;
                 }
 
                 return Request.CreateResponse(HttpStatusCode.OK, resourceGroup);

@@ -55,4 +55,6 @@ interface IAppControllerScope extends ng.IScope {
     getApiSiteUrl(): string;
     siteExpired: boolean;
     dismissSiteExpired();
+    confirmDelete: boolean;
+    deleteResource();
 }

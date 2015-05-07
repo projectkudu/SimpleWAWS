@@ -22,6 +22,7 @@ using ARMClient.Library;
 using SimpleWAWS.Code;
 using SimpleWAWS.Code.CsmExtensions;
 using SimpleWAWS.Models.CsmModels;
+using Newtonsoft.Json.Linq;
 
 namespace SimpleWAWS.Models
 {
@@ -141,14 +142,20 @@ namespace SimpleWAWS.Models
         // ARM
         private async Task LogActiveUsageStatistics(ResourceGroup resourceGroup)
         {
-            var site = resourceGroup.Sites.First();
-            var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-            var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
-            using (var httpContentStream = await zipManager.GetZipFileStreamAsync("LogFiles/http/RawLogs"))
+            try
             {
-                await StorageHelper.UploadBlob(resourceGroup.ResourceUniqueId, httpContentStream);
+
+
+                var site = resourceGroup.Sites.First();
+                var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+                var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
+                using (var httpContentStream = await zipManager.GetZipFileStreamAsync("LogFiles/http/RawLogs"))
+                {
+                    await StorageHelper.UploadBlob(resourceGroup.ResourceUniqueId, httpContentStream);
+                }
+                await StorageHelper.AddQueueMessage(new { BlobName = resourceGroup.ResourceUniqueId });
             }
-            await StorageHelper.AddQueueMessage(new {BlobName = resourceGroup.ResourceUniqueId});
+            catch { }
         }
 
         // ARM
@@ -345,7 +352,49 @@ namespace SimpleWAWS.Models
         // ARM
         public async Task<ResourceGroup> ActivateLogicApp(LogicTemplate template, TryWebsitesIdentity userIdentity)
         {
-            return await ActivateResourceGroup(userIdentity, AppService.Logic, resourceGroup => { return Task.FromResult(resourceGroup); });
+            return await ActivateResourceGroup(userIdentity, AppService.Logic, async resourceGroup =>
+            {
+
+                Trace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
+                            AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
+                            "Logic", template.Name, resourceGroup.ResourceUniqueId);
+
+                var logicApp = new LogicApp(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, Guid.NewGuid().ToString().Replace("-", ""))
+                {
+                    LogicAppName = template.Name,
+                    Location = resourceGroup.GeoRegion
+                };
+
+                var csmTemplateString = string.Empty;
+
+                using(var reader = new StreamReader(template.CsmTemplateFilePath))
+                {
+                    csmTemplateString = await reader.ReadToEndAsync();
+                }
+
+                csmTemplateString = csmTemplateString.Replace("{{gatewayNameDefaultValue}}", Guid.NewGuid().ToString().Replace("-", "")).Replace("{{logicAppNameDefaultValue}}", logicApp.LogicAppName);
+
+                var deployment = new CsmDeployment
+                {
+                    DeploymentName = resourceGroup.ResourceUniqueId,
+                    SubscriptionId = resourceGroup.SubscriptionId,
+                    ResourceGroupName = resourceGroup.ResourceGroupName,
+                    CsmTemplate = JsonConvert.DeserializeObject<JToken>(csmTemplateString)
+                };
+
+                await deployment.Deploy(block: true);
+
+                // After a deployment, we have no idea what changes happened in the resource group
+                // we should reload it.
+                // TODO: consider reloading the resourceGroup along with the deployment itself.
+                await resourceGroup.Load();
+
+                var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email);
+                //var publicAccessTask = resourceGroup.ApiApps.Select(a => a.SetAccessLevel("PublicAnonymous"));
+                resourceGroup.IsRbacEnabled = await rbacTask;
+                //await Task.WhenAll(publicAccessTask);
+                return resourceGroup;
+            });
         }
 
         // ARM

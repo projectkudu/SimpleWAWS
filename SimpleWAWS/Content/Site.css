@@ -9264,3 +9264,59 @@ div.sprite-ios { width: 115px; height: 115px; background-position: -5px -255px; 
 #status-buttons a.active {
     color: #565656;
 }
+
+.confirm-box {
+    -webkit-box-shadow: 10px 10px 45px -4px rgba(74,74,74,1);
+    -moz-box-shadow: 10px 10px 45px -4px rgba(74,74,74,1);
+    box-shadow: 10px 10px 45px -4px rgba(74,74,74,1);
+    margin-left: 15px;
+    position: absolute;
+    left: 125px;
+    top: -35px;
+    z-index: 1001;
+    background: #ffffff;
+    border: 1px solid #7d7d7d;
+    width: 420px
+}
+
+.confirm-box:after, .confirm-box:before {
+    right: 100%;
+    top: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.confirm-box:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-right-color: #ffffff;
+    border-width: 15px;
+    margin-top: -15px;
+}
+
+.confirm-box:before {
+    border-color: rgba(125, 125, 125, 0);
+    border-right-color: #7d7d7d;
+    border-width: 16px;
+    margin-top: -16px;
+}
+
+.confirm-content {
+    display: block;
+    margin: 20px;
+    text-align: center;
+}
+
+/*.confirm-answer {
+    width: 49%;
+    margin: 0 auto;
+}*/
+
+.confirm-message {
+    position: relative;
+    margin: 8px;
+    font-size: larger;
+}

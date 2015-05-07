@@ -50,16 +50,6 @@ namespace SimpleWAWS
             return Char.ToLowerInvariant(str[0]) + str.Substring(1);
         }
 
-        public static Stream ToStream(this string str)
-        {
-            var stream = new MemoryStream();
-            var writer = new StreamWriter(stream);
-            writer.Write(str);
-            writer.Flush();
-            stream.Position = 0;
-            return stream;
-        }
-
         public static string Encrypt(this string str, string reason = null)
         {
             var valueBytes = Encoding.Default.GetBytes(str);

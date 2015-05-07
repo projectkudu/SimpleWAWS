@@ -13,6 +13,6 @@ namespace SimpleWAWS.Models.CsmModels
 
         public string SubscriptionId { get; set; }
 
-        public CsmTemplateWrapper CsmTemplate { get; set; }
+        public object CsmTemplate { get; set; }
     }
 }

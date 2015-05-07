@@ -13,7 +13,7 @@ namespace SimpleWAWS.Console
     {
         static void Main(string[] args)
         {
-            Task.Run(() => Main2Async()).Wait();
+            Task.Run(() => MainAsync()).Wait();
         }
 
         public static void PrettyPrint(this ResourceGroup e)
@@ -30,7 +30,9 @@ namespace SimpleWAWS.Console
 
         public static async Task MainAsync()
         {
+            var subscriptionNames = "".Split(',');
             var startTime = DateTime.UtcNow;
+
             Action<object> console = (s) => System.Console.WriteLine("[" + (DateTime.UtcNow - startTime).TotalMilliseconds + "] " + s);
             Action<Subscription> printSub = (sub) => sub.ResourceGroups.ToList().ForEach(e => 
                 console(string.Format("RG: {0} has {1} sites, named: {2}",
@@ -42,21 +44,21 @@ namespace SimpleWAWS.Console
                 ));
 
 
-            console("start loading subscription c5d49f05-f39f-4ec8-9f9f-28c538605225");
-            var subscription = await new Subscription("c5d49f05-f39f-4ec8-9f9f-28c538605225").Load();
-            console("done loading subscription " + subscription.SubscriptionId );
+            console("start loading subscriptions");
+            var subscriptions = await Task.WhenAll(subscriptionNames.Select(s => new Subscription(s).Load()));
+            console("done loading subscriptions");
 
-            console("subscription has: " + subscription.ResourceGroups.Count() + " resourceGroups");
+            console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()) + " resourceGroups");
 
-            console("calling MakeTrialSubscription");
-            subscription = await subscription.MakeTrialSubscription();
+            console("calling MakeTrialSubscription on all subscriptions");
+            subscriptions = await Task.WhenAll(subscriptions.Select(s => s.MakeTrialSubscription()));
             console("done calling make trial subscription");
 
-            console(subscription.ResourceGroups.Count());
+            console(subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()));
 
             //await Task.WhenAll(subscription.ResourceGroups.Select(rg => rg.Delete(false)));
 
-            printSub(subscription);
+            subscriptions.ToList().ForEach(printSub);
             console("Done");
         }
 
