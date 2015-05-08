@@ -2,6 +2,7 @@
 using ARMClient.Library;
 using Newtonsoft.Json.Linq;
 using SimpleWAWS;
+using SimpleWAWS.Trace;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -124,7 +125,7 @@ namespace SimpleWAWS.Models
             }
             catch (Exception e)
             {
-                Trace.TraceError("{0}; {1}; {2}; {3}; {4}", AnalyticsEvents.ErrorInAddRbacUser, e.GetBaseException().Message.RemoveNewLines(), e.GetBaseException().StackTrace.RemoveNewLines(), puidOrAltSec, emailAddress);
+                SimpleTrace.TraceError("{0}; {1}; {2}; {3}; {4}", AnalyticsEvents.ErrorInAddRbacUser, e.GetBaseException().Message.RemoveNewLines(), e.GetBaseException().StackTrace.RemoveNewLines(), puidOrAltSec, emailAddress);
             }
             return false;
         }
@@ -149,7 +150,7 @@ namespace SimpleWAWS.Models
             }
             catch(Exception e)
             {
-                Trace.TraceError("{0}; {1}; {2}", AnalyticsEvents.ErrorInRemoveRbacUser, e.GetBaseException().Message.RemoveNewLines(), resourceGroup.ResourceUniqueId);
+                SimpleTrace.TraceError("{0}; {1}; {2}", AnalyticsEvents.ErrorInRemoveRbacUser, e.GetBaseException().Message.RemoveNewLines(), resourceGroup.ResourceUniqueId);
             }
         }
 
@@ -170,7 +171,7 @@ namespace SimpleWAWS.Models
             }
             catch (Exception e)
             {
-                Trace.TraceError("{0}; {1}; {2}", AnalyticsEvents.ErrorInCheckRbacUser, e.GetBaseException().Message.RemoveNewLines(), resourceGroup.ResourceUniqueId);
+                SimpleTrace.TraceError("{0}; {1}; {2}", AnalyticsEvents.ErrorInCheckRbacUser, e.GetBaseException().Message.RemoveNewLines(), resourceGroup.ResourceUniqueId);
                 return false;
             }
         }

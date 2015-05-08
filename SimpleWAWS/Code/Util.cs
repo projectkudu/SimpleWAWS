@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Management.WebSites.Models;
+using SimpleWAWS.Code;
+using SimpleWAWS.Trace;
 
 namespace SimpleWAWS.Models
 {
@@ -15,7 +17,7 @@ namespace SimpleWAWS.Models
             }
             catch (Exception e)
             {
-                Trace.TraceError(e.ToString());
+                SimpleTrace.TraceError(e.ToString());
             }
         }
         public static async Task<T> SafeGuard<T>(Func<Task<T>> action)
@@ -26,7 +28,7 @@ namespace SimpleWAWS.Models
             }
             catch (Exception e)
             {
-                Trace.TraceError(e.ToString());
+                SimpleTrace.TraceError(e.ToString());
                 return default(T);
             }
         }

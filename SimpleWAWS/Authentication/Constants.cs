@@ -14,5 +14,6 @@ namespace SimpleWAWS.Authentication
         public const string GoogleIssuerCerts = "GoogleIssuerCerts";
         public const string DefaultAuthProvider = "AAD";
         public const string AnonymousUser = "aus";
+        public const string TiPCookie = "x-ms-routing-name";
     }
 }

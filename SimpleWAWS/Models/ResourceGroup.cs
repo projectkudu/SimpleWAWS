@@ -33,9 +33,6 @@ namespace SimpleWAWS.Models
 
         private readonly TimeSpan UsageTimeSpan = TimeSpan.FromMinutes(int.Parse(ConfigurationManager.AppSettings["siteExpiryMinutes"]));
 
-        public int MyProperty { get; set; }
-
-        [JsonProperty("timeLeftString")]
         public string TimeLeft
         {
             get
@@ -60,7 +57,6 @@ namespace SimpleWAWS.Models
             get { return ResourceGroupName.Split('_').LastOrDefault(); }
         }
 
-        [JsonConverter(typeof(StringEnumConverter))]
         public AppService AppService 
         {
             get
@@ -98,6 +94,43 @@ namespace SimpleWAWS.Models
             get
             {
                 return !string.IsNullOrEmpty(ResourceGroupName) && ResourceGroupName.StartsWith("TRY-AZURE-RG-");
+            }
+        }
+
+        public UIResource UIResource
+        {
+            get
+            {
+                string ibizaUrl = null;
+                Site siteToUseForUi = null;
+                switch (AppService)
+                {
+                    case Models.AppService.Web:
+                        siteToUseForUi = Sites.First();
+                        ibizaUrl = siteToUseForUi.IbizaUrl;
+                        break;
+                    case Models.AppService.Mobile:
+                        siteToUseForUi = Sites.First();
+                        break;
+                    case Models.AppService.Api:
+                        siteToUseForUi = Sites.First(s => s.SiteName.StartsWith("TrySample", StringComparison.OrdinalIgnoreCase));
+                        ibizaUrl = ApiApps.First().IbizaUrl;
+                        break;
+                }
+
+                return siteToUseForUi == null 
+                ? null
+                : new UIResource
+                {
+                    Url = AppService == Models.AppService.Mobile ? siteToUseForUi.MobileUrl : siteToUseForUi.Url,
+                    IbizaUrl = ibizaUrl,
+                    MonacoUrl = siteToUseForUi.MonacoUrl,
+                    ContentDownloadUrl = siteToUseForUi.ContentDownloadUrl,
+                    GitUrl = siteToUseForUi.GitUrlWithCreds,
+                    TimeLeftString = TimeLeft,
+                    IsRbacEnabled = IsRbacEnabled,
+                    AppService = AppService
+                };
             }
         }
 

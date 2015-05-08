@@ -2,6 +2,7 @@
 using SimpleWAWS.Models.CsmModels;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -30,7 +31,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task<Site> UpdateAppSettings(this Site site)
         {
-            var csmResponse = await csmClient.HttpInvoke(HttpMethod.Put, CsmTemplates.PutSiteAppSettings.Bind(site), new { properties = site.AppSettings });
+            var csmResponse = await csmClient.HttpInvoke(HttpMethod.Put, CsmTemplates.PutSiteAppSettings.Bind(site), new { properties = site.AppSettings.Select(s => new { name = s.Key, value = s.Value }) });
             csmResponse.EnsureSuccessStatusCode();
 
             return site;
@@ -75,6 +76,11 @@ namespace SimpleWAWS.Code.CsmExtensions
             site.ScmHostName = csmSite.properties.enabledHostNames.FirstOrDefault(h => h.IndexOf(".scm.", StringComparison.OrdinalIgnoreCase) != -1);
 
             await Task.WhenAll(LoadAppSettings(site), LoadMetadata(site), LoadPublishingCredentials(site), UpdateConfig(site, new { properties = new { scmType = "LocalGit" } }));
+
+            site.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = ConfigurationManager.AppSettings["siteExpiryMinutes"];
+            site.AppSettings["MONACO_EXTENSION_VERSION"] = "beta";
+            site.AppSettings["WEBSITE_TRY_MODE"] = "1";
+            await site.UpdateAppSettings();
             return site;
         }
 

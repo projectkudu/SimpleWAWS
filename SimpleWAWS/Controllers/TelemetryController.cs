@@ -1,5 +1,6 @@
 ﻿using SimpleWAWS.Code;
 using SimpleWAWS.Models;
+using SimpleWAWS.Trace;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,7 +19,7 @@ namespace SimpleWAWS.Controllers
             var userName = User != null && User.Identity != null && !string.IsNullOrEmpty(User.Identity.Name)
                 ? User.Identity.Name
                 : "-";
-            Trace.TraceInformation(string.Format("{0}; {1}", AnalyticsEvents.TelemetryEventsMap[telemetryEvent], userName));
+            SimpleTrace.TraceInformation("{0}; {1}", AnalyticsEvents.TelemetryEventsMap[telemetryEvent], userName);
             return Request.CreateResponse(HttpStatusCode.OK);
         }
     }

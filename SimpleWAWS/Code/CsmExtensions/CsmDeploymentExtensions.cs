@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using SimpleWAWS.Models;
 using SimpleWAWS.Models.CsmModels;
+using SimpleWAWS.Trace;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,7 +17,6 @@ namespace SimpleWAWS.Code.CsmExtensions
         public static async Task<JToken> Deploy(this CsmDeployment csmDeployment, bool block = false)
         {
             var csmResponse = await csmClient.HttpInvoke(HttpMethod.Put, CsmTemplates.CsmTemplateDeployment.Bind(csmDeployment), csmDeployment.CsmTemplate);
-            Trace.TraceInformation(await csmResponse.Content.ReadAsStringAsync());
             csmResponse.EnsureSuccessStatusCode();
             var content = await csmResponse.Content.ReadAsAsync<JToken>();
             if (!block) return content;
@@ -52,7 +52,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 }
                 else
                 {
-                    Trace.TraceInformation(string.Format("Unknown status code from CSM {0}", result));
+                    SimpleTrace.TraceInformation("Unknown status code from CSM {0}", result);
                     throw new Exception("Unknown status " + result);
                 }
 

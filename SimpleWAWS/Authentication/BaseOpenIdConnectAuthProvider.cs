@@ -1,4 +1,5 @@
 ﻿using SimpleWAWS.Models;
+using SimpleWAWS.Trace;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -80,7 +81,7 @@ namespace SimpleWAWS.Authentication
 
                 if (puidClaim != null)
                 {
-                    Trace.TraceInformation("{0}; {1}; {2}", AnalyticsEvents.UserPuidValue, user.Identity.Name, puidClaim.Split(':').Last());
+                    SimpleTrace.TraceInformation("{0}; {1}; {2}", AnalyticsEvents.UserPuidValue, user.Identity.Name, puidClaim.Split(':').Last());
                 }
 
                 return new TryWebsitesPrincipal(new TryWebsitesIdentity(upnClaim ?? emailClaim ?? user.Identity.Name, puidClaim, GetIssuerName()));
@@ -88,7 +89,7 @@ namespace SimpleWAWS.Authentication
             catch (Exception e)
             {
                 //failed validating
-                Trace.TraceError(e.ToString());
+                SimpleTrace.TraceError(e.ToString());
             }
 
             return null;

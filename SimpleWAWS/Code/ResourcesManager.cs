@@ -23,6 +23,7 @@ using SimpleWAWS.Code;
 using SimpleWAWS.Code.CsmExtensions;
 using SimpleWAWS.Models.CsmModels;
 using Newtonsoft.Json.Linq;
+using SimpleWAWS.Trace;
 
 namespace SimpleWAWS.Models
 {
@@ -81,16 +82,16 @@ namespace SimpleWAWS.Models
             {
                 if (resourceGroup.UserId != null)
                 {
-                    Trace.TraceInformation("Loading ResourceGroup {0} into the InUse list", resourceGroup.ResourceGroupName);
+                    SimpleTrace.TraceInformation("Loading ResourceGroup {0} into the InUse list", resourceGroup.ResourceGroupName);
                     if (!_resourceGroupsInUse.TryAdd(resourceGroup.UserId, resourceGroup))
                     {
-                        Trace.TraceError("user {0} already had a resourceGroup in the dictionary extra resourceGroup is {1}. This shouldn't happen. Deleting and replacing the ResourceGroup.", resourceGroup.UserId, resourceGroup.ResourceGroupName);
+                        SimpleTrace.TraceError("user {0} already had a resourceGroup in the dictionary extra resourceGroup is {1}. This shouldn't happen. Deleting and replacing the ResourceGroup.", resourceGroup.UserId, resourceGroup.ResourceGroupName);
                         tasksList.Add(resourceGroup.DeleteAndCreateReplacement());
                     }
                 }
                 else
                 {
-                    Trace.TraceInformation("Loading site {0} into the Free list", resourceGroup.ResourceGroupName);
+                    SimpleTrace.TraceInformation("Loading site {0} into the Free list", resourceGroup.ResourceGroupName);
                     _freeResourceGroups.Enqueue(resourceGroup);
                 }
             }
@@ -135,7 +136,7 @@ namespace SimpleWAWS.Models
             }
             catch (Exception e)
             {
-                Trace.TraceError(e.ToString());
+                SimpleTrace.TraceError(e.ToString());
             }
         }
 
@@ -172,8 +173,11 @@ namespace SimpleWAWS.Models
         // ARM
         private async Task DeleteResourceGroup(ResourceGroup resourceGroup)
         {
-            Trace.TraceInformation("Deleting expired resourceGroup {0}", resourceGroup.ResourceGroupName);
-            await LogActiveUsageStatistics(resourceGroup);
+            SimpleTrace.TraceInformation("Deleting expired resourceGroup {0}", resourceGroup.ResourceGroupName);
+            if (resourceGroup.AppService == AppService.Web)
+            {
+                await LogActiveUsageStatistics(resourceGroup);
+            }
             ResourceGroup temp;
             this._resourceGroupsInUse.TryRemove(resourceGroup.UserId, out temp);
             var newResourceGroup =  await resourceGroup.DeleteAndCreateReplacement();
@@ -210,7 +214,7 @@ namespace SimpleWAWS.Models
                     // Otherwise the if the user refreshes, they will be offered to create another resource eventhough there is one already in progress for them.
                     // When the resourceGroup is no longer in progress, we cancel the task using the cancellation token.
                     _resourceGroupsInProgress.AddOrUpdate(userId, s => resourceGroupCreationTask, (s, task) => resourceGroupCreationTask).Ignore();
-                    Trace.TraceInformation("resourceGroup {0} is now in use", resourceGroup.ResourceGroupName);
+                    SimpleTrace.TraceInformation("resourceGroup {0} is now in use", resourceGroup.ResourceGroupName);
 
                     resourceGroup = await func(resourceGroup);
 
@@ -246,7 +250,7 @@ namespace SimpleWAWS.Models
             catch (Exception e)
             {
                 //unknown exception, log it
-                Trace.TraceError(e.ToString());
+                SimpleTrace.TraceError(e.ToString());
             }
             finally
             {
@@ -271,7 +275,7 @@ namespace SimpleWAWS.Models
             // Start site specific stuff
             return await ActivateResourceGroup(userIdentity, temp, async resourceGroup =>
                 {
-                    Trace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
+                    SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
                             AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
                             template.Language, template.Name, resourceGroup.ResourceUniqueId);
 
@@ -286,8 +290,13 @@ namespace SimpleWAWS.Models
                         Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
                         await Task.WhenAll(zipUpload, deleteHostingStart);
                     }
-                    site.FireAndForget();
+                    site.AppSettings["LAST_MODIFIED_TIME_UTC"] = DateTime.UtcNow.ToString();
+                    site.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = ConfigurationManager.AppSettings["siteExpiryMinutes"];
+                    site.AppSettings["MONACO_EXTENSION_VERSION"] = "beta";
+                    site.AppSettings["WEBSITE_TRY_MODE"] = "1";
+                    await site.UpdateAppSettings();
                     resourceGroup.IsRbacEnabled = await rbacTask;
+                    site.FireAndForget();
                     return resourceGroup;
                 });
         }
@@ -304,7 +313,7 @@ namespace SimpleWAWS.Models
             return await ActivateResourceGroup(userIdentity, AppService.Api, async resourceGroup =>
             {
 
-                Trace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
+                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
                             AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
                             "Api", template.ApiTemplateName, resourceGroup.ResourceUniqueId);
 
@@ -355,7 +364,7 @@ namespace SimpleWAWS.Models
             return await ActivateResourceGroup(userIdentity, AppService.Logic, async resourceGroup =>
             {
 
-                Trace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
+                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
                             AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
                             "Logic", template.Name, resourceGroup.ResourceUniqueId);
 
@@ -417,7 +426,7 @@ namespace SimpleWAWS.Models
                     }
                     catch (Exception e)
                     {
-                        Trace.TraceError(e.ToString());
+                        SimpleTrace.TraceError(e.ToString());
                     }
                     _resourceGroupsInUse.TryGetValue(userId, out resourceGroup);
                 }
@@ -441,7 +450,7 @@ namespace SimpleWAWS.Models
                 }
                 await Task.WhenAll(list.Select(resourceGroup =>
                 {
-                    Trace.TraceInformation("Deleting site {0}", resourceGroup.ResourceGroupName);
+                    SimpleTrace.TraceInformation("Deleting site {0}", resourceGroup.ResourceGroupName);
                     return DeleteResourceGroup(resourceGroup);
                 }));
             }

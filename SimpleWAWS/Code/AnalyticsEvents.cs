@@ -33,6 +33,9 @@ namespace SimpleWAWS.Models
         public const string IbizaClick = "IBIZA_CLICK";
         public const string MonacoClick = "MONACO_CLICK";
 
+        public const string RemoveUserFromTenant = "REMOVE_USER_FROM_TENANT";
+        public const string RemoveUserFromTenantResult = "REMOVE_USER_FROM_TENANT_RESULT";
+
         public static readonly Dictionary<TelemetryEvent, string> TelemetryEventsMap = new[] { TelemetryEvent.FreeTrialClick, TelemetryEvent.IbizaClick, TelemetryEvent.MonacoClick }.Zip(new [] {FreeTrialClick, IbizaClick, MonacoClick}, (a, b) => new { Key = a, Value = b }).ToDictionary(a => a.Key, b => b.Value);
 
     }

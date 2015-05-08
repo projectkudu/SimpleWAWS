@@ -50,15 +50,15 @@ namespace SimpleWAWS.Console
 
             console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()) + " resourceGroups");
 
-            console("calling MakeTrialSubscription on all subscriptions");
-            subscriptions = await Task.WhenAll(subscriptions.Select(s => s.MakeTrialSubscription()));
-            console("done calling make trial subscription");
+            //console("calling MakeTrialSubscription on all subscriptions");
+            //subscriptions = await Task.WhenAll(subscriptions.Select(s => s.MakeTrialSubscription()));
+            //console("done calling make trial subscription");
 
-            console(subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()));
+            //console(subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()));
 
-            //await Task.WhenAll(subscription.ResourceGroups.Select(rg => rg.Delete(false)));
+            ////await Task.WhenAll(subscription.ResourceGroups.Select(rg => rg.Delete(false)));
 
-            subscriptions.ToList().ForEach(printSub);
+            //subscriptions.ToList().ForEach(printSub);
             console("Done");
         }
 

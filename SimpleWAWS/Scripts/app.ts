@@ -29,7 +29,7 @@
             url: "/templates?language&name"
         }, {
             name: "home.webapp.work",
-            templateUrl: "templates/web-work.html",
+            templateUrl: "templates/work.html",
             url: "/work"
         }];
 
@@ -47,7 +47,7 @@
             url: "/clients"
         }, {
             name: "home.mobileapp.work",
-            templateUrl: "templates/mobile-work.html",
+            templateUrl: "templates/work.html",
             url: "/work"
         }];
 
@@ -61,7 +61,7 @@
             url: "/templates?language&name"
         }, {
             name: "home.apiapp.work",
-            templateUrl: "/templates/api-work.html",
+            templateUrl: "/templates/work.html",
             url: "/work"
         }];
 
@@ -98,7 +98,7 @@
         title: "Web App",
         steps: [{
             id: 1,
-            title: "Select App Service",
+            title: "Select app type",
             sref: "home",
         }, {
                 id: 2,
@@ -119,7 +119,7 @@
             title: "Mobile App",
             steps: [{
                 id: 1,
-                title: "Select App Service",
+                title: "Select app type",
                 sref: "home",
             }, {
                     id: 2,
@@ -144,7 +144,7 @@
             title: "API App",
             steps: [{
                 id: 1,
-                title: "Select App Service",
+                title: "Select app type",
                 sref: "home",
             }, {
                     id: 2,
@@ -165,7 +165,7 @@
             title: "Logic App",
             steps: [{
                 id: 1,
-                title: "Select App Service",
+                title: "Select app type",
                 sref: "home"
             }, {
                     id: 2,
@@ -272,29 +272,7 @@
 
     $scope.goToNextState = () => {
         if ($scope.currentStep.nextText === "Create") {
-            $scope.running = true;
-            $http({
-                url: "api/resource" + "?appService=" + $scope.currentAppService.name + "&templateName=" + $scope.selectedTemplate.name + ($scope.selectedTemplate.language ? "&language=" + $scope.selectedTemplate.language : "") + "&autoCreate=true",
-                method: "POST",
-                data: $scope.selectedTemplate
-            }).success((data) => {
-                $scope.resource = data;
-                startCountDown($scope.resource.timeLeftString);
-                $state.go($scope.nextStep.sref);
-            }).error((err, status, headers) => {
-                if (status === 403) {
-                    //show login options
-                    if ($scope.currentAppService.name === "Api" && headers("LoginUrl")) {
-                        (<any>window).location = headers("LoginUrl");
-                    } else {
-                        $scope.loginOptions = true;
-                    }
-                } else {
-                    $scope.ngModels.errorMessage = err.Message;
-                }
-            }).finally(() => {
-                $scope.running = false;
-            });
+            createResource();
         } else {
             $state.go($scope.nextStep.sref);
         }
@@ -311,7 +289,7 @@
         $timeout(() => {
             $scope.running = false;
             $state.go($scope.previousStep.sref);
-        }, 3000);
+        }, 5000);
     };
 
     $scope.goToPreviousState = () => {
@@ -323,19 +301,7 @@
     };
 
     $scope.handleLoginClick = (method) => {
-        $http({
-            url: "api/resource?appService=" + $scope.currentAppService.name + "&templateName=" + $scope.selectedTemplate.name + ($scope.selectedTemplate.language ? "&language=" + $scope.selectedTemplate.language : "") + "&provider=" + method + "&autoCreate=true",
-            method: "POST"
-        }).error((err, status, headers) => {
-            (<any>window).location = headers("LoginUrl");
-        });
-    };
-
-    $scope.getApiSiteUrl = () => {
-        var apiSite = $scope.resource.Sites.find((s) => s.name.startsWith("TrySamples"));
-        return apiSite
-            ? apiSite.url
-            : $scope.resource.Sites[0].url;
+        createResource(method);
     };
 
     $scope.dismissSiteExpired = () => {
@@ -371,9 +337,9 @@
     }
 
     function initState() {
-        if ($location.search().appService) {
-            $scope.selectAppService($scope.appServices.find(a => a.name === $location.search().appService));
-            $scope.selectTemplate($scope.currentAppService.templates.find(t => t.name === $location.search().templateName));
+        if ($location.search().appServiceName) {
+            $scope.selectAppService($scope.appServices.find(a => a.name === $location.search().appServiceName));
+            $scope.selectTemplate($scope.currentAppService.templates.find(t => t.name === $location.search().name));
             if ($location.search().language) {
                 $scope.ngModels.selectedLanguage = $location.search().language;
             }
@@ -401,6 +367,35 @@
         }
     }
 
+    function createResource(method?: string) {
+        $scope.running = true;
+        $http({
+            url: "api/resource" + "?appServiceName=" + $scope.currentAppService.name + "&name=" + $scope.selectedTemplate.name + ($scope.selectedTemplate.language ? "&language=" + $scope.selectedTemplate.language : "") + "&autoCreate=true" + (method ? "&provider=" + method : ""),
+            method: "POST",
+            data: $scope.selectedTemplate
+        }).success((data) => {
+            var waitMoreBecauseAADAndIbiza = $scope.currentAppService.name == "Api" ? 10000 : 1000;
+            $timeout(() => {
+                $scope.resource = data;
+                startCountDown($scope.resource.timeLeftString);
+                $state.go($scope.nextStep.sref);
+                $scope.running = false;
+            }, waitMoreBecauseAADAndIbiza);
+        }).error((err, status, headers) => {
+            if (status === 403) {
+                //show login options
+                if (($scope.currentAppService.name === "Api" || method) && headers("LoginUrl")) {
+                    (<any>window).location = headers("LoginUrl");
+                } else {
+                    $scope.loginOptions = true;
+                }
+            } else {
+                $scope.ngModels.errorMessage = err.Message;
+            }
+            $scope.running = false;
+        });
+    }
+
 function startCountDown(init) {
     if (init !== undefined) {
         var reg = '(\\d+)(m)?(:)(\\d+)(s)?';
@@ -414,16 +409,18 @@ function startCountDown(init) {
 }
 
 function countDown(expireDateTime) {
-    var now: any = new Date();
-    var diff = expireDateTime - now;
-    if (diff <= 0) {
-        $scope.timeLeft = "00m:00s";
-        $scope.siteExpired = true;
-        return;
+    if ($scope.resource) {
+        var now: any = new Date();
+        var diff = expireDateTime - now;
+        if (diff <= 0) {
+            $scope.timeLeft = "00m:00s";
+            $scope.siteExpired = true;
+            return;
+        }
+        diff = diff / 1000;
+        $scope.timeLeft = ("0" + Math.floor(diff / 60)).slice(-2) + "m:" + ("0" + Math.floor(diff % 60)).slice(-2) + "s";
+        $timeout(() => countDown(expireDateTime), 1000);
     }
-    diff = diff / 1000;
-    $scope.timeLeft = ("0" + Math.floor(diff / 60)).slice(-2) + "m:" + ("0" + Math.floor(diff % 60)).slice(-2) + "s";
-    $timeout(() => countDown(expireDateTime), 1000);
 }
 
 }])

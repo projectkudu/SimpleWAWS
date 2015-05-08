@@ -7,6 +7,7 @@ using System.Web.Routing;
 using SimpleWAWS.Authentication;
 using SimpleWAWS.Models;
 using System.Web;
+using SimpleWAWS.Trace;
 
 namespace SimpleWAWS
 {
@@ -14,13 +15,13 @@ namespace SimpleWAWS
     {
         protected void Application_Start()
         {
-            Trace.TraceInformation("{0} Application started", AnalyticsEvents.ApplicationStarted);
+            SimpleTrace.TraceInformation("{0} Application started", AnalyticsEvents.ApplicationStarted);
             //Configure Json formatter
             GlobalConfiguration.Configuration.Formatters.Clear();
             GlobalConfiguration.Configuration.Formatters.Add(new JsonMediaTypeFormatter());
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.Error = (sender, args) =>
             {
-                Trace.TraceError(args.ErrorContext.Error.Message);
+                SimpleTrace.TraceError(args.ErrorContext.Error.Message);
                 args.ErrorContext.Handled = true;
             };
             //Templates Routes
@@ -43,6 +44,15 @@ namespace SimpleWAWS
 
             //Register auth provider
             SecurityManager.InitAuthProviders();
+        }
+
+        protected void Application_BeginRequest(Object sender, EventArgs e)
+        {
+            if (HttpContext.Current.Request.Cookies[Constants.TiPCookie] == null &&
+                HttpContext.Current.Request.QueryString[Constants.TiPCookie] != null)
+            {
+                HttpContext.Current.Response.Cookies.Add(new HttpCookie(Constants.TiPCookie, HttpContext.Current.Request.QueryString[Constants.TiPCookie]) { Path = "/" });
+            }
         }
 
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
@@ -81,7 +91,7 @@ namespace SimpleWAWS
 
                 if (Response.StatusCode >= 500)
                 {
-                    Trace.TraceError(ex.ToString());
+                    SimpleTrace.TraceError(ex.ToString());
                 }
             }
         }

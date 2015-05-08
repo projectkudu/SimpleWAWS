@@ -19,6 +19,8 @@ using SimpleWAWS.Kudu;
 using Newtonsoft.Json.Converters;
 using SimpleWAWS.Code;
 using SimpleWAWS.Code.CsmExtensions;
+using SimpleWAWS.Trace;
+using System.Configuration;
 
 namespace SimpleWAWS.Models
 {
@@ -34,16 +36,12 @@ namespace SimpleWAWS.Models
             }
         }
 
-        [JsonProperty("name")]
         public string SiteName { get; private set; }
 
-        [JsonIgnore]
         public Dictionary<string, string> AppSettings { get; set; }
 
-        [JsonIgnore]
         public Dictionary<string, string> Metadata { get; set; }
 
-        [JsonIgnore]
         public string HostName { get; set; }
 
         public string ScmHostName { get; set; }
@@ -54,7 +52,6 @@ namespace SimpleWAWS.Models
             this.SiteName = name;
         }
 
-        [JsonProperty("url")]
         public string Url
         {
             get 
@@ -63,7 +60,6 @@ namespace SimpleWAWS.Models
             }
         }
 
-        [JsonProperty("mobileUrl")]
         public string MobileUrl
         {
             get
@@ -72,7 +68,6 @@ namespace SimpleWAWS.Models
             }
         }
 
-        [JsonProperty("scmUrl")]
         public string ScmUrl
         {
             get
@@ -81,7 +76,6 @@ namespace SimpleWAWS.Models
             }
         }
 
-        [JsonProperty("scmUrlWithCreds")]
         public string ScmUrlWithCreds
         {
             get
@@ -90,7 +84,6 @@ namespace SimpleWAWS.Models
             }
         }
 
-        [JsonProperty("kuduConsoleWithCreds")]
         public string KuduConsoleWithCreds
         {
             get
@@ -99,7 +92,6 @@ namespace SimpleWAWS.Models
             }
         }
 
-        [JsonProperty("gitUrlWithCreds")]
         public string GitUrlWithCreds
         {
             get
@@ -108,7 +100,6 @@ namespace SimpleWAWS.Models
             }
         }
 
-        [JsonProperty("monacoUrl")]
         public string MonacoUrl
         {
             get
@@ -117,7 +108,6 @@ namespace SimpleWAWS.Models
             }
         }
 
-        [JsonProperty("contentDownloadUrl")]
         public string ContentDownloadUrl
         {
             get
@@ -126,10 +116,16 @@ namespace SimpleWAWS.Models
             }
         }
 
-        [JsonProperty("publishingUserName")]
+        public string IbizaUrl
+        {
+            get
+            {
+                return string.Concat("https://portal.azure.com/", ConfigurationManager.AppSettings["tryWebsitesTenantName"], "#resource", CsmId);
+            }
+        }
+
         public string PublishingUserName { get; set; }
 
-        [JsonProperty("publishingPassword")]
         public string PublishingPassword { get; set; }
 
         public void FireAndForget()
@@ -148,7 +144,7 @@ namespace SimpleWAWS.Models
             catch (Exception ex)
             {
                 //log and ignore any tcp exceptions
-                Trace.TraceWarning(ex.ToString());
+                SimpleTrace.TraceWarning(ex.ToString());
             }
         }
     }

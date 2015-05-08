@@ -12,6 +12,8 @@ using SimpleWAWS.Models;
 using SimpleWAWS.Authentication;
 using SimpleWAWS.Code.CsmExtensions;
 using System.Threading;
+using SimpleWAWS.Code;
+using SimpleWAWS.Trace;
 
 namespace SimpleWAWS.Controllers
 {
@@ -20,7 +22,8 @@ namespace SimpleWAWS.Controllers
         public async Task<HttpResponseMessage> GetResource()
         {
             var resourceManager = await ResourcesManager.GetInstanceAsync();
-            return Request.CreateResponse(HttpStatusCode.OK, await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name));
+            var resourceGroup = await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name);
+            return Request.CreateResponse(HttpStatusCode.OK, resourceGroup == null ? null : resourceGroup.UIResource);
         }
 
         [HttpGet]
@@ -60,7 +63,7 @@ namespace SimpleWAWS.Controllers
                 });
         }
 
-        public async Task<HttpResponseMessage> GetPublishingProfile()
+        public async Task<HttpResponseMessage> GetWebAppPublishingProfile()
         {
             var resourceManager = await ResourcesManager.GetInstanceAsync();
             var response = Request.CreateResponse();
@@ -120,7 +123,7 @@ namespace SimpleWAWS.Controllers
 
                 if ((await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name)) != null)
                 {
-                    Trace.TraceError("{0}; {1}; {2}", AnalyticsEvents.UserGotError,
+                    SimpleTrace.TraceError("{0}; {1}; {2}", AnalyticsEvents.UserGotError,
                         HttpContext.Current.User.Identity.Name, "You can't have more than 1 free site at a time");
 
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest,
@@ -149,7 +152,7 @@ namespace SimpleWAWS.Controllers
                         break;
                 }
 
-                return Request.CreateResponse(HttpStatusCode.OK, resourceGroup);
+                return Request.CreateResponse(HttpStatusCode.OK, resourceGroup == null ? null : resourceGroup.UIResource);
             }
             catch (ThreadAbortException)
             {
@@ -157,7 +160,7 @@ namespace SimpleWAWS.Controllers
             }
             catch (Exception ex)
             {
-                Trace.TraceError("{0}; {1}; {2}", AnalyticsEvents.UserGotError, HttpContext.Current.User.Identity.Name, ex.Message);
+                SimpleTrace.TraceError("{0}; {1}; {2}", AnalyticsEvents.UserGotError, HttpContext.Current.User.Identity.Name, ex.Message);
                 return Request.CreateErrorResponse(HttpStatusCode.ServiceUnavailable, ex.Message);
             }
         }

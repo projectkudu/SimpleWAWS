@@ -1,6 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 
@@ -59,6 +61,14 @@ namespace SimpleWAWS.Models
                 { "location", new { value = Location } },
                 { MicroserviceId,  new { value = new Dictionary<string, string> { { "$apiAppName", ApiAppName } } } }
             });
+        }
+
+        public string IbizaUrl
+        {
+            get
+            {
+                return string.Concat("https://portal.azure.com/", ConfigurationManager.AppSettings["tryWebsitesTenantName"], "#resource", CsmId);
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using SimpleWAWS.Trace;
 
 namespace SimpleWAWS.Models
 {
@@ -115,7 +116,7 @@ namespace SimpleWAWS.Models
             {
                 // we need to authenticate
                 //but also log the error
-                Trace.TraceError(e.ToString());
+                SimpleTrace.TraceError(e.ToString());
             }
             return false;
         }
@@ -129,7 +130,7 @@ namespace SimpleWAWS.Models
                 if (userCookie == null)
                 {
                     var user = Guid.NewGuid().ToString();
-                    context.Response.Cookies.Add(new HttpCookie(Constants.AnonymousUser, Uri.EscapeDataString(user.Encrypt(Constants.EncryptionReason))) { Path = "/", Expires = DateTime.UtcNow.AddDays(1) });
+                    context.Response.Cookies.Add(new HttpCookie(Constants.AnonymousUser, Uri.EscapeDataString(user.Encrypt(Constants.EncryptionReason))) { Path = "/", Expires = DateTime.UtcNow.AddMinutes(30) });
                 }
                 else
                 {
@@ -139,7 +140,7 @@ namespace SimpleWAWS.Models
             }
             catch (Exception e)
             {
-                Trace.TraceError("Error Adding anonymous user: " + e.ToString());
+                SimpleTrace.TraceError("Error Adding anonymous user: " + e.ToString());
             }
         }
 
