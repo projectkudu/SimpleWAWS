@@ -9,6 +9,7 @@ using SimpleWAWS.Models;
 using System.Web;
 using SimpleWAWS.Trace;
 using SimpleWAWS.Code;
+using Serilog;
 
 namespace SimpleWAWS
 {
