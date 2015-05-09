@@ -284,12 +284,10 @@
         $http({
             url: "api/resource",
             method: "DELETE"
-        });
-
-        $timeout(() => {
-            $scope.running = false;
-            $state.go($scope.previousStep.sref);
-        }, 5000);
+        })
+            .success(() => $state.go($scope.previousStep.sref))
+            .error((e) => $scope.ngModels.errorMessage = e.Message)
+            .finally(() => $scope.running = false);
     };
 
     $scope.goToPreviousState = () => {

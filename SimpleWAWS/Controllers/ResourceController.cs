@@ -154,10 +154,6 @@ namespace SimpleWAWS.Controllers
 
                 return Request.CreateResponse(HttpStatusCode.OK, resourceGroup == null ? null : resourceGroup.UIResource);
             }
-            catch (ThreadAbortException)
-            {
-                throw;
-            }
             catch (Exception ex)
             {
                 SimpleTrace.TraceError("{0}; {1}; {2}", AnalyticsEvents.UserGotError, HttpContext.Current.User.Identity.Name, ex.Message);

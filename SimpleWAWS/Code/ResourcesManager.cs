@@ -24,6 +24,7 @@ using SimpleWAWS.Code.CsmExtensions;
 using SimpleWAWS.Models.CsmModels;
 using Newtonsoft.Json.Linq;
 using SimpleWAWS.Trace;
+using System.Web.Hosting;
 
 namespace SimpleWAWS.Models
 {
@@ -180,8 +181,10 @@ namespace SimpleWAWS.Models
             }
             ResourceGroup temp;
             this._resourceGroupsInUse.TryRemove(resourceGroup.UserId, out temp);
-            var newResourceGroup =  await resourceGroup.DeleteAndCreateReplacement();
-            this._freeResourceGroups.Enqueue(newResourceGroup);
+            HostingEnvironment.QueueBackgroundWorkItem(async (c) => { 
+                var newResourceGroup = await resourceGroup.DeleteAndCreateReplacement().ConfigureAwait(false);
+                this._freeResourceGroups.Enqueue(newResourceGroup);
+            });
         }
 
         // ARM
