@@ -24,11 +24,11 @@ namespace SimpleWAWS.Models
 
             var state = context.Request.QueryString["state"];
             if (string.IsNullOrEmpty(state))
-                return Constants.DefaultAuthProvider;
+                return AuthConstants.DefaultAuthProvider;
 
             state = WebUtility.UrlDecode(state);
             var match = Regex.Match(state, "provider=([^&]+)", RegexOptions.IgnoreCase);
-            return match.Success ? match.Groups[1].Value : Constants.DefaultAuthProvider;
+            return match.Success ? match.Groups[1].Value : AuthConstants.DefaultAuthProvider;
         }
 
         private static IAuthProvider GetAuthProvider(HttpContext context)
@@ -42,7 +42,7 @@ namespace SimpleWAWS.Models
             }
             else
             {
-                return _authProviders[Constants.DefaultAuthProvider];
+                return _authProviders[AuthConstants.DefaultAuthProvider];
             }
         }
 
@@ -78,8 +78,8 @@ namespace SimpleWAWS.Models
             try
             {
                 var loginSessionCookie =
-                    Uri.UnescapeDataString(context.Request.Cookies[Constants.LoginSessionCookie].Value)
-                        .Decrypt(Constants.EncryptionReason);
+                    Uri.UnescapeDataString(context.Request.Cookies[AuthConstants.LoginSessionCookie].Value)
+                        .Decrypt(AuthConstants.EncryptionReason);
                 var splited = loginSessionCookie.Split(';');
                 if (splited.Length == 2)
                 {
@@ -126,15 +126,15 @@ namespace SimpleWAWS.Models
             try
             {
                 if (!context.IsBrowserRequest()) return;
-                var userCookie = context.Request.Cookies[Constants.AnonymousUser];
+                var userCookie = context.Request.Cookies[AuthConstants.AnonymousUser];
                 if (userCookie == null)
                 {
                     var user = Guid.NewGuid().ToString();
-                    context.Response.Cookies.Add(new HttpCookie(Constants.AnonymousUser, Uri.EscapeDataString(user.Encrypt(Constants.EncryptionReason))) { Path = "/", Expires = DateTime.UtcNow.AddMinutes(30) });
+                    context.Response.Cookies.Add(new HttpCookie(AuthConstants.AnonymousUser, Uri.EscapeDataString(user.Encrypt(AuthConstants.EncryptionReason))) { Path = "/", Expires = DateTime.UtcNow.AddMinutes(30) });
                 }
                 else
                 {
-                    var user = Uri.UnescapeDataString(userCookie.Value).Decrypt(Constants.EncryptionReason);
+                    var user = Uri.UnescapeDataString(userCookie.Value).Decrypt(AuthConstants.EncryptionReason);
                     context.User = new TryWebsitesPrincipal(new TryWebsitesIdentity(user, null, "Anonymous"));
                 }
             }
@@ -150,16 +150,16 @@ namespace SimpleWAWS.Models
 
             response.Headers.Add("LoginUrl", (_authProviders["AAD"] as AADProvider).GetLoginUrl(HttpContext.Current));
 
-            if (HttpContext.Current.Response.Cookies[Constants.LoginSessionCookie] != null)
+            if (HttpContext.Current.Response.Cookies[AuthConstants.LoginSessionCookie] != null)
             {
-                response.Headers.AddCookies(new [] { new CookieHeaderValue(Constants.LoginSessionCookie, string.Empty){ Expires = DateTime.UtcNow.AddDays(-1), Path = "/" } });
+                response.Headers.AddCookies(new [] { new CookieHeaderValue(AuthConstants.LoginSessionCookie, string.Empty){ Expires = DateTime.UtcNow.AddDays(-1), Path = "/" } });
             }
             return response;
         }
 
         private static bool ValidDateTimeSessionCookie(DateTime date)
         {
-            return date.Add(Constants.SessionCookieValidTimeSpan) > DateTime.UtcNow;
+            return date.Add(AuthConstants.SessionCookieValidTimeSpan) > DateTime.UtcNow;
         }
     }
 }

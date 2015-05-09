@@ -180,7 +180,7 @@
     <Compile Include="Authentication\AADProvider.cs" />
     <Compile Include="Authentication\BaseAuthProvider.cs" />
     <Compile Include="Authentication\BaseOpenIdConnectAuthProvider.cs" />
-    <Compile Include="Authentication\Constants.cs" />
+    <Compile Include="Authentication\AuthConstants.cs" />
     <Compile Include="Authentication\FacebookAuthProvider.cs" />
     <Compile Include="Authentication\GoogleAuthProvider.cs" />
     <Compile Include="Authentication\IAuthProvider.cs" />
@@ -193,6 +193,8 @@
     <Compile Include="Code\AnalyticsEvents.cs" />
     <Compile Include="Code\CsmExtensions\CsmApiAppExtensions.cs" />
     <Compile Include="Code\CsmExtensions\CsmDeploymentExtensions.cs" />
+    <Compile Include="Code\ExperimentManager.cs" />
+    <Compile Include="Models\Experiment.cs" />
     <Compile Include="Models\UIResource.cs" />
     <Compile Include="Trace\SimpleTrace.cs" />
     <Compile Include="Code\TaskExtensions.cs" />

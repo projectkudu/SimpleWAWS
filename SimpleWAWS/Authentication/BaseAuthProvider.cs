@@ -43,9 +43,9 @@ namespace SimpleWAWS.Authentication
                     case TokenResults.ExistsAndCorrect:
                         // Ajax can never send Bearer token
                         context.Response.Cookies.Add(CreateSessionCookie(context.User));
-                        if (context.Response.Cookies[Constants.AnonymousUser] != null)
+                        if (context.Response.Cookies[AuthConstants.AnonymousUser] != null)
                         {
-                            context.Response.Cookies[Constants.AnonymousUser].Expires = DateTime.UtcNow.AddDays(-1);
+                            context.Response.Cookies[AuthConstants.AnonymousUser].Expires = DateTime.UtcNow.AddDays(-1);
                         }
                         context.Response.RedirectLocation = context.Request["state"];
                         context.Response.StatusCode = 302; // Redirect
@@ -72,7 +72,7 @@ namespace SimpleWAWS.Authentication
             var identity = user.Identity as TryWebsitesIdentity;
             var value = string.Format("{0};{1};{2};{3}", identity.Email, identity.Puid, identity.Issuer, DateTime.UtcNow);
             SimpleTrace.TraceInformation("{0};{1};{2}", AnalyticsEvents.UserLoggedIn, identity.Email, identity.Issuer);
-            return new HttpCookie(Constants.LoginSessionCookie, Uri.EscapeDataString(value.Encrypt(Constants.EncryptionReason))) { Path = "/" };
+            return new HttpCookie(AuthConstants.LoginSessionCookie, Uri.EscapeDataString(value.Encrypt(AuthConstants.EncryptionReason))) { Path = "/" };
         }
     }
 }

@@ -8,6 +8,7 @@ using SimpleWAWS.Authentication;
 using SimpleWAWS.Models;
 using System.Web;
 using SimpleWAWS.Trace;
+using SimpleWAWS.Code;
 
 namespace SimpleWAWS
 {
@@ -48,10 +49,12 @@ namespace SimpleWAWS
 
         protected void Application_BeginRequest(Object sender, EventArgs e)
         {
+            HttpContext.Current.AssignExperiment();
+
             if (HttpContext.Current.Request.Cookies[Constants.TiPCookie] == null &&
                 HttpContext.Current.Request.QueryString[Constants.TiPCookie] != null)
             {
-                HttpContext.Current.Response.Cookies.Add(new HttpCookie(Constants.TiPCookie, HttpContext.Current.Request.QueryString[Constants.TiPCookie]) { Path = "/" });
+                HttpContext.Current.Response.Cookies.Add(new HttpCookie(Constants.TiPCookie, HttpContext.Current.Request.QueryString[AuthConstants.TiPCookie]) { Path = "/" });
             }
         }
 

@@ -12,10 +12,10 @@ namespace SimpleWAWS.Authentication
         public override string GetLoginUrl(HttpContext context)
         {
             var builder = new StringBuilder();
-            builder.Append(ConfigurationManager.AppSettings[Constants.BaseLoginUrl]);
+            builder.Append(ConfigurationManager.AppSettings[AuthConstants.BaseLoginUrl]);
             builder.Append("?response_type=id_token");
             builder.AppendFormat("&redirect_uri={0}", WebUtility.UrlEncode(string.Format("https://{0}/", context.Request.Headers["HOST"])));
-            builder.AppendFormat("&client_id={0}", ConfigurationManager.AppSettings[Constants.AADAppId]);
+            builder.AppendFormat("&client_id={0}", ConfigurationManager.AppSettings[AuthConstants.AADAppId]);
             builder.Append("&response_mode=query");
             builder.AppendFormat("&resource={0}", WebUtility.UrlEncode("https://management.core.windows.net/"));
             builder.AppendFormat("&site_id={0}", "500879");
@@ -26,7 +26,7 @@ namespace SimpleWAWS.Authentication
 
         protected override string GetValidAudiance()
         {
-            return ConfigurationManager.AppSettings[Constants.AADAppId];
+            return ConfigurationManager.AppSettings[AuthConstants.AADAppId];
         }
 
         protected override string GetIssuerName()

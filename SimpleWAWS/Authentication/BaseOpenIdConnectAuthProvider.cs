@@ -101,8 +101,8 @@ namespace SimpleWAWS.Authentication
             var jwt = context.Request["id_token"];
             if (jwt != null) return jwt;
             var authHeader = context.Request.Headers["Authorization"];
-            if (authHeader == null || authHeader.IndexOf(Constants.BearerHeader, StringComparison.InvariantCultureIgnoreCase) == -1) return null;
-            return authHeader.Substring(Constants.BearerHeader.Length).Trim();
+            if (authHeader == null || authHeader.IndexOf(AuthConstants.BearerHeader, StringComparison.InvariantCultureIgnoreCase) == -1) return null;
+            return authHeader.Substring(AuthConstants.BearerHeader.Length).Trim();
         }
     }
 }

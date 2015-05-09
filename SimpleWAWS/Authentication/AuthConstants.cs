@@ -2,7 +2,7 @@
 
 namespace SimpleWAWS.Authentication
 {
-    public static class Constants
+    public static class AuthConstants
     {
         public const string EncryptionReason = "ProtectCookie";
         public const string LoginSessionCookie = "loginsession";
