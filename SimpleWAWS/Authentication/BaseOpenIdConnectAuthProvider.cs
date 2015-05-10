@@ -79,17 +79,14 @@ namespace SimpleWAWS.Authentication
                 var issuerClaim = user.Claims.Where(c => c.Type == issuerClaimType).Select(c => c.Value).FirstOrDefault();
                 var puidClaim = user.Claims.Where(c => c.Type == puidClaimType || c.Type == altSecIdClaimType).Select(c => c.Value).FirstOrDefault();
 
-                if (puidClaim != null)
-                {
-                    SimpleTrace.TraceInformation("{0}; {1}; {2}", AnalyticsEvents.UserPuidValue, user.Identity.Name, puidClaim.Split(':').Last());
-                }
+                var principal = new TryWebsitesPrincipal(new TryWebsitesIdentity(upnClaim ?? emailClaim ?? user.Identity.Name, puidClaim, GetIssuerName()));
 
-                return new TryWebsitesPrincipal(new TryWebsitesIdentity(upnClaim ?? emailClaim ?? user.Identity.Name, puidClaim, GetIssuerName()));
+                return principal;
             }
             catch (Exception e)
             {
                 //failed validating
-                SimpleTrace.TraceError(e.ToString());
+                SimpleTrace.Diagnostics.Error(e, "Error reading claims {jwt}", jwt);
             }
 
             return null;

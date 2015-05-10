@@ -19,7 +19,7 @@ namespace SimpleWAWS.Controllers
             var userName = User != null && User.Identity != null && !string.IsNullOrEmpty(User.Identity.Name)
                 ? User.Identity.Name
                 : "-";
-            SimpleTrace.TraceInformation("{0}; {1}", AnalyticsEvents.TelemetryEventsMap[telemetryEvent], userName);
+            SimpleTrace.Analytics.Information(AnalyticsEvents.TelemetryEventsMap[telemetryEvent], User);
             return Request.CreateResponse(HttpStatusCode.OK);
         }
     }

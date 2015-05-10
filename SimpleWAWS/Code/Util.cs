@@ -17,7 +17,7 @@ namespace SimpleWAWS.Models
             }
             catch (Exception e)
             {
-                SimpleTrace.TraceError(e.ToString());
+                SimpleTrace.Diagnostics.Error(e, "SafeGuard Exception");
             }
         }
         public static async Task<T> SafeGuard<T>(Func<Task<T>> action)
@@ -28,7 +28,7 @@ namespace SimpleWAWS.Models
             }
             catch (Exception e)
             {
-                SimpleTrace.TraceError(e.ToString());
+                SimpleTrace.Diagnostics.Error(e, "SafeGuard<T> Exception");
                 return default(T);
             }
         }

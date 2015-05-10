@@ -48,6 +48,8 @@ namespace SimpleWAWS.Code
 
         public static string GetCurrentExperiment()
         {
+            if (HttpContext.Current == null) return "NoRequest";
+
             return HttpContext.Current.Request.Cookies[_experimentCookie] != null
                 ? HttpContext.Current.Request.Cookies[_experimentCookie].Value
                 : _defaultExperiment.Name;

@@ -144,7 +144,7 @@ namespace SimpleWAWS.Models
             catch (Exception ex)
             {
                 //log and ignore any tcp exceptions
-                SimpleTrace.TraceWarning(ex.ToString());
+                SimpleTrace.Diagnostics.Error(ex, "TCP Error");
             }
         }
     }

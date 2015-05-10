@@ -125,7 +125,7 @@ namespace SimpleWAWS.Models
             }
             catch (Exception e)
             {
-                SimpleTrace.TraceError("{0}; {1}; {2}; {3}; {4}", AnalyticsEvents.ErrorInAddRbacUser, e.GetBaseException().Message.RemoveNewLines(), e.GetBaseException().StackTrace.RemoveNewLines(), puidOrAltSec, emailAddress);
+                SimpleTrace.Diagnostics.Fatal(e, AnalyticsEvents.ErrorInAddRbacUser, new { Puid = puidOrAltSec, Email = emailAddress });
             }
             return false;
         }
@@ -150,7 +150,7 @@ namespace SimpleWAWS.Models
             }
             catch(Exception e)
             {
-                SimpleTrace.TraceError("{0}; {1}; {2}", AnalyticsEvents.ErrorInRemoveRbacUser, e.GetBaseException().Message.RemoveNewLines(), resourceGroup.ResourceUniqueId);
+                SimpleTrace.Diagnostics.Error(e, AnalyticsEvents.ErrorInRemoveRbacUser, resourceGroup.CsmId);
             }
         }
 
@@ -171,7 +171,7 @@ namespace SimpleWAWS.Models
             }
             catch (Exception e)
             {
-                SimpleTrace.TraceError("{0}; {1}; {2}", AnalyticsEvents.ErrorInCheckRbacUser, e.GetBaseException().Message.RemoveNewLines(), resourceGroup.ResourceUniqueId);
+                SimpleTrace.Diagnostics.Error(e, AnalyticsEvents.ErrorInCheckRbacUser, resourceGroup.CsmId);
                 return false;
             }
         }

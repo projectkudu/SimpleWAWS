@@ -185,15 +185,14 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             if (rbacEnabled && !string.IsNullOrEmpty(userPrincipalId))
             {
-                SimpleTrace.TraceInformation("{0}; {1}", AnalyticsEvents.RemoveUserFromTenant, userPrincipalId);
+                SimpleTrace.Diagnostics.Information(AnalyticsEvents.RemoveUserFromTenant, userPrincipalId);
                 var graphUser = new RbacUser
                 {
                     TenantId = ConfigurationManager.AppSettings["tryWebsitesTenantId"],
                     UserId = string.Concat(userPrincipalId, "#EXT#", ConfigurationManager.AppSettings["tryWebsitesTenantName"])
                 };
                 var response = await graphClient.HttpInvoke(HttpMethod.Delete, CsmTemplates.GraphUser.Bind(graphUser));
-                SimpleTrace.TraceInformation("{0}; {1}; {2}", AnalyticsEvents.RemoveUserFromTenantResult,
-                    response.StatusCode.ToString(), response.IsSuccessStatusCode ? "success" : await response.Content.ReadAsStringAsync());
+                SimpleTrace.Diagnostics.Information(AnalyticsEvents.RemoveUserFromTenantResult, response, response.IsSuccessStatusCode ? "success" : await response.Content.ReadAsStringAsync());
             }
 
             await Delete(resourceGroup, block: true);

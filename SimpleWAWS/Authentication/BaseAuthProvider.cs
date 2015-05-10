@@ -57,7 +57,7 @@ namespace SimpleWAWS.Authentication
             }
             catch (Exception e)
             {
-                SimpleTrace.TraceError(e.ToString());
+                SimpleTrace.Diagnostics.Error(e, "General Authentication Exception");
                 context.Response.RedirectLocation = ConfigurationManager.AppSettings["LoginErrorPage"];
                 context.Response.StatusCode = 302; // Redirect
             }
@@ -71,7 +71,7 @@ namespace SimpleWAWS.Authentication
         {
             var identity = user.Identity as TryWebsitesIdentity;
             var value = string.Format("{0};{1};{2};{3}", identity.Email, identity.Puid, identity.Issuer, DateTime.UtcNow);
-            SimpleTrace.TraceInformation("{0};{1};{2}", AnalyticsEvents.UserLoggedIn, identity.Email, identity.Issuer);
+            SimpleTrace.Analytics.Information(AnalyticsEvents.UserLoggedIn, identity);
             return new HttpCookie(AuthConstants.LoginSessionCookie, Uri.EscapeDataString(value.Encrypt(AuthConstants.EncryptionReason))) { Path = "/" };
         }
     }

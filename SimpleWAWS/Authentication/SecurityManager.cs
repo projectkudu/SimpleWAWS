@@ -116,7 +116,7 @@ namespace SimpleWAWS.Models
             {
                 // we need to authenticate
                 //but also log the error
-                SimpleTrace.TraceError(e.ToString());
+                SimpleTrace.Diagnostics.Error(e, "Exception during cookie authentication");
             }
             return false;
         }
@@ -140,7 +140,7 @@ namespace SimpleWAWS.Models
             }
             catch (Exception e)
             {
-                SimpleTrace.TraceError("Error Adding anonymous user: " + e.ToString());
+                SimpleTrace.Diagnostics.Error(e, "Error Adding anonymous user");
             }
         }
 

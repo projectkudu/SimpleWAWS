@@ -123,8 +123,7 @@ namespace SimpleWAWS.Controllers
 
                 if ((await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name)) != null)
                 {
-                    SimpleTrace.TraceError("{0}; {1}; {2}", AnalyticsEvents.UserGotError,
-                        HttpContext.Current.User.Identity.Name, "You can't have more than 1 free site at a time");
+                    SimpleTrace.Diagnostics.Fatal(AnalyticsEvents.MoreThanOneError, HttpContext.Current.User.Identity);
 
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                         "You can't have more than 1 free site at a time");
@@ -156,7 +155,7 @@ namespace SimpleWAWS.Controllers
             }
             catch (Exception ex)
             {
-                SimpleTrace.TraceError("{0}; {1}; {2}", AnalyticsEvents.UserGotError, HttpContext.Current.User.Identity.Name, ex.Message);
+                SimpleTrace.Diagnostics.Fatal(ex, AnalyticsEvents.UserGotError, HttpContext.Current.User.Identity, ex.Message);
                 return Request.CreateErrorResponse(HttpStatusCode.ServiceUnavailable, ex.Message);
             }
         }

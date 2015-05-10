@@ -17,13 +17,35 @@ namespace SimpleWAWS
     {
         protected void Application_Start()
         {
-            SimpleTrace.TraceInformation("{0} Application started", AnalyticsEvents.ApplicationStarted);
+            //Init logger
+
+            //Analytics logger
+            var analyticsLogger = new LoggerConfiguration()
+                .Enrich.With(new ExperimentEnricher())
+                .Enrich.With(new UserNameEnricher())
+                .WriteTo.AzureDocumentDB(new Uri("/"), "", "TryAppService", "Analytics")
+                .WriteTo.AzureDocumentDB(new Uri("/"), "", "TryAppService", "Diagnostics")
+                .CreateLogger();
+
+            SimpleTrace.Analytics = analyticsLogger;
+
+            //Diagnostics Logger
+            var diagnosticsLogger = new LoggerConfiguration()
+                .MinimumLevel.Verbose()
+                .Enrich.With(new ExperimentEnricher())
+                .Enrich.With(new UserNameEnricher())
+                .WriteTo.AzureDocumentDB(new Uri("/"), "", "TryAppService", "Diagnostics")
+                .CreateLogger();
+
+            SimpleTrace.Diagnostics = diagnosticsLogger;
+
+            SimpleTrace.Diagnostics.Information("Application started");
             //Configure Json formatter
             GlobalConfiguration.Configuration.Formatters.Clear();
             GlobalConfiguration.Configuration.Formatters.Add(new JsonMediaTypeFormatter());
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.Error = (sender, args) =>
             {
-                SimpleTrace.TraceError(args.ErrorContext.Error.Message);
+                SimpleTrace.Diagnostics.Error(args.ErrorContext.Error.Message);
                 args.ErrorContext.Handled = true;
             };
             //Templates Routes
@@ -95,7 +117,7 @@ namespace SimpleWAWS
 
                 if (Response.StatusCode >= 500)
                 {
-                    SimpleTrace.TraceError(ex.ToString());
+                    SimpleTrace.Diagnostics.Error(ex, "Exception from Application_Error");
                 }
             }
         }

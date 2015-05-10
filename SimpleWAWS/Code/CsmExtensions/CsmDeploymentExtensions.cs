@@ -52,7 +52,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 }
                 else
                 {
-                    SimpleTrace.TraceInformation("Unknown status code from CSM {0}", result);
+                    SimpleTrace.Diagnostics.Error("Unknown status code from CSM {provisioningState}", result);
                     throw new Exception("Unknown status " + result);
                 }
 
