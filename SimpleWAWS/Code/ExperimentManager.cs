@@ -40,16 +40,16 @@ namespace SimpleWAWS.Code
 
         public static void AssignExperiment(this HttpContext context)
         {
-            if (HttpContext.Current.Request.Cookies[_experimentCookie] == null)
+            if (context.Request.Cookies[_experimentCookie] == null)
             {
-                HttpContext.Current.Response.Cookies.Add(new HttpCookie(_experimentCookie, GetExperiment()) { Path = "/", Expires = DateTime.UtcNow.AddDays(1) });
+                context.Response.Cookies.Add(new HttpCookie(_experimentCookie, GetExperiment()) { Path = "/", Expires = DateTime.UtcNow.AddDays(1) });
             }
         }
 
-        public static string GetCurrentExperiment(this HttpContext context)
+        public static string GetCurrentExperiment()
         {
             return HttpContext.Current.Request.Cookies[_experimentCookie] != null
-                ? HttpContext.Current.Request.Cookies[_experimentCookie].Value.Decrypt()
+                ? HttpContext.Current.Request.Cookies[_experimentCookie].Value
                 : _defaultExperiment.Name;
         }
 

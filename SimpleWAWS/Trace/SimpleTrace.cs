@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimpleWAWS.Code;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
@@ -18,7 +19,7 @@ namespace SimpleWAWS.Trace
         {
             if (args.Length > 0)
             {
-                args[0] = string.Concat(args[0], "#", ConfigurationManager.AppSettings["CurrentExpriment"]);
+                args[0] = string.Concat(args[0], "#", ExperimentManager.GetCurrentExperiment());
             }
 
             System.Diagnostics.Trace.TraceInformation(format, args);
@@ -33,7 +34,7 @@ namespace SimpleWAWS.Trace
         {
             if (args.Length > 0)
             {
-                args[0] = string.Concat(args[0], "#", ConfigurationManager.AppSettings["CurrentExpriment"]);
+                args[0] = string.Concat(args[0], "#", ExperimentManager.GetCurrentExperiment());
             }
 
             System.Diagnostics.Trace.TraceError(format, args);
@@ -48,7 +49,7 @@ namespace SimpleWAWS.Trace
         {
             if (args.Length > 0)
             {
-                args[0] = string.Concat(args[0], "#", ConfigurationManager.AppSettings["CurrentExpriment"]);
+                args[0] = string.Concat(args[0], "#", ExperimentManager.GetCurrentExperiment());
             }
 
             System.Diagnostics.Trace.TraceWarning(format, args);

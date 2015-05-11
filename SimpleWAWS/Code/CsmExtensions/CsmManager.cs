@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using SimpleWAWS.Models;
 using SimpleWAWS.Models.CsmModels;
+using SimpleWAWS.Trace;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -129,7 +130,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             }
             catch(Exception e)
             {
-                Console.WriteLine("{0}; {1}; {2}; {3}; {4}", AnalyticsEvents.ErrorInAddRbacUser, e.GetBaseException().Message.RemoveNewLines(), e.GetBaseException().StackTrace.RemoveNewLines(), puidOrAltSec, emailAddress);
+                SimpleTrace.TraceError("{0}; {1}; {2}; {3}; {4}", AnalyticsEvents.ErrorInAddRbacUser, e.GetBaseException().Message.RemoveNewLines(), e.GetBaseException().StackTrace.RemoveNewLines(), puidOrAltSec, emailAddress);
             }
 
             return false;
