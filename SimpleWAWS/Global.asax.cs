@@ -23,8 +23,8 @@ namespace SimpleWAWS
             var analyticsLogger = new LoggerConfiguration()
                 .Enrich.With(new ExperimentEnricher())
                 .Enrich.With(new UserNameEnricher())
-                .WriteTo.AzureDocumentDB(new Uri("/"), "", "TryAppService", "Analytics")
-                .WriteTo.AzureDocumentDB(new Uri("/"), "", "TryAppService", "Diagnostics")
+                .WriteTo.AzureDocumentDB(new Uri(""), "", "TryAppService", "Analytics")
+                .WriteTo.AzureDocumentDB(new Uri(""), "", "TryAppService", "Diagnostics")
                 .CreateLogger();
 
             SimpleTrace.Analytics = analyticsLogger;
@@ -34,7 +34,7 @@ namespace SimpleWAWS
                 .MinimumLevel.Verbose()
                 .Enrich.With(new ExperimentEnricher())
                 .Enrich.With(new UserNameEnricher())
-                .WriteTo.AzureDocumentDB(new Uri("/"), "", "TryAppService", "Diagnostics")
+                .WriteTo.AzureDocumentDB(new Uri(""), "", "TryAppService", "Diagnostics")
                 .CreateLogger();
 
             SimpleTrace.Diagnostics = diagnosticsLogger;

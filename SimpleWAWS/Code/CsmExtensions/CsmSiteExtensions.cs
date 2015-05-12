@@ -127,5 +127,13 @@ namespace SimpleWAWS.Code.CsmExtensions
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsStreamAsync();
         }
+
+        public static async Task Delete(this Site site)
+        {
+            Validate.ValidateCsmSite(site);
+
+            var response = await csmClient.HttpInvoke(HttpMethod.Delete, CsmTemplates.Site.Bind(site));
+            response.EnsureSuccessStatusCode();
+        }
     }
 }

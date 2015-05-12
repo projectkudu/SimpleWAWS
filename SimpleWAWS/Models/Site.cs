@@ -128,6 +128,16 @@ namespace SimpleWAWS.Models
 
         public string PublishingPassword { get; set; }
 
+        public bool IsSimpleWAWS
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(SiteName) &&
+                       Regex.IsMatch(SiteName, "^[A-F0-9]{8}-0ee0-4-231-b9ee$", RegexOptions.IgnoreCase) &&
+                       SiteName.IndexOf("try", StringComparison.OrdinalIgnoreCase) == -1;
+            }
+        }
+
         public void FireAndForget()
         {
             try

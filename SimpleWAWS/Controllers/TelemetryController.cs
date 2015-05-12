@@ -14,12 +14,15 @@ namespace SimpleWAWS.Controllers
 {
     public class TelemetryController : ApiController
     {
-        public HttpResponseMessage LogEvent(TelemetryEvent telemetryEvent)
+        public HttpResponseMessage LogEvent(string telemetryEvent, object properties)
         {
             var userName = User != null && User.Identity != null && !string.IsNullOrEmpty(User.Identity.Name)
                 ? User.Identity.Name
                 : "-";
-            SimpleTrace.Analytics.Information(AnalyticsEvents.TelemetryEventsMap[telemetryEvent], User);
+
+            SimpleTrace.Analytics.Information(AnalyticsEvents.UiEvent, telemetryEvent, properties);
+            SimpleTrace.TraceInformation("{0}; {1}", telemetryEvent, userName);
+
             return Request.CreateResponse(HttpStatusCode.OK);
         }
     }

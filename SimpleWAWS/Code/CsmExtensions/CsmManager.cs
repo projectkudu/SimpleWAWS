@@ -25,6 +25,8 @@ namespace SimpleWAWS.Code.CsmExtensions
         private const string _readerRole = "acdd72a7-3385-48ef-bd42-f606fba81ae7";
         private const string _contributorRold = "b24988ac-6180-42a0-ab88-20f7382dd24c";
 
+        private static readonly AsyncLock _rbacLock = new AsyncLock();
+
         static CsmManager()
         {
             Func<string, string> config = (s) => ConfigurationManager.AppSettings[s] ?? Environment.GetEnvironmentVariable(s);
@@ -35,14 +37,15 @@ namespace SimpleWAWS.Code.CsmExtensions
                 .ConfigureLogin(LoginType.Upn, config("grapAndCsmUserName"), config("graphAndCsmPassword"));
         }
 
-        public static async Task<bool> AddRbacAccess(this BaseResource csmResource, string puidOrAltSec, string emailAddress)
+        public static async Task<string> GetUserObjectId(string puidOrAltSec, string emailAddress)
         {
-            if (csmResource == null ||
-                string.IsNullOrEmpty(puidOrAltSec) ||
+
+            if (string.IsNullOrEmpty(puidOrAltSec) ||
                 string.IsNullOrEmpty(emailAddress) ||
                 puidOrAltSec.IndexOf("live.com", StringComparison.OrdinalIgnoreCase) == -1)
             {
-                return false;
+                SimpleTrace.Diagnostics.Verbose(AnalyticsEvents.NoRbacAccess, puidOrAltSec, emailAddress);
+                return null;
             }
 
             var rbacUser = new RbacUser
@@ -51,32 +54,28 @@ namespace SimpleWAWS.Code.CsmExtensions
                 UserPuid = puidOrAltSec.Split(':').Last()
             };
 
-            var rbacRole = csmResource is ServerFarm
-                ? _readerRole
-                : _contributorRold;
-
             try
             {
-                var graphResponse = await graphClient.HttpInvoke(HttpMethod.Get, CsmTemplates.GraphSearchUsers.Bind(rbacUser));
-                graphResponse.EnsureSuccessStatusCode();
+                var users = await SearchGraph(rbacUser);
 
-                var users = await graphResponse.Content.ReadAsAsync<GraphArrayWrapper<GraphUser>>();
-
-                var oid = string.Empty;
                 if (users.value.Count() == 0)
                 {
-                    //invite user
-                    graphResponse = await graphClient.HttpInvoke(HttpMethod.Post, CsmTemplates.GraphUsers.Bind(rbacUser), new
+                    var invitation = new
                     {
                         creationType = "Invitation",
                         displayName = emailAddress,
                         primarySMTPAddress = emailAddress,
                         userType = "Guest"
-                    });
+                    };
+
+                    SimpleTrace.Diagnostics.Verbose(AnalyticsEvents.InviteUser, rbacUser);
+                    //invite user
+                    var graphResponse = await graphClient.HttpInvoke(HttpMethod.Post, CsmTemplates.GraphUsers.Bind(rbacUser), invitation);
 
                     graphResponse.EnsureSuccessStatusCode();
                     var invite = await graphResponse.Content.ReadAsAsync<JObject>();
 
+                    SimpleTrace.Diagnostics.Verbose(AnalyticsEvents.RedeemUserInvitation);
                     //redeem invite on user's behalf
                     graphResponse = await graphClient.HttpInvoke(HttpMethod.Post, CsmTemplates.GraphRedeemInvite.Bind(rbacUser), new
                     {
@@ -94,13 +93,29 @@ namespace SimpleWAWS.Code.CsmExtensions
                     });
                     graphResponse.EnsureSuccessStatusCode();
                     var redemption = await graphResponse.Content.ReadAsAsync<JObject>();
-                    oid = redemption["objectId"].ToString();
+                    SimpleTrace.Diagnostics.Verbose(AnalyticsEvents.UserAddedToTenant, redemption["objectId"].ToString());
+                    return redemption["objectId"].ToString();
                 }
                 else
                 {
-                    oid = users.value.First().objectId;
+                    SimpleTrace.Diagnostics.Verbose(AnalyticsEvents.UserAlreadyInTenant, users.value.First().objectId);
+                    return users.value.First().objectId;
                 }
+            }
+            catch (Exception e)
+            {
+                SimpleTrace.Diagnostics.Error(e, AnalyticsEvents.ErrorInAddRbacUser, new { Puid = puidOrAltSec, Email = emailAddress });
+            }
+            return null;
+        }
 
+        public static async Task<bool> AddRbacAccess(this BaseResource csmResource, string objectId)
+        {
+            try
+            {
+                var rbacRole = csmResource is ServerFarm
+                ? _readerRole
+                : _contributorRold;
                 // add rbac contributor
                 // after adding a user, CSM can't find the user for a while
                 // pulling on the Graph GET doesn't work because that would return 200 while CSM still doesn't recognize the new user
@@ -113,10 +128,10 @@ namespace SimpleWAWS.Code.CsmExtensions
                             properties = new
                             {
                                 roleDefinitionId = string.Concat("/subscriptions/", csmResource.SubscriptionId, "/providers/Microsoft.Authorization/roleDefinitions/", rbacRole),
-                                principalId = oid
+                                principalId = objectId
                             }
                         });
-
+                    SimpleTrace.Diagnostics.Verbose(AnalyticsEvents.AssignRbacResult, csmResponse.StatusCode);
                     if (csmResponse.StatusCode == HttpStatusCode.BadRequest)
                     {
                         await Task.Delay(1000);
@@ -130,11 +145,18 @@ namespace SimpleWAWS.Code.CsmExtensions
             }
             catch(Exception e)
             {
-                SimpleTrace.TraceError("{0}; {1}; {2}; {3}; {4}", AnalyticsEvents.ErrorInAddRbacUser, e.GetBaseException().Message.RemoveNewLines(), e.GetBaseException().StackTrace.RemoveNewLines(), puidOrAltSec, emailAddress);
+                SimpleTrace.Diagnostics.Error(e, AnalyticsEvents.ErrorInAddRbacUser, objectId);
             }
 
+            SimpleTrace.Diagnostics.Verbose(AnalyticsEvents.FailedToAddRbacAccess);
             return false;
+        }
 
+        private static async Task<GraphArrayWrapper<GraphUser>> SearchGraph(RbacUser rbacUser)
+        {
+            var graphResponse = await graphClient.HttpInvoke(HttpMethod.Get, CsmTemplates.GraphSearchUsers.Bind(rbacUser));
+            graphResponse.EnsureSuccessStatusCode();
+            return await graphResponse.Content.ReadAsAsync<GraphArrayWrapper<GraphUser>>();
         }
 
         private static string GetEncodedPuid(string puid)

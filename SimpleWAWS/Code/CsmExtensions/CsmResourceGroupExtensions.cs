@@ -223,11 +223,15 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task<bool> AddResourceGroupRbac(this ResourceGroup resourceGroup, string puidOrAltSec, string emailAddress)
         {
+            var objectId = await GetUserObjectId(puidOrAltSec, emailAddress);
+
+            if (string.IsNullOrEmpty(objectId)) return false;
+
             return (await Task.WhenAll(
-                resourceGroup.Sites.Select(s => s.AddRbacAccess(puidOrAltSec, emailAddress))
-                .Concat(resourceGroup.ApiApps.Select(s => s.AddRbacAccess(puidOrAltSec, emailAddress)))
-                .Concat(resourceGroup.Gateways.Select(s => s.AddRbacAccess(puidOrAltSec,emailAddress)))
-                .Concat(resourceGroup.ServerFarms.Select(s => s.AddRbacAccess(puidOrAltSec, emailAddress)))))
+                resourceGroup.Sites.Select(s => s.AddRbacAccess(objectId))
+                .Concat(resourceGroup.ApiApps.Select(s => s.AddRbacAccess(objectId)))
+                .Concat(resourceGroup.Gateways.Select(s => s.AddRbacAccess(objectId)))
+                .Concat(resourceGroup.ServerFarms.Select(s => s.AddRbacAccess(objectId)))))
                 .All(e => e);
         }
 

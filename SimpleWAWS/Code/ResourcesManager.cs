@@ -280,6 +280,9 @@ namespace SimpleWAWS.Models
                 {
                     SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
                         userIdentity, template, resourceGroup.CsmId);
+                    SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
+                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
+                            template.Language, template.Name, resourceGroup.ResourceUniqueId);
 
                     var site = resourceGroup.Sites.First();
                     var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email);
@@ -317,6 +320,9 @@ namespace SimpleWAWS.Models
 
                 SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
                     userIdentity, template, resourceGroup.CsmId);
+                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
+                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
+                            "Api", template.ApiTemplateName, resourceGroup.ResourceUniqueId);
 
                 var apiApp = new ApiApp(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, Guid.NewGuid().ToString().Replace("-", ""))
                 {
@@ -345,6 +351,7 @@ namespace SimpleWAWS.Models
                 };
 
                 await deployment.Deploy(block: true);
+                await Task.WhenAll(resourceGroup.Sites.Where(s => s.IsSimpleWAWS).Select(s => Util.SafeGuard(() => s.Delete())));
 
                 // After a deployment, we have no idea what changes happened in the resource group
                 // we should reload it.
@@ -367,6 +374,9 @@ namespace SimpleWAWS.Models
 
                 SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
                     userIdentity.Name, template, resourceGroup);
+                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
+                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
+                            "Logic", template.Name, resourceGroup.ResourceUniqueId);
 
                 var logicApp = new LogicApp(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, Guid.NewGuid().ToString().Replace("-", ""))
                 {

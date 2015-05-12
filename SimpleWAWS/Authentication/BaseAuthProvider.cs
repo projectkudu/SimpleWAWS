@@ -72,6 +72,7 @@ namespace SimpleWAWS.Authentication
             var identity = user.Identity as TryWebsitesIdentity;
             var value = string.Format("{0};{1};{2};{3}", identity.Email, identity.Puid, identity.Issuer, DateTime.UtcNow);
             SimpleTrace.Analytics.Information(AnalyticsEvents.UserLoggedIn, identity);
+            SimpleTrace.TraceInformation("{0};{1};{2}", AnalyticsEvents.OldUserLoggedIn, identity.Email, identity.Issuer);
             return new HttpCookie(AuthConstants.LoginSessionCookie, Uri.EscapeDataString(value.Encrypt(AuthConstants.EncryptionReason))) { Path = "/" };
         }
     }
