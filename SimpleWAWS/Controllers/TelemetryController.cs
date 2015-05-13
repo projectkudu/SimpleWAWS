@@ -1,4 +1,5 @@
-﻿using SimpleWAWS.Code;
+﻿using Newtonsoft.Json.Linq;
+using SimpleWAWS.Code;
 using SimpleWAWS.Models;
 using SimpleWAWS.Trace;
 using System;
@@ -14,15 +15,17 @@ namespace SimpleWAWS.Controllers
 {
     public class TelemetryController : ApiController
     {
-        public HttpResponseMessage LogEvent(string telemetryEvent, object properties)
+        public HttpResponseMessage LogEvent(string telemetryEvent, Dictionary<string, string> properties)
         {
-            var userName = User != null && User.Identity != null && !string.IsNullOrEmpty(User.Identity.Name)
-                ? User.Identity.Name
-                : "-";
+            if (HttpContext.Current.IsBrowserRequest())
+            {
+                var userName = User != null && User.Identity != null && !string.IsNullOrEmpty(User.Identity.Name)
+                    ? User.Identity.Name
+                    : "-";
 
-            SimpleTrace.Analytics.Information(AnalyticsEvents.UiEvent, telemetryEvent, properties);
-            SimpleTrace.TraceInformation("{0}; {1}", telemetryEvent, userName);
-
+                SimpleTrace.Analytics.Information(AnalyticsEvents.UiEvent, telemetryEvent, properties);
+                SimpleTrace.TraceInformation("{0}; {1}", telemetryEvent, userName);
+            }
             return Request.CreateResponse(HttpStatusCode.OK);
         }
     }

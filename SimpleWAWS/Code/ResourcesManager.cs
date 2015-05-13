@@ -300,6 +300,7 @@ namespace SimpleWAWS.Models
                     site.AppSettings["MONACO_EXTENSION_VERSION"] = "beta";
                     site.AppSettings["WEBSITE_TRY_MODE"] = "1";
                     await site.UpdateAppSettings();
+                    await site.UpdateConfig(new { properties = new { scmType = "LocalGit" } });
                     resourceGroup.IsRbacEnabled = await rbacTask;
                     site.FireAndForget();
                     return resourceGroup;

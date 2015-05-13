@@ -178,7 +178,7 @@
     $scope.mobileClients = [{
         name: "Windows",
         icon_url: "/Content/images/Windows.png",
-        sprite: "sprite-Windows",
+        sprite: "mobile-icons sprite-Windows",
         steps: {
             preText: "Install Visual Studio Professional 2013 (Update 4)",
             preHref: "https://go.microsoft.com/fwLink/?LinkID=391934&clcid=0x409",
@@ -188,7 +188,7 @@
     }, {
         name: "Native iOS",
         icon_url: "/Content/images/ios.png",
-        sprite: "sprite-ios",
+        sprite: "mobile-icons sprite-ios",
         steps: {
             preText: "Install Xcode (v4.4+)",
             preHref: "https://go.microsoft.com/fwLink/?LinkID=266532&clcid=0x409",
@@ -199,7 +199,7 @@
     }, {
         name: "Xamarin iOS",
         icon_url: "/Content/images/xamarin.png",
-        sprite: "sprite-Xamarin",
+        sprite: "mobile-icons sprite-Xamarin",
         steps: {
             preText: "Install Xamarin Studio for Windows or OS X",
             preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
@@ -210,13 +210,20 @@
     }, {
         name: "Xamarin Android",
         icon_url: "/Content/images/xamarin.png",
-        sprite: "sprite-Xamarin",
+        sprite: "mobile-icons sprite-Xamarin",
         steps: {
             preText: "Install Xamarin Studio for Windows or OS X",
             preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
             clientText: "Download the Xamarin Android client app",
             clientHref: "/api/resource/mobileclient/XamarinAndroid"
         }
+    }, {
+            name: "Web Client",
+            sprite: "mobile-icons sprite-javascript",
+            steps: {
+                clientText: "Visit the web based client",
+                clientHref: "webClient"
+            }
     }]
 
     $scope.selectAppService = (appService) => {
@@ -307,6 +314,8 @@
         delete $scope.resource;
         $state.go($scope.currentAppService.steps[1].sref);
     };
+
+
 
     initTemplates().finally(() => initState());
 
@@ -422,11 +431,23 @@ function countDown(expireDateTime) {
 }
 
 }])
-    .run(($rootScope, $state: ng.ui.IStateService, $stateParams: ng.ui.IStateParamsService) => {
+    .run(["$rootScope", "$state", "$stateParams", "$http", ($rootScope, $state: ng.ui.IStateService, $stateParams: ng.ui.IStateParamsService, $http: ng.IHttpService) => {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
+    $rootScope.freeTrialClick = (place) => {
+        uiTelemetry("FREE_TRIAL_CLICK", { pagePlace: place});
+    };
+
+    function uiTelemetry(event: string, properties: any) {
+        $http({
+            url: "/api/telemetry/" + event,
+            method: "POST",
+            data: properties
+        });
+    }
+
     $state.go("home");
-})
+}])
     .filter("filterBySelectedLanguage",() => {
     return (templates: ITemplate[], language: string): any => {
         if (language === undefined)

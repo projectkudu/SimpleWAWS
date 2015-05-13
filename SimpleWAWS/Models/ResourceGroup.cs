@@ -122,7 +122,8 @@ namespace SimpleWAWS.Models
                 ? null
                 : new UIResource
                 {
-                    Url = AppService == Models.AppService.Mobile ? siteToUseForUi.MobileUrl : siteToUseForUi.Url,
+                    Url = siteToUseForUi.Url,
+                    MobileWebClient = AppService == Models.AppService.Mobile ? siteToUseForUi.MobileUrl : null,
                     IbizaUrl = ibizaUrl,
                     MonacoUrl = siteToUseForUi.MonacoUrl,
                     ContentDownloadUrl = siteToUseForUi.ContentDownloadUrl,

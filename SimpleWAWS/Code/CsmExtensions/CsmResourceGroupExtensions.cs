@@ -124,6 +124,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                         var response = await csmClient.HttpInvoke(HttpMethod.Get, location);
                         response.EnsureSuccessStatusCode();
 
+                        //TODO: How does this handle failing to delete a resourceGroup?
                         if (response.StatusCode == HttpStatusCode.OK ||
                             response.StatusCode == HttpStatusCode.NoContent)
                         {
@@ -175,40 +176,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             var region = resourceGroup.GeoRegion;
             var subscriptionId = resourceGroup.SubscriptionId;
-
-            var rbacEnabled = resourceGroup.IsRbacEnabled;
-            var userPrincipalId = string.Empty;
-            if (rbacEnabled && !string.IsNullOrEmpty(resourceGroup.UserId))
-            {
-                userPrincipalId = string.Concat(resourceGroup.UserId.Split('#').Last(), "#EXT#", ConfigurationManager.AppSettings["tryWebsitesTenantName"]);
-            }
-
-            if (rbacEnabled && !string.IsNullOrEmpty(userPrincipalId))
-            {
-                SimpleTrace.Diagnostics.Information(AnalyticsEvents.RemoveUserFromTenant, userPrincipalId);
-                var graphUser = new RbacUser
-                {
-                    TenantId = ConfigurationManager.AppSettings["tryWebsitesTenantId"],
-                    UserId = string.Concat(userPrincipalId, "#EXT#", ConfigurationManager.AppSettings["tryWebsitesTenantName"])
-                };
-                var response = await graphClient.HttpInvoke(HttpMethod.Delete, CsmTemplates.GraphUser.Bind(graphUser));
-                SimpleTrace.Diagnostics.Information(AnalyticsEvents.RemoveUserFromTenantResult, response, response.IsSuccessStatusCode ? "success" : await response.Content.ReadAsStringAsync());
-            }
-
             await Delete(resourceGroup, block: true);
-
-            //if (rbacEnabled && !string.IsNullOrEmpty(userPrincipalId))
-            //{
-            //    SimpleTrace.TraceInformation("{0}; {1}", AnalyticsEvents.RemoveUserFromTenant, userPrincipalId);
-            //    var graphUser = new RbacUser
-            //    {
-            //        TenantId = ConfigurationManager.AppSettings["tryWebsitesTenantId"],
-            //        UserId = string.Concat(userPrincipalId, "#EXT#", ConfigurationManager.AppSettings["tryWebsitesTenantName"])
-            //    };
-            //    var response = await graphClient.HttpInvoke(HttpMethod.Delete, CsmTemplates.GraphUser.Bind(graphUser));
-            //    SimpleTrace.TraceInformation("{0}; {1}; {2}", AnalyticsEvents.RemoveUserFromTenantResult,
-            //        response.StatusCode.ToString(), response.IsSuccessStatusCode ? "success" : await response.Content.ReadAsStringAsync());
-            //}
             return await PutInDesiredState(await CreateResourceGroup(subscriptionId, region));
         }
 

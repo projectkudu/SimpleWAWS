@@ -12,6 +12,9 @@ namespace SimpleWAWS.Models
         [JsonProperty(PropertyName = "url", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Url { get; set; }
 
+        [JsonProperty(PropertyName = "mobileWebClient", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string MobileWebClient { get; set; }
+
         [JsonProperty(PropertyName = "ibizaUrl", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string IbizaUrl { get; set; }
 

@@ -57,4 +57,5 @@ interface IAppControllerScope extends ng.IScope {
     dismissSiteExpired();
     confirmDelete: boolean;
     deleteResource();
+    freeTrialClick(place: string);
 }

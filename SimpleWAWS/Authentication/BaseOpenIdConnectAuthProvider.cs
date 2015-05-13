@@ -77,14 +77,9 @@ namespace SimpleWAWS.Authentication
                 var emailClaim = user.Claims.Where(c => c.Type == emailClaimType).Select(c => c.Value).FirstOrDefault();
                 var nameClaim = user.Claims.Where(c => c.Type == nameClaimType).Select(c => c.Value).FirstOrDefault();
                 var issuerClaim = user.Claims.Where(c => c.Type == issuerClaimType).Select(c => c.Value).FirstOrDefault();
-                var puidClaim = user.Claims.Where(c => c.Type == puidClaimType || c.Type == altSecIdClaimType).Select(c => c.Value).FirstOrDefault();
-
-                if (puidClaim != null)
-                {
-                    SimpleTrace.TraceInformation("{0}; {1}; {2}", AnalyticsEvents.UserPuidValue, user.Identity.Name, puidClaim.Split(':').Last());
-                }
-                
-                var principal = new TryWebsitesPrincipal(new TryWebsitesIdentity(upnClaim ?? emailClaim ?? user.Identity.Name, puidClaim, GetIssuerName()));
+                var puidClaim = user.Claims.Where(c => c.Type == puidClaimType ).Select(c => c.Value).FirstOrDefault();
+                var altSecId = user.Claims.Where(c => c.Type == altSecIdClaimType).Select(c => c.Value).FirstOrDefault();
+                var principal = new TryWebsitesPrincipal(new TryWebsitesIdentity(upnClaim ?? emailClaim ?? user.Identity.Name, altSecId ?? puidClaim, GetIssuerName()));
 
                 return principal;
             }
