@@ -42,6 +42,11 @@ namespace SimpleWAWS.Models
         private readonly JobHost _jobHost = new JobHost();
 
         private static ResourcesManager _instance;
+
+        private static int _stateInconsistencyErrorCount = 0;
+        private static int _maintainResourceGroupListErrorCount = 0;
+        private static int _unknownErrorInCreateErrorCount = 0;
+        private static int _getResourceGroupErrorCount = 0;
         public static async Task<ResourcesManager> GetInstanceAsync()
         {
             //avoid the async lock for normal case
@@ -86,7 +91,7 @@ namespace SimpleWAWS.Models
                     SimpleTrace.Diagnostics.Verbose("Loading ResourceGroup {resourceGroupId} into the InUse list", resourceGroup.CsmId);
                     if (!_resourceGroupsInUse.TryAdd(resourceGroup.UserId, resourceGroup))
                     {
-                        SimpleTrace.Diagnostics.Fatal("user {user} already had a resourceGroup in the dictionary extra resourceGroup is {resourceGroupId}. This shouldn't happen. Deleting and replacing the ResourceGroup.", resourceGroup.UserId, resourceGroup.CsmId);
+                        SimpleTrace.Diagnostics.Fatal("user {user} already had a resourceGroup in the dictionary extra resourceGroup is {resourceGroupId}. This shouldn't happen. Deleting and replacing the ResourceGroup. Count {Count}", resourceGroup.UserId, resourceGroup.CsmId, Interlocked.Increment(ref _stateInconsistencyErrorCount));
                         tasksList.Add(resourceGroup.DeleteAndCreateReplacement());
                     }
                 }
@@ -137,7 +142,7 @@ namespace SimpleWAWS.Models
             }
             catch (Exception e)
             {
-                SimpleTrace.Diagnostics.Fatal(e, "MainTainResourceGroupLists error");
+                SimpleTrace.Diagnostics.Fatal(e, "MainTainResourceGroupLists error, Count {Count}", Interlocked.Increment(ref _maintainResourceGroupListErrorCount));
             }
         }
 
@@ -253,7 +258,7 @@ namespace SimpleWAWS.Models
             catch (Exception e)
             {
                 //unknown exception, log it
-                SimpleTrace.Diagnostics.Fatal(e, "Unknown error during UserCreate");
+                SimpleTrace.Diagnostics.Fatal(e, "Unknown error during UserCreate, Count {Count}", Interlocked.Increment(ref _unknownErrorInCreateErrorCount));
             }
             finally
             {
@@ -437,7 +442,7 @@ namespace SimpleWAWS.Models
                     }
                     catch (Exception e)
                     {
-                        SimpleTrace.Diagnostics.Fatal(e, "Error in GetResourceGroup");
+                        SimpleTrace.Diagnostics.Fatal(e, "Error in GetResourceGroup, Count: {Count}", Interlocked.Increment(ref _getResourceGroupErrorCount));
                     }
                     _resourceGroupsInUse.TryGetValue(userId, out resourceGroup);
                 }

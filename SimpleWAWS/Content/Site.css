@@ -1,7 +1,6 @@
 ﻿body:after{
     display:none;
-    content: url(/Content/images/mobile-clients.png) url(/Content/images/Logins/google.png) url(/Content/images/icons-sprite.png
-) url(/Content/images/Logins/microsoft-logo.png) url(/Content/images/Logins/facebook.png);
+    content: url(/Content/images/mobile-clients.png) url(/Content/images/Logins/google.png) url(/Content/images/icons-sprite.png) url(/Content/images/Logins/microsoft-logo.png) url(/Content/images/Logins/facebook.png);
 }
 
 article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {

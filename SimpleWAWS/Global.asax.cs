@@ -10,6 +10,10 @@ using System.Web;
 using SimpleWAWS.Trace;
 using SimpleWAWS.Code;
 using Serilog;
+using Destructurama;
+using Serilog.Filters;
+using Serilog.Sinks.Email;
+using System.Net;
 
 namespace SimpleWAWS
 {
@@ -23,6 +27,7 @@ namespace SimpleWAWS
             var analyticsLogger = new LoggerConfiguration()
                 .Enrich.With(new ExperimentEnricher())
                 .Enrich.With(new UserNameEnricher())
+                .Destructure.JsonNetTypes()
                 .WriteTo.AzureDocumentDB(new Uri(""), "", "TryAppService", "Analytics")
                 .WriteTo.AzureDocumentDB(new Uri(""), "", "TryAppService", "Diagnostics")
                 .CreateLogger();
@@ -35,6 +40,18 @@ namespace SimpleWAWS
                 .Enrich.With(new ExperimentEnricher())
                 .Enrich.With(new UserNameEnricher())
                 .WriteTo.AzureDocumentDB(new Uri(""), "", "TryAppService", "Diagnostics")
+                .WriteTo.Logger(lc => lc
+                    .Filter.ByIncludingOnly(Matching.WithProperty<int>("Count", p => p % 10 == 0))
+                    .WriteTo.Email(new EmailConnectionInfo
+                        {
+                            EmailSubject = "TryAppService Alert",
+                            EnableSsl = true,
+                            FromEmail = "",
+                            MailServer = "",
+                            NetworkCredentials = new NetworkCredential("", ""),
+                            Port = 587,
+                            ToEmail = ""
+                        }, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Fatal))
                 .CreateLogger();
 
             SimpleTrace.Diagnostics = diagnosticsLogger;
@@ -62,9 +79,9 @@ namespace SimpleWAWS
             RouteTable.Routes.MapHttpRoute("delete-resource", "api/resource", new { controller = "Resource", action = "DeleteResource", authenticated = true }, new { verb = new HttpMethodConstraint("DELETE") });
 
             //Admin Only Routes
-            RouteTable.Routes.MapHttpRoute("get-all-resources", "api/resource/all", new { controller = "Resource", action = "All", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
-            RouteTable.Routes.MapHttpRoute("reset-all-free-resources", "api/resource/reset", new { controller = "Resource", action = "Reset", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
-            RouteTable.Routes.MapHttpRoute("reload-all-free-resources", "api/resource/reload", new { controller = "Resource", action = "DropAndReloadFromAzure", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("get-all-resources", "api/resource/all", new { controller = "Resource", action = "All", authenticated = true, adminOnly = true }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("reset-all-free-resources", "api/resource/reset", new { controller = "Resource", action = "Reset", authenticated = true, adminOnly = true }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("reload-all-free-resources", "api/resource/reload", new { controller = "Resource", action = "DropAndReloadFromAzure", authenticated = true, adminOnly = true }, new { verb = new HttpMethodConstraint("GET") });
 
             //Register auth provider
             SecurityManager.InitAuthProviders();

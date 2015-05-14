@@ -63,7 +63,11 @@
             name: "home.apiapp.work",
             templateUrl: "/templates/work.html",
             url: "/work"
-        }];
+    }, {
+            name: "home.apiapp.comingsoon",
+            templateUrl: "/templates/comingsoon.html",
+            url: "/comingsoon"
+    }];
 
     var logicApps: ng.ui.IState[] = [{
         name: "home.logicapp",
@@ -72,7 +76,7 @@
     }, {
             name: "home.logicapp.comingsoon",
             templateUrl: "templates/comingsoon.html",
-            url: "logicapp/comingsoon"
+            url: "/comingsoon"
         }];
     $stateProvider.state(homeState);
     webApps.forEach(s => $stateProvider.state(s));
@@ -142,21 +146,30 @@
             name: "Api",
             sprite: "sprite-ApiApp",
             title: "API App",
+            //steps: [{
+            //    id: 1,
+            //    title: "Select app type",
+            //    sref: "home",
+            //}, {
+            //        id: 2,
+            //        title: "Select template",
+            //        sref: "home.apiapp.templates",
+            //        nextClass: "wa-button-primary",
+            //        nextText: "Create"
+            //    }, {
+            //        id: 3,
+            //        title: "Work with your app",
+            //        sref: "home.apiapp.work",
+            //    onPrevious: () => { $scope.confirmDelete = true; }
+            //    }],
             steps: [{
                 id: 1,
                 title: "Select app type",
-                sref: "home",
+                sref: "home"
             }, {
                     id: 2,
-                    title: "Select template",
-                    sref: "home.apiapp.templates",
-                    nextClass: "wa-button-primary",
-                    nextText: "Create"
-                }, {
-                    id: 3,
-                    title: "Work with your app",
-                    sref: "home.apiapp.work",
-                onPrevious: () => { $scope.confirmDelete = true; }
+                    title: "Coming soon",
+                    sref: "home.apiapp.comingsoon"
                 }],
             templates: []
         }, {
@@ -292,7 +305,10 @@
             url: "api/resource",
             method: "DELETE"
         })
-            .success(() => $state.go($scope.previousStep.sref))
+            .success(() => {
+            delete $scope.resource;
+            $state.go($scope.previousStep.sref)
+        })
             .error((e) => $scope.ngModels.errorMessage = e.Message)
             .finally(() => $scope.running = false);
     };
@@ -344,11 +360,16 @@
     }
 
     function initState() {
-        if ($location.search().appServiceName) {
-            $scope.selectAppService($scope.appServices.find(a => a.name === $location.search().appServiceName));
-            $scope.selectTemplate($scope.currentAppService.templates.find(t => t.name === $location.search().name));
+        if ($location.search().appServiceName || $location.search().appservice) {
+            var appServiceQuery: string= $location.search().appServiceName || $location.search().appservice;
+            $scope.selectAppService($scope.appServices.find(a => a.name.toUpperCase() === appServiceQuery.toUpperCase()));
+            if ($location.search().name)
+                $scope.selectTemplate($scope.currentAppService.templates.find(t => t.name === $location.search().name));
+            else
+                $scope.selectTemplate($scope.currentAppService.templates[0]);
+
             if ($location.search().language) {
-                $scope.ngModels.selectedLanguage = $location.search().language;
+                $scope.ngModels.selectedLanguage = $location.search().language === "cs" ? "C#" : $location.search().language;
             }
             var autoCreate = $location.search().autoCreate;
             $state.go($scope.currentAppService.steps[1].sref).then(() => {
@@ -431,12 +452,20 @@ function countDown(expireDateTime) {
 }
 
 }])
-    .run(["$rootScope", "$state", "$stateParams", "$http", ($rootScope, $state: ng.ui.IStateService, $stateParams: ng.ui.IStateParamsService, $http: ng.IHttpService) => {
+    .run(["$rootScope", "$state", "$stateParams", "$http", "$templateCache", ($rootScope, $state: ng.ui.IStateService, $stateParams: ng.ui.IStateParamsService, $http: ng.IHttpService, $templateCache: ng.ITemplateCacheService) => {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
     $rootScope.freeTrialClick = (place) => {
         uiTelemetry("FREE_TRIAL_CLICK", { pagePlace: place});
     };
+
+    //http://stackoverflow.com/a/23522925/3234163
+    var url;
+    $state.get().forEach((s) => {
+        if (url = s.templateUrl) {
+            $http.get(url, { cache: $templateCache });
+        }
+    });
 
     function uiTelemetry(event: string, properties: any) {
         $http({

@@ -10,8 +10,8 @@ namespace SimpleWAWS.Models
         public const string UserLoggedIn = "USER_LOGGED_IN; {@user}";
         public const string OldUserLoggedIn = "USER_LOGGED_IN";
 
-        public const string UserGotError = "USER_GOT_ERROR; {user}; {errorMessage}";
-        public const string MoreThanOneError = "MORE_THAN_ONE_ERROR; {user}";
+        public const string UserGotError = "USER_GOT_ERROR; {user}; {errorMessage}; Count: {Count}";
+        public const string MoreThanOneError = "MORE_THAN_ONE_ERROR; {user}; Count: {Count}";
 
         // Event format "USER_CREATED_SITE_WITH_LANGUAGE_AND_TEMPLATE; {userName}; {language}; {template}; {siteUniqueId}"
         public const string UserCreatedSiteWithLanguageAndTemplateName = "USER_CREATED_SITE_WITH_LANGUAGE_AND_TEMPLATE; {@user}; {@template}; {resourceGroupId}";
@@ -19,7 +19,7 @@ namespace SimpleWAWS.Models
 
         public const string UserPuidValue = "USER_PUID_VALUE; {@user}";
         public const string ErrorInRemoveRbacUser = "ERROR_REMOVE_RBAC_USER; {resourceGroupId}";
-        public const string ErrorInAddRbacUser = "ERROR_ADD_RBAC_USER; {@user}";
+        public const string ErrorInAddRbacUser = "ERROR_ADD_RBAC_USER; {@user} Count: {Count}";
         public const string ErrorInCheckRbacUser = "ERROR_CHECK_RBAC_USER; {resourceGroupId}";
 
         public const string RemoveUserFromTenant = "REMOVE_USER_FROM_TENANT; {userPrincipalId}";

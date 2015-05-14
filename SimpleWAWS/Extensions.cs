@@ -117,7 +117,7 @@ namespace SimpleWAWS
         public static Stream AsStream(this string value)
         {
             var stream = new MemoryStream();
-            var writer = new StreamWriter(stream);
+            var writer = new StreamWriter(stream, Encoding.UTF8);
             writer.Write(value);
             writer.Flush();
             stream.Position = 0;

@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using SimpleWAWS.Trace;
+using System.Threading.Tasks;
 
 namespace SimpleWAWS.Models
 {
@@ -64,13 +65,9 @@ namespace SimpleWAWS.Models
             return GetAuthProvider(context).HasToken(context);
         }
 
-        public static void EnsureAdmin(HttpContext context)
+        public static bool IsAdmin(HttpContext context)
         {
-            if (context.User.Identity.Name != ConfigurationManager.AppSettings["AdminUserId"])
-            {
-                context.Response.StatusCode = 403; //Forbidden
-                context.Response.End();
-            }
+            return context.User.Identity.Name == ConfigurationManager.AppSettings["AdminUserId"];
         }
 
         public static bool TryAuthenticateSessionCookie(HttpContext context)
@@ -155,6 +152,15 @@ namespace SimpleWAWS.Models
                 response.Headers.AddCookies(new [] { new CookieHeaderValue(AuthConstants.LoginSessionCookie, string.Empty){ Expires = DateTime.UtcNow.AddDays(-1), Path = "/" } });
             }
             return response;
+        }
+
+        public static Task<HttpResponseMessage> AdminOnly(Func<Task<HttpResponseMessage>> func)
+        {
+            if (SecurityManager.IsAdmin(HttpContext.Current))
+            {
+                return func();
+            }
+            return Task.FromResult(new HttpResponseMessage(HttpStatusCode.Forbidden));
         }
 
         private static bool ValidDateTimeSessionCookie(DateTime date)

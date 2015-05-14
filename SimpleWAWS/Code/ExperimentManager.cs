@@ -1,4 +1,5 @@
 ﻿using SimpleWAWS.Models;
+using SimpleWAWS.Trace;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,9 +41,12 @@ namespace SimpleWAWS.Code
 
         public static void AssignExperiment(this HttpContext context)
         {
-            if (context.Request.Cookies[_experimentCookie] == null)
+            if (context.Request.Cookies[_experimentCookie] == null && context.IsBrowserRequest())
             {
-                context.Response.Cookies.Add(new HttpCookie(_experimentCookie, GetExperiment()) { Path = "/", Expires = DateTime.UtcNow.AddDays(1) });
+                var experiment = GetExperiment();
+                context.Response.Cookies.Add(new HttpCookie(_experimentCookie, experiment) { Path = "/", Expires = DateTime.UtcNow.AddDays(1) });
+                SimpleTrace.Analytics.Information("ASSIGN_EXPERMIENT; {Experiment}", experiment);
+                SimpleTrace.TraceInformation("ASSIGN_EXPERMIENT; " + experiment);
             }
         }
 

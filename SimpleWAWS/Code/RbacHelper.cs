@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -20,6 +21,7 @@ namespace SimpleWAWS.Models
         private static readonly dynamic GraphClient;
         private static readonly dynamic CsmClient;
         private static readonly dynamic websitesCsmClient;
+        private static int rbacFailErrorCount = 0;
         static RbacHelper()
         {
             GraphClient = ARMLib.GetDynamicClient(apiVersion: ConfigurationManager.AppSettings["rbacGraphApiVersion"], url: string.Format("{0}/{1}", ConfigurationManager.AppSettings["graphApiBaseUrl"], ConfigurationManager.AppSettings["tryWebsitesTenantId"]))
@@ -125,7 +127,7 @@ namespace SimpleWAWS.Models
             }
             catch (Exception e)
             {
-                SimpleTrace.Diagnostics.Fatal(e, AnalyticsEvents.ErrorInAddRbacUser, new { Puid = puidOrAltSec, Email = emailAddress });
+                SimpleTrace.Diagnostics.Fatal(e, AnalyticsEvents.ErrorInAddRbacUser, new { Puid = puidOrAltSec, Email = emailAddress }, Interlocked.Increment(ref rbacFailErrorCount));
             }
             return false;
         }

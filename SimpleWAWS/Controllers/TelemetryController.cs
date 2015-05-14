@@ -15,7 +15,7 @@ namespace SimpleWAWS.Controllers
 {
     public class TelemetryController : ApiController
     {
-        public HttpResponseMessage LogEvent(string telemetryEvent, Dictionary<string, string> properties)
+        public HttpResponseMessage LogEvent(string telemetryEvent, JObject properties)
         {
             if (HttpContext.Current.IsBrowserRequest())
             {

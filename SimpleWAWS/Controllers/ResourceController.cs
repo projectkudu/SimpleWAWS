@@ -19,6 +19,7 @@ namespace SimpleWAWS.Controllers
 {
     public class ResourceController : ApiController
     {
+        private static int _userGotErrorErrorCount = 0;
         public async Task<HttpResponseMessage> GetResource()
         {
             var resourceManager = await ResourcesManager.GetInstanceAsync();
@@ -27,40 +28,46 @@ namespace SimpleWAWS.Controllers
         }
 
         [HttpGet]
-        public async Task<HttpResponseMessage> Reset()
+        public Task<HttpResponseMessage> Reset()
         {
-            SecurityManager.EnsureAdmin(HttpContext.Current);
-            var resourceManager = await ResourcesManager.GetInstanceAsync();
-            await resourceManager.ResetAllFreeResourceGroups();
-            return Request.CreateResponse(HttpStatusCode.Accepted);
+            return SecurityManager.AdminOnly(async () => {
+
+                var resourceManager = await ResourcesManager.GetInstanceAsync();
+                await resourceManager.ResetAllFreeResourceGroups();
+                return Request.CreateResponse(HttpStatusCode.Accepted);
+            });
         }
 
         [HttpGet]
-        public async Task<HttpResponseMessage> DropAndReloadFromAzure()
+        public Task<HttpResponseMessage> DropAndReloadFromAzure()
         {
-            SecurityManager.EnsureAdmin(HttpContext.Current);
-            var resourceManager = await ResourcesManager.GetInstanceAsync();
-            await resourceManager.DropAndReloadFromAzure();
-            return Request.CreateResponse(HttpStatusCode.Accepted);
+            return SecurityManager.AdminOnly(async () =>
+            {
+                var resourceManager = await ResourcesManager.GetInstanceAsync();
+                await resourceManager.DropAndReloadFromAzure();
+                return Request.CreateResponse(HttpStatusCode.Accepted);
+            });
         }
 
         [HttpGet]
-        public async Task<HttpResponseMessage> All()
+        public Task<HttpResponseMessage> All()
         {
-            SecurityManager.EnsureAdmin(HttpContext.Current);
-            var resourceManager = await ResourcesManager.GetInstanceAsync();
-            var freeSites = resourceManager.GetAllFreeResourceGroups();
-            var inUseSites = resourceManager.GetAllInUseResourceGroups();
-            var inProgressCount = resourceManager.GetAllInProgressResourceGroupsCount();
-            return Request.CreateResponse(HttpStatusCode.OK,
-                new
-                {
-                    freeSiteCount = freeSites.Count(),
-                    inProgressSitesCount = inProgressCount,
-                    inUseSitesCount = inUseSites.Count(),
-                    freeSites = freeSites,
-                    inUseSites = inUseSites
-                });
+            return SecurityManager.AdminOnly(async () =>
+            {
+                var resourceManager = await ResourcesManager.GetInstanceAsync();
+                var freeSites = resourceManager.GetAllFreeResourceGroups();
+                var inUseSites = resourceManager.GetAllInUseResourceGroups();
+                var inProgressCount = resourceManager.GetAllInProgressResourceGroupsCount();
+                return Request.CreateResponse(HttpStatusCode.OK,
+                    new
+                    {
+                        freeSiteCount = freeSites.Count(),
+                        inProgressSitesCount = inProgressCount,
+                        inUseSitesCount = inUseSites.Count(),
+                        freeSites = freeSites,
+                        inUseSites = inUseSites
+                    });
+            });
         }
 
         public async Task<HttpResponseMessage> GetWebAppPublishingProfile()
@@ -123,7 +130,7 @@ namespace SimpleWAWS.Controllers
 
                 if ((await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name)) != null)
                 {
-                    SimpleTrace.Diagnostics.Fatal(AnalyticsEvents.MoreThanOneError, HttpContext.Current.User.Identity);
+                    SimpleTrace.Diagnostics.Fatal(AnalyticsEvents.MoreThanOneError, HttpContext.Current.User.Identity, 1);
 
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                         "You can't have more than 1 free site at a time");
@@ -155,7 +162,7 @@ namespace SimpleWAWS.Controllers
             }
             catch (Exception ex)
             {
-                SimpleTrace.Diagnostics.Fatal(ex, AnalyticsEvents.UserGotError, HttpContext.Current.User.Identity, ex.Message);
+                SimpleTrace.Diagnostics.Fatal(ex, AnalyticsEvents.UserGotError, HttpContext.Current.User.Identity, ex.Message, Interlocked.Increment(ref _userGotErrorErrorCount));
                 return Request.CreateErrorResponse(HttpStatusCode.ServiceUnavailable, ex.Message);
             }
         }
