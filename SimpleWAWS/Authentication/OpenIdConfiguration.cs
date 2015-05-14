@@ -32,8 +32,8 @@ namespace SimpleWAWS.Authentication
 
         private static void UpdateKeysMap()
         {
-            var aadIssuerKeys = ConfigurationManager.AppSettings[Constants.AADIssuerKeys];
-            var googleIssuerCerts = ConfigurationManager.AppSettings[Constants.GoogleIssuerCerts];
+            var aadIssuerKeys = ConfigurationManager.AppSettings[AuthConstants.AADIssuerKeys];
+            var googleIssuerCerts = ConfigurationManager.AppSettings[AuthConstants.GoogleIssuerCerts];
             var content = GetContentFromUrl(aadIssuerKeys);
             var aadKeys = JsonConvert.DeserializeObject<JWTSingingKeys>(content);
             foreach (var jwtSingingKey in aadKeys.Keys)

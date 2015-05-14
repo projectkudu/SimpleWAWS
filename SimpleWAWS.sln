@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30127.4
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleWAWS", "SimpleWAWS\SimpleWAWS.csproj", "{374A248C-2827-40FC-A00C-0A3746DB061A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleWAWS.Console", "SimpleWAWS.Console\SimpleWAWS.Console.csproj", "{E3443AC9-49D3-469C-9F18-5A5149C33718}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{374A248C-2827-40FC-A00C-0A3746DB061A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{374A248C-2827-40FC-A00C-0A3746DB061A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{374A248C-2827-40FC-A00C-0A3746DB061A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3443AC9-49D3-469C-9F18-5A5149C33718}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3443AC9-49D3-469C-9F18-5A5149C33718}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3443AC9-49D3-469C-9F18-5A5149C33718}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3443AC9-49D3-469C-9F18-5A5149C33718}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

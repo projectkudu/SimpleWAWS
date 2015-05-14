@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -13,13 +14,15 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SimpleWAWS</RootNamespace>
     <AssemblyName>SimpleWAWS</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <TypeScriptToolsVersion>1.4</TypeScriptToolsVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,11 +44,17 @@
   <ItemGroup>
     <Reference Include="ARMClient.Authentication, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ARMClient.Authentication.0.0.1-alpha\lib\net45\ARMClient.Authentication.dll</HintPath>
+      <HintPath>ref\ARMClient.Authentication.dll</HintPath>
     </Reference>
     <Reference Include="ARMClient.Library, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ARMClient.Library.0.0.1-alpha\lib\net45\ARMClient.Library.dll</HintPath>
+      <HintPath>ref\ARMClient.Library.dll</HintPath>
+    </Reference>
+    <Reference Include="Destructurama.JsonNet">
+      <HintPath>..\packages\Destructurama.JsonNet.1.0.2\lib\portable-net45+win+wp80\Destructurama.JsonNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Azure.Documents.Client">
+      <HintPath>..\packages\Microsoft.Azure.Documents.Client.0.9.3-preview\lib\net40\Microsoft.Azure.Documents.Client.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Data.Edm, Version=5.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -57,7 +66,8 @@
     <Reference Include="Microsoft.Data.Services.Client, Version=5.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.2\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory">
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=2.14.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.2.14.201151115\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms">
@@ -93,8 +103,21 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Serilog">
+      <HintPath>..\packages\Serilog.1.5.5\lib\net45\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.FullNetFx">
+      <HintPath>..\packages\Serilog.1.5.5\lib\net45\Serilog.FullNetFx.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Sinks.AzureDocumentDB">
+      <HintPath>..\packages\Serilog.Sinks.AzureDocumentDb.1.5.4\lib\net45\Serilog.Sinks.AzureDocumentDB.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Sinks.Email">
+      <HintPath>..\packages\Serilog.Sinks.Email.1.5.13\lib\net45\Serilog.Sinks.Email.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.IdentityModel.Selectors" />
@@ -125,8 +148,7 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Http, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.1.2\lib\net45\System.Web.Http.dll</HintPath>
@@ -135,9 +157,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.1.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
@@ -172,12 +192,13 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authentication\AADProvider.cs" />
     <Compile Include="Authentication\BaseAuthProvider.cs" />
     <Compile Include="Authentication\BaseOpenIdConnectAuthProvider.cs" />
-    <Compile Include="Authentication\Constants.cs" />
+    <Compile Include="Authentication\AuthConstants.cs" />
     <Compile Include="Authentication\FacebookAuthProvider.cs" />
     <Compile Include="Authentication\GoogleAuthProvider.cs" />
     <Compile Include="Authentication\IAuthProvider.cs" />
@@ -188,22 +209,54 @@
     <Compile Include="Authentication\TryWebsitesPrincipal.cs" />
     <Compile Include="Authentication\TwitterAuthProvider.cs" />
     <Compile Include="Code\AnalyticsEvents.cs" />
-    <Compile Include="Code\AppService.cs" />
+    <Compile Include="Code\CsmExtensions\CsmApiAppExtensions.cs" />
+    <Compile Include="Code\CsmExtensions\CsmDeploymentExtensions.cs" />
+    <Compile Include="Code\ExperimentEnricher.cs" />
+    <Compile Include="Code\ExperimentManager.cs" />
+    <Compile Include="Code\UserNameEnricher.cs" />
+    <Compile Include="Models\Experiment.cs" />
+    <Compile Include="Models\UIResource.cs" />
+    <Compile Include="Trace\SimpleTrace.cs" />
+    <Compile Include="Code\TaskExtensions.cs" />
+    <Compile Include="Models\ApiApp.cs" />
+    <Compile Include="Models\AppService.cs" />
     <Compile Include="Code\AsyncLock.cs" />
+    <Compile Include="Code\Constants.cs" />
+    <Compile Include="Code\CsmExtensions\CsmManager.cs" />
+    <Compile Include="Code\CsmExtensions\CsmResourceGroupExtensions.cs" />
+    <Compile Include="Code\CsmExtensions\CsmSiteExtensions.cs" />
+    <Compile Include="Code\CsmExtensions\CsmSubscriptionExtensions.cs" />
+    <Compile Include="Code\CsmTemplates.cs" />
     <Compile Include="Code\DelegatingStream.cs" />
     <Compile Include="Code\Exceptions.cs" />
     <Compile Include="Code\MobileClientPlatform.cs" />
     <Compile Include="Code\MobileHelper.cs" />
-    <Compile Include="Code\RbackHelper.cs" />
     <Compile Include="Code\TelemetryEvent.cs" />
-    <Compile Include="Controllers\ApiAppController.cs" />
-    <Compile Include="Controllers\FlowController.cs" />
+    <Compile Include="Code\RbacHelper.cs" />
+    <Compile Include="Code\Validate.cs" />
     <Compile Include="Controllers\TelemetryController.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Code\StorageHelper.cs" />
-    <Compile Include="Code\Template.cs" />
+    <Compile Include="Models\ApiTemplate.cs" />
+    <Compile Include="Models\BaseResource.cs" />
+    <Compile Include="Models\BaseTemplate.cs" />
+    <Compile Include="Models\CsmModels\CsmApiApp.cs" />
+    <Compile Include="Models\CsmModels\CsmDeployment.cs" />
+    <Compile Include="Models\CsmModels\CsmGateway.cs" />
+    <Compile Include="Models\CsmModels\CsmSitePublishingCredentials.cs" />
+    <Compile Include="Models\CsmModels\CsmServerFarm.cs" />
+    <Compile Include="Models\CsmModels\CsmTemplateWrapper.cs" />
+    <Compile Include="Models\Gateway.cs" />
+    <Compile Include="Models\CsmModels\GraphArrayWrapper.cs" />
+    <Compile Include="Models\CsmModels\GraphUser.cs" />
+    <Compile Include="Models\LogicApp.cs" />
+    <Compile Include="Models\LogicTemplate.cs" />
+    <Compile Include="Models\MobileTemplate.cs" />
+    <Compile Include="Models\RbacUser.cs" />
+    <Compile Include="Models\ServerFarm.cs" />
+    <Compile Include="Models\WebsiteTemplate.cs" />
     <Compile Include="Code\TemplatesManager.cs" />
-    <Compile Include="Controllers\SiteController.cs" />
+    <Compile Include="Controllers\ResourceController.cs" />
     <Compile Include="Controllers\TemplatesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -213,13 +266,20 @@
     <Compile Include="Kudu\ProcessManager.cs" />
     <Compile Include="Kudu\RemoteVfsManager.cs" />
     <Compile Include="Kudu\RemoteZipManager.cs" />
+    <Compile Include="Models\CsmModels\CsmArrayWrapper.cs" />
+    <Compile Include="Models\CsmModels\CsmResourceGroup.cs" />
+    <Compile Include="Models\CsmModels\CsmSite.cs" />
+    <Compile Include="Models\CsmModels\CsmNameValuePair.cs" />
+    <Compile Include="Models\CsmModels\CsmSiteConfig.cs" />
+    <Compile Include="Models\CsmModels\CsmWrapper.cs" />
+    <Compile Include="Models\ResourceGroup.cs" />
+    <Compile Include="Models\Subscription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Code\Site.cs" />
-    <Compile Include="Code\SiteManager.cs" />
+    <Compile Include="Models\Site.cs" />
+    <Compile Include="Code\ResourcesManager.cs" />
     <Compile Include="Code\SiteNameGenerator.cs" />
     <Compile Include="Code\JobHost.cs" />
     <Compile Include="Code\Util.cs" />
-    <Compile Include="Code\WebSpace.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\segoe-ui\bold\latest.svg" />
@@ -269,7 +329,10 @@
     <Content Include="App_Data\applicationHost.xdt">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Default.cshtml" />
+    <Content Include="OldDefault.cshtml" />
+    <Content Include="index.html" />
+    <Content Include="ref\ARMClient.Authentication.dll" />
+    <Content Include="ref\ARMClient.Library.dll" />
     <Content Include="Sorry.cshtml" />
     <Content Include="App_Data\web.config.file" />
     <Content Include="Content\fonts\segoe-ui\bold\latest.eot" />
@@ -285,6 +348,12 @@
     <Content Include="Content\fonts\segoe-ui\semibold\latest.ttf" />
     <Content Include="Content\fonts\segoe-ui\semibold\latest.woff" />
     <Content Include="Scripts\site.js" />
+    <Content Include="templates\clients.html" />
+    <Content Include="templates\comingsoon.html" />
+    <Content Include="templates\empty-shell.html" />
+    <Content Include="templates\templates.html" />
+    <Content Include="templates\steps.html" />
+    <Content Include="templates\work.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -295,7 +364,6 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Start\" />
@@ -308,11 +376,31 @@
     <Content Include="Logout.cshtml" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\app.ts" />
+    <TypeScriptCompile Include="Scripts\models.ts" />
+    <TypeScriptCompile Include="Scripts\polyfill.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angular-ui-router\angular-ui-router.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-mocks.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-resource.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-route.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-sanitize.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptOutFile>Scripts\app.js</TypeScriptOutFile>
+    <TypeScriptRemoveComments>True</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>False</TypeScriptSourceMap>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">

@@ -1,4 +1,5 @@
-﻿using SimpleWAWS.Code;
+﻿using SimpleWAWS.Models;
+using SimpleWAWS.Trace;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -76,19 +77,16 @@ namespace SimpleWAWS.Authentication
                 var emailClaim = user.Claims.Where(c => c.Type == emailClaimType).Select(c => c.Value).FirstOrDefault();
                 var nameClaim = user.Claims.Where(c => c.Type == nameClaimType).Select(c => c.Value).FirstOrDefault();
                 var issuerClaim = user.Claims.Where(c => c.Type == issuerClaimType).Select(c => c.Value).FirstOrDefault();
-                var puidClaim = user.Claims.Where(c => c.Type == puidClaimType || c.Type == altSecIdClaimType).Select(c => c.Value).FirstOrDefault();
+                var puidClaim = user.Claims.Where(c => c.Type == puidClaimType ).Select(c => c.Value).FirstOrDefault();
+                var altSecId = user.Claims.Where(c => c.Type == altSecIdClaimType).Select(c => c.Value).FirstOrDefault();
+                var principal = new TryWebsitesPrincipal(new TryWebsitesIdentity(upnClaim ?? emailClaim ?? user.Identity.Name, altSecId ?? puidClaim, GetIssuerName()));
 
-                if (puidClaim != null)
-                {
-                    Trace.TraceInformation("{0}; {1}; {2}", AnalyticsEvents.UserPuidValue, user.Identity.Name, puidClaim.Split(':').Last());
-                }
-
-                return new TryWebsitesPrincipal(new TryWebsitesIdentity(upnClaim ?? emailClaim ?? user.Identity.Name, puidClaim, GetIssuerName()));
+                return principal;
             }
             catch (Exception e)
             {
                 //failed validating
-                Trace.TraceError(e.ToString());
+                SimpleTrace.Diagnostics.Error(e, "Error reading claims {jwt}", jwt);
             }
 
             return null;
@@ -100,8 +98,8 @@ namespace SimpleWAWS.Authentication
             var jwt = context.Request["id_token"];
             if (jwt != null) return jwt;
             var authHeader = context.Request.Headers["Authorization"];
-            if (authHeader == null || authHeader.IndexOf(Constants.BearerHeader, StringComparison.InvariantCultureIgnoreCase) == -1) return null;
-            return authHeader.Substring(Constants.BearerHeader.Length).Trim();
+            if (authHeader == null || authHeader.IndexOf(AuthConstants.BearerHeader, StringComparison.InvariantCultureIgnoreCase) == -1) return null;
+            return authHeader.Substring(AuthConstants.BearerHeader.Length).Trim();
         }
     }
 }

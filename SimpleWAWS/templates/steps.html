@@ -1,0 +1,93 @@
+﻿<section class="wa-section wa-section-blue wa-section-mini wa-section-compute">
+    <div class="wa-content">
+        <h1>Create your Azure App Service app</h1>
+        <div class="wa-spacer">
+            <h5 style="padding-top: 35px">Azure App Service is a cloud app service that integrates everything you need to quickly and easily build web and mobile apps for any platform or device.</h5>
+            <h5>Be our guest for up to an hour of Azure App Service experience with no Azure subscription, free of charge and commitment. Stay longer for the full Azure App Service experience with an Azure free trial subscription.</h5>
+        </div>
+        <div class="wa-spacer  wa-spacer-aside wa-spacer-asideLight">
+            <video width="440" controls poster="/Content/poster2.png" preload="none">
+                <source src="/Content/AppService.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+</section>
+
+<div class="wa-content wa-content-4up wa-content-divided">
+    <div id="status-buttons" class="text-center wa-content">
+        <a ng-repeat="step in currentAppService.steps" ui-sref-active-eq="active" ui-sref="{{ step.sref }}"><span>{{ step.id }}</span> {{ step.title }}</a>
+    </div>
+
+    <div class="wa-content wa-content-4up wa-content-divided" ui-view></div>
+
+    <div ng-if="currentStep.id === 1" class="wa-content wa-content-4up" style="margin-top: 0px">
+        <h2>Select app type</h2>
+        <br />
+        <br />
+
+        <div id="appservices-div">
+            <div ng-repeat="appService in appServices" class="appservice-container box-container" ng-class="currentAppService.name === appService.name ? 'box-container-selected' : ''">
+                <a class="select-appservice-anchor" href="#" ng-click="selectAppService(appService)">
+                    <div class="app-service" ng-class="appService.sprite"></div>
+                    <div class="appservice-name">{{ appService.title }}</div>
+                </a>
+            </div>
+        </div>
+        <br />
+        <br />
+    </div>
+
+    <div class="wa-content wa-content-4up wa-content-divided" style="margin-bottom: 20px">
+
+        <div style="display: inline; float: left; position: relative">
+            <a ng-if="previousStep" href="#" class="wa-button" ng-click="goToPreviousState()" ng-class="currentStep.previousClass ? currentStep.previousClass : 'wa-button-gray'">{{ currentStep.previousText ? currentStep.previousText : 'Previous' }}</a>
+            <div id="confirm-box" class="confirm-box" ng-show="confirmDelete">
+                <div class="confirm-content">
+                    <div class="confirm-message">Going back will delete the current {{ currentAppService.title }}.</div>
+                    <a id="yes-delete-confirm" href="#" class="wa-button wa-button-red confirm-answer" ng-click="deleteResource()">
+                        Delete
+                    </a>
+                    <a href="#" class="wa-button wa-button-gray confirm-answer" ng-click="confirmDelete = false;">
+                        Cancel
+                    </a>
+                </div>
+            </div>
+            <a ng-if="nextStep" href="#" class="wa-button" ng-click="goToNextState()" ng-class="currentStep.nextClass ? currentStep.nextClass : 'wa-button-alt'">{{ currentStep.nextText ? currentStep.nextText : 'Next' }}</a>
+            <a ng-if="!nextStep" href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id=try_websites" target="_blank" ng-click="freeTrialClick('last-step')" class="wa-button wa-button-primary">Free trial</a>
+            <div class="login-box"  ng-show="loginOptions">
+                <div style="display: block; margin-left: 30px">
+                    <div class="wa-heading5" style="position: relative; margin-right: 8px">Log in first to create a {{ currentAppService.title }}</div>
+                    <div class="login-option"><a href="#" ng-click="handleLoginClick('aad')" class="create-site-action wa-button microsoft-login">Microsoft Account</a></div>
+                    <div class="login-option"><a class="create-site-action" ng-click="handleLoginClick('google')" href="#"><div class="google-login sprite-google"></div></a></div>
+                    <div class="login-option"><a class="create-site-action" ng-click="handleLoginClick('facebook')" href="#"><div class="facebook-login"></div></a></div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="spinner">
+            <i ng-if="running" class="fa fa-spinner fa-spin" title="Please wait" style="margin-top: 10px"></i>
+        </div>
+
+        <div class="spinner" style="margin-left: 70px">
+            <div class="error-message" ng-show="ngModels.errorMessage">
+                <i class="fa fa-warning" style="margin-top: 10px" title="{{ ngModels.errorMessage }}"></i>
+                <span class="error-message-text" ng-bind="ngModels.errorMessage"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui-blocker" ng-if="running"></div>
+</div>
+
+<div id="login-dark-blocker" class="dark-full-site-blocker" ng-show="loginOptions || confirmDelete" ng-click="loginOptions = false; confirmDelete = false;"></div>
+<div id="site-expired" ng-if="siteExpired">
+    <div class="full-site-blocker"></div>
+    <div class="site-expired-notification-blade">
+        <div class="site-expired-notification">
+            <h2 style="color: white; margin-bottom: 90px">Your {{ currentAppService.title }} has expired. You can try creating another app service or signup for a free 30-day trial account.</h2>
+            <a id="dismiss-site-expire" href="#" class="wa-button wa-button-slate" ng-click="dismissSiteExpired()">Dismiss</a>
+            <a href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id=try_websites" id="free-trial-dismiss" target="_blank" ng-click="freeTrialClick('expired-banner')" class="wa-button wa-button-primary">Free trial</a>
+        </div>
+    </div>
+</div>

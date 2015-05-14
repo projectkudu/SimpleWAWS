@@ -1,4 +1,5 @@
-﻿using SimpleWAWS.Code;
+﻿using SimpleWAWS.Models;
+using SimpleWAWS.Trace;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -14,7 +15,7 @@ namespace SimpleWAWS.Authentication
     {
         public abstract void AuthenticateRequest(HttpContext context);
         public abstract bool HasToken(HttpContext context);
-        protected abstract string GetLoginUrl(HttpContext context);
+        public abstract string GetLoginUrl(HttpContext context);
 
         protected void AuthenticateRequest(HttpContext context, Func<HttpContext, TokenResults> providerSpecificAuthMethod)
         {
@@ -42,9 +43,9 @@ namespace SimpleWAWS.Authentication
                     case TokenResults.ExistsAndCorrect:
                         // Ajax can never send Bearer token
                         context.Response.Cookies.Add(CreateSessionCookie(context.User));
-                        if (context.Response.Cookies[Constants.AnonymousUser] != null)
+                        if (context.Response.Cookies[AuthConstants.AnonymousUser] != null)
                         {
-                            context.Response.Cookies[Constants.AnonymousUser].Expires = DateTime.UtcNow.AddDays(-1);
+                            context.Response.Cookies[AuthConstants.AnonymousUser].Expires = DateTime.UtcNow.AddDays(-1);
                         }
                         context.Response.RedirectLocation = context.Request["state"];
                         context.Response.StatusCode = 302; // Redirect
@@ -56,7 +57,7 @@ namespace SimpleWAWS.Authentication
             }
             catch (Exception e)
             {
-                Trace.TraceError(e.ToString());
+                SimpleTrace.Diagnostics.Error(e, "General Authentication Exception");
                 context.Response.RedirectLocation = ConfigurationManager.AppSettings["LoginErrorPage"];
                 context.Response.StatusCode = 302; // Redirect
             }
@@ -70,8 +71,9 @@ namespace SimpleWAWS.Authentication
         {
             var identity = user.Identity as TryWebsitesIdentity;
             var value = string.Format("{0};{1};{2};{3}", identity.Email, identity.Puid, identity.Issuer, DateTime.UtcNow);
-            Trace.TraceInformation("{0};{1};{2}", AnalyticsEvents.UserLoggedIn, identity.Email, identity.Issuer);
-            return new HttpCookie(Constants.LoginSessionCookie, Uri.EscapeDataString(value.Encrypt(Constants.EncryptionReason))) { Path = "/" };
+            SimpleTrace.Analytics.Information(AnalyticsEvents.UserLoggedIn, identity);
+            SimpleTrace.TraceInformation("{0};{1};{2}", AnalyticsEvents.OldUserLoggedIn, identity.Email, identity.Issuer);
+            return new HttpCookie(AuthConstants.LoginSessionCookie, Uri.EscapeDataString(value.Encrypt(AuthConstants.EncryptionReason))) { Path = "/" };
         }
     }
 }

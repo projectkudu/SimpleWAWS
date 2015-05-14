@@ -9,7 +9,7 @@ namespace SimpleWAWS.Authentication
 {
     public class TwitterAuthProvider : BaseOpenIdConnectAuthProvider
     {
-        protected override string GetLoginUrl(HttpContext context)
+        public override string GetLoginUrl(HttpContext context)
         {
             var builder = new StringBuilder();
             builder.Append("https://www.facebook.com/dialog/oauth");

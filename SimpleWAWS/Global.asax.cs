@@ -5,8 +5,15 @@ using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Routing;
 using SimpleWAWS.Authentication;
-using SimpleWAWS.Code;
+using SimpleWAWS.Models;
 using System.Web;
+using SimpleWAWS.Trace;
+using SimpleWAWS.Code;
+using Serilog;
+using Destructurama;
+using Serilog.Filters;
+using Serilog.Sinks.Email;
+using System.Net;
 
 namespace SimpleWAWS
 {
@@ -14,13 +21,48 @@ namespace SimpleWAWS
     {
         protected void Application_Start()
         {
-            Trace.TraceInformation("{0} Application started", AnalyticsEvents.ApplicationStarted);
+            //Init logger
+
+            //Analytics logger
+            var analyticsLogger = new LoggerConfiguration()
+                .Enrich.With(new ExperimentEnricher())
+                .Enrich.With(new UserNameEnricher())
+                .Destructure.JsonNetTypes()
+                .WriteTo.AzureDocumentDB(new Uri(""), "", "TryAppService", "Analytics")
+                .WriteTo.AzureDocumentDB(new Uri(""), "", "TryAppService", "Diagnostics")
+                .CreateLogger();
+
+            SimpleTrace.Analytics = analyticsLogger;
+
+            //Diagnostics Logger
+            var diagnosticsLogger = new LoggerConfiguration()
+                .MinimumLevel.Verbose()
+                .Enrich.With(new ExperimentEnricher())
+                .Enrich.With(new UserNameEnricher())
+                .WriteTo.AzureDocumentDB(new Uri(""), "", "TryAppService", "Diagnostics")
+                .WriteTo.Logger(lc => lc
+                    .Filter.ByIncludingOnly(Matching.WithProperty<int>("Count", p => p % 10 == 0))
+                    .WriteTo.Email(new EmailConnectionInfo
+                        {
+                            EmailSubject = "TryAppService Alert",
+                            EnableSsl = true,
+                            FromEmail = "",
+                            MailServer = "",
+                            NetworkCredentials = new NetworkCredential("", ""),
+                            Port = 587,
+                            ToEmail = ""
+                        }, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Fatal))
+                .CreateLogger();
+
+            SimpleTrace.Diagnostics = diagnosticsLogger;
+
+            SimpleTrace.Diagnostics.Information("Application started");
             //Configure Json formatter
             GlobalConfiguration.Configuration.Formatters.Clear();
             GlobalConfiguration.Configuration.Formatters.Add(new JsonMediaTypeFormatter());
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.Error = (sender, args) =>
             {
-                Trace.TraceError(args.ErrorContext.Error.Message);
+                SimpleTrace.Diagnostics.Error(args.ErrorContext.Error.Message);
                 args.ErrorContext.Handled = true;
             };
             //Templates Routes
@@ -29,20 +71,31 @@ namespace SimpleWAWS
             //Telemetry Routes
             RouteTable.Routes.MapHttpRoute("post-telemetry-event", "api/telemetry/{telemetryEvent}", new { controller = "Telemetry", action = "LogEvent", authenticated = false}, new { verb = new HttpMethodConstraint("POST") });
 
-            //Site Api Routes
-            RouteTable.Routes.MapHttpRoute("get-site", "api/site", new { controller = "Site", action = "GetSite", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
-            RouteTable.Routes.MapHttpRoute("create-site", "api/site", new { controller = "Site", action = "CreateSite", authenticated = true }, new { verb = new HttpMethodConstraint("POST") });
-            RouteTable.Routes.MapHttpRoute("get-site-publishing-profile", "api/site/getpublishingprofile", new { controller = "Site", action = "GetPublishingProfile", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
-            RouteTable.Routes.MapHttpRoute("get-mobile-client-app", "api/site/mobileclient/{platformString}", new { controller = "Site", action = "GetMobileClientZip", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
-            RouteTable.Routes.MapHttpRoute("delete-site", "api/site", new { controller = "Site", action = "DeleteSite", authenticated = true }, new { verb = new HttpMethodConstraint("DELETE") });
+            //Resources Api Routes
+            RouteTable.Routes.MapHttpRoute("get-resource", "api/resource", new { controller = "Resource", action = "GetResource", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("create-resource", "api/resource", new { controller = "Resource", action = "CreateResource", authenticated = true }, new { verb = new HttpMethodConstraint("POST") });
+            RouteTable.Routes.MapHttpRoute("get-webapp-publishing-profile", "api/resource/getpublishingprofile", new { controller = "Resource", action = "GetWebAppPublishingProfile", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("get-mobile-client-app", "api/resource/mobileclient/{platformString}", new { controller = "Resource", action = "GetMobileClientZip", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("delete-resource", "api/resource", new { controller = "Resource", action = "DeleteResource", authenticated = true }, new { verb = new HttpMethodConstraint("DELETE") });
 
             //Admin Only Routes
-            RouteTable.Routes.MapHttpRoute("get-all-sites", "api/site/all", new { controller = "Site", action = "All", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
-            RouteTable.Routes.MapHttpRoute("reset-all-free-sites", "api/site/reset", new { controller = "Site", action = "Reset", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
-            RouteTable.Routes.MapHttpRoute("reload-all-free-sites", "api/site/reload", new { controller = "Site", action = "DropAndReloadFromAzure", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("get-all-resources", "api/resource/all", new { controller = "Resource", action = "All", authenticated = true, adminOnly = true }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("reset-all-free-resources", "api/resource/reset", new { controller = "Resource", action = "Reset", authenticated = true, adminOnly = true }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("reload-all-free-resources", "api/resource/reload", new { controller = "Resource", action = "DropAndReloadFromAzure", authenticated = true, adminOnly = true }, new { verb = new HttpMethodConstraint("GET") });
 
             //Register auth provider
             SecurityManager.InitAuthProviders();
+        }
+
+        protected void Application_BeginRequest(Object sender, EventArgs e)
+        {
+            HttpContext.Current.AssignExperiment();
+
+            if (HttpContext.Current.Request.Cookies[Constants.TiPCookie] == null &&
+                HttpContext.Current.Request.QueryString[Constants.TiPCookie] != null)
+            {
+                HttpContext.Current.Response.Cookies.Add(new HttpCookie(Constants.TiPCookie, HttpContext.Current.Request.QueryString[AuthConstants.TiPCookie]) { Path = "/" });
+            }
         }
 
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
@@ -66,7 +119,7 @@ namespace SimpleWAWS
                 {
                     SecurityManager.AuthenticateRequest(Context);
                 }
-                else
+                else if (HttpContext.Current.IsBrowserRequest())
                 {
                     SecurityManager.HandleAnonymousUser(Context);
                 }
@@ -81,7 +134,7 @@ namespace SimpleWAWS
 
                 if (Response.StatusCode >= 500)
                 {
-                    Trace.TraceError(ex.ToString());
+                    SimpleTrace.Diagnostics.Error(ex, "Exception from Application_Error");
                 }
             }
         }

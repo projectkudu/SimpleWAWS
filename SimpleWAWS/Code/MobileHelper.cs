@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Hosting;
 
-namespace SimpleWAWS.Code
+namespace SimpleWAWS.Models
 {
     public static class MobileHelper
     {
@@ -54,16 +54,9 @@ namespace SimpleWAWS.Code
         {
             var content = new PushStreamContent((outputStream, httpContent, transportContext) =>
             {
-                try
+                using (var zip = new ZipArchive(new StreamWrapper(outputStream), ZipArchiveMode.Create, leaveOpen: false))
                 {
-                    using (var zip = new ZipArchive(new StreamWrapper(outputStream), ZipArchiveMode.Create, leaveOpen: false))
-                    {
-                        onZip(zip);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw;
+                    onZip(zip);
                 }
             });
             content.Headers.ContentType = new MediaTypeHeaderValue("application/zip");

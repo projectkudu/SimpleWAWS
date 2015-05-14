@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Http;
-using SimpleWAWS.Code;
+using SimpleWAWS.Models;
 
 namespace SimpleWAWS.Controllers
 {
     public class TemplatesController : ApiController
     {
-        public IEnumerable<Template> Get()
+        public IEnumerable<BaseTemplate> Get()
         {
             var list = TemplatesManager.GetTemplates().ToList();
-            list.Add(Template.EmptySiteTemplate);
+            list.Add(WebsiteTemplate.EmptySiteTemplate);
             return list;
         }
     }

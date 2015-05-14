@@ -1,10 +1,10 @@
 ﻿var Template = (function () {
     function Template(json) {
-        this.name = json.name;
-        this.fileName = json.fileName;
-        this.language = json.language;
-        this.icon_class = json.icon_class;
-        this.appService = json.appService;
+        this.name = json.Name;
+        this.fileName = json.FileName;
+        this.language = json.Language;
+        this.icon_class = json.IconClass;
+        this.appService = json.AppService;
     }
     Template.prototype.select = function (event) {
         $(".website-template-container").removeClass("box-container-selected");
@@ -147,9 +147,9 @@ function initViewModel() {
 function initTemplates() {
     return $.getJSON("/api/templates", function (data) {
         for (var i = 0; i < data.length; i++) {
-            if (data[i].appService.toUpperCase() === "WEB") {
+            if (data[i].AppService.toUpperCase() === "WEB") {
                 viewModel.templates.push(new Template(data[i]));
-            } else if (data[i].appService.toUpperCase() === "MOBILE") {
+            } else if (data[i].AppService.toUpperCase() === "MOBILE") {
                 var temp = new Template(data[i]);
                 temp.icon_class = "sprite-todolist";
                 viewModel.mobileTemplates.push(temp);
@@ -288,6 +288,10 @@ function handleGetSite(data) {
     }
 }
 
+function handleGetApi(data) {
+    toggleSpinner();
+}
+
 function isJSON(str) {
     try {
         JSON.parse(str);
@@ -370,6 +374,30 @@ function createSite(template, source) {
         contentType: "application/json; charset=utf-8",
         success: handleGetSite,
         error: function (xhr, error, errorThrown) { handleCreateSiteError(xhr, error, errorThrown, source); }
+    });
+}
+
+function handleApi2(event) {
+    createApiApp('TrySamplesContactList');
+}
+
+function handleApi1(event) {
+    createApiApp('TrySamplesTodoList');
+}
+
+function createApiApp(name) {
+    toggleSpinner();
+    return $.ajax({
+        type: "POST",
+        url: "/api/site",
+        data: JSON.stringify({
+            Name: name,
+            AppService: "Api",
+            Language: "blah"
+        }),
+        contentType: "application/json; charset=utf-8",
+        success: handleGetApi,
+        error: function (xhr, error, errorThrown) { handleCreateSiteError(xhr, error, errorThrown, "AAD"); }
     });
 }
 

@@ -50,16 +50,6 @@ namespace SimpleWAWS
             return Char.ToLowerInvariant(str[0]) + str.Substring(1);
         }
 
-        public static Stream ToStream(this string str)
-        {
-            var stream = new MemoryStream();
-            var writer = new StreamWriter(stream);
-            writer.Write(str);
-            writer.Flush();
-            stream.Position = 0;
-            return stream;
-        }
-
         public static string Encrypt(this string str, string reason = null)
         {
             var valueBytes = Encoding.Default.GetBytes(str);
@@ -97,6 +87,11 @@ namespace SimpleWAWS
                 : value.PadRight(value.Length + (4 - value.Length % 4), '=');
         }
 
+        public static string RemoveNewLines(this string value)
+        {
+            return value.Replace("\r\n", "_").Replace('\n', '_');
+        }
+
         public static void AddFile(this ZipArchive archive, string fileName, string zippedName, string zipRoot)
         {
             using (var stream = File.Open(fileName, FileMode.Open))
@@ -122,7 +117,7 @@ namespace SimpleWAWS
         public static Stream AsStream(this string value)
         {
             var stream = new MemoryStream();
-            var writer = new StreamWriter(stream);
+            var writer = new StreamWriter(stream, Encoding.UTF8);
             writer.Write(value);
             writer.Flush();
             stream.Position = 0;

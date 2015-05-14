@@ -10,7 +10,7 @@ namespace SimpleWAWS.Authentication
 {
     public class GoogleAuthProvider : BaseOpenIdConnectAuthProvider
     {
-        protected override string GetLoginUrl(HttpContext context)
+        public override string GetLoginUrl(HttpContext context)
         {
             var builder = new StringBuilder();
             builder.Append("https://accounts.google.com/o/oauth2/auth");

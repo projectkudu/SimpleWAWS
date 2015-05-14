@@ -1,0 +1,16 @@
+﻿<h2>Build and run your mobile client app</h2>
+<div id="mobile-client-div" data-bind="foreach: mobileClients">
+    <div ng-repeat="client in mobileClients" class="mobile-template-container box-container" ng-class="selectedMobileClient.name === client.name ? 'box-container-selected' : ''">
+        <a class="select-template-anchor" href="#" ng-click="selectMobileClient(client)">
+            <div ng-class="client.sprite" style="width: 115px; height: 115px"></div>
+            <div class="website-template-name" ng-bind="client.name"></div>
+        </a>
+    </div>
+</div>
+<div id="mobile-client-info-div">
+    <div ng-repeat="client in mobileClients" ng-if="selectedMobileClient.name === client.name" style="margin-top: 20px">
+        <h3 ng-if="client.steps.preHref">3.1) Prerequisite: <a target="_blank" ng-bind="client.steps.preText" ng-href="{{ client.steps.preHref }}"></a></h3>
+        <h3 ng-if="client.steps.preHref">3.2) <a target="_blank" ng-bind="client.steps.clientText" ng-href="{{ client.steps.clientHref }}"></a></h3>
+        <h3 ng-if="client.steps.clientHref === 'webClient'">3) <a target="_blank" ng-bind="client.steps.clientText" ng-href="{{ resource.mobileWebClient }}"></a></h3>
+    </div>
+</div>

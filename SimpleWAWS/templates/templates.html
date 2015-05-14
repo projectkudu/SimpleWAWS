@@ -1,0 +1,21 @@
+﻿<h2>Select a template and create your {{ currentAppService.title }}</h2>
+<div ng-if="currentAppService.templates[0].language">
+    <label for="wa-dropdown-language">Change language:</label>
+    <div class="wa-dropdown-container wa-dropdown-medium">
+        <select id="wa-dropdown-language" class="wa-dropdown" ng-model="ngModels.selectedLanguage" ng-options="language for language in currentAppService.templates | unique: 'language' | map: getLanguage" ng-change="changeLanguage()">
+        </select>
+        <span class="wa-dropdown-value">{{ ngModels.selectedLanguage }}</span>
+        <span class="wa-dropdown-arrow"></span>
+    </div>
+</div>
+<br />
+<br />
+
+<div id="templates-div">
+    <div ng-repeat="template in currentAppService.templates | filterBySelectedLanguage: ngModels.selectedLanguage" class="website-template-container box-container" ng-class="selectedTemplate.name === template.name ? 'box-container-selected': ''">
+        <a class="select-template-anchor" ng-click="selectTemplate(template)" href="#"> <!-- click event?-->
+            <div class="icons" ng-class="template.sprite" style="width: 115px; height: 115px"></div>
+            <div class="website-template-name">{{ template.name }}</div>
+        </a>
+    </div>
+</div>

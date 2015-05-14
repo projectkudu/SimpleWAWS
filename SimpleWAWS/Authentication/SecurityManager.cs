@@ -6,8 +6,12 @@ using System;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using SimpleWAWS.Trace;
+using System.Threading.Tasks;
 
-namespace SimpleWAWS.Code
+namespace SimpleWAWS.Models
 {
     public static class SecurityManager
     {
@@ -21,11 +25,11 @@ namespace SimpleWAWS.Code
 
             var state = context.Request.QueryString["state"];
             if (string.IsNullOrEmpty(state))
-                return Constants.DefaultAuthProvider;
+                return AuthConstants.DefaultAuthProvider;
 
             state = WebUtility.UrlDecode(state);
             var match = Regex.Match(state, "provider=([^&]+)", RegexOptions.IgnoreCase);
-            return match.Success ? match.Groups[1].Value : Constants.DefaultAuthProvider;
+            return match.Success ? match.Groups[1].Value : AuthConstants.DefaultAuthProvider;
         }
 
         private static IAuthProvider GetAuthProvider(HttpContext context)
@@ -39,7 +43,7 @@ namespace SimpleWAWS.Code
             }
             else
             {
-                return _authProviders[Constants.DefaultAuthProvider];
+                return _authProviders[AuthConstants.DefaultAuthProvider];
             }
         }
 
@@ -61,13 +65,9 @@ namespace SimpleWAWS.Code
             return GetAuthProvider(context).HasToken(context);
         }
 
-        public static void EnsureAdmin(HttpContext context)
+        public static bool IsAdmin(HttpContext context)
         {
-            if (context.User.Identity.Name != ConfigurationManager.AppSettings["AdminUserId"])
-            {
-                context.Response.StatusCode = 403; //Forbidden
-                context.Response.End();
-            }
+            return context.User.Identity.Name == ConfigurationManager.AppSettings["AdminUserId"];
         }
 
         public static bool TryAuthenticateSessionCookie(HttpContext context)
@@ -75,8 +75,8 @@ namespace SimpleWAWS.Code
             try
             {
                 var loginSessionCookie =
-                    Uri.UnescapeDataString(context.Request.Cookies[Constants.LoginSessionCookie].Value)
-                        .Decrypt(Constants.EncryptionReason);
+                    Uri.UnescapeDataString(context.Request.Cookies[AuthConstants.LoginSessionCookie].Value)
+                        .Decrypt(AuthConstants.EncryptionReason);
                 var splited = loginSessionCookie.Split(';');
                 if (splited.Length == 2)
                 {
@@ -98,7 +98,7 @@ namespace SimpleWAWS.Code
                         var issuer = splited[2];
                         context.User = new TryWebsitesPrincipal(new TryWebsitesIdentity(email, puid, issuer));
                         return true;
-                    }
+                    } 
                 }
                 else
                 {
@@ -113,7 +113,7 @@ namespace SimpleWAWS.Code
             {
                 // we need to authenticate
                 //but also log the error
-                Trace.TraceError(e.ToString());
+                SimpleTrace.Diagnostics.Error(e, "Exception during cookie authentication");
             }
             return false;
         }
@@ -123,28 +123,49 @@ namespace SimpleWAWS.Code
             try
             {
                 if (!context.IsBrowserRequest()) return;
-                var userCookie = context.Request.Cookies[Constants.AnonymousUser];
-                var user = string.Empty;
+                var userCookie = context.Request.Cookies[AuthConstants.AnonymousUser];
                 if (userCookie == null)
                 {
-                    user = Guid.NewGuid().ToString();
-                    context.Response.Cookies.Add(new HttpCookie(Constants.AnonymousUser, Uri.EscapeDataString(user.Encrypt(Constants.EncryptionReason))) { Path = "/", Expires = DateTime.UtcNow.AddDays(1) });
+                    var user = Guid.NewGuid().ToString();
+                    context.Response.Cookies.Add(new HttpCookie(AuthConstants.AnonymousUser, Uri.EscapeDataString(user.Encrypt(AuthConstants.EncryptionReason))) { Path = "/", Expires = DateTime.UtcNow.AddMinutes(30) });
                 }
                 else
                 {
-                    user = Uri.UnescapeDataString(userCookie.Value).Decrypt(Constants.EncryptionReason);
+                    var user = Uri.UnescapeDataString(userCookie.Value).Decrypt(AuthConstants.EncryptionReason);
                     context.User = new TryWebsitesPrincipal(new TryWebsitesIdentity(user, null, "Anonymous"));
                 }
             }
             catch (Exception e)
             {
-                Trace.TraceError("Error Adding anonymous user: " + e.ToString());
+                SimpleTrace.Diagnostics.Error(e, "Error Adding anonymous user");
             }
+        }
+
+        public static HttpResponseMessage RedirectToAAD(string redirectContext)
+        {
+            var response = new HttpResponseMessage(HttpStatusCode.Forbidden);
+
+            response.Headers.Add("LoginUrl", (_authProviders["AAD"] as AADProvider).GetLoginUrl(HttpContext.Current));
+
+            if (HttpContext.Current.Response.Cookies[AuthConstants.LoginSessionCookie] != null)
+            {
+                response.Headers.AddCookies(new [] { new CookieHeaderValue(AuthConstants.LoginSessionCookie, string.Empty){ Expires = DateTime.UtcNow.AddDays(-1), Path = "/" } });
+            }
+            return response;
+        }
+
+        public static Task<HttpResponseMessage> AdminOnly(Func<Task<HttpResponseMessage>> func)
+        {
+            if (SecurityManager.IsAdmin(HttpContext.Current))
+            {
+                return func();
+            }
+            return Task.FromResult(new HttpResponseMessage(HttpStatusCode.Forbidden));
         }
 
         private static bool ValidDateTimeSessionCookie(DateTime date)
         {
-            return date.Add(Constants.SessionCookieValidTimeSpan) > DateTime.UtcNow;
+            return date.Add(AuthConstants.SessionCookieValidTimeSpan) > DateTime.UtcNow;
         }
     }
 }

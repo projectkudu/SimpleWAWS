@@ -2,24 +2,13 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Management.WebSites.Models;
+using SimpleWAWS.Code;
+using SimpleWAWS.Trace;
 
-namespace SimpleWAWS.Code
+namespace SimpleWAWS.Models
 {
     class Util
     {
-        public static WebSiteUpdateConfigurationParameters CreateWebSiteUpdateConfigurationParameters()
-        {
-            // It's important to null out the collections to avoid deleting things we don't want to set
-            return new WebSiteUpdateConfigurationParameters
-            {
-                AppSettings = null,
-                ConnectionStrings = null,
-                DefaultDocuments = null,
-                HandlerMappings = null,
-                Metadata = null
-            };
-        }
-
         public static async Task SafeGuard(Func<Task> action)
         {
             try
@@ -28,7 +17,19 @@ namespace SimpleWAWS.Code
             }
             catch (Exception e)
             {
-                Trace.TraceError(e.ToString());
+                SimpleTrace.Diagnostics.Error(e, "SafeGuard Exception");
+            }
+        }
+        public static async Task<T> SafeGuard<T>(Func<Task<T>> action)
+        {
+            try
+            {
+                return await action();
+            }
+            catch (Exception e)
+            {
+                SimpleTrace.Diagnostics.Error(e, "SafeGuard<T> Exception");
+                return default(T);
             }
         }
 
