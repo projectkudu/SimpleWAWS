@@ -112,7 +112,7 @@ namespace SimpleWAWS.Authentication
             [JsonProperty("code")]
             public string Code { get; set; }
             [JsonProperty("issued_at")]
-            public int IssuedAt { get; set; }
+            public double IssuedAt { get; set; }
             [JsonProperty("user_id")]
             public string UserId { get; set; }
         }
@@ -135,8 +135,9 @@ namespace SimpleWAWS.Authentication
             public string Locale { get; set; }
             [JsonProperty("name")]
             public string Name { get; set; }
+            //India Standard Time zone is 5.5 This should be a double not an int.
             [JsonProperty("timezone")]
-            public int Timezone { get; set; }
+            public double Timezone { get; set; }
             [JsonProperty("updated_time")]
             public string UpdatedTime { get; set; }
             [JsonProperty("verified")]
