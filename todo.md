@@ -8,12 +8,17 @@
 - [X] timer
 - [X] expired page
 - [X] jsclient url for mobile
-- [ ] Make 1 function that always handles site creation instead of 2
+- [X] Make 1 function that always handles site creation instead of 2
 - [X] clear errors
 - [X] fix Logic Apps coming soon page
 - [X] API Apps sample names
 - [X] title of step 2 should have the app service name
-- [ ] TiP data
+- [X] TiP data
 - [X] make contact list icon the same as todo list
 - [X] remove non-AAD login options from api apps
 - [X] make previous prompt for deletion
+- [ ] time limit the create in case of CSM templates
+- [ ] log the failure message from CSM for diagnostics
+- [ ] Figure out a better way to handle the MORE_THAN_ONE error
+- [ ] move analytics to storage queues?? Clean up DocumentDB?
+- [ ] add more analytics views
