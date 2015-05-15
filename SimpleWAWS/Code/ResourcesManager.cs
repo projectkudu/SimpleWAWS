@@ -294,9 +294,9 @@ namespace SimpleWAWS.Models
                     if (template != null && template.FileName != null)
                     {
                         var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-                        var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
+                        var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
                         Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.GetFullPath());
-                        var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials);
+                        var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
                         Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
                         await Task.WhenAll(zipUpload, deleteHostingStart);
                     }

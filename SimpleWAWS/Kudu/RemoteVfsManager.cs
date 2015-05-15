@@ -5,40 +5,49 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Kudu.Client.Infrastructure;
+using SimpleWAWS.Code;
 
 namespace Kudu.Client.Editor
 {
     public class RemoteVfsManager : KuduRemoteClientBase
     {
-        public RemoteVfsManager(string serviceUrl, ICredentials credentials = null, HttpMessageHandler handler = null)
+        private int _retryCount;
+        public RemoteVfsManager(string serviceUrl, ICredentials credentials = null, HttpMessageHandler handler = null, int retryCount = 0)
             : base(serviceUrl, credentials, handler)
         {
+            _retryCount = retryCount;
         }
 
-        public async Task Delete(string path, bool recursive = false)
+        public Task Delete(string path, bool recursive = false)
         {
-            using (var request = new HttpRequestMessage())
+            return RetryHelper.Retry(() =>
             {
-                path += recursive ? "?recursive=true" : String.Empty;
+                using (var request = new HttpRequestMessage())
+                {
+                    path += recursive ? "?recursive=true" : String.Empty;
 
-                request.Method = HttpMethod.Delete;
-                request.RequestUri = new Uri(path, UriKind.Relative);
-                request.Headers.IfMatch.Add(EntityTagHeaderValue.Any);
+                    request.Method = HttpMethod.Delete;
+                    request.RequestUri = new Uri(path, UriKind.Relative);
+                    request.Headers.IfMatch.Add(EntityTagHeaderValue.Any);
 
-                await Client.SendAsync(request);
-            }
+                    return Client.SendAsync(request);
+                }
+            }, _retryCount);
         }
 
-        public async Task Put(string remotePath, string localPath)
+        public Task Put(string remotePath, string localPath)
         {
-            using (var request = new HttpRequestMessage())
+            return RetryHelper.Retry(() =>
             {
-                request.Method = HttpMethod.Put;
-                request.RequestUri = new Uri(remotePath, UriKind.Relative);
-                request.Headers.IfMatch.Add(EntityTagHeaderValue.Any);
-                request.Content = new StreamContent(new FileStream(localPath, FileMode.Open, FileAccess.Read, FileShare.Read));
-                await Client.SendAsync(request);
-            }
+                using (var request = new HttpRequestMessage())
+                {
+                    request.Method = HttpMethod.Put;
+                    request.RequestUri = new Uri(remotePath, UriKind.Relative);
+                    request.Headers.IfMatch.Add(EntityTagHeaderValue.Any);
+                    request.Content = new StreamContent(new FileStream(localPath, FileMode.Open, FileAccess.Read, FileShare.Read));
+                    return Client.SendAsync(request);
+                }
+            }, _retryCount);
         }
     }
 }
