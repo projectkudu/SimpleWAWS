@@ -28,8 +28,8 @@ namespace SimpleWAWS
                 .Enrich.With(new ExperimentEnricher())
                 .Enrich.With(new UserNameEnricher())
                 .Destructure.JsonNetTypes()
-                .WriteTo.AzureDocumentDB(new Uri(""), "", "TryAppService", "Analytics")
-                .WriteTo.AzureDocumentDB(new Uri(""), "", "TryAppService", "Diagnostics")
+                .WriteTo.AzureDocumentDB(new Uri(SimpleSettings.DocumentDbUrl), SimpleSettings.DocumentDbKey, "TryAppService", "Analytics", renderMessage: false)
+                .WriteTo.AzureDocumentDB(new Uri(SimpleSettings.DocumentDbUrl), SimpleSettings.DocumentDbKey, "TryAppService", "Diagnostics", renderMessage: false)
                 .CreateLogger();
 
             SimpleTrace.Analytics = analyticsLogger;
@@ -39,18 +39,18 @@ namespace SimpleWAWS
                 .MinimumLevel.Verbose()
                 .Enrich.With(new ExperimentEnricher())
                 .Enrich.With(new UserNameEnricher())
-                .WriteTo.AzureDocumentDB(new Uri(""), "", "TryAppService", "Diagnostics")
+                .WriteTo.AzureDocumentDB(new Uri(SimpleSettings.DocumentDbUrl), SimpleSettings.DocumentDbKey, "TryAppService", "Diagnostics", renderMessage: false)
                 .WriteTo.Logger(lc => lc
                     .Filter.ByIncludingOnly(Matching.WithProperty<int>("Count", p => p % 10 == 0))
                     .WriteTo.Email(new EmailConnectionInfo
                         {
                             EmailSubject = "TryAppService Alert",
                             EnableSsl = true,
-                            FromEmail = "",
-                            MailServer = "",
-                            NetworkCredentials = new NetworkCredential("", ""),
+                            FromEmail = SimpleSettings.FromEmail,
+                            MailServer = SimpleSettings.EmailServer,
+                            NetworkCredentials = new NetworkCredential(SimpleSettings.EmailUserName, SimpleSettings.EmailPassword),
                             Port = 587,
-                            ToEmail = ""
+                            ToEmail = SimpleSettings.ToEmails
                         }, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Fatal))
                 .CreateLogger();
 

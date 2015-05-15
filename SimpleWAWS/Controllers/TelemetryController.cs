@@ -24,7 +24,9 @@ namespace SimpleWAWS.Controllers
                     : "-";
 
                 SimpleTrace.Analytics.Information(AnalyticsEvents.UiEvent, telemetryEvent, properties);
-                SimpleTrace.TraceInformation("{0}; {1}", telemetryEvent, userName);
+
+                var dic = properties.ToObject<Dictionary<string, string>>();
+                SimpleTrace.TraceInformation("{0}; {1}; {2}", telemetryEvent, userName, dic.Select(e => e.Value).Aggregate((a, b) => string.Join(" ", a, b)));
             }
             return Request.CreateResponse(HttpStatusCode.OK);
         }

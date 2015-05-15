@@ -69,14 +69,14 @@ namespace SimpleWAWS.Models
 
         private ResourcesManager()
         {
-            ResourceGroupExpiryTime = TimeSpan.FromMinutes(Int32.Parse(ConfigurationManager.AppSettings["siteExpiryMinutes"]));
+            ResourceGroupExpiryTime = TimeSpan.FromMinutes(Int32.Parse(SimpleSettings.SiteExpiryMinutes));
         }
 
         // ARM
         private async Task LoadAzureResources()
         {
             // Load all subscriptions
-            var subscriptions = (await Task.WhenAll(ConfigurationManager.AppSettings["subscriptions"].Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            var subscriptions = (await Task.WhenAll(SimpleSettings.Subscriptions.Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => Util.SafeGuard(() => new Subscription(s).Load())))).Where(s => s != null);
 
             //Create Trial resources if they are not already created
@@ -301,7 +301,7 @@ namespace SimpleWAWS.Models
                         await Task.WhenAll(zipUpload, deleteHostingStart);
                     }
                     site.AppSettings["LAST_MODIFIED_TIME_UTC"] = DateTime.UtcNow.ToString();
-                    site.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = ConfigurationManager.AppSettings["siteExpiryMinutes"];
+                    site.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = SimpleSettings.SiteExpiryMinutes;
                     site.AppSettings["MONACO_EXTENSION_VERSION"] = "beta";
                     site.AppSettings["WEBSITE_TRY_MODE"] = "1";
                     await site.UpdateAppSettings();

@@ -29,12 +29,11 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         static CsmManager()
         {
-            Func<string, string> config = (s) => ConfigurationManager.AppSettings[s] ?? Environment.GetEnvironmentVariable(s);
             csmClient = ARMLib.GetDynamicClient(apiVersion: "", retryCount: 3)
-                .ConfigureLogin(LoginType.Upn, config("TryUserName"), config("TryPassword"));
+                .ConfigureLogin(LoginType.Upn, SimpleSettings.TryUserName, SimpleSettings.TryPassword);
 
             graphClient = ARMLib.GetDynamicClient(apiVersion: "", retryCount: 3)
-                .ConfigureLogin(LoginType.Upn, config("grapAndCsmUserName"), config("graphAndCsmPassword"));
+                .ConfigureLogin(LoginType.Upn, SimpleSettings.GraphAndCsmUserName, SimpleSettings.GraphAndCsmPassword);
         }
 
         public static async Task<string> GetUserObjectId(string puidOrAltSec, string emailAddress)
@@ -50,7 +49,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             var rbacUser = new RbacUser
             {
-                TenantId = ConfigurationManager.AppSettings["tryWebsitesTenantId"],
+                TenantId = SimpleSettings.TryTenantId,
                 UserPuid = puidOrAltSec.Split(':').Last()
             };
 
@@ -122,7 +121,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 for (var i = 0; i < 30; i++)
                 {
                     var csmResponse = await csmClient.HttpInvoke(HttpMethod.Put,
-                        new Uri(string.Concat(CsmTemplates.CsmRootUrl, csmResource.CsmId, "/providers/Microsoft.Authorization/RoleAssignments/", Guid.NewGuid().ToString(), "?api-version=", ConfigurationManager.AppSettings["rbacCsmApiVersion"])),
+                        new Uri(string.Concat(CsmTemplates.CsmRootUrl, csmResource.CsmId, "/providers/Microsoft.Authorization/RoleAssignments/", Guid.NewGuid().ToString(), "?api-version=", CsmTemplates.RbacApiVersion)),
                         new
                         {
                             properties = new

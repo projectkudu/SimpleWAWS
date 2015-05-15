@@ -67,7 +67,7 @@ namespace SimpleWAWS.Models
 
         public static bool IsAdmin(HttpContext context)
         {
-            return context.User.Identity.Name == ConfigurationManager.AppSettings["AdminUserId"];
+            return context.User.Identity.Name == AuthSettings.AdminUserId;
         }
 
         public static bool TryAuthenticateSessionCookie(HttpContext context)

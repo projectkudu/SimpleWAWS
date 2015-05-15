@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SimpleWAWS.Code;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -67,7 +68,7 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return string.Concat("https://portal.azure.com/", ConfigurationManager.AppSettings["tryWebsitesTenantName"], "#resource", CsmId);
+                return string.Concat("https://portal.azure.com/", SimpleSettings.TryTenantName, "#resource", CsmId);
             }
         }
     }

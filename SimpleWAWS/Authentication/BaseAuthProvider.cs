@@ -37,7 +37,7 @@ namespace SimpleWAWS.Authentication
                         break;
                     case TokenResults.ExistAndWrong:
                         // Ajax can never send an invalid Bearer token
-                        context.Response.RedirectLocation = ConfigurationManager.AppSettings["LoginErrorPage"];
+                        context.Response.RedirectLocation = AuthSettings.LoginErrorPage;
                         context.Response.StatusCode = 302; // Redirect
                         break;
                     case TokenResults.ExistsAndCorrect:
@@ -58,7 +58,7 @@ namespace SimpleWAWS.Authentication
             catch (Exception e)
             {
                 SimpleTrace.Diagnostics.Error(e, "General Authentication Exception");
-                context.Response.RedirectLocation = ConfigurationManager.AppSettings["LoginErrorPage"];
+                context.Response.RedirectLocation = AuthSettings.LoginErrorPage;
                 context.Response.StatusCode = 302; // Redirect
             }
             finally

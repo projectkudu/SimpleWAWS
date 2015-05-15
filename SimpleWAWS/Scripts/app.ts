@@ -146,30 +146,21 @@
             name: "Api",
             sprite: "sprite-ApiApp",
             title: "API App",
-            //steps: [{
-            //    id: 1,
-            //    title: "Select app type",
-            //    sref: "home",
-            //}, {
-            //        id: 2,
-            //        title: "Select template",
-            //        sref: "home.apiapp.templates",
-            //        nextClass: "wa-button-primary",
-            //        nextText: "Create"
-            //    }, {
-            //        id: 3,
-            //        title: "Work with your app",
-            //        sref: "home.apiapp.work",
-            //    onPrevious: () => { $scope.confirmDelete = true; }
-            //    }],
             steps: [{
                 id: 1,
                 title: "Select app type",
-                sref: "home"
+                sref: "home",
             }, {
                     id: 2,
-                    title: "Coming soon",
-                    sref: "home.apiapp.comingsoon"
+                    title: "Select template",
+                    sref: "home.apiapp.templates",
+                    nextClass: "wa-button-primary",
+                    nextText: "Create"
+                }, {
+                    id: 3,
+                    title: "Work with your app",
+                    sref: "home.apiapp.work",
+                onPrevious: () => { $scope.confirmDelete = true; }
                 }],
             templates: []
         }, {
@@ -402,13 +393,10 @@
             method: "POST",
             data: $scope.selectedTemplate
         }).success((data) => {
-            var waitMoreBecauseAADAndIbiza = $scope.currentAppService.name == "Api" ? 10000 : 1000;
-            $timeout(() => {
                 $scope.resource = data;
                 startCountDown($scope.resource.timeLeftString);
                 $state.go($scope.nextStep.sref);
                 $scope.running = false;
-            }, waitMoreBecauseAADAndIbiza);
         }).error((err, status, headers) => {
             if (status === 403) {
                 //show login options

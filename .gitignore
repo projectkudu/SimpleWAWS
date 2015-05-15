@@ -7,3 +7,4 @@ App_Data
 /packages
 *.js
 *.js.map
+env-*.cmd

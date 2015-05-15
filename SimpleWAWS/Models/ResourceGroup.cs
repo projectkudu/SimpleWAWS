@@ -31,7 +31,7 @@ namespace SimpleWAWS.Models
             get { return DateTime.Parse(Tags[Constants.StartTime]); }
         }
 
-        private readonly TimeSpan UsageTimeSpan = TimeSpan.FromMinutes(int.Parse(ConfigurationManager.AppSettings["siteExpiryMinutes"]));
+        private readonly TimeSpan UsageTimeSpan = TimeSpan.FromMinutes(int.Parse(SimpleSettings.SiteExpiryMinutes));
 
         public string TimeLeft
         {

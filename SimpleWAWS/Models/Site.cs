@@ -120,7 +120,7 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return string.Concat("https://portal.azure.com/", ConfigurationManager.AppSettings["tryWebsitesTenantName"], "#resource", CsmId);
+                return string.Concat("https://portal.azure.com/", SimpleSettings.TryTenantName, "#resource", CsmId);
             }
         }
 

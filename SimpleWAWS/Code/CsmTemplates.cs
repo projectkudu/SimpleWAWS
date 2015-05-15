@@ -13,7 +13,9 @@ namespace SimpleWAWS.Code
         private const string appServiceApiVersion = "2015-03-01-preview";
         private const string graphApiVersion = "1.42-previewInternal";
 
+        public const string RbacApiVersion = "2014-07-01-preview";
         public const string CsmRootUrl = "https://management.azure.com";
+        public const string GraphRootUrl = "https://graph.windows.net";
 
         public static readonly CsmTemplate Subscriptions = new CsmTemplate(CsmRootUrl + "/subscriptions", csmApiVersoin);
         public static readonly CsmTemplate Subscription = new CsmTemplate(Subscriptions.TemplateUrl + "/{subscriptionId}", csmApiVersoin);
@@ -45,7 +47,7 @@ namespace SimpleWAWS.Code
         public static readonly CsmTemplate ServerFarms = new CsmTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Web/serverFarms", websitesApiVersion);
         public static readonly CsmTemplate ServerFarm = new CsmTemplate(ServerFarms.TemplateUrl + "/{serverFarmName}", websitesApiVersion);
 
-        public static readonly CsmTemplate GraphTenant = new CsmTemplate("https://graph.windows.net/{tenantId}", graphApiVersion);
+        public static readonly CsmTemplate GraphTenant = new CsmTemplate(GraphRootUrl + "/{tenantId}", graphApiVersion);
         public static readonly CsmTemplate GraphUsers = new CsmTemplate(GraphTenant.TemplateUrl + "/users", graphApiVersion);
         public static readonly CsmTemplate GraphUser = new CsmTemplate(GraphUsers.TemplateUrl + "/{userId}", graphApiVersion);
         public static readonly CsmTemplate GraphSearchUsers = new CsmTemplate(GraphUsers.TemplateUrl + "/?$filter=netId eq '{userPuid}' or alternativeSecurityIds/any(x:x/type eq 1 and x/identityProvider eq null and x/key eq X'{userPuid}')", graphApiVersion);

@@ -69,9 +69,9 @@
             <i ng-if="running" class="fa fa-spinner fa-spin" title="Please wait" style="margin-top: 10px"></i>
         </div>
 
-        <div class="spinner" style="margin-left: 70px">
+        <div class="error-place">
             <div class="error-message" ng-show="ngModels.errorMessage">
-                <i class="fa fa-warning" style="margin-top: 10px" title="{{ ngModels.errorMessage }}"></i>
+                <i class="fa fa-warning" title="{{ ngModels.errorMessage }}"></i>
                 <span class="error-message-text" ng-bind="ngModels.errorMessage"></span>
             </div>
         </div>
