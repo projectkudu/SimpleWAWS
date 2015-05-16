@@ -18,19 +18,19 @@ namespace Kudu.Client.Zip
             _retryCount = retryCount;
         }
 
-        private Task PutZipStreamAsync(string path, Stream zipFile)
+        private async Task PutZipStreamAsync(string path, Stream zipFile)
         {
-            return RetryHelper.Retry(() =>
+            await RetryHelper.Retry(async () =>
+            {
+                using (var request = new HttpRequestMessage())
                 {
-                    using (var request = new HttpRequestMessage())
-                    {
-                        request.Method = HttpMethod.Put;
-                        request.RequestUri = new Uri(path, UriKind.Relative);
-                        request.Headers.IfMatch.Add(EntityTagHeaderValue.Any);
-                        request.Content = new StreamContent(zipFile);
-                        return Client.SendAsync(request);
-                    }
-                }, _retryCount);
+                    request.Method = HttpMethod.Put;
+                    request.RequestUri = new Uri(path, UriKind.Relative);
+                    request.Headers.IfMatch.Add(EntityTagHeaderValue.Any);
+                    request.Content = new StreamContent(zipFile);
+                    await Client.SendAsync(request);
+                }
+            }, _retryCount);
         }
 
         public async Task PutZipFileAsync(string path, string localZipPath)

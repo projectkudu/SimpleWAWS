@@ -18,26 +18,24 @@ namespace Kudu.Client.Editor
             _retryCount = retryCount;
         }
 
-        public Task Delete(string path, bool recursive = false)
+        public async Task Delete(string path, bool recursive = false)
         {
-            return RetryHelper.Retry(() =>
+            await RetryHelper.Retry(async () =>
             {
                 using (var request = new HttpRequestMessage())
                 {
                     path += recursive ? "?recursive=true" : String.Empty;
-
                     request.Method = HttpMethod.Delete;
                     request.RequestUri = new Uri(path, UriKind.Relative);
                     request.Headers.IfMatch.Add(EntityTagHeaderValue.Any);
-
-                    return Client.SendAsync(request);
+                    await Client.SendAsync(request);
                 }
             }, _retryCount);
         }
 
-        public Task Put(string remotePath, string localPath)
+        public async Task Put(string remotePath, string localPath)
         {
-            return RetryHelper.Retry(() =>
+            await RetryHelper.Retry(async () =>
             {
                 using (var request = new HttpRequestMessage())
                 {
@@ -45,7 +43,7 @@ namespace Kudu.Client.Editor
                     request.RequestUri = new Uri(remotePath, UriKind.Relative);
                     request.Headers.IfMatch.Add(EntityTagHeaderValue.Any);
                     request.Content = new StreamContent(new FileStream(localPath, FileMode.Open, FileAccess.Read, FileShare.Read));
-                    return Client.SendAsync(request);
+                    await Client.SendAsync(request);
                 }
             }, _retryCount);
         }

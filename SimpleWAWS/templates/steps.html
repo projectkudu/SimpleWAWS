@@ -62,6 +62,17 @@
                     <div class="login-option"><a class="create-site-action" ng-click="handleLoginClick('facebook')" href="#"><div class="facebook-login"></div></a></div>
                 </div>
             </div>
+            <div id="confirm-box" class="confirm-box" ng-show="offerDeleteAndCreate" style="left: 274px; top: -45px">
+                <div class="confirm-content">
+                    <div class="confirm-message">You already have an App Service created. Do you want to delete it and create a new one?</div>
+                    <a id="yes-delete-confirm" href="#" class="wa-button wa-button-red confirm-answer" ng-click="deleteAndCreateResource()">
+                        Yes
+                    </a>
+                    <a href="#" class="wa-button wa-button-gray confirm-answer" ng-click="initExistingState()">
+                        Go to existing app
+                    </a>
+                </div>
+            </div>
         </div>
 
 
@@ -80,7 +91,10 @@
     <div class="ui-blocker" ng-if="running"></div>
 </div>
 
-<div id="login-dark-blocker" class="dark-full-site-blocker" ng-show="loginOptions || confirmDelete" ng-click="loginOptions = false; confirmDelete = false;"></div>
+<div id="login-dark-blocker" class="dark-full-site-blocker" ng-show="loginOptions || confirmDelete || offerDeleteAndCreate" ng-click="loginOptions = false; confirmDelete = false; offerDeleteAndCreate = false;"></div>
+
+
+
 <div id="site-expired" ng-if="siteExpired">
     <div class="full-site-blocker"></div>
     <div class="site-expired-notification-blade">

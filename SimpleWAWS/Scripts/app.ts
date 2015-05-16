@@ -13,78 +13,61 @@
     .config(["$stateProvider", "$urlRouterProvider", "$locationProvider", ($stateProvider: ng.ui.IStateProvider, $urlRouterProvider: ng.ui.IUrlRouterProvider, $locationProvider: ng.ILocationProvider) => {
     var homeState: ng.ui.IState = {
         name: "home",
-        url: "/",
-        //abstract: true,
         templateUrl: "templates/steps.html",
         controller: "appController"
     };
 
     var webApps: ng.ui.IState[] = [{
         name: "home.webapp",
-        url: "webapp",
-        templateUrl: "templates/empty-shell.html"
+        templateUrl: "templates/empty-shell.html",
     }, {
             name: "home.webapp.templates",
             templateUrl: "templates/templates.html",
-            url: "/templates?language&name"
         }, {
             name: "home.webapp.work",
             templateUrl: "templates/work.html",
-            url: "/work"
         }];
 
     var mobileApps: ng.ui.IState[] = [{
         name: "home.mobileapp",
         templateUrl: "templates/empty-shell.html",
-        url: "mobileapp",
     }, {
             name: "home.mobileapp.templates",
             templateUrl: "templates/templates.html",
-            url: "/templates?language&name"
         }, {
             name: "home.mobileapp.clients",
             templateUrl: "templates/clients.html",
-            url: "/clients"
         }, {
             name: "home.mobileapp.work",
             templateUrl: "templates/work.html",
-            url: "/work"
         }];
 
     var apiApps: ng.ui.IState[] = [{
         name: "home.apiapp",
         templateUrl: "/templates/empty-shell.html",
-        url: "apiapp",
     }, {
             name: "home.apiapp.templates",
             templateUrl: "/templates/templates.html",
-            url: "/templates?language&name"
         }, {
             name: "home.apiapp.work",
             templateUrl: "/templates/work.html",
-            url: "/work"
     }, {
             name: "home.apiapp.comingsoon",
             templateUrl: "/templates/comingsoon.html",
-            url: "/comingsoon"
     }];
 
     var logicApps: ng.ui.IState[] = [{
         name: "home.logicapp",
         templateUrl: "templates/empty-shell.html",
-        url: "logicapp"
     }, {
             name: "home.logicapp.comingsoon",
             templateUrl: "templates/comingsoon.html",
-            url: "/comingsoon"
         }];
     $stateProvider.state(homeState);
     webApps.forEach(s => $stateProvider.state(s));
     mobileApps.forEach(s => $stateProvider.state(s));
     apiApps.forEach(s => $stateProvider.state(s));
     logicApps.forEach(s => $stateProvider.state(s));
-
-    $urlRouterProvider.otherwise("/webapp");
     $locationProvider.html5Mode(true);
 
 }])
@@ -289,16 +272,17 @@
         }
     };
 
-    $scope.deleteResource = () => {
+    $scope.deleteResource = (dontGoBack) => {
         $scope.confirmDelete = false;
         $scope.running = true;
-        $http({
+        return $http({
             url: "api/resource",
             method: "DELETE"
         })
             .success(() => {
             delete $scope.resource;
-            $state.go($scope.previousStep.sref)
+            if (!dontGoBack)
+                $state.go($scope.previousStep.sref)
         })
             .error((e) => $scope.ngModels.errorMessage = e.Message)
             .finally(() => $scope.running = false);
@@ -330,6 +314,7 @@
 
         $scope.loginOptions = false;
         $scope.running = true;
+        $scope.offerDeleteAndCreate = false;
         $scope.ngModels = {};
         $scope.resource = {};
         $scope.selectedMobileClient = $scope.mobileClients[0];
@@ -351,39 +336,84 @@
     }
 
     function initState() {
-        if ($location.search().appServiceName || $location.search().appservice) {
-            var appServiceQuery: string= $location.search().appServiceName || $location.search().appservice;
-            $scope.selectAppService($scope.appServices.find(a => a.name.toUpperCase() === appServiceQuery.toUpperCase()));
-            if ($location.search().name)
-                $scope.selectTemplate($scope.currentAppService.templates.find(t => t.name === $location.search().name));
-            else
-                $scope.selectTemplate($scope.currentAppService.templates[0]);
-
-            if ($location.search().language) {
-                $scope.ngModels.selectedLanguage = $location.search().language === "cs" ? "C#" : $location.search().language;
-            }
-            var autoCreate = $location.search().autoCreate;
-            $state.go($scope.currentAppService.steps[1].sref).then(() => {
-                if (autoCreate) {
-                    $scope.goToNextState();
-                }
-            });
-            $scope.running = false;
+        if ($location.search().autoCreate) {
+            handleNoResourceInitState();
         } else {
-            $http({
-                url: "api/resource",
-                method: "GET"
-            }).success((data: any) => {
-                if (!data) return;
+            $scope.initExistingState();
+        }
+    }
+
+    $scope.initExistingState = () => {
+        $http({
+            url: "api/resource",
+            method: "GET"
+        }).success((data: any) => {
+            if (!data) {
+                handleNoResourceInitState();
+            } else {
                 $scope.resource = data;
                 $scope.selectAppService($scope.appServices.find(a => a.name === data.AppService));
                 $state.go("home." + data.AppService.toLowerCase() + "app.work");
                 startCountDown(data.timeLeftString);
-            }).error((err) => {
-            }).finally(() => {
-                $scope.running = false;
-            });
+            }
+        }).error((err) => {
+            handleNoResourceInitState();
+        }).finally(() => {
+            $scope.running = false;
+            $scope.offerDeleteAndCreate = false;
+        });
+    }
+
+    $scope.deleteAndCreateResource = () => {
+        $scope.offerDeleteAndCreate = false;
+        $scope.deleteResource(true).finally(() => {
+            createResource();
+        });
+    };
+
+    function handleNoResourceInitState() {
+        if ($location.search().appServiceName || $location.search().appservice) {
+            selectAppService();
+            selectLanguage();
+            selectTemplate();
+            autoCreateIfRequired();
+            clearQueryString();
+        } else if ($location.search().language) {
+            selectAppService("Web");
+            selectLanguage();
+            selectTemplate();
+            autoCreateIfRequired();
+            clearQueryString()
         }
+    }
+
+    function autoCreateIfRequired() {
+        var autoCreate = $location.search().autoCreate;
+        $state.go($scope.currentAppService.steps[1].sref).then(() => {
+            if (autoCreate) {
+                $scope.goToNextState();
+            }
+        });
+    }
+
+    function selectLanguage() {
+        if ($location.search().language) {
+            var searchLanguage = $location.search().language === "cs" ? "C#" : $location.search().language;
+            var correctTemplate = $scope.currentAppService.templates.find(t => t.language.toUpperCase() === searchLanguage.toUpperCase());
+            $scope.ngModels.selectedLanguage = correctTemplate ? correctTemplate.language : "Default";
+        }
+    }
+
+    function selectAppService(appService?: string) {
+        var appServiceQuery: string = appService || $location.search().appServiceName || $location.search().appservice;
+        $scope.selectAppService($scope.appServices.find(a => a.name.toUpperCase() === appServiceQuery.toUpperCase()));
+    }
+
+    function selectTemplate() {
+        if ($location.search().name)
+            $scope.selectTemplate($scope.currentAppService.templates.find(t => t.name === $location.search().name) || $scope.currentAppService.templates[0]);
+        else
+            $scope.selectTemplate($scope.currentAppService.templates.find(t => t.language ? t.language.toUpperCase() === $scope.ngModels.selectedLanguage.toUpperCase() : true) || $scope.currentAppService.templates[0]);
     }
 
     function createResource(method?: string) {
@@ -406,11 +436,23 @@
                     $scope.loginOptions = true;
                 }
             } else {
-                $scope.ngModels.errorMessage = err.Message;
+                if (err.Message === "You can't have more than 1 free resource at a time") {
+                    $scope.offerDeleteAndCreate = true;
+                } else {
+                    $scope.ngModels.errorMessage = err.Message;
+                }
             }
             $scope.running = false;
         });
     }
+
+    function clearQueryString() {
+        if (history.pushState) {
+            var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+            window.history.pushState({ path: newurl }, '', newurl);
+        }
+    }
+
 
 function startCountDown(init) {
     if (init !== undefined) {
@@ -470,13 +512,8 @@ function countDown(expireDateTime) {
         if (language === undefined)
             return templates;
         else
-            return templates.filter(t => t.language === language);
+            return templates.filter(t => t.language.toUpperCase() === language.toUpperCase());
     };
     }).config(["$httpProvider", function ($httpProvider) {
     $httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
-}]);
-//.filter("orderByDefaultFirstSort",() => {
-//    return (languages: string[]): string[]=> {
-
-//    };
-//});
+    }]);

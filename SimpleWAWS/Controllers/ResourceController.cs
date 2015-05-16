@@ -133,7 +133,7 @@ namespace SimpleWAWS.Controllers
                     SimpleTrace.Diagnostics.Fatal(AnalyticsEvents.MoreThanOneError, HttpContext.Current.User.Identity, 1);
 
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest,
-                        "You can't have more than 1 free site at a time");
+                        "You can't have more than 1 free resource at a time");
                 }
 
                 ResourceGroup resourceGroup = null;
