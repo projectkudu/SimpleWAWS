@@ -14,7 +14,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 {
     public static partial class CsmManager
     {
-        public static async Task<ResourceGroup> Load(this ResourceGroup resourceGroup, CsmWrapper<CsmResourceGroup> csmResourceGroup = null)
+        public static async Task<ResourceGroup> Load(this ResourceGroup resourceGroup, CsmWrapper<CsmResourceGroup> csmResourceGroup = null, bool loadSubResources = true)
         {
             Validate.ValidateCsmResourceGroup(resourceGroup);
 
@@ -29,18 +29,24 @@ namespace SimpleWAWS.Code.CsmExtensions
             Validate.NotNull(csmResourceGroup.tags, "csmResorucegroup.tags");
 
             resourceGroup.Tags = csmResourceGroup.tags;
-
-            await Task.WhenAll(LoadSites(resourceGroup), LoadApiApps(resourceGroup), LoadGateways(resourceGroup), LoadServerFarms(resourceGroup));
+            if (loadSubResources)
+            {
+                await Task.WhenAll(LoadSites(resourceGroup),
+                                   LoadApiApps(resourceGroup),
+                                   LoadGateways(resourceGroup),
+                                   LoadServerFarms(resourceGroup));
+            }
 
             return resourceGroup;
         }
+
         public static async Task<ResourceGroup> LoadSites(this ResourceGroup resourceGroup)
         {
             var csmSitesResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.Sites.Bind(resourceGroup));
             csmSitesResponse.EnsureSuccessStatusCode();
 
             var csmSites = await csmSitesResponse.Content.ReadAsAsync<CsmArrayWrapper<CsmSite>>();
-            resourceGroup.Sites = await Task.WhenAll(csmSites.value.Select(async cs => await Load(new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, cs.name), cs)));
+            resourceGroup.Sites = await csmSites.value.Select(async cs => await Load(new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, cs.name), cs)).WhenAll();
             return resourceGroup;
         }
 
@@ -111,6 +117,11 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task Delete(this ResourceGroup resourceGroup, bool block)
         {
+            // Mark as a "Bad" resourceGroup just in case the delete fails for any reason.
+            // Also since this is a potentially bad resourceGroup, ignore failure
+            resourceGroup.Tags["Bad"] = "1";
+            await Update(resourceGroup).IgnoreFailure();
+
             var csmResponse = await csmClient.HttpInvoke(HttpMethod.Delete, CsmTemplates.ResourceGroup.Bind(resourceGroup));
             csmResponse.EnsureSuccessStatusCode();
             if (block)
@@ -147,7 +158,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task<ResourceGroup> PutInDesiredState(this ResourceGroup resourceGroup)
         {
-            // If the resourceGroup is assigned, don't mess with it.
+            // If the resourceGroup is assigned, don't mess with it
             if (!string.IsNullOrEmpty(resourceGroup.UserId)) return resourceGroup;
 
             //TODO: move to config
@@ -156,7 +167,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             if (neededSites > 0)
             {
-                createdSites = await Task.WhenAll(Enumerable.Range(0, neededSites).Select(async n =>
+                createdSites = await Enumerable.Range(0, neededSites).Select(async n =>
                 {
                     var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, SiteNameGenerator.GenerateName());
                     var csmSiteResponse = await csmClient.HttpInvoke(HttpMethod.Put, CsmTemplates.Site.Bind(site), new { properties = new { }, location = resourceGroup.GeoRegion });
@@ -165,7 +176,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                     var csmSite = await csmSiteResponse.Content.ReadAsAsync<CsmWrapper<CsmSite>>();
 
                     return await Load(site, csmSite);
-                }));
+                }).WhenAll();
             }
 
             resourceGroup.Sites = resourceGroup.Sites.Union(createdSites);
@@ -195,17 +206,21 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             if (string.IsNullOrEmpty(objectId)) return false;
 
-            return (await Task.WhenAll(
+            return (await
                 resourceGroup.Sites.Select(s => s.AddRbacAccess(objectId))
                 .Concat(resourceGroup.ApiApps.Select(s => s.AddRbacAccess(objectId)))
                 .Concat(resourceGroup.Gateways.Select(s => s.AddRbacAccess(objectId)))
-                .Concat(resourceGroup.ServerFarms.Select(s => s.AddRbacAccess(objectId)))))
+                .Concat(resourceGroup.ServerFarms.Select(s => s.AddRbacAccess(objectId)))
+                .WhenAll())
                 .All(e => e);
         }
 
         private static bool IsSimpleWaws(CsmWrapper<CsmResourceGroup> csmResourceGroup)
         {
-            return !string.IsNullOrEmpty(csmResourceGroup.name) && csmResourceGroup.name.StartsWith(Constants.TryResourceGroupPrefix) && csmResourceGroup.properties.provisioningState == "Succeeded";
+            return !string.IsNullOrEmpty(csmResourceGroup.name) &&
+                csmResourceGroup.name.StartsWith(Constants.TryResourceGroupPrefix) &&
+                csmResourceGroup.properties.provisioningState == "Succeeded" &&
+                !csmResourceGroup.tags.ContainsKey("Bad");
         }
     }
 }

@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SimpleWAWS.Code.CsmExtensions;
+using SimpleWAWS.Trace;
+using Serilog;
 
 namespace SimpleWAWS.Console
 {
@@ -13,6 +15,11 @@ namespace SimpleWAWS.Console
     {
         static void Main(string[] args)
         {
+            var log = new LoggerConfiguration()
+                .WriteTo.ColoredConsole()
+                .CreateLogger();
+            SimpleTrace.Diagnostics = log;
+            SimpleTrace.Analytics = log;
             Task.Run(() => MainAsync()).Wait();
         }
 
@@ -30,7 +37,7 @@ namespace SimpleWAWS.Console
 
         public static async Task MainAsync()
         {
-            var subscriptionNames = "".Split(',');
+            var subscriptionNames = System.Environment.GetEnvironmentVariable("Subscriptions").Split(',');
             var startTime = DateTime.UtcNow;
 
             Action<object> console = (s) => System.Console.WriteLine("[" + (DateTime.UtcNow - startTime).TotalMilliseconds + "] " + s);
@@ -45,18 +52,20 @@ namespace SimpleWAWS.Console
 
 
             console("start loading subscriptions");
-            var subscriptions = await Task.WhenAll(subscriptionNames.Select(s => new Subscription(s).Load()));
+            console("We have " + subscriptionNames.Count() + " subscriptions");
+            var subscriptions = await subscriptionNames.Select(s => new Subscription(s).Load()).WhenAll();
             console("done loading subscriptions");
 
             console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()) + " resourceGroups");
 
-            //console("calling MakeTrialSubscription on all subscriptions");
-            //subscriptions = await Task.WhenAll(subscriptions.Select(s => s.MakeTrialSubscription()));
-            //console("done calling make trial subscription");
+            console("calling MakeTrialSubscription on all subscriptions");
+            subscriptions = await subscriptions.Select(s => s.MakeTrialSubscription()).WhenAll();
+            console("done calling make trial subscription");
 
+            console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()) + " resourceGroups");
             //console(subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()));
 
-            ////await Task.WhenAll(subscription.ResourceGroups.Select(rg => rg.Delete(false)));
+            //await Task.WhenAll(subscriptions.Select(subscription => subscription.ResourceGroups.Select(rg => rg.Delete(true))).SelectMany(i => i));
 
             //subscriptions.ToList().ForEach(printSub);
             console("Done");

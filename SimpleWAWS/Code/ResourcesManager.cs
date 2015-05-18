@@ -76,11 +76,12 @@ namespace SimpleWAWS.Models
         private async Task LoadAzureResources()
         {
             // Load all subscriptions
-            var subscriptions = (await Task.WhenAll(SimpleSettings.Subscriptions.Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(s => Util.SafeGuard(() => new Subscription(s).Load())))).Where(s => s != null);
+            var subscriptions = await SimpleSettings.Subscriptions.Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => new Subscription(s).Load())
+                .IgnoreAndFilterFailures();
 
             //Create Trial resources if they are not already created
-            await Task.WhenAll(subscriptions.Select(s => s.MakeTrialSubscription()));
+            subscriptions = await subscriptions.Select(s => s.MakeTrialSubscription()).IgnoreAndFilterFailures();
 
             // Check if the sites are in use and place them in the right list
             var tasksList = new List<Task<ResourceGroup>>();
@@ -102,7 +103,7 @@ namespace SimpleWAWS.Models
                 }
             }
 
-            var newResourceGroups = await Task.WhenAll(tasksList);
+            var newResourceGroups = await tasksList.WhenAll();
 
             foreach (var resourceGroup in newResourceGroups)
             {
@@ -168,12 +169,11 @@ namespace SimpleWAWS.Models
         // ARM
         private async Task DeleteExpiredResourceGroupsAsync()
         {
-            await Task.WhenAll(
-                this._resourceGroupsInUse
+            await this._resourceGroupsInUse
                 .Select(e => e.Value)
                 .Where(rg => DateTime.UtcNow - rg.StartTime > ResourceGroupExpiryTime)
                 .Select(DeleteResourceGroup)
-                );
+                .WhenAll();
         }
 
         // ARM
@@ -357,17 +357,17 @@ namespace SimpleWAWS.Models
                 };
 
                 await deployment.Deploy(block: true);
-                await Task.WhenAll(resourceGroup.Sites.Where(s => s.IsSimpleWAWS).Select(s => Util.SafeGuard(() => s.Delete())));
 
-                // After a deployment, we have no idea what changes happened in the resource group
-                // we should reload it.
-                // TODO: consider reloading the resourceGroup along with the deployment itself.
+                // We don't need the original site that we create for Web or Mobile apps, delete it or it'll show up in ibiza
+                await resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).Select(s => s.Delete()).IgnoreFailures().WhenAll();
+
+                // After a deployment, we have no idea what changes happened in the resource group, we should reload it.
                 await resourceGroup.Load();
 
                 var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email);
                 var publicAccessTask = resourceGroup.ApiApps.Select(a => a.SetAccessLevel("PublicAnonymous"));
                 resourceGroup.IsRbacEnabled = await rbacTask;
-                await Task.WhenAll(publicAccessTask);
+                await publicAccessTask.WhenAll();
                 return resourceGroup;
             });
         }
@@ -464,11 +464,11 @@ namespace SimpleWAWS.Models
                         list.Add(temp);
                     }
                 }
-                await Task.WhenAll(list.Select(resourceGroup =>
+                await list.Select(resourceGroup =>
                 {
                     SimpleTrace.Diagnostics.Information("Deleting resourceGroup {resourceGroupId}", resourceGroup.CsmId);
                     return DeleteResourceGroup(resourceGroup);
-                }));
+                }).WhenAll();
             }
         }
 

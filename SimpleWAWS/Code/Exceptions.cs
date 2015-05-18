@@ -25,4 +25,11 @@ namespace SimpleWAWS.Models
             : base(message)
         { }
     }
+
+    public class CsmDeploymentFailedException : Exception
+    {
+        public CsmDeploymentFailedException(string message)
+            : base(message)
+        { }
+    }
 }

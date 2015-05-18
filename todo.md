@@ -22,3 +22,4 @@
 - [ ] Figure out a better way to handle the MORE_THAN_ONE error
 - [ ] move analytics to storage queues?? Clean up DocumentDB?
 - [ ] add more analytics views
+- [ ] fail creating an API app if RBAC access fails for any reason

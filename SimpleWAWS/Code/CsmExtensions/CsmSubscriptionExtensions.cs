@@ -20,8 +20,17 @@ namespace SimpleWAWS.Code.CsmExtensions
             csmResourceGroupsRespnose.EnsureSuccessStatusCode();
 
             var csmResourceGroups = await csmResourceGroupsRespnose.Content.ReadAsAsync<CsmArrayWrapper<CsmResourceGroup>>();
-            subscription.ResourceGroups = await Task.WhenAll(csmResourceGroups.value.Where(r => IsSimpleWaws(r)).Select(async r => await Load(new ResourceGroup(subscription.SubscriptionId, r.name), r)));
 
+            var deleteBadResourceGroupsTasks = csmResourceGroups.value
+                .Where(r => r.tags.ContainsKey("Bad") && r.properties.provisioningState != "Deleting")
+                .Select(async r => await Delete(await Load(new ResourceGroup(subscription.SubscriptionId, r.name), r, loadSubResources: false), block: false));
+
+            subscription.ResourceGroups = await csmResourceGroups.value
+                .Where(r => IsSimpleWaws(r))
+                .Select(async r => await Load(new ResourceGroup(subscription.SubscriptionId, r.name), r))
+                .IgnoreAndFilterFailures();
+
+            await deleteBadResourceGroupsTasks.IgnoreFailures().WhenAll();
             return subscription;
         }
 
@@ -32,25 +41,20 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             var geoRegions = SimpleSettings.GeoRegions.Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(r => r.Trim());
 
-            var newResourceGroups = await Task.WhenAll(geoRegions.Where(g => !subscription.ResourceGroups.Any(rg => rg.ResourceGroupName.StartsWith(string.Format("{0}_{1}", Constants.TryResourceGroupPrefix, g.Replace(" ", Constants.TryResourceGroupSeparator)))))
-                                                                 .Select(g => CreateResourceGroup(subscription.SubscriptionId, g)));
+            var newResourceGroups = await geoRegions.Where(g => !subscription.ResourceGroups.Any(rg => rg.ResourceGroupName.StartsWith(string.Format("{0}_{1}", Constants.TryResourceGroupPrefix, g.Replace(" ", Constants.TryResourceGroupSeparator)))))
+                .Select(g => CreateResourceGroup(subscription.SubscriptionId, g))
+                .WhenAll();
 
             subscription.ResourceGroups = subscription.ResourceGroups.Union(newResourceGroups);
 
             if (subscription.ResourceGroups.Count() > geoRegions.Count())
             {
                 //we have extra resourceGroups. We should delete it.
-                //get resourceGroups per geoRegion
-
-                //await geoRegions.Select(gr => subscription.ResourceGroups.Where(rg => rg.ResourceGroupName.StartsWith(string.Format("{0}_{1}", Constants.TryResourceGroupPrefix, gr.Replace(" ", Constants.TryResourceGroupSeparator)))))
-                //          .Where(l => l.Count() > 1)
-                //          .Select(l => l.Where(s => s.UserId != null))
-                //          .Skip(1)
-                //          .
             }
 
-            await Task.WhenAll(subscription.ResourceGroups.Select(rg => PutInDesiredState(rg)));
-
+            // Ignore all failures with putting a resourceGroup in the desired state for us
+            // But only load the ones marked as ready.
+            subscription.ResourceGroups = await subscription.ResourceGroups.Select(rg => PutInDesiredState(rg)).IgnoreAndFilterFailures();
             return subscription;
         }
     }

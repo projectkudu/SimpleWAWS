@@ -128,7 +128,7 @@ namespace SimpleWAWS.Models
 
         public string PublishingPassword { get; set; }
 
-        public bool IsSimpleWAWS
+        public bool IsSimpleWAWSOriginalSite
         {
             get
             {

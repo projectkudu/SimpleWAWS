@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Security;
 using Microsoft.WindowsAzure.Management.WebSites.Models;
 using System.IO.Compression;
+using System.Threading.Tasks;
+using SimpleWAWS.Models;
 
 namespace SimpleWAWS
 {
@@ -122,6 +124,11 @@ namespace SimpleWAWS
             writer.Flush();
             stream.Position = 0;
             return stream;
+        }
+
+        public static IEnumerable<T> NotDefaults<T>(this IEnumerable<T> collection)
+        {
+            return collection.Where(e => !EqualityComparer<T>.Default.Equals(e, default(T)));
         }
     }
 }
