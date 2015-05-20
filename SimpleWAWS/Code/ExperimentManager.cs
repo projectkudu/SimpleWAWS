@@ -18,6 +18,7 @@ namespace SimpleWAWS.Code
         private static readonly Experiment _defaultExperiment = new Experiment("Production");
 
         private static readonly Lazy<int> _totalWeights = new Lazy<int>(() => _experiments.Sum(e => e.Weight));
+        private static readonly Random _random = new Random();
 
         private const string _experimentCookie = "exp0";
 
@@ -26,14 +27,15 @@ namespace SimpleWAWS.Code
             if (_experiments.Length == 0) return _defaultExperiment.Name;
             if (_experiments.Length == 1) return _experiments.First().Name;
 
-            var random = new Random();
-            var randomSlot = random.Next(0, _totalWeights.Value);
+            var randomSlot = _random.Next(0, _totalWeights.Value);
+            var totalSum = 0;
 
-            for (var i = 0; i < _experiments.Length - 1; i++)
+            for (var i = 0; i < _experiments.Length; i++)
             {
-                if (randomSlot > _experiments[i].Weight &&
-                    randomSlot < _experiments[i + 1].Weight)
+                if (randomSlot < _experiments[i].Weight + totalSum)
                     return _experiments[i].Name;
+
+                totalSum += _experiments[i].Weight;
             }
 
             return _experiments.Last().Name;
@@ -45,7 +47,7 @@ namespace SimpleWAWS.Code
             {
                 var experiment = GetExperiment();
                 context.Response.Cookies.Add(new HttpCookie(_experimentCookie, experiment) { Path = "/", Expires = DateTime.UtcNow.AddDays(1) });
-                SimpleTrace.Analytics.Information("ASSIGN_EXPERMIENT; {Experiment}", experiment);
+                //SimpleTrace.Analytics.Information("ASSIGN_EXPERMIENT; {Experiment}", experiment);
                 SimpleTrace.TraceInformation("ASSIGN_EXPERMIENT; " + experiment);
             }
         }

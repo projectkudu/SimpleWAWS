@@ -61,4 +61,5 @@ interface IAppControllerScope extends ng.IScope {
     offerDeleteAndCreate: boolean;
     initExistingState();
     deleteAndCreateResource();
+    experiment: string;
 }

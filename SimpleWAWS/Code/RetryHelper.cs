@@ -2,19 +2,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace SimpleWAWS.Code
 {
     public static class RetryHelper
     {
-        public static T Retry<T>(Func<T> func, int retryCount)
+        public static async Task Retry(Func<Task> func, int retryCount)
         {
             while(true)
             {
                 try
                 {
-                    return func();
+                    await func();
+                    return;
                 }
                 catch (Exception e)
                 {
@@ -23,6 +25,5 @@ namespace SimpleWAWS.Code
                 }
             }
         }
-
     }
 }

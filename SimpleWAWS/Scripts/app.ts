@@ -132,19 +132,28 @@
             steps: [{
                 id: 1,
                 title: "Select app type",
-                sref: "home",
+                sref: "home"
             }, {
                     id: 2,
-                    title: "Select template",
-                    sref: "home.apiapp.templates",
-                    nextClass: "wa-button-primary",
-                    nextText: "Create"
-                }, {
-                    id: 3,
-                    title: "Work with your app",
-                    sref: "home.apiapp.work",
-                onPrevious: () => { $scope.confirmDelete = true; }
+                    title: "Coming soon",
+                    sref: "home.apiapp.comingsoon"
                 }],
+            //steps: [{
+            //    id: 1,
+            //    title: "Select app type",
+            //    sref: "home",
+            //}, {
+            //        id: 2,
+            //        title: "Select template",
+            //        sref: "home.apiapp.templates",
+            //        nextClass: "wa-button-primary",
+            //        nextText: "Create"
+            //    }, {
+            //        id: 3,
+            //        title: "Work with your app",
+            //        sref: "home.apiapp.work",
+            //    onPrevious: () => { $scope.confirmDelete = true; }
+            //    }],
             templates: []
         }, {
             name: "Logic",

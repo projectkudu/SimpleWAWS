@@ -335,6 +335,7 @@
     <Content Include="index.html" />
     <Content Include="ref\ARMClient.Authentication.dll" />
     <Content Include="ref\ARMClient.Library.dll" />
+    <Content Include="Scripts\js.cookie-1.5.1.min.js" />
     <Content Include="Sorry.cshtml" />
     <Content Include="App_Data\web.config.file" />
     <Content Include="Content\fonts\segoe-ui\bold\latest.eot" />
@@ -380,6 +381,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\app.ts" />
+    <TypeScriptCompile Include="Scripts\cookie.d.ts" />
     <TypeScriptCompile Include="Scripts\models.ts" />
     <TypeScriptCompile Include="Scripts\polyfill.ts" />
     <TypeScriptCompile Include="Scripts\typings\angular-ui-router\angular-ui-router.d.ts" />

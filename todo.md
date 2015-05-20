@@ -23,3 +23,4 @@
 - [ ] move analytics to storage queues?? Clean up DocumentDB?
 - [ ] add more analytics views
 - [ ] fail creating an API app if RBAC access fails for any reason
+- [ ] add a cleanup manager and a cleanup queue
