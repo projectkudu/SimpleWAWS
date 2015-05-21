@@ -4,7 +4,7 @@
         Your {{ currentAppService.title }} has been created at <a ng-href="{{ resource.url }}" target="_blank">{{ resource.url }}</a>
     </h3>
     <div class="work-with-site-tools" ng-if="resource.monacoUrl">
-        <a ng-href="{{ resource.monacoUrl }}" target="_blank"><div class="work-with-site-tools-img icons sprite-VSO"></div><div class="website-template-name">Edit with Visual Studio Online "Monaco"</div></a>
+        <a ng-href="{{ resource.monacoUrl }}" target="_blank" ng-click="monacoClick()"><div class="work-with-site-tools-img icons sprite-VSO"></div><div class="website-template-name">Edit with Visual Studio Online "Monaco"</div></a>
     </div>
     <div class="work-with-site-tools" ng-if="resource.contentDownloadUrl">
         <a ng-href="{{ resource.contentDownloadUrl }}" target="_blank"><div class="work-with-site-tools-img icons sprite-DownloadSite"></div><div class="website-template-name">Download {{ currentAppService.title }} content</div></a>
@@ -20,7 +20,7 @@
         </a>
     </div>
     <div class="work-with-site-tools" ng-if="resource.ibizaUrl && resource.IsRbacEnabled">
-        <a ng-href="{{ resource.ibizaUrl }}" target="_blank"><div class="work-with-site-tools-img icons sprite-MicrosoftAzure"></div><div class="website-template-name">Manage in Azure Portal</div></a>
+        <a ng-href="{{ resource.ibizaUrl }}" target="_blank" ng-click="ibizaClick()"><div class="work-with-site-tools-img icons sprite-MicrosoftAzure"></div><div class="website-template-name">Manage in Azure Portal</div></a>
     </div>
     <div style="margin-top: 10px; margin-bottom: 20px"><strong>Your free {{ currentAppService.title }} is available for one hour and will expire in: <span class="countdown" ng-bind="timeLeft"></span></strong></div>
     <h2>Would you like to get more for free?</h2>

@@ -498,6 +498,13 @@ function countDown(expireDateTime) {
         uiTelemetry("FREE_TRIAL_CLICK", { pagePlace: place});
     };
 
+    $rootScope.ibizaClick = () => {
+        uiTelemetry("IBIZA_CLICK");
+    };
+    $rootScope.monacoClick = () => {
+        uiTelemetry("MONACO_CLICK");
+    };
+
     //http://stackoverflow.com/a/23522925/3234163
     var url;
     $state.get().forEach((s) => {
@@ -506,7 +513,7 @@ function countDown(expireDateTime) {
         }
     });
 
-    function uiTelemetry(event: string, properties: any) {
+    function uiTelemetry(event: string, properties?: any) {
         $http({
             url: "/api/telemetry/" + event,
             method: "POST",

@@ -26,6 +26,7 @@ namespace SimpleWAWS.Models
         public const string RemoveUserFromTenantResult = "REMOVE_USER_FROM_TENANT_RESULT; {@response}; {content}";
 
         public const string UiEvent = "UI_EVENT; {eventName}; {@properties}";
+        public const string OldUiEvent = "UI_EVENT";
 
         public const string NoRbacAccess = "NO_RBAC_ACCESS; {puid}; {email}";
         public const string SearchGraphForUser = "SEARCH_GRAPH_FOR_USER; {@rbacUser}";

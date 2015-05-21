@@ -27,7 +27,7 @@ namespace SimpleWAWS.Authentication
             return AuthSettings.GoogleAppId;
         }
 
-        protected override string GetIssuerName()
+        protected override string GetIssuerName(string altSecId)
         {
             return "Google";
         }

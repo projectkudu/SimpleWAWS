@@ -29,9 +29,14 @@ namespace SimpleWAWS.Authentication
             return AuthSettings.AADAppId;
         }
 
-        protected override string GetIssuerName()
+        protected override string GetIssuerName(string altSecId)
         {
-            return "AAD";
+            return AADProvider.IsMSA(altSecId) ? "MSA" : "OrgId";
+        }
+
+        public static bool IsMSA(string altSecId)
+        {
+            return altSecId != null && altSecId.IndexOf("live.com", StringComparison.OrdinalIgnoreCase) != -1;
         }
     }
 }

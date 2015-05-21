@@ -32,7 +32,7 @@ namespace SimpleWAWS.Authentication
         }
 
         abstract protected string GetValidAudiance();
-        abstract protected string GetIssuerName();
+        abstract protected string GetIssuerName(string altSecId);
 
 
         protected TokenResults TryAuthenticateBearer(HttpContext context)
@@ -79,7 +79,7 @@ namespace SimpleWAWS.Authentication
                 var issuerClaim = user.Claims.Where(c => c.Type == issuerClaimType).Select(c => c.Value).FirstOrDefault();
                 var puidClaim = user.Claims.Where(c => c.Type == puidClaimType ).Select(c => c.Value).FirstOrDefault();
                 var altSecId = user.Claims.Where(c => c.Type == altSecIdClaimType).Select(c => c.Value).FirstOrDefault();
-                var principal = new TryWebsitesPrincipal(new TryWebsitesIdentity(upnClaim ?? emailClaim ?? user.Identity.Name, altSecId ?? puidClaim, GetIssuerName()));
+                var principal = new TryWebsitesPrincipal(new TryWebsitesIdentity(upnClaim ?? emailClaim ?? user.Identity.Name, altSecId ?? puidClaim, GetIssuerName(altSecId ?? puidClaim)));
 
                 return principal;
             }

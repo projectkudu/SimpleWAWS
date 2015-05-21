@@ -41,7 +41,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             if (string.IsNullOrEmpty(puidOrAltSec) ||
                 string.IsNullOrEmpty(emailAddress) ||
-                puidOrAltSec.IndexOf("live.com", StringComparison.OrdinalIgnoreCase) == -1)
+                !SimpleWAWS.Authentication.AADProvider.IsMSA(puidOrAltSec))
             {
                 SimpleTrace.Diagnostics.Verbose(AnalyticsEvents.NoRbacAccess, puidOrAltSec, emailAddress);
                 return null;
