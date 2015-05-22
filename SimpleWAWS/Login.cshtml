@@ -4,7 +4,8 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <script>
-        var queryString = window.location.hash.substring(1);
+        //Firefox auto decodes window.location.hash which breaks the login flow.
+        var queryString = location.href.split("#")[1];
         window.location.replace('https://' + window.location.host + '/?' + queryString);
     </script>
 </head>
