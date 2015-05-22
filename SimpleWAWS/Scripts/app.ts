@@ -428,7 +428,12 @@
     function createResource(method?: string) {
         $scope.running = true;
         $http({
-            url: "api/resource" + "?appServiceName=" + $scope.currentAppService.name + "&name=" + $scope.selectedTemplate.name + ($scope.selectedTemplate.language ? "&language=" + $scope.selectedTemplate.language : "") + "&autoCreate=true" + (method ? "&provider=" + method : ""),
+            url: "api/resource"
+                + "?appServiceName=" + encodeURIComponent($scope.currentAppService.name)
+                + "&name=" + encodeURIComponent($scope.selectedTemplate.name)
+                + ($scope.selectedTemplate.language ? "&language=" + encodeURIComponent($scope.selectedTemplate.language) : "")
+                + "&autoCreate=true"
+                + (method ? "&provider=" + method : ""),
             method: "POST",
             data: $scope.selectedTemplate
         }).success((data) => {
