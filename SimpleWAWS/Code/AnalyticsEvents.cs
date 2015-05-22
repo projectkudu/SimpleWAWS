@@ -39,6 +39,6 @@ namespace SimpleWAWS.Models
         public const string UserAddedToTenant = "USER_ADDED_TO_TENANT; {objectId}";
 
         public const string AnonymousUserCreated = "ANONYMOUS_USER_CREATED";
-        public const string AnonymousUserLogedIn = "ANONYMOUS_USER_LOGEDIN";
+        public const string AnonymousUserLogedIn = "ANONYMOUS_USER_LOGGEDIN";
     }
 }
