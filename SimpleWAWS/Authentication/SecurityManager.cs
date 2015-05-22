@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using SimpleWAWS.Trace;
 using System.Threading.Tasks;
+using SimpleWAWS.Code;
 
 namespace SimpleWAWS.Models
 {
@@ -128,6 +129,7 @@ namespace SimpleWAWS.Models
                 {
                     var user = Guid.NewGuid().ToString();
                     context.Response.Cookies.Add(new HttpCookie(AuthConstants.AnonymousUser, Uri.EscapeDataString(user.Encrypt(AuthConstants.EncryptionReason))) { Path = "/", Expires = DateTime.UtcNow.AddMinutes(30) });
+                    SimpleTrace.TraceInformation("{0}; {1}; {2}", AnalyticsEvents.AnonymousUserCreated, user, ExperimentManager.GetCurrentExperiment());
                 }
                 else
                 {

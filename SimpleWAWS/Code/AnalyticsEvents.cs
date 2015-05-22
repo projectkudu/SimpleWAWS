@@ -37,5 +37,8 @@ namespace SimpleWAWS.Models
         public const string AssignRbacResult = "ASSIGN_RBAC_RESULT; {csmResponseStatusCode}";
         public const string FailedToAddRbacAccess = "FAILED_TO_ADD_RBAC_ACCESS";
         public const string UserAddedToTenant = "USER_ADDED_TO_TENANT; {objectId}";
+
+        public const string AnonymousUserCreated = "ANONYMOUS_USER_CREATED";
+        public const string AnonymousUserLogedIn = "ANONYMOUS_USER_LOGEDIN";
     }
 }

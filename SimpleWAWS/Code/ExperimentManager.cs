@@ -47,7 +47,6 @@ namespace SimpleWAWS.Code
             {
                 var experiment = GetExperiment();
                 context.Response.Cookies.Add(new HttpCookie(_experimentCookie, experiment) { Path = "/", Expires = DateTime.UtcNow.AddDays(1) });
-                //SimpleTrace.Analytics.Information("ASSIGN_EXPERMIENT; {Experiment}", experiment);
                 SimpleTrace.TraceInformation("ASSIGN_EXPERMIENT; " + experiment);
             }
         }
@@ -58,7 +57,9 @@ namespace SimpleWAWS.Code
 
             return HttpContext.Current.Request.Cookies[_experimentCookie] != null
                 ? HttpContext.Current.Request.Cookies[_experimentCookie].Value
-                : _defaultExperiment.Name;
+                : (HttpContext.Current.Response.Cookies[_experimentCookie] != null
+                    ? HttpContext.Current.Response.Cookies[_experimentCookie].Value
+                    : _defaultExperiment.Name);
         }
 
     }
