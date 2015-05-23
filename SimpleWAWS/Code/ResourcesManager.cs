@@ -152,8 +152,6 @@ namespace SimpleWAWS.Models
         {
             try
             {
-
-
                 var site = resourceGroup.Sites.First();
                 var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
                 var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
@@ -186,9 +184,17 @@ namespace SimpleWAWS.Models
             }
             ResourceGroup temp;
             this._resourceGroupsInUse.TryRemove(resourceGroup.UserId, out temp);
-            HostingEnvironment.QueueBackgroundWorkItem(async (c) => { 
-                var newResourceGroup = await resourceGroup.DeleteAndCreateReplacement().ConfigureAwait(false);
-                this._freeResourceGroups.Enqueue(newResourceGroup);
+            HostingEnvironment.QueueBackgroundWorkItem(async (c) => {
+                try
+                {
+                    var newResourceGroup = await resourceGroup.DeleteAndCreateReplacement();
+                    if (newResourceGroup != null)
+                        this._freeResourceGroups.Enqueue(newResourceGroup);
+                }
+                catch (Exception e)
+                {
+                    SimpleTrace.Diagnostics.Error(e, "QueueBackgroundWorkItem");
+                }
             });
         }
 
@@ -272,7 +278,7 @@ namespace SimpleWAWS.Models
             {
                 //no need to await this call
                 //this call is to fix our internal state, return an error right away to the caller
-                ThreadPool.QueueUserWorkItem(async o => await DeleteResourceGroup(resourceGroup));
+                ThreadPool.QueueUserWorkItem(async o => await DeleteResourceGroup(resourceGroup).IgnoreFailure());
             }
             throw new Exception("An Error occured. Please try again later.");
         }
