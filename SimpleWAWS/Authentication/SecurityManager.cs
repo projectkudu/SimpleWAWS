@@ -129,12 +129,15 @@ namespace SimpleWAWS.Models
                 {
                     var user = Guid.NewGuid().ToString();
                     context.Response.Cookies.Add(new HttpCookie(AuthConstants.AnonymousUser, Uri.EscapeDataString(user.Encrypt(AuthConstants.EncryptionReason))) { Path = "/", Expires = DateTime.UtcNow.AddMinutes(30) });
-                    SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}",
+                    SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
                         AnalyticsEvents.AnonymousUserCreated,
                         new TryWebsitesIdentity(user, null, "Anonymous").Name,
                         ExperimentManager.GetCurrentExperiment(),
                         context.Request.UrlReferrer != null && context.Request.UrlReferrer.AbsoluteUri != null
                             ? context.Request.UrlReferrer.AbsoluteUri.Replace(";", ",")
+                            : "-",
+                        context.Request.QueryString["cid"] != null
+                            ? context.Request.QueryString["cid"].Replace(";", ",")
                             : "-"
                     );
                 }

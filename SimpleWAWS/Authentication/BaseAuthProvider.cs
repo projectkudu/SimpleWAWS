@@ -78,7 +78,10 @@ namespace SimpleWAWS.Authentication
             {
                 try
                 {
-                    SimpleTrace.TraceInformation("{0};{1};{2}", AnalyticsEvents.AnonymousUserLogedIn, Uri.UnescapeDataString(anonymousUser.Value).Decrypt(AuthConstants.EncryptionReason), identity.Name);
+                    SimpleTrace.TraceInformation("{0};{1};{2}",
+                        AnalyticsEvents.AnonymousUserLogedIn,
+                        new TryWebsitesIdentity(Uri.UnescapeDataString(anonymousUser.Value).Decrypt(AuthConstants.EncryptionReason), null, "Anonymous").Name,
+                        identity.Name);
                 }
                 catch
                 { }
