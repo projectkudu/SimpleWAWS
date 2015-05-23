@@ -79,7 +79,9 @@ namespace SimpleWAWS
         public static bool IsBrowserRequest(this HttpContext context)
         {
             return context.Request.UserAgent != null
-                && (context.Request.UserAgent.StartsWith("Mozilla/") || context.Request.UserAgent.StartsWith("Opera/"));
+                && (context.Request.UserAgent.StartsWith("Mozilla/") || context.Request.UserAgent.StartsWith("Opera/"))
+                && context.Request.UserAgent.IndexOf("Probe", StringComparison.OrdinalIgnoreCase) == -1
+                && context.Request.UserAgent.IndexOf("bot", StringComparison.OrdinalIgnoreCase) == -1;
         }
 
         public static string PadBase64(this string value)
