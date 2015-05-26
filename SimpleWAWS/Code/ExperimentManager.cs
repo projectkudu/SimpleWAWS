@@ -11,8 +11,8 @@ namespace SimpleWAWS.Code
     {
         private static readonly Experiment[] _experiments = new Experiment[]
         {
-            //new Experiment("blue-banner"),
-            //new Experiment("no-banner")
+            new Experiment("blue-banner"),
+            new Experiment("no-banner")
         }.OrderBy(e => e.Weight).ToArray();
 
         private static readonly Experiment _defaultExperiment = new Experiment("Production");
@@ -20,7 +20,7 @@ namespace SimpleWAWS.Code
         private static readonly Lazy<int> _totalWeights = new Lazy<int>(() => _experiments.Sum(e => e.Weight));
         private static readonly Random _random = new Random();
 
-        private const string _experimentCookie = "exp0";
+        private const string _experimentCookie = "exp1";
 
         private static string GetExperiment()
         {
@@ -47,7 +47,6 @@ namespace SimpleWAWS.Code
             {
                 var experiment = GetExperiment();
                 context.Response.Cookies.Add(new HttpCookie(_experimentCookie, experiment) { Path = "/", Expires = DateTime.UtcNow.AddDays(1) });
-                SimpleTrace.TraceInformation("ASSIGN_EXPERMIENT; " + experiment);
             }
         }
 

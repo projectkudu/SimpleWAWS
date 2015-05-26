@@ -320,7 +320,7 @@
     initTemplates().finally(() => initState());
 
     function initTemplates() {
-
+        $scope.experiment = Cookies.get("exp1");
         $scope.loginOptions = false;
         $scope.running = true;
         $scope.offerDeleteAndCreate = false;
