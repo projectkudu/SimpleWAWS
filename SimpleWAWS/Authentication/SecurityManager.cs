@@ -125,10 +125,12 @@ namespace SimpleWAWS.Models
             {
                 if (!context.IsBrowserRequest()) return;
                 var userCookie = context.Request.Cookies[AuthConstants.AnonymousUser];
-                if (userCookie == null)
+                // /api/templates is used as a way to check for unique requests because it comes from javascript
+                if (userCookie == null && context.Request.Url.AbsolutePath.Equals("/api/templates", StringComparison.OrdinalIgnoreCase))
                 {
                     var user = Guid.NewGuid().ToString();
                     context.Response.Cookies.Add(new HttpCookie(AuthConstants.AnonymousUser, Uri.EscapeDataString(user.Encrypt(AuthConstants.EncryptionReason))) { Path = "/", Expires = DateTime.UtcNow.AddMinutes(30) });
+
                     SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
                         AnalyticsEvents.AnonymousUserCreated,
                         new TryWebsitesIdentity(user, null, "Anonymous").Name,
@@ -141,7 +143,7 @@ namespace SimpleWAWS.Models
                             : "-"
                     );
                 }
-                else
+                else if (userCookie != null)
                 {
                     var user = Uri.UnescapeDataString(userCookie.Value).Decrypt(AuthConstants.EncryptionReason);
                     context.User = new TryWebsitesPrincipal(new TryWebsitesIdentity(user, null, "Anonymous"));

@@ -66,6 +66,7 @@ namespace SimpleWAWS
                 args.ErrorContext.Handled = true;
             };
             //Templates Routes
+            // This is used in SecurityManager for authenticating anonymous users
             RouteTable.Routes.MapHttpRoute("templates", "api/templates", new { controller = "Templates", action = "Get", authenticated = false });
 
             //Telemetry Routes
