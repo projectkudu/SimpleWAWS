@@ -22,7 +22,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             var csmResourceGroups = await csmResourceGroupsRespnose.Content.ReadAsAsync<CsmArrayWrapper<CsmResourceGroup>>();
 
             var deleteBadResourceGroupsTasks = csmResourceGroups.value
-                .Where(r => r.tags.ContainsKey("Bad") && r.properties.provisioningState != "Deleting")
+                .Where(r => r.tags != null && r.tags.ContainsKey("Bad") && r.properties.provisioningState != "Deleting")
                 .Select(async r => await Delete(await Load(new ResourceGroup(subscription.SubscriptionId, r.name), r, loadSubResources: false), block: false));
 
             subscription.ResourceGroups = await csmResourceGroups.value
