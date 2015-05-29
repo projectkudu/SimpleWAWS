@@ -9070,24 +9070,26 @@ div.icons {
 }
 
 
-div.sprite-ASPNETEmptySite, div.sprite-ASPNETStarterSite, div.sprite-Bakery, div.sprite-BlogEngine, div.sprite-HelloCSharp, div.sprite-PersonalSite, div.sprite-PhotoGallery, div.sprite-MVC5WithEntityFramework { width: 115px; height: 115px; background-position: -5px -5px; }
-div.sprite-Boilerplate, div.sprite-HTML5EmptySite { width: 115px; height: 115px; background-position: -5px -130px; }
-div.sprite-Bottle { width: 115px; height: 115px; background-position: -5px -255px; }
-div.sprite-DownloadPublishing { width: 50px; height: 50px; background-position: -5px -380px; }
-div.sprite-DownloadSite { width: 50px; height: 50px; background-position: -5px -440px; }
-div.sprite-ExpressJs, div.sprite-NodeJSEmptySite, div.sprite-NodeStarter { width: 115px; height: 115px; background-position: -5px -500px; }
-div.sprite-Flask { width: 115px; height: 115px; background-position: -5px -625px; }
-div.sprite-GhostBlog { width: 115px; height: 115px; background-position: -5px -750px; }
-div.sprite-Large, div.sprite-JavaCoffeeShop { width: 115px; height: 115px; background-position: -5px -875px; }
-div.sprite-MicrosoftAzure { width: 50px; height: 50px; background-position: -5px -1000px; }
-div.sprite-PHPEmptySite, div.sprite-PHPStarterSite { width: 115px; height: 115px; background-position: -5px -1060px; }
-div.sprite-TypeScript { width: 115px; height: 115px; background-position: -5px -1185px; }
-div.sprite-VSO { width: 50px; height: 50px; background-position: -5px -1310px; }
-div.sprite-delete { width: 50px; height: 50px; background-position: -5px -1370px; }
-div.sprite-django { width: 115px; height: 115px; background-position: -5px -1430px; }
-div.sprite-git { width: 50px; height: 50px; background-position: -5px -1555px; }
-div.sprite-TodoList { width: 115px; height: 115px; background-position: -5px -1615px; }
-
+div.sprite-ASPNETEmptySite, div.sprite-ASPNETStarterSite, div.sprite-Bakery, div.sprite-BlogEngine, div.sprite-HelloCSharp, div.sprite-MVC5WithEntityFramework, div.sprite-PersonalSite, div.sprite-PhotoGallery{ background-position: 0 0; width: 115px; height: 115px; } 
+div.sprite-ApiContactsList{ background-position: 0 -165px; width: 115px; height: 115px; } 
+div.sprite-ApiTodoList{ background-position: 0 -330px; width: 115px; height: 115px; } 
+div.sprite-AzureSearch{ background-position: 0 -495px; width: 115px; height: 115px; } 
+div.sprite-Boilerplate, div.sprite-HTML5EmptySite{ background-position: 0 -660px; width: 115px; height: 115px; } 
+div.sprite-Bottle{ background-position: 0 -825px; width: 115px; height: 115px; } 
+div.sprite-DownloadPublishing{ background-position: 0 -990px; width: 50px; height: 50px; } 
+div.sprite-DownloadSite{ background-position: 0 -1090px; width: 50px; height: 50px; } 
+div.sprite-ExpressJs, div.sprite-NodeJSEmptySite, div.sprite-NodeStarter{ background-position: 0 -1190px; width: 115px; height: 115px; } 
+div.sprite-Flask{ background-position: 0 -1355px; width: 115px; height: 115px; } 
+div.sprite-GhostBlog{ background-position: 0 -1520px; width: 115px; height: 115px; } 
+div.sprite-Large{ background-position: 0 -1685px; width: 115px; height: 115px; } 
+div.sprite-MicrosoftAzure{ background-position: 0 -1850px; width: 50px; height: 50px; } 
+div.sprite-PHPEmptySite, div.sprite-PHPStarterSite{ background-position: -165px 0; width: 115px; height: 115px; } 
+div.sprite-TypeScript{ background-position: -165px -165px; width: 115px; height: 115px; } 
+div.sprite-VSO{ background-position: -165px -330px; width: 50px; height: 50px; } 
+div.sprite-delete{ background-position: -165px -430px; width: 50px; height: 50px; } 
+div.sprite-django{ background-position: -165px -530px; width: 115px; height: 115px; } 
+div.sprite-git{ background-position: -165px -695px; width: 50px; height: 50px; } 
+div.sprite-TodoList{ background-position: -165px -795px; width: 115px; height: 115px; } 
 
 span.error-message-text {
     font-size: large;

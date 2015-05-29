@@ -310,6 +310,13 @@ namespace SimpleWAWS.Models
                     site.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = SimpleSettings.SiteExpiryMinutes;
                     site.AppSettings["MONACO_EXTENSION_VERSION"] = "beta";
                     site.AppSettings["WEBSITE_TRY_MODE"] = "1";
+
+                    if (template.Name.Equals("Azure Search", StringComparison.OrdinalIgnoreCase))
+                    {
+                        site.AppSettings["SearchServiceName"] = SimpleSettings.SearchServiceName;
+                        site.AppSettings["SearchServiceApiKey"] = SimpleSettings.SearchServiceApiKey;
+                    }
+
                     await site.UpdateAppSettings();
                     await site.UpdateConfig(new { properties = new { scmType = "LocalGit" } });
                     resourceGroup.IsRbacEnabled = await rbacTask;
