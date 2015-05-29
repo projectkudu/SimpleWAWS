@@ -26,7 +26,7 @@ namespace SimpleWAWS.Authentication
             return "";
         }
 
-        protected override string GetIssuerName(string altSecId)
+        public override string GetIssuerName(string altSecId)
         {
             return "Twitter";
         }

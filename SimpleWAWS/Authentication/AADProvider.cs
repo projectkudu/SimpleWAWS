@@ -29,7 +29,7 @@ namespace SimpleWAWS.Authentication
             return AuthSettings.AADAppId;
         }
 
-        protected override string GetIssuerName(string altSecId)
+        public override string GetIssuerName(string altSecId)
         {
             return AADProvider.IsMSA(altSecId) ? "MSA" : "OrgId";
         }

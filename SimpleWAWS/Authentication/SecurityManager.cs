@@ -1,6 +1,5 @@
 ﻿using System.Configuration;
 using System.Web;
-using SimpleWAWS.Authentication;
 using System.Collections.Generic;
 using System;
 using System.Net;
@@ -11,15 +10,16 @@ using System.Net.Http.Headers;
 using SimpleWAWS.Trace;
 using System.Threading.Tasks;
 using SimpleWAWS.Code;
+using SimpleWAWS.Models;
 
-namespace SimpleWAWS.Models
+namespace SimpleWAWS.Authentication
 {
     public static class SecurityManager
     {
         private static readonly Dictionary<string, IAuthProvider> _authProviders =
             new Dictionary<string, IAuthProvider>(StringComparer.InvariantCultureIgnoreCase);
 
-        private static string SelectedProvider(HttpContext context)
+        public static string SelectedProvider(HttpContext context)
         {
             if (!string.IsNullOrEmpty(context.Request.QueryString["provider"]))
                 return context.Request.QueryString["provider"];

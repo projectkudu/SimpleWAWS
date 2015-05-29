@@ -32,7 +32,7 @@ namespace SimpleWAWS.Authentication
         }
 
         abstract protected string GetValidAudiance();
-        abstract protected string GetIssuerName(string altSecId);
+        abstract public string GetIssuerName(string altSecId);
 
 
         protected TokenResults TryAuthenticateBearer(HttpContext context)

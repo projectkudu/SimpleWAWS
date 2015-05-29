@@ -67,25 +67,25 @@ namespace SimpleWAWS.Authentication
             }
         }
 
-        protected HttpCookie CreateSessionCookie(IPrincipal user)
+        public HttpCookie CreateSessionCookie(IPrincipal user)
         {
             var identity = user.Identity as TryWebsitesIdentity;
             var value = string.Format("{0};{1};{2};{3}", identity.Email, identity.Puid, identity.Issuer, DateTime.UtcNow);
             SimpleTrace.Analytics.Information(AnalyticsEvents.UserLoggedIn, identity);
             SimpleTrace.TraceInformation("{0};{1};{2}", AnalyticsEvents.OldUserLoggedIn, identity.Email, identity.Issuer);
-            var anonymousUser = HttpContext.Current.Request.Cookies[AuthConstants.AnonymousUser];
-            if (anonymousUser != null)
+            try
             {
-                try
+                var anonymousUser = HttpContext.Current.Request.Cookies[AuthConstants.AnonymousUser];
+                if (anonymousUser != null)
                 {
                     SimpleTrace.TraceInformation("{0};{1};{2}",
                         AnalyticsEvents.AnonymousUserLogedIn,
                         new TryWebsitesIdentity(Uri.UnescapeDataString(anonymousUser.Value).Decrypt(AuthConstants.EncryptionReason), null, "Anonymous").Name,
                         identity.Name);
                 }
-                catch
-                { }
             }
+            catch
+            { }
             return new HttpCookie(AuthConstants.LoginSessionCookie, Uri.EscapeDataString(value.Encrypt(AuthConstants.EncryptionReason))) { Path = "/" };
         }
     }
