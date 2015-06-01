@@ -23,6 +23,7 @@ namespace SimpleWAWS.Code
                     if (retryCount <= 0) throw e;
                     retryCount--;
                 }
+                await Task.Delay(1000);
             }
         }
     }
