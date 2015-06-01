@@ -314,7 +314,7 @@ namespace SimpleWAWS.Models
                     if (template.Name.Equals("Azure Search", StringComparison.OrdinalIgnoreCase))
                     {
                         site.AppSettings["SearchServiceName"] = SimpleSettings.SearchServiceName;
-                        site.AppSettings["SearchServiceApiKey"] = SimpleSettings.SearchServiceApiKey;
+                        site.AppSettings["SearchServiceApiKey"] = AzureSearchHelper.GetApiKey();
                     }
 
                     await site.UpdateAppSettings();

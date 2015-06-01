@@ -41,7 +41,7 @@ namespace SimpleWAWS.Code
         public static string EmailPassword { get { return config(GetCurrentProperty()); } }
         public static string ToEmails  { get { return config(GetCurrentProperty()); } }
         public static string SearchServiceName { get { return config(GetCurrentProperty()); } }
-        public static string SearchServiceApiKey { get { return config(GetCurrentProperty()); } }
+        public static string SearchServiceApiKeys { get { return config(GetCurrentProperty()); } }
 
     }
 }
