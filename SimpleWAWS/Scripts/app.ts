@@ -282,6 +282,7 @@
     };
 
     $scope.deleteResource = (dontGoBack) => {
+        (<any>$rootScope).deleteResourceClick();
         $scope.confirmDelete = false;
         $scope.running = true;
         return $http({
@@ -506,8 +507,29 @@ function countDown(expireDateTime) {
     $rootScope.ibizaClick = () => {
         uiTelemetry("IBIZA_CLICK");
     };
+
     $rootScope.monacoClick = () => {
         uiTelemetry("MONACO_CLICK");
+    };
+
+    $rootScope.downloadContentClick = () => {
+        uiTelemetry("DOWNLOAD_CONTENT_CLICK");
+    };
+
+    $rootScope.downloadPublishingProfileClick = () => {
+        uiTelemetry("DOWNLOAD_PUBLISHING_PROFILE_CLICK");
+    };
+
+    $rootScope.gitLinkClick = () => {
+        uiTelemetry("GIT_LINK_CLICK");
+    };
+
+    $rootScope.downloadMobileClient = (clientType) => {
+        uiTelemetry("DOWNLOAD_MOBILE_CLIENT", {clientType : clientType});
+    };
+
+    $rootScope.deleteResourceClick = () => {
+        uiTelemetry("DELETE_RESOURCE_CLICK");
     };
 
     //http://stackoverflow.com/a/23522925/3234163

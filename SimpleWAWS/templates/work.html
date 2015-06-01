@@ -7,14 +7,14 @@
         <a ng-href="{{ resource.monacoUrl }}" target="_blank" ng-click="monacoClick()"><div class="work-with-site-tools-img icons sprite-VSO"></div><div class="website-template-name">Edit with Visual Studio Online "Monaco"</div></a>
     </div>
     <div class="work-with-site-tools" ng-if="resource.contentDownloadUrl">
-        <a ng-href="{{ resource.contentDownloadUrl }}" target="_blank"><div class="work-with-site-tools-img icons sprite-DownloadSite"></div><div class="website-template-name">Download {{ currentAppService.title }} content</div></a>
+        <a ng-href="{{ resource.contentDownloadUrl }}" ng-click="downloadContentClick()" target="_blank"><div class="work-with-site-tools-img icons sprite-DownloadSite"></div><div class="website-template-name">Download {{ currentAppService.title }} content</div></a>
     </div>
     <div class="work-with-site-tools">
-        <a href="/api/resource/getpublishingprofile" target="_blank"><div class="work-with-site-tools-img icons sprite-DownloadPublishing"></div><div class="website-template-name">Download publishing profile</div></a>
+        <a href="/api/resource/getpublishingprofile" ng-click="downloadPublishingProfileClick()" target="_blank"><div class="work-with-site-tools-img icons sprite-DownloadPublishing"></div><div class="website-template-name">Download publishing profile</div></a>
     </div>
     <div class="work-with-site-tools" ng-if="resource.gitUrl">
         <div class="work-with-site-tools-img icons sprite-git"></div>
-        <a href="#" >
+        <a href="#" ng-click="gitLinkClick()">
             <div class="website-template-name">Clone or push with git</div>
             <input id="git-url-input" type="text" readonly="readonly" style="margin-left: -20px; margin-top: 8px; height: 20px; border: 2px inset" ng-model="resource.gitUrl" select-on-click />
         </a>
