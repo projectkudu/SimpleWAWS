@@ -43,23 +43,28 @@ namespace SimpleWAWS.Code
 
         public static void AssignExperiment(this HttpContext context)
         {
+            // we need this because Application_BeginRequest gets called 3 time for every request for some reason
+            // we mark the request with a request headder that it has an anonymous user associated with it then we use it after that.
+            var experimentAssigned = context.Request.Headers[_experimentCookie];
             if (context.Request.Cookies[_experimentCookie] == null && context.IsBrowserRequest())
             {
-                var experiment = GetExperiment();
+                var experiment = experimentAssigned ?? GetExperiment();
                 context.Response.Cookies.Add(new HttpCookie(_experimentCookie, experiment) { Path = "/", Expires = DateTime.UtcNow.AddDays(1) });
+                if (experimentAssigned == null)
+                {
+                    context.Request.Headers.Add(_experimentCookie, experiment);
+                }
             }
         }
 
         public static string GetCurrentExperiment()
         {
             if (HttpContext.Current == null) return "NoRequest";
-
             return HttpContext.Current.Request.Cookies[_experimentCookie] != null
                 ? HttpContext.Current.Request.Cookies[_experimentCookie].Value
-                : (HttpContext.Current.Response.Cookies[_experimentCookie] != null
-                    ? HttpContext.Current.Response.Cookies[_experimentCookie].Value
+                : (!string.IsNullOrEmpty(HttpContext.Current.Request.Headers[_experimentCookie])
+                    ? HttpContext.Current.Request.Headers[_experimentCookie]
                     : _defaultExperiment.Name);
         }
-
     }
 }

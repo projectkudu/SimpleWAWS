@@ -125,23 +125,28 @@ namespace SimpleWAWS.Authentication
             {
                 if (!context.IsBrowserRequest()) return;
                 var userCookie = context.Request.Cookies[AuthConstants.AnonymousUser];
-                // /api/templates is used as a way to check for unique requests because it comes from javascript
-                if (userCookie == null && context.Request.Url.AbsolutePath.Equals("/api/templates", StringComparison.OrdinalIgnoreCase))
+                // we need this because Application_AuthenticateRequest gets called 4 time for every request for some reason
+                // we mark the request with a request headder that it has an anonymous user associated with it then we use it after that.
+                var AnonymousUserAssigned = context.Request.Headers[AuthConstants.AnonymousUser];
+                if (userCookie == null)
                 {
-                    var user = Guid.NewGuid().ToString();
+                    var user = AnonymousUserAssigned ?? Guid.NewGuid().ToString();
                     context.Response.Cookies.Add(new HttpCookie(AuthConstants.AnonymousUser, Uri.EscapeDataString(user.Encrypt(AuthConstants.EncryptionReason))) { Path = "/", Expires = DateTime.UtcNow.AddMinutes(30) });
-
-                    SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
-                        AnalyticsEvents.AnonymousUserCreated,
-                        new TryWebsitesIdentity(user, null, "Anonymous").Name,
-                        ExperimentManager.GetCurrentExperiment(),
-                        context.Request.UrlReferrer != null && context.Request.UrlReferrer.AbsoluteUri != null
-                            ? context.Request.UrlReferrer.AbsoluteUri.Replace(";", ",")
-                            : "-",
-                        context.Request.QueryString["cid"] != null
-                            ? context.Request.QueryString["cid"].Replace(";", ",")
-                            : "-"
-                    );
+                    if (AnonymousUserAssigned == null)
+                    {
+                        context.Request.Headers.Add(AuthConstants.AnonymousUser, user);
+                        SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
+                            AnalyticsEvents.AnonymousUserCreated,
+                            new TryWebsitesIdentity(user, null, "Anonymous").Name,
+                            ExperimentManager.GetCurrentExperiment(),
+                            context.Request.UrlReferrer != null && context.Request.UrlReferrer.AbsoluteUri != null
+                                ? context.Request.UrlReferrer.AbsoluteUri.Replace(";", ",")
+                                : "-",
+                            context.Request.QueryString["cid"] != null
+                                ? context.Request.QueryString["cid"].Replace(";", ",")
+                                : "-"
+                        );
+                    }
                 }
                 else if (userCookie != null)
                 {
