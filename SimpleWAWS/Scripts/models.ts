@@ -16,14 +16,16 @@ interface IAppService {
     title: string;
     steps: IStep[];
     templates: ITemplate[];
+    hidden?: boolean;
 }
 
 interface ITemplate {
     name: string;
-    sprite: string;
+    sprite?: string;
     appService: string;
     language?: string;
     fileName?: string;
+    githubRepo: string;
 }
 
 interface IAppControllerScope extends ng.IScope {

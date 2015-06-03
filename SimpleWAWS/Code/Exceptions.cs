@@ -32,4 +32,11 @@ namespace SimpleWAWS.Models
             : base(message)
         { }
     }
+
+    public class InvalidGithubRepoException : Exception
+    {
+        public InvalidGithubRepoException(string message)
+            : base(message)
+        { }
+    }
 }

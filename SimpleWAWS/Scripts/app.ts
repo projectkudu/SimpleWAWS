@@ -315,9 +315,6 @@
         $state.go($scope.currentAppService.steps[1].sref);
     };
 
-
-
-
     initUser();
     initTemplates().finally(() => initState());
 
@@ -363,7 +360,7 @@
     }
 
     function initState() {
-        if ($location.search().autoCreate) {
+        if ($location.search().autoCreate || $location.search().githubRepo) {
             handleNoResourceInitState();
         } else {
             $scope.initExistingState();
@@ -399,7 +396,18 @@
     };
 
     function handleNoResourceInitState() {
-        if ($location.search().appServiceName || $location.search().appservice) {
+        if ($location.search().githubRepo) {
+            selectAppService("Web");
+            $scope.ngModels.selectedLanguage = "Github Repo";
+            $scope.selectTemplate({
+                appService: "Web",
+                language: "Github Repo",
+                name: "Github Repo",
+                githubRepo: $location.search().githubRepo
+            });
+            autoCreateIfRequired(true);
+            clearQueryString();
+        } else if ($location.search().appServiceName || $location.search().appservice) {
             selectAppService();
             selectLanguage();
             selectTemplate();
@@ -410,12 +418,12 @@
             selectLanguage();
             selectTemplate();
             autoCreateIfRequired();
-            clearQueryString()
-        }
+            clearQueryString();
+        } 
     }
 
-    function autoCreateIfRequired() {
-        var autoCreate = $location.search().autoCreate;
+    function autoCreateIfRequired(force?: boolean) {
+        var autoCreate = $location.search().autoCreate || force;
         $state.go($scope.currentAppService.steps[1].sref).then(() => {
             if (autoCreate) {
                 $scope.goToNextState();
@@ -451,6 +459,7 @@
                 + "?appServiceName=" + encodeURIComponent($scope.currentAppService.name)
                 + "&name=" + encodeURIComponent($scope.selectedTemplate.name)
                 + ($scope.selectedTemplate.language ? "&language=" + encodeURIComponent($scope.selectedTemplate.language) : "")
+                + ($scope.selectedTemplate.githubRepo ? "&githubRepo=" + encodeURIComponent($scope.selectedTemplate.githubRepo) : "")
                 + "&autoCreate=true"
                 + (method ? "&provider=" + method : ""),
             method: "POST",

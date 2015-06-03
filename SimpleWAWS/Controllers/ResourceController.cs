@@ -119,10 +119,13 @@ namespace SimpleWAWS.Controllers
 
         public async Task<HttpResponseMessage> CreateResource(BaseTemplate template)
         {
-            template = TemplatesManager.GetTemplates()
-                .FirstOrDefault(t => t.Name == template.Name && t.AppService == template.AppService);
+            if (template.Name != null && !template.Name.Equals("Github Repo"))
+            {
+                template = TemplatesManager.GetTemplates()
+                    .FirstOrDefault(t => t.Name == template.Name && t.AppService == template.AppService);
 
-            template = template ?? WebsiteTemplate.EmptySiteTemplate;
+                template = template ?? WebsiteTemplate.EmptySiteTemplate;
+            }
 
             var identity = HttpContext.Current.User.Identity as TryWebsitesIdentity;
             var anonymousUserName = SecurityManager.GetAnonymousUserName(new HttpContextWrapper(HttpContext.Current));

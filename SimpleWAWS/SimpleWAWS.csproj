@@ -218,6 +218,8 @@
     <Compile Include="Code\RetryHelper.cs" />
     <Compile Include="Code\SimpleSettings.cs" />
     <Compile Include="Code\UserNameEnricher.cs" />
+    <Compile Include="Models\CsmModels\CsmTemplateLink.cs" />
+    <Compile Include="Models\CsmModels\CsmTemplateParameter.cs" />
     <Compile Include="Models\Experiment.cs" />
     <Compile Include="Models\UIResource.cs" />
     <Compile Include="Trace\SimpleTrace.cs" />
@@ -327,7 +329,6 @@
     <Content Include="App_Data\applicationHost.xdt">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="OldDefault.cshtml" />
     <Content Include="index.html" />
     <Content Include="ref\ARMClient.Authentication.dll" />
     <Content Include="ref\ARMClient.Library.dll" />

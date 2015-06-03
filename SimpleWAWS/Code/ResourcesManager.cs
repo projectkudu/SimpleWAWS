@@ -261,6 +261,10 @@ namespace SimpleWAWS.Models
             {
                 throw;
             }
+            catch (InvalidGithubRepoException)
+            {
+                throw;
+            }
             catch (Exception e)
             {
                 //unknown exception, log it
@@ -305,6 +309,43 @@ namespace SimpleWAWS.Models
                         var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
                         Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
                         await Task.WhenAll(zipUpload, deleteHostingStart);
+                    }
+                    else if (template != null && template.GithubRepo != null)
+                    {
+                        Uri githubRepo;
+                        var validUri = Uri.TryCreate(template.GithubRepo, UriKind.Absolute, out githubRepo);
+                        if (validUri && githubRepo.AbsoluteUri.StartsWith("https://github.com/davidebbo-test/"))
+                        {
+                            var deployment = new CsmDeployment()
+                            {
+                                CsmTemplate = new CsmTemplateWrapper
+                                {
+                                    properties = new CsmTemplateProperties
+                                    {
+                                        mode = "Incremental",
+                                        parameters = new 
+                                        {
+                                            siteName = new CsmTemplateParameter(resourceGroup.Sites.Select(s => s.SiteName).FirstOrDefault()),
+                                            hostingPlanName = new CsmTemplateParameter(resourceGroup.ServerFarms.Select(sf => sf.ServerFarmName).FirstOrDefault()),
+                                            repoUrl = new CsmTemplateParameter(githubRepo.AbsoluteUri)
+                                        },
+                                        templateLink = new CsmTemplateLink
+                                        {
+                                            contentVersion = "1.0.0.0",
+                                            uri = new Uri("https://raw.githubusercontent.com/" + githubRepo.AbsolutePath.Trim('/') + "/master/azuredeploy.json")
+                                        }
+                                    }
+                                },
+                                DeploymentName = resourceGroup.ResourceUniqueId,
+                                ResourceGroupName = resourceGroup.ResourceGroupName,
+                                SubscriptionId = resourceGroup.SubscriptionId
+                            };
+                            await deployment.Deploy(block: true);
+                        }
+                        else
+                        {
+                            throw new InvalidGithubRepoException("The Github repo URI is either invalid of from an trusted organization");
+                        }
                     }
                     site.AppSettings["LAST_MODIFIED_TIME_UTC"] = DateTime.UtcNow.ToString();
                     site.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = SimpleSettings.SiteExpiryMinutes;
