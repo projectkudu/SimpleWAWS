@@ -11,18 +11,18 @@ namespace SimpleWAWS.Authentication
 {
     public class FacebookAuthProvider : BaseAuthProvider
     {
-        public override void AuthenticateRequest(HttpContext context)
+        public override void AuthenticateRequest(HttpContextBase context)
         {
             base.AuthenticateRequest(context, TryAuthenticateFacebookSignedRequest);
         }
 
-        public override bool HasToken(HttpContext context)
+        public override bool HasToken(HttpContextBase context)
         {
             return (context.Request.QueryString["access_token"] != null &&
                     context.Request.QueryString["signed_request"] != null);
         }
 
-        public override string GetLoginUrl(HttpContext context)
+        public override string GetLoginUrl(HttpContextBase context)
         {
             var builder = new StringBuilder();
             builder.Append("https://www.facebook.com/dialog/oauth");
@@ -34,7 +34,7 @@ namespace SimpleWAWS.Authentication
             return builder.ToString();
         }
 
-        protected TokenResults TryAuthenticateFacebookSignedRequest(HttpContext context)
+        protected TokenResults TryAuthenticateFacebookSignedRequest(HttpContextBase context)
         {
             var userId = GetUserId(context);
             var accessToken = GetAccessToken(context);
@@ -55,7 +55,7 @@ namespace SimpleWAWS.Authentication
             return TokenResults.ExistsAndCorrect;
         }
 
-        private string GetUserId(HttpContext context)
+        private string GetUserId(HttpContextBase context)
         {
             var signedRequest = context.Request.QueryString["signed_request"];
             if (string.IsNullOrEmpty(signedRequest)) return null;
@@ -65,7 +65,7 @@ namespace SimpleWAWS.Authentication
             return facebookSignedRequest.UserId;
         }
 
-        private string GetAccessToken(HttpContext context)
+        private string GetAccessToken(HttpContextBase context)
         {
             return context.Request.QueryString["access_token"];
         }

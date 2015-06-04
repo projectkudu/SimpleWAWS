@@ -17,7 +17,8 @@ namespace SimpleWAWS.Controllers
     {
         public HttpResponseMessage LogEvent(string telemetryEvent, JObject properties)
         {
-            if (HttpContext.Current.IsBrowserRequest())
+            var context = new HttpContextWrapper(HttpContext.Current);
+            if (context.IsBrowserRequest())
             {
                 var userName = User != null && User.Identity != null && !string.IsNullOrEmpty(User.Identity.Name)
                     ? User.Identity.Name

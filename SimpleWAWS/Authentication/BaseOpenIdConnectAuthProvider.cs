@@ -21,12 +21,12 @@ namespace SimpleWAWS.Authentication
         private const string puidClaimType = "puid";
         private const string altSecIdClaimType = "altsecid";
 
-        public override void AuthenticateRequest(HttpContext context)
+        public override void AuthenticateRequest(HttpContextBase context)
         {
             base.AuthenticateRequest(context, TryAuthenticateBearer);
         }
 
-        public override bool HasToken(HttpContext context)
+        public override bool HasToken(HttpContextBase context)
         {
             return GetBearer(context) != null;
         }
@@ -35,7 +35,7 @@ namespace SimpleWAWS.Authentication
         abstract public string GetIssuerName(string altSecId);
 
 
-        protected TokenResults TryAuthenticateBearer(HttpContext context)
+        protected TokenResults TryAuthenticateBearer(HttpContextBase context)
         {
             var jwt = GetBearer(context);
 
@@ -92,7 +92,7 @@ namespace SimpleWAWS.Authentication
             return null;
         }
 
-        protected string GetBearer(HttpContext context)
+        protected string GetBearer(HttpContextBase context)
         {
             //a jwt token can either be in the query string or in the Authorization header
             var jwt = context.Request["id_token"];

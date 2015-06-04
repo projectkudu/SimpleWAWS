@@ -19,7 +19,7 @@ namespace SimpleWAWS.Authentication
         private static readonly Dictionary<string, IAuthProvider> _authProviders =
             new Dictionary<string, IAuthProvider>(StringComparer.InvariantCultureIgnoreCase);
 
-        public static string SelectedProvider(HttpContext context)
+        public static string SelectedProvider(HttpContextBase context)
         {
             if (!string.IsNullOrEmpty(context.Request.QueryString["provider"]))
                 return context.Request.QueryString["provider"];
@@ -33,7 +33,7 @@ namespace SimpleWAWS.Authentication
             return match.Success ? match.Groups[1].Value : AuthConstants.DefaultAuthProvider;
         }
 
-        private static IAuthProvider GetAuthProvider(HttpContext context)
+        private static IAuthProvider GetAuthProvider(HttpContextBase context)
         {
             var requestedAuthProvider = SelectedProvider(context);
 
@@ -56,22 +56,22 @@ namespace SimpleWAWS.Authentication
             _authProviders.Add("Google", new GoogleAuthProvider());
         }
 
-        public static void AuthenticateRequest(HttpContext context)
+        public static void AuthenticateRequest(HttpContextBase context)
         {
             GetAuthProvider(context).AuthenticateRequest(context);
         }
 
-        public static bool HasToken(HttpContext context)
+        public static bool HasToken(HttpContextBase context)
         {
             return GetAuthProvider(context).HasToken(context);
         }
 
-        public static bool IsAdmin(HttpContext context)
+        public static bool IsAdmin(HttpContextBase context)
         {
             return context.User.Identity.Name == AuthSettings.AdminUserId;
         }
 
-        public static bool TryAuthenticateSessionCookie(HttpContext context)
+        public static bool TryAuthenticateSessionCookie(HttpContextBase context)
         {
             try
             {
@@ -119,7 +119,7 @@ namespace SimpleWAWS.Authentication
             return false;
         }
 
-        public static void HandleAnonymousUser(HttpContext context)
+        public static void HandleAnonymousUser(HttpContextBase context)
         {
             try
             {
@@ -163,10 +163,10 @@ namespace SimpleWAWS.Authentication
         public static HttpResponseMessage RedirectToAAD(string redirectContext)
         {
             var response = new HttpResponseMessage(HttpStatusCode.Forbidden);
+            var context = new HttpContextWrapper(HttpContext.Current);
+            response.Headers.Add("LoginUrl", (_authProviders["AAD"] as AADProvider).GetLoginUrl(context));
 
-            response.Headers.Add("LoginUrl", (_authProviders["AAD"] as AADProvider).GetLoginUrl(HttpContext.Current));
-
-            if (HttpContext.Current.Response.Cookies[AuthConstants.LoginSessionCookie] != null)
+            if (context.Response.Cookies[AuthConstants.LoginSessionCookie] != null)
             {
                 response.Headers.AddCookies(new [] { new CookieHeaderValue(AuthConstants.LoginSessionCookie, string.Empty){ Expires = DateTime.UtcNow.AddDays(-1), Path = "/" } });
             }
@@ -175,7 +175,7 @@ namespace SimpleWAWS.Authentication
 
         public static Task<HttpResponseMessage> AdminOnly(Func<Task<HttpResponseMessage>> func)
         {
-            if (SecurityManager.IsAdmin(HttpContext.Current))
+            if (SecurityManager.IsAdmin(new HttpContextWrapper(HttpContext.Current)))
             {
                 return func();
             }

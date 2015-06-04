@@ -9,7 +9,7 @@ namespace SimpleWAWS.Authentication
 {
     public class AADProvider : BaseOpenIdConnectAuthProvider
     {
-        public override string GetLoginUrl(HttpContext context)
+        public override string GetLoginUrl(HttpContextBase context)
         {
             var builder = new StringBuilder();
             builder.Append(AuthSettings.BaseLoginUrl);

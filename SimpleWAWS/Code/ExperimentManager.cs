@@ -41,7 +41,7 @@ namespace SimpleWAWS.Code
             return _experiments.Last().Name;
         }
 
-        public static void AssignExperiment(this HttpContext context)
+        public static void AssignExperiment(this HttpContextBase context)
         {
             // we need this because Application_BeginRequest gets called 3 time for every request for some reason
             // we mark the request with a request headder that it has an anonymous user associated with it then we use it after that.

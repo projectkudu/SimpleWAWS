@@ -70,13 +70,13 @@ namespace SimpleWAWS
             throw new Exception("decrypted value is null");
         }
 
-        public static bool IsAjaxRequest(this HttpContext context)
+        public static bool IsAjaxRequest(this HttpContextBase context)
         {
             return context.Request.Headers["X-Requested-With"] != null &&
                    context.Request.Headers["X-Requested-With"].Equals("XMLHttpRequest", StringComparison.OrdinalIgnoreCase);
         }
 
-        public static bool IsBrowserRequest(this HttpContext context)
+        public static bool IsBrowserRequest(this HttpContextBase context)
         {
             return context.Request.UserAgent != null
                 && (context.Request.UserAgent.StartsWith("Mozilla/") || context.Request.UserAgent.StartsWith("Opera/"))

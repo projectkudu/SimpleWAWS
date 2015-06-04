@@ -124,13 +124,15 @@ namespace SimpleWAWS.Controllers
 
             template = template ?? WebsiteTemplate.EmptySiteTemplate;
 
+            var identity = HttpContext.Current.User.Identity as TryWebsitesIdentity;
+
             try
             {
                 var resourceManager = await ResourcesManager.GetInstanceAsync();
 
-                if ((await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name)) != null)
+                if ((await resourceManager.GetResourceGroup(identity.Name)) != null)
                 {
-                    SimpleTrace.Diagnostics.Fatal(AnalyticsEvents.MoreThanOneError, HttpContext.Current.User.Identity, 1);
+                    SimpleTrace.Diagnostics.Fatal(AnalyticsEvents.MoreThanOneError, identity, 1);
 
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                         "You can't have more than 1 free resource at a time");
@@ -141,20 +143,20 @@ namespace SimpleWAWS.Controllers
                 switch (template.AppService)
                 {
                     case AppService.Web:
-                        resourceGroup = await resourceManager.ActivateWebApp(template as WebsiteTemplate, HttpContext.Current.User.Identity as TryWebsitesIdentity);
+                        resourceGroup = await resourceManager.ActivateWebApp(template as WebsiteTemplate, identity);
                         break;
                     case AppService.Mobile:
-                        resourceGroup = await resourceManager.ActivateMobileApp(template as WebsiteTemplate, HttpContext.Current.User.Identity as TryWebsitesIdentity);
+                        resourceGroup = await resourceManager.ActivateMobileApp(template as WebsiteTemplate, identity);
                         break;
                     case AppService.Api:
-                        if ((HttpContext.Current.User.Identity as TryWebsitesIdentity).Issuer != "AAD")
+                        if (identity.Issuer != "MSA") //OrgId?
                             return SecurityManager.RedirectToAAD(template.CreateQueryString());
-                        resourceGroup = await resourceManager.ActivateApiApp(template as ApiTemplate, HttpContext.Current.User.Identity as TryWebsitesIdentity);
+                        resourceGroup = await resourceManager.ActivateApiApp(template as ApiTemplate, identity);
                         break;
                     case AppService.Logic:
-                        if ((HttpContext.Current.User.Identity as TryWebsitesIdentity).Issuer != "AAD")
+                        if (identity.Issuer != "MSA") //OrgId?
                             return SecurityManager.RedirectToAAD(template.CreateQueryString());
-                        resourceGroup = await resourceManager.ActivateLogicApp(template as LogicTemplate, HttpContext.Current.User.Identity as TryWebsitesIdentity);
+                        resourceGroup = await resourceManager.ActivateLogicApp(template as LogicTemplate, identity);
                         break;
                 }
 
@@ -162,7 +164,7 @@ namespace SimpleWAWS.Controllers
             }
             catch (Exception ex)
             {
-                SimpleTrace.Diagnostics.Fatal(ex, AnalyticsEvents.UserGotError, HttpContext.Current.User.Identity, ex.Message, Interlocked.Increment(ref _userGotErrorErrorCount));
+                SimpleTrace.Diagnostics.Fatal(ex, AnalyticsEvents.UserGotError, identity, ex.Message, Interlocked.Increment(ref _userGotErrorErrorCount));
                 return Request.CreateErrorResponse(HttpStatusCode.ServiceUnavailable, ex.Message);
             }
         }

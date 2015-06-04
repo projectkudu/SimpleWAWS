@@ -89,27 +89,30 @@ namespace SimpleWAWS
 
         protected void Application_BeginRequest(Object sender, EventArgs e)
         {
-            HttpContext.Current.AssignExperiment();
+            var context = new HttpContextWrapper(HttpContext.Current);
+            context.AssignExperiment();
+            context.
 
-            if (HttpContext.Current.Request.Cookies[Constants.TiPCookie] == null &&
-                HttpContext.Current.Request.QueryString[Constants.TiPCookie] != null)
+            if (context.Request.Cookies[Constants.TiPCookie] == null &&
+                context.Request.QueryString[Constants.TiPCookie] != null)
             {
-                HttpContext.Current.Response.Cookies.Add(new HttpCookie(Constants.TiPCookie, HttpContext.Current.Request.QueryString[AuthConstants.TiPCookie]) { Path = "/" });
+                context.Response.Cookies.Add(new HttpCookie(Constants.TiPCookie, context.Request.QueryString[AuthConstants.TiPCookie]) { Path = "/" });
             }
         }
 
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
         {
-            if (!SecurityManager.TryAuthenticateSessionCookie(Context))
+            var context = new HttpContextWrapper(HttpContext.Current);
+            if (!SecurityManager.TryAuthenticateSessionCookie(context))
             {
-                if (SecurityManager.HasToken(HttpContext.Current))
+                if (SecurityManager.HasToken(context))
                 {
                     // This is a login redirect
-                    SecurityManager.AuthenticateRequest(Context);
+                    SecurityManager.AuthenticateRequest(context);
                     return;
                 }
 
-                var route = RouteTable.Routes.GetRouteData(new HttpContextWrapper(HttpContext.Current));
+                var route = RouteTable.Routes.GetRouteData(context);
                 // If the route is not registerd in the WebAPI RouteTable
                 //      then it's not an API route, which means it's a resource (*.js, *.css, *.cshtml), not authenticated.
                 // If the route doesn't have authenticated value assume true
@@ -117,11 +120,11 @@ namespace SimpleWAWS
 
                 if (isAuthenticated)
                 {
-                    SecurityManager.AuthenticateRequest(Context);
+                    SecurityManager.AuthenticateRequest(context);
                 }
-                else if (HttpContext.Current.IsBrowserRequest())
+                else if (context.IsBrowserRequest())
                 {
-                    SecurityManager.HandleAnonymousUser(Context);
+                    SecurityManager.HandleAnonymousUser(context);
                 }
             }
         }

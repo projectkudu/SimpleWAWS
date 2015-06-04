@@ -13,11 +13,11 @@ namespace SimpleWAWS.Authentication
 {
     public abstract class BaseAuthProvider : IAuthProvider
     {
-        public abstract void AuthenticateRequest(HttpContext context);
-        public abstract bool HasToken(HttpContext context);
-        public abstract string GetLoginUrl(HttpContext context);
+        public abstract void AuthenticateRequest(HttpContextBase context);
+        public abstract bool HasToken(HttpContextBase context);
+        public abstract string GetLoginUrl(HttpContextBase context);
 
-        protected void AuthenticateRequest(HttpContext context, Func<HttpContext, TokenResults> providerSpecificAuthMethod)
+        protected void AuthenticateRequest(HttpContextBase context, Func<HttpContextBase, TokenResults> providerSpecificAuthMethod)
         {
             try
             {
