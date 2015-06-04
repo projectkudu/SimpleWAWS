@@ -38,7 +38,7 @@
                                 <span data-contol="geophone" class="vwo_loaded">1-800-856-5038</span> 
                             </li>
                             <li>
-                                <a href="http://azure.microsoft.com/en-us/account/?WT.mc_id=try_websites">My Account</a> 
+                                <a ng-href="http://azure.microsoft.com/en-us/account/?WT.mc_id={{ getComScorQuery() }}">My Account</a> 
                             </li>
                             <li id="portal-link" style="display: none">
                                 <a href="https://manage.windowsazure.com">Portal</a>
@@ -53,34 +53,34 @@
                                 </div> 
                             </li>
                         </ul>
-                        <a class="logo" href="http://azure.microsoft.com/en-us/?WT.mc_id=try_websites"><img src="/Content/images/azure-logo.png" height="21" width="165" alt="Microsoft Azure"></a>
-                        <a class="wa-button wa-button-freeTrial" id="free-trial-header" ng-click="freeTrialClick('top-banner')" target="_blank" href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id=try_websites"><span>Free trial</span></a>
+                        <a class="logo" ng-href="http://azure.microsoft.com/en-us/?WT.mc_id={{ getComScorQuery() }}"><img src="/Content/images/azure-logo.png" height="21" width="165" alt="Microsoft Azure"></a>
+                        <a class="wa-button wa-button-freeTrial" id="free-trial-header" ng-click="freeTrialClick('top-banner')" target="_blank" ng-href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id={{ getComScorQuery() }}"><span>Free trial</span></a>
                         <div class="site-navigation">
                             <nav>
                                 <ul class="dev-navigation dev-navigation-b">
                                     <li id="menu-variation-1" class="nav-expander" style="display: list-item;">
-                                        <a href="http://azure.microsoft.com/en-us/services/app-service/?WT.mc_id=try_websites">Features</a>
+                                        <a ng-href="http://azure.microsoft.com/en-us/services/app-service/?WT.mc_id={{ getComScorQuery() }}">Features</a>
                                     </li>
                                     <li class="nav-expander">
-                                        <a href="http://azure.microsoft.com/en-us/pricing/?WT.mc_id=try_websites">Pricing</a>
+                                        <a ng-href="http://azure.microsoft.com/en-us/pricing/?WT.mc_id={{ getComScorQuery() }}">Pricing</a>
                                     </li>
                                     <li class="nav-expander">
-                                        <a href="http://azure.microsoft.com/en-us/documentation/?WT.mc_id=try_websites">Documentation</a>
+                                        <a ng-href="http://azure.microsoft.com/en-us/documentation/?WT.mc_id={{ getComScorQuery() }}">Documentation</a>
                                     </li>
                                     <li class="nav-expander">
-                                        <a href="http://azure.microsoft.com/en-us/downloads/?WT.mc_id=try_websites">Downloads</a>
+                                        <a ng-href="http://azure.microsoft.com/en-us/downloads/?WT.mc_id={{ getComScorQuery() }}">Downloads</a>
                                     </li>
                                     <li class="nav-expander">
-                                        <a href="http://azure.microsoft.com/en-us/marketplace/?WT.mc_id=try_websites">Marketplace</a>
+                                        <a ng-href="http://azure.microsoft.com/en-us/marketplace/?WT.mc_id={{ getComScorQuery() }}">Marketplace</a>
                                     </li>
                                     <li class="nav-expander">
-                                        <a href="http://azure.microsoft.com/blog/?WT.mc_id=try_websites">Blog</a>
+                                        <a ng-href="http://azure.microsoft.com/blog/?WT.mc_id={{ getComScorQuery() }}">Blog</a>
                                     </li>
                                     <li class="nav-expander">
-                                        <a href="http://azure.microsoft.com/en-us/community/?WT.mc_id=try_websites">Community</a>
+                                        <a ng-href="http://azure.microsoft.com/en-us/community/?WT.mc_id={{ getComScorQuery() }}">Community</a>
                                     </li>
                                     <li class="nav-expander">
-                                        <a href="http://azure.microsoft.com/en-us/support/?WT.mc_id=try_websites">Support</a>
+                                        <a ng-href="http://azure.microsoft.com/en-us/support/?WT.mc_id={{ getComScorQuery() }}">Support</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -109,46 +109,46 @@
                                 </li>
                             </ul>
                             <ul>
-                                <li class="header"><a href="http://azure.microsoft.com/en-us/?WT.mc_id=try_websites">Microsoft Azure</a></li>
-                                <li><a href="http://azure.microsoft.com/en-us/solutions/?WT.mc_id=try_websites">Features</a></li>
-                                <li><a href="http://azure.microsoft.com/en-us/services/?WT.mc_id=try_websites">Services</a></li>
-                                <li><a href="http://azure.microsoft.com/en-us/regions/?WT.mc_id=try_websites">Regions</a></li>
-                                <li><a href="http://azure.microsoft.com/en-us/case-studies/?WT.mc_id=try_websites">Case Studies</a></li>
-                                <li><a href="http://azure.microsoft.com/en-us/pricing/overview/?WT.mc_id=try_websites">Pricing</a></li>
-                                <li><a href="http://azure.microsoft.com/en-us/pricing/calculator/?WT.mc_id=try_websites">Calculator</a></li>
-                                <li><a href="http://azure.microsoft.com/en-us/documentation/?WT.mc_id=try_websites">Documentation</a></li>
-                                <li><a href="http://azure.microsoft.com/en-us/downloads/?WT.mc_id=try_websites">Downloads</a></li>
-                                <li><a href="http://azure.microsoft.com/en-us/gallery/store/overview/?WT.mc_id=try_websites">Add-ons</a></li>
+                                <li class="header"><a ng-href="http://azure.microsoft.com/en-us/?WT.mc_id={{ getComScorQuery() }}">Microsoft Azure</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/solutions/?WT.mc_id={{ getComScorQuery() }}">Features</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/services/?WT.mc_id={{ getComScorQuery() }}">Services</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/regions/?WT.mc_id={{ getComScorQuery() }}">Regions</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/case-studies/?WT.mc_id={{ getComScorQuery() }}">Case Studies</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/pricing/overview/?WT.mc_id={{ getComScorQuery() }}">Pricing</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/pricing/calculator/?WT.mc_id={{ getComScorQuery() }}">Calculator</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/documentation/?WT.mc_id={{ getComScorQuery() }}">Documentation</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/downloads/?WT.mc_id={{ getComScorQuery() }}">Downloads</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/gallery/store/overview/?WT.mc_id={{ getComScorQuery() }}">Add-ons</a></li>
                                 <li><a href="http://windowsazure.cn/zh-cn/">Microsoft Azure in China</a></li>
                             </ul>
                             <ul>
                                 <li class="header"><a href="http://go.microsoft.com/fwlink/?linkid=394285&amp;clcid=0x409">Community</a></li>
-                                <li><a href="http://azure.microsoft.com/blog/?WT.mc_id=try_websites">Blogs</a></li>
-                                <li><a href="http://azure.microsoft.com/en-us/updates/?WT.mc_id=try_websites">Service Updates</a></li>
-                                <li><a href="http://azure.microsoft.com/en-us/support/forums/?WT.mc_id=try_websites">Forums</a></li>
-                                <li><a href="http://azure.microsoft.com/en-us/community/events/?WT.mc_id=try_websites">Events</a><br><br></li>
+                                <li><a ng-href="http://azure.microsoft.com/blog/?WT.mc_id={{ getComScorQuery() }}">Blogs</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/updates/?WT.mc_id={{ getComScorQuery() }}">Service Updates</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/support/forums/?WT.mc_id={{ getComScorQuery() }}">Forums</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/community/events/?WT.mc_id={{ getComScorQuery() }}">Events</a><br><br></li>
                                 <li></li>
-                                <li class="header"><a href="http://azure.microsoft.com/en-us/support/options/?WT.mc_id=try_websites">Support</a></li>
-                                <li><a href="http://azure.microsoft.com/en-us/support/forums/?WT.mc_id=try_websites">Forums</a></li>
+                                <li class="header"><a ng-href="http://azure.microsoft.com/en-us/support/options/?WT.mc_id={{ getComScorQuery() }}">Support</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/support/forums/?WT.mc_id={{ getComScorQuery() }}">Forums</a></li>
                                 <li><a href="http://status.azure.com">Service Dashboard</a></li>
-                                <li><a href="http://azure.microsoft.com/en-us/support/options/?WT.mc_id=try_websites">Support</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/support/options/?WT.mc_id={{ getComScorQuery() }}">Support</a></li>
                             </ul>
                             <ul>
                                 <li class="header"><a href="https://account.windowsazure.com">Account</a></li>
                                 <li><a href="https://account.windowsazure.com/subscriptions/">Subscriptions</a></li>
                                 <li><a href="https://account.windowsazure.com/profile/">Profile</a></li>
-                                <li><a href="http://azure.microsoft.com/en-us/services/preview/?WT.mc_id=try_websites">Preview Features</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/services/preview/?WT.mc_id={{ getComScorQuery() }}">Preview Features</a></li>
                                 <li><a href="https://manage.windowsazure.com/">Management Portal</a></li>
-                                <li class="header trust-center"><a href="http://azure.microsoft.com/en-us/support/trust-center/?WT.mc_id=try_websites">Trust Center</a></li>
-                                <li><a href="http://azure.microsoft.com/en-us/support/trust-center/security/?WT.mc_id=try_websites">Security</a></li>
-                                <li><a href="http://azure.microsoft.com/en-us/support/trust-center/privacy/?WT.mc_id=try_websites">Privacy</a></li>
-                                <li><a href="http://azure.microsoft.com/en-us/support/trust-center/compliance/?WT.mc_id=try_websites">Compliance</a></li>
+                                <li class="header trust-center"><a ng-href="http://azure.microsoft.com/en-us/support/trust-center/?WT.mc_id={{ getComScorQuery() }}">Trust Center</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/support/trust-center/security/?WT.mc_id={{ getComScorQuery() }}">Security</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/support/trust-center/privacy/?WT.mc_id={{ getComScorQuery() }}">Privacy</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/support/trust-center/compliance/?WT.mc_id={{ getComScorQuery() }}">Compliance</a></li>
                             </ul>
                         </div>
                         <div class="footer-bottom">
                             <ul class="legal">
                                 <li>
-                                    <a href="http://support.microsoft.com/contactus/?WT.mc_id=try_websites">Contact Us</a>
+                                    <a ng-href="http://support.microsoft.com/contactus/?WT.mc_id={{ getComScorQuery() }}">Contact Us</a>
                                 </li>
                                 <li>
                                     <a href="http://go.microsoft.com/fwlink/p/?linkid=222682&amp;clcid=0x409">Trademarks</a>

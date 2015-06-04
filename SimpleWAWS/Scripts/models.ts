@@ -63,3 +63,19 @@ interface IAppControllerScope extends ng.IScope {
     deleteAndCreateResource();
     experiment: string;
 }
+
+interface ITryRootScope extends ng.IRootScopeService {
+    deleteResourceClick();
+    createAppType(appType: string);
+    $state: any;
+    $stateParams: any;
+    freeTrialClick(place: string);
+    ibizaClick();
+    monacoClick();
+    downloadContentClick();
+    downloadPublishingProfileClick();
+    gitLinkClick();
+    downloadMobileClient(client: string);
+    getComScorQuery();
+    appTypeForQuery: string;
+}

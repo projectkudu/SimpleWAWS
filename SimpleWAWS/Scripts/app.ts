@@ -71,7 +71,7 @@
     $locationProvider.html5Mode(true);
 
 }])
-    .controller("appController", ["$scope", "$http", "$timeout", "$rootScope", "$state", "$location", function ($scope: IAppControllerScope, $http: ng.IHttpService, $timeout: ng.ITimeoutService, $rootScope: ng.IRootScopeService, $state: ng.ui.IStateService, $location: ng.ILocationService) {
+    .controller("appController", ["$scope", "$http", "$timeout", "$rootScope", "$state", "$location", function ($scope: IAppControllerScope, $http: ng.IHttpService, $timeout: ng.ITimeoutService, $rootScope: ITryRootScope, $state: ng.ui.IStateService, $location: ng.ILocationService) {
 
 
     $scope.getLanguage = (template) => {
@@ -282,7 +282,7 @@
     };
 
     $scope.deleteResource = (dontGoBack) => {
-        (<any>$rootScope).deleteResourceClick();
+        $rootScope.deleteResourceClick();
         $scope.confirmDelete = false;
         $scope.running = true;
         return $http({
@@ -428,6 +428,7 @@
 
     function createResource(method?: string) {
         $scope.running = true;
+        $rootScope.createAppType($scope.currentAppService.name);
         $http({
             url: "api/resource"
                 + "?appServiceName=" + encodeURIComponent($scope.currentAppService.name)
@@ -497,7 +498,7 @@ function countDown(expireDateTime) {
 }
 
 }])
-    .run(["$rootScope", "$state", "$stateParams", "$http", "$templateCache", ($rootScope, $state: ng.ui.IStateService, $stateParams: ng.ui.IStateParamsService, $http: ng.IHttpService, $templateCache: ng.ITemplateCacheService) => {
+    .run(["$rootScope", "$state", "$stateParams", "$http", "$templateCache", ($rootScope: ITryRootScope, $state: ng.ui.IStateService, $stateParams: ng.ui.IStateParamsService, $http: ng.IHttpService, $templateCache: ng.ITemplateCacheService) => {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
     $rootScope.freeTrialClick = (place) => {
@@ -531,6 +532,50 @@ function countDown(expireDateTime) {
     $rootScope.deleteResourceClick = () => {
         uiTelemetry("DELETE_RESOURCE_CLICK");
     };
+
+    var cachedQuery;
+    $rootScope.getComScorQuery = () => {
+        if (!cachedQuery) {
+            var cleanUp = (s: string) => s ? s.replace("-", "") : "-";
+            cachedQuery = "try_websites_"
+                + cleanUp(Cookies.get("exp1"))
+                + "_"
+                + cleanUp(refererLookup())
+                + "_"
+                + "va"
+                + "_"
+                + cleanUp($rootScope.appTypeForQuery);
+        }
+        return cachedQuery;
+    };
+
+    $rootScope.createAppType = (appType) => {
+        if ($rootScope.appTypeForQuery && $rootScope.appTypeForQuery !== appType.toLocaleLowerCase()) {
+            $rootScope.appTypeForQuery = "mix";
+        } else {
+            $rootScope.appTypeForQuery = appType.toLocaleLowerCase();
+        }
+        cachedQuery = undefined;
+    };
+
+    var refererNameLookup = [
+        { match: /http(s)?:\/\/azure\.microsoft\.com\/([a-z]){2}-([a-z]){2}\/services\/app-service\/.*/g, name: "acomaslp"},
+        { match: /http(s)?:\/\/azure\.microsoft\.com\/([a-z]){2}-([a-z]){2}\/documentation\/.*/, name: "acomasdoc"},
+        { match: /http(s)?:\/\/azure\.microsoft\.com\/([a-z]){2}-([a-z]){2}\/develop\/net\/aspnet\/.*/, name: "aspnet"},
+        { match: /http(s)?:\/\/[a-z]*(\.)?google\.com\/.*/, name: "search"},
+        { match: /http(s)?:\/\/[a-z]*(\.)?bing\.com\/.*/, name: "search"},
+        { match: /http(s)?:\/\/[a-z]*(\.)?yahoo\.com\/.*/, name: "search"},
+        { match: /http(s)?:\/\/ad\.atdmt\.com\/.*/, name: "ad"},
+        { match: /http(s)?:\/\/[a-z]*(\.)?doubleclick\.net\/.*/, name: "ad"},
+        { match: /http(s)?:\/\/[a-z]*(\.)?chango\.com\/.*/, name: "ad"},
+        { match: /http(s)?:\/\/[a-z]*(\.)?media6degrees\.com\/.*/, name: "ad"}
+    ];
+
+    function refererLookup(): string {
+        if (document.referrer === "") return undefined;
+        var catagory = refererNameLookup.find(e => e.match.test(document.referrer));
+        return catagory ? catagory.name : "unc";
+    }
 
     //http://stackoverflow.com/a/23522925/3234163
     var url;
