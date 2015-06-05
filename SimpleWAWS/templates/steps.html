@@ -53,7 +53,7 @@
                 </div>
             </div>
             <a ng-if="nextStep" href="#" class="wa-button" ng-click="goToNextState()" ng-class="currentStep.nextClass ? currentStep.nextClass : 'wa-button-alt'">{{ currentStep.nextText ? currentStep.nextText : 'Next' }}</a>
-            <a ng-if="!nextStep" ng-href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id={{ getComScorQuery() }}" target="_blank" ng-click="freeTrialClick('last-step')" class="wa-button wa-button-primary">Free trial</a>
+            <a ng-if="!nextStep" ng-href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id={{ cachedQuery }}" target="_blank" ng-click="freeTrialClick('last-step')" class="wa-button wa-button-primary">Free trial</a>
             <div class="login-box"  ng-show="loginOptions">
                 <div style="display: block; margin-left: 30px">
                     <div class="wa-heading5" style="position: relative; margin-right: 8px">Log in first to create a {{ currentAppService.title }}</div>
@@ -101,7 +101,7 @@
         <div class="site-expired-notification">
             <h2 style="color: white; margin-bottom: 90px">Your {{ currentAppService.title }} has expired. You can try creating another app service app or signup for a free 30-day trial account.</h2>
             <a id="dismiss-site-expire" href="#" class="wa-button wa-button-slate" ng-click="dismissSiteExpired()">Dismiss</a>
-            <a ng-href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id={{ getComScorQuery() }}" id="free-trial-dismiss" target="_blank" ng-click="freeTrialClick('expired-banner')" class="wa-button wa-button-primary">Free trial</a>
+            <a ng-href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id={{ cachedQuery }}" id="free-trial-dismiss" target="_blank" ng-click="freeTrialClick('expired-banner')" class="wa-button wa-button-primary">Free trial</a>
         </div>
     </div>
 </div>

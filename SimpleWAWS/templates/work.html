@@ -1,7 +1,7 @@
-﻿<h2>Work with your {{ currentAppService.title }}</h2>
+﻿<h2>Your {{ currentAppService.title.toLowerCase() }} has been created!</h2>
 <div>
     <h3>
-        Your {{ currentAppService.title }} has been created at <a ng-href="{{ resource.url }}" target="_blank">{{ resource.url }}</a>
+        Work with your {{ currentAppService.title.toLowerCase() }} at <a ng-href="{{ resource.url }}" target="_blank">{{ resource.url }}</a>
     </h3>
     <div class="work-with-site-tools" ng-if="resource.monacoUrl">
         <a ng-href="{{ resource.monacoUrl }}" target="_blank" ng-click="monacoClick()"><div class="work-with-site-tools-img icons sprite-VSO"></div><div class="website-template-name">Edit with Visual Studio Online "Monaco"</div></a>

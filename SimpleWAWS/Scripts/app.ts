@@ -318,7 +318,25 @@
 
 
 
+
+    initUser();
     initTemplates().finally(() => initState());
+
+    function initUser() {
+        if (Cookies.get("uinit")) return;
+
+        $http({
+            method: "POST",
+            url: "api/telemetry/INIT_USER",
+            data: {
+                origin: document.referrer,
+                cid: $location.search().cid
+            }
+        });
+        var now = new Date();
+        now.setMinutes(now.getMinutes() + 30);
+        Cookies.set("uinit", "1", { expires: now });
+    }
 
     function initTemplates() {
         $scope.experiment = Cookies.get("exp1");
@@ -533,33 +551,33 @@ function countDown(expireDateTime) {
         uiTelemetry("DELETE_RESOURCE_CLICK");
     };
 
-    var cachedQuery;
-    $rootScope.getComScorQuery = () => {
-        if (!cachedQuery) {
-            var cleanUp = (s: string) => s ? s.replace("-", "") : "-";
-            cachedQuery = "try_websites_"
-                + cleanUp(Cookies.get("exp1"))
-                + "_"
-                + cleanUp(refererLookup())
-                + "_"
-                + "va"
-                + "_"
-                + cleanUp($rootScope.appTypeForQuery);
-        }
-        return cachedQuery;
+    $rootScope.cachedQuery = "";
+    $(document).ready(init);
+    function init() {
+        var cleanUp = (s: string) => s ? s.replace("-", "") : "-";
+        $rootScope.cachedQuery = "try_websites_"
+        + cleanUp(Cookies.get("exp1"))
+        + "_"
+        + cleanUp(getReferer())
+        + "_"
+        + "va"
+        + "_"
+        + cleanUp(Cookies.get("type"));
     };
 
     $rootScope.createAppType = (appType) => {
-        if ($rootScope.appTypeForQuery && $rootScope.appTypeForQuery !== appType.toLocaleLowerCase()) {
-            $rootScope.appTypeForQuery = "mix";
+        var value = Cookies.get("type");
+        if (value && value !== appType.toLocaleLowerCase()) {
+            value = "mix";
         } else {
-            $rootScope.appTypeForQuery = appType.toLocaleLowerCase();
+            value = appType.toLocaleLowerCase();
         }
-        cachedQuery = undefined;
+        Cookies.set("type", value);
+        init();
     };
 
     var refererNameLookup = [
-        { match: /http(s)?:\/\/azure\.microsoft\.com\/([a-z]){2}-([a-z]){2}\/services\/app-service\/.*/g, name: "acomaslp"},
+        { match: /http(s)?:\/\/azure\.microsoft\.com\/([a-z]){2}-([a-z]){2}\/services\/app-service\/.*/, name: "acomaslp"},
         { match: /http(s)?:\/\/azure\.microsoft\.com\/([a-z]){2}-([a-z]){2}\/documentation\/.*/, name: "acomasdoc"},
         { match: /http(s)?:\/\/azure\.microsoft\.com\/([a-z]){2}-([a-z]){2}\/develop\/net\/aspnet\/.*/, name: "aspnet"},
         { match: /http(s)?:\/\/[a-z]*(\.)?google\.com\/.*/, name: "search"},
@@ -571,10 +589,18 @@ function countDown(expireDateTime) {
         { match: /http(s)?:\/\/[a-z]*(\.)?media6degrees\.com\/.*/, name: "ad"}
     ];
 
-    function refererLookup(): string {
-        if (document.referrer === "") return undefined;
+    function getReferer(): string {
+        var storedOrigin = Cookies.get("origin");
+        if (!document.referrer || document.referrer === "") return storedOrigin;
         var catagory = refererNameLookup.find(e => e.match.test(document.referrer));
-        return catagory ? catagory.name : "unc";
+        if (catagory) {
+            storedOrigin = catagory.name;
+            Cookies.set("origin", storedOrigin);
+        } else if (catagory && !storedOrigin) {
+            storedOrigin = "unc";
+            Cookies.set("origin", storedOrigin);
+        }
+        return storedOrigin;
     }
 
     //http://stackoverflow.com/a/23522925/3234163

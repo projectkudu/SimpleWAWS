@@ -91,7 +91,6 @@ namespace SimpleWAWS
         {
             var context = new HttpContextWrapper(HttpContext.Current);
             context.AssignExperiment();
-            context.
 
             if (context.Request.Cookies[Constants.TiPCookie] == null &&
                 context.Request.QueryString[Constants.TiPCookie] != null)

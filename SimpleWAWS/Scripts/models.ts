@@ -78,4 +78,5 @@ interface ITryRootScope extends ng.IRootScopeService {
     downloadMobileClient(client: string);
     getComScorQuery();
     appTypeForQuery: string;
+    cachedQuery: string;
 }
