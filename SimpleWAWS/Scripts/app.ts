@@ -560,7 +560,7 @@ function countDown(expireDateTime) {
         + "_"
         + cleanUp(getReferer())
         + "_"
-        + "va"
+        + "-"
         + "_"
         + cleanUp(Cookies.get("type"));
     };
@@ -582,7 +582,7 @@ function countDown(expireDateTime) {
         { match: /http(s)?:\/\/azure\.microsoft\.com\/([a-z]){2}-([a-z]){2}\/develop\/net\/aspnet\/.*/, name: "aspnet"},
         { match: /http(s)?:\/\/[a-z]*(\.)?google\.com\/.*/, name: "search"},
         { match: /http(s)?:\/\/[a-z]*(\.)?bing\.com\/.*/, name: "search"},
-        { match: /http(s)?:\/\/[a-z]*(\.)?yahoo\.com\/.*/, name: "search"},
+        { match: /http(s)?:\/\/([a-z]*(\.)?)+yahoo\.com\/.*/, name: "search"},
         { match: /http(s)?:\/\/ad\.atdmt\.com\/.*/, name: "ad"},
         { match: /http(s)?:\/\/[a-z]*(\.)?doubleclick\.net\/.*/, name: "ad"},
         { match: /http(s)?:\/\/[a-z]*(\.)?chango\.com\/.*/, name: "ad"},
@@ -593,13 +593,8 @@ function countDown(expireDateTime) {
         var storedOrigin = Cookies.get("origin");
         if (!document.referrer || document.referrer === "") return storedOrigin;
         var catagory = refererNameLookup.find(e => e.match.test(document.referrer));
-        if (catagory) {
-            storedOrigin = catagory.name;
-            Cookies.set("origin", storedOrigin);
-        } else if (catagory && !storedOrigin) {
-            storedOrigin = "unc";
-            Cookies.set("origin", storedOrigin);
-        }
+        storedOrigin = catagory ? catagory.name : "unc";
+        Cookies.set("origin", storedOrigin);
         return storedOrigin;
     }
 
