@@ -43,7 +43,7 @@ namespace SimpleWAWS.Models
                     foreach (var template in Directory.GetFiles(languagePath))
                     {
                         var iconUri = Path.Combine(ImagesFolder, string.Format("{0}.png", Path.GetFileNameWithoutExtension(template)));
-                        var cssClass = Path.GetFileNameWithoutExtension(template).Replace(" ", "").Replace("#", "Sharp").Replace(".", "");
+                        var cssClass = Path.GetFileNameWithoutExtension(template).Replace(" ", "").Replace("#", "Sharp").Replace(".", "").Replace("+", "");
                         var iconCssClass = File.Exists(iconUri) ? string.Format("sprite-{0}", cssClass) : "sprite-Large";
                         var language = Path.GetFileName(languagePath);
                         list.Add(new WebsiteTemplate
