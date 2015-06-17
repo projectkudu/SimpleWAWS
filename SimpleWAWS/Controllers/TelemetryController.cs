@@ -32,14 +32,16 @@ namespace SimpleWAWS.Controllers
 
                     Func<string, string> cleanUp = (s) => string.IsNullOrEmpty(s) ? "-" : s;
                     var referer = cleanUp(dic.Where(p => p.Key == "origin").Select(p => p.Value).FirstOrDefault());
-                    var cid =  cleanUp(dic.Where(p => p.Key == "cid").Select(p => p.Value).FirstOrDefault());
+                    var cid = cleanUp(dic.Where(p => p.Key == "cid").Select(p => p.Value).FirstOrDefault());
+                    var sv = cleanUp(dic.Where(p => p.Key == "sv").Select(p => p.Value).FirstOrDefault());
 
-                    SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
+                    SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}",
                             AnalyticsEvents.AnonymousUserInit,
                             userName,
                             ExperimentManager.GetCurrentExperiment(),
                             referer,
-                            cid
+                            cid,
+                            sv
                         );
                 }
                 else

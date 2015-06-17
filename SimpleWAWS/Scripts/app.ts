@@ -329,7 +329,8 @@
             url: "api/telemetry/INIT_USER",
             data: {
                 origin: document.referrer,
-                cid: $location.search().cid
+                cid: $location.search().cid,
+                sv: $location.search().sv
             }
         });
         var now = new Date();
