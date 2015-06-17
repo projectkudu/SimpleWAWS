@@ -73,7 +73,6 @@
 }])
     .controller("appController", ["$scope", "$http", "$timeout", "$rootScope", "$state", "$location", function ($scope: IAppControllerScope, $http: ng.IHttpService, $timeout: ng.ITimeoutService, $rootScope: ITryRootScope, $state: ng.ui.IStateService, $location: ng.ILocationService) {
 
-
     $scope.getLanguage = (template) => {
         return template.language;
     };
@@ -481,9 +480,9 @@
     }
 
     function clearQueryString() {
-        if (history.pushState) {
+        if (history.replaceState) {
             var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-            window.history.pushState({ path: newurl }, '', newurl);
+            window.history.replaceState({}, document.title, newurl);
         }
     }
 
@@ -516,7 +515,7 @@ function countDown(expireDateTime) {
 }
 
 }])
-    .run(["$rootScope", "$state", "$stateParams", "$http", "$templateCache", ($rootScope: ITryRootScope, $state: ng.ui.IStateService, $stateParams: ng.ui.IStateParamsService, $http: ng.IHttpService, $templateCache: ng.ITemplateCacheService) => {
+    .run(["$rootScope", "$state", "$stateParams", "$http", "$templateCache", "$location", ($rootScope: ITryRootScope, $state: ng.ui.IStateService, $stateParams: ng.ui.IStateParamsService, $http: ng.IHttpService, $templateCache: ng.ITemplateCacheService, $location: ng.ILocationService) => {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
     $rootScope.freeTrialClick = (place) => {
@@ -551,6 +550,21 @@ function countDown(expireDateTime) {
         uiTelemetry("DELETE_RESOURCE_CLICK");
     };
 
+    $rootScope.logout = () => {
+        function deleteAllCookies() {
+            var cookies = document.cookie.split(";");
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i];
+                var eqPos = cookie.indexOf("=");
+                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                if (name !== "uinit")
+                    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+            }
+        }
+        deleteAllCookies();
+        window.location.replace('https://' + window.location.host + '/');
+    };
+
     $rootScope.cachedQuery = "";
     $(document).ready(init);
     function init() {
@@ -560,7 +574,7 @@ function countDown(expireDateTime) {
         + "_"
         + cleanUp(getReferer())
         + "_"
-        + "-"
+        + cleanUp(getSourceVariation())
         + "_"
         + cleanUp(Cookies.get("type"));
     };
@@ -596,6 +610,17 @@ function countDown(expireDateTime) {
         storedOrigin = catagory ? catagory.name : "unc";
         Cookies.set("origin", storedOrigin);
         return storedOrigin;
+    }
+
+    function getSourceVariation(): string {
+        var sv = $location.search().sv;
+        if (sv) {
+            Cookies.set("sv", sv);
+            return sv;
+        }
+        else {
+            return Cookies.get("sv");
+        }
     }
 
     //http://stackoverflow.com/a/23522925/3234163

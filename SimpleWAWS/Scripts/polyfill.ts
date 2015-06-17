@@ -14,6 +14,10 @@ interface Array<T> {
     some(predicate: (val: T) => boolean): boolean;
 }
 
+interface Document {
+    getQueryStringByName(name: string): string;
+}
+
 interface Element {
     documentOffsetTop(): number;
 }
@@ -215,4 +219,14 @@ if (!Element.prototype.documentOffsetTop) {
     Element.prototype.documentOffsetTop = function () {
         return this.offsetTop + (this.offsetParent ? this.offsetParent.documentOffsetTop() : 0);
     };
+}
+
+if (!Document.prototype.getQueryStringByName) {
+    //http://stackoverflow.com/a/901144/3234163
+    Document.prototype.getQueryStringByName = function(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)", "i"),
+            results = regex.exec(location.search);
+        return results === null ? undefined : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
 }
