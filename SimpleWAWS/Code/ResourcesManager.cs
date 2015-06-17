@@ -311,7 +311,7 @@ namespace SimpleWAWS.Models
                     site.AppSettings["MONACO_EXTENSION_VERSION"] = "beta";
                     site.AppSettings["WEBSITE_TRY_MODE"] = "1";
 
-                    if (template.Name.Equals("Azure Search", StringComparison.OrdinalIgnoreCase))
+                    if (template.Name.Equals("ASP.NET + Azure Search Site", StringComparison.OrdinalIgnoreCase))
                     {
                         site.AppSettings["SearchServiceName"] = SimpleSettings.SearchServiceName;
                         site.AppSettings["SearchServiceApiKey"] = AzureSearchHelper.GetApiKey();
