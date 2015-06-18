@@ -284,16 +284,16 @@ namespace SimpleWAWS.Models
         }
 
         // ARM
-        public async Task<ResourceGroup> ActivateWebApp(WebsiteTemplate template, TryWebsitesIdentity userIdentity, AppService temp = AppService.Web)
+        public async Task<ResourceGroup> ActivateWebApp(WebsiteTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName, AppService temp = AppService.Web)
         {
             // Start site specific stuff
             return await ActivateResourceGroup(userIdentity, temp, async resourceGroup =>
                 {
                     SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
                         userIdentity, template, resourceGroup.CsmId);
-                    SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}",
+                    SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}; {6}",
                             AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
-                            template.Language, template.Name, resourceGroup.ResourceUniqueId, temp.ToString());
+                            template.Language, template.Name, resourceGroup.ResourceUniqueId, temp.ToString(), anonymousUserName);
 
                     var site = resourceGroup.Sites.First();
                     var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email);
@@ -326,22 +326,22 @@ namespace SimpleWAWS.Models
         }
 
         // ARM
-        public async Task<ResourceGroup> ActivateMobileApp(WebsiteTemplate template, TryWebsitesIdentity userIdentity)
+        public async Task<ResourceGroup> ActivateMobileApp(WebsiteTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
-            return await ActivateWebApp(template, userIdentity, AppService.Mobile);
+            return await ActivateWebApp(template, userIdentity, anonymousUserName, AppService.Mobile);
         }
 
         // ARM
-        public async Task<ResourceGroup> ActivateApiApp(ApiTemplate template, TryWebsitesIdentity userIdentity)
+        public async Task<ResourceGroup> ActivateApiApp(ApiTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
             return await ActivateResourceGroup(userIdentity, AppService.Api, async resourceGroup =>
             {
 
                 SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
                     userIdentity, template, resourceGroup.CsmId);
-                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}",
+                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}; {6}",
                             AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
-                            "Api", template.ApiTemplateName, resourceGroup.ResourceUniqueId, AppService.Api.ToString());
+                            "Api", template.ApiTemplateName, resourceGroup.ResourceUniqueId, AppService.Api.ToString(), anonymousUserName);
 
                 var apiApp = new ApiApp(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, Guid.NewGuid().ToString().Replace("-", ""))
                 {
@@ -386,16 +386,16 @@ namespace SimpleWAWS.Models
         }
 
         // ARM
-        public async Task<ResourceGroup> ActivateLogicApp(LogicTemplate template, TryWebsitesIdentity userIdentity)
+        public async Task<ResourceGroup> ActivateLogicApp(LogicTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
             return await ActivateResourceGroup(userIdentity, AppService.Logic, async resourceGroup =>
             {
 
                 SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
                     userIdentity.Name, template, resourceGroup);
-                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}",
+                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}; {6}",
                             AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
-                            "Logic", template.Name, resourceGroup.ResourceUniqueId, AppService.Logic.ToString());
+                            "Logic", template.Name, resourceGroup.ResourceUniqueId, AppService.Logic.ToString(), anonymousUserName);
 
                 var logicApp = new LogicApp(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, Guid.NewGuid().ToString().Replace("-", ""))
                 {

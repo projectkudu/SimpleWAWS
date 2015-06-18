@@ -125,6 +125,7 @@ namespace SimpleWAWS.Controllers
             template = template ?? WebsiteTemplate.EmptySiteTemplate;
 
             var identity = HttpContext.Current.User.Identity as TryWebsitesIdentity;
+            var anonymousUserName = SecurityManager.GetAnonymousUserName(new HttpContextWrapper(HttpContext.Current));
 
             try
             {
@@ -143,20 +144,20 @@ namespace SimpleWAWS.Controllers
                 switch (template.AppService)
                 {
                     case AppService.Web:
-                        resourceGroup = await resourceManager.ActivateWebApp(template as WebsiteTemplate, identity);
+                        resourceGroup = await resourceManager.ActivateWebApp(template as WebsiteTemplate, identity, anonymousUserName);
                         break;
                     case AppService.Mobile:
-                        resourceGroup = await resourceManager.ActivateMobileApp(template as WebsiteTemplate, identity);
+                        resourceGroup = await resourceManager.ActivateMobileApp(template as WebsiteTemplate, identity, anonymousUserName);
                         break;
                     case AppService.Api:
                         if (identity.Issuer != "MSA") //OrgId?
                             return SecurityManager.RedirectToAAD(template.CreateQueryString());
-                        resourceGroup = await resourceManager.ActivateApiApp(template as ApiTemplate, identity);
+                        resourceGroup = await resourceManager.ActivateApiApp(template as ApiTemplate, identity, anonymousUserName);
                         break;
                     case AppService.Logic:
                         if (identity.Issuer != "MSA") //OrgId?
                             return SecurityManager.RedirectToAAD(template.CreateQueryString());
-                        resourceGroup = await resourceManager.ActivateLogicApp(template as LogicTemplate, identity);
+                        resourceGroup = await resourceManager.ActivateLogicApp(template as LogicTemplate, identity, anonymousUserName);
                         break;
                 }
 

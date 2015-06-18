@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using SimpleWAWS.Authentication;
 using SimpleWAWS.Code;
 using SimpleWAWS.Models;
 using SimpleWAWS.Trace;
@@ -23,6 +24,7 @@ namespace SimpleWAWS.Controllers
                 var userName = User != null && User.Identity != null && !string.IsNullOrEmpty(User.Identity.Name)
                     ? User.Identity.Name
                     : "-";
+                var anonymousUserName = SecurityManager.GetAnonymousUserName(context);
 
                 if (telemetryEvent.Equals("INIT_USER", StringComparison.OrdinalIgnoreCase))
                 {
@@ -51,7 +53,7 @@ namespace SimpleWAWS.Controllers
                     var eventProperties = properties != null
                         ? properties.ToObject<Dictionary<string, string>>().Select(e => e.Value).Aggregate((a, b) => string.Join(" ", a, b))
                         : string.Empty;
-                    SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}", AnalyticsEvents.OldUiEvent, telemetryEvent, userName, eventProperties);
+                    SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}", AnalyticsEvents.OldUiEvent, telemetryEvent, userName, eventProperties, anonymousUserName);
                 }
             }
             return Request.CreateResponse(HttpStatusCode.OK);

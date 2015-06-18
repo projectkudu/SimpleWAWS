@@ -128,7 +128,7 @@ namespace SimpleWAWS.Authentication
                 if (userCookie == null)
                 {
                     var user = Guid.NewGuid().ToString();
-                    context.Response.Cookies.Add(new HttpCookie(AuthConstants.AnonymousUser, Uri.EscapeDataString(user.Encrypt(AuthConstants.EncryptionReason))) { Path = "/", Expires = DateTime.UtcNow.AddMinutes(30) });
+                    context.Response.Cookies.Add(new HttpCookie(AuthConstants.AnonymousUser, Uri.EscapeDataString(user.Encrypt(AuthConstants.EncryptionReason))) { Path = "/" });
                 }
                 else if (userCookie != null)
                 {
@@ -139,6 +139,21 @@ namespace SimpleWAWS.Authentication
             catch (Exception e)
             {
                 SimpleTrace.Diagnostics.Error(e, "Error Adding anonymous user");
+            }
+        }
+
+        public static string GetAnonymousUserName(HttpContextBase context)
+        {
+            try
+            {
+                var userCookie = context.Request.Cookies[AuthConstants.AnonymousUser];
+                var user = Uri.UnescapeDataString(userCookie.Value).Decrypt(AuthConstants.EncryptionReason);
+                return new TryWebsitesIdentity(user, null, "Anonymous").Name;
+            }
+            catch (Exception e)
+            {
+                SimpleTrace.Diagnostics.Error(e, "ERROR_GET_ANONYMOUS_USER");
+                return string.Empty;
             }
         }
 

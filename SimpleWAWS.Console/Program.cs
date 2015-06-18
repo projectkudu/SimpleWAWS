@@ -81,7 +81,7 @@ namespace SimpleWAWS.Console
             console("done initial loading");
 
             console("activate api app");
-            var resourceGroup = await manager.ActivateApiApp(new ApiTemplate { Name = "TrySamplesContactList" }, new Authentication.TryWebsitesIdentity("test@test.com", null, "AAD"));
+            var resourceGroup = await manager.ActivateApiApp(new ApiTemplate { Name = "TrySamplesContactList" }, new Authentication.TryWebsitesIdentity("test@test.com", null, "AAD"), "");
             console("done activating api app");
 
             resourceGroup.PrettyPrint();
