@@ -4154,13 +4154,14 @@ p + .wa-button {
 }
 
     .wa-video-thumbnail .play-icon {
+        height: 40px;
+        left: 50%;
+        margin-left: -20px;
+        margin-top: -20px;
+        opacity: 0.45;
         position: absolute;
         top: 50%;
-        left: 50%;
-        margin-left: -15px;
-        margin-top: -15px;
-        width: 30px;
-        height: 30px;
+        width: 40px;
     }
 
     .wa-video-thumbnail .thumbnail-meta {

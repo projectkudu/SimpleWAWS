@@ -339,7 +339,6 @@
     }
 
     function initTemplates() {
-        $scope.experiment = Cookies.get("exp1");
         $scope.loginOptions = false;
         $scope.running = true;
         $scope.offerDeleteAndCreate = false;
@@ -569,7 +568,9 @@ function countDown(expireDateTime) {
     $rootScope.cachedQuery = "";
     $(document).ready(init);
     function init() {
-        var cleanUp = (s: string) => s ? s.replace("-", "") : "-";
+        var referrer = getReferer();
+        $rootScope.experiment = (referrer && referrer === "aspnet") ? "aspnet" : Cookies.get("exp1");
+        var cleanUp = (s: string) => s ? s.replace("_", "") : "-";
         $rootScope.cachedQuery = "try_websites_"
         + cleanUp(Cookies.get("exp1"))
         + "_"

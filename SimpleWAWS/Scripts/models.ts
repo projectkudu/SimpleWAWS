@@ -61,7 +61,6 @@ interface IAppControllerScope extends ng.IScope {
     offerDeleteAndCreate: boolean;
     initExistingState();
     deleteAndCreateResource();
-    experiment: string;
 }
 
 interface ITryRootScope extends ng.IRootScopeService {
@@ -80,4 +79,5 @@ interface ITryRootScope extends ng.IRootScopeService {
     appTypeForQuery: string;
     cachedQuery: string;
     logout();
+    experiment: string;
 }
