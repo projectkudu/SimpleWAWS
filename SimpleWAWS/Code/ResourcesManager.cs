@@ -318,7 +318,7 @@ namespace SimpleWAWS.Models
                     }
 
                     await site.UpdateAppSettings();
-                    await site.UpdateConfig(new { properties = new { scmType = "LocalGit" } });
+                    await site.UpdateConfig(new { properties = new { scmType = "LocalGit", httpLoggingEnabled = true } });
                     resourceGroup.IsRbacEnabled = await rbacTask;
                     site.FireAndForget();
                     return resourceGroup;
