@@ -569,7 +569,8 @@ function countDown(expireDateTime) {
     $(document).ready(init);
     function init() {
         var referrer = getReferer();
-        $rootScope.experiment = (referrer && referrer === "aspnet") ? "aspnet" : Cookies.get("exp1");
+        var sourceVariation = getSourceVariation();
+        $rootScope.experiment = ((referrer && referrer === "aspnet") || (sourceVariation && sourceVariation === "develop-aspnet")) ? "aspnet" : Cookies.get("exp1");
         var cleanUp = (s: string) => s ? s.replace("_", "") : "-";
         $rootScope.cachedQuery = "try_websites_"
         + cleanUp(Cookies.get("exp1"))
