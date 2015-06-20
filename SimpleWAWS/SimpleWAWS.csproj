@@ -218,6 +218,7 @@
     <Compile Include="Code\RetryHelper.cs" />
     <Compile Include="Code\SimpleSettings.cs" />
     <Compile Include="Code\UserNameEnricher.cs" />
+    <Compile Include="Models\CsmModels\CsmSiteDeployment.cs" />
     <Compile Include="Models\CsmModels\CsmTemplateLink.cs" />
     <Compile Include="Models\CsmModels\CsmTemplateParameter.cs" />
     <Compile Include="Models\Experiment.cs" />

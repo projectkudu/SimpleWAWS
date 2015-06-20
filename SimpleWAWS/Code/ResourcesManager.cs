@@ -316,6 +316,7 @@ namespace SimpleWAWS.Models
                         var validUri = Uri.TryCreate(template.GithubRepo, UriKind.Absolute, out githubRepo);
                         if (validUri && githubRepo.AbsoluteUri.StartsWith("https://github.com/davidebbo-test/"))
                         {
+                            //Do CSM template deployment
                             var deployment = new CsmDeployment()
                             {
                                 CsmTemplate = new CsmTemplateWrapper
@@ -325,7 +326,7 @@ namespace SimpleWAWS.Models
                                         mode = "Incremental",
                                         parameters = new 
                                         {
-                                            siteName = new CsmTemplateParameter(resourceGroup.Sites.Select(s => s.SiteName).FirstOrDefault()),
+                                            siteName = new CsmTemplateParameter(site.SiteName),
                                             hostingPlanName = new CsmTemplateParameter(resourceGroup.ServerFarms.Select(sf => sf.ServerFarmName).FirstOrDefault()),
                                             repoUrl = new CsmTemplateParameter(githubRepo.AbsoluteUri)
                                         },
@@ -341,6 +342,12 @@ namespace SimpleWAWS.Models
                                 SubscriptionId = resourceGroup.SubscriptionId
                             };
                             await deployment.Deploy(block: true);
+                            await site.GetKuduDeploymentStatus(block: true);
+                        }
+                        else if (validUri && githubRepo.AbsoluteUri.StartsWith("https://github.com/"))
+                        {
+                            //Do Kudu deployment
+                            throw new InvalidGithubRepoException("The Github repo URI is either invalid of from an trusted organization");
                         }
                         else
                         {

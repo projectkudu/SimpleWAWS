@@ -135,5 +135,25 @@ namespace SimpleWAWS.Code.CsmExtensions
             var response = await csmClient.HttpInvoke(HttpMethod.Delete, CsmTemplates.Site.Bind(site));
             response.EnsureSuccessStatusCode();
         }
+
+        public static async Task<DeployStatus> GetKuduDeploymentStatus(this Site site, bool block)
+        {
+            Validate.ValidateCsmSite(site);
+            while (true)
+            {
+                DeployStatus value;
+                do
+                {
+                    var response = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.SiteDeployments.Bind(site));
+                    response.EnsureSuccessStatusCode();
+
+                    var deployment = await response.Content.ReadAsAsync<CsmArrayWrapper<CsmSiteDeployment>>();
+                    value = deployment.value.Select(s => s.properties.status).FirstOrDefault();
+
+                } while (block && value != DeployStatus.Failed && value != DeployStatus.Success);
+
+                return value;
+            }
+        }
     }
 }

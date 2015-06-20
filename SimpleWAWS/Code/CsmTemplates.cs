@@ -37,6 +37,7 @@ namespace SimpleWAWS.Code
         public static readonly CsmTemplate SiteConfig = new CsmTemplate(Site.TemplateUrl + "/config/web", websitesApiVersion);
         public static readonly CsmTemplate SitePublishingCredentials = new CsmTemplate(Site.TemplateUrl + "/config/PublishingCredentials/list", websitesApiVersion);
         public static readonly CsmTemplate SitePublishingProfile = new CsmTemplate(Site.TemplateUrl + "/publishxml", websitesApiVersion);
+        public static readonly CsmTemplate SiteDeployments = new CsmTemplate(Site.TemplateUrl + "/deployments", websitesApiVersion);
 
         public static readonly CsmTemplate ApiApps = new CsmTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.AppService/apiapps", appServiceApiVersion);
         public static readonly CsmTemplate ApiApp = new CsmTemplate(ApiApps.TemplateUrl + "/{apiAppName}", appServiceApiVersion);
