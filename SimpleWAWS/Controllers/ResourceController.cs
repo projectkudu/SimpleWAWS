@@ -126,6 +126,16 @@ namespace SimpleWAWS.Controllers
 
                 template = template ?? WebsiteTemplate.EmptySiteTemplate;
             }
+            else if (template.Name != null && template.Name.Equals("Github Repo"))
+            {
+                template = new WebsiteTemplate
+                {
+                    AppService = AppService.Web,
+                    GithubRepo = template.GithubRepo,
+                    Name = template.Name,
+                    Language = "Github"
+                };
+            }
 
             var identity = HttpContext.Current.User.Identity as TryWebsitesIdentity;
             var anonymousUserName = SecurityManager.GetAnonymousUserName(new HttpContextWrapper(HttpContext.Current));
@@ -153,7 +163,7 @@ namespace SimpleWAWS.Controllers
                         resourceGroup = await resourceManager.ActivateMobileApp(template as WebsiteTemplate, identity, anonymousUserName);
                         break;
                     case AppService.Api:
-                        if (identity.Issuer != "MSA") //OrgId?
+                        if (identity.Issuer != "MSA") //OrgId? This will cause a redirect loop for OrgId, what should we do here?
                             return SecurityManager.RedirectToAAD(template.CreateQueryString());
                         resourceGroup = await resourceManager.ActivateApiApp(template as ApiTemplate, identity, anonymousUserName);
                         break;

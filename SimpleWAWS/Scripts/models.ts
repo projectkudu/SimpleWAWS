@@ -63,6 +63,7 @@ interface IAppControllerScope extends ng.IScope {
     offerDeleteAndCreate: boolean;
     initExistingState();
     deleteAndCreateResource();
+    showFullBlackBlocker: boolean;
 }
 
 interface ITryRootScope extends ng.IRootScopeService {

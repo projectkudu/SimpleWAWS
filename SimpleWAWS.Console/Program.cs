@@ -81,7 +81,7 @@ namespace SimpleWAWS.Console
             console("done initial loading");
 
             console("activate api app");
-            var resourceGroup = await manager.ActivateWebApp(new WebsiteTemplate { GithubRepo = "https://github.com/davidebbo-test/Mvc52Application" }, new Authentication.TryWebsitesIdentity("tessdsdfsdfsdsdfst@test.com", null, "AAD"), "");
+            var resourceGroup = await manager.ActivateWebApp(new WebsiteTemplate { GithubRepo = "https://github.com/ahmelsayed-test/Mvc52Application" }, new Authentication.TryWebsitesIdentity("asdfsdasdsdfsdfsdf3rfsdftessdsdfsdfsdfsdfsdsdfst@test.com", null, "AAD"), "");
             console("done activating api app");
 
             resourceGroup.PrettyPrint();

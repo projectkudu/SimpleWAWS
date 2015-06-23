@@ -307,6 +307,8 @@
 
     $scope.handleLoginClick = (method) => {
         createResource(method);
+        $scope.loginOptions = false;
+        $scope.showFullBlackBlocker = true;
     };
 
     $scope.dismissSiteExpired = () => {
@@ -339,6 +341,7 @@
         $scope.loginOptions = false;
         $scope.running = true;
         $scope.offerDeleteAndCreate = false;
+        $scope.showFullBlackBlocker = false;
         $scope.ngModels = {};
         $scope.resource = {};
         $scope.selectedMobileClient = $scope.mobileClients[0];
@@ -485,6 +488,8 @@
                 }
             }
             $scope.running = false;
+        }).finally(() => {
+            $timeout(() => { $scope.showFullBlackBlocker = false; });
         });
     }
 

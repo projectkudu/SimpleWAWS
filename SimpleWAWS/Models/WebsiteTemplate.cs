@@ -17,9 +17,6 @@ namespace SimpleWAWS.Models
         [JsonProperty(PropertyName="language")]
         public string Language { get; set; }
 
-        [JsonProperty(PropertyName = "githubRepo")]
-        public string GithubRepo { get; set; }
-
         public static WebsiteTemplate EmptySiteTemplate
         {
             get { return new WebsiteTemplate() { Name = "Empty Site", Language = "Empty Site", SpriteName = "sprite-Large" }; }

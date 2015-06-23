@@ -141,7 +141,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             Validate.ValidateCsmSite(site);
             while (true)
             {
-                DeployStatus value;
+                DeployStatus? value;
                 do
                 {
                     var response = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.SiteDeployments.Bind(site));
@@ -152,7 +152,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
                 } while (block && value != DeployStatus.Failed && value != DeployStatus.Success);
 
-                return value;
+                return value.Value;
             }
         }
     }

@@ -314,7 +314,7 @@ namespace SimpleWAWS.Models
                     {
                         Uri githubRepo;
                         var validUri = Uri.TryCreate(template.GithubRepo, UriKind.Absolute, out githubRepo);
-                        if (validUri && githubRepo.AbsoluteUri.StartsWith("https://github.com/davidebbo-test/"))
+                        if (validUri && (githubRepo.AbsoluteUri.StartsWith("https://github.com/davidebbo-test/") || githubRepo.AbsoluteUri.StartsWith("https://github.com/ahmelsayed-test")))
                         {
                             //Do CSM template deployment
                             var deployment = new CsmDeployment()
@@ -343,6 +343,7 @@ namespace SimpleWAWS.Models
                             };
                             await deployment.Deploy(block: true);
                             await site.GetKuduDeploymentStatus(block: true);
+                            await resourceGroup.Load();
                         }
                         else if (validUri && githubRepo.AbsoluteUri.StartsWith("https://github.com/"))
                         {
@@ -366,7 +367,12 @@ namespace SimpleWAWS.Models
                     }
 
                     await site.UpdateAppSettings();
-                    await site.UpdateConfig(new { properties = new { scmType = "LocalGit", httpLoggingEnabled = true } });
+
+                    if (template.GithubRepo == null)
+                    {
+                        await site.UpdateConfig(new { properties = new { scmType = "LocalGit", httpLoggingEnabled = true } });
+                    }
+
                     resourceGroup.IsRbacEnabled = await rbacTask;
                     site.FireAndForget();
                     return resourceGroup;
