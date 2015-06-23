@@ -570,7 +570,13 @@ function countDown(expireDateTime) {
     function init() {
         var referrer = getReferer();
         var sourceVariation = getSourceVariation();
-        $rootScope.experiment = ((referrer && referrer === "aspnet") || (sourceVariation && sourceVariation === "develop-aspnet")) ? "aspnet" : Cookies.get("exp1");
+        if (referrer && referrer === "aspnet" || sourceVariation === "develop-aspnet") {
+            $rootScope.experiment = "aspnet";
+        } else if (sourceVariation === "mkt-b15.22") {
+            $rootScope.experiment = "mkt-b15.22";
+        } else {
+            $rootScope.experiment = Cookies.get("exp1");
+        }
         var cleanUp = (s: string) => s ? s.replace("_", "") : "-";
         $rootScope.cachedQuery = "try_websites_"
         + cleanUp(Cookies.get("exp1"))

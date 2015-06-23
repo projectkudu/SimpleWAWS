@@ -9338,3 +9338,15 @@ div.sprite-javascript { width: 115px; height: 115px; background-position: -5px -
     margin: 8px;
     font-size: larger;
 }
+
+.wa-section-mkt-b15 {
+    background-image: url('/Content/images/largeVS.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-position-y: -70px;
+}
+
+.wa-section-mkt-b15 h1, .wa-section-mkt-b15 h2, .wa-section-mkt-b15 h3, .wa-section-mkt-b15 h4, .wa-section-mkt-b15 h5, .wa-section-mkt-b15 p, .wa-section-mkt-b15 ul {
+    color: white;
+}

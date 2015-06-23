@@ -290,15 +290,11 @@
     <Content Include="Content\fonts\segoe-ui\normal\latest.svg" />
     <Content Include="Content\fonts\segoe-ui\semibold\latest.svg" />
     <Content Include="Content\images\azure-logo.png" />
-    <Content Include="Content\images\csg-53ee2f885fd82.png" />
-    <Content Include="Content\images\csg-54a1e97433b7e.png" />
-    <Content Include="Content\images\delete.png" />
-    <Content Include="Content\images\DownloadPublishing.png" />
-    <Content Include="Content\images\DownloadSite.png" />
     <Content Include="Content\images\filter-search-spyglass.png" />
     <Content Include="Content\images\footer-sprite.png" />
     <Content Include="Content\images\icon-search.png" />
     <Content Include="Content\images\Large.png" />
+    <Content Include="Content\images\largeVS.jpg" />
     <Content Include="Content\images\packages\ASP.NET Empty Site.png" />
     <Content Include="Content\images\packages\ASP.NET Starter Site.png" />
     <Content Include="Content\images\packages\Bakery.png" />
@@ -325,7 +321,6 @@
     <Content Include="Content\images\packages\PHP Starter Site.png" />
     <Content Include="Content\images\packages\TypeScript.png" />
     <Content Include="Content\images\packages\VSO.png" />
-    <Content Include="Content\images\VSO.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />

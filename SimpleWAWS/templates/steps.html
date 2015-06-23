@@ -1,11 +1,11 @@
-﻿<section class="wa-section wa-section-blue wa-section-mini wa-section-compute" ng-if="experiment !== 'aspnet'">
+﻿<section class="wa-section wa-section-mini" ng-if="experiment !== 'aspnet'" ng-class="experiment === 'mkt-b15.22' ? 'wa-section-mkt-b15' : 'wa-section-blue wa-section-compute'">
     <div class="wa-content">
         <h1>Create your Azure App Service app</h1>
-        <div class="wa-spacer" ng-if="experiment === 'blue-banner'">
+        <div class="wa-spacer" ng-if="experiment === 'blue-banner' || experiment === 'mkt-b15.22'">
             <h5 style="padding-top: 35px">Azure App Service is a cloud app service that integrates everything you need to quickly and easily build web and mobile apps for any platform or device.</h5>
             <h5>Be our guest for up to an hour of Azure App Service experience with no Azure subscription, free of charge and commitment. Stay longer for the full Azure App Service experience with an Azure free trial subscription.</h5>
         </div>
-        <div class="wa-spacer  wa-spacer-aside wa-spacer-asideLight" ng-if="experiment === 'blue-banner'">
+        <div class="wa-spacer  wa-spacer-aside wa-spacer-asideLight" ng-if="experiment === 'blue-banner'|| experiment === 'mkt-b15.22'">
             <video width="440" controls poster="/Content/poster2.png" preload="none">
                 <source src="/Content/AppService.mp4" type="video/mp4">
             </video>
@@ -32,7 +32,6 @@
         </div>
     </div>
 </section>
-
 
 <div class="wa-content wa-content-4up wa-content-divided">
     <div id="status-buttons" class="text-center wa-content">
