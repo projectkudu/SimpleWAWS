@@ -83,4 +83,5 @@ interface ITryRootScope extends ng.IRootScopeService {
     cachedQuery: string;
     logout();
     experiment: string;
+    branding: string;
 }

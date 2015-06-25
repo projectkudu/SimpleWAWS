@@ -11,8 +11,7 @@ namespace SimpleWAWS.Code
     {
         private static readonly Experiment[] _experiments = new Experiment[]
         {
-            new Experiment("blue-banner"),
-            new Experiment("no-banner")
+          // Assign Experiments
         }.OrderBy(e => e.Weight).ToArray();
 
         private static readonly Experiment _defaultExperiment = new Experiment("Production");
@@ -20,7 +19,7 @@ namespace SimpleWAWS.Code
         private static readonly Lazy<int> _totalWeights = new Lazy<int>(() => _experiments.Sum(e => e.Weight));
         private static readonly Random _random = new Random();
 
-        private const string _experimentCookie = "exp1";
+        private const string _experimentCookie = "exp2";
 
         private static string GetExperiment()
         {
@@ -50,14 +49,24 @@ namespace SimpleWAWS.Code
             }
         }
 
-        public static string GetCurrentExperiment()
+        private static string GetFromRequest(string cookieName, string defaultValue)
         {
             if (HttpContext.Current == null) return "NoRequest";
-            return HttpContext.Current.Request.Cookies[_experimentCookie] != null
-                ? HttpContext.Current.Request.Cookies[_experimentCookie].Value
-                : (!string.IsNullOrEmpty(HttpContext.Current.Request.Headers[_experimentCookie])
-                    ? HttpContext.Current.Request.Headers[_experimentCookie]
-                    : _defaultExperiment.Name);
+            return HttpContext.Current.Request.Cookies[cookieName] != null
+                ? HttpContext.Current.Request.Cookies[cookieName].Value
+                : (!string.IsNullOrEmpty(HttpContext.Current.Request.Headers[cookieName])
+                    ? HttpContext.Current.Request.Headers[cookieName]
+                    : defaultValue);
+        }
+
+        public static string GetCurrentExperiment()
+        {
+            return GetFromRequest(_experimentCookie, _defaultExperiment.Name);
+        }
+
+        public static string GetCurrentSourceVariation()
+        {
+            return GetFromRequest("sv", "-");
         }
     }
 }

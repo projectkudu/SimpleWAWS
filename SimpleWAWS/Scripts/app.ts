@@ -19,50 +19,50 @@
 
     var webApps: ng.ui.IState[] = [{
         name: "home.webapp",
-        templateUrl: "templates/empty-shell.html",
+        templateUrl: "templates/empty-shell.html"
     }, {
-            name: "home.webapp.templates",
-            templateUrl: "templates/templates.html",
-        }, {
-            name: "home.webapp.work",
-            templateUrl: "templates/work.html",
-        }];
+        name: "home.webapp.templates",
+        templateUrl: "templates/templates.html"
+    }, {
+        name: "home.webapp.work",
+        templateUrl: "templates/work.html"
+    }];
 
     var mobileApps: ng.ui.IState[] = [{
         name: "home.mobileapp",
         templateUrl: "templates/empty-shell.html",
     }, {
-            name: "home.mobileapp.templates",
-            templateUrl: "templates/templates.html",
-        }, {
-            name: "home.mobileapp.clients",
-            templateUrl: "templates/clients.html",
-        }, {
-            name: "home.mobileapp.work",
-            templateUrl: "templates/work.html",
-        }];
+        name: "home.mobileapp.templates",
+        templateUrl: "templates/templates.html",
+    }, {
+        name: "home.mobileapp.clients",
+        templateUrl: "templates/clients.html",
+    }, {
+        name: "home.mobileapp.work",
+        templateUrl: "templates/work.html",
+    }];
 
     var apiApps: ng.ui.IState[] = [{
         name: "home.apiapp",
         templateUrl: "/templates/empty-shell.html",
     }, {
-            name: "home.apiapp.templates",
-            templateUrl: "/templates/templates.html",
-        }, {
-            name: "home.apiapp.work",
-            templateUrl: "/templates/work.html",
+        name: "home.apiapp.templates",
+        templateUrl: "/templates/templates.html",
     }, {
-            name: "home.apiapp.comingsoon",
-            templateUrl: "/templates/comingsoon.html",
+        name: "home.apiapp.work",
+        templateUrl: "/templates/work.html",
+    }, {
+        name: "home.apiapp.comingsoon",
+        templateUrl: "/templates/comingsoon.html",
     }];
 
     var logicApps: ng.ui.IState[] = [{
         name: "home.logicapp",
         templateUrl: "templates/empty-shell.html",
     }, {
-            name: "home.logicapp.comingsoon",
-            templateUrl: "templates/comingsoon.html",
-        }];
+        name: "home.logicapp.comingsoon",
+        templateUrl: "templates/comingsoon.html",
+    }];
     $stateProvider.state(homeState);
     webApps.forEach(s => $stateProvider.state(s));
     mobileApps.forEach(s => $stateProvider.state(s));
@@ -87,43 +87,43 @@
             title: "Select app type",
             sref: "home",
         }, {
-                id: 2,
-                title: "Select template",
-                sref: "home.webapp.templates",
-                nextClass: "wa-button-primary",
-                nextText: "Create"
-            }, {
-                id: 3,
-                title: "Work with your app",
-                sref: "home.webapp.work",
-                onPrevious: () => { $scope.confirmDelete = true; }
-            }],
+            id: 2,
+            title: "Select template",
+            sref: "home.webapp.templates",
+            nextClass: "wa-button-primary",
+            nextText: "Create"
+        }, {
+            id: 3,
+            title: "Work with your app",
+            sref: "home.webapp.work",
+            onPrevious: () => { $scope.confirmDelete = true; }
+        }],
         templates: []
     }, {
-            name: "Mobile",
-            sprite: "sprite-MobileApp",
-            title: "Mobile App",
-            steps: [{
-                id: 1,
-                title: "Select app type",
-                sref: "home",
-            }, {
-                    id: 2,
-                    title: "Select template",
-                    sref: "home.mobileapp.templates",
-                    nextClass: "wa-button-primary",
-                    nextText: "Create"
-                }, {
-                    id: 3,
-                    title: "Download client",
-                    sref: "home.mobileapp.clients",
-                onPrevious: () => { $scope.confirmDelete = true; }
-                }, {
-                    id: 4,
-                    title: "Work with your app",
-                    sref: "home.mobileapp.work"
-                }],
-            templates: []
+        name: "Mobile",
+        sprite: "sprite-MobileApp",
+        title: "Mobile App",
+        steps: [{
+            id: 1,
+            title: "Select app type",
+            sref: "home",
+        }, {
+            id: 2,
+            title: "Select template",
+            sref: "home.mobileapp.templates",
+            nextClass: "wa-button-primary",
+            nextText: "Create"
+        }, {
+            id: 3,
+            title: "Download client",
+            sref: "home.mobileapp.clients",
+            onPrevious: () => { $scope.confirmDelete = true; }
+        }, {
+            id: 4,
+            title: "Work with your app",
+            sref: "home.mobileapp.work"
+        }],
+        templates: []
         }, {
             name: "Api",
             sprite: "sprite-ApiApp",
@@ -133,10 +133,10 @@
                 title: "Select app type",
                 sref: "home"
             }, {
-                    id: 2,
-                    title: "Coming soon",
-                    sref: "home.apiapp.comingsoon"
-                }],
+                id: 2,
+                title: "Coming soon",
+                sref: "home.apiapp.comingsoon"
+            }],
             //steps: [{
             //    id: 1,
             //    title: "Select app type",
@@ -163,10 +163,10 @@
                 title: "Select app type",
                 sref: "home"
             }, {
-                    id: 2,
-                    title: "Coming soon",
-                    sref: "home.logicapp.comingsoon"
-                }],
+                id: 2,
+                title: "Coming soon",
+                sref: "home.logicapp.comingsoon"
+            }],
             templates: []
         }];
 
@@ -213,13 +213,13 @@
             clientHref: "/api/resource/mobileclient/XamarinAndroid"
         }
     }, {
-            name: "Web Client",
-            sprite: "mobile-icons sprite-javascript",
-            steps: {
-                clientText: "Visit the web based client",
-                clientHref: "webClient"
-            }
-    }]
+        name: "Web Client",
+        sprite: "mobile-icons sprite-javascript",
+        steps: {
+            clientText: "Visit the web based client",
+            clientHref: "webClient"
+        }
+    }];
 
     $scope.selectAppService = (appService) => {
         $scope.currentAppService = appService;
@@ -422,7 +422,7 @@
             selectTemplate();
             autoCreateIfRequired();
             clearQueryString();
-        } 
+        }
     }
 
     function autoCreateIfRequired(force?: boolean) {
@@ -584,13 +584,15 @@ function countDown(expireDateTime) {
     function init() {
         var referrer = getReferer();
         var sourceVariation = getSourceVariation();
+
         if (referrer && referrer === "aspnet" || sourceVariation === "develop-aspnet") {
-            $rootScope.experiment = "aspnet";
+            $rootScope.branding = "aspnet";
         } else if (sourceVariation === "mkt-b15.22") {
-            $rootScope.experiment = "mkt-b15.22";
-        } else {
-            $rootScope.experiment = Cookies.get("exp1");
+            $rootScope.branding = "mkt-b15.22";
         }
+
+        $rootScope.experiment = Cookies.get("exp2");
+
         var cleanUp = (s: string) => s ? s.replace("_", "") : "-";
         $rootScope.cachedQuery = "try_websites_"
         + cleanUp(Cookies.get("exp1"))
@@ -663,14 +665,15 @@ function countDown(expireDateTime) {
     }
 
     $state.go("home");
-}])
+    }])
     .filter("filterBySelectedLanguage",() => {
-    return (templates: ITemplate[], language: string): any => {
-        if (language === undefined)
-            return templates;
-        else
-            return templates.filter(t => t.language.toUpperCase() === language.toUpperCase());
-    };
-    }).config(["$httpProvider", function ($httpProvider) {
-    $httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+        return (templates: ITemplate[], language: string): any => {
+            if (language === undefined)
+                return templates;
+            else
+                return templates.filter(t => t.language.toUpperCase() === language.toUpperCase());
+        };
+    })
+    .config(["$httpProvider", function ($httpProvider) {
+        $httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
     }]);

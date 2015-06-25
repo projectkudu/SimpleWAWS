@@ -13,7 +13,7 @@ namespace SimpleWAWS.Trace
     {
         public static ILogger Analytics;
         public static ILogger Diagnostics;
-        
+
         public static void TraceInformation(string message)
         {
             System.Diagnostics.Trace.TraceInformation(message);
@@ -23,7 +23,7 @@ namespace SimpleWAWS.Trace
         {
             if (args.Length > 0)
             {
-                args[0] = string.Concat(args[0], "#", ExperimentManager.GetCurrentExperiment());
+                args[0] = string.Concat(args[0], "#", ExperimentManager.GetCurrentExperiment(), "$", ExperimentManager.GetCurrentSourceVariation());
             }
 
             System.Diagnostics.Trace.TraceInformation(format, args);
@@ -38,7 +38,7 @@ namespace SimpleWAWS.Trace
         {
             if (args.Length > 0)
             {
-                args[0] = string.Concat(args[0], "#", ExperimentManager.GetCurrentExperiment());
+                args[0] = string.Concat(args[0], "#", ExperimentManager.GetCurrentExperiment(), "$", ExperimentManager.GetCurrentSourceVariation());
             }
 
             System.Diagnostics.Trace.TraceError(format, args);
@@ -53,7 +53,7 @@ namespace SimpleWAWS.Trace
         {
             if (args.Length > 0)
             {
-                args[0] = string.Concat(args[0], "#", ExperimentManager.GetCurrentExperiment());
+                args[0] = string.Concat(args[0], "#", ExperimentManager.GetCurrentExperiment(), "$", ExperimentManager.GetCurrentSourceVariation());
             }
 
             System.Diagnostics.Trace.TraceWarning(format, args);
