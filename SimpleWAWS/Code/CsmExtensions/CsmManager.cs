@@ -153,7 +153,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task<Dictionary<string, string>> GetSubscriptionNamesToIdMap()
         {
-            var response = await csmClient.HttpInvoke(HttpMethod.Get, new Uri(CsmTemplates.Subscriptions.TemplateUrl));
+            var response = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.Subscriptions.Bind(""));
             response.EnsureSuccessStatusCode();
 
             var result = await response.Content.ReadAsAsync<CsmSubscriptionsArray>();

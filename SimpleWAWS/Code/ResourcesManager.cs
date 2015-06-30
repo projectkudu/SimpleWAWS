@@ -19,21 +19,21 @@ using Newtonsoft.Json;
 using SimpleWAWS.Authentication;
 using System.Security.Principal;
 using ARMClient.Library;
-using SimpleWAWS.Code;
 using SimpleWAWS.Code.CsmExtensions;
+using SimpleWAWS.Models;
 using SimpleWAWS.Models.CsmModels;
 using Newtonsoft.Json.Linq;
 using SimpleWAWS.Trace;
 using System.Web.Hosting;
 
-namespace SimpleWAWS.Models
+namespace SimpleWAWS.Code
 {
     public class ResourcesManager
     {
         public static TimeSpan ResourceGroupExpiryTime;
 
         private readonly ConcurrentQueue<ResourceGroup> _freeResourceGroups = new ConcurrentQueue<ResourceGroup>();
-        private readonly ConcurrentDictionary<string, Task> _resourceGroupsInProgress = new ConcurrentDictionary<string, Task>();
+        private readonly ConcurrentDictionary<string, InProgressOperation> _resourceGroupsInProgress = new ConcurrentDictionary<string, InProgressOperation>();
         private readonly ConcurrentDictionary<string, ResourceGroup> _resourceGroupsInUse = new ConcurrentDictionary<string, ResourceGroup>();
 
         private static readonly AsyncLock _lock = new AsyncLock();
@@ -212,7 +212,7 @@ namespace SimpleWAWS.Models
         }
 
         // ARM
-        private async Task<ResourceGroup> ActivateResourceGroup(TryWebsitesIdentity userIdentity, AppService appService, Func<ResourceGroup, Task<ResourceGroup>> func)
+        private async Task<ResourceGroup> ActivateResourceGroup(TryWebsitesIdentity userIdentity, AppService appService, DeploymentType deploymentType, Func<ResourceGroup, Task<ResourceGroup>> func)
         {
             ResourceGroup resourceGroup = null;
             if (userIdentity == null)
@@ -221,7 +221,6 @@ namespace SimpleWAWS.Models
             }
 
             var userId = userIdentity.Name;
-            var tokenSource = new CancellationTokenSource();
             try
             {
                 if (_resourceGroupsInUse.TryGetValue(userId, out resourceGroup))
@@ -234,13 +233,8 @@ namespace SimpleWAWS.Models
                     //mark site in use as soon as it's checked out so that if there is a reload it will be sorted out to the used queue.
                     await resourceGroup.MarkInUse(userId, ResourceGroupExpiryTime, appService);
                     var rbacTask = Task.FromResult(false); //RbacHelper.AddRbacUser(userIdentity.Puid, userIdentity.Email, resourceGroup);
-
-                    var resourceGroupCreationTask = Task.Delay(Timeout.Infinite, tokenSource.Token);
-                    // This should not be awaited. this is retuning the infinite task from above
-                    // The purpose of this task is to block the GetResourceGroupAsync() call until the resourceGroup in progress is done.
-                    // Otherwise the if the user refreshes, they will be offered to create another resource eventhough there is one already in progress for them.
-                    // When the resourceGroup is no longer in progress, we cancel the task using the cancellation token.
-                    _resourceGroupsInProgress.AddOrUpdate(userId, s => resourceGroupCreationTask, (s, task) => resourceGroupCreationTask).Ignore();
+                    var process = new InProgressOperation(resourceGroup, deploymentType);
+                    _resourceGroupsInProgress.AddOrUpdate(userId, s => process, (s, task) => process);
                     SimpleTrace.Diagnostics.Information("resourceGroup {resourceGroupId} is now in use", resourceGroup.CsmId);
 
                     resourceGroup = await func(resourceGroup);
@@ -285,9 +279,9 @@ namespace SimpleWAWS.Models
             }
             finally
             {
-                Task temp;
+                InProgressOperation temp;
                 _resourceGroupsInProgress.TryRemove(userId, out temp);
-                tokenSource.Cancel();
+                temp.Complete();
                 LogQueueStatistics();
             }
             //if we are here that means a bad exception happened above, but we might leak a site if we don't remove the site and replace it correctly.
@@ -304,7 +298,10 @@ namespace SimpleWAWS.Models
         public async Task<ResourceGroup> ActivateWebApp(WebsiteTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName, AppService temp = AppService.Web)
         {
             // Start site specific stuff
-            return await ActivateResourceGroup(userIdentity, temp, async resourceGroup =>
+            var deploymentType = template != null && template.GithubRepo != null
+                ? DeploymentType.GitWithCsmDeploy
+                : DeploymentType.ZipDeploy;
+            return await ActivateResourceGroup(userIdentity, temp, deploymentType, async resourceGroup =>
                 {
                     SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
                         userIdentity, template, resourceGroup.CsmId);
@@ -401,7 +398,7 @@ namespace SimpleWAWS.Models
         // ARM
         public async Task<ResourceGroup> ActivateApiApp(ApiTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
-            return await ActivateResourceGroup(userIdentity, AppService.Api, async resourceGroup =>
+            return await ActivateResourceGroup(userIdentity, AppService.Api, DeploymentType.CsmDeploy, async resourceGroup =>
             {
 
                 SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
@@ -455,7 +452,7 @@ namespace SimpleWAWS.Models
         // ARM
         public async Task<ResourceGroup> ActivateLogicApp(LogicTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
-            return await ActivateResourceGroup(userIdentity, AppService.Logic, async resourceGroup =>
+            return await ActivateResourceGroup(userIdentity, AppService.Logic, DeploymentType.CsmDeploy, async resourceGroup =>
             {
 
                 SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
@@ -509,12 +506,12 @@ namespace SimpleWAWS.Models
             _resourceGroupsInUse.TryGetValue(userId, out resourceGroup);
             if (resourceGroup == null)
             {
-                Task temp;
+                InProgressOperation temp;
                 if (_resourceGroupsInProgress.TryGetValue(userId, out temp))
                 {
                     try
                     {
-                        await temp;
+                        await temp.Task;
                     }
                     catch (TaskCanceledException)
                     {
@@ -587,12 +584,12 @@ namespace SimpleWAWS.Models
         // ARM
         public IReadOnlyCollection<ResourceGroup> GetAllInUseResourceGroups()
         {
-            return _resourceGroupsInUse.ToList().Select(s => s.Value).ToList();
+            return _resourceGroupsInUse.Select(s => s.Value).ToList();
         }
 
-        public int GetAllInProgressResourceGroupsCount()
+        public IReadOnlyCollection<InProgressOperation> GetAllInProgressResourceGroups()
         {
-            return this._resourceGroupsInProgress.Count;
+            return this._resourceGroupsInProgress.Select(s => s.Value).ToList();
         }
 
         private void LogQueueStatistics()

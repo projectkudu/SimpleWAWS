@@ -284,6 +284,8 @@
     <Compile Include="Code\Util.cs" />
     <Compile Include="Models\CsmModels\CsmSubscription.cs" />
     <Compile Include="Models\CsmModels\CsmSubscriptionsArray.cs" />
+    <Compile Include="Code\InProgressOperation.cs" />
+    <Compile Include="Code\DeploymentType.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\segoe-ui\bold\latest.svg" />
