@@ -41,7 +41,10 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             var geoRegions = SimpleSettings.GeoRegions.Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(r => r.Trim());
 
-            var newResourceGroups = await geoRegions.Where(g => !subscription.ResourceGroups.Any(rg => rg.ResourceGroupName.StartsWith(string.Format("{0}_{1}", Constants.TryResourceGroupPrefix, g.Replace(" ", Constants.TryResourceGroupSeparator)))))
+            var newResourceGroups = await geoRegions
+                .Where(g =>
+                       !subscription.ResourceGroups
+                           .Any(rg => rg.ResourceGroupName.StartsWith(string.Format("{0}_{1}", Constants.TryResourceGroupPrefix, g.Replace(" ", Constants.TryResourceGroupSeparator)))))
                 .Select(g => CreateResourceGroup(subscription.SubscriptionId, g))
                 .WhenAll();
 

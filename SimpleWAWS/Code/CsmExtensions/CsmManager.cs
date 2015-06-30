@@ -151,6 +151,15 @@ namespace SimpleWAWS.Code.CsmExtensions
             return false;
         }
 
+        public static async Task<Dictionary<string, string>> GetSubscriptionNamesToIdMap()
+        {
+            var response = await csmClient.HttpInvoke(HttpMethod.Get, new Uri(CsmTemplates.Subscriptions.TemplateUrl));
+            response.EnsureSuccessStatusCode();
+
+            var result = await response.Content.ReadAsAsync<CsmSubscriptionsArray>();
+            return result.value.ToDictionary(k => k.displayName, v => v.subscriptionId);
+        }
+
         private static async Task<GraphArrayWrapper<GraphUser>> SearchGraph(RbacUser rbacUser)
         {
             var graphResponse = await graphClient.HttpInvoke(HttpMethod.Get, CsmTemplates.GraphSearchUsers.Bind(rbacUser));
@@ -203,4 +212,5 @@ namespace SimpleWAWS.Code.CsmExtensions
             }
         }
     }
+
 }

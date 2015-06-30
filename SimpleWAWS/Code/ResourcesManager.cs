@@ -36,7 +36,7 @@ namespace SimpleWAWS.Models
         private readonly ConcurrentDictionary<string, Task> _resourceGroupsInProgress = new ConcurrentDictionary<string, Task>();
         private readonly ConcurrentDictionary<string, ResourceGroup> _resourceGroupsInUse = new ConcurrentDictionary<string, ResourceGroup>();
 
-        private static readonly AsyncLock _lock = new AsyncLock(); 
+        private static readonly AsyncLock _lock = new AsyncLock();
         private Timer _timer;
         private int _logCounter = 0;
         private readonly JobHost _jobHost = new JobHost();
@@ -76,7 +76,20 @@ namespace SimpleWAWS.Models
         private async Task LoadAzureResources()
         {
             // Load all subscriptions
+            var csmSubscriptions = await CsmManager.GetSubscriptionNamesToIdMap();
             var subscriptions = await SimpleSettings.Subscriptions.Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                //It can be either a displayName or a subscriptionId
+                .Where(n =>
+                {
+                    Guid temp;
+                    return csmSubscriptions.ContainsKey(n) || Guid.TryParse(n, out temp);
+                })
+                .Select(sn =>
+                {
+                    Guid temp;
+                    if (Guid.TryParse(sn, out temp)) return sn;
+                    else return csmSubscriptions[sn];
+                })
                 .Select(s => new Subscription(s).Load())
                 .IgnoreAndFilterFailures();
 
@@ -324,7 +337,7 @@ namespace SimpleWAWS.Models
                                     properties = new CsmTemplateProperties
                                     {
                                         mode = "Incremental",
-                                        parameters = new 
+                                        parameters = new
                                         {
                                             siteName = new CsmTemplateParameter(site.SiteName),
                                             hostingPlanName = new CsmTemplateParameter(resourceGroup.ServerFarms.Select(sf => sf.ServerFarmName).FirstOrDefault()),
