@@ -77,6 +77,7 @@ namespace SimpleWAWS
             RouteTable.Routes.MapHttpRoute("get-webapp-publishing-profile", "api/resource/getpublishingprofile", new { controller = "Resource", action = "GetWebAppPublishingProfile", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
             RouteTable.Routes.MapHttpRoute("get-mobile-client-app", "api/resource/mobileclient/{platformString}", new { controller = "Resource", action = "GetMobileClientZip", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
             RouteTable.Routes.MapHttpRoute("delete-resource", "api/resource", new { controller = "Resource", action = "DeleteResource", authenticated = true }, new { verb = new HttpMethodConstraint("DELETE") });
+            RouteTable.Routes.MapHttpRoute("get-resource-status", "api/resource/status", new { controller = "Resource", action = "GetResourceStatus", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
 
             //Admin Only Routes
             RouteTable.Routes.MapHttpRoute("get-all-resources", "api/resource/all", new { controller = "Resource", action = "All", authenticated = true, adminOnly = true }, new { verb = new HttpMethodConstraint("GET") });

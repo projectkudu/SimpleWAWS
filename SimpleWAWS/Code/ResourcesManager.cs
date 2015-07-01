@@ -592,6 +592,11 @@ namespace SimpleWAWS.Code
             return this._resourceGroupsInProgress.Select(s => s.Value).ToList();
         }
 
+        public Task<string> GetResourceStatusAsync(string userId)
+        {
+            return Task.FromResult("N/A");
+        }
+
         private void LogQueueStatistics()
         {
         }

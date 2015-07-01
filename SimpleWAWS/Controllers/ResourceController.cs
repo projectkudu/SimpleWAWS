@@ -190,5 +190,12 @@ namespace SimpleWAWS.Controllers
             await resourceManager.DeleteResourceGroup(HttpContext.Current.User.Identity.Name);
             return Request.CreateResponse(HttpStatusCode.Accepted);
         }
+
+        public async Task<HttpResponseMessage> GetResourceStatus()
+        {
+            var resourceManager = await ResourcesManager.GetInstanceAsync();
+            var status = await resourceManager.GetResourceStatusAsync(HttpContext.Current.User.Identity.Name);
+            return Request.CreateResponse(HttpStatusCode.OK, new { status = status });
+        }
     }
 }
