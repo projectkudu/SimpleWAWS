@@ -334,7 +334,7 @@
         });
         var now = new Date();
         now.setMinutes(now.getMinutes() + 30);
-        Cookies.set("uinit", "1", { expires: now });
+        Cookies.set("uinit", "1");
     }
 
     function initTemplates() {
@@ -571,7 +571,7 @@ function countDown(expireDateTime) {
                 var cookie = cookies[i];
                 var eqPos = cookie.indexOf("=");
                 var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-                if (name !== "uinit")
+                if (name !== "uinit" && name !== "aus")
                     document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
             }
         }
@@ -621,7 +621,7 @@ function countDown(expireDateTime) {
         { match: /http(s)?:\/\/azure\.microsoft\.com\/([a-z]){2}-([a-z]){2}\/develop\/net\/aspnet\/.*/, name: "aspnet"},
         { match: /http(s)?:\/\/[a-z]*(\.)?google\.com\/.*/, name: "search"},
         { match: /http(s)?:\/\/[a-z]*(\.)?bing\.com\/.*/, name: "search"},
-        { match: /http(s)?:\/\/([a-z]*(\.)?)+yahoo\.com\/.*/, name: "search"},
+        { match: /http(s)?:\/\/[a-z]*(\.)?yahoo\.com\/.*/, name: "search"},
         { match: /http(s)?:\/\/ad\.atdmt\.com\/.*/, name: "ad"},
         { match: /http(s)?:\/\/[a-z]*(\.)?doubleclick\.net\/.*/, name: "ad"},
         { match: /http(s)?:\/\/[a-z]*(\.)?chango\.com\/.*/, name: "ad"},

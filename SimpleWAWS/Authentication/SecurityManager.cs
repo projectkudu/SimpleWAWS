@@ -128,7 +128,7 @@ namespace SimpleWAWS.Authentication
                 if (userCookie == null)
                 {
                     var user = Guid.NewGuid().ToString();
-                    context.Response.Cookies.Add(new HttpCookie(AuthConstants.AnonymousUser, Uri.EscapeDataString(user.Encrypt(AuthConstants.EncryptionReason))) { Path = "/", Expires = DateTime.UtcNow.AddMinutes(30) });
+                    context.Response.Cookies.Add(new HttpCookie(AuthConstants.AnonymousUser, Uri.EscapeDataString(user.Encrypt(AuthConstants.EncryptionReason))) { Path = "/" });
                 }
                 else if (userCookie != null)
                 {
