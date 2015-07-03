@@ -8,6 +8,7 @@
     previousText?: string;
     onNext?: () => ng.IPromise<any>|void;
     onPrevious?: () => ng.IPromise<boolean>|void;
+    confirmDelete: boolean;
 }
 
 interface IAppService {
@@ -84,4 +85,9 @@ interface ITryRootScope extends ng.IRootScopeService {
     logout();
     experiment: string;
     branding: string;
+}
+
+interface IStaticDataFactory {
+    getAppServices(): IAppService[];
+    getMobileClients(): any[];
 }
