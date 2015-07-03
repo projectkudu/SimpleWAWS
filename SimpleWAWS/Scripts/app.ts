@@ -585,7 +585,7 @@ function countDown(expireDateTime) {
         var referrer = getReferer();
         var sourceVariation = getSourceVariation();
 
-        if (referrer && referrer === "aspnet" || sourceVariation === "develop-aspnet") {
+        if (referrer && referrer === "aspnet" || sourceVariation === "develop-aspnet" || sourceVariation === "aspnetdirect") {
             $rootScope.branding = "aspnet";
         } else if (sourceVariation === "mkt-b15.22") {
             $rootScope.branding = "mkt-b15.22";
