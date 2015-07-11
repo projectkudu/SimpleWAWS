@@ -9,3 +9,4 @@ App_Data
 *.js.map
 env-*.cmd
 tsconfig.json
+.vs
