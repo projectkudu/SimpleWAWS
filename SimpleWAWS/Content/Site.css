@@ -9349,3 +9349,60 @@ div.sprite-javascript { width: 115px; height: 115px; background-position: -5px -
 .wa-section-mkt-b15 h1, .wa-section-mkt-b15 h2, .wa-section-mkt-b15 h3, .wa-section-mkt-b15 h4, .wa-section-mkt-b15 h5, .wa-section-mkt-b15 p, .wa-section-mkt-b15 ul {
     color: white;
 }
+
+.wa-section-W02 {
+    background-color: #00abec
+}
+
+.wa-section-W02 h1,.wa-section-W02 h2,.wa-section-W02 h3,.wa-section-W02 h4,.wa-section-W02 h5,.wa-section-W02 h6,.wa-section-W02 p,.wa-section-W02 ul,.wa-section-W02 .wa-heading5 {
+    color: #fff
+}
+
+.wa-section-W02 .wa-content+.wa-content-divided {
+    border-top: 1px solid #fff
+}
+
+.wa-feedback -vote [data-vote-status] {
+    display: none;
+    visibility: hidden
+}
+
+.wa-section-feedback-vote.wa-section {
+    display: none
+}
+
+.wa-section-feedback-vote .wa-icon {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAA6CAYAAADybArcAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAPFJREFUeNrsmlEOgjAQRFvTA3gUj+IR9GR4Q4+A9QOjkapdqMtu3yR8kUDeTmfaEOKYFZQVs5Y+YxecKK05lVqtuRrcOALIZjPSeg1L3lOT2z4c0Wo0yUog7IBoZkSr0WbecclxPXtw5JTZhiJ1abrSe63cedLgBeQdxjDIK4xxkAdMCvZ1L4AQp6nOHUOk9zSOLWYcKQ1sAuSIAggggIhrcp+v69hGR/eOmNkQv22UZAQQWovWorUIOyC0Fq1FaxF2QBa21qF7R+IvH6JprT8qfZroFv7l6i4jqWYd4oi2I5byw84OiGZrWWg0N47cBBgAfCWSXiCF5kMAAAAASUVORK5CYII=');
+    background-repeat: no-repeat;
+    width: 75px;
+    height: 75px;
+    background-position: 20px 8px
+}
+
+.wa-section-feedback-vote [data-vote-part] {
+    display: none;
+    visibility: hidden
+}
+
+.wa-section-feedback-vote .wa-feedback-feedback-buttons {
+    margin-top: 8px;
+    float: left
+}
+
+.wa-section-feedback-vote .wa-feedback-feedback-remaining-chars {
+    float: right
+}
+
+.wa-section-feedback-vote .wa-feedback-feedback-remaining-chars p {
+    margin: 2px 0
+}
+
+.wa-section-feedback-vote .wa-button-mini {
+    min-width: 50px;
+    display: inline-block
+}
+
+.wa-button-W01,.wa-button-W01:hover {
+    background-color: #fff;
+    color: #00abec
+}
