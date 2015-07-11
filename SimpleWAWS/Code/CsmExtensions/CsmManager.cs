@@ -112,7 +112,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             try
             {
-                var rbacRole = csmResource is ServerFarm
+                var rbacRole = csmResource is ServerFarm || csmResource is ResourceGroup
                 ? _readerRole
                 : _contributorRold;
                 // add rbac contributor

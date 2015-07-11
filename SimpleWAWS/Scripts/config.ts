@@ -1,5 +1,6 @@
-angular.module("tryApp", ["ui.router", "angular.filter"])
-    .config(["$stateProvider", "$urlRouterProvider", "$locationProvider", ($stateProvider: ng.ui.IStateProvider, $urlRouterProvider: ng.ui.IUrlRouterProvider, $locationProvider: ng.ILocationProvider) => {        var homeState: ng.ui.IState = {
+angular.module("tryApp")
+    .config(["$stateProvider", "$urlRouterProvider", "$locationProvider", ($stateProvider: ng.ui.IStateProvider, $urlRouterProvider: ng.ui.IUrlRouterProvider, $locationProvider: ng.ILocationProvider) => {
+        var homeState: ng.ui.IState = {
             name: "home",
             templateUrl: "templates/steps.html",
             controller: "appController"
@@ -48,8 +49,14 @@ angular.module("tryApp", ["ui.router", "angular.filter"])
             name: "home.logicapp",
             templateUrl: "templates/empty-shell.html",
         }, {
+            name: "home.logicapp.templates",
+            templateUrl: "/templates/templates.html",
+        }, {
+            name: "home.logicapp.work",
+            templateUrl: "/templates/work.html",
+        }, {
             name: "home.logicapp.comingsoon",
-            templateUrl: "templates/comingsoon.html",
+            templateUrl: "/templates/comingsoon.html",
         }];
 
         $stateProvider.state(homeState);

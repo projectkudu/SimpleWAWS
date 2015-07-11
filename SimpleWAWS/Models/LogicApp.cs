@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimpleWAWS.Code;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,7 +14,7 @@ namespace SimpleWAWS.Models
             this.LogicAppName = logicAppName;
         }
 
-        private const string _csmIdTemplate = "/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.AppService/logicapps/{2}";
+        private const string _csmIdTemplate = "/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Logic/workflows/{2}";
 
         public override string CsmId
         {
@@ -23,7 +24,15 @@ namespace SimpleWAWS.Models
             }
         }
 
-        public string LogicAppName { get; set; }
+        public string LogicAppName { get; private set; }
         public string Location { get; set; }
+
+        public string IbizaUrl
+        {
+            get
+            {
+                return string.Concat("https://portal.azure.com/", SimpleSettings.TryTenantName, "#resource", CsmId);
+            }
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace SimpleWAWS.Code
         private const string websitesApiVersion = "2014-06-01";
         private const string newWebsitesApiVersion = "2015-02-01";
         private const string appServiceApiVersion = "2015-03-01-preview";
+        private const string logicAppsApiVersion = "2015-02-01-preview";
         private const string graphApiVersion = "1.42-previewInternal";
 
         public const string RbacApiVersion = "2014-07-01-preview";
@@ -45,6 +46,9 @@ namespace SimpleWAWS.Code
 
         public static readonly CsmTemplate Gateways = new CsmTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.AppService/gateways", appServiceApiVersion);
         public static readonly CsmTemplate Gateway = new CsmTemplate(Gateways.TemplateUrl + "/{gatewayName}", appServiceApiVersion);
+
+        public static readonly CsmTemplate LogicApps = new CsmTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Logic/workflows", logicAppsApiVersion);
+        public static readonly CsmTemplate LogicApp = new CsmTemplate(LogicApps.TemplateUrl + "/{logicAppName}", logicAppsApiVersion);
 
         public static readonly CsmTemplate ServerFarms = new CsmTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Web/serverFarms", websitesApiVersion);
         public static readonly CsmTemplate ServerFarm = new CsmTemplate(ServerFarms.TemplateUrl + "/{serverFarmName}", websitesApiVersion);

@@ -463,7 +463,6 @@ namespace SimpleWAWS.Code
 
                 var logicApp = new LogicApp(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, Guid.NewGuid().ToString().Replace("-", ""))
                 {
-                    LogicAppName = template.Name,
                     Location = resourceGroup.GeoRegion
                 };
 
@@ -474,9 +473,9 @@ namespace SimpleWAWS.Code
                     csmTemplateString = await reader.ReadToEndAsync();
                 }
 
-                csmTemplateString = csmTemplateString.Replace("{{gatewayNameDefaultValue}}", Guid.NewGuid().ToString().Replace("-", "")).Replace("{{logicAppNameDefaultValue}}", logicApp.LogicAppName);
+                csmTemplateString = csmTemplateString.Replace("{{gatewayName}}", Guid.NewGuid().ToString().Replace("-", "")).Replace("{{logicAppName}}", logicApp.LogicAppName);
 
-                var deployment = new CsmDeployment
+                resourceGroup.Deployment = new CsmDeployment
                 {
                     DeploymentName = resourceGroup.ResourceUniqueId,
                     SubscriptionId = resourceGroup.SubscriptionId,
@@ -484,7 +483,7 @@ namespace SimpleWAWS.Code
                     CsmTemplate = JsonConvert.DeserializeObject<JToken>(csmTemplateString)
                 };
 
-                await deployment.Deploy(block: true);
+                await resourceGroup.Deployment.Deploy(block: true);
 
                 // After a deployment, we have no idea what changes happened in the resource group
                 // we should reload it.
@@ -592,9 +591,28 @@ namespace SimpleWAWS.Code
             return this._resourceGroupsInProgress.Select(s => s.Value).ToList();
         }
 
-        public Task<string> GetResourceStatusAsync(string userId)
+        public async Task<string> GetResourceStatusAsync(string userId)
         {
-            return Task.FromResult("N/A");
+            InProgressOperation inProgressOperation;
+            if (this._resourceGroupsInProgress.TryGetValue(userId, out inProgressOperation))
+            {
+                switch (inProgressOperation.DeploymentType)
+                {
+                    case DeploymentType.CsmDeploy:
+                        return "ARM deployment in progress";
+                    case DeploymentType.GitNoCsmDeploy:
+                        return "Git deployment in progress";
+                    case DeploymentType.GitWithCsmDeploy:
+                        return "ARM and git deployment in progress";
+                    case DeploymentType.ZipDeploy:
+                    default:
+                        return "Deployment in progress";
+                }
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
 
         private void LogQueueStatistics()

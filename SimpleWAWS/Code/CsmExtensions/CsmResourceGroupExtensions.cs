@@ -34,6 +34,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 await Task.WhenAll(LoadSites(resourceGroup),
                                    LoadApiApps(resourceGroup),
                                    LoadGateways(resourceGroup),
+                                   LoadLogicApps(resourceGroup),
                                    LoadServerFarms(resourceGroup));
             }
 
@@ -57,6 +58,17 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             var csmApiApps = await csmApiAppsResponse.Content.ReadAsAsync<CsmArrayWrapper<CsmApiApp>>();
             resourceGroup.ApiApps = csmApiApps.value.Select(a => new ApiApp(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, a.name));
+
+            return resourceGroup;
+        }
+
+        public static async Task<ResourceGroup> LoadLogicApps(this ResourceGroup resourceGroup)
+        {
+            var csmLogicAppsResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.LogicApps.Bind(resourceGroup));
+            csmLogicAppsResponse.EnsureSuccessStatusCode();
+
+            var csmLogicApps = await csmLogicAppsResponse.Content.ReadAsAsync<CsmArrayWrapper<CsmLogicApp>>();
+            resourceGroup.LogicApps = csmLogicApps.value.Select(a => new LogicApp(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, a.name));
 
             return resourceGroup;
         }
@@ -207,9 +219,11 @@ namespace SimpleWAWS.Code.CsmExtensions
             if (string.IsNullOrEmpty(objectId)) return false;
 
             return (await
-                resourceGroup.Sites.Select(s => s.AddRbacAccess(objectId))
+                new[] { resourceGroup.AddRbacAccess(objectId) }
+                .Concat(resourceGroup.Sites.Select(s => s.AddRbacAccess(objectId)))
                 .Concat(resourceGroup.ApiApps.Select(s => s.AddRbacAccess(objectId)))
                 .Concat(resourceGroup.Gateways.Select(s => s.AddRbacAccess(objectId)))
+                .Concat(resourceGroup.LogicApps.Select(s => s.AddRbacAccess(objectId)))
                 .Concat(resourceGroup.ServerFarms.Select(s => s.AddRbacAccess(objectId)))
                 .WhenAll())
                 .All(e => e);

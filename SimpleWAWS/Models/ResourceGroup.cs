@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Configuration;
+using SimpleWAWS.Models.CsmModels;
 
 namespace SimpleWAWS.Models
 {
@@ -72,9 +73,13 @@ namespace SimpleWAWS.Models
 
         public IEnumerable<ApiApp> ApiApps { get; set; }
 
+        public IEnumerable<LogicApp> LogicApps { get; set; }
+
         public IEnumerable<Gateway> Gateways { get; set; }
 
         public IEnumerable<ServerFarm> ServerFarms { get; set; }
+
+        public CsmDeployment Deployment { get; set; }
 
         public string GeoRegion 
         {
@@ -116,10 +121,19 @@ namespace SimpleWAWS.Models
                         siteToUseForUi = Sites.First(s => s.SiteName.StartsWith("TrySample", StringComparison.OrdinalIgnoreCase));
                         ibizaUrl = ApiApps.First().IbizaUrl;
                         break;
+                    case Models.AppService.Logic:
+                        ibizaUrl = LogicApps.First().IbizaUrl;
+                        break;
                 }
 
-                return siteToUseForUi == null 
-                ? null
+                return siteToUseForUi == null
+                ? new UIResource
+                {
+                    IbizaUrl = ibizaUrl,
+                    TimeLeftString = TimeLeft,
+                    IsRbacEnabled = IsRbacEnabled,
+                    AppService = AppService
+                }
                 : new UIResource
                 {
                     Url = siteToUseForUi.Url,
