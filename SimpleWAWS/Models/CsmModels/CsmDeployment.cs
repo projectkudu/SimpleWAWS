@@ -14,5 +14,7 @@ namespace SimpleWAWS.Models.CsmModels
         public string SubscriptionId { get; set; }
 
         public object CsmTemplate { get; set; }
+
+        public string Status { get; set; }
     }
 }

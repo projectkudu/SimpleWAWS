@@ -92,6 +92,11 @@
                 <span class="error-message-text" ng-bind="ngModels.errorMessage"></span>
             </div>
         </div>
+        <div class="error-place">
+            <div class="error-message" ng-show="ngModels.statusMessage">
+                <span class="error-message-text" ng-bind="ngModels.statusMessage"></span>
+            </div>
+        </div>
     </div>
 
     <div class="ui-blocker" ng-if="running"></div>

@@ -195,7 +195,7 @@ namespace SimpleWAWS.Controllers
         {
             var resourceManager = await ResourcesManager.GetInstanceAsync();
             var status = await resourceManager.GetResourceStatusAsync(HttpContext.Current.User.Identity.Name);
-            return Request.CreateResponse(HttpStatusCode.OK, new { status = status });
+            return Request.CreateResponse(HttpStatusCode.OK, status);
         }
     }
 }
