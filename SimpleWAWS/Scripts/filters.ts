@@ -1,4 +1,4 @@
-angular.module("tryApp", ["ui.router", "angular.filter"])
+angular.module("tryApp")
     .filter("filterBySelectedLanguage",() => {
         return (templates: ITemplate[], language: string): any => {
             if (language === undefined)

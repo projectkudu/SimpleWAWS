@@ -1,4 +1,4 @@
-angular.module("tryApp", ["ui.router", "angular.filter"])
+angular.module("tryApp")
     .run(["$rootScope", "$state", "$stateParams", "$http", "$templateCache", "$location", ($rootScope: ITryRootScope, $state: ng.ui.IStateService, $stateParams: ng.ui.IStateParamsService, $http: ng.IHttpService, $templateCache: ng.ITemplateCacheService, $location: ng.ILocationService) => {
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;

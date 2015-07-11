@@ -1,4 +1,4 @@
-angular.module("tryApp", ["ui.router", "angular.filter"])
+angular.module("tryApp")
     .factory("staticDataFactory", () => {
         return {
             getAppServices: () => [{
@@ -87,8 +87,15 @@ angular.module("tryApp", ["ui.router", "angular.filter"])
                     sref: "home"
                 }, {
                     id: 2,
-                    title: "Coming soon",
-                    sref: "home.logicapp.comingsoon"
+                    title: "Select template",
+                    sref: "home.logicapp.templates",
+                    nextClass: "wa-button-primary",
+                    nextText: "Create"
+                }, {
+                    id: 3,
+                    title: "Work with your app",
+                    sref: "home.logicapp.work",
+                    confirmDelete: true
                 }],
                 templates: []
             }],

@@ -1,4 +1,4 @@
-﻿angular.module("tryApp", ["ui.router", "angular.filter"])
+﻿angular.module("tryApp")
     .directive("selectOnClick", function() {
         //http://stackoverflow.com/a/14996261/3234163
         return {
