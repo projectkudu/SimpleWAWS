@@ -10,3 +10,4 @@ App_Data
 env-*.cmd
 tsconfig.json
 .vs
+compilation.config
