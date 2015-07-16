@@ -11,3 +11,4 @@ env-*.cmd
 tsconfig.json
 .vs
 compilation.config
+*/dist/
