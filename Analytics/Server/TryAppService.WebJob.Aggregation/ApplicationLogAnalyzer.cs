@@ -26,6 +26,7 @@ namespace TryAppService.WebJob.Aggregation
         private const string AnonymousUserCreated = "ANONYMOUS_USER_CREATED";
         private const string AnonymousUserLoggedIn = "ANONYMOUS_USER_LOGGEDIN";
         private const string AnonymousUserInit = "ANONYMOUS_USER_INIT";
+        private const string UserFeedbackPattern = "FEEDBACK_COMMENT";
 
         public ApplicationLogAnalyzer()
         {
@@ -59,6 +60,7 @@ namespace TryAppService.WebJob.Aggregation
                         var uiEvents = new List<UIEvent>();
                         var userAssignedExperiment = new List<UserAssignedExperiment>();
                         var userLoggedIn = new List<UserLoggedIn>();
+                        var userFeedback = new List<UserFeedback>();
                         try
                         {
                             using (var reader = new StreamReader(stream))
@@ -157,6 +159,22 @@ namespace TryAppService.WebJob.Aggregation
                                                 SourceVariation = splitedLine.Length > 5 ? splitedLine[5] : "-"
                                             });
                                         }
+                                        else if (line.IndexOf(UserFeedbackPattern) != -1)
+                                        {
+                                            bool contactMe;
+                                            if (!bool.TryParse(splitedLine[4], out contactMe))
+                                                contactMe = false;
+                                            userFeedback.Add(new UserFeedback
+                                            {
+                                                DateTime = currentHour,
+                                                Experiment = experimentsAndSv.Item1,
+                                                SourceVariation = experimentsAndSv.Item2,
+                                                UserName = splitedLine[1],
+                                                AnonymousUserName = splitedLine[2],
+                                                Comment = splitedLine[3],
+                                                ContactMe = contactMe
+                                            });
+                                        }
                                     }
                                     catch (Exception e)
                                     {
@@ -171,7 +189,7 @@ namespace TryAppService.WebJob.Aggregation
                         }
                         finally
                         {
-                            SaveHourAggregateInDataBase(userActivity, userPuids, uiEvents, userLoggedIn, userAssignedExperiment);
+                            SaveHourAggregateInDataBase(userActivity, userPuids, uiEvents, userLoggedIn, userAssignedExperiment, userFeedback);
                             try
                             {
                                 stream.Dispose();
@@ -185,13 +203,14 @@ namespace TryAppService.WebJob.Aggregation
             }
         }
 
-        private void SaveHourAggregateInDataBase(IEnumerable<UserActivity> userActivity, IEnumerable<UserPuid> userPuids, IEnumerable<UIEvent> uiEvents, IEnumerable<UserLoggedIn> userLoggedIn, IEnumerable<UserAssignedExperiment> userAssignedExperiments)
+        private void SaveHourAggregateInDataBase(IEnumerable<UserActivity> userActivity, IEnumerable<UserPuid> userPuids, IEnumerable<UIEvent> uiEvents, IEnumerable<UserLoggedIn> userLoggedIn, IEnumerable<UserAssignedExperiment> userAssignedExperiments, IEnumerable<UserFeedback> userFeedback)
         {
-            this._tryItNowAnalyticsContext.UserActivities.AddRange(userActivity.ToArray());
+            this._tryItNowAnalyticsContext.UserActivities.AddRange(userActivity);
             this._tryItNowAnalyticsContext.UserPuids.AddOrUpdate(p => p.Puid, userPuids.ToArray());
-            this._tryItNowAnalyticsContext.UIEvents.AddRange(uiEvents.ToArray());
+            this._tryItNowAnalyticsContext.UIEvents.AddRange(uiEvents);
             this._tryItNowAnalyticsContext.UserLoggedIns.AddRange(userLoggedIn);
             this._tryItNowAnalyticsContext.UserAssignedExperiments.AddRange(userAssignedExperiments);
+            this._tryItNowAnalyticsContext.UserFeedback.AddRange(userFeedback);
 
             this._tryItNowAnalyticsContext.SaveChanges();
         }

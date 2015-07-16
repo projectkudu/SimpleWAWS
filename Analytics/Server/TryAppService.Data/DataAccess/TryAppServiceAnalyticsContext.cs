@@ -27,6 +27,7 @@ namespace TryAppService.Data.DataAccess
         public DbSet<UIEvent> UIEvents { get; set; }
         public DbSet<UserAssignedExperiment> UserAssignedExperiments { get; set; }
         public DbSet<UserLoggedIn> UserLoggedIns { get; set; }
+        public DbSet<UserFeedback> UserFeedback { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
