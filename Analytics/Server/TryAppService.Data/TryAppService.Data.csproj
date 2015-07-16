@@ -106,6 +106,10 @@
     <Compile Include="Migrations\201507020141590_AddSourceVariationAndAnonymousUserNameColumns.Designer.cs">
       <DependentUpon>201507020141590_AddSourceVariationAndAnonymousUserNameColumns.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507162145538_AddUserFeedbackTable.cs" />
+    <Compile Include="Migrations\201507162145538_AddUserFeedbackTable.Designer.cs">
+      <DependentUpon>201507162145538_AddUserFeedbackTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AnonymousUserAssignedExperiment.cs" />
     <Compile Include="Models\FreeTrialClick.cs" />
@@ -165,6 +169,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507020141590_AddSourceVariationAndAnonymousUserNameColumns.resx">
       <DependentUpon>201507020141590_AddSourceVariationAndAnonymousUserNameColumns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507162145538_AddUserFeedbackTable.resx">
+      <DependentUpon>201507162145538_AddUserFeedbackTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
