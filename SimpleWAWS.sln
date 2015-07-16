@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analytics", "Analytics", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TryAppService.WebJob.ProcessQueue", "TryAppService.WebJob.ProcessQueue\TryAppService.WebJob.ProcessQueue.csproj", "{5DC1FF81-D35A-499C-893E-60EB62C242CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TryAppService.Data", "TryAppService.Data\TryAppService.Data.csproj", "{E334B980-587A-4F2D-BB6D-07123914973B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,11 +43,16 @@ Global
 		{5DC1FF81-D35A-499C-893E-60EB62C242CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DC1FF81-D35A-499C-893E-60EB62C242CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DC1FF81-D35A-499C-893E-60EB62C242CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E334B980-587A-4F2D-BB6D-07123914973B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E334B980-587A-4F2D-BB6D-07123914973B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E334B980-587A-4F2D-BB6D-07123914973B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E334B980-587A-4F2D-BB6D-07123914973B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5DC1FF81-D35A-499C-893E-60EB62C242CD} = {3B874E77-1193-48BE-98E9-1BDC7738AFF1}
+		{E334B980-587A-4F2D-BB6D-07123914973B} = {3B874E77-1193-48BE-98E9-1BDC7738AFF1}
 	EndGlobalSection
 EndGlobal
