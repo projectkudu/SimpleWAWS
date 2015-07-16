@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleWAWS.GenerateAppSetti
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SimpleWAWS.Tests", "SimpleWAWS.Tests\SimpleWAWS.Tests.fsproj", "{78A609B6-1E94-4F73-98BB-5E1261345D9D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analytics", "Analytics", "{3B874E77-1193-48BE-98E9-1BDC7738AFF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TryAppService.WebJob.ProcessQueue", "TryAppService.WebJob.ProcessQueue\TryAppService.WebJob.ProcessQueue.csproj", "{5DC1FF81-D35A-499C-893E-60EB62C242CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,8 +37,15 @@ Global
 		{78A609B6-1E94-4F73-98BB-5E1261345D9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78A609B6-1E94-4F73-98BB-5E1261345D9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78A609B6-1E94-4F73-98BB-5E1261345D9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DC1FF81-D35A-499C-893E-60EB62C242CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DC1FF81-D35A-499C-893E-60EB62C242CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DC1FF81-D35A-499C-893E-60EB62C242CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DC1FF81-D35A-499C-893E-60EB62C242CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5DC1FF81-D35A-499C-893E-60EB62C242CD} = {3B874E77-1193-48BE-98E9-1BDC7738AFF1}
 	EndGlobalSection
 EndGlobal
