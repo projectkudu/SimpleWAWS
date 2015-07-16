@@ -38,6 +38,7 @@ namespace SimpleWAWS.Console
         public static async Task MainAsync()
         {
             var subscriptionNames = System.Environment.GetEnvironmentVariable("Subscriptions").Split(',');
+            //var subscriptionNames = new[] { "bd5cf6af-4d44-449e-adaf-20626ae5013e" };
             var startTime = DateTime.UtcNow;
 
             Action<object> console = (s) => System.Console.WriteLine("[" + (DateTime.UtcNow - startTime).TotalMilliseconds + "] " + s);
@@ -58,16 +59,16 @@ namespace SimpleWAWS.Console
 
             console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()) + " resourceGroups");
 
-            console("calling MakeTrialSubscription on all subscriptions");
-            subscriptions = await subscriptions.Select(s => s.MakeTrialSubscription()).WhenAll();
-            console("done calling make trial subscription");
+            //console("calling MakeTrialSubscription on all subscriptions");
+            //subscriptions = await subscriptions.Select(s => s.MakeTrialSubscription()).WhenAll();
+            //console("done calling make trial subscription");
 
             console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()) + " resourceGroups");
-            //console(subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()));
+            console(subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()));
 
-            //await Task.WhenAll(subscriptions.Select(subscription => subscription.ResourceGroups.Select(rg => rg.Delete(true))).SelectMany(i => i));
+            await Task.WhenAll(subscriptions.Select(subscription => subscription.ResourceGroups.Select(rg => rg.Delete(true))).SelectMany(i => i));
 
-            //subscriptions.ToList().ForEach(printSub);
+            subscriptions.ToList().ForEach(printSub);
             console("Done");
         }
 
@@ -78,13 +79,20 @@ namespace SimpleWAWS.Console
 
             console("start");
             var manager = await ResourcesManager.GetInstanceAsync();
+            console("count " + manager.GetAllFreeResourceGroups().Count);
             console("done initial loading");
 
-            console("activate api app");
-            var resourceGroup = await manager.ActivateWebApp(new WebsiteTemplate { GithubRepo = "https://github.com/ahmelsayed-test/Mvc52Application" }, new Authentication.TryWebsitesIdentity("asdfsdasdsdfsdfsdf3rfsdftessdsdfsdfsdfsdfsdsdfst@test.com", null, "AAD"), "");
-            console("done activating api app");
+            //console("activate api app");
+            //var resourceGroup = await manager.ActivateLogicApp(new LogicTemplate
+            //        {
+            //            Name = "Ping Site",
+            //            SpriteName = "sprite-ASPNETEmptySite ASPNETEmptySite",
+            //            AppService = AppService.Logic,
+            //            CsmTemplateFilePath = @"D:\scratch\repos\SimpleWAWS\SimpleWAWS\App_Data\PingSite.json"
+            //        }, new Authentication.TryWebsitesIdentity("asdfsdasdsdfsdfsdf3rfsasdasd333d@test.com", null, "AAD"), "");
+            //console("done activating api app");
 
-            resourceGroup.PrettyPrint();
+            //resourceGroup.PrettyPrint();
 
         }
     }

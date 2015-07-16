@@ -212,7 +212,7 @@ namespace SimpleWAWS.Code
         }
 
         // ARM
-        private async Task<ResourceGroup> ActivateResourceGroup(TryWebsitesIdentity userIdentity, AppService appService, DeploymentType deploymentType, Func<ResourceGroup, Task<ResourceGroup>> func)
+        private async Task<ResourceGroup> ActivateResourceGroup(TryWebsitesIdentity userIdentity, AppService appService, DeploymentType deploymentType, Func<ResourceGroup, InProgressOperation, Task<ResourceGroup>> func)
         {
             ResourceGroup resourceGroup = null;
             if (userIdentity == null)
@@ -237,7 +237,7 @@ namespace SimpleWAWS.Code
                     _resourceGroupsInProgress.AddOrUpdate(userId, s => process, (s, task) => process);
                     SimpleTrace.Diagnostics.Information("resourceGroup {resourceGroupId} is now in use", resourceGroup.CsmId);
 
-                    resourceGroup = await func(resourceGroup);
+                    resourceGroup = await func(resourceGroup, process);
 
                     var addedResourceGroup = _resourceGroupsInUse.GetOrAdd(userId, resourceGroup);
                     if (addedResourceGroup.ResourceGroupName == resourceGroup.ResourceGroupName)
@@ -301,7 +301,7 @@ namespace SimpleWAWS.Code
             var deploymentType = template != null && template.GithubRepo != null
                 ? DeploymentType.GitWithCsmDeploy
                 : DeploymentType.ZipDeploy;
-            return await ActivateResourceGroup(userIdentity, temp, deploymentType, async resourceGroup =>
+            return await ActivateResourceGroup(userIdentity, temp, deploymentType, async (resourceGroup, inProgressOperation) =>
                 {
                     SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
                         userIdentity, template, resourceGroup.CsmId);
@@ -327,31 +327,25 @@ namespace SimpleWAWS.Code
                         if (validUri && (githubRepo.AbsoluteUri.StartsWith("https://github.com/davidebbo-test/") || githubRepo.AbsoluteUri.StartsWith("https://github.com/ahmelsayed-test")))
                         {
                             //Do CSM template deployment
-                            var deployment = new CsmDeployment()
+                            var csmTemplate = new CsmTemplateWrapper
                             {
-                                CsmTemplate = new CsmTemplateWrapper
+                                properties = new CsmTemplateProperties
                                 {
-                                    properties = new CsmTemplateProperties
+                                    mode = "Incremental",
+                                    parameters = new
                                     {
-                                        mode = "Incremental",
-                                        parameters = new
-                                        {
-                                            siteName = new CsmTemplateParameter(site.SiteName),
-                                            hostingPlanName = new CsmTemplateParameter(resourceGroup.ServerFarms.Select(sf => sf.ServerFarmName).FirstOrDefault()),
-                                            repoUrl = new CsmTemplateParameter(githubRepo.AbsoluteUri)
-                                        },
-                                        templateLink = new CsmTemplateLink
-                                        {
-                                            contentVersion = "1.0.0.0",
-                                            uri = new Uri("https://raw.githubusercontent.com/" + githubRepo.AbsolutePath.Trim('/') + "/master/azuredeploy.json")
-                                        }
+                                        siteName = new CsmTemplateParameter(site.SiteName),
+                                        hostingPlanName = new CsmTemplateParameter(resourceGroup.ServerFarms.Select(sf => sf.ServerFarmName).FirstOrDefault()),
+                                        repoUrl = new CsmTemplateParameter(githubRepo.AbsoluteUri)
+                                    },
+                                    templateLink = new CsmTemplateLink
+                                    {
+                                        contentVersion = "1.0.0.0",
+                                        uri = new Uri("https://raw.githubusercontent.com/" + githubRepo.AbsolutePath.Trim('/') + "/master/azuredeploy.json")
                                     }
-                                },
-                                DeploymentName = resourceGroup.ResourceUniqueId,
-                                ResourceGroupName = resourceGroup.ResourceGroupName,
-                                SubscriptionId = resourceGroup.SubscriptionId
+                                }
                             };
-                            await deployment.Deploy(block: true);
+                            await inProgressOperation.CreateDeployment(csmTemplate, block: true);
                             await site.GetKuduDeploymentStatus(block: true);
                             await resourceGroup.Load();
                         }
@@ -398,7 +392,7 @@ namespace SimpleWAWS.Code
         // ARM
         public async Task<ResourceGroup> ActivateApiApp(ApiTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
-            return await ActivateResourceGroup(userIdentity, AppService.Api, DeploymentType.CsmDeploy, async resourceGroup =>
+            return await ActivateResourceGroup(userIdentity, AppService.Api, DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
             {
 
                 SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
@@ -425,15 +419,7 @@ namespace SimpleWAWS.Code
                     }
                 };
 
-                var deployment = new CsmDeployment
-                {
-                    DeploymentName = resourceGroup.ResourceUniqueId,
-                    SubscriptionId = resourceGroup.SubscriptionId,
-                    ResourceGroupName = resourceGroup.ResourceGroupName,
-                    CsmTemplate = templateWrapper
-                };
-
-                await deployment.Deploy(block: true);
+                await inProgressOperation.CreateDeployment(templateWrapper, block: true);
 
                 // We don't need the original site that we create for Web or Mobile apps, delete it or it'll show up in ibiza
                 await resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).Select(s => s.Delete()).IgnoreFailures().WhenAll();
@@ -452,7 +438,7 @@ namespace SimpleWAWS.Code
         // ARM
         public async Task<ResourceGroup> ActivateLogicApp(LogicTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
-            return await ActivateResourceGroup(userIdentity, AppService.Logic, DeploymentType.CsmDeploy, async resourceGroup =>
+            return await ActivateResourceGroup(userIdentity, AppService.Logic, DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
             {
 
                 SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
@@ -473,17 +459,10 @@ namespace SimpleWAWS.Code
                     csmTemplateString = await reader.ReadToEndAsync();
                 }
 
+                //csmTemplateString = csmTemplateString.Replace("{{gatewayName}}", resourceGroup.Gateways.Select(g => g.GatewayName).First()).Replace("{{logicAppName}}", logicApp.LogicAppName);
                 csmTemplateString = csmTemplateString.Replace("{{gatewayName}}", Guid.NewGuid().ToString().Replace("-", "")).Replace("{{logicAppName}}", logicApp.LogicAppName);
 
-                resourceGroup.Deployment = new CsmDeployment
-                {
-                    DeploymentName = resourceGroup.ResourceUniqueId,
-                    SubscriptionId = resourceGroup.SubscriptionId,
-                    ResourceGroupName = resourceGroup.ResourceGroupName,
-                    CsmTemplate = JsonConvert.DeserializeObject<JToken>(csmTemplateString)
-                };
-
-                await resourceGroup.Deployment.Deploy(block: true);
+                await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true);
 
                 // After a deployment, we have no idea what changes happened in the resource group
                 // we should reload it.
@@ -599,7 +578,7 @@ namespace SimpleWAWS.Code
                 switch (inProgressOperation.DeploymentType)
                 {
                     case DeploymentType.CsmDeploy:
-                        return "ARM deployment in progress";
+                        return await inProgressOperation.Deployment.GetStatus();
                     case DeploymentType.GitNoCsmDeploy:
                         return "Git deployment in progress";
                     case DeploymentType.GitWithCsmDeploy:

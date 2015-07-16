@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Configuration;
 using SimpleWAWS.Models.CsmModels;
+using Newtonsoft.Json.Linq;
 
 namespace SimpleWAWS.Models
 {
@@ -79,8 +80,6 @@ namespace SimpleWAWS.Models
 
         public IEnumerable<ServerFarm> ServerFarms { get; set; }
 
-        public CsmDeployment Deployment { get; set; }
-
         public string GeoRegion 
         {
             get { return Tags[Constants.GeoRegion]; }
@@ -111,11 +110,11 @@ namespace SimpleWAWS.Models
                 switch (AppService)
                 {
                     case Models.AppService.Web:
-                        siteToUseForUi = Sites.First();
+                        siteToUseForUi = Sites.Where(s => s.IsSimpleWAWSOriginalSite).First();
                         ibizaUrl = siteToUseForUi.IbizaUrl;
                         break;
                     case Models.AppService.Mobile:
-                        siteToUseForUi = Sites.First();
+                        siteToUseForUi = Sites.Where(s => s.IsSimpleWAWSOriginalSite).First();
                         break;
                     case Models.AppService.Api:
                         siteToUseForUi = Sites.First(s => s.SiteName.StartsWith("TrySample", StringComparison.OrdinalIgnoreCase));

@@ -64,6 +64,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         public static async Task<Site> Load(this Site site, CsmWrapper<CsmSite> csmSite = null)
         {
             Validate.ValidateCsmSite(site);
+            if (!site.IsSimpleWAWSOriginalSite) return site;
 
             if (csmSite == null)
             {

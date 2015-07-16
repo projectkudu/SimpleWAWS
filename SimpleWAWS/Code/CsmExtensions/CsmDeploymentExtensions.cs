@@ -29,6 +29,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             };
 
             var result = string.Empty;
+            var count = 0;
 
             do
             {
@@ -41,6 +42,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 else if (result.Equals("Accepted") || result.Equals("Running"))
                 {
                     await Task.Delay(1000);
+                    count++;
                 }
                 else if (result.Equals("Succeeded"))
                 {
@@ -59,9 +61,23 @@ namespace SimpleWAWS.Code.CsmExtensions
                 csmResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.CsmTemplateDeployment.Bind(csmDeployment));
                 csmResponse.EnsureSuccessStatusCode();
                 content = await csmResponse.Content.ReadAsAsync<JToken>();
-            } while (block);
-
+            } while (block && count < 100);
+            if (count == 120 && !result.Equals("Succeeded"))
+                throw new Exception(string.Format("Deploying CSM template taking too long, ID: {0}", content["id"]));
             return content;
+        }
+
+        private static readonly Dictionary<string, string> statusMap = new Dictionary<string, string>
+        {
+            { "Microsoft.Web/Sites", "" },
+            { "Microsoft.Web/Sites/Config", "" },
+            { "Microsoft.Web/Sites/SourceControl", "" },
+            { "Microsoft.AppService/", "" }
+        };
+
+        public static Task<string> GetStatus(this CsmDeployment deployment)
+        {
+            return Task.FromResult("In progress");
         }
     }
 }

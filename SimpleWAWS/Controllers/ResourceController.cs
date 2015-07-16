@@ -76,13 +76,13 @@ namespace SimpleWAWS.Controllers
             var resourceManager = await ResourcesManager.GetInstanceAsync();
             var response = Request.CreateResponse();
             var resourceGroup = await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name);
-            var stream = await resourceGroup.Sites.Select(s => s.GetPublishingProfile()).FirstOrDefault();
+            var stream = await resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).Select(s => s.GetPublishingProfile()).FirstOrDefault();
             if (stream != null)
             {
                 response.Content = new StreamContent(stream);
                 response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
                 response.Content.Headers.ContentDisposition =
-                    new ContentDispositionHeaderValue("attachment") { FileName = string.Format("{0}.publishsettings", resourceGroup.Sites.Select(s => s.SiteName).FirstOrDefault()) };
+                    new ContentDispositionHeaderValue("attachment") { FileName = string.Format("{0}.publishsettings", resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).Select(s => s.SiteName).FirstOrDefault()) };
                 return response;
             }
             else
@@ -109,9 +109,9 @@ namespace SimpleWAWS.Controllers
             var response = Request.CreateResponse();
             var replacement = new Dictionary<string, string> 
             {
-                { "ZUMOAPPURL", resourceGroup.Sites.First().Url },
+                { "ZUMOAPPURL", resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).First().Url },
                 { "ZUMOAPPNAME", "TryMobileApp" },
-                { "ZUMOGATEWAYURL", resourceGroup.Sites.First().Url },
+                { "ZUMOGATEWAYURL", resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).First().Url },
                 { "ZUMONETRUNTIMESERVERPORT", "44300" }
             };
             response.Content = MobileHelper.CreateClientZip(platform, replacement);
