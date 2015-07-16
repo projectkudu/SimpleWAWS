@@ -20,7 +20,7 @@ namespace SimpleWAWS.Console
                 .CreateLogger();
             SimpleTrace.Diagnostics = log;
             SimpleTrace.Analytics = log;
-            Task.Run(() => Main2Async()).Wait();
+            Task.Run(() => MainAsync()).Wait();
         }
 
         public static void PrettyPrint(this ResourceGroup e)

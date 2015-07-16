@@ -70,6 +70,7 @@ namespace SimpleWAWS
 
             //Telemetry Routes
             RouteTable.Routes.MapHttpRoute("post-telemetry-event", "api/telemetry/{telemetryEvent}", new { controller = "Telemetry", action = "LogEvent", authenticated = false}, new { verb = new HttpMethodConstraint("POST") });
+            RouteTable.Routes.MapHttpRoute("post-feedback-comment", "api/feedback", new { controller = "Telemetry", action = "LogFeedback", authenticated = false }, new { verb = new HttpMethodConstraint("POST") });
 
             //Resources Api Routes
             RouteTable.Routes.MapHttpRoute("get-resource", "api/resource", new { controller = "Resource", action = "GetResource", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });

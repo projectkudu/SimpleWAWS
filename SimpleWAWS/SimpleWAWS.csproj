@@ -224,6 +224,7 @@
     <Compile Include="Models\CsmModels\CsmTemplateLink.cs" />
     <Compile Include="Models\CsmModels\CsmTemplateParameter.cs" />
     <Compile Include="Models\Experiment.cs" />
+    <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\UIResource.cs" />
     <Compile Include="Trace\SimpleTrace.cs" />
     <Compile Include="Code\TaskExtensions.cs" />

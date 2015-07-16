@@ -99,23 +99,20 @@
                             <div class="wa-spacer wa-spacer-8down">
                                 <h3>We welcome your feedback!</h3>
                                 <div>
-                                    <p style="visibility: visible; display: none;">Do you have feedback?</p>
-                                    <p style="visibility: hidden; display: none;">Submitting feedback...</p>
-                                    <p style="visibility: hidden; display: none;">Thanks for the feedback!</p>
-                                    <p style="visibility: hidden; display: none;">There was an error submitting your feedback. Please try again later.</p>
-                                    <p style="visibility: hidden; display: none;">Sorry this wasn't helpful.</p>
+                                    <p ng-show="feedbackResponse" ng-bind="feedbackResponse"></p>
                                 </div>
-                                <div style="visibility: visible; display: block;">
+                                <div style="visibility: visible; display: block;" ng-show="!showFeedback && !submittedFeedback">
                                     <a href="https://github.com/projectkudu/SimpleWAWS/issues/new" target="_blank" class="wa-button wa-button-mini wa-button-W01">Report an issue</a>
-                                    <a href="https://github.com/projectkudu/SimpleWAWS/issues/new" class="wa-button wa-button-mini wa-button-W01">Share a comment</a>
+                                    <a href="#" class="wa-button wa-button-mini wa-button-W01" ng-click="showShareFeedback()">Share a comment</a>
                                 </div>
-                                <div style="visibility: hidden; display: none;">
+                                <div ng-show="showFeedback && !submittedFeedback">
                                     <div class="wa-text wa-textSearch wa-text-light">
-                                        <input type="text" placeholder="Please provide us additional feedback." maxlength="160" name="comment">
+                                        <input type="text" placeholder="Please provide us additional feedback." maxlength="160" name="comment" ng-model="comment">
                                     </div>
                                     <div class="wa-feedback-feedback-buttons">
-                                        <a href="#" class="wa-button wa-button-mini">Submit</a>
-                                        <a href="#" class="wa-button wa-button-mini wa-button-W01" data-action="submit">Skip this</a>
+                                        <a href="#" class="wa-button wa-button-mini" ng-click="submitFeedback()">Submit</a>
+                                        <a href="#" class="wa-button wa-button-mini wa-button-W01" ng-click="cancelFeedback()">Cancel</a>
+                                        <input type="checkbox" style="margin-left: 10px" name="contact-me" ng-model="contactMe" /> <span style="color: white">Allow Microsoft to contact me regarding this feedback</span>
                                     </div>
                                 </div>
                             </div>

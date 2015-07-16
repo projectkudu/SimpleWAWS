@@ -56,7 +56,26 @@ namespace SimpleWAWS.Controllers
                     SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}", AnalyticsEvents.OldUiEvent, telemetryEvent, userName, eventProperties, anonymousUserName);
                 }
             }
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.Accepted);
+        }
+
+        public HttpResponseMessage LogFeedback(Feedback feedback)
+        {
+            if (feedback != null && !string.IsNullOrWhiteSpace(feedback.Comment))
+            {
+                var context = new HttpContextWrapper(HttpContext.Current);
+                var userName = User != null && User.Identity != null && !string.IsNullOrEmpty(User.Identity.Name)
+                    ? User.Identity.Name
+                    : "-";
+                var anonymousUserName = SecurityManager.GetAnonymousUserName(context);
+                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
+                    AnalyticsEvents.FeedbackComment,
+                    userName,
+                    anonymousUserName,
+                    feedback.Comment.Replace(';', '_'),
+                    feedback.ContactMe.ToString());
+            }
+            return Request.CreateResponse(HttpStatusCode.Accepted);
         }
     }
 }

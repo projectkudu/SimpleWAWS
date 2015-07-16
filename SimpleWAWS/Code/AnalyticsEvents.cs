@@ -41,5 +41,7 @@ namespace SimpleWAWS.Models
         public const string AnonymousUserCreated = "ANONYMOUS_USER_CREATED";
         public const string AnonymousUserLogedIn = "ANONYMOUS_USER_LOGGEDIN";
         public const string AnonymousUserInit = "ANONYMOUS_USER_INIT";
+
+        public const string FeedbackComment = "FEEDBACK_COMMENT";
     }
 }

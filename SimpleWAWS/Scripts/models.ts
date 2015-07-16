@@ -85,6 +85,14 @@ interface ITryRootScope extends ng.IRootScopeService {
     logout();
     experiment: string;
     branding: string;
+    showFeedback: boolean;
+    submittedFeedback: boolean;
+    feedbackResponse: string;
+    comment: string;
+    contactMe: boolean;
+    showShareFeedback();
+    submitFeedback();
+    cancelFeedback();
 }
 
 interface IStaticDataFactory {

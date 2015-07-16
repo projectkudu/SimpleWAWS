@@ -2,6 +2,32 @@ angular.module("tryApp")
     .run(["$rootScope", "$state", "$stateParams", "$http", "$templateCache", "$location", ($rootScope: ITryRootScope, $state: ng.ui.IStateService, $stateParams: ng.ui.IStateParamsService, $http: ng.IHttpService, $templateCache: ng.ITemplateCacheService, $location: ng.ILocationService) => {
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
+        $rootScope.showFeedback = false;
+        $rootScope.submittedFeedback = false;
+        $rootScope.comment = "";
+        $rootScope.contactMe = false;
+
+        $rootScope.showShareFeedback = () => {
+            $rootScope.showFeedback = true;
+        };
+
+        $rootScope.submitFeedback = () => {
+            $rootScope.feedbackResponse = "Submitting feedback...";
+            $http
+                .post("/api/feedback", { comment: $rootScope.comment, contectMe: $rootScope.contactMe })
+                .success((d) => {
+                    $rootScope.feedbackResponse = "Thanks for the feedback!";
+                    $rootScope.submittedFeedback = true;
+                })
+                .error(() => $rootScope.feedbackResponse = "There was an error submitting your feedback. Please try again later.");
+        };
+
+        $rootScope.cancelFeedback = () => {
+            $rootScope.submittedFeedback = false;
+            $rootScope.showFeedback = false;
+            $rootScope.feedbackResponse = "";
+        };
+
         $rootScope.freeTrialClick = (place) => {
             uiTelemetry("FREE_TRIAL_CLICK", { pagePlace: place});
         };
