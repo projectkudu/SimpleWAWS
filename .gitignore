@@ -11,4 +11,9 @@ env-*.cmd
 tsconfig.json
 .vs
 compilation.config
-*/dist/
+*/dist/*
+# Node modules
+*/node_modules/*
+
+# Bower components
+Analytics/Client/src/components/*
