@@ -155,6 +155,7 @@ namespace SimpleWAWS.Models
             this.ApiApps = Enumerable.Empty<ApiApp>();
             this.Gateways = Enumerable.Empty<Gateway>();
             this.ServerFarms = Enumerable.Empty<ServerFarm>();
+            this.LogicApps = Enumerable.Empty<LogicApp>();
             this.Tags = new Dictionary<string, string>();
         }
     }
