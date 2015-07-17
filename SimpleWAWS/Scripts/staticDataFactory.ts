@@ -87,16 +87,25 @@ angular.module("tryApp")
                     sref: "home"
                 }, {
                     id: 2,
-                    title: "Select template",
-                    sref: "home.logicapp.templates",
-                    nextClass: "wa-button-primary",
-                    nextText: "Create"
-                }, {
-                    id: 3,
-                    title: "Work with your app",
-                    sref: "home.logicapp.work",
-                    confirmDelete: true
+                    title: "Coming soon",
+                    sref: "home.logicapp.comingsoon"
                 }],
+                //steps: [{
+                //    id: 1,
+                //    title: "Select app type",
+                //    sref: "home"
+                //}, {
+                //    id: 2,
+                //    title: "Select template",
+                //    sref: "home.logicapp.templates",
+                //    nextClass: "wa-button-primary",
+                //    nextText: "Create"
+                //}, {
+                //    id: 3,
+                //    title: "Work with your app",
+                //    sref: "home.logicapp.work",
+                //    confirmDelete: true
+                //}],
                 templates: []
             }],
             getMobileClients: () => [{

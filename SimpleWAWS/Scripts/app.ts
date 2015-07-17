@@ -289,7 +289,7 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
             delete $scope.ngModels.statusMessage;
             $timeout(() => { $scope.showFullBlackBlocker = false; });
         });
-        $timeout(startStatusPull, 1000);
+        //$timeout(startStatusPull, 1000);
     }
 
     var pullForStatus = false;
