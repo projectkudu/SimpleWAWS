@@ -14,7 +14,7 @@ angular.module("tryApp")
         $rootScope.submitFeedback = () => {
             $rootScope.feedbackResponse = "Submitting feedback...";
             $http
-                .post("/api/feedback", { comment: $rootScope.comment, contectMe: $rootScope.contactMe })
+                .post("/api/feedback", { comment: $rootScope.comment, contactMe: $rootScope.contactMe })
                 .success((d) => {
                     $rootScope.feedbackResponse = "Thanks for the feedback!";
                     $rootScope.submittedFeedback = true;
