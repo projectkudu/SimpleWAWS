@@ -16,6 +16,7 @@ module Analytics =
     let experimentResults = "/api/experimentResult"
     let sourceVariations = "/api/sourceVariations"
     let sourceVariationResults = "/api/sourceVariationResult"
+    let userFeedback = "/api/userFeedback"
 
 module Info =
     let dbConnection = "/api/dbconnection"

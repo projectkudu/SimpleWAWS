@@ -88,6 +88,11 @@ let getSourceVariationResult =
         let referrer = getReferrer r
         Data.sourceVariationResults timerange referrer |> okJson)
 
+let getWithDateTime f =
+    request (fun r ->
+        let timeRange = getTimeRange r
+        okJson (f timeRange))
+
 let noCache = Writers.setHeader "Cache-Control" "no-cache, no-store, must-revalidate" >>= Writers.setHeader "Pragma" "no-cache" >>= Writers.setHeader "Expires" "0"
 
 let analyticsWebPart =
@@ -104,6 +109,7 @@ let analyticsWebPart =
         path Path.Analytics.experimentResults >>= getExperimentResults Data.experimentResults
         path Path.Analytics.sourceVariations >>= okJson Data.sourceVariations
         path Path.Analytics.sourceVariationResults >>= getSourceVariationResult
+        path Path.Analytics.userFeedback >>= getWithDateTime Data.userFeedback
         path Path.Info.dbConnection >>= okJson (Environment.GetEnvironmentVariable "TryAppServiceReader")
         pathRegex "(.*)" >>= Files.browseFileHome "index.html" ]
     >>= noCache

@@ -479,6 +479,21 @@ function MasterCtrl($scope, $cookieStore, $rootScope, $http, $q) {
                         });
                 }
             break;
+            case 'userFeedback':
+                $scope.model.loading = true;
+                promises = [
+                    $http({
+                        method: 'GET',
+                        url: '/api/userFeedback?startTime=' + $scope.model.startTime + '&endTime=' + $scope.model.endTime
+                    })
+                    .success(function(data) {
+                        if (localEpisode !== globalEpisode) return;
+                        $scope.model.loading = false;
+                        $scope.model.userFeedback = data;
+                    })
+                ];
+            break;
+
         }
 
         $q.all(promises).finally(function() {

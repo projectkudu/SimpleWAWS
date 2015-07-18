@@ -21,7 +21,7 @@ let intervals (timeRange: TimeRange) aggregate =
 
 type TimeWrappedResult<'a> = { startTime: DateTime; endTime: DateTime; value: 'a }
 let wrap (startTime, endTime) a = { startTime = startTime; endTime = endTime; value = a }
-let private getContext () = EntityConnection.GetDataContext ()
+let private getContext () = EntityConnection.GetDataContext (System.Environment.GetEnvironmentVariable ("TryAppService"))
 
 let private executeQueryOverTimeRangeAsync fq (timeRange: TimeRange) aggregate =
     intervals timeRange aggregate
@@ -338,3 +338,14 @@ let sourceVariationResults (startTime, endTime) referrer =
     |> Map.toSeq
     |> Seq.map (fun (k, _) -> k)
     |> Seq.map (fun k -> { Name = k; TotalUsers = findM total k; LoggedInUsers = findM logins k; FreeTrialUsers = findM freeTrialClicks k  } )
+
+type UserFeedback = { UserName: string; Comment: string; ContactMe: bool; DateTime: string}
+let userFeedback (startTime, endTime) =
+    use context = getContext ()
+    query {
+        for u in context.UserFeedbacks do
+        where (u.DateTime >= startTime && u.DateTime < endTime)
+        select (u.UserName, u.Comment, u.ContactMe, u.DateTime) }
+    // This is to work around JSON serializer serilizing DateTime to 'YYYY-MM-DD'
+    |> Seq.map (fun (userName, comment, contactMe, dateTime) -> { UserName = userName; Comment = comment; ContactMe = contactMe; DateTime = dateTime.ToString() })
+    |> Seq.toArray

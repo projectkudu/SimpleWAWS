@@ -38,6 +38,10 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider',
             .state('sourceVariations', {
                 url: '/sourceVariations',
                 templateUrl: 'templates/sourceVariations.html'
+            })
+            .state('userFeedback', {
+                url: '/userFeedback',
+                templateUrl: 'templates/userFeedback.html'
             });
     }
 ]);
