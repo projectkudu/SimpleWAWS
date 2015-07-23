@@ -217,7 +217,7 @@ namespace SimpleWAWS.Code
             ResourceGroup resourceGroup = null;
             if (userIdentity == null)
             {
-                throw new InvalidUserIdentityException("userIdentity was empty");
+                throw new InvalidUserIdentityException();
             }
 
             var userId = userIdentity.Name;
@@ -225,7 +225,7 @@ namespace SimpleWAWS.Code
             {
                 if (_resourceGroupsInUse.TryGetValue(userId, out resourceGroup))
                 {
-                    throw new MoreThanOneResourceGroupException("You can't have more than 1 free resource at a time");
+                    throw new MoreThanOneResourceGroupException();
                 }
 
                 if (_freeResourceGroups.TryDequeue(out resourceGroup))
@@ -251,12 +251,12 @@ namespace SimpleWAWS.Code
                         //this means the user is trying to add more than 1 site.
                         //delete the new site that's not yet added to the used list
                         await resourceGroup.DeleteAndCreateReplacement();
-                        throw new MoreThanOneResourceGroupException("You can't have more than 1 free resource at a time");
+                        throw new MoreThanOneResourceGroupException();
                     }
                 }
                 else
                 {
-                    throw new NoFreeResourceGroupsException("No free resources are available currently. Please try again later.");
+                    throw new NoFreeResourceGroupsException();
                 }
                 // End site specific stuff
             }
@@ -291,7 +291,7 @@ namespace SimpleWAWS.Code
                 //this call is to fix our internal state, return an error right away to the caller
                 ThreadPool.QueueUserWorkItem(async o => await DeleteResourceGroup(resourceGroup).IgnoreFailure());
             }
-            throw new Exception("An Error occured. Please try again later.");
+            throw new Exception(Resources.Error_GeneralErrorMessage);
         }
 
         // ARM
@@ -352,11 +352,11 @@ namespace SimpleWAWS.Code
                         else if (validUri && githubRepo.AbsoluteUri.StartsWith("https://github.com/"))
                         {
                             //Do Kudu deployment
-                            throw new InvalidGithubRepoException("The Github repo URI is either invalid of from an trusted organization");
+                            throw new InvalidGithubRepoException();
                         }
                         else
                         {
-                            throw new InvalidGithubRepoException("The Github repo URI is either invalid of from an trusted organization");
+                            throw new InvalidGithubRepoException();
                         }
                     }
                     site.AppSettings["LAST_MODIFIED_TIME_UTC"] = DateTime.UtcNow.ToString();
@@ -580,12 +580,12 @@ namespace SimpleWAWS.Code
                     case DeploymentType.CsmDeploy:
                         return await inProgressOperation.Deployment.GetStatus();
                     case DeploymentType.GitNoCsmDeploy:
-                        return "Git deployment in progress";
+                        return Resources.Deployment_GitDeploymentInProgress;
                     case DeploymentType.GitWithCsmDeploy:
                         return "ARM and git deployment in progress";
                     case DeploymentType.ZipDeploy:
                     default:
-                        return "Deployment in progress";
+                        return Resources.Deployment_DeploymentInProgress;
                 }
             }
             else

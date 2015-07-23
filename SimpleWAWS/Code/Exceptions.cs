@@ -7,22 +7,22 @@ namespace SimpleWAWS.Models
 {
     public class MoreThanOneResourceGroupException : Exception
     {
-        public MoreThanOneResourceGroupException(string message)
-            : base(message)
+        public MoreThanOneResourceGroupException()
+            : base(Resources.Error_MoreThanOneFreeResource)
         { }
     }
 
     public class NoFreeResourceGroupsException : Exception
     {
-        public NoFreeResourceGroupsException(string message)
-            : base(message)
+        public NoFreeResourceGroupsException()
+            : base(Resources.Error_NoFreeResourcesAvailable)
         { }
     }
 
     public class InvalidUserIdentityException : Exception
     {
-        public InvalidUserIdentityException(string message)
-            : base(message)
+        public InvalidUserIdentityException()
+            : base(Resources.Error_InvalidUserIdentity)
         { }
     }
 
@@ -35,8 +35,8 @@ namespace SimpleWAWS.Models
 
     public class InvalidGithubRepoException : Exception
     {
-        public InvalidGithubRepoException(string message)
-            : base(message)
+        public InvalidGithubRepoException()
+            : base(Resources.Error_InvalidGithubRepo)
         { }
     }
 }

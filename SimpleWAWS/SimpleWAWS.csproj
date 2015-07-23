@@ -210,6 +210,11 @@
     <Compile Include="Authentication\TryWebsitesIdentity.cs" />
     <Compile Include="Authentication\TryWebsitesPrincipal.cs" />
     <Compile Include="Authentication\TwitterAuthProvider.cs" />
+    <Compile Include="ClientResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ClientResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Code\AnalyticsEvents.cs" />
     <Compile Include="Code\AzureSearchHelper.cs" />
     <Compile Include="Code\CsmExtensions\CsmApiAppExtensions.cs" />
@@ -226,6 +231,11 @@
     <Compile Include="Models\Experiment.cs" />
     <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\UIResource.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Trace\SimpleTrace.cs" />
     <Compile Include="Code\TaskExtensions.cs" />
     <Compile Include="Models\ApiApp.cs" />
@@ -403,6 +413,16 @@
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-sanitize.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ClientResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ClientResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
