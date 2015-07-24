@@ -405,4 +405,16 @@
   <data name="Twitter" xml:space="preserve">
     <value>Twitter</value>
   </data>
+  <data name="Information_LogicAppDescription" xml:space="preserve">
+    <value>Logic Apps allow developers to design workflows that start from a trigger and then execute a series of steps, each invoking an App Service API app whilst securely taking care of authentication and best practices like checkpointing and durable execution.</value>
+  </data>
+  <data name="Information_LogicAppStep1" xml:space="preserve">
+    <value>Open the Logic App resource blade and look at the Summary lens for the logic app where you can see when it last ran and if it was successful.</value>
+  </data>
+  <data name="Information_LogicAppStep2" xml:space="preserve">
+    <value>Open the Logic App definition by clicking on the same part and look at the definition.  You can try to extend the Logic App to send a tweet anytime the ping fails.</value>
+  </data>
+  <data name="Templates_PingSiteDescription" xml:space="preserve">
+    <value>This Logic App template will ping a website on a recurring schedule.  You can extend it to take an action depending on the result of the ping.</value>
+  </data>
 </root>

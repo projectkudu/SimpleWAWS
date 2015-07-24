@@ -547,6 +547,33 @@ namespace SimpleWAWS {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Logic Apps allow developers to design workflows that start from a trigger and then execute a series of steps, each invoking an App Service API app whilst securely taking care of authentication and best practices like checkpointing and durable execution..
+        /// </summary>
+        internal static string Information_LogicAppDescription {
+            get {
+                return ResourceManager.GetString("Information_LogicAppDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open the Logic App resource blade and look at the Summary lens for the logic app where you can see when it last ran and if it was successful..
+        /// </summary>
+        internal static string Information_LogicAppStep1 {
+            get {
+                return ResourceManager.GetString("Information_LogicAppStep1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open the Logic App definition by clicking on the same part and look at the definition.  You can try to extend the Logic App to send a tweet anytime the ping fails..
+        /// </summary>
+        internal static string Information_LogicAppStep2 {
+            get {
+                return ResourceManager.GetString("Information_LogicAppStep2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login first to create an app.
         /// </summary>
         internal static string Information_LoginFirst {
@@ -885,6 +912,15 @@ namespace SimpleWAWS {
         internal static string Support {
             get {
                 return ResourceManager.GetString("Support", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This Logic App template will ping a website on a recurring schedule.  You can extend it to take an action depending on the result of the ping..
+        /// </summary>
+        internal static string Templates_PingSiteDescription {
+            get {
+                return ResourceManager.GetString("Templates_PingSiteDescription", resourceCulture);
             }
         }
         
