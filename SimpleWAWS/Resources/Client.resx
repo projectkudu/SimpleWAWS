@@ -429,4 +429,19 @@
   <data name="Information_WelcomeFeedback" xml:space="preserve">
     <value>We welcome your feedback!</value>
   </data>
+  <data name="Action_Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="Action_GenericWorkWithYourApp" xml:space="preserve">
+    <value>Work with your app</value>
+  </data>
+  <data name="Information_YouCantHaveMoreThanOne" xml:space="preserve">
+    <value>You can't have more than 1 free resource at a time</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
 </root>

@@ -66,7 +66,7 @@ namespace SimpleWAWS.Authentication
         public HttpCookie CreateSessionCookie(IPrincipal user)
         {
             var identity = user.Identity as TryWebsitesIdentity;
-            var value = string.Format("{0};{1};{2};{3}", identity.Email, identity.Puid, identity.Issuer, DateTime.UtcNow);
+            var value = string.Format("{0};{1};{2};{3}", identity.Email, identity.Puid, identity.Issuer, DateTime.UtcNow.ToString("u"));
             SimpleTrace.Analytics.Information(AnalyticsEvents.UserLoggedIn, identity);
             SimpleTrace.TraceInformation("{0};{1};{2}", AnalyticsEvents.OldUserLoggedIn, identity.Email, identity.Issuer);
             try

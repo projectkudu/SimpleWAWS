@@ -2,61 +2,61 @@ angular.module("tryApp")
     .config(["$stateProvider", "$urlRouterProvider", "$locationProvider", ($stateProvider: ng.ui.IStateProvider, $urlRouterProvider: ng.ui.IUrlRouterProvider, $locationProvider: ng.ILocationProvider) => {
         var homeState: ng.ui.IState = {
             name: "home",
-            templateUrl: "templates/steps.html",
+            templateUrl: "templates/steps.cshtml",
             controller: "appController"
         };
 
         var webApps: ng.ui.IState[] = [{
             name: "home.webapp",
-            templateUrl: "templates/empty-shell.html"
+            templateUrl: "templates/empty-shell.cshtml"
         }, {
             name: "home.webapp.templates",
-            templateUrl: "templates/templates.html"
+            templateUrl: "templates/templates.cshtml"
         }, {
             name: "home.webapp.work",
-            templateUrl: "templates/work.html"
+            templateUrl: "templates/work.cshtml"
         }];
 
         var mobileApps: ng.ui.IState[] = [{
             name: "home.mobileapp",
-            templateUrl: "templates/empty-shell.html",
+            templateUrl: "templates/empty-shell.cshtml",
         }, {
             name: "home.mobileapp.templates",
-            templateUrl: "templates/templates.html",
+            templateUrl: "templates/templates.cshtml",
         }, {
             name: "home.mobileapp.clients",
-            templateUrl: "templates/clients.html",
+            templateUrl: "templates/clients.cshtml",
         }, {
             name: "home.mobileapp.work",
-            templateUrl: "templates/work.html",
+            templateUrl: "templates/work.cshtml",
         }];
 
         var apiApps: ng.ui.IState[] = [{
             name: "home.apiapp",
-            templateUrl: "/templates/empty-shell.html",
+            templateUrl: "/templates/empty-shell.cshtml",
         }, {
             name: "home.apiapp.templates",
-            templateUrl: "/templates/templates.html",
+            templateUrl: "/templates/templates.cshtml",
         }, {
             name: "home.apiapp.work",
-            templateUrl: "/templates/work.html",
+            templateUrl: "/templates/work.cshtml",
         }, {
             name: "home.apiapp.comingsoon",
-            templateUrl: "/templates/comingsoon.html",
+            templateUrl: "/templates/comingsoon.cshtml",
         }];
 
         var logicApps: ng.ui.IState[] = [{
             name: "home.logicapp",
-            templateUrl: "templates/empty-shell.html",
+            templateUrl: "templates/empty-shell.cshtml",
         }, {
             name: "home.logicapp.templates",
-            templateUrl: "/templates/templates.html",
+            templateUrl: "/templates/templates.cshtml",
         }, {
             name: "home.logicapp.work",
-            templateUrl: "/templates/work.html",
+            templateUrl: "/templates/work.cshtml",
         }, {
             name: "home.logicapp.comingsoon",
-            templateUrl: "/templates/comingsoon.html",
+            templateUrl: "/templates/comingsoon.cshtml",
         }];
 
         $stateProvider.state(homeState);

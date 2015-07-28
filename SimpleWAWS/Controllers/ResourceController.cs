@@ -87,7 +87,7 @@ namespace SimpleWAWS.Controllers
             }
             else
             {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, Resources.Error_GettingPublishingProfileStream);
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, Resources.Server.Error_GettingPublishingProfileStream);
             }
         }
 
@@ -98,12 +98,12 @@ namespace SimpleWAWS.Controllers
             MobileClientPlatform platform;
             if (resourceGroup.AppService != AppService.Mobile)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Error_InvalidAppServiceType);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_InvalidAppServiceType);
             }
 
             if (!Enum.TryParse<MobileClientPlatform>(platformString, out platform))
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Error_UnsupportedPlatform);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_UnsupportedPlatform);
             }
 
             var response = Request.CreateResponse();
@@ -149,7 +149,7 @@ namespace SimpleWAWS.Controllers
                 {
                     SimpleTrace.Diagnostics.Fatal(AnalyticsEvents.MoreThanOneError, identity, 1);
 
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Error_MoreThanOneFreeResource);
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_MoreThanOneFreeResource);
                 }
 
                 ResourceGroup resourceGroup = null;

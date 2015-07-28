@@ -1,5 +1,5 @@
-﻿@using SimpleWAWS
-<h2>@ClientResources.Action_MobileClients</h2>
+﻿@using SimpleWAWS.Resources
+<h2>@Client.Action_MobileClients</h2>
 <div id="mobile-client-div" data-bind="foreach: mobileClients">
     <div ng-repeat="client in mobileClients" class="mobile-template-container box-container" ng-class="selectedMobileClient.name === client.name ? 'box-container-selected' : ''">
         <a class="select-template-anchor" href="#" ng-click="selectMobileClient(client)">
@@ -10,7 +10,7 @@
 </div>
 <div id="mobile-client-info-div">
     <div ng-repeat="client in mobileClients" ng-if="selectedMobileClient.name === client.name" style="margin-top: 20px">
-        <h3 ng-if="client.steps.preHref">3.1) @ClientResources.Information_Prerequisite: <a target="_blank" ng-bind="client.steps.preText" ng-href="{{ client.steps.preHref }}"></a></h3>
+        <h3 ng-if="client.steps.preHref">3.1) @Client.Information_Prerequisite: <a target="_blank" ng-bind="client.steps.preText" ng-href="{{ client.steps.preHref }}"></a></h3>
         <h3 ng-if="client.steps.preHref">3.2) <a target="_blank" ng-bind="client.steps.clientText" ng-href="{{ client.steps.clientHref }}" ng-click="downloadMobileClient(client.name)"></a></h3>
         <h3 ng-if="client.steps.clientHref === 'webClient'">3) <a target="_blank" ng-bind="client.steps.clientText" ng-href="{{ resource.mobileWebClient }}" ng-click="downloadMobileClient(client.name)"></a></h3>
     </div>

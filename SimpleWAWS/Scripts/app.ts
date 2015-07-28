@@ -65,7 +65,7 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
     };
 
     $scope.goToNextState = () => {
-        if ($scope.currentStep.nextText === "Create") {
+        if ($scope.currentStep.nextText === Resources.Action_Create) {
             createResource();
         } else {
             $state.go($scope.nextStep.sref);
@@ -276,7 +276,7 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
                     $scope.loginOptions = true;
                 }
             } else {
-                if (err.Message === "You can't have more than 1 free resource at a time") {
+                if (err.Message === Resources.Information_YouCantHaveMoreThanOne) {
                     $scope.offerDeleteAndCreate = true;
                 } else {
                     $scope.ngModels.errorMessage = err.Message;

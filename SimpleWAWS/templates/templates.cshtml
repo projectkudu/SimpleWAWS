@@ -1,5 +1,5 @@
-﻿@using SimpleWAWS
-<h2>@string.Format(ClientResources.Action_SelectTemplate, "{{ currentAppService.title }}")</h2>
+﻿@using SimpleWAWS.Resources
+<h2>@string.Format(Client.Action_SelectTemplate, "{{ currentAppService.title }}")</h2>
 <div ng-if="currentAppService.templates[0].language">
     <label for="wa-dropdown-language">Change language:</label>
     <div class="wa-dropdown-container wa-dropdown-medium">

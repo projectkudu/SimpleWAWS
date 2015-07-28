@@ -1,4 +1,4 @@
-﻿@using SimpleWAWS
+﻿@using SimpleWAWS.Resources
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
@@ -14,9 +14,17 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.4/angular-filter.min.js" type="text/javascript"></script>
         <script src="/Scripts/js.cookie-1.5.1.min.js" type="text/javascript"></script>
         <script src="/Scripts/app.js"></script>
-        <title>@ClientResources.Title</title>
+        <title>@Client.Title</title>
 
         <script type="text/javascript">
+            var Resources = {};
+            @foreach (var p in typeof(Client).GetProperties()) {
+                if (p.GetValue(null, null) != null) { 
+                    @: Resources["@Html.Raw(@p.Name)"] = "@Html.Raw(@p.GetValue(null, null).ToString().Replace("\"", "'"))";
+                }
+            }
+            
+
             $(document).ready(function () {
                 if (document.cookie.indexOf("loginsession") !== -1) {
                     $("#portal-link").hide();
@@ -35,13 +43,13 @@
                     <div class="wa-content">
                         <ul class="site-login">
                             <li>
-                                <a ng-href="http://azure.microsoft.com/en-us/account/?WT.mc_id={{ cachedQuery }}">@ClientResources.MyAccount</a> 
+                                <a ng-href="http://azure.microsoft.com/en-us/account/?WT.mc_id={{ cachedQuery }}">@Client.MyAccount</a> 
                             </li>
                             <li id="portal-link" style="display: none">
-                                <a href="https://manage.windowsazure.com">@ClientResources.Portal</a>
+                                <a href="https://manage.windowsazure.com">@Client.Portal</a>
                             </li>
                             <li id="logout-link" style="display: none">
-                                <a href="#" ng-click="logout()">@ClientResources.Logout</a>
+                                <a href="#" ng-click="logout()">@Client.Logout</a>
                             </li>
                             <li class="search">
                                 <div class="wa-text wa-text-light wa-textSearch" data-control="textbox">
@@ -51,33 +59,33 @@
                             </li>
                         </ul>
                         <a class="logo" ng-href="http://azure.microsoft.com/en-us/?WT.mc_id={{ cachedQuery }}"><img src="/Content/images/azure-logo.png" height="21" width="165" alt="Microsoft Azure"></a>
-                        <a class="wa-button wa-button-freeTrial" id="free-trial-header" ng-click="freeTrialClick('top-banner')" target="_blank" ng-href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id={{ cachedQuery }}"><span>@ClientResources.FreeTrial</span></a>
+                        <a class="wa-button wa-button-freeTrial" id="free-trial-header" ng-click="freeTrialClick('top-banner')" target="_blank" ng-href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id={{ cachedQuery }}"><span>@Client.FreeTrial</span></a>
                         <div class="site-navigation">
                             <nav>
                                 <ul class="dev-navigation dev-navigation-b">
                                     <li id="menu-variation-1" class="nav-expander" style="display: list-item;">
-                                        <a ng-href="http://azure.microsoft.com/en-us/services/app-service/?WT.mc_id={{ cachedQuery }}">@ClientResources.Features</a>
+                                        <a ng-href="http://azure.microsoft.com/en-us/services/app-service/?WT.mc_id={{ cachedQuery }}">@Client.Features</a>
                                     </li>
                                     <li class="nav-expander">
-                                        <a ng-href="http://azure.microsoft.com/en-us/pricing/?WT.mc_id={{ cachedQuery }}">@ClientResources.Pricing</a>
+                                        <a ng-href="http://azure.microsoft.com/en-us/pricing/?WT.mc_id={{ cachedQuery }}">@Client.Pricing</a>
                                     </li>
                                     <li class="nav-expander">
-                                        <a ng-href="http://azure.microsoft.com/en-us/documentation/?WT.mc_id={{ cachedQuery }}">@ClientResources.Documentation</a>
+                                        <a ng-href="http://azure.microsoft.com/en-us/documentation/?WT.mc_id={{ cachedQuery }}">@Client.Documentation</a>
                                     </li>
                                     <li class="nav-expander">
-                                        <a ng-href="http://azure.microsoft.com/en-us/downloads/?WT.mc_id={{ cachedQuery }}">@ClientResources.Downloads</a>
+                                        <a ng-href="http://azure.microsoft.com/en-us/downloads/?WT.mc_id={{ cachedQuery }}">@Client.Downloads</a>
                                     </li>
                                     <li class="nav-expander">
-                                        <a ng-href="http://azure.microsoft.com/en-us/marketplace/?WT.mc_id={{ cachedQuery }}">@ClientResources.Marketplace</a>
+                                        <a ng-href="http://azure.microsoft.com/en-us/marketplace/?WT.mc_id={{ cachedQuery }}">@Client.Marketplace</a>
                                     </li>
                                     <li class="nav-expander">
-                                        <a ng-href="http://azure.microsoft.com/blog/?WT.mc_id={{ cachedQuery }}">@ClientResources.Blog</a>
+                                        <a ng-href="http://azure.microsoft.com/blog/?WT.mc_id={{ cachedQuery }}">@Client.Blog</a>
                                     </li>
                                     <li class="nav-expander">
-                                        <a ng-href="http://azure.microsoft.com/en-us/community/?WT.mc_id={{ cachedQuery }}">@ClientResources.Community</a>
+                                        <a ng-href="http://azure.microsoft.com/en-us/community/?WT.mc_id={{ cachedQuery }}">@Client.Community</a>
                                     </li>
                                     <li class="nav-expander">
-                                        <a ng-href="http://azure.microsoft.com/en-us/support/?WT.mc_id={{ cachedQuery }}">@ClientResources.Support</a>
+                                        <a ng-href="http://azure.microsoft.com/en-us/support/?WT.mc_id={{ cachedQuery }}">@Client.Support</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -94,22 +102,22 @@
                                 <span class="wa-icon"></span>
                             </div>
                             <div class="wa-spacer wa-spacer-8down">
-                                <h3>@ClientResources.Information_WelcomeFeedback</h3>
+                                <h3>@Client.Information_WelcomeFeedback</h3>
                                 <div>
                                     <p ng-show="feedbackResponse" ng-bind="feedbackResponse"></p>
                                 </div>
                                 <div style="visibility: visible; display: block;" ng-show="!showFeedback && !submittedFeedback">
-                                    <a href="https://github.com/projectkudu/SimpleWAWS/issues/new" target="_blank" class="wa-button wa-button-mini wa-button-W01">@ClientResources.Action_ReportAnIssue</a>
-                                    <a href="#" class="wa-button wa-button-mini wa-button-W01" ng-click="showShareFeedback()">@ClientResources.Action_ShareAComment</a>
+                                    <a href="https://github.com/projectkudu/SimpleWAWS/issues/new" target="_blank" class="wa-button wa-button-mini wa-button-W01">@Client.Action_ReportAnIssue</a>
+                                    <a href="#" class="wa-button wa-button-mini wa-button-W01" ng-click="showShareFeedback()">@Client.Action_ShareAComment</a>
                                 </div>
                                 <div ng-show="showFeedback && !submittedFeedback">
                                     <div class="wa-text wa-textSearch wa-text-light">
                                         <input type="text" placeholder="Please send us your feedback." maxlength="160" name="comment" ng-model="comment">
                                     </div>
                                     <div class="wa-feedback-feedback-buttons">
-                                        <a href="#" class="wa-button wa-button-mini" ng-click="submitFeedback()">@ClientResources.Action_Submit</a>
-                                        <a href="#" class="wa-button wa-button-mini wa-button-W01" ng-click="cancelFeedback()">@ClientResources.Action_Cancel</a>
-                                        <input type="checkbox" style="margin-left: 10px" name="contact-me" ng-model="contactMe" /> <span style="color: white">@ClientResources.Action_AllowContact</span>
+                                        <a href="#" class="wa-button wa-button-mini" ng-click="submitFeedback()">@Client.Action_Submit</a>
+                                        <a href="#" class="wa-button wa-button-mini wa-button-W01" ng-click="cancelFeedback()">@Client.Action_Cancel</a>
+                                        <input type="checkbox" style="margin-left: 10px" name="contact-me" ng-model="contactMe" /> <span style="color: white">@Client.Action_AllowContact</span>
                                     </div>
                                 </div>
                             </div>
@@ -124,70 +132,70 @@
                     <div class="wa-content">
                         <div class="footer-map">
                             <ul class="social">
-                                <li class="header">@ClientResources.GoSocial</li>
+                                <li class="header">@Client.GoSocial</li>
                                 <li class="facebook">
-                                    <a href="http://go.microsoft.com/fwlink/?linkid=306390&amp;clcid=0x409">@ClientResources.Facebook</a>
+                                    <a href="http://go.microsoft.com/fwlink/?linkid=306390&amp;clcid=0x409">@Client.Facebook</a>
                                 </li>
                                 <li class="twitter">
-                                    <a href="http://go.microsoft.com/fwlink/?linkid=306391&amp;clcid=0x409">@ClientResources.Twitter</a>
+                                    <a href="http://go.microsoft.com/fwlink/?linkid=306391&amp;clcid=0x409">@Client.Twitter</a>
                                 </li>
                                 <li class="rss">
-                                    <a href="http://go.microsoft.com/fwlink/?linkid=306392&amp;clcid=0x409">@ClientResources.Rss</a>
+                                    <a href="http://go.microsoft.com/fwlink/?linkid=306392&amp;clcid=0x409">@Client.Rss</a>
                                 </li>
                                 <li class="newsletter">
-                                    <a href="http://go.microsoft.com/fwlink/?linkid=306393&amp;clcid=0x409">@ClientResources.Newsletter</a>
+                                    <a href="http://go.microsoft.com/fwlink/?linkid=306393&amp;clcid=0x409">@Client.Newsletter</a>
                                 </li>
                             </ul>
                             <ul>
-                                <li class="header"><a ng-href="http://azure.microsoft.com/en-us/?WT.mc_id={{ cachedQuery }}">@ClientResources.MicrosoftAzure</a></li>
-                                <li><a ng-href="http://azure.microsoft.com/en-us/solutions/?WT.mc_id={{ cachedQuery }}">@ClientResources.Features</a></li>
-                                <li><a ng-href="http://azure.microsoft.com/en-us/services/?WT.mc_id={{ cachedQuery }}">@ClientResources.Services</a></li>
-                                <li><a ng-href="http://azure.microsoft.com/en-us/regions/?WT.mc_id={{ cachedQuery }}">@ClientResources.Regions</a></li>
-                                <li><a ng-href="http://azure.microsoft.com/en-us/case-studies/?WT.mc_id={{ cachedQuery }}">@ClientResources.CaseStudies</a></li>
-                                <li><a ng-href="http://azure.microsoft.com/en-us/pricing/overview/?WT.mc_id={{ cachedQuery }}">@ClientResources.Pricing</a></li>
-                                <li><a ng-href="http://azure.microsoft.com/en-us/pricing/calculator/?WT.mc_id={{ cachedQuery }}">@ClientResources.Calculator</a></li>
-                                <li><a ng-href="http://azure.microsoft.com/en-us/documentation/?WT.mc_id={{ cachedQuery }}">@ClientResources.Documentation</a></li>
-                                <li><a ng-href="http://azure.microsoft.com/en-us/downloads/?WT.mc_id={{ cachedQuery }}">@ClientResources.Downloads</a></li>
-                                <li><a ng-href="http://azure.microsoft.com/en-us/gallery/store/overview/?WT.mc_id={{ cachedQuery }}">@ClientResources.Marketplace</a></li>
-                                <li><a href="http://windowsazure.cn/zh-cn/">@ClientResources.Mooncake</a></li>
+                                <li class="header"><a ng-href="http://azure.microsoft.com/en-us/?WT.mc_id={{ cachedQuery }}">@Client.MicrosoftAzure</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/solutions/?WT.mc_id={{ cachedQuery }}">@Client.Features</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/services/?WT.mc_id={{ cachedQuery }}">@Client.Services</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/regions/?WT.mc_id={{ cachedQuery }}">@Client.Regions</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/case-studies/?WT.mc_id={{ cachedQuery }}">@Client.CaseStudies</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/pricing/overview/?WT.mc_id={{ cachedQuery }}">@Client.Pricing</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/pricing/calculator/?WT.mc_id={{ cachedQuery }}">@Client.Calculator</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/documentation/?WT.mc_id={{ cachedQuery }}">@Client.Documentation</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/downloads/?WT.mc_id={{ cachedQuery }}">@Client.Downloads</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/gallery/store/overview/?WT.mc_id={{ cachedQuery }}">@Client.Marketplace</a></li>
+                                <li><a href="http://windowsazure.cn/zh-cn/">@Client.Mooncake</a></li>
                             </ul>
                             <ul>
-                                <li class="header"><a href="http://go.microsoft.com/fwlink/?linkid=394285&amp;clcid=0x409">@ClientResources.Community</a></li>
-                                <li><a ng-href="http://azure.microsoft.com/blog/?WT.mc_id={{ cachedQuery }}">@ClientResources.Blog</a></li>
-                                <li><a ng-href="http://azure.microsoft.com/en-us/updates/?WT.mc_id={{ cachedQuery }}">@ClientResources.ServiceUpdates</a></li>
-                                <li><a ng-href="http://azure.microsoft.com/en-us/support/forums/?WT.mc_id={{ cachedQuery }}">@ClientResources.Forums</a></li>
-                                <li><a ng-href="http://azure.microsoft.com/en-us/community/events/?WT.mc_id={{ cachedQuery }}">@ClientResources.Events</a><br><br></li>
+                                <li class="header"><a href="http://go.microsoft.com/fwlink/?linkid=394285&amp;clcid=0x409">@Client.Community</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/blog/?WT.mc_id={{ cachedQuery }}">@Client.Blog</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/updates/?WT.mc_id={{ cachedQuery }}">@Client.ServiceUpdates</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/support/forums/?WT.mc_id={{ cachedQuery }}">@Client.Forums</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/community/events/?WT.mc_id={{ cachedQuery }}">@Client.Events</a><br><br></li>
                                 <li></li>
-                                <li class="header"><a ng-href="http://azure.microsoft.com/en-us/support/options/?WT.mc_id={{ cachedQuery }}">@ClientResources.Support</a></li>
-                                <li><a ng-href="http://azure.microsoft.com/en-us/support/forums/?WT.mc_id={{ cachedQuery }}">@ClientResources.Forums</a></li>
-                                <li><a href="http://status.azure.com">@ClientResources.ServiceDashboard</a></li>
-                                <li><a ng-href="http://azure.microsoft.com/en-us/support/options/?WT.mc_id={{ cachedQuery }}">@ClientResources.Support</a></li>
+                                <li class="header"><a ng-href="http://azure.microsoft.com/en-us/support/options/?WT.mc_id={{ cachedQuery }}">@Client.Support</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/support/forums/?WT.mc_id={{ cachedQuery }}">@Client.Forums</a></li>
+                                <li><a href="http://status.azure.com">@Client.ServiceDashboard</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/support/options/?WT.mc_id={{ cachedQuery }}">@Client.Support</a></li>
                             </ul>
                             <ul>
-                                <li class="header"><a href="https://account.windowsazure.com">@ClientResources.MyAccount</a></li>
-                                <li><a href="https://account.windowsazure.com/subscriptions/">@ClientResources.Subscriptions</a></li>
-                                <li><a href="https://account.windowsazure.com/profile/">@ClientResources.Profile</a></li>
-                                <li><a ng-href="http://azure.microsoft.com/en-us/services/preview/?WT.mc_id={{ cachedQuery }}">@ClientResources.PreviewFeatures</a></li>
-                                <li><a href="https://manage.windowsazure.com/">@ClientResources.ManagementPortal</a></li>
-                                <li class="header trust-center"><a ng-href="http://azure.microsoft.com/en-us/support/trust-center/?WT.mc_id={{ cachedQuery }}">@ClientResources.TrustCenter</a></li>
-                                <li><a ng-href="http://azure.microsoft.com/en-us/support/trust-center/security/?WT.mc_id={{ cachedQuery }}">@ClientResources.Security</a></li>
-                                <li><a ng-href="http://azure.microsoft.com/en-us/support/trust-center/privacy/?WT.mc_id={{ cachedQuery }}">@ClientResources.Privacy</a></li>
-                                <li><a ng-href="http://azure.microsoft.com/en-us/support/trust-center/compliance/?WT.mc_id={{ cachedQuery }}">@ClientResources.Compliance</a></li>
+                                <li class="header"><a href="https://account.windowsazure.com">@Client.MyAccount</a></li>
+                                <li><a href="https://account.windowsazure.com/subscriptions/">@Client.Subscriptions</a></li>
+                                <li><a href="https://account.windowsazure.com/profile/">@Client.Profile</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/services/preview/?WT.mc_id={{ cachedQuery }}">@Client.PreviewFeatures</a></li>
+                                <li><a href="https://manage.windowsazure.com/">@Client.ManagementPortal</a></li>
+                                <li class="header trust-center"><a ng-href="http://azure.microsoft.com/en-us/support/trust-center/?WT.mc_id={{ cachedQuery }}">@Client.TrustCenter</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/support/trust-center/security/?WT.mc_id={{ cachedQuery }}">@Client.Security</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/support/trust-center/privacy/?WT.mc_id={{ cachedQuery }}">@Client.Privacy</a></li>
+                                <li><a ng-href="http://azure.microsoft.com/en-us/support/trust-center/compliance/?WT.mc_id={{ cachedQuery }}">@Client.Compliance</a></li>
                             </ul>
                         </div>
                         <div class="footer-bottom">
                             <ul class="legal">
                                 <li>
-                                    <a ng-href="http://support.microsoft.com/contactus/?WT.mc_id={{ cachedQuery }}">@ClientResources.ContactUs</a>
+                                    <a ng-href="http://support.microsoft.com/contactus/?WT.mc_id={{ cachedQuery }}">@Client.ContactUs</a>
                                 </li>
                                 <li>
-                                    <a href="http://go.microsoft.com/fwlink/p/?linkid=222682&amp;clcid=0x409">@ClientResources.Trademarks</a>
+                                    <a href="http://go.microsoft.com/fwlink/p/?linkid=222682&amp;clcid=0x409">@Client.Trademarks</a>
                                 </li>
                                 <li>
-                                    <a href="http://go.microsoft.com/fwlink/p/?linkid=131004&amp;clcid=0x409">@ClientResources.Privacy &amp; Cookies</a>
+                                    <a href="http://go.microsoft.com/fwlink/p/?linkid=131004&amp;clcid=0x409">@Client.Privacy &amp; Cookies</a>
                                 </li>
                                 <li class="loc-hide">
-                                    <a href="http://feedback.azure.com/">@ClientResources.Feedback</a>
+                                    <a href="http://feedback.azure.com/">@Client.Feedback</a>
                                 </li>
                             </ul>
                             <div class="footer-copyright">

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SimpleWAWS {
+namespace SimpleWAWS.Resources {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace SimpleWAWS {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class ClientResources {
+    public class Client {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ClientResources() {
+        internal Client() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace SimpleWAWS {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SimpleWAWS.ClientResources", typeof(ClientResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SimpleWAWS.Resources.Client", typeof(Client).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -75,6 +75,15 @@ namespace SimpleWAWS {
         public static string Action_Cancel {
             get {
                 return ResourceManager.GetString("Action_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create.
+        /// </summary>
+        public static string Action_Create {
+            get {
+                return ResourceManager.GetString("Action_Create", resourceCulture);
             }
         }
         
@@ -120,6 +129,15 @@ namespace SimpleWAWS {
         public static string Action_DownloadPublishingProfile {
             get {
                 return ResourceManager.GetString("Action_DownloadPublishingProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Work with your app.
+        /// </summary>
+        public static string Action_GenericWorkWithYourApp {
+            get {
+                return ResourceManager.GetString("Action_GenericWorkWithYourApp", resourceCulture);
             }
         }
         
@@ -763,6 +781,15 @@ namespace SimpleWAWS {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You can&apos;t have more than 1 free resource at a time.
+        /// </summary>
+        public static string Information_YouCantHaveMoreThanOne {
+            get {
+                return ResourceManager.GetString("Information_YouCantHaveMoreThanOne", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Logout.
         /// </summary>
         public static string Logout {
@@ -826,6 +853,15 @@ namespace SimpleWAWS {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Next.
+        /// </summary>
+        public static string Next {
+            get {
+                return ResourceManager.GetString("Next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Portal.
         /// </summary>
         public static string Portal {
@@ -840,6 +876,15 @@ namespace SimpleWAWS {
         public static string PreviewFeatures {
             get {
                 return ResourceManager.GetString("PreviewFeatures", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Previous.
+        /// </summary>
+        public static string Previous {
+            get {
+                return ResourceManager.GetString("Previous", resourceCulture);
             }
         }
         

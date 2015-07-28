@@ -12,14 +12,14 @@ angular.module("tryApp")
         };
 
         $rootScope.submitFeedback = () => {
-            $rootScope.feedbackResponse = "Submitting feedback...";
+            $rootScope.feedbackResponse = Resources.Information_SubmittingFeedback;
             $http
                 .post("/api/feedback", { comment: $rootScope.comment, contactMe: $rootScope.contactMe })
                 .success((d) => {
-                    $rootScope.feedbackResponse = "Thanks for the feedback!";
+                    $rootScope.feedbackResponse = Resources.Information_ThanksForFeedback;
                     $rootScope.submittedFeedback = true;
                 })
-                .error(() => $rootScope.feedbackResponse = "There was an error submitting your feedback. Please try again later.");
+                .error(() => $rootScope.feedbackResponse = Resources.Error_SubmittingFeedback);
         };
 
         $rootScope.cancelFeedback = () => {

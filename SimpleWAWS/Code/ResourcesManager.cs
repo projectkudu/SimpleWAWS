@@ -291,7 +291,7 @@ namespace SimpleWAWS.Code
                 //this call is to fix our internal state, return an error right away to the caller
                 ThreadPool.QueueUserWorkItem(async o => await DeleteResourceGroup(resourceGroup).IgnoreFailure());
             }
-            throw new Exception(Resources.Error_GeneralErrorMessage);
+            throw new Exception(Resources.Server.Error_GeneralErrorMessage);
         }
 
         // ARM
@@ -580,12 +580,12 @@ namespace SimpleWAWS.Code
                     case DeploymentType.CsmDeploy:
                         return await inProgressOperation.Deployment.GetStatus();
                     case DeploymentType.GitNoCsmDeploy:
-                        return Resources.Deployment_GitDeploymentInProgress;
+                        return Resources.Server.Deployment_GitDeploymentInProgress;
                     case DeploymentType.GitWithCsmDeploy:
                         return "ARM and git deployment in progress";
                     case DeploymentType.ZipDeploy:
                     default:
-                        return Resources.Deployment_DeploymentInProgress;
+                        return Resources.Server.Deployment_DeploymentInProgress;
                 }
             }
             else

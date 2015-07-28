@@ -1,0 +1,447 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Action_AllowContact" xml:space="preserve">
+    <value>[Åľľőŵ Mįčřőşőƒŧ ŧő čőŉŧäčŧ mę řęģäřđįŉģ ŧĥįş ƒęęđþäčĸ. !!! !!! !!!]</value>
+  </data>
+  <data name="Action_Cancel" xml:space="preserve">
+    <value>[Cäŉčęľ !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Action_Create" xml:space="preserve">
+    <value>[Cřęäŧę !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Action_CreateAppServiceApp" xml:space="preserve">
+    <value>[Cřęäŧę yőūř Åžūřę Åpp Ŝęřvįčę äpp !!! !!!]</value>
+  </data>
+  <data name="Action_Delete" xml:space="preserve">
+    <value>[Đęľęŧę !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Action_Dismiss" xml:space="preserve">
+    <value>[Đįşmįşş !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Action_DownloadAppContent" xml:space="preserve">
+    <value>[Đőŵŉľőäđ {0} čőŉŧęŉŧ !!! !!!]</value>
+  </data>
+  <data name="Action_DownloadPublishingProfile" xml:space="preserve">
+    <value>[Đőŵŉľőäđ pūþľįşĥįŉģ přőƒįľę !!! !!!]</value>
+  </data>
+  <data name="Action_GenericWorkWithYourApp" xml:space="preserve">
+    <value>[Ŵőřĸ ŵįŧĥ yőūř äpp !!! !!!]</value>
+  </data>
+  <data name="Action_GitClone" xml:space="preserve">
+    <value>[Cľőŉę őř pūşĥ ŵįŧĥ ģįŧ !!! !!!]</value>
+  </data>
+  <data name="Action_GoToExistingApp" xml:space="preserve">
+    <value>[Ğő ŧő ęχįşŧįŉģ äpp !!! !!!]</value>
+  </data>
+  <data name="Action_ManageInAzurePortal" xml:space="preserve">
+    <value>[Mäŉäģę įŉ Åžūřę Pőřŧäľ !!! !!!]</value>
+  </data>
+  <data name="Action_MobileClients" xml:space="preserve">
+    <value>[ßūįľđ äŉđ řūŉ yőūř mőþįľę čľįęŉŧ äpp !!! !!!]</value>
+  </data>
+  <data name="Action_Monaco" xml:space="preserve">
+    <value>[Ēđįŧ ŵįŧĥ Vįşūäľ Ŝŧūđįő Øŉľįŉę "Mőŉäčő" !!! !!!]</value>
+  </data>
+  <data name="Action_ReportAnIssue" xml:space="preserve">
+    <value>[Ŗępőřŧ äŉ įşşūę !!! !!!]</value>
+  </data>
+  <data name="Action_SelectAppType" xml:space="preserve">
+    <value>[Ŝęľęčŧ äpp ŧypę !!! !!!]</value>
+  </data>
+  <data name="Action_SelectTemplate" xml:space="preserve">
+    <value>[Ŝęľęčŧ ä ŧęmpľäŧę äŉđ čřęäŧę yőūř {0} !!! !!!]</value>
+  </data>
+  <data name="Action_ShareAComment" xml:space="preserve">
+    <value>[Ŝĥäřę ä čőmmęŉŧ !!! !!!]</value>
+  </data>
+  <data name="Action_Submit" xml:space="preserve">
+    <value>[Ŝūþmįŧ !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Action_Yes" xml:space="preserve">
+    <value>[Ÿęş !!! !!!]</value>
+  </data>
+  <data name="Blog" xml:space="preserve">
+    <value>[ßľőģ !!! !!! !!!]</value>
+  </data>
+  <data name="Calculator" xml:space="preserve">
+    <value>[Cäľčūľäŧőř !!! !!!]</value>
+  </data>
+  <data name="CaseStudies" xml:space="preserve">
+    <value>[Cäşę Ŝŧūđįęş !!! !!!]</value>
+  </data>
+  <data name="Community" xml:space="preserve">
+    <value>[Cőmmūŉįŧy !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Compliance" xml:space="preserve">
+    <value>[Cőmpľįäŉčę !!! !!!]</value>
+  </data>
+  <data name="ContactUs" xml:space="preserve">
+    <value>[Cőŉŧäčŧ Ůş !!! !!!]</value>
+  </data>
+  <data name="Documentation" xml:space="preserve">
+    <value>[Đőčūmęŉŧäŧįőŉ !!! !!!]</value>
+  </data>
+  <data name="Downloads" xml:space="preserve">
+    <value>[Đőŵŉľőäđş !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Error_SubmittingFeedback" xml:space="preserve">
+    <value>[Ŧĥęřę ŵäş äŉ ęřřőř şūþmįŧŧįŉģ yőūř ƒęęđþäčĸ. Pľęäşę ŧřy äģäįŉ ľäŧęř. !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Events" xml:space="preserve">
+    <value>[Ēvęŉŧş !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Facebook" xml:space="preserve">
+    <value>[Fäčęþőőĸ !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Features" xml:space="preserve">
+    <value>[Fęäŧūřęş !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Feedback" xml:space="preserve">
+    <value>[Fęęđþäčĸ !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Forums" xml:space="preserve">
+    <value>[Főřūmş !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="FreeTrial" xml:space="preserve">
+    <value>[Fřęę Ŧřįäľ !!! !!!]</value>
+  </data>
+  <data name="GoSocial" xml:space="preserve">
+    <value>[Ğő Ŝőčįäľ !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Information_APIApp" xml:space="preserve">
+    <value>[ÅPĨ Åpp !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Information_AppAlreadyExists" xml:space="preserve">
+    <value>[Ÿőū äľřęäđy ĥävę äŉ Åpp Ŝęřvįčę čřęäŧęđ. Đő yőū ŵäŉŧ ŧő đęľęŧę įŧ äŉđ čřęäŧę ä ŉęŵ őŉę? !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Information_AppHasBeenCreated" xml:space="preserve">
+    <value>[Ÿőūř {0} ĥäş þęęŉ čřęäŧęş! !!! !!!]</value>
+  </data>
+  <data name="Information_AppHasExpired" xml:space="preserve">
+    <value>[Ÿőūř {0}ĥäş ęχpįřęđ. Ÿőū čäŉ ŧřy čřęäŧįŉģ äŉőŧĥęř äpp şęřvįčę äpp őř şįģŉūp ƒőř ä ƒřęę 30-đäy ŧřįäľ äččőūŉŧ. !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Information_AspNetBrandingLine1" xml:space="preserve">
+    <value>[Ħőşŧ 10 ÅŜP.ŃĒŦ ŵęþşįŧęş ƒőř ƒřęę ŵįŧĥ Åžūřę Åpp Ŝęřvįčę !!! !!! !!!]</value>
+  </data>
+  <data name="Information_AspNetBrandingLine2" xml:space="preserve">
+    <value>[Ŝęčūřę, řęľįäþľę, äŉđ þūşįŉęşş-řęäđy įŉ şęčőŉđş. Ŝŧäřŧ ƒőř ƒřęę äŉđ şčäľę äş yőūř ŧřäƒƒįč ģřőŵş. !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Information_ComingSoon" xml:space="preserve">
+    <value>[Cőmįŉģ şőőŉ !!! !!!]</value>
+  </data>
+  <data name="Information_DownloadClient" xml:space="preserve">
+    <value>[Đőŵŉľőäđ čľįęŉŧ !!! !!!]</value>
+  </data>
+  <data name="Information_DownloadiOSClient" xml:space="preserve">
+    <value>[Đőŵŉľőäđ ŧĥę įØŜ čľįęŉŧ äpp !!! !!!]</value>
+  </data>
+  <data name="Information_DownloadWindowsClient" xml:space="preserve">
+    <value>[Đőŵŉľőäđ ŧĥę Ŵįŉđőŵş čľįęŉŧ äpp !!! !!!]</value>
+  </data>
+  <data name="Information_DownloadXamarinAndroidClient" xml:space="preserve">
+    <value>[Đőŵŉľőäđ ŧĥę Xämäřįŉ Åŉđřőįđ čľįęŉŧ äpp !!! !!!]</value>
+  </data>
+  <data name="Information_DownloadXamariniOSClient" xml:space="preserve">
+    <value>[Đőŵŉľőäđ ŧĥę Xämäřįŉ įØŜ čľįęŉŧ äpp !!! !!!]</value>
+  </data>
+  <data name="Information_ExperienceComingSoon" xml:space="preserve">
+    <value>[Ÿőū čäŉ şŧįľľ čřęäŧę {0} þy şįŉģįŉģ ūp ƒőř ä ƒřęę 30-đäy ŧřįäľ äŉđ čřęäŧę ūp ŧő 10 äppş őƒ äŉy ŧypę ƒőř ƒřęę. !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Information_ExperienceNotHereYet" xml:space="preserve">
+    <value>[Ŧĥę {0} ęχpęřįęŉčę įş ŉőŧ ĥęřę yęŧ. !!! !!!]</value>
+  </data>
+  <data name="Information_ExpireMessage" xml:space="preserve">
+    <value>[Ÿőūř ƒřęę {0} įş äväįľäþľę ƒőř őŉę ĥőūř äŉđ ŵįľľ ęχpįřę įŉ: !!! !!! !!!]</value>
+  </data>
+  <data name="Information_GenericBrandingLine1" xml:space="preserve">
+    <value>[Åžūřę Åpp Ŝęřvįčę įş ä čľőūđ äpp şęřvįčę ŧĥäŧ įŉŧęģřäŧęş ęvęřyŧĥįŉģ yőū ŉęęđ ŧő qūįčĸľy äŉđ ęäşįľy þūįľđ ŵęþ äŉđ mőþįľę äppş ƒőř äŉy pľäŧƒőřm őř đęvįčę. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Information_GenericBrandingLine2" xml:space="preserve">
+    <value>[ßę őūř ģūęşŧ ƒőř ūp ŧő äŉ ĥőūř őƒ Åžūřę Åpp Ŝęřvįčę ęχpęřįęŉčę ŵįŧĥ ŉő Åžūřę şūþşčřįpŧįőŉ, ƒřęę őƒ čĥäřģę äŉđ čőmmįŧmęŉŧ. Ŝŧäy ľőŉģęř ƒőř ŧĥę ƒūľľ Åžūřę Åpp Ŝęřvįčę ęχpęřįęŉčę ŵįŧĥ äŉ Åžūřę ƒřęę ŧřįäľ şūþşčřįpŧįőŉ. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Information_GoingBackWillDeleteApp" xml:space="preserve">
+    <value>[Ğőįŉģ þäčĸ ŵįľľ đęľęŧę ŧĥę čūřřęŉŧ äpp !!! !!!]</value>
+  </data>
+  <data name="Information_InstallVisualStudio" xml:space="preserve">
+    <value>[Ĩŉşŧäľľ Vįşūäľ Ŝŧūđįő Přőƒęşşįőŉäľ 2013 (Ůpđäŧę 4) !!! !!! !!!]</value>
+  </data>
+  <data name="Information_InstallXamarinStudio" xml:space="preserve">
+    <value>[Ĩŉşŧäľľ Xämäřįŉ Ŝŧūđįő ƒőř Ŵįŉđőŵş őř ØŜ X !!! !!!]</value>
+  </data>
+  <data name="Information_InstallXcode" xml:space="preserve">
+    <value>[Ĩŉşŧäľľ Xčőđę (v4.4+) !!! !!!]</value>
+  </data>
+  <data name="Information_LogicApp" xml:space="preserve">
+    <value>[Ŀőģįč Åpp !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Information_LogicAppDescription" xml:space="preserve">
+    <value>[Ŀőģįč Åppş äľľőŵ đęvęľőpęřş ŧő đęşįģŉ ŵőřĸƒľőŵş ŧĥäŧ şŧäřŧ ƒřőm ä ŧřįģģęř äŉđ ŧĥęŉ ęχęčūŧę ä şęřįęş őƒ şŧępş, ęäčĥ įŉvőĸįŉģ äŉ Åpp Ŝęřvįčę ÅPĨ äpp ŵĥįľşŧ şęčūřęľy ŧäĸįŉģ čäřę őƒ äūŧĥęŉŧįčäŧįőŉ äŉđ þęşŧ přäčŧįčęş ľįĸę čĥęčĸpőįŉŧįŉģ äŉđ đūřäþľę ęχęčūŧįőŉ. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Information_LogicAppStep1" xml:space="preserve">
+    <value>[Øpęŉ ŧĥę Ŀőģįč Åpp řęşőūřčę þľäđę äŉđ ľőőĸ äŧ ŧĥę Ŝūmmäřy ľęŉş ƒőř ŧĥę ľőģįč äpp ŵĥęřę yőū čäŉ şęę ŵĥęŉ įŧ ľäşŧ řäŉ äŉđ įƒ įŧ ŵäş şūččęşşƒūľ. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Information_LogicAppStep2" xml:space="preserve">
+    <value>[Øpęŉ ŧĥę Ŀőģįč Åpp đęƒįŉįŧįőŉ þy čľįčĸįŉģ őŉ ŧĥę şämę päřŧ äŉđ ľőőĸ äŧ ŧĥę đęƒįŉįŧįőŉ.  Ÿőū čäŉ ŧřy ŧő ęχŧęŉđ ŧĥę Ŀőģįč Åpp ŧő şęŉđ ä ŧŵęęŧ äŉyŧįmę ŧĥę pįŉģ ƒäįľş. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Information_LoginFirst" xml:space="preserve">
+    <value>[Ŀőģįŉ ƒįřşŧ ŧő čřęäŧę äŉ äpp !!! !!!]</value>
+  </data>
+  <data name="Information_MobileApp" xml:space="preserve">
+    <value>[Mőþįľę Åpp !!! !!!]</value>
+  </data>
+  <data name="Information_NativeiOS" xml:space="preserve">
+    <value>[Ńäŧįvę įØŜ !!! !!!]</value>
+  </data>
+  <data name="Information_Prerequisite" xml:space="preserve">
+    <value>[Přęřęqūįşįŧę !!! !!!]</value>
+  </data>
+  <data name="Information_SelectAppType" xml:space="preserve">
+    <value>[Ŝęľęčŧ äpp ŧypę !!! !!!]</value>
+  </data>
+  <data name="Information_SelectTemplate" xml:space="preserve">
+    <value>[Ŝęľęčŧ ŧęmpľäŧę !!! !!!]</value>
+  </data>
+  <data name="Information_SubmittingFeedback" xml:space="preserve">
+    <value>[Ŝūþmįŧŧįŉģ ƒęęđþäčĸ... !!! !!!]</value>
+  </data>
+  <data name="Information_ThanksForFeedback" xml:space="preserve">
+    <value>[Ŧĥäŉĸş ƒőř ŧĥę ƒęęđþäčĸ! !!! !!!]</value>
+  </data>
+  <data name="Information_VisitWebClient" xml:space="preserve">
+    <value>[Vįşįŧ ŧĥę ŵęþ þäşęđ čľįęŉŧ !!! !!!]</value>
+  </data>
+  <data name="Information_WantMoreQuestionLine1" xml:space="preserve">
+    <value>[Ŵőūľđ yőū ľįĸę ŧő ģęŧ mőřę ƒőř ƒřęę? !!! !!!]</value>
+  </data>
+  <data name="Information_WantMoreQuestionLine2" xml:space="preserve">
+    <value>[Cřęäŧę mőřę ŵęþ, mőþįľę, ľőģįč äŉđ ÅPĨ äppş. Ŝįģŉ ūp ƒőř ä ƒřęę 30-đäy ŧřįäľ äŉđ čřęäŧę ūp ŧő 10 äppş őƒ äŉy ŧypę ƒőř ƒřęę. !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Information_WebApp" xml:space="preserve">
+    <value>[Ŵęþ Åpp !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Information_WebClient" xml:space="preserve">
+    <value>[Ŵęþ Cľįęŉŧ !!! !!!]</value>
+  </data>
+  <data name="Information_WelcomeFeedback" xml:space="preserve">
+    <value>[Ŵę ŵęľčőmę yőūř ƒęęđþäčĸ! !!! !!!]</value>
+  </data>
+  <data name="Information_Windows" xml:space="preserve">
+    <value>[Ŵįŉđőŵş !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Information_WorkWithLogicApps" xml:space="preserve">
+    <value>[Ŧő ŵőřĸ ŵįŧĥ yőūř ľőģįč äpp ģő ŧő Åžūřę Pőřŧäľ ƒřőm ŧĥę ľįŉĸ þęľőŵ !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Information_WorkWithYourApp" xml:space="preserve">
+    <value>[Ŵőřĸ ŵįŧĥ yőūř {0} äŧ  !!! !!!]</value>
+  </data>
+  <data name="Information_XamarinAndroid" xml:space="preserve">
+    <value>[Xämäřįŉ Åŉđřőįđ !!! !!!]</value>
+  </data>
+  <data name="Information_XamariniOS" xml:space="preserve">
+    <value>[Xämäřįŉ įØŜ !!! !!!]</value>
+  </data>
+  <data name="Information_YouCantHaveMoreThanOne" xml:space="preserve">
+    <value>[Ÿőū čäŉ'ŧ ĥävę mőřę ŧĥäŉ 1 ƒřęę řęşőūřčę äŧ ä ŧįmę !!! !!! !!!]</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>[Ŀőģőūŧ !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="ManagementPortal" xml:space="preserve">
+    <value>[Mäŉäģęmęŉŧ Pőřŧäľ !!! !!!]</value>
+  </data>
+  <data name="Marketplace" xml:space="preserve">
+    <value>[Mäřĸęŧpľäčę !!! !!!]</value>
+  </data>
+  <data name="MicrosoftAzure" xml:space="preserve">
+    <value>[Mįčřőşőƒŧ Åžūřę !!! !!!]</value>
+  </data>
+  <data name="Mooncake" xml:space="preserve">
+    <value>[Mįčřőşőƒŧ Åžūřę įŉ Cĥįŉä !!! !!!]</value>
+  </data>
+  <data name="MyAccount" xml:space="preserve">
+    <value>[My Åččőūŉŧ !!! !!!]</value>
+  </data>
+  <data name="Newsletter" xml:space="preserve">
+    <value>[Ńęŵşľęŧŧęř !!! !!!]</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>[Ńęχŧ !!! !!! !!!]</value>
+  </data>
+  <data name="Portal" xml:space="preserve">
+    <value>[Pőřŧäľ !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="PreviewFeatures" xml:space="preserve">
+    <value>[Přęvįęŵ Fęäŧūřęş !!! !!!]</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>[Přęvįőūş !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Pricing" xml:space="preserve">
+    <value>[Přįčįŉģ !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>[Přįväčy !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="PrivacyCookies" xml:space="preserve">
+    <value>[Přįväčy äŉđ Cőőĸįęş !!! !!!]</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>[Přőƒįľę !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Regions" xml:space="preserve">
+    <value>[Ŗęģįőŉş !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Rss" xml:space="preserve">
+    <value>[Ŗşş !!! !!!]</value>
+  </data>
+  <data name="Security" xml:space="preserve">
+    <value>[Ŝęčūřįŧy !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="ServiceDashboard" xml:space="preserve">
+    <value>[Ŝęřvįčę Đäşĥþőäřđ !!! !!!]</value>
+  </data>
+  <data name="Services" xml:space="preserve">
+    <value>[Ŝęřvįčęş !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="ServiceUpdates" xml:space="preserve">
+    <value>[Ŝęřvįčę Ůpđäŧęş !!! !!!]</value>
+  </data>
+  <data name="Subscriptions" xml:space="preserve">
+    <value>[Ŝūþşčřįpŧįőŉş !!! !!!]</value>
+  </data>
+  <data name="Support" xml:space="preserve">
+    <value>[Ŝūppőřŧ !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Templates_PingSiteDescription" xml:space="preserve">
+    <value>[Ŧĥįş Ŀőģįč Åpp ŧęmpľäŧę ŵįľľ pįŉģ ä ŵęþşįŧę őŉ ä řęčūřřįŉģ şčĥęđūľę.  Ÿőū čäŉ ęχŧęŉđ įŧ ŧő ŧäĸę äŉ äčŧįőŉ đępęŉđįŉģ őŉ ŧĥę řęşūľŧ őƒ ŧĥę pįŉģ. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>[Ŧřy Åžūřę Åpp Ŝęřvįčę !!! !!!]</value>
+  </data>
+  <data name="Trademarks" xml:space="preserve">
+    <value>[Ŧřäđęmäřĸş !!! !!!]</value>
+  </data>
+  <data name="TrustCenter" xml:space="preserve">
+    <value>[Ŧřūşŧ Cęŉŧęř !!! !!!]</value>
+  </data>
+  <data name="Twitter" xml:space="preserve">
+    <value>[Ŧŵįŧŧęř !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+</root>

@@ -14,6 +14,8 @@ using Destructurama;
 using Serilog.Filters;
 using Serilog.Sinks.Email;
 using System.Net;
+using System.Globalization;
+using System.Threading;
 
 namespace SimpleWAWS
 {

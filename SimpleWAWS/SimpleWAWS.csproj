@@ -210,10 +210,10 @@
     <Compile Include="Authentication\TryWebsitesIdentity.cs" />
     <Compile Include="Authentication\TryWebsitesPrincipal.cs" />
     <Compile Include="Authentication\TwitterAuthProvider.cs" />
-    <Compile Include="ClientResources.Designer.cs">
+    <Compile Include="Resources\Client.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ClientResources.resx</DependentUpon>
+      <DependentUpon>Client.resx</DependentUpon>
     </Compile>
     <Compile Include="Code\AnalyticsEvents.cs" />
     <Compile Include="Code\AzureSearchHelper.cs" />
@@ -231,10 +231,15 @@
     <Compile Include="Models\Experiment.cs" />
     <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\UIResource.cs" />
-    <Compile Include="Resources.Designer.cs">
+    <Compile Include="Resources\Client.ps.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>Client.ps.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Server.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Server.resx</DependentUpon>
     </Compile>
     <Compile Include="Trace\SimpleTrace.cs" />
     <Compile Include="Code\TaskExtensions.cs" />
@@ -368,7 +373,7 @@
     <Content Include="Scripts\site.js" />
     <None Include="templates\clients.cshtml" />
     <None Include="templates\comingsoon.cshtml" />
-    <Content Include="templates\empty-shell.html" />
+    <Content Include="templates\empty-shell.cshtml" />
     <None Include="templates\templates.cshtml" />
     <None Include="templates\steps.cshtml" />
     <None Include="templates\work.cshtml" />
@@ -399,6 +404,7 @@
     <TypeScriptCompile Include="Scripts\cookie.d.ts" />
     <TypeScriptCompile Include="Scripts\models.ts" />
     <TypeScriptCompile Include="Scripts\polyfill.ts" />
+    <TypeScriptCompile Include="Scripts\Resources.d.ts" />
     <TypeScriptCompile Include="Scripts\selectOnClickDirective.ts" />
     <TypeScriptCompile Include="Scripts\config.ts" />
     <TypeScriptCompile Include="Scripts\global-init.ts" />
@@ -415,13 +421,17 @@
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ClientResources.resx">
+    <EmbeddedResource Include="Resources\Client.ps.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ClientResources.Designer.cs</LastGenOutput>
+      <LastGenOutput>Client.ps.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources.resx">
+    <EmbeddedResource Include="Resources\Client.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Client.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Server.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>Server.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -4,20 +4,20 @@ angular.module("tryApp")
             getAppServices: () => [{
                 name: "Web",
                 sprite: "sprite-WebApp",
-                title: "Web App",
+                title: Resources.Information_WebApp,
                 steps: [{
                     id: 1,
-                    title: "Select app type",
+                    title: Resources.Action_SelectAppType,
                     sref: "home",
                 }, {
                     id: 2,
-                    title: "Select template",
+                    title: Resources.Action_SelectTemplate,
                     sref: "home.webapp.templates",
                     nextClass: "wa-button-primary",
-                    nextText: "Create"
+                    nextText: Resources.Action_Create
                 }, {
                     id: 3,
-                    title: "Work with your app",
+                    title: Resources.Action_GenericWorkWithYourApp,
                     sref: "home.webapp.work",
                     confirmDelete: true
                 }],
@@ -25,39 +25,39 @@ angular.module("tryApp")
             }, {
                 name: "Mobile",
                 sprite: "sprite-MobileApp",
-                title: "Mobile App",
+                title: Resources.Information_MobileApp,
                 steps: [{
                     id: 1,
-                    title: "Select app type",
+                    title: Resources.Action_SelectAppType,
                     sref: "home",
                 }, {
                     id: 2,
-                    title: "Select template",
+                    title: Resources.Action_SelectTemplate,
                     sref: "home.mobileapp.templates",
                     nextClass: "wa-button-primary",
                     nextText: "Create"
                 }, {
                     id: 3,
-                    title: "Download client",
+                    title: Resources.Information_DownloadClient,
                     sref: "home.mobileapp.clients",
                     confirmDelete: true
                 }, {
                     id: 4,
-                    title: "Work with your app",
+                    title: Resources.Action_GenericWorkWithYourApp,
                     sref: "home.mobileapp.work"
                 }],
                 templates: []
             }, {
                 name: "Api",
                 sprite: "sprite-ApiApp",
-                title: "API App",
+                title: Resources.Information_APIApp,
                 steps: [{
                     id: 1,
-                    title: "Select app type",
+                    title: Resources.Action_SelectAppType,
                     sref: "home"
                 }, {
                     id: 2,
-                    title: "Coming soon",
+                    title: Resources.Information_ComingSoon,
                     sref: "home.apiapp.comingsoon"
                 }],
                 //steps: [{
@@ -80,14 +80,14 @@ angular.module("tryApp")
             }, {
                 name: "Logic",
                 sprite: "sprite-LogicApp",
-                title: "Logic App",
+                title: Resources.Information_LogicApp,
                 steps: [{
                     id: 1,
-                    title: "Select app type",
+                    title: Resources.Action_SelectAppType,
                     sref: "home"
                 }, {
                     id: 2,
-                    title: "Coming soon",
+                    title: Resources.Information_ComingSoon,
                     sref: "home.logicapp.comingsoon"
                 }],
                 //steps: [{
