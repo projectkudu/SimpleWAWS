@@ -619,6 +619,15 @@ namespace SimpleWAWS {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Prerequisite.
+        /// </summary>
+        public static string Information_Prerequisite {
+            get {
+                return ResourceManager.GetString("Information_Prerequisite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select app type.
         /// </summary>
         public static string Information_SelectAppType {

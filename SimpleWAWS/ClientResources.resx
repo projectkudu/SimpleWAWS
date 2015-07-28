@@ -423,6 +423,9 @@
   <data name="Information_AppHasExpired" xml:space="preserve">
     <value>Your {0}has expired. You can try creating another app service app or signup for a free 30-day trial account.</value>
   </data>
+  <data name="Information_Prerequisite" xml:space="preserve">
+    <value>Prerequisite</value>
+  </data>
   <data name="Information_WelcomeFeedback" xml:space="preserve">
     <value>We welcome your feedback!</value>
   </data>
