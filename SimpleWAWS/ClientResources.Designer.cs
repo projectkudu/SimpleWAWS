@@ -97,6 +97,15 @@ namespace SimpleWAWS {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dismiss.
+        /// </summary>
+        public static string Action_Dismiss {
+            get {
+                return ResourceManager.GetString("Action_Dismiss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Download {0} content.
         /// </summary>
         public static string Action_DownloadAppContent {
@@ -381,6 +390,15 @@ namespace SimpleWAWS {
         public static string Information_AppHasBeenCreated {
             get {
                 return ResourceManager.GetString("Information_AppHasBeenCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your {0}has expired. You can try creating another app service app or signup for a free 30-day trial account..
+        /// </summary>
+        public static string Information_AppHasExpired {
+            get {
+                return ResourceManager.GetString("Information_AppHasExpired", resourceCulture);
             }
         }
         
