@@ -22,7 +22,7 @@ namespace SimpleWAWS {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ClientResources {
+    public class ClientResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace SimpleWAWS {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SimpleWAWS.ClientResources", typeof(ClientResources).Assembly);
@@ -51,7 +51,7 @@ namespace SimpleWAWS {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Allow Microsoft to contact me regarding this feedback..
         /// </summary>
-        internal static string Action_AllowContact {
+        public static string Action_AllowContact {
             get {
                 return ResourceManager.GetString("Action_AllowContact", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        internal static string Action_Cancel {
+        public static string Action_Cancel {
             get {
                 return ResourceManager.GetString("Action_Cancel", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Create your Azure App Service app.
         /// </summary>
-        internal static string Action_CreateAppServiceApp {
+        public static string Action_CreateAppServiceApp {
             get {
                 return ResourceManager.GetString("Action_CreateAppServiceApp", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
-        internal static string Action_Delete {
+        public static string Action_Delete {
             get {
                 return ResourceManager.GetString("Action_Delete", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Download {0} content.
         /// </summary>
-        internal static string Action_DownloadAppContent {
+        public static string Action_DownloadAppContent {
             get {
                 return ResourceManager.GetString("Action_DownloadAppContent", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Download publishing profile.
         /// </summary>
-        internal static string Action_DownloadPublishingProfile {
+        public static string Action_DownloadPublishingProfile {
             get {
                 return ResourceManager.GetString("Action_DownloadPublishingProfile", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Clone or push with git.
         /// </summary>
-        internal static string Action_GitClone {
+        public static string Action_GitClone {
             get {
                 return ResourceManager.GetString("Action_GitClone", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Go to existing app.
         /// </summary>
-        internal static string Action_GoToExistingApp {
+        public static string Action_GoToExistingApp {
             get {
                 return ResourceManager.GetString("Action_GoToExistingApp", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Manage in Azure Portal.
         /// </summary>
-        internal static string Action_ManageInAzurePortal {
+        public static string Action_ManageInAzurePortal {
             get {
                 return ResourceManager.GetString("Action_ManageInAzurePortal", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Build and run your mobile client app.
         /// </summary>
-        internal static string Action_MobileClients {
+        public static string Action_MobileClients {
             get {
                 return ResourceManager.GetString("Action_MobileClients", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Edit with Visual Studio Online &quot;Monaco&quot;.
         /// </summary>
-        internal static string Action_Monaco {
+        public static string Action_Monaco {
             get {
                 return ResourceManager.GetString("Action_Monaco", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Report an issue.
         /// </summary>
-        internal static string Action_ReportAnIssue {
+        public static string Action_ReportAnIssue {
             get {
                 return ResourceManager.GetString("Action_ReportAnIssue", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Select app type.
         /// </summary>
-        internal static string Action_SelectAppType {
+        public static string Action_SelectAppType {
             get {
                 return ResourceManager.GetString("Action_SelectAppType", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Select a template and create your {0}.
         /// </summary>
-        internal static string Action_SelectTemplate {
+        public static string Action_SelectTemplate {
             get {
                 return ResourceManager.GetString("Action_SelectTemplate", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Share a comment.
         /// </summary>
-        internal static string Action_ShareAComment {
+        public static string Action_ShareAComment {
             get {
                 return ResourceManager.GetString("Action_ShareAComment", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Submit.
         /// </summary>
-        internal static string Action_Submit {
+        public static string Action_Submit {
             get {
                 return ResourceManager.GetString("Action_Submit", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Yes.
         /// </summary>
-        internal static string Action_Yes {
+        public static string Action_Yes {
             get {
                 return ResourceManager.GetString("Action_Yes", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Blog.
         /// </summary>
-        internal static string Blog {
+        public static string Blog {
             get {
                 return ResourceManager.GetString("Blog", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Calculator.
         /// </summary>
-        internal static string Calculator {
+        public static string Calculator {
             get {
                 return ResourceManager.GetString("Calculator", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Case Studies.
         /// </summary>
-        internal static string CaseStudies {
+        public static string CaseStudies {
             get {
                 return ResourceManager.GetString("CaseStudies", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Community.
         /// </summary>
-        internal static string Community {
+        public static string Community {
             get {
                 return ResourceManager.GetString("Community", resourceCulture);
             }
@@ -252,7 +252,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Compliance.
         /// </summary>
-        internal static string Compliance {
+        public static string Compliance {
             get {
                 return ResourceManager.GetString("Compliance", resourceCulture);
             }
@@ -261,7 +261,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Contact Us.
         /// </summary>
-        internal static string ContactUs {
+        public static string ContactUs {
             get {
                 return ResourceManager.GetString("ContactUs", resourceCulture);
             }
@@ -270,7 +270,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Documentation.
         /// </summary>
-        internal static string Documentation {
+        public static string Documentation {
             get {
                 return ResourceManager.GetString("Documentation", resourceCulture);
             }
@@ -279,7 +279,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Downloads.
         /// </summary>
-        internal static string Downloads {
+        public static string Downloads {
             get {
                 return ResourceManager.GetString("Downloads", resourceCulture);
             }
@@ -288,7 +288,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to There was an error submitting your feedback. Please try again later..
         /// </summary>
-        internal static string Error_SubmittingFeedback {
+        public static string Error_SubmittingFeedback {
             get {
                 return ResourceManager.GetString("Error_SubmittingFeedback", resourceCulture);
             }
@@ -297,7 +297,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Events.
         /// </summary>
-        internal static string Events {
+        public static string Events {
             get {
                 return ResourceManager.GetString("Events", resourceCulture);
             }
@@ -306,7 +306,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Facebook.
         /// </summary>
-        internal static string Facebook {
+        public static string Facebook {
             get {
                 return ResourceManager.GetString("Facebook", resourceCulture);
             }
@@ -315,7 +315,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Features.
         /// </summary>
-        internal static string Features {
+        public static string Features {
             get {
                 return ResourceManager.GetString("Features", resourceCulture);
             }
@@ -324,7 +324,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Feedback.
         /// </summary>
-        internal static string Feedback {
+        public static string Feedback {
             get {
                 return ResourceManager.GetString("Feedback", resourceCulture);
             }
@@ -333,7 +333,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Forums.
         /// </summary>
-        internal static string Forums {
+        public static string Forums {
             get {
                 return ResourceManager.GetString("Forums", resourceCulture);
             }
@@ -342,7 +342,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Free Trial.
         /// </summary>
-        internal static string FreeTrial {
+        public static string FreeTrial {
             get {
                 return ResourceManager.GetString("FreeTrial", resourceCulture);
             }
@@ -351,7 +351,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Go Social.
         /// </summary>
-        internal static string GoSocial {
+        public static string GoSocial {
             get {
                 return ResourceManager.GetString("GoSocial", resourceCulture);
             }
@@ -360,7 +360,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to API App.
         /// </summary>
-        internal static string Information_APIApp {
+        public static string Information_APIApp {
             get {
                 return ResourceManager.GetString("Information_APIApp", resourceCulture);
             }
@@ -369,7 +369,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to You already have an App Service created. Do you want to delete it and create a new one?.
         /// </summary>
-        internal static string Information_AppAlreadyExists {
+        public static string Information_AppAlreadyExists {
             get {
                 return ResourceManager.GetString("Information_AppAlreadyExists", resourceCulture);
             }
@@ -378,7 +378,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Your {0} has been creates!.
         /// </summary>
-        internal static string Information_AppHasBeenCreated {
+        public static string Information_AppHasBeenCreated {
             get {
                 return ResourceManager.GetString("Information_AppHasBeenCreated", resourceCulture);
             }
@@ -387,7 +387,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Host 10 ASP.NET websites for free with Azure App Service.
         /// </summary>
-        internal static string Information_AspNetBrandingLine1 {
+        public static string Information_AspNetBrandingLine1 {
             get {
                 return ResourceManager.GetString("Information_AspNetBrandingLine1", resourceCulture);
             }
@@ -396,7 +396,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Secure, reliable, and business-ready in seconds. Start for free and scale as your traffic grows..
         /// </summary>
-        internal static string Information_AspNetBrandingLine2 {
+        public static string Information_AspNetBrandingLine2 {
             get {
                 return ResourceManager.GetString("Information_AspNetBrandingLine2", resourceCulture);
             }
@@ -405,7 +405,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Coming soon.
         /// </summary>
-        internal static string Information_ComingSoon {
+        public static string Information_ComingSoon {
             get {
                 return ResourceManager.GetString("Information_ComingSoon", resourceCulture);
             }
@@ -414,7 +414,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Download client.
         /// </summary>
-        internal static string Information_DownloadClient {
+        public static string Information_DownloadClient {
             get {
                 return ResourceManager.GetString("Information_DownloadClient", resourceCulture);
             }
@@ -423,7 +423,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Download the iOS client app.
         /// </summary>
-        internal static string Information_DownloadiOSClient {
+        public static string Information_DownloadiOSClient {
             get {
                 return ResourceManager.GetString("Information_DownloadiOSClient", resourceCulture);
             }
@@ -432,7 +432,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Download the Windows client app.
         /// </summary>
-        internal static string Information_DownloadWindowsClient {
+        public static string Information_DownloadWindowsClient {
             get {
                 return ResourceManager.GetString("Information_DownloadWindowsClient", resourceCulture);
             }
@@ -441,7 +441,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Download the Xamarin Android client app.
         /// </summary>
-        internal static string Information_DownloadXamarinAndroidClient {
+        public static string Information_DownloadXamarinAndroidClient {
             get {
                 return ResourceManager.GetString("Information_DownloadXamarinAndroidClient", resourceCulture);
             }
@@ -450,7 +450,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Download the Xamarin iOS client app.
         /// </summary>
-        internal static string Information_DownloadXamariniOSClient {
+        public static string Information_DownloadXamariniOSClient {
             get {
                 return ResourceManager.GetString("Information_DownloadXamariniOSClient", resourceCulture);
             }
@@ -459,7 +459,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to You can still create {0} by singing up for a free 30-day trial and create up to 10 apps of any type for free..
         /// </summary>
-        internal static string Information_ExperienceComingSoon {
+        public static string Information_ExperienceComingSoon {
             get {
                 return ResourceManager.GetString("Information_ExperienceComingSoon", resourceCulture);
             }
@@ -468,7 +468,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to The {0} experience is not here yet..
         /// </summary>
-        internal static string Information_ExperienceNotHereYet {
+        public static string Information_ExperienceNotHereYet {
             get {
                 return ResourceManager.GetString("Information_ExperienceNotHereYet", resourceCulture);
             }
@@ -477,7 +477,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Your free {0} is available for one hour and will expire in:.
         /// </summary>
-        internal static string Information_ExpireMessage {
+        public static string Information_ExpireMessage {
             get {
                 return ResourceManager.GetString("Information_ExpireMessage", resourceCulture);
             }
@@ -486,7 +486,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Azure App Service is a cloud app service that integrates everything you need to quickly and easily build web and mobile apps for any platform or device..
         /// </summary>
-        internal static string Information_GenericBrandingLine1 {
+        public static string Information_GenericBrandingLine1 {
             get {
                 return ResourceManager.GetString("Information_GenericBrandingLine1", resourceCulture);
             }
@@ -495,7 +495,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Be our guest for up to an hour of Azure App Service experience with no Azure subscription, free of charge and commitment. Stay longer for the full Azure App Service experience with an Azure free trial subscription..
         /// </summary>
-        internal static string Information_GenericBrandingLine2 {
+        public static string Information_GenericBrandingLine2 {
             get {
                 return ResourceManager.GetString("Information_GenericBrandingLine2", resourceCulture);
             }
@@ -504,7 +504,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Going back will delete the current app.
         /// </summary>
-        internal static string Information_GoingBackWillDeleteApp {
+        public static string Information_GoingBackWillDeleteApp {
             get {
                 return ResourceManager.GetString("Information_GoingBackWillDeleteApp", resourceCulture);
             }
@@ -513,7 +513,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Install Visual Studio Professional 2013 (Update 4).
         /// </summary>
-        internal static string Information_InstallVisualStudio {
+        public static string Information_InstallVisualStudio {
             get {
                 return ResourceManager.GetString("Information_InstallVisualStudio", resourceCulture);
             }
@@ -522,7 +522,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Install Xamarin Studio for Windows or OS X.
         /// </summary>
-        internal static string Information_InstallXamarinStudio {
+        public static string Information_InstallXamarinStudio {
             get {
                 return ResourceManager.GetString("Information_InstallXamarinStudio", resourceCulture);
             }
@@ -531,7 +531,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Install Xcode (v4.4+).
         /// </summary>
-        internal static string Information_InstallXcode {
+        public static string Information_InstallXcode {
             get {
                 return ResourceManager.GetString("Information_InstallXcode", resourceCulture);
             }
@@ -540,7 +540,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Logic App.
         /// </summary>
-        internal static string Information_LogicApp {
+        public static string Information_LogicApp {
             get {
                 return ResourceManager.GetString("Information_LogicApp", resourceCulture);
             }
@@ -549,7 +549,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Logic Apps allow developers to design workflows that start from a trigger and then execute a series of steps, each invoking an App Service API app whilst securely taking care of authentication and best practices like checkpointing and durable execution..
         /// </summary>
-        internal static string Information_LogicAppDescription {
+        public static string Information_LogicAppDescription {
             get {
                 return ResourceManager.GetString("Information_LogicAppDescription", resourceCulture);
             }
@@ -558,7 +558,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Open the Logic App resource blade and look at the Summary lens for the logic app where you can see when it last ran and if it was successful..
         /// </summary>
-        internal static string Information_LogicAppStep1 {
+        public static string Information_LogicAppStep1 {
             get {
                 return ResourceManager.GetString("Information_LogicAppStep1", resourceCulture);
             }
@@ -567,7 +567,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Open the Logic App definition by clicking on the same part and look at the definition.  You can try to extend the Logic App to send a tweet anytime the ping fails..
         /// </summary>
-        internal static string Information_LogicAppStep2 {
+        public static string Information_LogicAppStep2 {
             get {
                 return ResourceManager.GetString("Information_LogicAppStep2", resourceCulture);
             }
@@ -576,7 +576,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Login first to create an app.
         /// </summary>
-        internal static string Information_LoginFirst {
+        public static string Information_LoginFirst {
             get {
                 return ResourceManager.GetString("Information_LoginFirst", resourceCulture);
             }
@@ -585,7 +585,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Mobile App.
         /// </summary>
-        internal static string Information_MobileApp {
+        public static string Information_MobileApp {
             get {
                 return ResourceManager.GetString("Information_MobileApp", resourceCulture);
             }
@@ -594,7 +594,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Native iOS.
         /// </summary>
-        internal static string Information_NativeiOS {
+        public static string Information_NativeiOS {
             get {
                 return ResourceManager.GetString("Information_NativeiOS", resourceCulture);
             }
@@ -603,7 +603,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Select app type.
         /// </summary>
-        internal static string Information_SelectAppType {
+        public static string Information_SelectAppType {
             get {
                 return ResourceManager.GetString("Information_SelectAppType", resourceCulture);
             }
@@ -612,7 +612,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Select template.
         /// </summary>
-        internal static string Information_SelectTemplate {
+        public static string Information_SelectTemplate {
             get {
                 return ResourceManager.GetString("Information_SelectTemplate", resourceCulture);
             }
@@ -621,7 +621,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Submitting feedback....
         /// </summary>
-        internal static string Information_SubmittingFeedback {
+        public static string Information_SubmittingFeedback {
             get {
                 return ResourceManager.GetString("Information_SubmittingFeedback", resourceCulture);
             }
@@ -630,7 +630,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Thanks for the feedback!.
         /// </summary>
-        internal static string Information_ThanksForFeedback {
+        public static string Information_ThanksForFeedback {
             get {
                 return ResourceManager.GetString("Information_ThanksForFeedback", resourceCulture);
             }
@@ -639,7 +639,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Visit the web based client.
         /// </summary>
-        internal static string Information_VisitWebClient {
+        public static string Information_VisitWebClient {
             get {
                 return ResourceManager.GetString("Information_VisitWebClient", resourceCulture);
             }
@@ -648,7 +648,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Would you like to get more for free?.
         /// </summary>
-        internal static string Information_WantMoreQuestionLine1 {
+        public static string Information_WantMoreQuestionLine1 {
             get {
                 return ResourceManager.GetString("Information_WantMoreQuestionLine1", resourceCulture);
             }
@@ -657,7 +657,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Create more web, mobile, logic and API apps. Sign up for a free 30-day trial and create up to 10 apps of any type for free..
         /// </summary>
-        internal static string Information_WantMoreQuestionLine2 {
+        public static string Information_WantMoreQuestionLine2 {
             get {
                 return ResourceManager.GetString("Information_WantMoreQuestionLine2", resourceCulture);
             }
@@ -666,7 +666,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Web App.
         /// </summary>
-        internal static string Information_WebApp {
+        public static string Information_WebApp {
             get {
                 return ResourceManager.GetString("Information_WebApp", resourceCulture);
             }
@@ -675,16 +675,25 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Web Client.
         /// </summary>
-        internal static string Information_WebClient {
+        public static string Information_WebClient {
             get {
                 return ResourceManager.GetString("Information_WebClient", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to We welcome your feedback!.
+        /// </summary>
+        public static string Information_WelcomeFeedback {
+            get {
+                return ResourceManager.GetString("Information_WelcomeFeedback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Windows.
         /// </summary>
-        internal static string Information_Windows {
+        public static string Information_Windows {
             get {
                 return ResourceManager.GetString("Information_Windows", resourceCulture);
             }
@@ -693,7 +702,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to To work with your logic app go to Azure Portal from the link below.
         /// </summary>
-        internal static string Information_WorkWithLogicApps {
+        public static string Information_WorkWithLogicApps {
             get {
                 return ResourceManager.GetString("Information_WorkWithLogicApps", resourceCulture);
             }
@@ -702,7 +711,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Work with your {0} at .
         /// </summary>
-        internal static string Information_WorkWithYourApp {
+        public static string Information_WorkWithYourApp {
             get {
                 return ResourceManager.GetString("Information_WorkWithYourApp", resourceCulture);
             }
@@ -711,7 +720,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Xamarin Android.
         /// </summary>
-        internal static string Information_XamarinAndroid {
+        public static string Information_XamarinAndroid {
             get {
                 return ResourceManager.GetString("Information_XamarinAndroid", resourceCulture);
             }
@@ -720,7 +729,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Xamarin iOS.
         /// </summary>
-        internal static string Information_XamariniOS {
+        public static string Information_XamariniOS {
             get {
                 return ResourceManager.GetString("Information_XamariniOS", resourceCulture);
             }
@@ -729,7 +738,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Logout.
         /// </summary>
-        internal static string Logout {
+        public static string Logout {
             get {
                 return ResourceManager.GetString("Logout", resourceCulture);
             }
@@ -738,7 +747,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Management Portal.
         /// </summary>
-        internal static string ManagementPortal {
+        public static string ManagementPortal {
             get {
                 return ResourceManager.GetString("ManagementPortal", resourceCulture);
             }
@@ -747,7 +756,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Marketplace.
         /// </summary>
-        internal static string Marketplace {
+        public static string Marketplace {
             get {
                 return ResourceManager.GetString("Marketplace", resourceCulture);
             }
@@ -756,7 +765,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Microsoft Azure.
         /// </summary>
-        internal static string MicrosoftAzure {
+        public static string MicrosoftAzure {
             get {
                 return ResourceManager.GetString("MicrosoftAzure", resourceCulture);
             }
@@ -765,7 +774,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Microsoft Azure in China.
         /// </summary>
-        internal static string Mooncake {
+        public static string Mooncake {
             get {
                 return ResourceManager.GetString("Mooncake", resourceCulture);
             }
@@ -774,7 +783,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to My Account.
         /// </summary>
-        internal static string MyAccount {
+        public static string MyAccount {
             get {
                 return ResourceManager.GetString("MyAccount", resourceCulture);
             }
@@ -783,7 +792,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Newsletter.
         /// </summary>
-        internal static string Newsletter {
+        public static string Newsletter {
             get {
                 return ResourceManager.GetString("Newsletter", resourceCulture);
             }
@@ -792,7 +801,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Portal.
         /// </summary>
-        internal static string Portal {
+        public static string Portal {
             get {
                 return ResourceManager.GetString("Portal", resourceCulture);
             }
@@ -801,7 +810,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Preview Features.
         /// </summary>
-        internal static string PreviewFeatures {
+        public static string PreviewFeatures {
             get {
                 return ResourceManager.GetString("PreviewFeatures", resourceCulture);
             }
@@ -810,7 +819,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Pricing.
         /// </summary>
-        internal static string Pricing {
+        public static string Pricing {
             get {
                 return ResourceManager.GetString("Pricing", resourceCulture);
             }
@@ -819,7 +828,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Privacy.
         /// </summary>
-        internal static string Privacy {
+        public static string Privacy {
             get {
                 return ResourceManager.GetString("Privacy", resourceCulture);
             }
@@ -828,7 +837,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Privacy and Cookies.
         /// </summary>
-        internal static string PrivacyCookies {
+        public static string PrivacyCookies {
             get {
                 return ResourceManager.GetString("PrivacyCookies", resourceCulture);
             }
@@ -837,7 +846,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Profile.
         /// </summary>
-        internal static string Profile {
+        public static string Profile {
             get {
                 return ResourceManager.GetString("Profile", resourceCulture);
             }
@@ -846,7 +855,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Regions.
         /// </summary>
-        internal static string Regions {
+        public static string Regions {
             get {
                 return ResourceManager.GetString("Regions", resourceCulture);
             }
@@ -855,7 +864,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Rss.
         /// </summary>
-        internal static string Rss {
+        public static string Rss {
             get {
                 return ResourceManager.GetString("Rss", resourceCulture);
             }
@@ -864,7 +873,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Security.
         /// </summary>
-        internal static string Security {
+        public static string Security {
             get {
                 return ResourceManager.GetString("Security", resourceCulture);
             }
@@ -873,7 +882,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Service Dashboard.
         /// </summary>
-        internal static string ServiceDashboard {
+        public static string ServiceDashboard {
             get {
                 return ResourceManager.GetString("ServiceDashboard", resourceCulture);
             }
@@ -882,7 +891,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Services.
         /// </summary>
-        internal static string Services {
+        public static string Services {
             get {
                 return ResourceManager.GetString("Services", resourceCulture);
             }
@@ -891,7 +900,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Service Updates.
         /// </summary>
-        internal static string ServiceUpdates {
+        public static string ServiceUpdates {
             get {
                 return ResourceManager.GetString("ServiceUpdates", resourceCulture);
             }
@@ -900,7 +909,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Subscriptions.
         /// </summary>
-        internal static string Subscriptions {
+        public static string Subscriptions {
             get {
                 return ResourceManager.GetString("Subscriptions", resourceCulture);
             }
@@ -909,7 +918,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Support.
         /// </summary>
-        internal static string Support {
+        public static string Support {
             get {
                 return ResourceManager.GetString("Support", resourceCulture);
             }
@@ -918,7 +927,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to This Logic App template will ping a website on a recurring schedule.  You can extend it to take an action depending on the result of the ping..
         /// </summary>
-        internal static string Templates_PingSiteDescription {
+        public static string Templates_PingSiteDescription {
             get {
                 return ResourceManager.GetString("Templates_PingSiteDescription", resourceCulture);
             }
@@ -927,7 +936,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Try Azure App Service.
         /// </summary>
-        internal static string Title {
+        public static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
             }
@@ -936,7 +945,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Trademarks.
         /// </summary>
-        internal static string Trademarks {
+        public static string Trademarks {
             get {
                 return ResourceManager.GetString("Trademarks", resourceCulture);
             }
@@ -945,7 +954,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Trust Center.
         /// </summary>
-        internal static string TrustCenter {
+        public static string TrustCenter {
             get {
                 return ResourceManager.GetString("TrustCenter", resourceCulture);
             }
@@ -954,7 +963,7 @@ namespace SimpleWAWS {
         /// <summary>
         ///   Looks up a localized string similar to Twitter.
         /// </summary>
-        internal static string Twitter {
+        public static string Twitter {
             get {
                 return ResourceManager.GetString("Twitter", resourceCulture);
             }

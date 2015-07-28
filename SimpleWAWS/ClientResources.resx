@@ -417,4 +417,7 @@
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>This Logic App template will ping a website on a recurring schedule.  You can extend it to take an action depending on the result of the ping.</value>
   </data>
+  <data name="Information_WelcomeFeedback" xml:space="preserve">
+    <value>We welcome your feedback!</value>
+  </data>
 </root>
