@@ -1,4 +1,5 @@
-﻿<h2>Select a template and create your {{ currentAppService.title }}</h2>
+﻿@using SimpleWAWS
+<h2>@string.Format(ClientResources.Action_SelectTemplate, "{{ currentAppService.title }}")</h2>
 <div ng-if="currentAppService.templates[0].language">
     <label for="wa-dropdown-language">Change language:</label>
     <div class="wa-dropdown-container wa-dropdown-medium">

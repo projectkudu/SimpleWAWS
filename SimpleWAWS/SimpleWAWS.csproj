@@ -366,12 +366,12 @@
     <Content Include="Content\fonts\segoe-ui\semibold\latest.ttf" />
     <Content Include="Content\fonts\segoe-ui\semibold\latest.woff" />
     <Content Include="Scripts\site.js" />
-    <Content Include="templates\clients.html" />
-    <Content Include="templates\comingsoon.html" />
+    <None Include="templates\clients.cshtml" />
+    <None Include="templates\comingsoon.cshtml" />
     <Content Include="templates\empty-shell.html" />
-    <Content Include="templates\templates.html" />
-    <Content Include="templates\steps.html" />
-    <Content Include="templates\work.html" />
+    <None Include="templates\templates.cshtml" />
+    <None Include="templates\steps.cshtml" />
+    <None Include="templates\work.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

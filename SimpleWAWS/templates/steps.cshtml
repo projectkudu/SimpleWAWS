@@ -1,9 +1,10 @@
-﻿<section class="wa-section wa-section-mini" ng-if="branding !== 'aspnet'" ng-class="branding === 'mkt-b15.22' ? 'wa-section-mkt-b15' : 'wa-section-blue wa-section-compute'">
+﻿@using SimpleWAWS
+<section class="wa-section wa-section-mini" ng-if="branding !== 'aspnet'" ng-class="branding === 'mkt-b15.22' ? 'wa-section-mkt-b15' : 'wa-section-blue wa-section-compute'">
     <div class="wa-content">
-        <h1>Create your Azure App Service app</h1>
+        <h1>@ClientResources.Action_CreateAppServiceApp</h1>
         <div class="wa-spacer">
-            <h5 style="padding-top: 35px">Azure App Service is a cloud app service that integrates everything you need to quickly and easily build web and mobile apps for any platform or device.</h5>
-            <h5>Be our guest for up to an hour of Azure App Service experience with no Azure subscription, free of charge and commitment. Stay longer for the full Azure App Service experience with an Azure free trial subscription.</h5>
+            <h5 style="padding-top: 35px">@ClientResources.Information_GenericBrandingLine1</h5>
+            <h5>@ClientResources.Information_GenericBrandingLine2</h5>
         </div>
         <div class="wa-spacer  wa-spacer-aside wa-spacer-asideLight">
             <video width="440" controls poster="/Content/poster2.png" preload="none">
@@ -14,8 +15,8 @@
 </section>
 <section class="wa-section wa-section-blueDark" ng-if="branding === 'aspnet'">
     <div class="wa-content">
-      <h1>Host 10 ASP.NET websites for free with Azure App Service</h1>
-      <h3>Secure, reliable, and business-ready in seconds. Start for free and scale as your traffic grows.</h3>
+      <h1>@ClientResources.Information_AspNetBrandingLine1</h1>
+      <h3>@ClientResources.Information_AspNetBrandingLine2</h3>
     </div>
 </section>
 
@@ -27,7 +28,7 @@
     <div class="wa-content wa-content-4up wa-content-divided" ui-view></div>
 
     <div ng-if="currentStep.id === 1" class="wa-content wa-content-4up" style="margin-top: 0px">
-        <h2>Select app type</h2>
+        <h2>@ClientResources.Action_SelectAppType</h2>
         <br />
         <br />
 
@@ -49,7 +50,7 @@
             <a ng-if="previousStep" href="#" class="wa-button" ng-click="goToPreviousState()" ng-class="currentStep.previousClass ? currentStep.previousClass : 'wa-button-gray'">{{ currentStep.previousText ? currentStep.previousText : 'Previous' }}</a>
             <div id="confirm-box" class="confirm-box" ng-show="confirmDelete">
                 <div class="confirm-content">
-                    <div class="confirm-message">Going back will delete the current {{ currentAppService.title }}.</div>
+                    <div class="confirm-message">@ClientResources.Information_GoingBackWillDeleteApp</div>
                     <a id="yes-delete-confirm" href="#" class="wa-button wa-button-red confirm-answer" ng-click="deleteResource()">
                         Delete
                     </a>
@@ -62,7 +63,7 @@
             <a ng-if="!nextStep" ng-href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id={{ cachedQuery }}" target="_blank" ng-click="freeTrialClick('last-step')" class="wa-button wa-button-primary">Free trial</a>
             <div class="login-box"  ng-show="loginOptions">
                 <div style="display: block; margin-left: 30px">
-                    <div class="wa-heading5" style="position: relative; margin-right: 8px">Log in first to create a {{ currentAppService.title }}</div>
+                    <div class="wa-heading5" style="position: relative; margin-right: 8px">@ClientResources.Information_LoginFirst</div>
                     <div class="login-option"><a href="#" ng-click="handleLoginClick('aad')" class="create-site-action wa-button microsoft-login">Microsoft Account</a></div>
                     <div class="login-option"><a class="create-site-action" ng-click="handleLoginClick('google')" href="#"><div class="google-login sprite-google"></div></a></div>
                     <div class="login-option"><a class="create-site-action" ng-click="handleLoginClick('facebook')" href="#"><div class="facebook-login"></div></a></div>
@@ -70,12 +71,12 @@
             </div>
             <div id="confirm-box" class="confirm-box" ng-show="offerDeleteAndCreate" style="left: 274px; top: -45px">
                 <div class="confirm-content">
-                    <div class="confirm-message">You already have an App Service created. Do you want to delete it and create a new one?</div>
+                    <div class="confirm-message">@ClientResources.Information_AppAlreadyExists</div>
                     <a id="yes-delete-confirm" href="#" class="wa-button wa-button-red confirm-answer" ng-click="deleteAndCreateResource()">
-                        Yes
+                        @ClientResources.Action_Yes
                     </a>
                     <a href="#" class="wa-button wa-button-gray confirm-answer" ng-click="initExistingState()">
-                        Go to existing app
+                        @ClientResources.Action_GoToExistingApp
                     </a>
                 </div>
             </div>
@@ -110,9 +111,9 @@
     <div class="full-site-blocker"></div>
     <div class="site-expired-notification-blade">
         <div class="site-expired-notification">
-            <h2 style="color: white; margin-bottom: 90px">Your {{ currentAppService.title }} has expired. You can try creating another app service app or signup for a free 30-day trial account.</h2>
-            <a id="dismiss-site-expire" href="#" class="wa-button wa-button-slate" ng-click="dismissSiteExpired()">Dismiss</a>
-            <a ng-href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id={{ cachedQuery }}" id="free-trial-dismiss" target="_blank" ng-click="freeTrialClick('expired-banner')" class="wa-button wa-button-primary">Free trial</a>
+            <h2 style="color: white; margin-bottom: 90px">@string.Format(ClientResources.Information_AppHasExpired, "{{ currentAppService.title }}")</h2>
+            <a id="dismiss-site-expire" href="#" class="wa-button wa-button-slate" ng-click="dismissSiteExpired()">@ClientResources.Action_Dismiss</a>
+            <a ng-href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id={{ cachedQuery }}" id="free-trial-dismiss" target="_blank" ng-click="freeTrialClick('expired-banner')" class="wa-button wa-button-primary">@ClientResources.FreeTrial</a>
         </div>
     </div>
 </div>

@@ -1,0 +1,32 @@
+﻿@using SimpleWAWS
+<h2>@string.Format(ClientResources.Information_AppHasBeenCreated, "{{ currentAppService.title.toLowerCase() }}")</h2>
+<div>
+    <h3 ng-if="currentAppService.name !== 'Logic'">
+        @string.Format(ClientResources.Information_WorkWithYourApp, "{{ currentAppService.title.toLowerCase() }}") <a ng-href="{{ resource.url }}" target="_blank">{{ resource.url }}</a>
+    </h3>
+    <h3 ng-if="currentAppService.name === 'Logic'">
+        @ClientResources.Information_WorkWithLogicApps
+    </h3>
+    <div class="work-with-site-tools" ng-if="resource.monacoUrl">
+        <a ng-href="{{ resource.monacoUrl }}" target="_blank" ng-click="monacoClick()"><div class="work-with-site-tools-img icons sprite-VSO"></div><div class="website-template-name">@ClientResources.Action_Monaco</div></a>
+    </div>
+    <div class="work-with-site-tools" ng-if="resource.contentDownloadUrl">
+        <a ng-href="{{ resource.contentDownloadUrl }}" ng-click="downloadContentClick()" target="_blank"><div class="work-with-site-tools-img icons sprite-DownloadSite"></div><div class="website-template-name">@string.Format(ClientResources.Action_DownloadAppContent, "{{ currentAppService.title }}")</div></a>
+    </div>
+    <div class="work-with-site-tools" ng-if="currentAppService.name !== 'Logic'">
+        <a href="/api/resource/getpublishingprofile" ng-click="downloadPublishingProfileClick()" target="_blank"><div class="work-with-site-tools-img icons sprite-DownloadPublishing"></div><div class="website-template-name">@ClientResources.Action_DownloadPublishingProfile</div></a>
+    </div>
+    <div class="work-with-site-tools" ng-if="resource.gitUrl">
+        <div class="work-with-site-tools-img icons sprite-git"></div>
+        <a href="#" ng-click="gitLinkClick()">
+            <div class="website-template-name">@ClientResources.Action_GitClone</div>
+            <input id="git-url-input" type="text" readonly="readonly" style="margin-left: -20px; margin-top: 8px; height: 20px; border: 2px inset" ng-model="resource.gitUrl" select-on-click />
+        </a>
+    </div>
+    <div class="work-with-site-tools" ng-if="resource.ibizaUrl && resource.IsRbacEnabled">
+        <a ng-href="{{ resource.ibizaUrl }}" target="_blank" ng-click="ibizaClick()"><div class="work-with-site-tools-img icons sprite-MicrosoftAzure"></div><div class="website-template-name">@ClientResources.Action_ManageInAzurePortal</div></a>
+    </div>
+    <div style="margin-top: 10px; margin-bottom: 20px"><strong>@string.Format(ClientResources.Information_ExpireMessage, "{{ currentAppService.title }}") <span class="countdown" ng-bind="timeLeft"></span></strong></div>
+    <h2>@ClientResources.Information_WantMoreQuestionLine1</h2>
+    <h6>@ClientResources.Information_WantMoreQuestionLine2</h6>
+</div>
