@@ -347,7 +347,7 @@
     <Content Include="App_Data\applicationHost.xdt">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="index.html" />
+    <None Include="Default.cshtml" />
     <Content Include="ref\ARMClient.Authentication.dll" />
     <Content Include="ref\ARMClient.Library.dll" />
     <Content Include="Scripts\js.cookie-1.5.1.min.js" />
@@ -416,7 +416,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ClientResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ClientResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources.resx">
