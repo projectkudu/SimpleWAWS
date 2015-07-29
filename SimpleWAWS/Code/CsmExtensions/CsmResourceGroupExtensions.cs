@@ -113,7 +113,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 {
                     Tags = new Dictionary<string, string> 
                     {
-                        { Constants.StartTime, DateTime.UtcNow.ToString() },
+                        { Constants.StartTime, DateTime.UtcNow.ToString("u") },
                         { Constants.IsRbacEnabled, false.ToString() },
                         { Constants.GeoRegion, region }
                     }
@@ -236,7 +236,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         public static async Task<ResourceGroup> MarkInUse(this ResourceGroup resourceGroup, string userId, TimeSpan lifeTime, AppService appService)
         {
             resourceGroup.Tags[Constants.UserId] = userId;
-            resourceGroup.Tags[Constants.StartTime] = DateTime.UtcNow.ToString();
+            resourceGroup.Tags[Constants.StartTime] = DateTime.UtcNow.ToString("u");
             resourceGroup.Tags[Constants.LifeTimeInMinutes] = lifeTime.TotalMinutes.ToString();
             resourceGroup.Tags[Constants.AppService] = appService.ToString();
             return await Update(resourceGroup);

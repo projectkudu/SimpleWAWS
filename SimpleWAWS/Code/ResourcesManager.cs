@@ -359,7 +359,7 @@ namespace SimpleWAWS.Code
                             throw new InvalidGithubRepoException();
                         }
                     }
-                    site.AppSettings["LAST_MODIFIED_TIME_UTC"] = DateTime.UtcNow.ToString();
+                    site.AppSettings["LAST_MODIFIED_TIME_UTC"] = DateTime.UtcNow.ToString("u");
                     site.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = SimpleSettings.SiteExpiryMinutes;
                     site.AppSettings["MONACO_EXTENSION_VERSION"] = "beta";
                     site.AppSettings["WEBSITE_TRY_MODE"] = "1";
