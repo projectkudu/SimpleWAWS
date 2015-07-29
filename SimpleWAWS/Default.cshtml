@@ -20,7 +20,7 @@
             var Resources = {};
             @foreach (var p in typeof(Client).GetProperties()) {
                 if (p.GetValue(null, null) != null) { 
-                    @: Resources["@Html.Raw(@p.Name)"] = "@Html.Raw(@p.GetValue(null, null).ToString().Replace("\"", "'"))";
+                    @: Resources["@Html.Raw(@p.Name)"] = "@Html.Raw(HttpUtility.JavaScriptStringEncode(p.GetValue(null, null).ToString()))";
                 }
             }
             
