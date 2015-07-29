@@ -35,7 +35,7 @@ angular.module("tryApp")
                     title: Resources.Action_SelectTemplate,
                     sref: "home.mobileapp.templates",
                     nextClass: "wa-button-primary",
-                    nextText: "Create"
+                    nextText: Resources.Action_Create
                 }, {
                     id: 3,
                     title: Resources.Information_DownloadClient,
@@ -81,31 +81,31 @@ angular.module("tryApp")
                 name: "Logic",
                 sprite: "sprite-LogicApp",
                 title: Resources.Information_LogicApp,
+                //steps: [{
+                //    id: 1,
+                //    title: Resources.Action_SelectAppType,
+                //    sref: "home"
+                //}, {
+                //    id: 2,
+                //    title: Resources.Information_ComingSoon,
+                //    sref: "home.logicapp.comingsoon"
+                //}],
                 steps: [{
                     id: 1,
                     title: Resources.Action_SelectAppType,
                     sref: "home"
                 }, {
                     id: 2,
-                    title: Resources.Information_ComingSoon,
-                    sref: "home.logicapp.comingsoon"
+                    title: Resources.Action_SelectTemplate,
+                    sref: "home.logicapp.templates",
+                    nextClass: "wa-button-primary",
+                    nextText: Resources.Action_Create
+                }, {
+                    id: 3,
+                    title: Resources.Action_GenericWorkWithYourApp,
+                    sref: "home.logicapp.work",
+                    confirmDelete: true
                 }],
-                //steps: [{
-                //    id: 1,
-                //    title: "Select app type",
-                //    sref: "home"
-                //}, {
-                //    id: 2,
-                //    title: "Select template",
-                //    sref: "home.logicapp.templates",
-                //    nextClass: "wa-button-primary",
-                //    nextText: "Create"
-                //}, {
-                //    id: 3,
-                //    title: "Work with your app",
-                //    sref: "home.logicapp.work",
-                //    confirmDelete: true
-                //}],
                 templates: []
             }],
             getMobileClients: () => [{
