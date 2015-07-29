@@ -352,6 +352,8 @@
     <Content Include="App_Data\applicationHost.xdt">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="CSMTemplates\commonApiApps.json" />
+    <Content Include="CSMTemplates\PingSite.json" />
     <None Include="Default.cshtml" />
     <Content Include="ref\ARMClient.Authentication.dll" />
     <Content Include="ref\ARMClient.Library.dll" />
