@@ -197,30 +197,29 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             resourceGroup.Sites = resourceGroup.Sites.Union(createdSites);
 
-            //var csmTemplateString = string.Empty;
+            var csmTemplateString = string.Empty;
 
-            ////using (var reader = new StreamReader(HostingEnvironment.MapPath("~/App_Data/commonApiApps.json")))
-            //using (var reader = new StreamReader(@"D:\scratch\repos\SimpleWAWS\SimpleWAWS\App_Data\commonApiApps.json"))
-            //{
-            //    csmTemplateString = await reader.ReadToEndAsync();
-            //}
+            using (var reader = new StreamReader(SimpleSettings.CommonApiAppsCsmTemplatePath))
+            {
+                csmTemplateString = await reader.ReadToEndAsync();
+            }
 
-            //var gatewayName = resourceGroup.Gateways.Count() != 0
-            //    ? resourceGroup.Gateways.Select(s => s.GatewayName).First()
-            //    : Guid.NewGuid().ToString().Replace("-", "");
-            //csmTemplateString = csmTemplateString.Replace("{{gatewayName}}", gatewayName);
+            var gatewayName = resourceGroup.Gateways.Count() != 0
+                ? resourceGroup.Gateways.Select(s => s.GatewayName).First()
+                : Guid.NewGuid().ToString().Replace("-", "");
+            csmTemplateString = csmTemplateString.Replace("{{gatewayName}}", gatewayName);
 
-            //var deployment = new CsmDeployment
-            //{
-            //    DeploymentName = resourceGroup.ResourceUniqueId,
-            //    SubscriptionId = resourceGroup.SubscriptionId,
-            //    ResourceGroupName = resourceGroup.ResourceGroupName,
-            //    CsmTemplate = JsonConvert.DeserializeObject<JToken>(csmTemplateString),
-            //};
+            var deployment = new CsmDeployment
+            {
+                DeploymentName = resourceGroup.ResourceUniqueId,
+                SubscriptionId = resourceGroup.SubscriptionId,
+                ResourceGroupName = resourceGroup.ResourceGroupName,
+                CsmTemplate = JsonConvert.DeserializeObject<JToken>(csmTemplateString),
+            };
 
-            //await deployment.Deploy(block: true);
+            await deployment.Deploy(block: true);
 
-            //await resourceGroup.Load();
+            await resourceGroup.Load();
 
             return resourceGroup;
         }

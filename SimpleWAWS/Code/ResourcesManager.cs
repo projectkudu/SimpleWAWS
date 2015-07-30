@@ -79,6 +79,7 @@ namespace SimpleWAWS.Code
             var csmSubscriptions = await CsmManager.GetSubscriptionNamesToIdMap();
             var subscriptions = await SimpleSettings.Subscriptions.Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                 //It can be either a displayName or a subscriptionId
+                .Select(s => s.Trim())
                 .Where(n =>
                 {
                     Guid temp;
@@ -459,8 +460,8 @@ namespace SimpleWAWS.Code
                     csmTemplateString = await reader.ReadToEndAsync();
                 }
 
-                //csmTemplateString = csmTemplateString.Replace("{{gatewayName}}", resourceGroup.Gateways.Select(g => g.GatewayName).First()).Replace("{{logicAppName}}", logicApp.LogicAppName);
-                csmTemplateString = csmTemplateString.Replace("{{gatewayName}}", Guid.NewGuid().ToString().Replace("-", "")).Replace("{{logicAppName}}", logicApp.LogicAppName);
+                csmTemplateString = csmTemplateString.Replace("{{gatewayName}}", resourceGroup.Gateways.Select(g => g.GatewayName).First()).Replace("{{logicAppName}}", logicApp.LogicAppName);
+                //csmTemplateString = csmTemplateString.Replace("{{gatewayName}}", Guid.NewGuid().ToString().Replace("-", "")).Replace("{{logicAppName}}", logicApp.LogicAppName);
 
                 await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true);
 
@@ -470,9 +471,7 @@ namespace SimpleWAWS.Code
                 await resourceGroup.Load();
 
                 var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email);
-                //var publicAccessTask = resourceGroup.ApiApps.Select(a => a.SetAccessLevel("PublicAnonymous"));
                 resourceGroup.IsRbacEnabled = await rbacTask;
-                //await Task.WhenAll(publicAccessTask);
                 return resourceGroup;
             });
         }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Web;
+using System.Web.Hosting;
 
 namespace SimpleWAWS.Code
 {
@@ -37,6 +38,7 @@ namespace SimpleWAWS.Code
         public static string ToEmails  { get { return config(); } }
         public static string SearchServiceName { get { return config(); } }
         public static string SearchServiceApiKeys { get { return config(); } }
-
+        private const string CommonApiAppsCsmTemplatePathLocal = @"D:\scratch\repos\SimpleWAWS\SimpleWAWS\CSMTemplates\commonApiApps.json";
+        public static string CommonApiAppsCsmTemplatePath { get; } = HostingEnvironment.MapPath("~/CSMTemplates/commonApiApps.json") ?? CommonApiAppsCsmTemplatePathLocal;
     }
 }
