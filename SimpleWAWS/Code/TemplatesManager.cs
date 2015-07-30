@@ -75,7 +75,8 @@ namespace SimpleWAWS.Models
                         Name = "Ping Site",
                         SpriteName = "sprite-ASPNETEmptySite ASPNETEmptySite",
                         AppService = AppService.Logic,
-                        CsmTemplateFilePath = HostingEnvironment.MapPath("~/App_Data/PingSite.json")
+                        CsmTemplateFilePath = HostingEnvironment.MapPath("~/CSMTemplates/PingSite.json"),
+                        Description = Resources.Server.Templates_PingSiteDescription
                     });
                 //TODO: Implement a FileSystemWatcher for changes in the directory
             }

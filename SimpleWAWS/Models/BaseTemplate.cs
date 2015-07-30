@@ -22,6 +22,9 @@ namespace SimpleWAWS.Models
         [JsonProperty(PropertyName = "githubRepo")]
         public string GithubRepo { get; set; }
 
+        [JsonProperty(PropertyName = "description")]
+        public string Description { get; set; }
+
         public string CreateQueryString()
         {
             return string.Concat("appServiceName=", AppService.ToString(), "&name=", Name, "&autoCreate=true");
