@@ -444,4 +444,13 @@
   <data name="Previous" xml:space="preserve">
     <value>Previous</value>
   </data>
+  <data name="Information_ApiAppDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Information_MobileAppDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Information_WebAppDescription" xml:space="preserve">
+    <value />
+  </data>
 </root>

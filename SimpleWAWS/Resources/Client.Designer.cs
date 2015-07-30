@@ -394,6 +394,15 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string Information_ApiAppDescription {
+            get {
+                return ResourceManager.GetString("Information_ApiAppDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You already have an App Service created. Do you want to delete it and create a new one?.
         /// </summary>
         public static string Information_AppAlreadyExists {
@@ -628,6 +637,15 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string Information_MobileAppDescription {
+            get {
+                return ResourceManager.GetString("Information_MobileAppDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Native iOS.
         /// </summary>
         public static string Information_NativeiOS {
@@ -714,6 +732,15 @@ namespace SimpleWAWS.Resources {
         public static string Information_WebApp {
             get {
                 return ResourceManager.GetString("Information_WebApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string Information_WebAppDescription {
+            get {
+                return ResourceManager.GetString("Information_WebAppDescription", resourceCulture);
             }
         }
         

@@ -149,5 +149,14 @@ namespace SimpleWAWS.Resources {
                 return ResourceManager.GetString("Error_UnsupportedPlatform", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This Logic App template will ping a website on a recurring schedule.  You can extend it to take an action depending on the result of the ping..
+        /// </summary>
+        internal static string Templates_PingSiteDescription {
+            get {
+                return ResourceManager.GetString("Templates_PingSiteDescription", resourceCulture);
+            }
+        }
     }
 }
