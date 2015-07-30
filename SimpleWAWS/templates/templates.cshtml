@@ -14,9 +14,12 @@
 
 <div id="templates-div">
     <div ng-repeat="template in currentAppService.templates | filterBySelectedLanguage: ngModels.selectedLanguage" class="website-template-container box-container" ng-class="selectedTemplate.name === template.name ? 'box-container-selected': ''">
-        <a class="select-template-anchor" ng-click="selectTemplate(template)" href="#"> <!-- click event?-->
+        <a class="select-template-anchor" ng-click="selectTemplate(template)" ng-mouseover="onTemplateMouseOver(template)" ng-mouseleave="onTemplateMouseLeave()" href="#"> <!-- click event?-->
             <div class="icons" ng-class="template.sprite" style="width: 115px; height: 115px"></div>
             <div class="website-template-name">{{ template.name }}</div>
         </a>
+    </div>
+    <div style="margin-top: 30px;">
+        <h5 ng-bind="ngModels.hoverTemplate ? ngModels.hoverTemplate.description : selectedTemplate.description"></h5>
     </div>
 </div>

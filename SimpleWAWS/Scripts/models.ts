@@ -8,7 +8,7 @@
     previousText?: string;
     onNext?: () => ng.IPromise<any>|void;
     onPrevious?: () => ng.IPromise<boolean>|void;
-    confirmDelete: boolean;
+    confirmDelete?: boolean;
 }
 
 interface IAppService {
@@ -18,6 +18,7 @@ interface IAppService {
     steps: IStep[];
     templates: ITemplate[];
     hidden?: boolean;
+    description: string;
 }
 
 interface ITemplate {
@@ -27,6 +28,7 @@ interface ITemplate {
     language?: string;
     fileName?: string;
     githubRepo: string;
+    description?: string;
 }
 
 interface IAppControllerScope extends ng.IScope {
@@ -65,6 +67,10 @@ interface IAppControllerScope extends ng.IScope {
     initExistingState();
     deleteAndCreateResource();
     showFullBlackBlocker: boolean;
+    onAppServiceMouseOver(appService: IAppService);
+    onAppServiceMouseLeave();
+    onTemplateMouseOver(template: ITemplate);
+    onTemplateMouseLeave();
 }
 
 interface ITryRootScope extends ng.IRootScopeService {

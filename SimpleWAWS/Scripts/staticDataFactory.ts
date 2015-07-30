@@ -1,7 +1,7 @@
 angular.module("tryApp")
     .factory("staticDataFactory", () => {
         return {
-            getAppServices: () => [{
+            getAppServices: (): IAppService[] => [{
                 name: "Web",
                 sprite: "sprite-WebApp",
                 title: Resources.Information_WebApp,
@@ -11,7 +11,7 @@ angular.module("tryApp")
                     sref: "home",
                 }, {
                     id: 2,
-                    title: Resources.Action_SelectTemplate,
+                    title: Resources.Information_SelectTemplate,
                     sref: "home.webapp.templates",
                     nextClass: "wa-button-primary",
                     nextText: Resources.Action_Create
@@ -21,7 +21,8 @@ angular.module("tryApp")
                     sref: "home.webapp.work",
                     confirmDelete: true
                 }],
-                templates: []
+                templates: [],
+                description: Resources.Information_WebAppDescription
             }, {
                 name: "Mobile",
                 sprite: "sprite-MobileApp",
@@ -32,7 +33,7 @@ angular.module("tryApp")
                     sref: "home",
                 }, {
                     id: 2,
-                    title: Resources.Action_SelectTemplate,
+                    title: Resources.Information_SelectTemplate,
                     sref: "home.mobileapp.templates",
                     nextClass: "wa-button-primary",
                     nextText: Resources.Action_Create
@@ -46,14 +47,15 @@ angular.module("tryApp")
                     title: Resources.Action_GenericWorkWithYourApp,
                     sref: "home.mobileapp.work"
                 }],
-                templates: []
+                templates: [],
+                description: Resources.Information_MobileAppDescription
             }, {
                 name: "Api",
                 sprite: "sprite-ApiApp",
                 title: Resources.Information_APIApp,
                 steps: [{
                     id: 1,
-                    title: Resources.Action_SelectAppType,
+                    title: Resources.Information_SelectTemplate,
                     sref: "home"
                 }, {
                     id: 2,
@@ -76,7 +78,8 @@ angular.module("tryApp")
                 //        sref: "home.apiapp.work",
                 //        confirmDelete: true
                 //    }],
-                templates: []
+                templates: [],
+                description: Resources.Information_ApiAppDescription
             }, {
                 name: "Logic",
                 sprite: "sprite-LogicApp",
@@ -96,7 +99,7 @@ angular.module("tryApp")
                     sref: "home"
                 }, {
                     id: 2,
-                    title: Resources.Action_SelectTemplate,
+                    title: Resources.Information_SelectTemplate,
                     sref: "home.logicapp.templates",
                     nextClass: "wa-button-primary",
                     nextText: Resources.Action_Create
@@ -106,7 +109,8 @@ angular.module("tryApp")
                     sref: "home.logicapp.work",
                     confirmDelete: true
                 }],
-                templates: []
+                templates: [],
+                description: Resources.Information_LogicAppDescription
             }],
             getMobileClients: () => [{
                 name: "Windows",

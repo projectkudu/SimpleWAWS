@@ -8,10 +8,25 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
         return template.language;
     };
 
-
     $scope.appServices = staticDataFactory.getAppServices();
 
     $scope.mobileClients = staticDataFactory.getMobileClients();
+
+    $scope.onAppServiceMouseOver = (appService: IAppService) => {
+        $scope.ngModels.hoverAppService = appService;
+    };
+
+    $scope.onAppServiceMouseLeave = () => {
+        delete $scope.ngModels.hoverAppService;
+    };
+
+    $scope.onTemplateMouseOver = (template: ITemplate) => {
+        $scope.ngModels.hoverTemplate = template;
+    };
+
+    $scope.onTemplateMouseLeave = () => {
+        delete $scope.ngModels.hoverTemplate;
+    };
 
     $scope.selectAppService = (appService) => {
         $scope.currentAppService = appService;

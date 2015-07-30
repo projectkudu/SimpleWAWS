@@ -34,14 +34,15 @@
 
         <div id="appservices-div">
             <div ng-repeat="appService in appServices" class="appservice-container box-container" ng-class="currentAppService.name === appService.name ? 'box-container-selected' : ''">
-                <a class="select-appservice-anchor" href="#" ng-click="selectAppService(appService)">
+                <a class="select-appservice-anchor" href="#" ng-click="selectAppService(appService)" ng-mouseover="onAppServiceMouseOver(appService)" ng-mouseleave="onAppServiceMouseLeave()">
                     <div class="app-service" ng-class="appService.sprite"></div>
                     <div class="appservice-name">{{ appService.title }}</div>
                 </a>
             </div>
         </div>
-        <br />
-        <br />
+        <div style="margin-top: 30px;">
+            <h5 ng-bind="ngModels.hoverAppService ? ngModels.hoverAppService.description : currentAppService.description"></h5>
+        </div>
     </div>
 
     <div class="wa-content wa-content-4up wa-content-divided" style="margin-bottom: 20px">

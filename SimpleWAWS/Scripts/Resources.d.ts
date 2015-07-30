@@ -13,4 +13,12 @@
     export var Action_GenericWorkWithYourApp: string;
     export var Information_ComingSoon: string;
     export var Information_DownloadClient: string;
+    export var Information_SelectTemplate: string;
+    export var Information_LogicAppDescription: string;
+    export var Information_LogicAppStep1: string;
+    export var Information_LogicAppStep2: string;
+    export var Information_WebAppDescription: string;
+    export var Information_MobileAppDescription: string;
+    export var Information_ApiAppDescription: string;
+    export var Templates_PingSiteDescription: string;
 }
