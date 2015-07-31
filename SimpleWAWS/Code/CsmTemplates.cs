@@ -21,9 +21,11 @@ namespace SimpleWAWS.Code
 
         public static readonly CsmTemplate Subscriptions = new CsmTemplate(CsmRootUrl + "/subscriptions", csmApiVersoin);
         public static readonly CsmTemplate Subscription = new CsmTemplate(Subscriptions.TemplateUrl + "/{subscriptionId}", csmApiVersoin);
+        public static readonly CsmTemplate SubscriptionResources = new CsmTemplate(Subscription.TemplateUrl + "/resources", csmApiVersoin);
 
         public static readonly CsmTemplate ResourceGroups = new CsmTemplate(Subscription.TemplateUrl + "/resourceGroups", csmApiVersoin);
         public static readonly CsmTemplate ResourceGroup = new CsmTemplate(ResourceGroups.TemplateUrl + "/{resourceGroupName}", csmApiVersoin);
+        public static readonly CsmTemplate ResourceGroupResources = new CsmTemplate(ResourceGroup.TemplateUrl + "/resources", csmApiVersoin);
 
         public static readonly CsmTemplate CsmTemplateDeployment = new CsmTemplate(ResourceGroup.TemplateUrl + "/deployments/{deploymentName}", csmApiVersoin);
 

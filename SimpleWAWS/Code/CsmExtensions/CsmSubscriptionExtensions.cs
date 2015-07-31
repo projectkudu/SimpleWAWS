@@ -25,9 +25,22 @@ namespace SimpleWAWS.Code.CsmExtensions
                 .Where(r => r.tags != null && r.tags.ContainsKey("Bad") && r.properties.provisioningState != "Deleting")
                 .Select(async r => await Delete(await Load(new ResourceGroup(subscription.SubscriptionId, r.name), r, loadSubResources: false), block: false));
 
-            subscription.ResourceGroups = await csmResourceGroups.value
+            var csmSubscriptionResourcesReponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.SubscriptionResources.Bind(subscription));
+            csmSubscriptionResourcesReponse.EnsureSuccessStatusCode();
+            var csmSubscriptionResources = await csmSubscriptionResourcesReponse.Content.ReadAsAsync<CsmArrayWrapper<object>>();
+
+            var goodResourceGroups = csmResourceGroups.value
                 .Where(r => IsSimpleWaws(r))
-                .Select(async r => await Load(new ResourceGroup(subscription.SubscriptionId, r.name), r))
+                .Select(r => new
+                {
+                    ResourceGroup = r,
+                    Resources = csmSubscriptionResources.value.Where(resource => resource.id.IndexOf(r.id, StringComparison.OrdinalIgnoreCase) != -1)
+                });
+
+
+
+            subscription.ResourceGroups = await goodResourceGroups
+                .Select(async r => await Load(new ResourceGroup(subscription.SubscriptionId, r.ResourceGroup.name), r.ResourceGroup, r.Resources))
                 .IgnoreAndFilterFailures();
 
             await deleteBadResourceGroupsTasks.IgnoreFailures().WhenAll();

@@ -18,7 +18,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 {
     public static partial class CsmManager
     {
-        public static async Task<ResourceGroup> Load(this ResourceGroup resourceGroup, CsmWrapper<CsmResourceGroup> csmResourceGroup = null, bool loadSubResources = true)
+        public static async Task<ResourceGroup> Load(this ResourceGroup resourceGroup, CsmWrapper<CsmResourceGroup> csmResourceGroup = null, IEnumerable<CsmWrapper<object>> resources = null, bool loadSubResources = true)
         {
             Validate.ValidateCsmResourceGroup(resourceGroup);
 
@@ -33,19 +33,29 @@ namespace SimpleWAWS.Code.CsmExtensions
             Validate.NotNull(csmResourceGroup.tags, "csmResorucegroup.tags");
 
             resourceGroup.Tags = csmResourceGroup.tags;
+
+            if (resources == null)
+            {
+                var csmResourceGroupResourcesResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.ResourceGroupResources.Bind(resourceGroup));
+                csmResourceGroupResourcesResponse.EnsureSuccessStatusCode();
+                resources = (await csmResourceGroupResourcesResponse.Content.ReadAsAsync<CsmArrayWrapper<object>>()).value;
+            }
+
+
+
             if (loadSubResources)
             {
-                await Task.WhenAll(LoadSites(resourceGroup),
-                                   LoadApiApps(resourceGroup),
-                                   LoadGateways(resourceGroup),
-                                   LoadLogicApps(resourceGroup),
-                                   LoadServerFarms(resourceGroup));
+                await Task.WhenAll(LoadSites(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/sites", StringComparison.OrdinalIgnoreCase))),
+                                   LoadApiApps(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.AppService/apiapps", StringComparison.OrdinalIgnoreCase))),
+                                   LoadGateways(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.AppService/gateways", StringComparison.OrdinalIgnoreCase))),
+                                   LoadLogicApps(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Logic/workflows", StringComparison.OrdinalIgnoreCase))),
+                                   LoadServerFarms(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/serverFarms", StringComparison.OrdinalIgnoreCase))));
             }
 
             return resourceGroup;
         }
 
-        public static async Task<ResourceGroup> LoadSites(this ResourceGroup resourceGroup)
+        public static async Task<ResourceGroup> LoadSites(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> sites = null)
         {
             var csmSitesResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.Sites.Bind(resourceGroup));
             csmSitesResponse.EnsureSuccessStatusCode();
@@ -55,46 +65,62 @@ namespace SimpleWAWS.Code.CsmExtensions
             return resourceGroup;
         }
 
-        public static async Task<ResourceGroup> LoadApiApps(this ResourceGroup resourceGroup)
+        //Shallow load
+        public static async Task<ResourceGroup> LoadApiApps(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> apiApps = null)
         {
-            var csmApiAppsResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.ApiApps.Bind(resourceGroup));
-            csmApiAppsResponse.EnsureSuccessStatusCode();
+            if (apiApps == null)
+            {
+                var csmApiAppsResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.ApiApps.Bind(resourceGroup));
+                csmApiAppsResponse.EnsureSuccessStatusCode();
+                apiApps = (await csmApiAppsResponse.Content.ReadAsAsync<CsmArrayWrapper<object>>()).value;
+            }
 
-            var csmApiApps = await csmApiAppsResponse.Content.ReadAsAsync<CsmArrayWrapper<CsmApiApp>>();
-            resourceGroup.ApiApps = csmApiApps.value.Select(a => new ApiApp(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, a.name));
+            resourceGroup.ApiApps = apiApps.Select(a => new ApiApp(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, a.name));
 
             return resourceGroup;
         }
 
-        public static async Task<ResourceGroup> LoadLogicApps(this ResourceGroup resourceGroup)
+        //Shallow load
+        public static async Task<ResourceGroup> LoadLogicApps(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> logicApps = null)
         {
-            var csmLogicAppsResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.LogicApps.Bind(resourceGroup));
-            csmLogicAppsResponse.EnsureSuccessStatusCode();
+            if (logicApps == null)
+            {
+                var csmLogicAppsResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.LogicApps.Bind(resourceGroup));
+                csmLogicAppsResponse.EnsureSuccessStatusCode();
+                logicApps = (await csmLogicAppsResponse.Content.ReadAsAsync<CsmArrayWrapper<object>>()).value;
+            }
 
-            var csmLogicApps = await csmLogicAppsResponse.Content.ReadAsAsync<CsmArrayWrapper<CsmLogicApp>>();
-            resourceGroup.LogicApps = csmLogicApps.value.Select(a => new LogicApp(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, a.name));
+            resourceGroup.LogicApps = logicApps.Select(a => new LogicApp(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, a.name));
 
             return resourceGroup;
         }
 
-        public static async Task<ResourceGroup> LoadGateways(this ResourceGroup resourceGroup)
+        //Shallow load
+        public static async Task<ResourceGroup> LoadGateways(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> gateways = null)
         {
-            var csmGatewaysResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.Gateways.Bind(resourceGroup));
-            csmGatewaysResponse.EnsureSuccessStatusCode();
+            if (gateways == null)
+            {
+                var csmGatewaysResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.Gateways.Bind(resourceGroup));
+                csmGatewaysResponse.EnsureSuccessStatusCode();
+                gateways = (await csmGatewaysResponse.Content.ReadAsAsync<CsmArrayWrapper<object>>()).value;
+            }
 
-            var csmGateway = await csmGatewaysResponse.Content.ReadAsAsync<CsmArrayWrapper<CsmGateway>>();
-            resourceGroup.Gateways =csmGateway.value.Select(g => new Gateway(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, g.name));
+            resourceGroup.Gateways = gateways.Select(g => new Gateway(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, g.name));
 
             return resourceGroup;
         }
 
-        public static async Task<ResourceGroup> LoadServerFarms(this ResourceGroup resourceGroup)
+        //Shallow load
+        public static async Task<ResourceGroup> LoadServerFarms(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> serverFarms = null)
         {
-            var csmServerFarmsResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.ServerFarms.Bind(resourceGroup));
-            csmServerFarmsResponse.EnsureSuccessStatusCode();
+            if (serverFarms == null)
+            {
+                var csmServerFarmsResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.ServerFarms.Bind(resourceGroup));
+                csmServerFarmsResponse.EnsureSuccessStatusCode();
+                serverFarms = (await csmServerFarmsResponse.Content.ReadAsAsync<CsmArrayWrapper<object>>()).value;
+            }
 
-            var csmServerFarms = await csmServerFarmsResponse.Content.ReadAsAsync<CsmArrayWrapper<CsmServerFarm>>();
-            resourceGroup.ServerFarms = csmServerFarms.value.Select(s => new ServerFarm(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, s.name));
+            resourceGroup.ServerFarms = serverFarms.Select(s => new ServerFarm(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, s.name));
 
             return resourceGroup;
         }
@@ -197,29 +223,34 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             resourceGroup.Sites = resourceGroup.Sites.Union(createdSites);
 
-            var csmTemplateString = string.Empty;
-
-            using (var reader = new StreamReader(SimpleSettings.CommonApiAppsCsmTemplatePath))
+            if (!resourceGroup.Tags.ContainsKey(Constants.CommonApiAppsDeployed) ||
+                !resourceGroup.Tags[Constants.CommonApiAppsDeployed].Equals(Constants.CommonApiAppsDeployedVersion))
             {
-                csmTemplateString = await reader.ReadToEndAsync();
+                var csmTemplateString = string.Empty;
+
+                using (var reader = new StreamReader(SimpleSettings.CommonApiAppsCsmTemplatePath))
+                {
+                    csmTemplateString = await reader.ReadToEndAsync();
+                }
+
+                var gatewayName = resourceGroup.Gateways.Count() != 0
+                    ? resourceGroup.Gateways.Select(s => s.GatewayName).First()
+                    : Guid.NewGuid().ToString().Replace("-", "");
+                csmTemplateString = csmTemplateString.Replace("{{gatewayName}}", gatewayName);
+
+                var deployment = new CsmDeployment
+                {
+                    DeploymentName = resourceGroup.ResourceUniqueId,
+                    SubscriptionId = resourceGroup.SubscriptionId,
+                    ResourceGroupName = resourceGroup.ResourceGroupName,
+                    CsmTemplate = JsonConvert.DeserializeObject<JToken>(csmTemplateString),
+                };
+
+                await deployment.Deploy(block: true);
+                resourceGroup.Tags[Constants.CommonApiAppsDeployed] = Constants.CommonApiAppsDeployedVersion;
+                await resourceGroup.Update();
+                await resourceGroup.Load();
             }
-
-            var gatewayName = resourceGroup.Gateways.Count() != 0
-                ? resourceGroup.Gateways.Select(s => s.GatewayName).First()
-                : Guid.NewGuid().ToString().Replace("-", "");
-            csmTemplateString = csmTemplateString.Replace("{{gatewayName}}", gatewayName);
-
-            var deployment = new CsmDeployment
-            {
-                DeploymentName = resourceGroup.ResourceUniqueId,
-                SubscriptionId = resourceGroup.SubscriptionId,
-                ResourceGroupName = resourceGroup.ResourceGroupName,
-                CsmTemplate = JsonConvert.DeserializeObject<JToken>(csmTemplateString),
-            };
-
-            await deployment.Deploy(block: true);
-
-            await resourceGroup.Load();
 
             return resourceGroup;
         }
