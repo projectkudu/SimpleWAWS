@@ -601,7 +601,7 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open the Logic App resource blade and look at the Summary lens for the logic app where you can see when it last ran and if it was successful..
+        ///   Looks up a localized string similar to Look at the Summary lens for the logic app where you can see when it last ran and if it was successful..
         /// </summary>
         public static string Information_LogicAppStep1 {
             get {
