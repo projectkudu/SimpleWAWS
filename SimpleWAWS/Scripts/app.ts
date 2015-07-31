@@ -12,20 +12,31 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
 
     $scope.mobileClients = staticDataFactory.getMobileClients();
 
+    var _globalDelayBindTracker = 0;
+    function delayBind(f: Function) {
+
+        var localDelayBindTracker = ++_globalDelayBindTracker;
+        $timeout(() => {
+            if (localDelayBindTracker === _globalDelayBindTracker) {
+                f();
+            }
+        }, 350);
+    }
+
     $scope.onAppServiceMouseOver = (appService: IAppService) => {
-        $scope.ngModels.hoverAppService = appService;
+        delayBind(() => $scope.ngModels.hoverAppService = appService);
     };
 
     $scope.onAppServiceMouseLeave = () => {
-        delete $scope.ngModels.hoverAppService;
+        delayBind(() => delete $scope.ngModels.hoverAppService);
     };
 
     $scope.onTemplateMouseOver = (template: ITemplate) => {
-        $scope.ngModels.hoverTemplate = template;
+        delayBind(() => $scope.ngModels.hoverTemplate = template);
     };
 
     $scope.onTemplateMouseLeave = () => {
-        delete $scope.ngModels.hoverTemplate;
+        delayBind(() => delete $scope.ngModels.hoverTemplate);
     };
 
     $scope.selectAppService = (appService) => {
