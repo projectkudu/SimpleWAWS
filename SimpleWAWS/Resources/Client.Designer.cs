@@ -601,7 +601,7 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Look at the Summary lens for the logic app where you can see when it last ran and if it was successful..
+        ///   Looks up a localized string similar to Open the Logic App resource blade and look at the Summary lens for the logic app where you can see when it last ran and if it was successful.
         /// </summary>
         public static string Information_LogicAppStep1 {
             get {
@@ -772,7 +772,7 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To work with your logic app go to Azure Portal from the link below.
+        ///   Looks up a localized string similar to Your logic app has been created! To work with your app go to the Azure Portal link below..
         /// </summary>
         public static string Information_WorkWithLogicApps {
             get {

@@ -319,7 +319,7 @@
     <value>Windows</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
-    <value>To work with your logic app go to Azure Portal from the link below</value>
+    <value>Your logic app has been created! To work with your app go to the Azure Portal link below.</value>
   </data>
   <data name="Information_WorkWithYourApp" xml:space="preserve">
     <value>Work with your {0} at </value>
@@ -409,7 +409,7 @@
     <value>Logic Apps allow developers to design workflows that start from a trigger and then execute a series of steps, each invoking an App Service API app whilst securely taking care of authentication and best practices like checkpointing and durable execution.</value>
   </data>
   <data name="Information_LogicAppStep1" xml:space="preserve">
-    <value>Look at the Summary lens for the logic app where you can see when it last ran and if it was successful.</value>
+    <value>Open the Logic App resource blade and look at the Summary lens for the logic app where you can see when it last ran and if it was successful</value>
   </data>
   <data name="Information_LogicAppStep2" xml:space="preserve">
     <value>Open the Logic App definition by clicking on the same part and look at the definition.  You can try to extend the Logic App to send a tweet anytime the ping fails.</value>
