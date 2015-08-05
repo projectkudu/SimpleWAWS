@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -250,7 +250,7 @@
     <value>Download the Xamarin iOS client app</value>
   </data>
   <data name="Information_ExperienceComingSoon" xml:space="preserve">
-    <value>You can still create {0} by singing up for a free 30-day trial and create up to 10 apps of any type for free.</value>
+    <value>You can still create {0} by signing up for a free 30-day trial and create up to 10 apps of any type for free.</value>
   </data>
   <data name="Information_ExperienceNotHereYet" xml:space="preserve">
     <value>The {0} experience is not here yet.</value>
@@ -406,7 +406,7 @@
     <value>Twitter</value>
   </data>
   <data name="Information_LogicAppDescription" xml:space="preserve">
-    <value>Logic Apps allow developers to design workflows that start from a trigger and then execute a series of steps, each invoking an App Service API app whilst securely taking care of authentication and best practices like checkpointing and durable execution.</value>
+    <value>Azure Logic Apps allow developers to design workflows that start from a trigger and then execute a series of steps, each invoking an App Service API app whilst securely taking care of authentication and best practices like checkpointing and durable execution.</value>
   </data>
   <data name="Information_LogicAppStep1" xml:space="preserve">
     <value>Open the Logic App resource blade and look at the Summary lens for the logic app where you can see when it last ran and if it was successful</value>
@@ -445,12 +445,12 @@
     <value>Previous</value>
   </data>
   <data name="Information_ApiAppDescription" xml:space="preserve">
-    <value />
+    <value>The Azure API App trial experience is not here yet, but you can still create API App by signing up for a free 30-day trial and create up to 10 apps of any type for free.</value>
   </data>
   <data name="Information_MobileAppDescription" xml:space="preserve">
-    <value />
+    <value>Azure Mobile Apps make it easy to add login, push, and data sync to your iOS, Android, or Windows app, to scale globally, and to connect your app to enterprise systems and on-premises resources.</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
-    <value />
+    <value>Azure Web Apps enable developers to easily deploy and scale enterprise grade web applications written in a variety of languages and integrated with a mutltitude of services without ever worying about infrastructure management.</value>
   </data>
 </root>

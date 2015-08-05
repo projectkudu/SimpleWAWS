@@ -394,7 +394,7 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to The Azure API App trial experience is not here yet, but you can still create API App by singing up for a free 30-day trial and create up to 10 apps of any type for free..
         /// </summary>
         public static string Information_ApiAppDescription {
             get {
@@ -592,7 +592,7 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Logic Apps allow developers to design workflows that start from a trigger and then execute a series of steps, each invoking an App Service API app whilst securely taking care of authentication and best practices like checkpointing and durable execution..
+        ///   Looks up a localized string similar to Azure Logic Apps allow developers to design workflows that start from a trigger and then execute a series of steps, each invoking an App Service API app whilst securely taking care of authentication and best practices like checkpointing and durable execution..
         /// </summary>
         public static string Information_LogicAppDescription {
             get {
@@ -637,7 +637,7 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Azure Mobile Apps make it easy to add login, push, and data sync to your iOS, Android, or Windows app, to scale globally, and to connect your app to enterprise systems and on-premises resources..
         /// </summary>
         public static string Information_MobileAppDescription {
             get {
@@ -736,7 +736,7 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Azure Web Apps enable developers to easily deploy and scale enterprise grade web applications written in a variety of languages and integrated with a mutltitude of services without ever worying about infrastructure management..
         /// </summary>
         public static string Information_WebAppDescription {
             get {
