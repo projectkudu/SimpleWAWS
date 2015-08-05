@@ -173,6 +173,8 @@ let like = <@ fun (key: string) (pattern: string) ->
         SqlFunctions.PatIndex (pattern, key) ?> 0 @>
 let categorizeReferrs = <@ fun key ->
     if (%like) key "htt%://azure.microsoft.com/%/services/app-service/%" then "AppService"
+    elif (%like) key "http%://azure.microsoft.com/%/documentation/articles/search-tryappservice%" then "AzureSearch"
+    elif (%like) key "htt%://azure.microsoft.com/blog/2015/07/22/azure-search-new-regions-samples-and-datasets%" then "AzureSearch"
     elif (%like) key "htt%://azure.microsoft.com/%/documentation/%" then "AzureDocumentation"
     elif (%like) key "htt%://azure.microsoft.com/%/develop/net/aspnet/%" then "AspNetDevelop"
     elif (%like) key "htt%://%google.com/%" then "Search"
@@ -184,7 +186,7 @@ let categorizeReferrs = <@ fun key ->
     elif (%like) key "htt%://%media6degrees.com/%" then "Ads"
     elif key = "-" then "Empty"
     else "Uncategorized" @>
-type ReferrerCatagories = { AppService: int; AzureDocumentation: int; AspNetDevelop: int; Search: int; Ads: int; Uncaterorized: int; Empty: int }
+type ReferrerCatagories = { AppService: int; AzureDocumentation: int; AspNetDevelop: int; Search: int; Ads: int; Uncaterorized: int; Empty: int; AzureSearch: int}
 let foldToReferrerCatagories =
     Seq.fold (fun record (catagory, count) ->
                         match catagory with
@@ -195,7 +197,8 @@ let foldToReferrerCatagories =
                         | "Ads" -> { record with Ads = count }
                         | "Uncategorized" -> { record with Uncaterorized = count }
                         | "Empty" -> { record with Empty = count }
-                        | _ -> record) { AppService = 0; AzureDocumentation = 0; AspNetDevelop = 0; Search = 0; Ads = 0; Uncaterorized = 0; Empty = 0 }
+                        | "AzureSearch" -> { record with AzureSearch = count }
+                        | _ -> record) { AppService = 0; AzureDocumentation = 0; AspNetDevelop = 0; Search = 0; Ads = 0; Uncaterorized = 0; Empty = 0; AzureSearch = 0 }
 type ReferrersAggregation = { Totals: ReferrerCatagories; Created: ReferrerCatagories; FreeTrial: ReferrerCatagories }
 let referrerCatagories (startTime, endTime) _ =
     use context = getContext ()
