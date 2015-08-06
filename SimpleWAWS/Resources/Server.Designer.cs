@@ -142,6 +142,15 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sorry Organizational accounts are not supported. Please use a Microsoft Account..
+        /// </summary>
+        internal static string Error_OrgIdNotSupported {
+            get {
+                return ResourceManager.GetString("Error_OrgIdNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unsupported platform..
         /// </summary>
         internal static string Error_UnsupportedPlatform {

@@ -163,13 +163,25 @@ namespace SimpleWAWS.Controllers
                         resourceGroup = await resourceManager.ActivateMobileApp(template as WebsiteTemplate, identity, anonymousUserName);
                         break;
                     case AppService.Api:
-                        if (identity.Issuer != "MSA") //OrgId? This will cause a redirect loop for OrgId, what should we do here?
+                        if (identity.Issuer == "OrgId")
+                        {
+                            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_OrgIdNotSupported);
+                        }
+                        else if (identity.Issuer != "MSA")
+                        {
                             return SecurityManager.RedirectToAAD(template.CreateQueryString());
+                        }
                         resourceGroup = await resourceManager.ActivateApiApp(template as ApiTemplate, identity, anonymousUserName);
                         break;
                     case AppService.Logic:
-                        if (identity.Issuer != "MSA") //OrgId?
+                        if (identity.Issuer == "OrgId")
+                        {
+                            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_OrgIdNotSupported);
+                        }
+                        else if (identity.Issuer != "MSA")
+                        {
                             return SecurityManager.RedirectToAAD(template.CreateQueryString());
+                        }
                         resourceGroup = await resourceManager.ActivateLogicApp(template as LogicTemplate, identity, anonymousUserName);
                         break;
                 }
