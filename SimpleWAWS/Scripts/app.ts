@@ -297,6 +297,7 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
                 //show login options
                 if (($scope.currentAppService.name === "Api" || $scope.currentAppService.name === "Logic" || method) && headers("LoginUrl")) {
                     (<any>window).location = headers("LoginUrl");
+                    return;
                 } else {
                     $scope.loginOptions = true;
                 }
