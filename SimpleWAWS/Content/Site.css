@@ -1,6 +1,6 @@
 ﻿body:after{
     display:none;
-    content: url(/Content/images/mobile-clients.png) url(/Content/images/Logins/google.png) url(/Content/images/icons-sprite.png) url(/Content/images/Logins/microsoft-logo.png) url(/Content/images/Logins/facebook.png);
+    content: url(/Content/images/mobile-clients.png) url(/Content/images/Logins/google.png) url(/Content/images/icons-sprite.png) url(/Content/images/Logins/microsoft-logo.png) url(/Content/images/Logins/facebook.png) url(/Content/images/Logins/vk.png);
 }
 
 article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
@@ -9152,6 +9152,20 @@ div.facebook-login {
     margin-right: -15px;
 }
 
+div.vk-login {
+    background: url(/Content/images/Logins/vk.png) no-repeat top left;
+    background-position: 0 0;
+    background-size: 80%;
+    width: 265px;
+    height: 49px;
+    display: inline-block;
+    top: 4px;
+    position: relative;
+    margin-left: 5px;
+    margin-bottom: 10px;
+    margin-right: -15px;
+}
+
 .login-box {
     -webkit-box-shadow: 10px 10px 45px -4px rgba(74,74,74,1);
     -moz-box-shadow: 10px 10px 45px -4px rgba(74,74,74,1);
@@ -9160,7 +9174,7 @@ div.facebook-login {
     margin-left: 15px;
     position: absolute;
     left: 273px;
-    top: -93px;
+    top: -115px;
     z-index: 1001;
 }
 
@@ -9401,6 +9415,7 @@ div.sprite-javascript { width: 115px; height: 115px; background-position: -5px -
     min-width: 50px;
     display: inline-block
 }
+
 
 .wa-button-W01,.wa-button-W01:hover {
     background-color: #fff;

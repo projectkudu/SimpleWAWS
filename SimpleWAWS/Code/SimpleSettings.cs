@@ -40,5 +40,7 @@ namespace SimpleWAWS.Code
         public static string SearchServiceApiKeys { get { return config(); } }
         private const string CommonApiAppsCsmTemplatePathLocal = @"D:\scratch\repos\SimpleWAWS\SimpleWAWS\CSMTemplates\commonApiApps.json";
         public static string CommonApiAppsCsmTemplatePath { get; } = HostingEnvironment.MapPath("~/CSMTemplates/commonApiApps.json") ?? CommonApiAppsCsmTemplatePathLocal;
+        public static object VkClientSecret { get { return config(); } }
+        public static object VkClientId { get { return config(); } }
     }
 }

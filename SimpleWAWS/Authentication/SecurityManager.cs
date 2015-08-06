@@ -54,6 +54,7 @@ namespace SimpleWAWS.Authentication
             _authProviders.Add("Facebook", new FacebookAuthProvider());
             _authProviders.Add("Twitter", new TwitterAuthProvider());
             _authProviders.Add("Google", new GoogleAuthProvider());
+            _authProviders.Add("Vk", new VkAuthProvider());
         }
 
         public static void AuthenticateRequest(HttpContextBase context)
