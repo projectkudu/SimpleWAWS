@@ -198,6 +198,7 @@
   <ItemGroup>
     <Compile Include="Authentication\AADProvider.cs" />
     <Compile Include="Authentication\AuthSettings.cs" />
+    <Compile Include="Authentication\AuthUtilities.cs" />
     <Compile Include="Authentication\BaseAuthProvider.cs" />
     <Compile Include="Authentication\BaseOpenIdConnectAuthProvider.cs" />
     <Compile Include="Authentication\AuthConstants.cs" />

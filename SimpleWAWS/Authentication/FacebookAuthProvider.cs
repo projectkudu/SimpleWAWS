@@ -72,7 +72,7 @@ namespace SimpleWAWS.Authentication
 
         private IPrincipal GetUserFromGraphApi(string userId, string accessToken)
         {
-            var jsonUser = GetContentFromUrl(GetGraphUrl(userId, accessToken));
+            var jsonUser = AuthUtilities.GetContentFromUrl(GetGraphUrl(userId, accessToken));
             var fbUser = JsonConvert.DeserializeObject<FacebookUser>(jsonUser);
             if (!userId.Equals(fbUser.Id))
             {
@@ -91,18 +91,6 @@ namespace SimpleWAWS.Authentication
             builder.Append("&format=json");
 
             return builder.ToString();
-        }
-
-        private static string GetContentFromUrl(string url)
-        {
-            var request = (HttpWebRequest)WebRequest.Create(url);
-            using (var response = request.GetResponse())
-            {
-                using (var reader = new StreamReader(response.GetResponseStream()))
-                {
-                    return reader.ReadToEnd();
-                }
-            }
         }
 
         private class FacebookSignedRequest
