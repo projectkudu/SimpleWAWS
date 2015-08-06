@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -250,7 +250,7 @@
     <value>Download the Xamarin iOS client app</value>
   </data>
   <data name="Information_ExperienceComingSoon" xml:space="preserve">
-    <value>You can still create {0} by signing up for a free 30-day trial and create up to 10 apps of any type for free.</value>
+    <value>The Azure {0} trial experience is not here yet, but you can still create {0}s by signing up for a free 30-day trial which enables the creation of up to 10 apps of any type for free</value>
   </data>
   <data name="Information_ExperienceNotHereYet" xml:space="preserve">
     <value>The {0} experience is not here yet.</value>
@@ -421,7 +421,7 @@
     <value>Dismiss</value>
   </data>
   <data name="Information_AppHasExpired" xml:space="preserve">
-    <value>Your {0}has expired. You can try creating another app service app or signup for a free 30-day trial account.</value>
+    <value>Your {0} has expired. You can try creating another app service app or signup for a free 30-day trial account.</value>
   </data>
   <data name="Information_Prerequisite" xml:space="preserve">
     <value>Prerequisite</value>
@@ -445,7 +445,7 @@
     <value>Previous</value>
   </data>
   <data name="Information_ApiAppDescription" xml:space="preserve">
-    <value>The Azure API App trial experience is not here yet, but you can still create API App by signing up for a free 30-day trial and create up to 10 apps of any type for free.</value>
+    <value>The Azure API App trial experience is not here yet, but you can still create API Apps by signing up for a free 30-day trial which enables the creation of up to 10 apps of any type for free.</value>
   </data>
   <data name="Information_MobileAppDescription" xml:space="preserve">
     <value>Azure Mobile Apps make it easy to add login, push, and data sync to your iOS, Android, or Windows app, to scale globally, and to connect your app to enterprise systems and on-premises resources.</value>

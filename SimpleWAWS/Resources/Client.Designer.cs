@@ -394,7 +394,7 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Azure API App trial experience is not here yet, but you can still create API App by singing up for a free 30-day trial and create up to 10 apps of any type for free..
+        ///   Looks up a localized string similar to The Azure API App trial experience is not here yet, but you can still create API Apps by signing up for a free 30-day trial which enables the creation of up to 10 apps of any type for free..
         /// </summary>
         public static string Information_ApiAppDescription {
             get {
@@ -421,7 +421,7 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your {0}has expired. You can try creating another app service app or signup for a free 30-day trial account..
+        ///   Looks up a localized string similar to Your {0} has expired. You can try creating another app service app or signup for a free 30-day trial account..
         /// </summary>
         public static string Information_AppHasExpired {
             get {
@@ -502,7 +502,7 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You can still create {0} by singing up for a free 30-day trial and create up to 10 apps of any type for free..
+        ///   Looks up a localized string similar to The Azure {0} trial experience is not here yet, but you can still create {0}s by signing up for a free 30-day trial which enables the creation of up to 10 apps of any type for free.
         /// </summary>
         public static string Information_ExperienceComingSoon {
             get {
