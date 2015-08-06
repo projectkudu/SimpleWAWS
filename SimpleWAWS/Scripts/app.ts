@@ -14,7 +14,6 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
 
     var _globalDelayBindTracker = 0;
     function delayBind(f: Function) {
-
         var localDelayBindTracker = ++_globalDelayBindTracker;
         $timeout(() => {
             if (localDelayBindTracker === _globalDelayBindTracker) {
@@ -24,19 +23,19 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
     }
 
     $scope.onAppServiceMouseOver = (appService: IAppService) => {
-        delayBind(() => $scope.ngModels.hoverAppService = appService);
+        $scope.ngModels.hoverAppService = appService;
     };
 
     $scope.onAppServiceMouseLeave = () => {
-        delayBind(() => delete $scope.ngModels.hoverAppService);
+        delete $scope.ngModels.hoverAppService;
     };
 
     $scope.onTemplateMouseOver = (template: ITemplate) => {
-        delayBind(() => $scope.ngModels.hoverTemplate = template);
+        $scope.ngModels.hoverTemplate = template;
     };
 
     $scope.onTemplateMouseLeave = () => {
-        delayBind(() => delete $scope.ngModels.hoverTemplate);
+        delete $scope.ngModels.hoverTemplate;
     };
 
     $scope.selectAppService = (appService) => {
