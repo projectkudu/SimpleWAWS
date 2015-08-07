@@ -310,7 +310,7 @@ namespace SimpleWAWS.Code
                             AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
                             template.Language, template.Name, resourceGroup.ResourceUniqueId, temp.ToString(), anonymousUserName);
 
-                    var site = resourceGroup.Sites.First();
+                    var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
                     var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email);
                     if (template != null && template.FileName != null)
                     {
