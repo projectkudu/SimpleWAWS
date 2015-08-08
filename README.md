@@ -9,7 +9,9 @@
 4. `EnableAuth`
 
 `TryUserName` and `TryPassword` are the credentials for a user that has `Owner` or `Co-Admin` access on the `Subscriptions`.
+
 `Subscriptions` can either be a comma separated list of `SubscriptionId` or a comma separated list of the subscriptions `displayName`
+
 `EnableAuth` set to `False` if you don't care about testing the Authentication module.
 
 ### Settings for testing authentication module
