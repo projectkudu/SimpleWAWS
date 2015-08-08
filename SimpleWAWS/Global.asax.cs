@@ -16,6 +16,7 @@ using Serilog.Sinks.Email;
 using System.Net;
 using System.Globalization;
 using System.Threading;
+using System.Linq;
 
 namespace SimpleWAWS
 {
@@ -26,25 +27,37 @@ namespace SimpleWAWS
             //Init logger
 
             //Analytics logger
-            var analyticsLogger = new LoggerConfiguration()
-                .Enrich.With(new ExperimentEnricher())
-                .Enrich.With(new UserNameEnricher())
-                .Destructure.JsonNetTypes()
-                .WriteTo.AzureDocumentDB(new Uri(SimpleSettings.DocumentDbUrl), SimpleSettings.DocumentDbKey, "TryAppService", "Analytics")
-                .WriteTo.AzureDocumentDB(new Uri(SimpleSettings.DocumentDbUrl), SimpleSettings.DocumentDbKey, "TryAppService", "Diagnostics")
-                .CreateLogger();
+            if (new[]
+                {
+                    SimpleSettings.DocumentDbKey,
+                    SimpleSettings.DocumentDbUrl,
+                    SimpleSettings.EmailPassword,
+                    SimpleSettings.EmailServer,
+                    SimpleSettings.EmailUserName,
+                    SimpleSettings.FromEmail,
+                    SimpleSettings.ToEmails
+                }.All(s => !string.IsNullOrEmpty(s)))
+            {
 
-            SimpleTrace.Analytics = analyticsLogger;
+                var analyticsLogger = new LoggerConfiguration()
+                    .Enrich.With(new ExperimentEnricher())
+                    .Enrich.With(new UserNameEnricher())
+                    .Destructure.JsonNetTypes()
+                    .WriteTo.AzureDocumentDB(new Uri(SimpleSettings.DocumentDbUrl), SimpleSettings.DocumentDbKey, "TryAppService", "Analytics")
+                    .WriteTo.AzureDocumentDB(new Uri(SimpleSettings.DocumentDbUrl), SimpleSettings.DocumentDbKey, "TryAppService", "Diagnostics")
+                    .CreateLogger();
 
-            //Diagnostics Logger
-            var diagnosticsLogger = new LoggerConfiguration()
-                .MinimumLevel.Verbose()
-                .Enrich.With(new ExperimentEnricher())
-                .Enrich.With(new UserNameEnricher())
-                .WriteTo.AzureDocumentDB(new Uri(SimpleSettings.DocumentDbUrl), SimpleSettings.DocumentDbKey, "TryAppService", "Diagnostics")
-                .WriteTo.Logger(lc => lc
-                    .Filter.ByIncludingOnly(Matching.WithProperty<int>("Count", p => p % 10 == 0))
-                    .WriteTo.Email(new EmailConnectionInfo
+                SimpleTrace.Analytics = analyticsLogger;
+
+                //Diagnostics Logger
+                var diagnosticsLogger = new LoggerConfiguration()
+                    .MinimumLevel.Verbose()
+                    .Enrich.With(new ExperimentEnricher())
+                    .Enrich.With(new UserNameEnricher())
+                    .WriteTo.AzureDocumentDB(new Uri(SimpleSettings.DocumentDbUrl), SimpleSettings.DocumentDbKey, "TryAppService", "Diagnostics")
+                    .WriteTo.Logger(lc => lc
+                        .Filter.ByIncludingOnly(Matching.WithProperty<int>("Count", p => p % 10 == 0))
+                        .WriteTo.Email(new EmailConnectionInfo
                         {
                             EmailSubject = "TryAppService Alert",
                             EnableSsl = true,
@@ -54,9 +67,16 @@ namespace SimpleWAWS
                             Port = 587,
                             ToEmail = SimpleSettings.ToEmails
                         }, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Fatal))
-                .CreateLogger();
+                    .CreateLogger();
 
-            SimpleTrace.Diagnostics = diagnosticsLogger;
+                SimpleTrace.Diagnostics = diagnosticsLogger;
+            }
+            else
+            {
+                var logger = new LoggerConfiguration().CreateLogger();
+                SimpleTrace.Diagnostics = logger;
+                SimpleTrace.Analytics = logger;
+            }
 
             SimpleTrace.Diagnostics.Information("Application started");
             //Configure Json formatter
@@ -106,6 +126,13 @@ namespace SimpleWAWS
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
         {
             var context = new HttpContextWrapper(HttpContext.Current);
+            if (!string.IsNullOrEmpty(AuthSettings.EnableAuth) &&
+                AuthSettings.EnableAuth.Equals(false.ToString(), StringComparison.OrdinalIgnoreCase))
+            {
+                context.User = new TryWebsitesPrincipal(new TryWebsitesIdentity("user@localhost.com", null, "Local"));
+                return;
+            }
+
             if (!SecurityManager.TryAuthenticateSessionCookie(context))
             {
                 if (SecurityManager.HasToken(context))

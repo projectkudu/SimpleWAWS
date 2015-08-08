@@ -15,6 +15,7 @@ namespace SimpleWAWS.Authentication
                 ConfigurationManager.AppSettings[key];
         }
 
+        public static string EnableAuth { get { return config(); } }
         public static string BaseLoginUrl { get { return config(); } }
         public static string AADAppId { get { return config(); } }
         public static string LoginErrorPage { get { return config(); } }
@@ -23,5 +24,7 @@ namespace SimpleWAWS.Authentication
         public static string AADIssuerKeys { get { return config(); } }
         public static string GoogleIssuerCerts { get { return config(); } }
         public static string AdminUserId { get { return config(); } }
+        public static string VkClientSecret { get { return config(); } }
+        public static string VkClientId { get { return config(); } }
     }
 }

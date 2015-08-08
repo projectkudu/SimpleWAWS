@@ -11,18 +11,18 @@ namespace SimpleWAWS.Code
 {
     public static class SimpleSettings
     {
-        private static string config([CallerMemberName] string key = null)
+        private static string config(string @default = null, [CallerMemberName] string key = null)
         {
-            return System.Environment.GetEnvironmentVariable(key) ??
-                ConfigurationManager.AppSettings[key];
+            var value = System.Environment.GetEnvironmentVariable(key) ?? ConfigurationManager.AppSettings[key];
+            return string.IsNullOrEmpty(value)
+                ? @default
+                : value;
         }
 
         public static string TryTenantId { get { return config(); } }
         public static string TryTenantName { get { return config(); } }
-        public static string SiteExpiryMinutes { get { return config(); } }
-        public static string GeoRegions { get { return config(); } }
-        public static string GraphAndCsmUserName { get { return config(); } }
-        public static string GraphAndCsmPassword { get { return config(); } }
+        public static string SiteExpiryMinutes { get { return config("59"); } }
+        public static string GeoRegions { get { return config("East US,West US,North Europe,West Europe,South Central US,North Central US,East Asia,Southeast Asia,Japan West,Japan East,Brazil South"); } }
         public static string TryUserName { get { return config(); } }
         public static string TryPassword { get { return config(); } }
         public static string Subscriptions { get { return config(); } }
@@ -40,7 +40,5 @@ namespace SimpleWAWS.Code
         public static string SearchServiceApiKeys { get { return config(); } }
         private const string CommonApiAppsCsmTemplatePathLocal = @"D:\scratch\repos\SimpleWAWS\SimpleWAWS\CSMTemplates\commonApiApps.json";
         public static string CommonApiAppsCsmTemplatePath { get; } = HostingEnvironment.MapPath("~/CSMTemplates/commonApiApps.json") ?? CommonApiAppsCsmTemplatePathLocal;
-        public static object VkClientSecret { get { return config(); } }
-        public static object VkClientId { get { return config(); } }
     }
 }

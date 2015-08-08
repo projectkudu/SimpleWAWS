@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using SimpleWAWS.Code;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +20,7 @@ namespace SimpleWAWS.Authentication
         {
             var builder = new StringBuilder();
             builder.Append("https://oauth.vk.com/authorize");
-            builder.AppendFormat("?client_id={0}", SimpleSettings.VkClientId);
+            builder.AppendFormat("?client_id={0}", AuthSettings.VkClientId);
             builder.Append("&scope=email");
             builder.AppendFormat("&redirect_uri={0}", WebUtility.UrlEncode(string.Format("https://{0}/", context.Request.Headers["HOST"])));
             builder.Append("&response_type=code");
@@ -71,8 +70,8 @@ namespace SimpleWAWS.Authentication
         {
             var builder = new StringBuilder();
             builder.Append("https://oauth.vk.com/access_token");
-            builder.AppendFormat("?client_id={0}", SimpleSettings.VkClientId);
-            builder.AppendFormat("&client_secret={0}", SimpleSettings.VkClientSecret);
+            builder.AppendFormat("?client_id={0}", AuthSettings.VkClientId);
+            builder.AppendFormat("&client_secret={0}", AuthSettings.VkClientSecret);
             builder.AppendFormat("&code={0}", code);
             builder.AppendFormat("&redirect_uri={0}", WebUtility.UrlEncode(string.Format("https://{0}/", context.Request.Headers["HOST"], context.Request.Url.Query)));
             return builder.ToString();

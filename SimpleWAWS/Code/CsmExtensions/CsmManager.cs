@@ -33,12 +33,11 @@ namespace SimpleWAWS.Code.CsmExtensions
                 .ConfigureLogin(LoginType.Upn, SimpleSettings.TryUserName, SimpleSettings.TryPassword);
 
             graphClient = ARMLib.GetDynamicClient(apiVersion: "", retryCount: 3)
-                .ConfigureLogin(LoginType.Upn, SimpleSettings.GraphAndCsmUserName, SimpleSettings.GraphAndCsmPassword);
+                .ConfigureLogin(LoginType.Upn, SimpleSettings.TryUserName, SimpleSettings.TryPassword);
         }
 
         public static async Task<string> GetUserObjectId(string puidOrAltSec, string emailAddress)
         {
-
             if (string.IsNullOrEmpty(puidOrAltSec) ||
                 string.IsNullOrEmpty(emailAddress) ||
                 !SimpleWAWS.Authentication.AADProvider.IsMSA(puidOrAltSec))
