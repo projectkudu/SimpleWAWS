@@ -156,5 +156,21 @@ namespace SimpleWAWS.Code.CsmExtensions
                 return value.Value;
             }
         }
+
+        public static async Task EnableZRay(this Site site, string location)
+        {
+            var response = await csmClient.HttpInvoke(HttpMethod.Put, CsmTemplates.ZRayForSite.Bind(site), new
+            {
+                location = location,
+                plan = new
+                {
+                    name = "free",
+                    publisher = "zend-technologies",
+                    product = "z-ray"
+                },
+                properties = new { }
+            });
+            response.EnsureSuccessStatusCode();
+        }
     }
 }

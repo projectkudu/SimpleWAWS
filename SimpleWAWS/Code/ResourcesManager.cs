@@ -370,6 +370,11 @@ namespace SimpleWAWS.Code
                         site.AppSettings["SearchServiceName"] = SimpleSettings.SearchServiceName;
                         site.AppSettings["SearchServiceApiKey"] = AzureSearchHelper.GetApiKey();
                     }
+                    else if (template.Name.Equals("PHP Starter Site", StringComparison.OrdinalIgnoreCase))
+                    {
+                        //Enable ZRay
+                        await site.EnableZRay(resourceGroup.GeoRegion);
+                    }
 
                     await site.UpdateAppSettings();
 
