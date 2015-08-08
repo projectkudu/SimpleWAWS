@@ -325,10 +325,10 @@ function MasterCtrl($scope, $cookieStore, $rootScope, $http, $q) {
                             data: [ data.Totals.AppService, data.Totals.AzureDocumentation, data.Totals.AspNetDevelop, data.Totals.AzureSearch, data.Totals.Search, data.Totals.Ads, data.Totals.Uncaterorized, data.Totals.Empty ]
                         }, {
                             name: "Creates Apps",
-                            data: [ data.Created.AppService, data.Created.AzureDocumentation, data.Created.AspNetDevelop, data.Totals.AzureSearch, data.Created.Search, data.Created.Ads, data.Created.Uncaterorized, data.Created.Empty ]
+                            data: [ data.Created.AppService, data.Created.AzureDocumentation, data.Created.AspNetDevelop, data.Created.AzureSearch, data.Created.Search, data.Created.Ads, data.Created.Uncaterorized, data.Created.Empty ]
                         }, {
                             name: "Clicked on Free Trial",
-                            data: [ data.FreeTrial.AppService, data.FreeTrial.AzureDocumentation, data.FreeTrial.AspNetDevelop, data.Totals.AzureSearch, data.FreeTrial.Search, data.FreeTrial.Ads, data.FreeTrial.Uncaterorized, data.FreeTrial.Empty ]
+                            data: [ data.FreeTrial.AppService, data.FreeTrial.AzureDocumentation, data.FreeTrial.AspNetDevelop, data.FreeTrial.AzureSearch, data.FreeTrial.Search, data.FreeTrial.Ads, data.FreeTrial.Uncaterorized, data.FreeTrial.Empty ]
                         }].reverse();
                         $('#graph').highcharts(getBarChartConfig(title, xAxis, yAxis, tooltip, graphData));
                     })

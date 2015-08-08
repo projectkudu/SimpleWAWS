@@ -186,7 +186,7 @@ let categorizeReferrs = <@ fun key ->
     elif (%like) key "htt%://%media6degrees.com/%" then "Ads"
     elif key = "-" then "Empty"
     else "Uncategorized" @>
-type ReferrerCatagories = { AppService: int; AzureDocumentation: int; AspNetDevelop: int; Search: int; Ads: int; Uncaterorized: int; Empty: int; AzureSearch: int}
+type ReferrerCatagories = { AppService: int; AzureDocumentation: int; AspNetDevelop: int; AzureSearch: int; Search: int; Ads: int; Uncaterorized: int; Empty: int }
 let foldToReferrerCatagories =
     Seq.fold (fun record (catagory, count) ->
                         match catagory with
