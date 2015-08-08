@@ -44,12 +44,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ARMClient.Authentication, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>ref\ARMClient.Authentication.dll</HintPath>
+      <HintPath>..\packages\ARMClient.Authentication.0.0.2-alpha\lib\net45\ARMClient.Authentication.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="ARMClient.Library, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>ref\ARMClient.Library.dll</HintPath>
+      <HintPath>..\packages\ARMClient.Library.0.0.2-alpha\lib\net45\ARMClient.Library.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Destructurama.JsonNet">
       <HintPath>..\packages\Destructurama.JsonNet.1.0.2\lib\portable-net45+win+wp80\Destructurama.JsonNet.dll</HintPath>
@@ -357,8 +357,6 @@
     <Content Include="CSMTemplates\commonApiApps.json" />
     <Content Include="CSMTemplates\PingSite.json" />
     <None Include="Default.cshtml" />
-    <Content Include="ref\ARMClient.Authentication.dll" />
-    <Content Include="ref\ARMClient.Library.dll" />
     <Content Include="Scripts\js.cookie-1.5.1.min.js" />
     <Content Include="Sorry.cshtml" />
     <Content Include="App_Data\web.config.file" />
