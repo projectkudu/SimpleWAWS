@@ -21,8 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TryAppService.WebJob.Aggreg
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TryAppService.WebJob.ProcessQueue", "Analytics\Server\TryAppService.WebJob.ProcessQueue\TryAppService.WebJob.ProcessQueue.csproj", "{5DC1FF81-D35A-499C-893E-60EB62C242CD}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TryAppServiceAnalytics", "Analytics\Server\TryAppServiceAnalytics\TryAppServiceAnalytics.fsproj", "{C01DDECA-A2BF-4B74-9CF1-62A46D547B0B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,10 +55,6 @@ Global
 		{5DC1FF81-D35A-499C-893E-60EB62C242CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DC1FF81-D35A-499C-893E-60EB62C242CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DC1FF81-D35A-499C-893E-60EB62C242CD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C01DDECA-A2BF-4B74-9CF1-62A46D547B0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C01DDECA-A2BF-4B74-9CF1-62A46D547B0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C01DDECA-A2BF-4B74-9CF1-62A46D547B0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C01DDECA-A2BF-4B74-9CF1-62A46D547B0B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -70,6 +64,5 @@ Global
 		{E334B980-587A-4F2D-BB6D-07123914973B} = {CC03BF96-629C-44C3-A7AC-8D4F2835CA4D}
 		{BF64A531-D16C-41CA-9938-3A8B3A695FDA} = {CC03BF96-629C-44C3-A7AC-8D4F2835CA4D}
 		{5DC1FF81-D35A-499C-893E-60EB62C242CD} = {CC03BF96-629C-44C3-A7AC-8D4F2835CA4D}
-		{C01DDECA-A2BF-4B74-9CF1-62A46D547B0B} = {CC03BF96-629C-44C3-A7AC-8D4F2835CA4D}
 	EndGlobalSection
 EndGlobal
