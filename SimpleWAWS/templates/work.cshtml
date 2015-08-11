@@ -8,8 +8,11 @@
         @Client.Information_WorkWithLogicApps
     </h3>
     <div ng-if="currentAppService.name === 'Logic'">
-        <h6>3.1) @Client.Information_LogicAppStep1</h6>
-        <h6>3.2) @Client.Information_LogicAppStep2</h6>
+        <h5>@Client.Information_LogicAppStepsIntro</h5>
+        <h6>@Client.Information_LogicAppStep1</h6>
+        <h6>@Client.Information_LogicAppStep2</h6>
+        <h6>@Client.Information_LogicAppStep3</h6>
+        <h6>@Client.Information_LogicAppStep4</h6>
     </div>
     <div class="work-with-site-tools" ng-if="resource.monacoUrl">
         <a ng-href="{{ resource.monacoUrl }}" target="_blank" ng-click="monacoClick()"><div class="work-with-site-tools-img icons sprite-VSO"></div><div class="website-template-name">@Client.Action_Monaco</div></a>

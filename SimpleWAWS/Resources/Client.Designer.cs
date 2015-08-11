@@ -592,7 +592,7 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Azure Logic Apps allow developers to design workflows that start from a trigger and then execute a series of steps, each invoking an App Service API app whilst securely taking care of authentication and best practices like checkpointing and durable execution..
+        ///   Looks up a localized string similar to Azure Logic Apps allow developers to design workflows that start from a trigger and then execute a series of steps, each invoking an App Service API App whilst securely taking care of authentication and best practices like checkpointing and durable execution..
         /// </summary>
         public static string Information_LogicAppDescription {
             get {
@@ -601,7 +601,7 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open the Logic App resource blade and look at the Summary lens for the logic app where you can see when it last ran and if it was successful..
+        ///   Looks up a localized string similar to 1. Look at the Summary lens where you will find out information like when it last ran and if it was successful.
         /// </summary>
         public static string Information_LogicAppStep1 {
             get {
@@ -610,11 +610,38 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open the Logic App definition by clicking on the same part and look at the definition.  You can try to extend the Logic App to send a tweet anytime the ping fails..
+        ///   Looks up a localized string similar to 2. Open the Logic App definition by clicking on the same part in the Summary lens and look at the definition. You can try to extend the Logic App to send a tweet anytime a ping fails..
         /// </summary>
         public static string Information_LogicAppStep2 {
             get {
                 return ResourceManager.GetString("Information_LogicAppStep2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 3. Run the Logic App again by clicking on the Run Now command at the top of the blade..
+        /// </summary>
+        public static string Information_LogicAppStep3 {
+            get {
+                return ResourceManager.GetString("Information_LogicAppStep3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 4. To find out more about how to use Logic Apps click on Quick Start that will provide pointers to documentation..
+        /// </summary>
+        public static string Information_LogicAppStep4 {
+            get {
+                return ResourceManager.GetString("Information_LogicAppStep4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From the Logic App resource blade you can try the following:.
+        /// </summary>
+        public static string Information_LogicAppStepsIntro {
+            get {
+                return ResourceManager.GetString("Information_LogicAppStepsIntro", resourceCulture);
             }
         }
         
@@ -772,7 +799,7 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your logic app has been created! To work with your app go to the Azure Portal link below..
+        ///   Looks up a localized string similar to To work with your app go to the Azure Portal link below which will take you to the Logic App resource blade..
         /// </summary>
         public static string Information_WorkWithLogicApps {
             get {
