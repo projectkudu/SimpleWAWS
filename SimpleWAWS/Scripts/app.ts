@@ -174,7 +174,9 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
                     a.templates = data.filter(e => e.appService === a.name);
                 });
                 //TODO: better way to choose default language
-                $scope.ngModels.selectedLanguage = "Default";//$scope.currentAppService.templates[0].language;
+                $scope.ngModels.selectedLanguage = $scope.currentAppService.templates.some(t => t.language === "Default")
+                    ? "Default"
+                    : $scope.currentAppService.templates[0].language;
                 $scope.selectedTemplate = $scope.currentAppService.templates.find(t => t.language === $scope.ngModels.selectedLanguage);
             });
     }
