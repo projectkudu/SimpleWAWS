@@ -30,7 +30,7 @@ namespace SimpleWAWS.Models
 
         public DateTime StartTime 
         {
-            get { return DateTime.Parse(Tags[Constants.StartTime]); }
+            get { return DateTime.Parse(Tags[Constants.StartTime]).ToUniversalTime(); }
         }
 
         private readonly TimeSpan UsageTimeSpan = TimeSpan.FromMinutes(int.Parse(SimpleSettings.SiteExpiryMinutes));
