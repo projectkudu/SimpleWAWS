@@ -3,8 +3,8 @@
 /**
  * Route configuration for the RDash module.
  */
-angular.module('RDash').config(['$stateProvider', '$urlRouterProvider',
-    function($stateProvider, $urlRouterProvider) {
+angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
+                                function($stateProvider, $urlRouterProvider, $locationProvider) {
 
         // For unmatched routes
         $urlRouterProvider.otherwise('/');
@@ -43,5 +43,6 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider',
                 url: '/userFeedback',
                 templateUrl: 'templates/userFeedback.html'
             });
+        $locationProvider.html5Mode(true);
     }
 ]);
