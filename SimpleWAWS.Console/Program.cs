@@ -80,6 +80,7 @@ namespace SimpleWAWS.Console
             console("start");
             var manager = await ResourcesManager.GetInstanceAsync();
             console("count " + manager.GetAllFreeResourceGroups().Count);
+            console("count " + manager.GetAllInUseResourceGroups().Count);
             console("done initial loading");
 
             //console("activate api app");
