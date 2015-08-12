@@ -68,22 +68,25 @@ let appServiceKpis (timeRange: TimeRange) aggregate =
 type AppType = 
     | Web
     | Mobile
+    | Logic
     | Mix
     | Unknown
-type AppsCreates = { WebApps: int; MobileApps: int; Mix: int; Unknown: int }
+type AppsCreates = { WebApps: int; MobileApps: int; LogicApps: int; Mix: int; Unknown: int }
 
 let private getUsersToAppTypeQuery startTime endTime (context: EntityConnection.ServiceTypes.SimpleDataContextTypes.EntityContainer) =
     query {
-        for userName, usedMobile, usedWeb in (query {
+        for userName, usedMobile, usedWeb, usedLogic in (query {
                 for u in context.UserActivities do
                 where (u.DateTime >= startTime && u.DateTime < endTime)
                 groupBy u.UserName into g
                 select ( g.Key
                         , g.Max (fun r -> if r.AppService = "Mobile" then 1 else 0)
-                        , g.Max (fun r -> if r.AppService = "Web" then 1 else 0)) }) do
-        select (if usedMobile + usedWeb = 2 then Mix
+                        , g.Max (fun r -> if r.AppService = "Web" then 1 else 0)
+                        , g.Max (fun r -> if r.AppService = "Logic" then 1 else 0)) }) do
+        select (if usedMobile + usedWeb + usedLogic > 1 then Mix
                 elif usedMobile = 1 then Mobile
                 elif usedWeb = 1 then Web
+                elif usedLogic = 1 then Logic
                 else Unknown
               , userName) }
 
@@ -99,9 +102,10 @@ let appServiceAppCreates =
                        match appType with
                        | Web -> { record with WebApps = count }
                        | Mobile -> { record with MobileApps = count }
+                       | Logic -> { record with LogicApps = count}
                        | Mix -> { record with Mix = count }
                        | Unknown -> { record with Unknown = count }
-                   ) { WebApps = 0; MobileApps = 0; Mix = 0; Unknown = 0 })
+                   ) { WebApps = 0; MobileApps = 0; LogicApps = 0; Mix = 0; Unknown = 0 })
 
 
 let appServiceAppCreatesFreeTrialClicks =
@@ -123,9 +127,10 @@ let appServiceAppCreatesFreeTrialClicks =
                        match appType with
                        | Web -> { record with WebApps = count }
                        | Mobile -> { record with MobileApps = count }
+                       | Logic -> { record with LogicApps = count}
                        | Mix -> { record with Mix = count }
                        | Unknown -> { record with Unknown = count }
-                   ) { WebApps = 0; MobileApps = 0; Mix = 0; Unknown = 0 })
+                   ) { WebApps = 0; MobileApps = 0; LogicApps = 0; Mix = 0; Unknown = 0 })
 
 type AccountTypes = { MSA: int; OrgId: int; AAD: int; Google: int; Facebook: int; Anonymous: int }
 let toAccountTypes record (account, count) =

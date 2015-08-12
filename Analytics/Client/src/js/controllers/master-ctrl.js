@@ -194,6 +194,9 @@ function MasterCtrl($scope, $cookieStore, $rootScope, $http, $q) {
                             name: 'Users Mobile Only',
                             data: data.map(function(e) { return e.value.MobileApps; })
                         }, {
+                            name: 'Users Logic Only',
+                            data: data.map(function(e) { return e.value.LogicApps; })
+                        }, {
                             name: 'Users Mix Only',
                             data: data.map(function(e) { return e.value.Mix; })
                         }];
@@ -217,6 +220,9 @@ function MasterCtrl($scope, $cookieStore, $rootScope, $http, $q) {
                         }, {
                             name: 'Mobile Only',
                             data: data.map(function(e) { return e.value.MobileApps; })
+                        }, {
+                            name: 'Logic Only',
+                            data: data.map(function(e) { return e.value.LogicApps; })
                         }, {
                             name: 'Mix Only',
                             data: data.map(function(e) { return e.value.Mix; })
