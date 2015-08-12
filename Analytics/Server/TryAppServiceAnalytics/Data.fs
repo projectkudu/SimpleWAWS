@@ -181,7 +181,9 @@ let categorizeReferrs = <@ fun key ->
     elif (%like) key "http%://azure.microsoft.com/%/documentation/articles/search-tryappservice%" then "AzureSearch"
     elif (%like) key "htt%://azure.microsoft.com/blog/2015/07/22/azure-search-new-regions-samples-and-datasets%" then "AzureSearch"
     elif (%like) key "htt%://azure.microsoft.com/%/documentation/%" then "AzureDocumentation"
-    elif (%like) key "htt%://azure.microsoft.com/%/develop/net/aspnet/%" then "AspNetDevelop"
+    elif (%like) key "htt%://azure.microsoft.com/%/develop/net/aspnet/%" then "AspNet"
+    elif (%like) key "htt%://%.asp.net/%" then "AspNet"
+    elif (%like) key "htt%://%.iis.net/%" then "IIS"
     elif (%like) key "htt%://%google.com/%" then "Search"
     elif (%like) key "htt%://%bing.com/%" then "Search"
     elif (%like) key "htt%://%yahoo.com/%" then "Search"
@@ -191,19 +193,20 @@ let categorizeReferrs = <@ fun key ->
     elif (%like) key "htt%://%media6degrees.com/%" then "Ads"
     elif key = "-" then "Empty"
     else "Uncategorized" @>
-type ReferrerCatagories = { AppService: int; AzureDocumentation: int; AspNetDevelop: int; AzureSearch: int; Search: int; Ads: int; Uncaterorized: int; Empty: int }
+type ReferrerCatagories = { AppService: int; AzureDocumentation: int; AspNet: int; IIS: int; AzureSearch: int; Search: int; Ads: int; Uncaterorized: int; Empty: int }
 let foldToReferrerCatagories =
     Seq.fold (fun record (catagory, count) ->
                         match catagory with
                         | "AppService" -> { record with AppService = count }
                         | "AzureDocumentation" -> { record with AzureDocumentation = count }
-                        | "AspNetDevelop" -> { record with AspNetDevelop = count }
+                        | "AspNet" -> { record with AspNet = count }
+                        | "IIS" -> { record with IIS = count}
                         | "Search" -> { record with Search = count }
                         | "Ads" -> { record with Ads = count }
                         | "Uncategorized" -> { record with Uncaterorized = count }
                         | "Empty" -> { record with Empty = count }
                         | "AzureSearch" -> { record with AzureSearch = count }
-                        | _ -> record) { AppService = 0; AzureDocumentation = 0; AspNetDevelop = 0; Search = 0; Ads = 0; Uncaterorized = 0; Empty = 0; AzureSearch = 0 }
+                        | _ -> record) { AppService = 0; AzureDocumentation = 0; AspNet = 0; IIS = 0; Search = 0; Ads = 0; Uncaterorized = 0; Empty = 0; AzureSearch = 0 }
 type ReferrersAggregation = { Totals: ReferrerCatagories; Created: ReferrerCatagories; FreeTrial: ReferrerCatagories }
 let referrerCatagories (startTime, endTime) _ =
     use context = getContext ()
