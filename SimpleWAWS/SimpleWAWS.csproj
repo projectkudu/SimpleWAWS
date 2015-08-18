@@ -431,10 +431,12 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Client.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Client.ru.resx" />
     <EmbeddedResource Include="Resources\Server.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Server.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Server.ru.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
