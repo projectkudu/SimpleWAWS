@@ -12,6 +12,7 @@ tsconfig.json
 .vs
 compilation.config
 */dist/*
+*.bak
 # Node modules
 */node_modules/*
 
