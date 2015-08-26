@@ -34,7 +34,7 @@ You don't have to create all the different Apps. You can only create the ones yo
 ### Other settings for other features
 1. `TryTenantId` used for RBAC scenarios
 2. `TryTenantName` used for RBAC scenarios
-3. `SiteExpiryMinutes` number of minuted before the resource expires. Default: `59`
+3. `SiteExpiryMinutes` number of minutes before the resource expires. Default: `59`
 4. `GeoRegions` The geoRegions to use to create resources. Default: `East US,West US,North Europe,West Europe,South Central US,North Central US,East Asia,Southeast Asia,Japan West,Japan East,Brazil South`
 5. `FreeSitesIISLogsBlob` Blob container name for saving logs
 6. `FreeSitesIISLogsQueue` Azure storage queue to inform aggregation webJob of a new item in the blob storage above
