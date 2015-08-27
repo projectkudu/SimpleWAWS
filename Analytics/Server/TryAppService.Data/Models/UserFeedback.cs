@@ -20,5 +20,6 @@ namespace TryAppService.Data.Models
         public DateTime DateTime { get; set; }
         public string Experiment { get; set; }
         public string SourceVariation { get; set; }
+        public string UserCulture { get; set; }
     }
 }

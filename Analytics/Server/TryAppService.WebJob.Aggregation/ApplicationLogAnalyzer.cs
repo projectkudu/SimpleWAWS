@@ -34,14 +34,17 @@ namespace TryAppService.WebJob.Aggregation
             this._storageHelper = new StorageHelper("wawsapplogblobtrywebsites");
         }
 
-        private Tuple<string, string> ParseExperimentAndSv(string str)
+        private Tuple<string, string, string> ParseExperimentAndSvAndCulture(string str)
         {
-            if (str.IndexOf("#") == -1) return Tuple.Create("-", "-");
+            if (str.IndexOf("#") == -1) return Tuple.Create("-", "-", "-");
             var value = str.Split(new[] { '#' }, StringSplitOptions.RemoveEmptyEntries).Last();
 
-            if (str.IndexOf("$") == -1) return Tuple.Create(value, "-");
+            if (str.IndexOf("$") == -1) return Tuple.Create(value, "-", "-");
             var splits = value.Split('$');
-            return Tuple.Create(splits[0], splits[1]);
+
+            if (splits[1].IndexOf("%") == -1) return Tuple.Create(splits[0], splits[1], "-");
+            var culture = splits[1].Split('%').Last();
+            return Tuple.Create(splits[0], splits[1], culture);
         }
 
         public void Analyze()
@@ -74,7 +77,7 @@ namespace TryAppService.WebJob.Aggregation
                                     try
                                     {
                                         var splitedLine = line.Split(';').Select(s => s.Trim(',', ' ', '"')).ToArray();
-                                        var experimentsAndSv = ParseExperimentAndSv(splitedLine[0]);
+                                        var experimentsAndSvAndCulture = ParseExperimentAndSvAndCulture(splitedLine[0]);
                                         if (line.IndexOf(OldUserCreatesSitePattern) != -1)
                                         {
                                             splitedLine = line.Split(',').Select(s => s.Trim(',', ' ', '"')).ToArray();
@@ -102,8 +105,9 @@ namespace TryAppService.WebJob.Aggregation
                                             uiEvents.Add(new UIEvent
                                             {
                                                 DateTime = currentHour,
-                                                Experiment = experimentsAndSv.Item1,
-                                                SourceVariation = experimentsAndSv.Item2,
+                                                Experiment = experimentsAndSvAndCulture.Item1,
+                                                SourceVariation = experimentsAndSvAndCulture.Item2,
+                                                UserCulture = experimentsAndSvAndCulture.Item3,
                                                 EventName = splitedLine[1],
                                                 UserName = splitedLine[2],
                                                 Properties = splitedLine.Length > 3 ? splitedLine[3] : null,
@@ -115,8 +119,9 @@ namespace TryAppService.WebJob.Aggregation
                                             uiEvents.Add(new UIEvent
                                             {
                                                 DateTime = currentHour,
-                                                Experiment = experimentsAndSv.Item1,
-                                                SourceVariation = experimentsAndSv.Item2,
+                                                Experiment = experimentsAndSvAndCulture.Item1,
+                                                SourceVariation = experimentsAndSvAndCulture.Item2,
+                                                UserCulture = experimentsAndSvAndCulture.Item3,
                                                 UserName = splitedLine[1],
                                                 EventName = UserClickedFreeTrial,
                                                 Properties = splitedLine.Length > 2 ? splitedLine[2] : null
@@ -127,8 +132,9 @@ namespace TryAppService.WebJob.Aggregation
                                             userActivity.Add(new UserActivity
                                             {
                                                 DateTime = currentHour,
-                                                Experiment = experimentsAndSv.Item1,
-                                                SourceVariation = experimentsAndSv.Item2,
+                                                Experiment = experimentsAndSvAndCulture.Item1,
+                                                SourceVariation = experimentsAndSvAndCulture.Item2,
+                                                UserCulture = experimentsAndSvAndCulture.Item3,
                                                 UserName = splitedLine[1],
                                                 TemplateLanguage = splitedLine[2],
                                                 TemplateName = splitedLine[3],
@@ -167,8 +173,9 @@ namespace TryAppService.WebJob.Aggregation
                                             userFeedback.Add(new UserFeedback
                                             {
                                                 DateTime = currentHour,
-                                                Experiment = experimentsAndSv.Item1,
-                                                SourceVariation = experimentsAndSv.Item2,
+                                                Experiment = experimentsAndSvAndCulture.Item1,
+                                                SourceVariation = experimentsAndSvAndCulture.Item2,
+                                                UserCulture = experimentsAndSvAndCulture.Item3,
                                                 UserName = splitedLine[1],
                                                 AnonymousUserName = splitedLine[2],
                                                 Comment = splitedLine[3],

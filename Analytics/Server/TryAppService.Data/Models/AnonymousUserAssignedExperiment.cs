@@ -18,6 +18,7 @@ namespace TryAppService.Data.Models
         public string CampaignId { get; set; }
         public string SourceVariation { get; set; }
         public DateTime DateTime { get; set; }
+        public string UserCulture { get; set; }
 
     }
 }

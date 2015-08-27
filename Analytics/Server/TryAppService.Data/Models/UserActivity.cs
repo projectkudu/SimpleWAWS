@@ -37,5 +37,8 @@ namespace TryAppService.Data.Models
 
         [JsonProperty(PropertyName = "anonymousUserName", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string AnonymousUserName { get; set; }
+
+        [JsonProperty(PropertyName = "userCulture", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string UserCulture { get; set; }
     }
 }
