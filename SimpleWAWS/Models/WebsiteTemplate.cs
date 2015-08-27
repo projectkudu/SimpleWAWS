@@ -19,7 +19,7 @@ namespace SimpleWAWS.Models
 
         public static WebsiteTemplate EmptySiteTemplate
         {
-            get { return new WebsiteTemplate() { Name = "Empty Site", Language = "Empty Site", SpriteName = "sprite-Large" }; }
+            get { return new WebsiteTemplate() { Name = "Empty Site", Language = "Default", SpriteName = "sprite-Large" }; }
         }
     }
 }
