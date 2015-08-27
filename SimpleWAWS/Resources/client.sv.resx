@@ -118,211 +118,211 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Action_AllowContact" xml:space="preserve">
-    <value>Разрешить Майкрософт связаться со мной по поводу отзыва</value>
+    <value>Tillåt Microsoft att kontakta mig om denna feedback.</value>
   </data>
   <data name="Action_Cancel" xml:space="preserve">
-    <value>Отмена</value>
+    <value>Avbryt</value>
   </data>
   <data name="Action_CreateAppServiceApp" xml:space="preserve">
-    <value>Создать приложение службы приложений Azure</value>
+    <value>Skapa din Azure Apptjänst-app</value>
   </data>
   <data name="Action_Delete" xml:space="preserve">
-    <value>Удалить</value>
+    <value>Ta bort</value>
   </data>
   <data name="Action_DownloadAppContent" xml:space="preserve">
-    <value>Скачать контент {0}</value>
+    <value>Hämta {0}-innehåll</value>
   </data>
   <data name="Action_DownloadPublishingProfile" xml:space="preserve">
-    <value>Скачать профиль публикации</value>
+    <value>Hämta publiceringsprofil</value>
   </data>
   <data name="Action_GitClone" xml:space="preserve">
-    <value>Клонировать или передать в GIT</value>
+    <value>Klona eller pusha med git</value>
   </data>
   <data name="Action_GoToExistingApp" xml:space="preserve">
-    <value>Перейти к существующему приложению</value>
+    <value>Gå till befintlig app</value>
   </data>
   <data name="Action_ManageInAzurePortal" xml:space="preserve">
-    <value>Управление на портале Azure</value>
+    <value>Hantera i Azure Portal</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>Выполнить сборку и запустить мобильное клиентское приложение</value>
+    <value>Skapa och kör din mobila klientapp</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
-    <value>Изменить в Visual Studio Online "Monaco"</value>
+    <value>Redigera med Visual Studio Online "Monaco"</value>
   </data>
   <data name="Action_ReportAnIssue" xml:space="preserve">
-    <value>Сообщить о проблеме</value>
+    <value>Rapportera ett problem</value>
   </data>
   <data name="Action_SelectAppType" xml:space="preserve">
-    <value>Выбрать тип приложения</value>
+    <value>Välj apptyp</value>
   </data>
   <data name="Action_SelectTemplate" xml:space="preserve">
-    <value>Выбрать шаблон и создать {0}</value>
+    <value>Välj en mall och skapa din {0}</value>
   </data>
   <data name="Action_ShareAComment" xml:space="preserve">
-    <value>Поделиться комментарием</value>
+    <value>Dela en kommentar</value>
   </data>
   <data name="Action_Submit" xml:space="preserve">
-    <value>Отправить</value>
+    <value>Skicka</value>
   </data>
   <data name="Action_Yes" xml:space="preserve">
-    <value>Да</value>
+    <value>Ja</value>
   </data>
   <data name="Blog" xml:space="preserve">
-    <value>Блог</value>
+    <value>Blogg</value>
   </data>
   <data name="Calculator" xml:space="preserve">
-    <value>Калькулятор</value>
+    <value>Databearbetning</value>
   </data>
   <data name="CaseStudies" xml:space="preserve">
-    <value>Конкретные примеры</value>
+    <value>Fallstudier</value>
   </data>
   <data name="Community" xml:space="preserve">
-    <value>Сообщество</value>
+    <value>Community</value>
   </data>
   <data name="Compliance" xml:space="preserve">
-    <value>Соответствие</value>
+    <value>Överensstämmelse</value>
   </data>
   <data name="ContactUs" xml:space="preserve">
-    <value>Обратная связь</value>
+    <value>Kontakta oss</value>
   </data>
   <data name="Documentation" xml:space="preserve">
-    <value>Документация</value>
+    <value>Dokumentation</value>
   </data>
   <data name="Downloads" xml:space="preserve">
-    <value>Загрузки</value>
+    <value>Nedladdningar</value>
   </data>
   <data name="Error_SubmittingFeedback" xml:space="preserve">
-    <value>Произошла ошибка при отправке отзыва. Повторите попытку позже.</value>
+    <value>Det inträffade ett fel när du skulle skicka din feedback. Försök igen senare.</value>
   </data>
   <data name="Events" xml:space="preserve">
-    <value>События</value>
+    <value>Evenemang</value>
   </data>
   <data name="Facebook" xml:space="preserve">
     <value>Facebook</value>
   </data>
   <data name="Features" xml:space="preserve">
-    <value>Функции</value>
+    <value>Funktioner</value>
   </data>
   <data name="Feedback" xml:space="preserve">
-    <value>Отзыв</value>
+    <value>Feedback</value>
   </data>
   <data name="Forums" xml:space="preserve">
-    <value>Форумы</value>
+    <value>Forum</value>
   </data>
   <data name="FreeTrial" xml:space="preserve">
-    <value>Бесплатная пробная версия</value>
+    <value>Kostnadsfri utvärderingsversion</value>
   </data>
   <data name="GoSocial" xml:space="preserve">
-    <value>Социальные сети</value>
+    <value>Bli social</value>
   </data>
   <data name="Information_APIApp" xml:space="preserve">
-    <value>Приложение API</value>
+    <value>API-app</value>
   </data>
   <data name="Information_AppAlreadyExists" xml:space="preserve">
-    <value>Вы уже создали службу приложений. Вы хотите удалить ее и создать новую?</value>
+    <value>Du har redan skapat en apptjänst. Vill du ta bort den och skapa en ny?</value>
   </data>
   <data name="Information_AppHasBeenCreated" xml:space="preserve">
-    <value>Приложение {0} создано!</value>
+    <value>Din {0} har skapats!</value>
   </data>
   <data name="Information_AspNetBrandingLine1" xml:space="preserve">
-    <value>Бесплатное размещение 10 веб-сайтов ASP.NET в службе приложений Azure</value>
+    <value>Bli värd för 10 ASP.NET-webbplatser kostnadsfritt med Azure Apptjänst</value>
   </data>
   <data name="Information_AspNetBrandingLine2" xml:space="preserve">
-    <value>Безопасно, надежно и готово к работе за секунды. Начинайте работу бесплатно и изменяйте масштабы по мере увеличения трафика.</value>
+    <value>Säkert, tillförlitligt och klart att använda på några sekunder. Börja gratis och bygg ut i takt med att trafiken växer.</value>
   </data>
   <data name="Information_ComingSoon" xml:space="preserve">
-    <value>Ожидается в ближайшее время</value>
+    <value>Kommer snart</value>
   </data>
   <data name="Information_DownloadClient" xml:space="preserve">
-    <value>Скачать клиент</value>
+    <value>Hämta klient</value>
   </data>
   <data name="Information_DownloadiOSClient" xml:space="preserve">
-    <value>Скачать клиентское приложение iOS</value>
+    <value>Hämta iOS-klientappen</value>
   </data>
   <data name="Information_DownloadWindowsClient" xml:space="preserve">
-    <value>Скачать клиентское приложение Windows</value>
+    <value>Hämta Windows-klientappen</value>
   </data>
   <data name="Information_DownloadXamarinAndroidClient" xml:space="preserve">
-    <value>Скачать клиентское приложение Xamarin Android</value>
+    <value>Hämta Xamarin Android-klientappen</value>
   </data>
   <data name="Information_DownloadXamariniOSClient" xml:space="preserve">
-    <value>Скачать клиентское приложение Xamarin iOS</value>
+    <value>Hämta Xamarin iOS-klientappen</value>
   </data>
   <data name="Information_ExperienceComingSoon" xml:space="preserve">
-    <value>Пробная версия Azure {0} еще не доступна, но вы можете создать {0}, зарегистрировавшись для получения бесплатной 30-дневной пробной версии, которая позволяет создать до 10 приложений любого типа</value>
+    <value>Utvärderingsversionen av Azure {0} är inte här ännu, men du kan ändå skapa flera {0} genom att registrera dig för en kostnadsfri 30 dagars utvärderingsversion med vilken du kan skapa upp till 10 appar av valfri typ utan någon extra kostnad.</value>
   </data>
   <data name="Information_ExperienceNotHereYet" xml:space="preserve">
-    <value>Версия {0} еще не доступна.</value>
+    <value>{0}-erfarenheten är inte här ännu.</value>
   </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
-    <value>Бесплатная версия {0} доступна в течение одного часа. До окончания ее срока действия:</value>
+    <value>Din kostnadsfria {0} är tillgänglig under en timma och upphör att gälla om:</value>
   </data>
   <data name="Information_GenericBrandingLine1" xml:space="preserve">
-    <value>Служба приложений Azure — это облачная служба, которая интегрируется со всем, что вам нужно для быстрой и простой сборки веб- и мобильных приложений для любых платформ или устройств.</value>
+    <value>Azure Apptjänst är en molnapptjänst som integrerar allt du behöver för att snabbt och enkelt kunna skapa webb- och mobilappar för alla typer av plattformar och enheter.</value>
   </data>
   <data name="Information_GenericBrandingLine2" xml:space="preserve">
-    <value>Ознакомьтесь со службой приложений Azure в течение часа без подписки Azure или получите пробную подписку на службу приложений Azure.</value>
+    <value>Var vår gäst i upp till en timma med Azure Apptjänst utan någon Azure-prenumeration, helt kostnadsfritt och utan några åtaganden. Stanna längre med den fullständiga Azure Apptjänst-upplevelsen genom en kostnadsfri Azure-provprenumeration.</value>
   </data>
   <data name="Information_GoingBackWillDeleteApp" xml:space="preserve">
-    <value>Если вы вернетесь назад, текущее приложение будет удалено.</value>
+    <value>Om du går tillbaka tas den aktuella appen bort</value>
   </data>
   <data name="Information_InstallVisualStudio" xml:space="preserve">
-    <value>Установить Visual Studio Professional 2013 (с обновлением 4)</value>
+    <value>Installera Visual Studio Professional 2013 (Update 4)</value>
   </data>
   <data name="Information_InstallXamarinStudio" xml:space="preserve">
-    <value>Установить Xamarin Studio для Windows или OS X</value>
+    <value>Installera Xamarin Studio för Windows eller OS X</value>
   </data>
   <data name="Information_InstallXcode" xml:space="preserve">
-    <value>Установить Xcode (v4.4+)</value>
+    <value>Installera Xcode (v4.4+)</value>
   </data>
   <data name="Information_LogicApp" xml:space="preserve">
-    <value>Приложение логики</value>
+    <value>Logikapp</value>
   </data>
   <data name="Information_LoginFirst" xml:space="preserve">
-    <value>Войдите, чтобы создать приложение.</value>
+    <value>Logga in först innan du skapar en app</value>
   </data>
   <data name="Information_MobileApp" xml:space="preserve">
-    <value>Мобильное приложение</value>
+    <value>Mobilapp</value>
   </data>
   <data name="Information_NativeiOS" xml:space="preserve">
-    <value>Приложения iOS с машинным кодом</value>
+    <value>Ursprungligt iOS</value>
   </data>
   <data name="Information_SelectAppType" xml:space="preserve">
-    <value>Выбрать тип приложения</value>
+    <value>Välj apptyp</value>
   </data>
   <data name="Information_SelectTemplate" xml:space="preserve">
-    <value>Выбор шаблона</value>
+    <value>Välj mall</value>
   </data>
   <data name="Information_SubmittingFeedback" xml:space="preserve">
-    <value>Идет отправка отзыва...</value>
+    <value>Skickar feedback...</value>
   </data>
   <data name="Information_ThanksForFeedback" xml:space="preserve">
-    <value>Спасибо за отзыв!</value>
+    <value>Tack för din feedback!</value>
   </data>
   <data name="Information_VisitWebClient" xml:space="preserve">
-    <value>Перейти в веб-клиент</value>
+    <value>Besök den webbaserade klienten</value>
   </data>
   <data name="Information_WantMoreQuestionLine1" xml:space="preserve">
-    <value>Вы хотите получить дополнительные бесплатные возможности?</value>
+    <value>Vill du få ytterligare saker kostnadsfritt?</value>
   </data>
   <data name="Information_WantMoreQuestionLine2" xml:space="preserve">
-    <value>Создавайте больше веб- и мобильных приложений, приложений логики и API. Зарегистрируйтесь для получения бесплатной 30-дневной пробной версии и создайте до 10 приложений любого типа.</value>
+    <value>Skapa fler webb- och mobilappar, logiska appar och API-appar. Registrera dig för en 30 dagars utvärderingsversion och skapa upp till 10 appar av valfri typ utan någon kostnad.</value>
   </data>
   <data name="Information_WebApp" xml:space="preserve">
-    <value>Веб-приложение</value>
+    <value>Webbapp</value>
   </data>
   <data name="Information_WebClient" xml:space="preserve">
-    <value>Веб-клиент</value>
+    <value>Webbklient</value>
   </data>
   <data name="Information_Windows" xml:space="preserve">
     <value>Windows</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
-    <value>Для работы с приложением перейдите на портал Azure по ссылке ниже. Вы окажетесь на странице с колонкой ресурсов приложения логики.</value>
+    <value>Om du vill arbeta med din app går du till Azure Portal-länken nedan, vilken tar dig vidare till resursbladet för logiska appar.</value>
   </data>
   <data name="Information_WorkWithYourApp" xml:space="preserve">
-    <value>Работать с {0} в </value>
+    <value>Arbeta med din {0} på </value>
   </data>
   <data name="Information_XamarinAndroid" xml:space="preserve">
     <value>Xamarin Android</value>
@@ -331,10 +331,10 @@
     <value>Xamarin iOS</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value>Выход</value>
+    <value>Logga ut</value>
   </data>
   <data name="ManagementPortal" xml:space="preserve">
-    <value>Портал управления</value>
+    <value>Administrationsportal</value>
   </data>
   <data name="Marketplace" xml:space="preserve">
     <value>Marketplace</value>
@@ -343,123 +343,123 @@
     <value>Microsoft Azure</value>
   </data>
   <data name="Mooncake" xml:space="preserve">
-    <value>Microsoft Azure в Китае</value>
+    <value>Microsoft Azure i Kina</value>
   </data>
   <data name="MyAccount" xml:space="preserve">
-    <value>Моя учетная запись</value>
+    <value>Mitt konto</value>
   </data>
   <data name="Newsletter" xml:space="preserve">
-    <value>Информационный бюллетень</value>
+    <value>Nyhetsbrev</value>
   </data>
   <data name="Portal" xml:space="preserve">
-    <value>Портал</value>
+    <value>Portal</value>
   </data>
   <data name="PreviewFeatures" xml:space="preserve">
-    <value>Функции предварительной версии</value>
+    <value>Förhandsversionsfunktioner</value>
   </data>
   <data name="Pricing" xml:space="preserve">
-    <value>Цены</value>
+    <value>Prissättning</value>
   </data>
   <data name="Privacy" xml:space="preserve">
-    <value>Конфиденциальность</value>
+    <value>Sekretess</value>
   </data>
   <data name="PrivacyCookies" xml:space="preserve">
-    <value>Конфиденциальность и файлы cookie</value>
+    <value>Sekretess och cookies</value>
   </data>
   <data name="Profile" xml:space="preserve">
-    <value>Профиль</value>
+    <value>Profil</value>
   </data>
   <data name="Regions" xml:space="preserve">
-    <value>Регионы</value>
+    <value>Regioner</value>
   </data>
   <data name="Rss" xml:space="preserve">
-    <value>RSS</value>
+    <value>Rss</value>
   </data>
   <data name="Security" xml:space="preserve">
-    <value>Безопасность</value>
+    <value>Säkerhet</value>
   </data>
   <data name="ServiceDashboard" xml:space="preserve">
-    <value>Панель мониторинга служб</value>
+    <value>Instrumentpanel</value>
   </data>
   <data name="Services" xml:space="preserve">
-    <value>Службы</value>
+    <value>Tjänster</value>
   </data>
   <data name="ServiceUpdates" xml:space="preserve">
-    <value>Обновления службы</value>
+    <value>Tjänstuppdateringar</value>
   </data>
   <data name="Subscriptions" xml:space="preserve">
-    <value>Подписки</value>
+    <value>Prenumerationer</value>
   </data>
   <data name="Support" xml:space="preserve">
-    <value>Поддержка</value>
+    <value>Support</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Испытайте службу приложений Azure</value>
+    <value>Testa Azure Apptjänst</value>
   </data>
   <data name="Trademarks" xml:space="preserve">
-    <value>Товарные знаки</value>
+    <value>Varumärken</value>
   </data>
   <data name="TrustCenter" xml:space="preserve">
-    <value>Центр управления безопасностью</value>
+    <value>Säkerhetscenter</value>
   </data>
   <data name="Twitter" xml:space="preserve">
     <value>Twitter</value>
   </data>
   <data name="Information_LogicAppDescription" xml:space="preserve">
-    <value>Приложения логики Azure позволяют разработчикам создавать рабочие процессы, которые запускаются с триггера, а затем выполняют ряд шагов, каждый из которых вызывает приложение API службы приложений, выполнив безопасную проверку подлинности и рекомендации, такие как назначение контрольных точек и длительное выполнение.</value>
+    <value>Med Azure Logikappar kan utvecklare utforma arbetsflöden som startar med en utlösare och sedan exekverar en följd av steg, som vart och ett anropar en Apptjänst-API-app samtidigt som autentisering och bästa praxis observeras, t.ex. när det gäller kontrollpunkter och beständig exekvering.</value>
   </data>
   <data name="Information_LogicAppStep1" xml:space="preserve">
-    <value>1. Взгляните на группу связанных элементов "Сводка", где отображаются сведения о том, когда приложение было запущено в последний раз и был ли запуск успешным.</value>
+    <value>1. Gå till sammanfattningslinsen där du hittar information t.ex. om när appen senast kördes och om den var framgångsrik.</value>
   </data>
   <data name="Information_LogicAppStep2" xml:space="preserve">
-    <value>2. Откройте определение приложения логики, щелкнув ту же часть в группе связанных элементов "Сводка", и взгляните на определение. Вы можете попробовать расширить приложение логики для отправки твитов при каждом сбое проверки связи.</value>
+    <value>2. Öppna logkappsdefinitionen genom att klicka på samma del i sammanfattningslinsen och läsa definitionen. Du kan försöka att utöka logikappen så att den skickar tweets varje gång som ett ping misslyckas.</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
-    <value>Шаблон приложения логики будет проверять связь с веб-сайтом по регулярному расписанию. Вы можете расширить его, чтобы предпринять действия в зависимости от результата проверки связи.</value>
+    <value>Den här logiska appmallen pingar en webbplats enligt ett regelbundet schema.  Du kan utvidga den så att den vidtar åtgärder beroende på pingets resultat.</value>
   </data>
   <data name="Action_Dismiss" xml:space="preserve">
-    <value>Отклонить</value>
+    <value>Stäng</value>
   </data>
   <data name="Information_AppHasExpired" xml:space="preserve">
-    <value>Срок действия {0} истек. Вы можете попробовать создать другое приложение службы приложений или зарегистрировать бесплатную 30-дневную пробную учетную запись.</value>
+    <value>Din {0} har upphört att gälla. Du kan försöka skapa en annan apptjänstapp eller registrera dig för ett kostnadsfritt 30-dagars utvärderingskonto.</value>
   </data>
   <data name="Information_Prerequisite" xml:space="preserve">
-    <value>Необходимый компонент</value>
+    <value>Förutsättning</value>
   </data>
   <data name="Information_WelcomeFeedback" xml:space="preserve">
-    <value>Мы будем рады получить ваши отзывы!</value>
+    <value>Vi uppskattar din feedback!</value>
   </data>
   <data name="Action_Create" xml:space="preserve">
-    <value>Создать</value>
+    <value>Skapa</value>
   </data>
   <data name="Action_GenericWorkWithYourApp" xml:space="preserve">
-    <value>Работать с приложением</value>
+    <value>Arbeta med din app</value>
   </data>
   <data name="Information_YouCantHaveMoreThanOne" xml:space="preserve">
-    <value>У вас не может быть несколько бесплатных ресурсов одновременно.</value>
+    <value>Du kan inte ha mer än en fri resurs åt gången</value>
   </data>
   <data name="Next" xml:space="preserve">
-    <value>Далее</value>
+    <value>Nästa</value>
   </data>
   <data name="Previous" xml:space="preserve">
-    <value>Назад</value>
+    <value>Föregående</value>
   </data>
   <data name="Information_ApiAppDescription" xml:space="preserve">
-    <value>Пробная версия приложения API Azure еще не доступна, но вы можете создать приложения API, зарегистрировавшись для получения бесплатной 30-дневной пробной версии, которая позволяет создать до 10 приложений любого типа.</value>
+    <value>Utvärderingsversionen av Azure API-appen är inte här ännu, men du kan ändå skapa API-appar genom att registrera dig för en kostnadsfri 30 dagars utvärderingsversion med vilken du kan skapa upp till 10 appar av valfri typ utan någon extra kostnad.</value>
   </data>
   <data name="Information_MobileAppDescription" xml:space="preserve">
-    <value>Мобильные приложения Azure позволяют легко выполнять вход, отправку и синхронизацию данных в приложении iOS, Android или Windows, глобально масштабировать и подключать приложение к корпоративным системам и локальным ресурсам.</value>
+    <value>Med Azure Mobilappar är det lätt att lägga till inloggnings-, push- och datasynkronisering till din iOS-, Android- eller Windows-app, skalanpassa globalt och ansluta din app till företagssystem och lokala resurser.</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
-    <value>Веб-приложения Azure позволяют разработчикам легко развертывать и масштабировать веб-приложения корпоративного уровня, написанные на разных языках и интегрированные в несколько служб, не беспокоясь об управлении инфраструктурой.</value>
+    <value>Med Azure Webbappar kan utvecklare enkelt distribuera och skalanpassa företagswebbprogram som har skrivits i olika språk och integrerats med flera olika typer av tjänster utan att de behöver bekymra sig över infrastrukturhantering.</value>
   </data>
   <data name="Information_LogicAppStep3" xml:space="preserve">
-    <value>3. Запустите повторно приложение логики, щелкнув команду "Запустить сейчас" в верхней части колонки.</value>
+    <value>3. Kör logikappen igen genom att klicka på kommandot Kör nu överst på bladet.</value>
   </data>
   <data name="Information_LogicAppStep4" xml:space="preserve">
-    <value>4. Чтобы получить дополнительные сведения о приложении логики, щелкните краткое руководство, которое содержит указатели на документацию.</value>
+    <value>4. Om du vill veta mer om hur du kan använda logikappar klickar du på Snabbstart som leder dig vidare till dokumentationen.</value>
   </data>
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
-    <value>Можно выполнить следующие действия из колонки ресурсов приложения логики.</value>
+    <value>Från resursbladet Logikapp kan du testa följande:</value>
   </data>
 </root>
