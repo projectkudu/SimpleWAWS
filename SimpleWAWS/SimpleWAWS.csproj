@@ -443,8 +443,11 @@
     <EmbeddedResource Include="Resources\Client.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Client.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\client.ru.resx" />
+    <EmbeddedResource Include="Resources\client.ru.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\client.sv.resx" />
     <EmbeddedResource Include="Resources\client.tr.resx" />
     <EmbeddedResource Include="Resources\client.zh-cn.resx" />
