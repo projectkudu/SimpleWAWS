@@ -40,7 +40,7 @@ namespace SimpleWAWS.Code
             return _experiments.Last().Name;
         }
 
-        public static void AssignExperiment(this HttpContextBase context)
+        public static void AssignExperiment(HttpContextBase context)
         {
             if (context.Request.Cookies[_experimentCookie] == null && context.IsBrowserRequest())
             {

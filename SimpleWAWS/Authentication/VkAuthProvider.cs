@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Security.Principal;
@@ -18,6 +19,7 @@ namespace SimpleWAWS.Authentication
 
         public override string GetLoginUrl(HttpContextBase context)
         {
+            var culture = CultureInfo.CurrentCulture.Name.ToLowerInvariant();
             var builder = new StringBuilder();
             builder.Append("https://oauth.vk.com/authorize");
             builder.AppendFormat("?client_id={0}", AuthSettings.VkClientId);
@@ -27,7 +29,7 @@ namespace SimpleWAWS.Authentication
             builder.Append("&v=5.35");
             // Vk.com UrlDecode the state query before passing it back to us. This is different from how AAD, Google and Facebook do it.
             // Hence the double encoding below to work around that issue.
-            builder.AppendFormat("&state={0}", WebUtility.UrlEncode(WebUtility.UrlEncode(context.IsAjaxRequest() ? string.Format("/{0}", context.Request.Url.Query) : context.Request.Url.PathAndQuery)));
+            builder.AppendFormat("&state={0}", WebUtility.UrlEncode(WebUtility.UrlEncode(context.IsAjaxRequest() ? string.Format("/{0}{1}", culture, context.Request.Url.Query) : context.Request.Url.PathAndQuery)));
             return builder.ToString();
         }
 

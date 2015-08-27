@@ -114,8 +114,9 @@ namespace SimpleWAWS
         protected void Application_BeginRequest(Object sender, EventArgs e)
         {
             var context = new HttpContextWrapper(HttpContext.Current);
-            context.AssignExperiment();
-
+            ExperimentManager.AssignExperiment(context);
+            GlobalizationManager.SetCurrentCulture(context);
+            
             if (context.Request.Cookies[Constants.TiPCookie] == null &&
                 context.Request.QueryString[Constants.TiPCookie] != null)
             {
