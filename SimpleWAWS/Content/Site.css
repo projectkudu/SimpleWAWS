@@ -9193,7 +9193,8 @@ div.vk-login {
     background: #ffffff;
     border: 1px solid #7d7d7d;
 }
-.login-box:after, .login-box:before {
+
+/*.login-box:after, .login-box:before {
     right: 100%;
     top: 50%;
     border: solid transparent;
@@ -9216,7 +9217,7 @@ div.vk-login {
     border-right-color: #7d7d7d;
     border-width: 16px;
     margin-top: -16px;
-}
+}*/
 
 .login-option {
     display: block;
@@ -9323,7 +9324,7 @@ div.sprite-javascript { width: 115px; height: 115px; background-position: -5px -
     width: 420px
 }
 
-.confirm-box:after, .confirm-box:before {
+/*.confirm-box:after, .confirm-box:before {
     right: 100%;
     top: 50%;
     border: solid transparent;
@@ -9346,7 +9347,7 @@ div.sprite-javascript { width: 115px; height: 115px; background-position: -5px -
     border-right-color: #7d7d7d;
     border-width: 16px;
     margin-top: -16px;
-}
+}*/
 
 .confirm-content {
     display: block;
