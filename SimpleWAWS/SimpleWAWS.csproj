@@ -234,11 +234,6 @@
     <Compile Include="Models\Experiment.cs" />
     <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\UIResource.cs" />
-    <Compile Include="Resources\Client.ps.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Client.ps.resx</DependentUpon>
-    </Compile>
     <Compile Include="Resources\Server.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -435,10 +430,6 @@
     <EmbeddedResource Include="Resources\client.ko.resx" />
     <EmbeddedResource Include="Resources\client.nl.resx" />
     <EmbeddedResource Include="Resources\client.pl.resx" />
-    <EmbeddedResource Include="Resources\Client.ps.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Client.ps.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Resources\client.pt-br.resx" />
     <EmbeddedResource Include="Resources\client.pt.resx" />
     <EmbeddedResource Include="Resources\Client.resx">
