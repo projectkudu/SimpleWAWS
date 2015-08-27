@@ -15,8 +15,8 @@
 </section>
 <section class="wa-section wa-section-blueDark" ng-if="branding === 'aspnet'">
     <div class="wa-content">
-      <h1>@Client.Information_AspNetBrandingLine1</h1>
-      <h3>@Client.Information_AspNetBrandingLine2</h3>
+        <h1>@Client.Information_AspNetBrandingLine1</h1>
+        <h3>@Client.Information_AspNetBrandingLine2</h3>
     </div>
 </section>
 
@@ -40,7 +40,7 @@
                 </a>
             </div>
         </div>
-        <div style="margin-top: 30px; height: 50px; text-overflow: ellipsis">
+        <div style="margin-top: 30px; height: 50px; text-overflow: ellipsis; margin-bottom: 20px">
             <h5 ng-bind="ngModels.hoverAppService ? ngModels.hoverAppService.description : currentAppService.description"></h5>
         </div>
     </div>
@@ -53,21 +53,22 @@
                 <div class="confirm-content">
                     <div class="confirm-message">@Client.Information_GoingBackWillDeleteApp</div>
                     <a id="yes-delete-confirm" href="#" class="wa-button wa-button-red confirm-answer" ng-click="deleteResource()">
-                        Delete
+                        @Client.Action_Delete
                     </a>
                     <a href="#" class="wa-button wa-button-gray confirm-answer" ng-click="confirmDelete = false;">
-                        Cancel
+                        @Client.Action_Cancel
                     </a>
                 </div>
             </div>
             <a ng-if="nextStep" href="#" class="wa-button" ng-click="goToNextState()" ng-class="currentStep.nextClass ? currentStep.nextClass : 'wa-button-alt'">{{ currentStep.nextText ? currentStep.nextText : '@Client.Next' }}</a>
             <a ng-if="!nextStep" ng-href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id={{ cachedQuery }}" target="_blank" ng-click="freeTrialClick('last-step')" class="wa-button wa-button-primary">@Client.FreeTrial</a>
-            <div class="login-box"  ng-show="loginOptions">
+            <div class="login-box" ng-show="loginOptions" ng-class="currentCulture == 'ru' ? 'login-box-ru' : ''">
                 <div style="display: block; margin-left: 30px">
                     <div class="wa-heading5" style="position: relative; margin-right: 8px">@Client.Information_LoginFirst</div>
                     <div class="login-option"><a href="#" ng-click="handleLoginClick('aad')" class="create-site-action wa-button microsoft-login">Microsoft Account</a></div>
                     <div class="login-option"><a class="create-site-action" ng-click="handleLoginClick('google')" href="#"><div class="google-login sprite-google"></div></a></div>
                     <div class="login-option"><a class="create-site-action" ng-click="handleLoginClick('facebook')" href="#"><div class="facebook-login"></div></a></div>
+                    <div ng-if="currentCulture == 'ru'" class="login-option"><a class="create-site-action" ng-click="handleLoginClick('vk')" href="#"><div class="vk-login"></div></a></div>
                 </div>
             </div>
             <div id="confirm-box" class="confirm-box" ng-show="offerDeleteAndCreate" style="left: 274px; top: -45px">

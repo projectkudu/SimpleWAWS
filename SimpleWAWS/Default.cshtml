@@ -21,9 +21,10 @@
             @foreach (var p in typeof(Client).GetProperties()) {
                 if (p.GetValue(null, null) != null) { 
                     @: Resources["@Html.Raw(@p.Name)"] = "@Html.Raw(HttpUtility.JavaScriptStringEncode(p.GetValue(null, null).ToString()))";
-                }
+                    }
             }
-            
+
+            var CurrentCulture = "@System.Globalization.CultureInfo.CurrentCulture.TwoLetterISOLanguageName";
 
             $(document).ready(function () {
                 if (document.cookie.indexOf("loginsession") !== -1) {
@@ -59,7 +60,7 @@
                             </li>
                         </ul>
                         <a class="logo" ng-href="http://azure.microsoft.com/en-us/?WT.mc_id={{ cachedQuery }}"><img src="/Content/images/azure-logo.png" height="21" width="165" alt="Microsoft Azure"></a>
-                        <a class="wa-button wa-button-freeTrial" id="free-trial-header" ng-click="freeTrialClick('top-banner')" target="_blank" ng-href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id={{ cachedQuery }}"><span>@Client.FreeTrial</span></a>
+                        <a class="wa-button wa-button-freeTrial" ng-class="currentCulture == 'cs' ? 'wa-button-freeTrial-cs' : currentCulture == 'sv' ? 'wa-button-freeTrial-sv' : ''" id="free-trial-header" ng-click="freeTrialClick('top-banner')" target="_blank" ng-href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id={{ cachedQuery }}"><span>@Client.FreeTrial</span></a>
                         <div class="site-navigation">
                             <nav>
                                 <ul class="dev-navigation dev-navigation-b">

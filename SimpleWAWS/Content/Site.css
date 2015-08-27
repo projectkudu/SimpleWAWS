@@ -1982,16 +1982,23 @@ header {
 
         header .wa-button-freeTrial span {
             display: table-cell;
-            height: 60px;
-            padding-left: 40px;
+            height: 58px;
+            padding-left: 30px;
             text-transform: uppercase;
             vertical-align: middle;
-            width: 155px;
+            width: 136px;
             font-family: wf_segoe-ui_normal,"Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
             font-weight: 400;
             font-size: 18px;
             line-height: 1.2em;
             color: #89c402;
+        }
+        header .wa-button-freeTrial-cs span {
+            padding-left: 0px;
+        }
+        header .wa-button-freeTrial-sv span {
+            padding-left: 0px;
+            font-size: 13px;
         }
 
     header .site-navigation {
@@ -2005,7 +2012,7 @@ header {
         clear: left;
         float: left;
         position: absolute;
-        width: 720px;
+        width: 750px;
     }
 
         header nav ul {
@@ -9174,8 +9181,12 @@ div.vk-login {
     margin-left: 15px;
     position: absolute;
     left: 273px;
-    top: -93px;
+    top: -83px;
     z-index: 1001;
+}
+
+.login-box-ru {
+    top: -125px;
 }
 
 .login-box {
@@ -9264,6 +9275,7 @@ div.sprite-javascript { width: 115px; height: 115px; background-position: -5px -
     margin-right: 10px;
     text-align: center;
     width: 150px;
+    vertical-align: top;
 }
 
 #status-buttons span {
