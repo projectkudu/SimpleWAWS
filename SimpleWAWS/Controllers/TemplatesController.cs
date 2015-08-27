@@ -15,6 +15,7 @@ namespace SimpleWAWS.Controllers
         public IEnumerable<BaseTemplate> Get()
         {
             var list = TemplatesManager.GetTemplates().ToList();
+            list.ForEach(t => { if (t.AppService == AppService.Logic) t.Description = Resources.Server.Templates_PingSiteDescription; });
             list.Add(WebsiteTemplate.EmptySiteTemplate);
             return list;
         }
