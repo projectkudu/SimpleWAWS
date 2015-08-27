@@ -99,6 +99,7 @@ interface ITryRootScope extends ng.IRootScopeService {
     showShareFeedback();
     submitFeedback();
     cancelFeedback();
+    currentCulture: string;
 }
 
 interface IStaticDataFactory {

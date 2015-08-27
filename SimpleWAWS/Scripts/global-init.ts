@@ -6,6 +6,7 @@ angular.module("tryApp")
         $rootScope.submittedFeedback = false;
         $rootScope.comment = "";
         $rootScope.contactMe = false;
+        $rootScope.currentCulture = CurrentCulture;
 
         $rootScope.showShareFeedback = () => {
             $rootScope.showFeedback = true;

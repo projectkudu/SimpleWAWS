@@ -230,3 +230,5 @@ if (!Document.prototype.getQueryStringByName) {
         return results === null ? undefined : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
 }
+
+declare var CurrentCulture: string;
