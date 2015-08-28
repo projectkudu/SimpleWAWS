@@ -76,7 +76,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             site.HostName = csmSite.properties.hostNames.FirstOrDefault();
             site.ScmHostName = csmSite.properties.enabledHostNames.FirstOrDefault(h => h.IndexOf(".scm.", StringComparison.OrdinalIgnoreCase) != -1);
 
-            await Task.WhenAll(LoadAppSettings(site), LoadMetadata(site), LoadPublishingCredentials(site), UpdateConfig(site, new { properties = new { scmType = "LocalGit" } }));
+            await Task.WhenAll(LoadAppSettings(site), LoadPublishingCredentials(site), UpdateConfig(site, new { properties = new { scmType = "LocalGit" } }));
 
             site.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = SimpleSettings.SiteExpiryMinutes;
             site.AppSettings["MONACO_EXTENSION_VERSION"] = "beta";

@@ -58,15 +58,18 @@ namespace SimpleWAWS.Controllers
                 var freeSites = resourceManager.GetAllFreeResourceGroups();
                 var inUseSites = resourceManager.GetAllInUseResourceGroups();
                 var inProgress = resourceManager.GetAllInProgressResourceGroups();
+                var backgroundOperations = resourceManager.GetAllBackgroundOperations();
                 return Request.CreateResponse(HttpStatusCode.OK,
                     new
                     {
                         freeSiteCount = freeSites.Count(),
                         inProgressSitesCount = inProgress.Count(),
                         inUseSitesCount = inUseSites.Count(),
+                        backgroundOperationsCount = backgroundOperations.Count(),
                         freeSites = freeSites,
                         inUseSites = inUseSites,
-                        inProgress = inProgress
+                        inProgress = inProgress,
+                        backgroundOperations = backgroundOperations
                     });
             });
         }

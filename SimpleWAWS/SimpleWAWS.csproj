@@ -234,7 +234,10 @@
     <Compile Include="Authentication\TryWebsitesPrincipal.cs" />
     <Compile Include="Authentication\TwitterAuthProvider.cs" />
     <Compile Include="Authentication\VkAuthProvider.cs" />
+    <Compile Include="Code\BackgroundOperation.cs" />
+    <Compile Include="Code\BackgroundQueueManager.cs" />
     <Compile Include="Code\GlobalizationManager.cs" />
+    <Compile Include="Models\MakeSubscriptionFreeTrialResult.cs" />
     <Compile Include="Resources\Client.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

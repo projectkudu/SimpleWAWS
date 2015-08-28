@@ -157,7 +157,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             return resourceGroup;
         }
 
-        public static async Task Delete(this ResourceGroup resourceGroup, bool block)
+        public static async Task<ResourceGroup> Delete(this ResourceGroup resourceGroup, bool block)
         {
             // Mark as a "Bad" resourceGroup just in case the delete fails for any reason.
             // Also since this is a potentially bad resourceGroup, ignore failure
@@ -194,8 +194,8 @@ namespace SimpleWAWS.Code.CsmExtensions
                 {
                     //No idea what this means from CSM
                 }
-
             }
+            return null;
         }
 
         public static async Task<ResourceGroup> PutInDesiredState(this ResourceGroup resourceGroup)

@@ -30,21 +30,14 @@ namespace SimpleWAWS.Code
 {
     public class ResourcesManager
     {
-        public static TimeSpan ResourceGroupExpiryTime;
 
-        private readonly ConcurrentQueue<ResourceGroup> _freeResourceGroups = new ConcurrentQueue<ResourceGroup>();
-        private readonly ConcurrentDictionary<string, InProgressOperation> _resourceGroupsInProgress = new ConcurrentDictionary<string, InProgressOperation>();
-        private readonly ConcurrentDictionary<string, ResourceGroup> _resourceGroupsInUse = new ConcurrentDictionary<string, ResourceGroup>();
-
+        private readonly BackgroundQueueManager _backgroundQueueManager = new BackgroundQueueManager();
         private static readonly AsyncLock _lock = new AsyncLock();
-        private Timer _timer;
-        private int _logCounter = 0;
-        private readonly JobHost _jobHost = new JobHost();
 
+        public static TimeSpan ResourceGroupExpiryTime;
         private static ResourcesManager _instance;
 
         private static int _stateInconsistencyErrorCount = 0;
-        private static int _maintainResourceGroupListErrorCount = 0;
         private static int _unknownErrorInCreateErrorCount = 0;
         private static int _getResourceGroupErrorCount = 0;
         public static async Task<ResourcesManager> GetInstanceAsync()
@@ -77,7 +70,7 @@ namespace SimpleWAWS.Code
         {
             // Load all subscriptions
             var csmSubscriptions = await CsmManager.GetSubscriptionNamesToIdMap();
-            var subscriptions = await SimpleSettings.Subscriptions.Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            var subscriptions = SimpleSettings.Subscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                 //It can be either a displayName or a subscriptionId
                 .Select(s => s.Trim())
                 .Where(n =>
@@ -90,75 +83,14 @@ namespace SimpleWAWS.Code
                     Guid temp;
                     if (Guid.TryParse(sn, out temp)) return sn;
                     else return csmSubscriptions[sn];
-                })
-                .Select(s => new Subscription(s).Load())
-                .IgnoreAndFilterFailures();
-
-            //Create Trial resources if they are not already created
-            subscriptions = await subscriptions.Select(s => s.MakeTrialSubscription()).IgnoreAndFilterFailures();
-
-            // Check if the sites are in use and place them in the right list
-            var tasksList = new List<Task<ResourceGroup>>();
-            foreach (var resourceGroup in subscriptions.Select(s => s.ResourceGroups).SelectMany(r => r))
-            {
-                if (resourceGroup.UserId != null)
-                {
-                    SimpleTrace.Diagnostics.Verbose("Loading ResourceGroup {resourceGroupId} into the InUse list", resourceGroup.CsmId);
-                    if (!_resourceGroupsInUse.TryAdd(resourceGroup.UserId, resourceGroup))
-                    {
-                        SimpleTrace.Diagnostics.Fatal("user {user} already had a resourceGroup in the dictionary extra resourceGroup is {resourceGroupId}. This shouldn't happen. Deleting and replacing the ResourceGroup. Count {Count}", resourceGroup.UserId, resourceGroup.CsmId, Interlocked.Increment(ref _stateInconsistencyErrorCount));
-                        tasksList.Add(resourceGroup.DeleteAndCreateReplacement());
-                    }
-                }
-                else
-                {
-                    SimpleTrace.Diagnostics.Verbose("Loading resourceGroup {resourceGroupId} into the Free list", resourceGroup.CsmId);
-                    _freeResourceGroups.Enqueue(resourceGroup);
-                }
-            }
-
-            var newResourceGroups = await tasksList.WhenAll();
-
-            foreach (var resourceGroup in newResourceGroups)
-            {
-                _freeResourceGroups.Enqueue(resourceGroup);
-            }
-
-            // Do maintenance on the resourceGroup lists every minute (and start one right now)
-            if (_timer == null)
-            {
-                _timer = new Timer(OnTimerElapsed);
-                _timer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(60 * 1000));
-            }
-        }
-
-        // ARM
-        private async Task MaintainResourceGroupLists()
-        {
-            await DeleteExpiredResourceGroupsAsync();
-        }
-
-        // ARM
-        private void OnTimerElapsed(object state)
-        {
-            try
-            {
-                _jobHost.DoWork(() =>
-                {
-                    MaintainResourceGroupLists().Wait();
-                    _logCounter++;
-                    if (_logCounter % 5 == 0)
-                    {
-                        //log only every 5 minutes
-                        LogQueueStatistics();
-                        _logCounter = 0;
-                    }
                 });
-            }
-            catch (Exception e)
+            HostingEnvironment.QueueBackgroundWorkItem(_ =>
             {
-                SimpleTrace.Diagnostics.Fatal(e, "MainTainResourceGroupLists error, Count {Count}", Interlocked.Increment(ref _maintainResourceGroupListErrorCount));
-            }
+                foreach (var subscription in subscriptions)
+                {
+                    _backgroundQueueManager.LoadSubscription(subscription);
+                }
+            });
         }
 
         // ARM
@@ -179,14 +111,6 @@ namespace SimpleWAWS.Code
         }
 
         // ARM
-        private async Task DeleteExpiredResourceGroupsAsync()
-        {
-            await this._resourceGroupsInUse
-                .Select(e => e.Value)
-                .Where(rg => DateTime.UtcNow - rg.StartTime > ResourceGroupExpiryTime)
-                .Select(DeleteResourceGroup)
-                .WhenAll();
-        }
 
         // ARM
         private async Task DeleteResourceGroup(ResourceGroup resourceGroup)
@@ -196,20 +120,7 @@ namespace SimpleWAWS.Code
             {
                 await LogActiveUsageStatistics(resourceGroup);
             }
-            ResourceGroup temp;
-            this._resourceGroupsInUse.TryRemove(resourceGroup.UserId, out temp);
-            HostingEnvironment.QueueBackgroundWorkItem(async (c) => {
-                try
-                {
-                    var newResourceGroup = await resourceGroup.DeleteAndCreateReplacement();
-                    if (newResourceGroup != null)
-                        this._freeResourceGroups.Enqueue(newResourceGroup);
-                }
-                catch (Exception e)
-                {
-                    SimpleTrace.Diagnostics.Error(e, "QueueBackgroundWorkItem");
-                }
-            });
+            HostingEnvironment.QueueBackgroundWorkItem(_ => _backgroundQueueManager.DeleteResourceGroup(resourceGroup));
         }
 
         // ARM
@@ -224,23 +135,23 @@ namespace SimpleWAWS.Code
             var userId = userIdentity.Name;
             try
             {
-                if (_resourceGroupsInUse.TryGetValue(userId, out resourceGroup))
+                if (_backgroundQueueManager.ResourceGroupsInUse.TryGetValue(userId, out resourceGroup))
                 {
                     throw new MoreThanOneResourceGroupException();
                 }
 
-                if (_freeResourceGroups.TryDequeue(out resourceGroup))
+                if (_backgroundQueueManager.FreeResourceGroups.TryDequeue(out resourceGroup))
                 {
                     //mark site in use as soon as it's checked out so that if there is a reload it will be sorted out to the used queue.
                     await resourceGroup.MarkInUse(userId, ResourceGroupExpiryTime, appService);
                     var rbacTask = Task.FromResult(false); //RbacHelper.AddRbacUser(userIdentity.Puid, userIdentity.Email, resourceGroup);
                     var process = new InProgressOperation(resourceGroup, deploymentType);
-                    _resourceGroupsInProgress.AddOrUpdate(userId, s => process, (s, task) => process);
+                    _backgroundQueueManager.ResourceGroupsInProgress.AddOrUpdate(userId, s => process, (s, task) => process);
                     SimpleTrace.Diagnostics.Information("resourceGroup {resourceGroupId} is now in use", resourceGroup.CsmId);
 
                     resourceGroup = await func(resourceGroup, process);
 
-                    var addedResourceGroup = _resourceGroupsInUse.GetOrAdd(userId, resourceGroup);
+                    var addedResourceGroup = _backgroundQueueManager.ResourceGroupsInUse.GetOrAdd(userId, resourceGroup);
                     if (addedResourceGroup.ResourceGroupName == resourceGroup.ResourceGroupName)
                     {
                         //this means we just added the resourceGroup for the user.
@@ -281,7 +192,7 @@ namespace SimpleWAWS.Code
             finally
             {
                 InProgressOperation temp;
-                _resourceGroupsInProgress.TryRemove(userId, out temp);
+                _backgroundQueueManager.ResourceGroupsInProgress.TryRemove(userId, out temp);
                 temp.Complete();
                 LogQueueStatistics();
             }
@@ -485,11 +396,11 @@ namespace SimpleWAWS.Code
         public async Task<ResourceGroup> GetResourceGroup(string userId)
         {
             ResourceGroup resourceGroup;
-            _resourceGroupsInUse.TryGetValue(userId, out resourceGroup);
+            _backgroundQueueManager.ResourceGroupsInUse.TryGetValue(userId, out resourceGroup);
             if (resourceGroup == null)
             {
                 InProgressOperation temp;
-                if (_resourceGroupsInProgress.TryGetValue(userId, out temp))
+                if (_backgroundQueueManager.ResourceGroupsInProgress.TryGetValue(userId, out temp))
                 {
                     try
                     {
@@ -503,7 +414,7 @@ namespace SimpleWAWS.Code
                     {
                         SimpleTrace.Diagnostics.Fatal(e, "Error in GetResourceGroup, Count: {Count}", Interlocked.Increment(ref _getResourceGroupErrorCount));
                     }
-                    _resourceGroupsInUse.TryGetValue(userId, out resourceGroup);
+                    _backgroundQueueManager.ResourceGroupsInUse.TryGetValue(userId, out resourceGroup);
                 }
             }
             return resourceGroup;
@@ -515,10 +426,10 @@ namespace SimpleWAWS.Code
             using (await _lock.LockAsync())
             {
                 var list = new List<ResourceGroup>();
-                while (!_freeResourceGroups.IsEmpty)
+                while (!_backgroundQueueManager.FreeResourceGroups.IsEmpty)
                 {
                     ResourceGroup temp;
-                    if (_freeResourceGroups.TryDequeue(out temp))
+                    if (_backgroundQueueManager.FreeResourceGroups.TryDequeue(out temp))
                     {
                         list.Add(temp);
                     }
@@ -536,12 +447,12 @@ namespace SimpleWAWS.Code
         {
             using (await _lock.LockAsync())
             {
-                while (!_freeResourceGroups.IsEmpty)
+                while (!_backgroundQueueManager.FreeResourceGroups.IsEmpty)
                 {
                     ResourceGroup temp;
-                    _freeResourceGroups.TryDequeue(out temp);
+                    _backgroundQueueManager.FreeResourceGroups.TryDequeue(out temp);
                 }
-                _resourceGroupsInUse.Clear();
+                _backgroundQueueManager.ResourceGroupsInUse.Clear();
                 await LoadAzureResources();
             }
         }
@@ -550,7 +461,7 @@ namespace SimpleWAWS.Code
         public async Task DeleteResourceGroup(string userId)
         {
             ResourceGroup resourceGroup;
-            _resourceGroupsInUse.TryGetValue(userId, out resourceGroup);
+            _backgroundQueueManager.ResourceGroupsInUse.TryGetValue(userId, out resourceGroup);
 
             if (resourceGroup != null)
             {
@@ -560,24 +471,28 @@ namespace SimpleWAWS.Code
 
         public IReadOnlyCollection<ResourceGroup> GetAllFreeResourceGroups()
         {
-            return _freeResourceGroups.ToList();
+            return _backgroundQueueManager.FreeResourceGroups.ToList();
         }
 
         // ARM
         public IReadOnlyCollection<ResourceGroup> GetAllInUseResourceGroups()
         {
-            return _resourceGroupsInUse.Select(s => s.Value).ToList();
+            return _backgroundQueueManager.ResourceGroupsInUse.Select(s => s.Value).ToList();
         }
 
         public IReadOnlyCollection<InProgressOperation> GetAllInProgressResourceGroups()
         {
-            return this._resourceGroupsInProgress.Select(s => s.Value).ToList();
+            return this._backgroundQueueManager.ResourceGroupsInProgress.Select(s => s.Value).ToList();
+        }
+        internal IReadOnlyCollection<BackgroundOperation> GetAllBackgroundOperations()
+        {
+            return this._backgroundQueueManager.BackgroundInternalOperations.Select(s => s.Value).ToList();
         }
 
         public async Task<string> GetResourceStatusAsync(string userId)
         {
             InProgressOperation inProgressOperation;
-            if (this._resourceGroupsInProgress.TryGetValue(userId, out inProgressOperation))
+            if (this._backgroundQueueManager.ResourceGroupsInProgress.TryGetValue(userId, out inProgressOperation))
             {
                 switch (inProgressOperation.DeploymentType)
                 {
