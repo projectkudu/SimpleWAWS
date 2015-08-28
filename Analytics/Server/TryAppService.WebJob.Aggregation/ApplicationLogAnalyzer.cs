@@ -159,10 +159,11 @@ namespace TryAppService.WebJob.Aggregation
                                             {
                                                 DateTime = currentHour,
                                                 UserName = splitedLine[1].StartsWith("Anonymous#") ? splitedLine[1] : "Anonymous#" + splitedLine[1],
-                                                Experiment = splitedLine[2],
                                                 Referer = splitedLine.Length > 3 ? splitedLine[3] : "-",
                                                 CampaignId = splitedLine.Length > 4 ? splitedLine[4] : "-",
-                                                SourceVariation = splitedLine.Length > 5 ? splitedLine[5] : "-"
+                                                Experiment = experimentsAndSvAndCulture.Item1,
+                                                SourceVariation = experimentsAndSvAndCulture.Item2,
+                                                UserCulture = experimentsAndSvAndCulture.Item3
                                             });
                                         }
                                         else if (line.IndexOf(UserFeedbackPattern) != -1)
