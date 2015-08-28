@@ -43,8 +43,8 @@ namespace TryAppService.WebJob.Aggregation
             var splits = value.Split('$');
 
             if (splits[1].IndexOf("%") == -1) return Tuple.Create(splits[0], splits[1], "-");
-            var culture = splits[1].Split('%').Last();
-            return Tuple.Create(splits[0], splits[1], culture);
+            var splits2 = splits[1].Split('%');
+            return Tuple.Create(splits[0], splits2[0], splits2[1]);
         }
 
         public void Analyze()
