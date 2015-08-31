@@ -18,6 +18,9 @@ namespace SimpleWAWS.Code
         public string Description { get; set; }
 
         public DateTime StartTime { get; set; }
+
+        [JsonIgnore]
+        public Action RetryAction { get; set; }
     }
 
     public class BackgroundOperation<T> : BackgroundOperation

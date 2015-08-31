@@ -37,18 +37,20 @@ namespace SimpleWAWS.Code
 
         public void LoadSubscription(string subscriptionId)
         {
+            var subscription = new Subscription(subscriptionId);
             AddOperation(new BackgroundOperation<Subscription>
             {
                 Description = $"Loading subscription {subscriptionId}",
                 Type = OperationType.SubscriptionLoad,
-                Task = new Subscription(subscriptionId).Load()
+                Task = subscription.Load(),
+                RetryAction = () => LoadSubscription(subscriptionId)
             });
         }
         public void DeleteResourceGroup(ResourceGroup resourceGroup)
         {
             ResourceGroup temp;
             this.ResourceGroupsInUse.TryRemove(resourceGroup.UserId, out temp);
-            DeleteResourceGroupOperation(resourceGroup);
+            DeleteAndCreateResourceGroupOperation(resourceGroup);
         }
 
         private void HandleBackgroundOperation(BackgroundOperation operation)
@@ -60,7 +62,11 @@ namespace SimpleWAWS.Code
             var resourceGroupTask = temp as BackgroundOperation<ResourceGroup>;
 
             if ((subTask != null && subTask.Task.IsFaulted) ||
-                (resourceGroupTask != null && resourceGroupTask.Task.IsFaulted)) return;
+                (resourceGroupTask != null && resourceGroupTask.Task.IsFaulted))
+            {
+                //temp.RetryAction();
+                return;
+            }
 
             switch (operation.Type)
             {
@@ -77,7 +83,7 @@ namespace SimpleWAWS.Code
                     }
                     foreach(var resourceGroup in result.ToDelete)
                     {
-                        DeleteResourceGroup(resourceGroup);
+                        DeleteResourceGroupOperation(resourceGroup);
                     }
                     break;
 
@@ -147,7 +153,8 @@ namespace SimpleWAWS.Code
             {
                 Description = $"Deleting and creating resourceGroup {resourceGroup.ResourceGroupName}",
                 Type = OperationType.ResourceGroupDeleteThenCreate,
-                Task = resourceGroup.DeleteAndCreateReplacement()
+                Task = resourceGroup.DeleteAndCreateReplacement(),
+                RetryAction = () => DeleteAndCreateResourceGroupOperation(resourceGroup)
             });
         }
 
@@ -161,7 +168,8 @@ namespace SimpleWAWS.Code
             {
                 Description = $"Deleting resourceGroup {resourceGroup.ResourceGroupName}",
                 Type = OperationType.ResourceGroupDelete,
-                Task = resourceGroup.Delete(false)
+                Task = resourceGroup.Delete(false),
+                RetryAction = () => DeleteResourceGroupOperation(resourceGroup)
             });
         }
 
@@ -171,7 +179,8 @@ namespace SimpleWAWS.Code
             {
                 Description = $"Creating resourceGroup in {subscriptionId} in {geoRegion}",
                 Type = OperationType.ResourceGroupCreate,
-                Task = CsmManager.CreateResourceGroup(subscriptionId, geoRegion)
+                Task = CsmManager.CreateResourceGroup(subscriptionId, geoRegion),
+                RetryAction = () => CreateResourceGroupOperation(subscriptionId, geoRegion)
             });
         }
 
@@ -181,14 +190,15 @@ namespace SimpleWAWS.Code
             {
                 Description = $"Putting resourceGroup {resourceGroup.ResourceGroupName} in desired state",
                 Type = OperationType.ResourceGroupPutInDesiredState,
-                Task = resourceGroup.PutInDesiredState()
+                Task = resourceGroup.PutInDesiredState(),
+                RetryAction = () => PutResourceGroupInDesiredStateOperation(resourceGroup)
             });
         }
 
         private void AddOperation<T>(BackgroundOperation<T> operation)
         {
             BackgroundInternalOperations.TryAdd(operation.OperationId, operation);
-            operation.Task.ContinueWith(_ => HandleBackgroundOperation(operation), TaskContinuationOptions.OnlyOnRanToCompletion).ConfigureAwait(false);
+            operation.Task.ContinueWith(_ => HandleBackgroundOperation(operation)).ConfigureAwait(false);
         }
     }
 }
