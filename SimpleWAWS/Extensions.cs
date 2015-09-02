@@ -118,10 +118,10 @@ namespace SimpleWAWS
             return value.Substring(zipRoot.Length).TrimStart(new[] { '\\' }).Replace('\\', '/');
         }
 
-        public static Stream AsStream(this string value)
+        public static Stream AsStream(this string value, Encoding encoding)
         {
             var stream = new MemoryStream();
-            var writer = new StreamWriter(stream, Encoding.UTF8);
+            var writer = new StreamWriter(stream, encoding);
             writer.Write(value);
             writer.Flush();
             stream.Position = 0;
