@@ -16,10 +16,10 @@ namespace SimpleWAWS.Authentication
             var builder = new StringBuilder();
             builder.Append("https://www.facebook.com/dialog/oauth");
             builder.Append("?response_type=token");
-            builder.AppendFormat("&redirect_uri={0}", WebUtility.UrlEncode(string.Format("https://{0}/", context.Request.Headers["HOST"])));
+            builder.AppendFormat("&redirect_uri={0}", WebUtility.UrlEncode(string.Format(CultureInfo.InvariantCulture, "https://{0}/", context.Request.Headers["HOST"])));
             builder.AppendFormat("&client_id={0}", "");
             builder.AppendFormat("&scope={0}", "email");
-            builder.AppendFormat("&state={0}", WebUtility.UrlEncode(context.IsAjaxRequest() ? string.Format("/{0}{1}", culture, context.Request.Url.Query) : context.Request.Url.PathAndQuery));
+            builder.AppendFormat("&state={0}", WebUtility.UrlEncode(context.IsAjaxRequest() ? string.Format(CultureInfo.InvariantCulture, "/{0}{1}", culture, context.Request.Url.Query) : context.Request.Url.PathAndQuery));
             return builder.ToString();
         }
 

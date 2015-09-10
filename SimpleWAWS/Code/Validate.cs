@@ -1,6 +1,7 @@
 ﻿using SimpleWAWS.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 
@@ -12,7 +13,7 @@ namespace SimpleWAWS.Code
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                throw new Exception(string.Format("{0} cannot be null or empty. Current value is: '{1}'", fieldName, value == null ? "null" : value));
+                throw new Exception(string.Format(CultureInfo.InvariantCulture, "{0} cannot be null or empty. Current value is: '{1}'", fieldName, value == null ? "null" : value));
             }
         }
 
@@ -20,7 +21,7 @@ namespace SimpleWAWS.Code
         {
             if (obj == null)
             {
-                throw new Exception(string.Format("{0} cannot be null", fieldName));
+                throw new Exception(string.Format(CultureInfo.InvariantCulture, "{0} cannot be null", fieldName));
             }
         }
 

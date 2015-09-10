@@ -25,6 +25,7 @@ using SimpleWAWS.Models.CsmModels;
 using Newtonsoft.Json.Linq;
 using SimpleWAWS.Trace;
 using System.Web.Hosting;
+using System.Globalization;
 
 namespace SimpleWAWS.Code
 {
@@ -37,7 +38,7 @@ namespace SimpleWAWS.Code
         public static TimeSpan ResourceGroupExpiryTime;
         private static ResourcesManager _instance;
 
-        private static int _stateInconsistencyErrorCount = 0;
+        //private static int _stateInconsistencyErrorCount = 0;
         private static int _unknownErrorInCreateErrorCount = 0;
         private static int _getResourceGroupErrorCount = 0;
         public static async Task<ResourcesManager> GetInstanceAsync()
@@ -62,7 +63,7 @@ namespace SimpleWAWS.Code
 
         private ResourcesManager()
         {
-            ResourceGroupExpiryTime = TimeSpan.FromMinutes(Int32.Parse(SimpleSettings.SiteExpiryMinutes));
+            ResourceGroupExpiryTime = TimeSpan.FromMinutes(Int32.Parse(SimpleSettings.SiteExpiryMinutes, CultureInfo.InvariantCulture));
         }
 
         // ARM
@@ -271,7 +272,7 @@ namespace SimpleWAWS.Code
                             throw new InvalidGithubRepoException();
                         }
                     }
-                    site.AppSettings["LAST_MODIFIED_TIME_UTC"] = DateTime.UtcNow.ToString("u");
+                    site.AppSettings["LAST_MODIFIED_TIME_UTC"] = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
                     site.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = SimpleSettings.SiteExpiryMinutes;
                     site.AppSettings["MONACO_EXTENSION_VERSION"] = "beta";
                     site.AppSettings["WEBSITE_TRY_MODE"] = "1";

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 
@@ -14,7 +15,7 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return string.Format(_csmIdTemplate, SubscriptionId, ResourceGroupName, GatewayName);
+                return string.Format(CultureInfo.InvariantCulture, _csmIdTemplate, SubscriptionId, ResourceGroupName, GatewayName);
             }
         }
 

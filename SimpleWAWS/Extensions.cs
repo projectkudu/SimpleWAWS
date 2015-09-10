@@ -9,6 +9,7 @@ using Microsoft.WindowsAzure.Management.WebSites.Models;
 using System.IO.Compression;
 using System.Threading.Tasks;
 using SimpleWAWS.Models;
+using System.Globalization;
 
 namespace SimpleWAWS
 {
@@ -22,7 +23,7 @@ namespace SimpleWAWS
             var type = profile.GetType();
             foreach (var property in type.GetProperties())
             {
-                if (property.Name.Equals("databases", StringComparison.InvariantCultureIgnoreCase))
+                if (property.Name.Equals("databases", StringComparison.OrdinalIgnoreCase))
                     continue;
                 stringBuilder.AppendFormat("{0}=\"{1}\" ", SerializeFixups(property.Name.FirstCharToLower()), property.GetValue(profile));
             }
@@ -79,7 +80,7 @@ namespace SimpleWAWS
         public static bool IsBrowserRequest(this HttpContextBase context)
         {
             return context.Request.UserAgent != null
-                && (context.Request.UserAgent.StartsWith("Mozilla/") || context.Request.UserAgent.StartsWith("Opera/"))
+                && (context.Request.UserAgent.StartsWith("Mozilla/", StringComparison.OrdinalIgnoreCase) || context.Request.UserAgent.StartsWith("Opera/", StringComparison.OrdinalIgnoreCase))
                 && context.Request.UserAgent.IndexOf("Probe", StringComparison.OrdinalIgnoreCase) == -1
                 && context.Request.UserAgent.IndexOf("bot", StringComparison.OrdinalIgnoreCase) == -1;
         }

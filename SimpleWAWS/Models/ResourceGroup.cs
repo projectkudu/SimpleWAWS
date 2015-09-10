@@ -8,6 +8,7 @@ using System.Web;
 using System.Configuration;
 using SimpleWAWS.Models.CsmModels;
 using Newtonsoft.Json.Linq;
+using System.Globalization;
 
 namespace SimpleWAWS.Models
 {
@@ -19,7 +20,7 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return string.Format(_csmIdTemplate, SubscriptionId, ResourceGroupName);
+                return string.Format(CultureInfo.InvariantCulture, _csmIdTemplate, SubscriptionId, ResourceGroupName);
             }
         }
 
@@ -30,10 +31,10 @@ namespace SimpleWAWS.Models
 
         public DateTime StartTime 
         {
-            get { return DateTime.Parse(Tags[Constants.StartTime]).ToUniversalTime(); }
+            get { return DateTime.Parse(Tags[Constants.StartTime], CultureInfo.InvariantCulture).ToUniversalTime(); }
         }
 
-        private readonly TimeSpan UsageTimeSpan = TimeSpan.FromMinutes(int.Parse(SimpleSettings.SiteExpiryMinutes));
+        private readonly TimeSpan UsageTimeSpan = TimeSpan.FromMinutes(int.Parse(SimpleSettings.SiteExpiryMinutes, CultureInfo.InvariantCulture));
 
         public string TimeLeft
         {
@@ -50,7 +51,7 @@ namespace SimpleWAWS.Models
                     timeLeft = UsageTimeSpan - timeUsed;
                 }
 
-                return String.Format("{0}m:{1:D2}s", timeLeft.Minutes, timeLeft.Seconds);
+                return String.Format(CultureInfo.InvariantCulture, "{0}m:{1:D2}s", timeLeft.Minutes, timeLeft.Seconds);
             }
         }
 
@@ -97,7 +98,7 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return !string.IsNullOrEmpty(ResourceGroupName) && ResourceGroupName.StartsWith("TRY-AZURE-RG-");
+                return !string.IsNullOrEmpty(ResourceGroupName) && ResourceGroupName.StartsWith("TRY-AZURE-RG-", StringComparison.InvariantCulture);
             }
         }
 

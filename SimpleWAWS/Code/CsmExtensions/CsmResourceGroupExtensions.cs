@@ -6,6 +6,7 @@ using SimpleWAWS.Trace;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -139,7 +140,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 {
                     Tags = new Dictionary<string, string> 
                     {
-                        { Constants.StartTime, DateTime.UtcNow.ToString("u") },
+                        { Constants.StartTime, DateTime.UtcNow.ToString(CultureInfo.InvariantCulture) },
                         { Constants.IsRbacEnabled, false.ToString() },
                         { Constants.GeoRegion, region }
                     }
@@ -185,7 +186,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                         }
                         else
                         {
-                            await Task.Delay(500);
+                            await Task.Delay(5000);
                         }
 
                     } while(!deleted);
@@ -266,7 +267,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         public static async Task<ResourceGroup> MarkInUse(this ResourceGroup resourceGroup, string userId, TimeSpan lifeTime, AppService appService)
         {
             resourceGroup.Tags[Constants.UserId] = userId;
-            resourceGroup.Tags[Constants.StartTime] = DateTime.UtcNow.ToString("u");
+            resourceGroup.Tags[Constants.StartTime] = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
             resourceGroup.Tags[Constants.LifeTimeInMinutes] = lifeTime.TotalMinutes.ToString();
             resourceGroup.Tags[Constants.AppService] = appService.ToString();
             return await Update(resourceGroup);
@@ -292,7 +293,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         private static bool IsSimpleWaws(CsmWrapper<CsmResourceGroup> csmResourceGroup)
         {
             return !string.IsNullOrEmpty(csmResourceGroup.name) &&
-                csmResourceGroup.name.StartsWith(Constants.TryResourceGroupPrefix) &&
+                csmResourceGroup.name.StartsWith(Constants.TryResourceGroupPrefix, StringComparison.OrdinalIgnoreCase) &&
                 csmResourceGroup.properties.provisioningState == "Succeeded" &&
                 !csmResourceGroup.tags.ContainsKey("Bad");
         }

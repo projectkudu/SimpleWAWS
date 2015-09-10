@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace SimpleWAWS.Models
 {
@@ -7,7 +8,7 @@ namespace SimpleWAWS.Models
         public static string GenerateName()
         {
             //first 4 parts of a guid
-            return string.Format("{0}-0ee0-4-231-b9ee", Guid.NewGuid().ToString().Substring(0, 8));
+            return string.Format(CultureInfo.InvariantCulture, "{0}-0ee0-4-231-b9ee", Guid.NewGuid().ToString().Substring(0, 8));
         }
     }
 }

@@ -24,12 +24,12 @@ namespace SimpleWAWS.Authentication
             builder.Append("https://oauth.vk.com/authorize");
             builder.AppendFormat("?client_id={0}", AuthSettings.VkClientId);
             builder.Append("&scope=email");
-            builder.AppendFormat("&redirect_uri={0}", WebUtility.UrlEncode(string.Format("https://{0}/", context.Request.Headers["HOST"])));
+            builder.AppendFormat("&redirect_uri={0}", WebUtility.UrlEncode(string.Format(CultureInfo.InvariantCulture, "https://{0}/", context.Request.Headers["HOST"])));
             builder.Append("&response_type=code");
             builder.Append("&v=5.35");
             // Vk.com UrlDecode the state query before passing it back to us. This is different from how AAD, Google and Facebook do it.
             // Hence the double encoding below to work around that issue.
-            builder.AppendFormat("&state={0}", WebUtility.UrlEncode(WebUtility.UrlEncode(context.IsAjaxRequest() ? string.Format("/{0}{1}", culture, context.Request.Url.Query) : context.Request.Url.PathAndQuery)));
+            builder.AppendFormat("&state={0}", WebUtility.UrlEncode(WebUtility.UrlEncode(context.IsAjaxRequest() ? string.Format(CultureInfo.InvariantCulture, "/{0}{1}", culture, context.Request.Url.Query) : context.Request.Url.PathAndQuery)));
             return builder.ToString();
         }
 
@@ -65,7 +65,7 @@ namespace SimpleWAWS.Authentication
                 return null;
             }
 
-            return new TryWebsitesPrincipal(new TryWebsitesIdentity(vkAccessToken.Email ?? vkAccessToken.UserId.ToString(), vkAccessToken.UserId.ToString(), "Vk"));
+            return new TryWebsitesPrincipal(new TryWebsitesIdentity(vkAccessToken.Email ?? vkAccessToken.UserId.ToString(CultureInfo.InvariantCulture), vkAccessToken.UserId.ToString(CultureInfo.InvariantCulture), "Vk"));
         }
 
         private string GetGraphUrl(string code, HttpContextBase context)
@@ -75,7 +75,7 @@ namespace SimpleWAWS.Authentication
             builder.AppendFormat("?client_id={0}", AuthSettings.VkClientId);
             builder.AppendFormat("&client_secret={0}", AuthSettings.VkClientSecret);
             builder.AppendFormat("&code={0}", code);
-            builder.AppendFormat("&redirect_uri={0}", WebUtility.UrlEncode(string.Format("https://{0}/", context.Request.Headers["HOST"], context.Request.Url.Query)));
+            builder.AppendFormat("&redirect_uri={0}", WebUtility.UrlEncode(string.Format(CultureInfo.InvariantCulture, "https://{0}/", context.Request.Headers["HOST"], context.Request.Url.Query)));
             return builder.ToString();
         }
 

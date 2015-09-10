@@ -1,6 +1,7 @@
 ﻿using Kudu.Services.Infrastructure;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -17,8 +18,8 @@ namespace SimpleWAWS.Models
     {
         public static PushStreamContent CreateClientZip(MobileClientPlatform platform, Dictionary<string, string> replacements)
         {
-            var clientPath = HostingEnvironment.MapPath(string.Format("~/App_Data/MobileClientApp/{0}", platform.ToString()));
-            return CreateZip(string.Format("{0}.zip", platform.ToString()), zip =>
+            var clientPath = HostingEnvironment.MapPath(string.Format(CultureInfo.InvariantCulture, "~/App_Data/MobileClientApp/{0}", platform.ToString()));
+            return CreateZip(string.Format(CultureInfo.InvariantCulture, "{0}.zip", platform.ToString()), zip =>
             {
                 foreach (var fileName in Directory.GetFiles(clientPath, "*", SearchOption.AllDirectories))
                 {

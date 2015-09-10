@@ -185,7 +185,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                         provider: CultureInfo.InvariantCulture,
                         result: out currentByte))
                     {
-                        throw new ArgumentException(string.Format("Couldn't convert PUID '{0}' as hex string to byte array.", puid));
+                        throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Couldn't convert PUID '{0}' as hex string to byte array.", puid));
                     }
 
                     return currentByte;

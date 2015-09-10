@@ -5,6 +5,7 @@ using SimpleWAWS.Trace;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace SimpleWAWS.Code
 
         public BackgroundQueueManager()
         {
-            ResourceGroupExpiryTime = TimeSpan.FromMinutes(Int32.Parse(SimpleSettings.SiteExpiryMinutes));
+            ResourceGroupExpiryTime = TimeSpan.FromMinutes(Int32.Parse(SimpleSettings.SiteExpiryMinutes, CultureInfo.InvariantCulture));
             if (_timer == null)
             {
                 _timer = new Timer(OnTimerElapsed);

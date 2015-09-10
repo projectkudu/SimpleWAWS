@@ -21,6 +21,7 @@ using SimpleWAWS.Code;
 using SimpleWAWS.Code.CsmExtensions;
 using SimpleWAWS.Trace;
 using System.Configuration;
+using System.Globalization;
 
 namespace SimpleWAWS.Models
 {
@@ -32,7 +33,7 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return string.Format(_csmIdTemplate, SubscriptionId, ResourceGroupName, SiteName);
+                return string.Format(CultureInfo.InvariantCulture, _csmIdTemplate, SubscriptionId, ResourceGroupName, SiteName);
             }
         }
 
@@ -56,7 +57,7 @@ namespace SimpleWAWS.Models
         {
             get 
             {
-                return String.Format("https://{0}/", HostName);
+                return String.Format(CultureInfo.InvariantCulture, "https://{0}/", HostName);
             }
         }
 
@@ -72,7 +73,7 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return String.Format("https://{0}/", ScmHostName);
+                return String.Format(CultureInfo.InvariantCulture, "https://{0}/", ScmHostName);
             }
         }
 
@@ -80,7 +81,7 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return String.Format("https://{0}:{1}@{2}/", PublishingUserName, PublishingPassword, ScmHostName);
+                return String.Format(CultureInfo.InvariantCulture, "https://{0}:{1}@{2}/", PublishingUserName, PublishingPassword, ScmHostName);
             }
         }
 

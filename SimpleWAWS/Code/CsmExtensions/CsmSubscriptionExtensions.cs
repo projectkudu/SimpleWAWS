@@ -3,6 +3,7 @@ using SimpleWAWS.Models.CsmModels;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -58,7 +59,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             result.ToCreateInRegions = geoRegions
                 .Where(g =>
                        !subscription.ResourceGroups
-                           .Any(rg => rg.ResourceGroupName.StartsWith(string.Format("{0}_{1}", Constants.TryResourceGroupPrefix, g.Replace(" ", Constants.TryResourceGroupSeparator)))));
+                           .Any(rg => rg.ResourceGroupName.StartsWith(string.Format(CultureInfo.InvariantCulture, "{0}_{1}", Constants.TryResourceGroupPrefix, g.Replace(" ", Constants.TryResourceGroupSeparator)), StringComparison.OrdinalIgnoreCase)));
 
             result.Ready = subscription.ResourceGroups;
 

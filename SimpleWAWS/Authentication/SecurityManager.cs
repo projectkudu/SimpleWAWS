@@ -11,13 +11,14 @@ using SimpleWAWS.Trace;
 using System.Threading.Tasks;
 using SimpleWAWS.Code;
 using SimpleWAWS.Models;
+using System.Globalization;
 
 namespace SimpleWAWS.Authentication
 {
     public static class SecurityManager
     {
         private static readonly Dictionary<string, IAuthProvider> _authProviders =
-            new Dictionary<string, IAuthProvider>(StringComparer.InvariantCultureIgnoreCase);
+            new Dictionary<string, IAuthProvider>(StringComparer.OrdinalIgnoreCase);
 
         public static string SelectedProvider(HttpContextBase context)
         {
@@ -83,7 +84,7 @@ namespace SimpleWAWS.Authentication
                 if (splited.Length == 2)
                 {
                     var user = splited[0];
-                    var date = DateTime.Parse(splited[1]);
+                    var date = DateTime.Parse(splited[1], CultureInfo.InvariantCulture);
                     if (ValidDateTimeSessionCookie(date))
                     {
                         context.User = new TryWebsitesPrincipal(new TryWebsitesIdentity(user, user, "Old"));
@@ -92,7 +93,7 @@ namespace SimpleWAWS.Authentication
                 }
                 else if (splited.Length == 4)
                 {
-                    var date = DateTime.Parse(loginSessionCookie.Split(';')[3]);
+                    var date = DateTime.Parse(loginSessionCookie.Split(';')[3], CultureInfo.InvariantCulture);
                     if (ValidDateTimeSessionCookie(date))
                     {
                         var email = splited[0];
@@ -166,7 +167,7 @@ namespace SimpleWAWS.Authentication
 
             if (context.Response.Cookies[AuthConstants.LoginSessionCookie] != null)
             {
-                response.Headers.AddCookies(new [] { new CookieHeaderValue(AuthConstants.LoginSessionCookie, string.Empty){ Expires = DateTime.UtcNow.AddDays(-1), Path = "/" } });
+                response.Headers.AddCookies(new [] { new CookieHeaderValue(AuthConstants.LoginSessionCookie, string.Empty){ Expires = DateTimeOffset.UtcNow.AddDays(-1), Path = "/" } });
             }
             return response;
         }

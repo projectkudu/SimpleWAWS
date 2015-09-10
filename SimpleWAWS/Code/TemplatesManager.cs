@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Hosting;
 using Newtonsoft.Json;
+using System.Globalization;
 
 namespace SimpleWAWS.Models
 {
@@ -42,16 +43,16 @@ namespace SimpleWAWS.Models
                 {
                     foreach (var template in Directory.GetFiles(languagePath))
                     {
-                        var iconUri = Path.Combine(ImagesFolder, string.Format("{0}.png", Path.GetFileNameWithoutExtension(template)));
+                        var iconUri = Path.Combine(ImagesFolder, string.Format(CultureInfo.InvariantCulture, "{0}.png", Path.GetFileNameWithoutExtension(template)));
                         var cssClass = Path.GetFileNameWithoutExtension(template).Replace(" ", "").Replace("#", "Sharp").Replace(".", "").Replace("+", "");
-                        var iconCssClass = File.Exists(iconUri) ? string.Format("sprite-{0}", cssClass) : "sprite-Large";
+                        var iconCssClass = File.Exists(iconUri) ? string.Format(CultureInfo.InvariantCulture, "sprite-{0}", cssClass) : "sprite-Large";
                         var language = Path.GetFileName(languagePath);
                         list.Add(new WebsiteTemplate
                         {
                             Name = Path.GetFileNameWithoutExtension(template),
                             FileName = Path.GetFileName(template),
                             Language = language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) ? null : language,
-                            SpriteName = language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) ? "sprite-TodoList TodoList" : string.Format("{0} {1}", iconCssClass, cssClass),
+                            SpriteName = language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) ? "sprite-TodoList TodoList" : string.Format(CultureInfo.InvariantCulture, "{0} {1}", iconCssClass, cssClass),
                             AppService =  language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) ? AppService.Mobile : AppService.Web
                         });
                     }

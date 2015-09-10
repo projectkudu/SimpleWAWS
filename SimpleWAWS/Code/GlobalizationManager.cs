@@ -59,7 +59,7 @@ namespace SimpleWAWS.Code
             culture = null;
             try
             {
-                if (cultureString.IndexOf("-") == -1)
+                if (cultureString.IndexOf("-", StringComparison.OrdinalIgnoreCase) == -1)
                 {
                     return false;
                 }
