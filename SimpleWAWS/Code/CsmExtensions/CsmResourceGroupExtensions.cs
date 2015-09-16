@@ -260,7 +260,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             var region = resourceGroup.GeoRegion;
             var subscriptionId = resourceGroup.SubscriptionId;
-            await Delete(resourceGroup, block: true);
+            await Delete(resourceGroup, block: false);
             return await PutInDesiredState(await CreateResourceGroup(subscriptionId, region));
         }
 
