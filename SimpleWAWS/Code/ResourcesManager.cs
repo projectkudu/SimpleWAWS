@@ -485,7 +485,7 @@ namespace SimpleWAWS.Code
         {
             return this._backgroundQueueManager.ResourceGroupsInProgress.Select(s => s.Value).ToList();
         }
-        internal IReadOnlyCollection<BackgroundOperation> GetAllBackgroundOperations()
+        public IReadOnlyCollection<BackgroundOperation> GetAllBackgroundOperations()
         {
             return this._backgroundQueueManager.BackgroundInternalOperations.Select(s => s.Value).ToList();
         }
