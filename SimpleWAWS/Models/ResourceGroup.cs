@@ -71,14 +71,19 @@ namespace SimpleWAWS.Models
             }
         }
 
+        [JsonIgnore]
         public IEnumerable<Site> Sites { get; set; }
 
+        [JsonIgnore]
         public IEnumerable<ApiApp> ApiApps { get; set; }
 
+        [JsonIgnore]
         public IEnumerable<LogicApp> LogicApps { get; set; }
 
+        [JsonIgnore]
         public IEnumerable<Gateway> Gateways { get; set; }
 
+        [JsonIgnore]
         public IEnumerable<ServerFarm> ServerFarms { get; set; }
 
         public string GeoRegion 
