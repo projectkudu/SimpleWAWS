@@ -113,52 +113,52 @@ angular.module("tryApp")
                 description: Resources.Information_LogicAppDescription
             }],
             getMobileClients: () => [{
-                name: "Windows",
+                name: Resources.Information_Windows,
                 icon_url: "/Content/images/Windows.png",
                 sprite: "mobile-icons sprite-Windows",
                 steps: {
-                    preText: "Install Visual Studio Professional 2013 (Update 4)",
+                    preText: Resources.Information_InstallVisualStudio,
                     preHref: "https://go.microsoft.com/fwLink/?LinkID=391934&clcid=0x409",
-                    clientText: "Download the Windows client app",
+                    clientText: Resources.Information_DownloadWindowsClient,
                     clientHref: "/api/resource/mobileclient/Windows"
                 }
             }, {
-                name: "Native iOS",
+                name: Resources.Information_NativeiOS,
                 icon_url: "/Content/images/ios.png",
                 sprite: "mobile-icons sprite-ios",
                 steps: {
-                    preText: "Install Xcode (v4.4+)",
+                    preText: Resources.Information_InstallXcode,
                     preHref: "https://go.microsoft.com/fwLink/?LinkID=266532&clcid=0x409",
-                    clientText: "Download the iOS client app",
+                    clientText: Resources.Information_DownloadiOSClient,
                     clientHref: "/api/resource/mobileclient/NativeiOS"
                 }
 
             }, {
-                name: "Xamarin iOS",
+                name: Resources.Information_XamariniOS,
                 icon_url: "/Content/images/xamarin.png",
                 sprite: "mobile-icons sprite-Xamarin",
                 steps: {
-                    preText: "Install Xamarin Studio for Windows or OS X",
+                    preText: Resources.Information_InstallXamarinStudio,
                     preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
-                    clientText: "Download the Xamarin iOS client app",
+                    clientText: Resources.Information_DownloadXamariniOSClient,
                     clientHref: "/api/resource/mobileclient/XamariniOS"
                 }
 
             }, {
-                name: "Xamarin Android",
+                name: Resources.Information_XamarinAndroid,
                 icon_url: "/Content/images/xamarin.png",
                 sprite: "mobile-icons sprite-Xamarin",
                 steps: {
-                    preText: "Install Xamarin Studio for Windows or OS X",
+                    preText: Resources.Information_InstallXamarinStudio,
                     preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
-                    clientText: "Download the Xamarin Android client app",
+                    clientText: Resources.Information_DownloadXamarinAndroidClient,
                     clientHref: "/api/resource/mobileclient/XamarinAndroid"
                 }
             }, {
-                name: "Web Client",
+                name: Resources.Information_WebClient,
                 sprite: "mobile-icons sprite-javascript",
                 steps: {
-                    clientText: "Visit the web based client",
+                    clientText: Resources.Information_VisitWebClient,
                     clientHref: "webClient"
                 }
             }]

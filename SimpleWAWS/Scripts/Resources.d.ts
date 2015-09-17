@@ -20,5 +20,18 @@
     export var Information_WebAppDescription: string;
     export var Information_MobileAppDescription: string;
     export var Information_ApiAppDescription: string;
+    export var Information_DownloadWindowsClient: string;
+    export var Information_DownloadXamarinAndroidClient: string;
+    export var Information_DownloadXamariniOSClient: string;
+    export var Information_DownloadiOSClient: string;
+    export var Information_InstallVisualStudio: string;
+    export var Information_InstallXamarinStudio: string;
+    export var Information_InstallXcode: string;
+    export var Information_VisitWebClient: string;
+    export var Information_WebClient: string;
+    export var Information_NativeiOS: string;
+    export var Information_Windows: string;
+    export var Information_XamariniOS: string;
+    export var Information_XamarinAndroid: string;
     export var Templates_PingSiteDescription: string;
 }

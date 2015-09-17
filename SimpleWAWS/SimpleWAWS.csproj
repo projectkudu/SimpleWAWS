@@ -21,7 +21,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <TypeScriptToolsVersion>1.4</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.6</TypeScriptToolsVersion>
     <TargetFrameworkProfile />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>

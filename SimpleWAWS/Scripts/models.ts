@@ -88,6 +88,9 @@ interface ITryRootScope extends ng.IRootScopeService {
     getComScorQuery();
     appTypeForQuery: string;
     cachedQuery: string;
+    freeTrialTopCachedQuery: string;
+    freeTrialBottomCachedQuery: string;
+    freeTrialExpireCachedQuery: string;
     logout();
     experiment: string;
     branding: string;

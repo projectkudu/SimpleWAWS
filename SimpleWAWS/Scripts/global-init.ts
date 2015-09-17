@@ -77,6 +77,9 @@ angular.module("tryApp")
         };
 
         $rootScope.cachedQuery = "";
+        $rootScope.freeTrialTopCachedQuery = "";
+        $rootScope.freeTrialBottomCachedQuery = "";
+        $rootScope.freeTrialExpireCachedQuery = "";
         $(document).ready(init);
         function init() {
             var referrer = getReferer();
@@ -91,14 +94,17 @@ angular.module("tryApp")
             $rootScope.experiment = Cookies.get("exp2");
 
             var cleanUp = (s: string) => s ? s.replace("_", "") : "-";
-            $rootScope.cachedQuery = "try_websites_"
-                + cleanUp(Cookies.get("exp1"))
+            var postfix = cleanUp(Cookies.get("exp1"))
                 + "_"
                 + cleanUp(getReferer())
                 + "_"
                 + cleanUp(getSourceVariation())
                 + "_"
                 + cleanUp(Cookies.get("type"));
+            $rootScope.cachedQuery = "try_websites_" + postfix;
+            $rootScope.freeTrialTopCachedQuery = "try_websitestop" + postfix;
+            $rootScope.freeTrialBottomCachedQuery = "try_websitesbottom" + postfix;
+            $rootScope.freeTrialExpireCachedQuery = "try_websitesexpire" + postfix;
         };
 
         $rootScope.createAppType = (appType) => {

@@ -1,4 +1,5 @@
 ﻿@using SimpleWAWS.Resources
+@using System.Globalization
 <section class="wa-section wa-section-mini" ng-if="branding !== 'aspnet'" ng-class="branding === 'mkt-b15.22' ? 'wa-section-mkt-b15' : 'wa-section-blue wa-section-compute'">
     <div class="wa-content">
         <h1>@Client.Action_CreateAppServiceApp</h1>
@@ -61,7 +62,7 @@
                 </div>
             </div>
             <a ng-if="nextStep" href="#" class="wa-button" ng-click="goToNextState()" ng-class="currentStep.nextClass ? currentStep.nextClass : 'wa-button-alt'">{{ currentStep.nextText ? currentStep.nextText : '@Client.Next' }}</a>
-            <a ng-if="!nextStep" ng-href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id={{ cachedQuery }}" target="_blank" ng-click="freeTrialClick('last-step')" class="wa-button wa-button-primary">@Client.FreeTrial</a>
+            <a ng-if="!nextStep" ng-href="http://azure.microsoft.com/@CultureInfo.CurrentCulture.Name/pricing/free-trial/?WT.mc_id={{ freeTrialBottomCachedQuery }}" target="_blank" ng-click="freeTrialClick('last-step')" class="wa-button wa-button-primary">@Client.FreeTrial</a>
             <div class="login-box" ng-show="loginOptions" ng-class="currentCulture == 'ru' ? 'login-box-ru' : ''">
                 <div style="display: block; margin-left: 30px">
                     <div class="wa-heading5" style="position: relative; margin-right: 8px">@Client.Information_LoginFirst</div>
@@ -115,7 +116,7 @@
         <div class="site-expired-notification">
             <h2 style="color: white; margin-bottom: 90px">@string.Format(Client.Information_AppHasExpired, "{{ currentAppService.title }}")</h2>
             <a id="dismiss-site-expire" href="#" class="wa-button wa-button-slate" ng-click="dismissSiteExpired()">@Client.Action_Dismiss</a>
-            <a ng-href="http://azure.microsoft.com/en-us/pricing/free-trial/?WT.mc_id={{ cachedQuery }}" id="free-trial-dismiss" target="_blank" ng-click="freeTrialClick('expired-banner')" class="wa-button wa-button-primary">@Client.FreeTrial</a>
+            <a ng-href="http://azure.microsoft.com/@CultureInfo.CurrentCulture.Name/pricing/free-trial/?WT.mc_id={{ freeTrialExpireCachedQuery }}" id="free-trial-dismiss" target="_blank" ng-click="freeTrialClick('expired-banner')" class="wa-button wa-button-primary">@Client.FreeTrial</a>
         </div>
     </div>
 </div>
