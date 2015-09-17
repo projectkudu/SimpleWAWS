@@ -26,9 +26,9 @@ namespace SimpleWAWS.Trace
             {
                 args[0] = string.Concat(args[0], "#", ExperimentManager.GetCurrentExperiment(), "$", ExperimentManager.GetCurrentSourceVariation(), "%", CultureInfo.CurrentCulture.EnglishName);
             }
-            var cleaned = args.Select(e => e.Replace(";", "&semi"));
+            args = args.Select(e => e?.Replace(";", "&semi")).ToArray();
 
-            System.Diagnostics.Trace.TraceInformation(format, cleaned);
+            System.Diagnostics.Trace.TraceInformation(format, args);
         }
 
         public static void TraceError(string message)
