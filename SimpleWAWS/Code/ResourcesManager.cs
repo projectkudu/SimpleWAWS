@@ -193,9 +193,11 @@ namespace SimpleWAWS.Code
             finally
             {
                 InProgressOperation temp;
-                _backgroundQueueManager.ResourceGroupsInProgress.TryRemove(userId, out temp);
-                temp.Complete();
-                LogQueueStatistics();
+                if (_backgroundQueueManager.ResourceGroupsInProgress.TryRemove(userId, out temp))
+                {
+                    temp.Complete();
+                    LogQueueStatistics();
+                }
             }
             //if we are here that means a bad exception happened above, but we might leak a site if we don't remove the site and replace it correctly.
             if (resourceGroup != null)

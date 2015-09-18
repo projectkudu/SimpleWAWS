@@ -275,19 +275,26 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task<bool> AddResourceGroupRbac(this ResourceGroup resourceGroup, string puidOrAltSec, string emailAddress)
         {
-            var objectId = await GetUserObjectId(puidOrAltSec, emailAddress);
+            try
+            {
+                var objectId = await GetUserObjectId(puidOrAltSec, emailAddress);
 
-            if (string.IsNullOrEmpty(objectId)) return false;
+                if (string.IsNullOrEmpty(objectId)) return false;
 
-            return (await
-                new[] { resourceGroup.AddRbacAccess(objectId) }
-                .Concat(resourceGroup.Sites.Select(s => s.AddRbacAccess(objectId)))
-                .Concat(resourceGroup.ApiApps.Select(s => s.AddRbacAccess(objectId)))
-                .Concat(resourceGroup.Gateways.Select(s => s.AddRbacAccess(objectId)))
-                .Concat(resourceGroup.LogicApps.Select(s => s.AddRbacAccess(objectId)))
-                .Concat(resourceGroup.ServerFarms.Select(s => s.AddRbacAccess(objectId)))
-                .WhenAll())
-                .All(e => e);
+                return (await
+                    new[] { resourceGroup.AddRbacAccess(objectId) }
+                    .Concat(resourceGroup.Sites.Select(s => s.AddRbacAccess(objectId)))
+                    .Concat(resourceGroup.ApiApps.Select(s => s.AddRbacAccess(objectId)))
+                    .Concat(resourceGroup.Gateways.Select(s => s.AddRbacAccess(objectId)))
+                    .Concat(resourceGroup.LogicApps.Select(s => s.AddRbacAccess(objectId)))
+                    .Concat(resourceGroup.ServerFarms.Select(s => s.AddRbacAccess(objectId)))
+                    .WhenAll())
+                    .All(e => e);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private static bool IsSimpleWaws(CsmWrapper<CsmResourceGroup> csmResourceGroup)
