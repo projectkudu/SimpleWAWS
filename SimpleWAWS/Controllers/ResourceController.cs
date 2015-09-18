@@ -193,8 +193,9 @@ namespace SimpleWAWS.Controllers
             }
             catch (Exception ex)
             {
-                SimpleTrace.Diagnostics.Fatal(ex, AnalyticsEvents.UserGotError, identity, ex.Message, Interlocked.Increment(ref _userGotErrorErrorCount));
-                return Request.CreateErrorResponse(HttpStatusCode.ServiceUnavailable, ex.Message);
+                var message = ex is NullReferenceException ? Resources.Server.Error_GeneralErrorMessage : ex.Message;
+                SimpleTrace.Diagnostics.Fatal(ex, AnalyticsEvents.UserGotError, identity, message, Interlocked.Increment(ref _userGotErrorErrorCount));
+                return Request.CreateErrorResponse(HttpStatusCode.ServiceUnavailable, message);
             }
         }
 
