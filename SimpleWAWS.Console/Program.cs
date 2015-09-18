@@ -79,10 +79,13 @@ namespace SimpleWAWS.Console
 
             console("start");
             var manager = await ResourcesManager.GetInstanceAsync();
-            console("count " + manager.GetAllFreeResourceGroups().Count);
-            console("count " + manager.GetAllInUseResourceGroups().Count);
-            console("done initial loading");
-
+            do
+            {
+                console("count " + manager.GetAllFreeResourceGroups().Count);
+                console("count " + manager.GetAllInUseResourceGroups().Count);
+                console("count " + manager.GetAllBackgroundOperations().Count);
+                System.Console.ReadLine();
+            } while (true);
             //console("activate api app");
             //var resourceGroup = await manager.ActivateLogicApp(new LogicTemplate
             //        {

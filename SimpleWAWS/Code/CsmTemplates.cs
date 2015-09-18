@@ -33,6 +33,7 @@ namespace SimpleWAWS.Code
         public static readonly CsmTemplate AppServiceRegister = new CsmTemplate(Subscription.TemplateUrl + "/providers/Microsoft.AppService/register", appServiceApiVersion);
         public static readonly CsmTemplate AppServiceGenerateCsmDeployTemplate = new CsmTemplate(Subscription.TemplateUrl + "/providers/Microsoft.AppService/deploymenttemplates/{microserviceId}/generate?resourceGroup={resourceGroupName}", appServiceApiVersion);
 
+        public static readonly CsmTemplate WebsitesRegister = new CsmTemplate(Subscription.TemplateUrl + "/providers/Microsoft.Web/register", websitesApiVersion);
         public static readonly CsmTemplate Sites = new CsmTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Web/sites", websitesApiVersion);
         public static readonly CsmTemplate Site = new CsmTemplate(Sites.TemplateUrl + "/{siteName}", websitesApiVersion);
         public static readonly CsmTemplate GetSiteAppSettings = new CsmTemplate(Site.TemplateUrl + "/config/AppSettings/list", websitesApiVersion);
