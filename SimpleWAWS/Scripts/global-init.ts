@@ -5,6 +5,7 @@ angular.module("tryApp")
         $rootScope.showFeedback = false;
         $rootScope.submittedFeedback = false;
         $rootScope.comment = "";
+        $rootScope.freeTrialLink = "https://account.windowsazure.com/signup";
         $rootScope.contactMe = false;
         $rootScope.currentCulture = CurrentCulture;
 
@@ -84,6 +85,9 @@ angular.module("tryApp")
         function init() {
             var referrer = getReferer();
             var sourceVariation = getSourceVariation();
+            if (referrer === "acomaslp") {
+                $rootScope.freeTrialLink = "https://azure.microsoft.com/en-us/pricing/free-trial/";
+            }
 
             if (referrer && referrer === "aspnet" || sourceVariation === "develop-aspnet" || sourceVariation === "aspnetdirect") {
                 $rootScope.branding = "aspnet";
@@ -119,7 +123,8 @@ angular.module("tryApp")
         };
 
         var refererNameLookup = [
-            { match: /http(s)?:\/\/azure\.microsoft\.com\/([a-z]){2}-([a-z]){2}\/services\/app-service\/.*/, name: "acomaslp"},
+            { match: /http(s)?:\/\/azure\.microsoft\.com\/([a-z]){2}-([a-z]){2}\/services\/app-service\//, name: "acomaslp"},
+            { match: /http(s)?:\/\/azure\.microsoft\.com\/([a-z]){2}-([a-z]){2}\/services\/app-service\/\?.*/, name: "acomaslp"},
             { match: /http(s)?:\/\/azure\.microsoft\.com\/([a-z]){2}-([a-z]){2}\/documentation\/.*/, name: "acomasdoc"},
             { match: /http(s)?:\/\/azure\.microsoft\.com\/([a-z]){2}-([a-z]){2}\/develop\/net\/aspnet\/.*/, name: "aspnet"},
             { match: /http(s)?:\/\/[a-z]*(\.)?google\.com\/.*/, name: "search"},

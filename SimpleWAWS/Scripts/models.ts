@@ -103,6 +103,7 @@ interface ITryRootScope extends ng.IRootScopeService {
     submitFeedback();
     cancelFeedback();
     currentCulture: string;
+    freeTrialLink: string;
 }
 
 interface IStaticDataFactory {
