@@ -16,16 +16,18 @@ namespace SimpleWAWS.Models
 {
     public static class MobileHelper
     {
-        public static PushStreamContent CreateClientZip(MobileClientPlatform platform, Dictionary<string, string> replacements)
+        public static PushStreamContent CreateClientZip(MobileClientPlatform platform, string templateName, Dictionary<string, string> replacements)
         {
-            var clientPath = HostingEnvironment.MapPath(string.Format(CultureInfo.InvariantCulture, "~/App_Data/MobileClientApp/{0}", platform.ToString()));
+            var clientPath = HostingEnvironment.MapPath(string.Format(CultureInfo.InvariantCulture, "~/App_Data/MobileClientApp/{0}/{1}", templateName, platform.ToString()));
             return CreateZip(string.Format(CultureInfo.InvariantCulture, "{0}.zip", platform.ToString()), zip =>
             {
                 foreach (var fileName in Directory.GetFiles(clientPath, "*", SearchOption.AllDirectories))
                 {
                     var replacedFileName = fileName;
 
-                    if (string.IsNullOrEmpty(Path.GetExtension(fileName)) || Path.GetExtension(fileName) == ".png")
+                    if (string.IsNullOrEmpty(Path.GetExtension(fileName)) ||
+                        Path.GetExtension(fileName) == ".png" ||
+                        Path.GetExtension(fileName) == ".jpg")
                     {
                         foreach (var pair in replacements)
                         {

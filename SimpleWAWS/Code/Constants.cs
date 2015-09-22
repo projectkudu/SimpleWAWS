@@ -18,5 +18,6 @@ namespace SimpleWAWS.Code
         public const string LifeTimeInMinutes = "LifeTimeInMinutes";
         public const string AppService = "AppService";
         public const string TiPCookie = "x-ms-routing-name";
+        public const string TemplateName = "TemplateName";
     }
 }

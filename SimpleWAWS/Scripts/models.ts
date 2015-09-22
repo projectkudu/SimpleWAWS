@@ -108,5 +108,5 @@ interface ITryRootScope extends ng.IRootScopeService {
 
 interface IStaticDataFactory {
     getAppServices(): IAppService[];
-    getMobileClients(): any[];
+    getMobileClients(sampleName: string): any[];
 }

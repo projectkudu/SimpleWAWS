@@ -10,7 +10,7 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
 
     $scope.appServices = staticDataFactory.getAppServices();
 
-    $scope.mobileClients = staticDataFactory.getMobileClients();
+    $scope.mobileClients = staticDataFactory.getMobileClients("Todo List");
 
     var _globalDelayBindTracker = 0;
     function delayBind(f: Function) {
@@ -199,6 +199,8 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
             } else {
                 $scope.resource = data;
                 $scope.selectAppService($scope.appServices.find(a => a.name === data.AppService));
+                $scope.mobileClients = staticDataFactory.getMobileClients(data.templateName);
+                $scope.selectedMobileClient = $scope.mobileClients[0];
                 $state.go("home." + data.AppService.toLowerCase() + "app.work");
                 startCountDown(data.timeLeftString);
             }
@@ -288,8 +290,10 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
             method: "POST",
             data: $scope.selectedTemplate
         })
-        .success((data) => {
+        .success((data: any) => {
             $scope.resource = data;
+            $scope.mobileClients = staticDataFactory.getMobileClients(data.templateName);
+            $scope.selectedMobileClient = $scope.mobileClients[0];
             startCountDown($scope.resource.timeLeftString);
             $state.go($scope.nextStep.sref);
             $scope.running = false;

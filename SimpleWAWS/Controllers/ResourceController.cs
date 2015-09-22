@@ -94,7 +94,7 @@ namespace SimpleWAWS.Controllers
             }
         }
 
-        public async Task<HttpResponseMessage> GetMobileClientZip(string platformString)
+        public async Task<HttpResponseMessage> GetMobileClientZip(string platformString, string templateName)
         {
             var resourceManager = await ResourcesManager.GetInstanceAsync();
             var resourceGroup = await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name);
@@ -113,11 +113,14 @@ namespace SimpleWAWS.Controllers
             var replacement = new Dictionary<string, string> 
             {
                 { "ZUMOAPPURL", resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).First().Url },
+                { "{siteurl}", resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).First().Url },
                 { "ZUMOAPPNAME", "TryMobileApp" },
+                { "{sitename}", "TryMobileApp" },
                 { "ZUMOGATEWAYURL", resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).First().Url },
+                { "{gateway_url}", resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).First().Url },
                 { "ZUMONETRUNTIMESERVERPORT", "44300" }
             };
-            response.Content = MobileHelper.CreateClientZip(platform, replacement);
+            response.Content = MobileHelper.CreateClientZip(platform, templateName, replacement);
             return response;
         }
 
@@ -151,8 +154,8 @@ namespace SimpleWAWS.Controllers
                 if ((await resourceManager.GetResourceGroup(identity.Name)) != null)
                 {
                     SimpleTrace.Diagnostics.Fatal(AnalyticsEvents.MoreThanOneError, identity, 1);
-
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_MoreThanOneFreeResource);
+                    //This should use the server version of the error, but due to a string bug they are not the same.
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Client.Information_YouCantHaveMoreThanOne);
                 }
 
                 ResourceGroup resourceGroup = null;

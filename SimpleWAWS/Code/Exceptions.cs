@@ -8,7 +8,8 @@ namespace SimpleWAWS.Models
     public class MoreThanOneResourceGroupException : Exception
     {
         public MoreThanOneResourceGroupException()
-            : base(Resources.Server.Error_MoreThanOneFreeResource)
+            //This should use the server version of the error, but due to a string bug they are not the same.
+            : base(Resources.Client.Information_YouCantHaveMoreThanOne)
         { }
     }
 

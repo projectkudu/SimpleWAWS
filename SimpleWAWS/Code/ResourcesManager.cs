@@ -274,6 +274,7 @@ namespace SimpleWAWS.Code
                             throw new InvalidGithubRepoException();
                         }
                     }
+                    resourceGroup.Tags[Constants.TemplateName] = template.Name;
                     site.AppSettings["LAST_MODIFIED_TIME_UTC"] = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
                     site.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = SimpleSettings.SiteExpiryMinutes;
                     site.AppSettings["MONACO_EXTENSION_VERSION"] = "beta";
@@ -290,7 +291,7 @@ namespace SimpleWAWS.Code
                         await site.EnableZRay(resourceGroup.GeoRegion);
                     }
 
-                    await site.UpdateAppSettings();
+                    await Task.WhenAll(site.UpdateAppSettings(), resourceGroup.Update());
 
                     if (template.GithubRepo == null)
                     {

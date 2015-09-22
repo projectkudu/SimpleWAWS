@@ -137,7 +137,8 @@ namespace SimpleWAWS.Models
                     IbizaUrl = ibizaUrl,
                     TimeLeftString = TimeLeft,
                     IsRbacEnabled = IsRbacEnabled,
-                    AppService = AppService
+                    AppService = AppService,
+                    TemplateName = Tags[Constants.TemplateName]
                 }
                 : new UIResource
                 {
@@ -149,7 +150,8 @@ namespace SimpleWAWS.Models
                     GitUrl = siteToUseForUi.GitUrlWithCreds,
                     TimeLeftString = TimeLeft,
                     IsRbacEnabled = IsRbacEnabled,
-                    AppService = AppService
+                    AppService = AppService,
+                    TemplateName = Tags[Constants.TemplateName]
                 };
             }
         }

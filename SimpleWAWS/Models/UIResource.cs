@@ -34,5 +34,8 @@ namespace SimpleWAWS.Models
         public AppService AppService { get; set; }
 
         public bool IsRbacEnabled { get; set; }
+
+        [JsonProperty(PropertyName = "templateName")]
+        public string TemplateName { get; set; }
     }
 }
