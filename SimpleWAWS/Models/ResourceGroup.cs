@@ -130,6 +130,7 @@ namespace SimpleWAWS.Models
                         ibizaUrl = LogicApps.First().IbizaUrl;
                         break;
                 }
+                var templateName = Tags.ContainsKey(Constants.TemplateName) ? Tags[Constants.TemplateName] : string.Empty;
 
                 return siteToUseForUi == null
                 ? new UIResource
@@ -138,12 +139,12 @@ namespace SimpleWAWS.Models
                     TimeLeftString = TimeLeft,
                     IsRbacEnabled = IsRbacEnabled,
                     AppService = AppService,
-                    TemplateName = Tags[Constants.TemplateName]
+                    TemplateName = templateName
                 }
                 : new UIResource
                 {
                     Url = siteToUseForUi.Url,
-                    MobileWebClient = AppService == Models.AppService.Mobile ? siteToUseForUi.MobileUrl : null,
+                    MobileWebClient = AppService == Models.AppService.Mobile ? siteToUseForUi.GetMobileUrl(templateName) : null,
                     IbizaUrl = ibizaUrl,
                     MonacoUrl = siteToUseForUi.MonacoUrl,
                     ContentDownloadUrl = siteToUseForUi.ContentDownloadUrl,
@@ -151,7 +152,7 @@ namespace SimpleWAWS.Models
                     TimeLeftString = TimeLeft,
                     IsRbacEnabled = IsRbacEnabled,
                     AppService = AppService,
-                    TemplateName = Tags[Constants.TemplateName]
+                    TemplateName = templateName
                 };
             }
         }

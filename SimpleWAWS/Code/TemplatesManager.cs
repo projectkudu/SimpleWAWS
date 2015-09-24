@@ -52,7 +52,7 @@ namespace SimpleWAWS.Models
                             Name = Path.GetFileNameWithoutExtension(template),
                             FileName = Path.GetFileName(template),
                             Language = language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) ? null : language,
-                            SpriteName = language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) ? "sprite-TodoList TodoList" : string.Format(CultureInfo.InvariantCulture, "{0} {1}", iconCssClass, cssClass),
+                            SpriteName = string.Format(CultureInfo.InvariantCulture, "{0} {1}", iconCssClass, cssClass),
                             AppService =  language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) ? AppService.Mobile : AppService.Web
                         });
                     }

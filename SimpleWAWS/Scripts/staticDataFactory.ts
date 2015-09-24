@@ -173,9 +173,16 @@ angular.module("tryApp")
                             preText: Resources.Information_InstallXamarinStudio,
                             preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
                             clientText: Resources.Information_DownloadXamariniOSClient,
-                            clientHref: "/api/resource/mobileclient/XamariniOS?templateName=CarDealership"
+                            clientHref: "/api/resource/mobileclient/XamariniOS?templateName=FieldEngineer"
                         }
-                    }];
+                    }, {
+                            name: Resources.Information_WebClient,
+                            sprite: "mobile-icons sprite-javascript",
+                            steps: {
+                                clientText: Resources.Information_VisitWebClient,
+                                clientHref: "webClient"
+                            }
+                        }];
             }
         };
     });

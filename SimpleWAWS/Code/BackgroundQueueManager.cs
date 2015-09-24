@@ -47,6 +47,7 @@ namespace SimpleWAWS.Code
                 RetryAction = () => LoadSubscription(subscriptionId)
             });
         }
+
         public void DeleteResourceGroup(ResourceGroup resourceGroup)
         {
             ResourceGroup temp;

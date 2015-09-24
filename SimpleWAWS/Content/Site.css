@@ -9074,7 +9074,7 @@ div.google-login {
 
 
 div.icons {
-    background: url(/Content/images/icons-sprite.png) no-repeat top left;
+    background: url(/Content/images/icons-sprite.png?v=2) no-repeat top left;
 }
 
 div.sprite-ASPNETAzureSearchSite{ background-position: 0 0; width: 115px; height: 115px; } 
@@ -9086,18 +9086,19 @@ div.sprite-Bottle{ background-position: 0 -825px; width: 115px; height: 115px; }
 div.sprite-DownloadPublishing{ background-position: 0 -990px; width: 50px; height: 50px; } 
 div.sprite-DownloadSite{ background-position: 0 -1090px; width: 50px; height: 50px; } 
 div.sprite-ExpressJs, div.sprite-NodeJSEmptySite, div.sprite-NodeStarter{ background-position: 0 -1190px; width: 115px; height: 115px; } 
-div.sprite-Flask{ background-position: 0 -1355px; width: 115px; height: 115px; } 
-div.sprite-GhostBlog{ background-position: 0 -1520px; width: 115px; height: 115px; } 
-div.sprite-GoSampleApp{ background-position: 0 -1685px; width: 115px; height: 115px; } 
-div.sprite-Large{ background-position: 0 -1850px; width: 115px; height: 115px; } 
-div.sprite-MicrosoftAzure{ background-position: -165px 0; width: 50px; height: 50px; } 
-div.sprite-PHPEmptySite, div.sprite-PHPStarterSite{ background-position: -165px -100px; width: 115px; height: 115px; } 
-div.sprite-TypeScript{ background-position: -165px -265px; width: 115px; height: 115px; } 
-div.sprite-VSO{ background-position: -165px -430px; width: 50px; height: 50px; } 
-div.sprite-delete{ background-position: -165px -530px; width: 50px; height: 50px; } 
-div.sprite-django{ background-position: -165px -630px; width: 115px; height: 115px; } 
-div.sprite-git{ background-position: -165px -795px; width: 50px; height: 50px; } 
-div.sprite-TodoList{ background-position: -165px -895px; width: 115px; height: 115px; } 
+div.sprite-FieldEngineer{ background-position: 0 -1355px; width: 115px; height: 115px; } 
+div.sprite-Flask{ background-position: 0 -1520px; width: 115px; height: 115px; } 
+div.sprite-GhostBlog{ background-position: 0 -1685px; width: 115px; height: 115px; } 
+div.sprite-GoSampleApp{ background-position: 0 -1850px; width: 115px; height: 115px; } 
+div.sprite-Large{ background-position: -165px 0; width: 115px; height: 115px; } 
+div.sprite-MicrosoftAzure{ background-position: -165px -165px; width: 50px; height: 50px; } 
+div.sprite-PHPEmptySite, div.sprite-PHPStarterSite{ background-position: -165px -265px; width: 115px; height: 115px; } 
+div.sprite-TypeScript{ background-position: -165px -430px; width: 115px; height: 115px; } 
+div.sprite-VSO{ background-position: -165px -595px; width: 50px; height: 50px; } 
+div.sprite-delete{ background-position: -165px -695px; width: 50px; height: 50px; } 
+div.sprite-django{ background-position: -165px -795px; width: 115px; height: 115px; } 
+div.sprite-git{ background-position: -165px -960px; width: 50px; height: 50px; } 
+div.sprite-TodoList{ background-position: -165px -1060px; width: 115px; height: 115px; } 
 
 span.error-message-text {
     font-size: large;
