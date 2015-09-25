@@ -160,11 +160,38 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A mobile dashboard app for a cable company technician, or any other mobile workforce, available for Xamarin Forms. Full sample at &lt;a href=&quot;https://github.com/azure/fieldengineer/&quot;&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;..
+        /// </summary>
+        internal static string Templates_FieldEngineerDescription {
+            get {
+                return ResourceManager.GetString("Templates_FieldEngineerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This Logic App template will ping a website on a recurring schedule.  You can extend it to take an action depending on the result of the ping..
         /// </summary>
         internal static string Templates_PingSiteDescription {
             get {
                 return ResourceManager.GetString("Templates_PingSiteDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is a simple todo list app, available for iOS, Android, Xamarin, and HTML/JS..
+        /// </summary>
+        internal static string Templates_TodoListDescription {
+            get {
+                return ResourceManager.GetString("Templates_TodoListDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A mobile sales dashboard CRM app, available for Xamarin Forms. Full sample at &lt;a href=&quot;https://github.com/xamarin/app-crm/&quot;&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;..
+        /// </summary>
+        internal static string Templates_XamarinCrmDescription {
+            get {
+                return ResourceManager.GetString("Templates_XamarinCrmDescription", resourceCulture);
             }
         }
     }

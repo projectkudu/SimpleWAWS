@@ -114,58 +114,59 @@ angular.module("tryApp")
             }],
             getMobileClients: (sampleName: string) => {
                 //TODO: get list of available clients from the server like we do with templates
-                return sampleName === "Todo List"
-                    ? [{
-                            name: Resources.Information_NativeiOS,
-                            icon_url: "/Content/images/ios.png",
-                            sprite: "mobile-icons sprite-ios",
-                            steps: {
-                                preText: Resources.Information_InstallXcode,
-                                preHref: "https://go.microsoft.com/fwLink/?LinkID=266532&clcid=0x409",
-                                clientText: Resources.Information_DownloadiOSClient,
-                                clientHref: "/api/resource/mobileclient/NativeiOS?templateName=TodoList"
-                            }
-
-                        }, {
-                            name: Resources.Information_XamariniOS,
-                            icon_url: "/Content/images/xamarin.png",
-                            sprite: "mobile-icons sprite-Xamarin",
-                            steps: {
-                                preText: Resources.Information_InstallXamarinStudio,
-                                preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
-                                clientText: Resources.Information_DownloadXamariniOSClient,
-                                clientHref: "/api/resource/mobileclient/XamariniOS?templateName=TodoList"
-                            }
-
-                        }, {
-                            name: Resources.Information_XamarinAndroid,
-                            icon_url: "/Content/images/xamarin.png",
-                            sprite: "mobile-icons sprite-Xamarin",
-                            steps: {
-                                preText: Resources.Information_InstallXamarinStudio,
-                                preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
-                                clientText: Resources.Information_DownloadXamarinAndroidClient,
-                                clientHref: "/api/resource/mobileclient/XamarinAndroid?templateName=TodoList"
-                            }
-                        }, {
-                        name: Resources.Information_Windows,
-                        icon_url: "/Content/images/Windows.png",
-                        sprite: "mobile-icons sprite-Windows",
+                if (sampleName === "Todo List") {
+                    return [{
+                        name: Resources.Information_NativeiOS,
+                        icon_url: "/Content/images/ios.png",
+                        sprite: "mobile-icons sprite-ios",
                         steps: {
-                            preText: Resources.Information_InstallVisualStudio,
-                            preHref: "https://go.microsoft.com/fwLink/?LinkID=391934&clcid=0x409",
-                            clientText: Resources.Information_DownloadWindowsClient,
-                            clientHref: "/api/resource/mobileclient/Windows?templateName=TodoList"
+                            preText: Resources.Information_InstallXcode,
+                            preHref: "https://go.microsoft.com/fwLink/?LinkID=266532&clcid=0x409",
+                            clientText: Resources.Information_DownloadiOSClient,
+                            clientHref: "/api/resource/mobileclient/NativeiOS?templateName=TodoList"
                         }
+
                     }, {
-                            name: Resources.Information_WebClient,
-                            sprite: "mobile-icons sprite-javascript",
-                            steps: {
-                                clientText: Resources.Information_VisitWebClient,
-                                clientHref: "webClient"
-                            }
-                        }]
-                    : [{
+                       name: Resources.Information_XamariniOS,
+                       icon_url: "/Content/images/xamarin.png",
+                       sprite: "mobile-icons sprite-Xamarin",
+                       steps: {
+                           preText: Resources.Information_InstallXamarinStudio,
+                           preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
+                           clientText: Resources.Information_DownloadXamariniOSClient,
+                           clientHref: "/api/resource/mobileclient/XamariniOS?templateName=TodoList"
+                       }
+
+                   }, {
+                       name: Resources.Information_XamarinAndroid,
+                       icon_url: "/Content/images/xamarin.png",
+                       sprite: "mobile-icons sprite-Xamarin",
+                       steps: {
+                           preText: Resources.Information_InstallXamarinStudio,
+                           preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
+                           clientText: Resources.Information_DownloadXamarinAndroidClient,
+                           clientHref: "/api/resource/mobileclient/XamarinAndroid?templateName=TodoList"
+                       }
+                   }, {
+                       name: Resources.Information_Windows,
+                       icon_url: "/Content/images/Windows.png",
+                       sprite: "mobile-icons sprite-Windows",
+                       steps: {
+                           preText: Resources.Information_InstallVisualStudio,
+                           preHref: "https://go.microsoft.com/fwLink/?LinkID=391934&clcid=0x409",
+                           clientText: Resources.Information_DownloadWindowsClient,
+                           clientHref: "/api/resource/mobileclient/Windows?templateName=TodoList"
+                       }
+                   }, {
+                       name: Resources.Information_WebClient,
+                       sprite: "mobile-icons sprite-javascript",
+                       steps: {
+                           clientText: Resources.Information_VisitWebClient,
+                           clientHref: "webClient"
+                       }
+                   }];
+                } else if (sampleName === "Field Engineer") {
+                    return [{
                         name: Resources.Information_XamariniOS,
                         icon_url: "/Content/images/xamarin.png",
                         sprite: "mobile-icons sprite-Xamarin",
@@ -176,13 +177,36 @@ angular.module("tryApp")
                             clientHref: "/api/resource/mobileclient/XamariniOS?templateName=FieldEngineer"
                         }
                     }, {
-                            name: Resources.Information_WebClient,
-                            sprite: "mobile-icons sprite-javascript",
-                            steps: {
-                                clientText: Resources.Information_VisitWebClient,
-                                clientHref: "webClient"
-                            }
-                        }];
+                        name: Resources.Information_WebClient,
+                        sprite: "mobile-icons sprite-javascript",
+                        steps: {
+                            clientText: Resources.Information_VisitWebClient,
+                            clientHref: "webClient"
+                        }
+                    }];
+                } else if (sampleName === "Xamarin CRM") {
+                    return [{
+                        name: Resources.Information_XamariniOS,
+                        icon_url: "/Content/images/xamarin.png",
+                        sprite: "mobile-icons sprite-Xamarin",
+                        steps: {
+                            preText: Resources.Information_InstallXamarinStudio,
+                            preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
+                            clientText: Resources.Information_DownloadXamariniOSClient,
+                            clientHref: "/api/resource/mobileclient/XamariniOS?templateName=XamarinCRM"
+                        }
+                    }, {
+                        name: Resources.Information_XamarinAndroid,
+                        icon_url: "/Content/images/xamarin.png",
+                        sprite: "mobile-icons sprite-Xamarin",
+                        steps: {
+                            preText: Resources.Information_InstallXamarinStudio,
+                            preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
+                            clientText: Resources.Information_DownloadXamarinAndroidClient,
+                            clientHref: "/api/resource/mobileclient/XamarinAndroid?templateName=XamarinCRM"
+                        }
+                    }];
+                }
             }
         };
     });

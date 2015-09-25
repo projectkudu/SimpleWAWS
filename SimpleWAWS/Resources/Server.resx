@@ -150,7 +150,16 @@
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>Unsupported platform.</value>
   </data>
+  <data name="Templates_FieldEngineerDescription" xml:space="preserve">
+    <value>A mobile dashboard app for a cable company technician, or any other mobile workforce, available for Xamarin Forms. Full sample at &lt;a href="https://github.com/azure/fieldengineer/"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
+  </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>This Logic App template will ping a website on a recurring schedule.  You can extend it to take an action depending on the result of the ping.</value>
+  </data>
+  <data name="Templates_TodoListDescription" xml:space="preserve">
+    <value>This is a simple todo list app, available for iOS, Android, Xamarin, and HTML/JS.</value>
+  </data>
+  <data name="Templates_XamarinCrmDescription" xml:space="preserve">
+    <value>A mobile sales dashboard CRM app, available for Xamarin Forms. Full sample at &lt;a href="https://github.com/xamarin/app-crm/"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>
   </data>
 </root>

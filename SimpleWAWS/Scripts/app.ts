@@ -1,4 +1,4 @@
-﻿angular.module("tryApp", ["ui.router", "angular.filter"]);
+﻿angular.module("tryApp", ["ui.router", "angular.filter", "ngSanitize"]);
 angular.module("tryApp")
     .controller("appController", ["$scope", "$http", "$timeout", "$rootScope", "$state", "$location", "staticDataFactory", appController]);
 
@@ -173,6 +173,19 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
                 $scope.appServices.forEach(a => {
                     a.templates = data.filter(e => e.appService === a.name);
                 });
+                $scope.appServices
+                    .filter(a => a.name === "Mobile")
+                    .forEach(a => {
+                        a.templates.sort((a, b) => {
+                            if (a.name === "Field Engineer") {
+                                return 1;
+                            } else if (b.name === "Field Engineer") {
+                                return -1;
+                            } else {
+                                return a.name.localeCompare(b.name);
+                            }
+                        })
+                    });
                 //TODO: better way to choose default language
                 $scope.ngModels.selectedLanguage = $scope.currentAppService.templates.some(t => t.language === "Default")
                     ? "Default"
