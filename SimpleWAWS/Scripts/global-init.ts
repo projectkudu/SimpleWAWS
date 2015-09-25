@@ -5,7 +5,6 @@ angular.module("tryApp")
         $rootScope.showFeedback = false;
         $rootScope.submittedFeedback = false;
         $rootScope.comment = "";
-        $rootScope.freeTrialLink = "https://account.windowsazure.com/signup";
         $rootScope.contactMe = false;
         $rootScope.currentCulture = CurrentCulture;
 
@@ -85,9 +84,6 @@ angular.module("tryApp")
         function init() {
             var referrer = getReferer();
             var sourceVariation = getSourceVariation();
-            if (referrer === "acomaslp") {
-                $rootScope.freeTrialLink = "https://azure.microsoft.com/en-us/pricing/free-trial/";
-            }
 
             if (referrer && referrer === "aspnet" || sourceVariation === "develop-aspnet" || sourceVariation === "aspnetdirect") {
                 $rootScope.branding = "aspnet";

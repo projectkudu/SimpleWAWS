@@ -213,7 +213,9 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
                 $scope.resource = data;
                 $scope.selectAppService($scope.appServices.find(a => a.name === data.AppService));
                 $scope.mobileClients = staticDataFactory.getMobileClients(data.templateName);
-                $scope.selectedMobileClient = $scope.mobileClients[0];
+                if ($scope.mobileClients && $scope.mobileClients.length > 0) {
+                    $scope.selectedMobileClient = $scope.mobileClients[0];
+                }
                 $state.go("home." + data.AppService.toLowerCase() + "app.work");
                 startCountDown(data.timeLeftString);
             }
@@ -306,7 +308,9 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
         .success((data: any) => {
             $scope.resource = data;
             $scope.mobileClients = staticDataFactory.getMobileClients(data.templateName);
-            $scope.selectedMobileClient = $scope.mobileClients[0];
+            if ($scope.mobileClients && $scope.mobileClients.length > 0) {
+                $scope.selectedMobileClient = $scope.mobileClients[0];
+            }
             startCountDown($scope.resource.timeLeftString);
             $state.go($scope.nextStep.sref);
             $scope.running = false;
