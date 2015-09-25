@@ -66,7 +66,7 @@ namespace SimpleWAWS.Controllers
                         inProgressSitesCount = inProgress.Count(),
                         inUseSitesCount = inUseSites.Count(),
                         backgroundOperationsCount = backgroundOperations.Count(),
-                        freeSites = freeSites,
+                        //freeSites = freeSites,
                         inUseSites = inUseSites,
                         inProgress = inProgress,
                         backgroundOperations = backgroundOperations
