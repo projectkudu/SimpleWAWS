@@ -113,11 +113,11 @@ namespace SimpleWAWS.Controllers
             var replacement = new Dictionary<string, string> 
             {
                 { "ZUMOAPPURL", resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).First().Url },
-                { "{siteurl}", resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).First().Url },
+                { "{siteurl}", resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).First().Url.Trim('/') },
                 { "ZUMOAPPNAME", "TryMobileApp" },
                 { "{sitename}", "TryMobileApp" },
                 { "ZUMOGATEWAYURL", resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).First().Url },
-                { "{gateway_url}", resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).First().Url },
+                { "{gateway_url}", resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).First().Url.Trim('/') },
                 { "ZUMONETRUNTIMESERVERPORT", "44300" }
             };
             response.Content = MobileHelper.CreateClientZip(platform, templateName, replacement);

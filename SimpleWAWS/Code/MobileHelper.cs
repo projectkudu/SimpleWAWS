@@ -26,8 +26,8 @@ namespace SimpleWAWS.Models
                     var replacedFileName = fileName;
 
                     if (string.IsNullOrEmpty(Path.GetExtension(fileName)) ||
-                        Path.GetExtension(fileName) == ".png" ||
-                        Path.GetExtension(fileName) == ".jpg")
+                        new[] { ".png", ".jpg", ".keystore", ".exe", ".dll", ".sketch" }
+                        .Any(ext => ext.Equals(Path.GetExtension(fileName), StringComparison.OrdinalIgnoreCase)))
                     {
                         foreach (var pair in replacements)
                         {

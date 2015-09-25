@@ -9093,12 +9093,13 @@ div.sprite-GoSampleApp{ background-position: 0 -1850px; width: 115px; height: 11
 div.sprite-Large{ background-position: -165px 0; width: 115px; height: 115px; } 
 div.sprite-MicrosoftAzure{ background-position: -165px -165px; width: 50px; height: 50px; } 
 div.sprite-PHPEmptySite, div.sprite-PHPStarterSite{ background-position: -165px -265px; width: 115px; height: 115px; } 
-div.sprite-TypeScript{ background-position: -165px -430px; width: 115px; height: 115px; } 
-div.sprite-VSO{ background-position: -165px -595px; width: 50px; height: 50px; } 
-div.sprite-delete{ background-position: -165px -695px; width: 50px; height: 50px; } 
-div.sprite-django{ background-position: -165px -795px; width: 115px; height: 115px; } 
-div.sprite-git{ background-position: -165px -960px; width: 50px; height: 50px; } 
-div.sprite-TodoList{ background-position: -165px -1060px; width: 115px; height: 115px; } 
+div.sprite-TodoList{ background-position: -165px -430px; width: 115px; height: 115px; } 
+div.sprite-TypeScript{ background-position: -165px -595px; width: 115px; height: 115px; } 
+div.sprite-VSO{ background-position: -165px -760px; width: 50px; height: 50px; } 
+div.sprite-XamarinCRM{ background-position: -165px -860px; width: 115px; height: 115px; } 
+div.sprite-delete{ background-position: -165px -1025px; width: 50px; height: 50px; } 
+div.sprite-django{ background-position: -165px -1125px; width: 115px; height: 115px; } 
+div.sprite-git{ background-position: -165px -1290px; width: 50px; height: 50px; } 
 
 span.error-message-text {
     font-size: large;
