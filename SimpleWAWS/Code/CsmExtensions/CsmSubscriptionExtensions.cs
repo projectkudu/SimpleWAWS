@@ -63,14 +63,14 @@ namespace SimpleWAWS.Code.CsmExtensions
                        !subscription.ResourceGroups
                            .Any(rg => rg.ResourceGroupName.StartsWith(string.Format(CultureInfo.InvariantCulture, "{0}_{1}", Constants.TryResourceGroupPrefix, g.Replace(" ", Constants.TryResourceGroupSeparator)), StringComparison.OrdinalIgnoreCase)));
 
-            result.Ready = subscription.ResourceGroups;
+            result.ToDelete = subscription.ResourceGroups
+                .GroupBy(s => s.GeoRegion)
+                .Select(g => new { Region = g.Key, ResourceGroups = g.Select(r => r), Count = g.Count() })
+                .Where(g => g.Count > 1)
+                .Select(g => g.ResourceGroups.Where(rg => string.IsNullOrEmpty(rg.UserId)).Skip(1))
+                .SelectMany(i => i);
 
-            if (subscription.ResourceGroups.Count() > geoRegions.Count())
-            {
-                //we have extra resourceGroups. We should delete it.
-            }
-
-            result.ToDelete = Enumerable.Empty<ResourceGroup>();
+            result.Ready = subscription.ResourceGroups.Where(rg => !result.ToDelete.Any(drg => drg.ResourceGroupName == rg.ResourceGroupName));
 
             return result;
         }
