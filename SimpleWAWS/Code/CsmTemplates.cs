@@ -6,7 +6,7 @@ using System.Web;
 
 namespace SimpleWAWS.Code
 {
-    public static class CsmTemplates
+    public static class ArmUriTemplates
     {
         private const string csmApiVersoin = "2014-04-01";
         private const string websitesApiVersion = "2014-06-01";
@@ -20,48 +20,48 @@ namespace SimpleWAWS.Code
         public const string CsmRootUrl = "https://management.azure.com";
         public const string GraphRootUrl = "https://graph.windows.net";
 
-        public static readonly CsmTemplate Subscriptions = new CsmTemplate(CsmRootUrl + "/subscriptions", csmApiVersoin);
-        public static readonly CsmTemplate Subscription = new CsmTemplate(Subscriptions.TemplateUrl + "/{subscriptionId}", csmApiVersoin);
-        public static readonly CsmTemplate SubscriptionResources = new CsmTemplate(Subscription.TemplateUrl + "/resources", csmApiVersoin);
+        public static readonly ArmUriTemplate Subscriptions = new ArmUriTemplate(CsmRootUrl + "/subscriptions", csmApiVersoin);
+        public static readonly ArmUriTemplate Subscription = new ArmUriTemplate(Subscriptions.TemplateUrl + "/{subscriptionId}", csmApiVersoin);
+        public static readonly ArmUriTemplate SubscriptionResources = new ArmUriTemplate(Subscription.TemplateUrl + "/resources", csmApiVersoin);
 
-        public static readonly CsmTemplate ResourceGroups = new CsmTemplate(Subscription.TemplateUrl + "/resourceGroups", csmApiVersoin);
-        public static readonly CsmTemplate ResourceGroup = new CsmTemplate(ResourceGroups.TemplateUrl + "/{resourceGroupName}", csmApiVersoin);
-        public static readonly CsmTemplate ResourceGroupResources = new CsmTemplate(ResourceGroup.TemplateUrl + "/resources", csmApiVersoin);
+        public static readonly ArmUriTemplate ResourceGroups = new ArmUriTemplate(Subscription.TemplateUrl + "/resourceGroups", csmApiVersoin);
+        public static readonly ArmUriTemplate ResourceGroup = new ArmUriTemplate(ResourceGroups.TemplateUrl + "/{resourceGroupName}", csmApiVersoin);
+        public static readonly ArmUriTemplate ResourceGroupResources = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/resources", csmApiVersoin);
 
-        public static readonly CsmTemplate CsmTemplateDeployment = new CsmTemplate(ResourceGroup.TemplateUrl + "/deployments/{deploymentName}", csmApiVersoin);
+        public static readonly ArmUriTemplate CsmTemplateDeployment = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/deployments/{deploymentName}", csmApiVersoin);
 
-        public static readonly CsmTemplate AppServiceRegister = new CsmTemplate(Subscription.TemplateUrl + "/providers/Microsoft.AppService/register", appServiceApiVersion);
-        public static readonly CsmTemplate AppServiceGenerateCsmDeployTemplate = new CsmTemplate(Subscription.TemplateUrl + "/providers/Microsoft.AppService/deploymenttemplates/{microserviceId}/generate?resourceGroup={resourceGroupName}", appServiceApiVersion);
+        public static readonly ArmUriTemplate AppServiceRegister = new ArmUriTemplate(Subscription.TemplateUrl + "/providers/Microsoft.AppService/register", appServiceApiVersion);
+        public static readonly ArmUriTemplate AppServiceGenerateCsmDeployTemplate = new ArmUriTemplate(Subscription.TemplateUrl + "/providers/Microsoft.AppService/deploymenttemplates/{microserviceId}/generate?resourceGroup={resourceGroupName}", appServiceApiVersion);
 
-        public static readonly CsmTemplate WebsitesRegister = new CsmTemplate(Subscription.TemplateUrl + "/providers/Microsoft.Web/register", websitesApiVersion);
-        public static readonly CsmTemplate Sites = new CsmTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Web/sites", websitesApiVersion);
-        public static readonly CsmTemplate Site = new CsmTemplate(Sites.TemplateUrl + "/{siteName}", websitesApiVersion);
-        public static readonly CsmTemplate GetSiteAppSettings = new CsmTemplate(Site.TemplateUrl + "/config/AppSettings/list", websitesApiVersion);
-        public static readonly CsmTemplate PutSiteAppSettings = new CsmTemplate(Site.TemplateUrl + "/config/AppSettings", websitesApiVersion);
-        public static readonly CsmTemplate GetSiteMetadata = new CsmTemplate(Site.TemplateUrl + "/config/Metadata/list", websitesApiVersion);
-        public static readonly CsmTemplate PutSiteMetadata = new CsmTemplate(Site.TemplateUrl + "/config/Metadata", websitesApiVersion);
-        public static readonly CsmTemplate SiteConfig = new CsmTemplate(Site.TemplateUrl + "/config/web", websitesApiVersion);
-        public static readonly CsmTemplate SitePublishingCredentials = new CsmTemplate(Site.TemplateUrl + "/config/PublishingCredentials/list", websitesApiVersion);
-        public static readonly CsmTemplate SitePublishingProfile = new CsmTemplate(Site.TemplateUrl + "/publishxml", websitesApiVersion);
-        public static readonly CsmTemplate SiteDeployments = new CsmTemplate(Site.TemplateUrl + "/deployments", newWebsitesApiVersion);
-        public static readonly CsmTemplate ZRayForSite = new CsmTemplate(Site.TemplateUrl + "/premieraddons/MyZray", zRayApiVersion);
+        public static readonly ArmUriTemplate WebsitesRegister = new ArmUriTemplate(Subscription.TemplateUrl + "/providers/Microsoft.Web/register", websitesApiVersion);
+        public static readonly ArmUriTemplate Sites = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Web/sites", websitesApiVersion);
+        public static readonly ArmUriTemplate Site = new ArmUriTemplate(Sites.TemplateUrl + "/{siteName}", websitesApiVersion);
+        public static readonly ArmUriTemplate GetSiteAppSettings = new ArmUriTemplate(Site.TemplateUrl + "/config/AppSettings/list", websitesApiVersion);
+        public static readonly ArmUriTemplate PutSiteAppSettings = new ArmUriTemplate(Site.TemplateUrl + "/config/AppSettings", websitesApiVersion);
+        public static readonly ArmUriTemplate GetSiteMetadata = new ArmUriTemplate(Site.TemplateUrl + "/config/Metadata/list", websitesApiVersion);
+        public static readonly ArmUriTemplate PutSiteMetadata = new ArmUriTemplate(Site.TemplateUrl + "/config/Metadata", websitesApiVersion);
+        public static readonly ArmUriTemplate SiteConfig = new ArmUriTemplate(Site.TemplateUrl + "/config/web", websitesApiVersion);
+        public static readonly ArmUriTemplate SitePublishingCredentials = new ArmUriTemplate(Site.TemplateUrl + "/config/PublishingCredentials/list", websitesApiVersion);
+        public static readonly ArmUriTemplate SitePublishingProfile = new ArmUriTemplate(Site.TemplateUrl + "/publishxml", websitesApiVersion);
+        public static readonly ArmUriTemplate SiteDeployments = new ArmUriTemplate(Site.TemplateUrl + "/deployments", newWebsitesApiVersion);
+        public static readonly ArmUriTemplate ZRayForSite = new ArmUriTemplate(Site.TemplateUrl + "/premieraddons/MyZray", zRayApiVersion);
 
-        public static readonly CsmTemplate ApiApps = new CsmTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.AppService/apiapps", appServiceApiVersion);
-        public static readonly CsmTemplate ApiApp = new CsmTemplate(ApiApps.TemplateUrl + "/{apiAppName}", appServiceApiVersion);
+        public static readonly ArmUriTemplate ApiApps = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.AppService/apiapps", appServiceApiVersion);
+        public static readonly ArmUriTemplate ApiApp = new ArmUriTemplate(ApiApps.TemplateUrl + "/{apiAppName}", appServiceApiVersion);
 
-        public static readonly CsmTemplate Gateways = new CsmTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.AppService/gateways", appServiceApiVersion);
-        public static readonly CsmTemplate Gateway = new CsmTemplate(Gateways.TemplateUrl + "/{gatewayName}", appServiceApiVersion);
+        public static readonly ArmUriTemplate Gateways = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.AppService/gateways", appServiceApiVersion);
+        public static readonly ArmUriTemplate Gateway = new ArmUriTemplate(Gateways.TemplateUrl + "/{gatewayName}", appServiceApiVersion);
 
-        public static readonly CsmTemplate LogicApps = new CsmTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Logic/workflows", logicAppsApiVersion);
-        public static readonly CsmTemplate LogicApp = new CsmTemplate(LogicApps.TemplateUrl + "/{logicAppName}", logicAppsApiVersion);
+        public static readonly ArmUriTemplate LogicApps = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Logic/workflows", logicAppsApiVersion);
+        public static readonly ArmUriTemplate LogicApp = new ArmUriTemplate(LogicApps.TemplateUrl + "/{logicAppName}", logicAppsApiVersion);
 
-        public static readonly CsmTemplate ServerFarms = new CsmTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Web/serverFarms", websitesApiVersion);
-        public static readonly CsmTemplate ServerFarm = new CsmTemplate(ServerFarms.TemplateUrl + "/{serverFarmName}", websitesApiVersion);
+        public static readonly ArmUriTemplate ServerFarms = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Web/serverFarms", websitesApiVersion);
+        public static readonly ArmUriTemplate ServerFarm = new ArmUriTemplate(ServerFarms.TemplateUrl + "/{serverFarmName}", websitesApiVersion);
 
-        public static readonly CsmTemplate GraphTenant = new CsmTemplate(GraphRootUrl + "/{tenantId}", graphApiVersion);
-        public static readonly CsmTemplate GraphUsers = new CsmTemplate(GraphTenant.TemplateUrl + "/users", graphApiVersion);
-        public static readonly CsmTemplate GraphUser = new CsmTemplate(GraphUsers.TemplateUrl + "/{userId}", graphApiVersion);
-        public static readonly CsmTemplate GraphSearchUsers = new CsmTemplate(GraphUsers.TemplateUrl + "/?$filter=netId eq '{userPuid}' or alternativeSecurityIds/any(x:x/type eq 1 and x/identityProvider eq null and x/key eq X'{userPuid}')", graphApiVersion);
-        public static readonly CsmTemplate GraphRedeemInvite = new CsmTemplate(GraphTenant.TemplateUrl + "/redeemInvitation", graphApiVersion);
+        public static readonly ArmUriTemplate GraphTenant = new ArmUriTemplate(GraphRootUrl + "/{tenantId}", graphApiVersion);
+        public static readonly ArmUriTemplate GraphUsers = new ArmUriTemplate(GraphTenant.TemplateUrl + "/users", graphApiVersion);
+        public static readonly ArmUriTemplate GraphUser = new ArmUriTemplate(GraphUsers.TemplateUrl + "/{userId}", graphApiVersion);
+        public static readonly ArmUriTemplate GraphSearchUsers = new ArmUriTemplate(GraphUsers.TemplateUrl + "/?$filter=netId eq '{userPuid}' or alternativeSecurityIds/any(x:x/type eq 1 and x/identityProvider eq null and x/key eq X'{userPuid}')", graphApiVersion);
+        public static readonly ArmUriTemplate GraphRedeemInvite = new ArmUriTemplate(GraphTenant.TemplateUrl + "/redeemInvitation", graphApiVersion);
     }
 }

@@ -17,13 +17,13 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             Validate.ValidateCsmSite(site);
 
-            var response = await csmClient.HttpInvoke(HttpMethod.Post, CsmTemplates.GetSiteAppSettings.Bind(site));
+            var response = await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.GetSiteAppSettings.Bind(site));
             var config = await response.Content.ReadAsAsync<CsmWrapper<IEnumerable<CsmNameValuePair>>>();
 
             site.AppSettings = config.properties.ToDictionary(k => k.name, v => v.value);
 
             var properties = site.AppSettings.Select(e => new { name = e.Key, value = e.Value });
-            response = await csmClient.HttpInvoke(HttpMethod.Put, CsmTemplates.PutSiteAppSettings.Bind(site), new { properties = properties });
+            response = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.PutSiteAppSettings.Bind(site), new { properties = properties });
             response.EnsureSuccessStatusCode();
 
             return site;
@@ -31,7 +31,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task<Site> UpdateAppSettings(this Site site)
         {
-            var csmResponse = await csmClient.HttpInvoke(HttpMethod.Put, CsmTemplates.PutSiteAppSettings.Bind(site), new { properties = site.AppSettings.Select(s => new { name = s.Key, value = s.Value }) });
+            var csmResponse = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.PutSiteAppSettings.Bind(site), new { properties = site.AppSettings.Select(s => new { name = s.Key, value = s.Value }) });
             csmResponse.EnsureSuccessStatusCode();
 
             return site;
@@ -41,13 +41,13 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             Validate.ValidateCsmSite(site);
 
-            var response = await csmClient.HttpInvoke(HttpMethod.Post, CsmTemplates.GetSiteMetadata.Bind(site));
+            var response = await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.GetSiteMetadata.Bind(site));
             var config = await response.Content.ReadAsAsync<CsmWrapper<IEnumerable<CsmNameValuePair>>>();
 
             site.Metadata = config.properties.ToDictionary(k => k.name, v => v.value);
 
             var properties = site.Metadata.Select(e => new { name = e.Key, value = e.Value });
-            response = await csmClient.HttpInvoke(HttpMethod.Put, CsmTemplates.PutSiteMetadata.Bind(site), new { properties = properties });
+            response = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.PutSiteMetadata.Bind(site), new { properties = properties });
             response.EnsureSuccessStatusCode();
 
             return site;
@@ -55,7 +55,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task<Site> UpdateMetadata(this Site site)
         {
-            var csmResponse = await csmClient.HttpInvoke(HttpMethod.Put, CsmTemplates.PutSiteMetadata.Bind(site), new { properties = site.Metadata});
+            var csmResponse = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.PutSiteMetadata.Bind(site), new { properties = site.Metadata});
             csmResponse.EnsureSuccessStatusCode();
 
             return site;
@@ -68,7 +68,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             if (csmSite == null)
             {
-                var csmSiteResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.Site.Bind(site));
+                var csmSiteResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.Site.Bind(site));
                 csmSiteResponse.EnsureSuccessStatusCode();
                 csmSite = await csmSiteResponse.Content.ReadAsAsync<CsmWrapper<CsmSite>>();
             }
@@ -89,7 +89,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             Validate.ValidateCsmSite(site);
 
-            var response = await csmClient.HttpInvoke(HttpMethod.Post, CsmTemplates.SitePublishingCredentials.Bind(site));
+            var response = await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.SitePublishingCredentials.Bind(site));
             var publishingCredentials = await response.Content.ReadAsAsync<CsmWrapper<CsmSitePublishingCredentials>>();
 
             site.PublishingUserName = publishingCredentials.properties.publishingUserName;
@@ -103,7 +103,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             Validate.ValidateCsmSite(site);
             Validate.NotNull(update, "update");
 
-            var response = await csmClient.HttpInvoke(HttpMethod.Put, CsmTemplates.Site.Bind(site), update);
+            var response = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.Site.Bind(site), update);
             response.EnsureSuccessStatusCode();
 
             return site;
@@ -114,7 +114,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             Validate.ValidateCsmSite(site);
             Validate.NotNull(config, "config");
 
-            var response = await csmClient.HttpInvoke(HttpMethod.Put, CsmTemplates.SiteConfig.Bind(site), config);
+            var response = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.SiteConfig.Bind(site), config);
             response.EnsureSuccessStatusCode();
 
             return site;
@@ -124,7 +124,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             Validate.ValidateCsmSite(site);
 
-            var response = await csmClient.HttpInvoke(HttpMethod.Post, CsmTemplates.SitePublishingProfile.Bind(site));
+            var response = await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.SitePublishingProfile.Bind(site));
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsStreamAsync();
         }
@@ -133,7 +133,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             Validate.ValidateCsmSite(site);
 
-            var response = await csmClient.HttpInvoke(HttpMethod.Delete, CsmTemplates.Site.Bind(site));
+            var response = await csmClient.HttpInvoke(HttpMethod.Delete, ArmUriTemplates.Site.Bind(site));
             response.EnsureSuccessStatusCode();
         }
 
@@ -145,7 +145,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 DeployStatus? value;
                 do
                 {
-                    var response = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.SiteDeployments.Bind(site));
+                    var response = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.SiteDeployments.Bind(site));
                     response.EnsureSuccessStatusCode();
 
                     var deployment = await response.Content.ReadAsAsync<CsmArrayWrapper<CsmSiteDeployment>>();
@@ -159,7 +159,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task EnableZRay(this Site site, string location)
         {
-            var response = await csmClient.HttpInvoke(HttpMethod.Put, CsmTemplates.ZRayForSite.Bind(site), new
+            var response = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.ZRayForSite.Bind(site), new
             {
                 location = location,
                 plan = new

@@ -14,7 +14,7 @@ namespace SimpleWAWS.Code.CsmExtensions
     {
         public static async Task<JObject> GenerateCsmTemplate(this ApiApp apiApp)
         {
-            var csmResponse = await csmClient.HttpInvoke(HttpMethod.Post, CsmTemplates.AppServiceGenerateCsmDeployTemplate.Bind(apiApp), apiApp.GeneratePayload());
+            var csmResponse = await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.AppServiceGenerateCsmDeployTemplate.Bind(apiApp), apiApp.GeneratePayload());
             csmResponse.EnsureSuccessStatusCode();
             var response = await csmResponse.Content.ReadAsAsync<JObject>();
             return (JObject) response["value"];
@@ -22,7 +22,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task SetAccessLevel(this ApiApp apiApp, string accessLevel)
         {
-            var csmResponse = await csmClient.HttpInvoke("PATCH", CsmTemplates.ApiApp.Bind(apiApp), new CsmWrapper<CsmApiApp> { properties = new CsmApiApp { accessLevel = accessLevel } });
+            var csmResponse = await csmClient.HttpInvoke("PATCH", ArmUriTemplates.ApiApp.Bind(apiApp), new CsmWrapper<CsmApiApp> { properties = new CsmApiApp { accessLevel = accessLevel } });
         }
     }
 }

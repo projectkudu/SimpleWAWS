@@ -19,8 +19,8 @@ namespace SimpleWAWS.Code.CsmExtensions
 {
     public static partial class CsmManager
     {
-        private static readonly ARMLib csmClient;
-        private static readonly ARMLib graphClient;
+        private static readonly AzureClient csmClient;
+        private static readonly AzureClient graphClient;
 
         private const string _readerRole = "acdd72a7-3385-48ef-bd42-f606fba81ae7";
         private const string _contributorRold = "b24988ac-6180-42a0-ab88-20f7382dd24c";
@@ -29,11 +29,11 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         static CsmManager()
         {
-            csmClient = ARMLib.GetDynamicClient(apiVersion: "", retryCount: 3)
-                .ConfigureLogin(LoginType.Upn, SimpleSettings.TryUserName, SimpleSettings.TryPassword);
+            csmClient = new AzureClient(retryCount: 3);
+            csmClient.ConfigureUpnLogin(SimpleSettings.TryUserName, SimpleSettings.TryPassword);
 
-            graphClient = ARMLib.GetDynamicClient(apiVersion: "", retryCount: 3)
-                .ConfigureLogin(LoginType.Upn, SimpleSettings.TryUserName, SimpleSettings.TryPassword);
+            graphClient = new AzureClient(retryCount: 3);
+            graphClient.ConfigureUpnLogin(SimpleSettings.TryUserName, SimpleSettings.TryPassword);
         }
 
         public static async Task<string> GetUserObjectId(string puidOrAltSec, string emailAddress)
@@ -68,14 +68,14 @@ namespace SimpleWAWS.Code.CsmExtensions
 
                     SimpleTrace.Diagnostics.Verbose(AnalyticsEvents.InviteUser, rbacUser);
                     //invite user
-                    var graphResponse = await graphClient.HttpInvoke(HttpMethod.Post, CsmTemplates.GraphUsers.Bind(rbacUser), invitation);
+                    var graphResponse = await graphClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.GraphUsers.Bind(rbacUser), invitation);
 
                     graphResponse.EnsureSuccessStatusCode();
                     var invite = await graphResponse.Content.ReadAsAsync<JObject>();
 
                     SimpleTrace.Diagnostics.Verbose(AnalyticsEvents.RedeemUserInvitation);
                     //redeem invite on user's behalf
-                    graphResponse = await graphClient.HttpInvoke(HttpMethod.Post, CsmTemplates.GraphRedeemInvite.Bind(rbacUser), new
+                    graphResponse = await graphClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.GraphRedeemInvite.Bind(rbacUser), new
                     {
                         altSecIds = new[]{ new {
                             identityProvider = (string)null,
@@ -120,7 +120,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 for (var i = 0; i < 30; i++)
                 {
                     var csmResponse = await csmClient.HttpInvoke(HttpMethod.Put,
-                        new Uri(string.Concat(CsmTemplates.CsmRootUrl, csmResource.CsmId, "/providers/Microsoft.Authorization/RoleAssignments/", Guid.NewGuid().ToString(), "?api-version=", CsmTemplates.RbacApiVersion)),
+                        new Uri(string.Concat(ArmUriTemplates.CsmRootUrl, csmResource.CsmId, "/providers/Microsoft.Authorization/RoleAssignments/", Guid.NewGuid().ToString(), "?api-version=", ArmUriTemplates.RbacApiVersion)),
                         new
                         {
                             properties = new
@@ -152,7 +152,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task<Dictionary<string, string>> GetSubscriptionNamesToIdMap()
         {
-            var response = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.Subscriptions.Bind(""));
+            var response = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.Subscriptions.Bind(""));
             response.EnsureSuccessStatusCode();
 
             var result = await response.Content.ReadAsAsync<CsmSubscriptionsArray>();
@@ -161,7 +161,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         private static async Task<GraphArrayWrapper<GraphUser>> SearchGraph(RbacUser rbacUser)
         {
-            var graphResponse = await graphClient.HttpInvoke(HttpMethod.Get, CsmTemplates.GraphSearchUsers.Bind(rbacUser));
+            var graphResponse = await graphClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.GraphSearchUsers.Bind(rbacUser));
             graphResponse.EnsureSuccessStatusCode();
             return await graphResponse.Content.ReadAsAsync<GraphArrayWrapper<GraphUser>>();
         }

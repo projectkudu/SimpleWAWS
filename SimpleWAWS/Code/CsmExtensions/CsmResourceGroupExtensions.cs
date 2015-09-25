@@ -25,7 +25,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             if (csmResourceGroup == null)
             {
-                var csmResourceGroupResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.ResourceGroup.Bind(resourceGroup));
+                var csmResourceGroupResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.ResourceGroup.Bind(resourceGroup));
                 csmResourceGroupResponse.EnsureSuccessStatusCode();
                 csmResourceGroup = await csmResourceGroupResponse.Content.ReadAsAsync<CsmWrapper<CsmResourceGroup>>();
             }
@@ -37,7 +37,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             if (resources == null)
             {
-                var csmResourceGroupResourcesResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.ResourceGroupResources.Bind(resourceGroup));
+                var csmResourceGroupResourcesResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.ResourceGroupResources.Bind(resourceGroup));
                 csmResourceGroupResourcesResponse.EnsureSuccessStatusCode();
                 resources = (await csmResourceGroupResourcesResponse.Content.ReadAsAsync<CsmArrayWrapper<object>>()).value;
             }
@@ -58,7 +58,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task<ResourceGroup> LoadSites(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> sites = null)
         {
-            var csmSitesResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.Sites.Bind(resourceGroup));
+            var csmSitesResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.Sites.Bind(resourceGroup));
             csmSitesResponse.EnsureSuccessStatusCode();
 
             var csmSites = await csmSitesResponse.Content.ReadAsAsync<CsmArrayWrapper<CsmSite>>();
@@ -71,7 +71,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             if (apiApps == null)
             {
-                var csmApiAppsResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.ApiApps.Bind(resourceGroup));
+                var csmApiAppsResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.ApiApps.Bind(resourceGroup));
                 csmApiAppsResponse.EnsureSuccessStatusCode();
                 apiApps = (await csmApiAppsResponse.Content.ReadAsAsync<CsmArrayWrapper<object>>()).value;
             }
@@ -86,7 +86,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             if (logicApps == null)
             {
-                var csmLogicAppsResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.LogicApps.Bind(resourceGroup));
+                var csmLogicAppsResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.LogicApps.Bind(resourceGroup));
                 csmLogicAppsResponse.EnsureSuccessStatusCode();
                 logicApps = (await csmLogicAppsResponse.Content.ReadAsAsync<CsmArrayWrapper<object>>()).value;
             }
@@ -101,7 +101,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             if (gateways == null)
             {
-                var csmGatewaysResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.Gateways.Bind(resourceGroup));
+                var csmGatewaysResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.Gateways.Bind(resourceGroup));
                 csmGatewaysResponse.EnsureSuccessStatusCode();
                 gateways = (await csmGatewaysResponse.Content.ReadAsAsync<CsmArrayWrapper<object>>()).value;
             }
@@ -116,7 +116,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             if (serverFarms == null)
             {
-                var csmServerFarmsResponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.ServerFarms.Bind(resourceGroup));
+                var csmServerFarmsResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.ServerFarms.Bind(resourceGroup));
                 csmServerFarmsResponse.EnsureSuccessStatusCode();
                 serverFarms = (await csmServerFarmsResponse.Content.ReadAsAsync<CsmArrayWrapper<object>>()).value;
             }
@@ -128,7 +128,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task<ResourceGroup> Update(this ResourceGroup resourceGroup)
         {
-            var csmResponse = await csmClient.HttpInvoke(HttpMethod.Put, CsmTemplates.ResourceGroup.Bind(resourceGroup), new { properties = new {}, tags = resourceGroup.Tags, location = resourceGroup.GeoRegion });
+            var csmResponse = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.ResourceGroup.Bind(resourceGroup), new { properties = new {}, tags = resourceGroup.Tags, location = resourceGroup.GeoRegion });
             csmResponse.EnsureSuccessStatusCode();
             return resourceGroup;
         }
@@ -146,7 +146,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                     }
                 };
 
-            var csmResponse = await csmClient.HttpInvoke(HttpMethod.Put, CsmTemplates.ResourceGroup.Bind(resourceGroup), new
+            var csmResponse = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.ResourceGroup.Bind(resourceGroup), new
             {
                 tags = resourceGroup.Tags,
                 properties = new { },
@@ -165,7 +165,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             resourceGroup.Tags["Bad"] = "1";
             await Update(resourceGroup).IgnoreFailure();
 
-            var csmResponse = await csmClient.HttpInvoke(HttpMethod.Delete, CsmTemplates.ResourceGroup.Bind(resourceGroup));
+            var csmResponse = await csmClient.HttpInvoke(HttpMethod.Delete, ArmUriTemplates.ResourceGroup.Bind(resourceGroup));
             csmResponse.EnsureSuccessStatusCode();
             if (block)
             {
@@ -213,7 +213,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 createdSites = await Enumerable.Range(0, neededSites).Select(async n =>
                 {
                     var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, SiteNameGenerator.GenerateName());
-                    var csmSiteResponse = await csmClient.HttpInvoke(HttpMethod.Put, CsmTemplates.Site.Bind(site), new { properties = new { }, location = resourceGroup.GeoRegion });
+                    var csmSiteResponse = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.Site.Bind(site), new { properties = new { }, location = resourceGroup.GeoRegion });
                     csmSiteResponse.EnsureSuccessStatusCode();
 
                     var csmSite = await csmSiteResponse.Content.ReadAsAsync<CsmWrapper<CsmSite>>();

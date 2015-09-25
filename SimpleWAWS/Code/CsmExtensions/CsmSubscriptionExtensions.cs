@@ -17,15 +17,12 @@ namespace SimpleWAWS.Code.CsmExtensions
         public static async Task<Subscription> Load(this Subscription subscription)
         {
             Validate.ValidateCsmSubscription(subscription);
-            //The more subs we add the more load operations that happen at the same time causing us to run out of ports.
-            //This should randomize the start a bit
-            await Task.Delay(rand.Next(1000, 10000));
 
             //Make sure to register for AppServices RP at least once for each sub
-            await csmClient.HttpInvoke(HttpMethod.Post, CsmTemplates.WebsitesRegister.Bind(subscription));
-            await csmClient.HttpInvoke(HttpMethod.Post, CsmTemplates.AppServiceRegister.Bind(subscription));
+            await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.WebsitesRegister.Bind(subscription));
+            await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.AppServiceRegister.Bind(subscription));
 
-            var csmResourceGroupsRespnose = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.ResourceGroups.Bind(subscription));
+            var csmResourceGroupsRespnose = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.ResourceGroups.Bind(subscription));
             csmResourceGroupsRespnose.EnsureSuccessStatusCode();
 
             var csmResourceGroups = await csmResourceGroupsRespnose.Content.ReadAsAsync<CsmArrayWrapper<CsmResourceGroup>>();
@@ -34,7 +31,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 .Where(r => r.tags != null && r.tags.ContainsKey("Bad") && r.properties.provisioningState != "Deleting")
                 .Select(async r => await Delete(await Load(new ResourceGroup(subscription.SubscriptionId, r.name), r, loadSubResources: false), block: false));
 
-            var csmSubscriptionResourcesReponse = await csmClient.HttpInvoke(HttpMethod.Get, CsmTemplates.SubscriptionResources.Bind(subscription));
+            var csmSubscriptionResourcesReponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.SubscriptionResources.Bind(subscription));
             csmSubscriptionResourcesReponse.EnsureSuccessStatusCode();
             var csmSubscriptionResources = await csmSubscriptionResourcesReponse.Content.ReadAsAsync<CsmArrayWrapper<object>>();
 
