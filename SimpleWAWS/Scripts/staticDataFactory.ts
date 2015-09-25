@@ -116,16 +116,6 @@ angular.module("tryApp")
                 //TODO: get list of available clients from the server like we do with templates
                 return sampleName === "Todo List"
                     ? [{
-                        name: Resources.Information_Windows,
-                        icon_url: "/Content/images/Windows.png",
-                        sprite: "mobile-icons sprite-Windows",
-                        steps: {
-                            preText: Resources.Information_InstallVisualStudio,
-                            preHref: "https://go.microsoft.com/fwLink/?LinkID=391934&clcid=0x409",
-                            clientText: Resources.Information_DownloadWindowsClient,
-                            clientHref: "/api/resource/mobileclient/Windows?templateName=TodoList"
-                        }
-                    }, {
                             name: Resources.Information_NativeiOS,
                             icon_url: "/Content/images/ios.png",
                             sprite: "mobile-icons sprite-ios",
@@ -158,6 +148,16 @@ angular.module("tryApp")
                                 clientHref: "/api/resource/mobileclient/XamarinAndroid?templateName=TodoList"
                             }
                         }, {
+                        name: Resources.Information_Windows,
+                        icon_url: "/Content/images/Windows.png",
+                        sprite: "mobile-icons sprite-Windows",
+                        steps: {
+                            preText: Resources.Information_InstallVisualStudio,
+                            preHref: "https://go.microsoft.com/fwLink/?LinkID=391934&clcid=0x409",
+                            clientText: Resources.Information_DownloadWindowsClient,
+                            clientHref: "/api/resource/mobileclient/Windows?templateName=TodoList"
+                        }
+                    }, {
                             name: Resources.Information_WebClient,
                             sprite: "mobile-icons sprite-javascript",
                             steps: {

@@ -93,6 +93,8 @@ angular.module("tryApp")
                 $rootScope.branding = "aspnet";
             } else if (sourceVariation === "mkt-b15.22") {
                 $rootScope.branding = "mkt-b15.22";
+            } else if (sourceVariation === "azurecon") {
+                $rootScope.branding = "azurecon";
             }
 
             $rootScope.experiment = Cookies.get("exp2");
