@@ -160,7 +160,7 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A mobile dashboard app for a cable company technician, or any other mobile workforce, available for Xamarin Forms. Full sample at &lt;a href=&quot;https://github.com/azure/fieldengineer/&quot;&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;..
+        ///   Looks up a localized string similar to A mobile dashboard app for a cable company technician, or any other mobile workforce, available for Xamarin Forms. Full sample at &lt;a href=&quot;https://github.com/azure/fieldengineer/&quot; target=&quot;_blank&quot;&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;..
         /// </summary>
         internal static string Templates_FieldEngineerDescription {
             get {
@@ -187,7 +187,7 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A mobile sales dashboard CRM app, available for Xamarin Forms. Full sample at &lt;a href=&quot;https://github.com/xamarin/app-crm/&quot;&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;..
+        ///   Looks up a localized string similar to A mobile sales dashboard CRM app, available for Xamarin Forms. Full sample at &lt;a href=&quot;https://github.com/xamarin/app-crm/&quot; target=&quot;_blank&quot;&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;..
         /// </summary>
         internal static string Templates_XamarinCrmDescription {
             get {
