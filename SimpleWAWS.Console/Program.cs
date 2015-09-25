@@ -20,7 +20,7 @@ namespace SimpleWAWS.Console
                 .CreateLogger();
             SimpleTrace.Diagnostics = log;
             SimpleTrace.Analytics = log;
-            Task.Run(() => Main2Async()).Wait();
+            Task.Run(() => MainAsync()).Wait();
         }
 
         public static void PrettyPrint(this ResourceGroup e)
@@ -38,6 +38,21 @@ namespace SimpleWAWS.Console
         public static async Task MainAsync()
         {
             var subscriptionNames = System.Environment.GetEnvironmentVariable("Subscriptions").Split(',');
+            var csmSubscriptions = await CsmManager.GetSubscriptionNamesToIdMap();
+            var subscriptionsIds = SimpleSettings.Subscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                //It can be either a displayName or a subscriptionId
+                .Select(s => s.Trim())
+                .Where(n =>
+                {
+                    Guid temp;
+                    return csmSubscriptions.ContainsKey(n) || Guid.TryParse(n, out temp);
+                })
+                .Select(sn =>
+                {
+                    Guid temp;
+                    if (Guid.TryParse(sn, out temp)) return sn;
+                    else return csmSubscriptions[sn];
+                });
             //var subscriptionNames = new[] { "bd5cf6af-4d44-449e-adaf-20626ae5013e" };
             var startTime = DateTime.UtcNow;
 
@@ -53,11 +68,13 @@ namespace SimpleWAWS.Console
 
 
             console("start loading subscriptions");
-            console("We have " + subscriptionNames.Count() + " subscriptions");
-            var subscriptions = await subscriptionNames.Select(s => new Subscription(s).Load()).WhenAll();
+            console("We have " + subscriptionsIds.Count() + " subscriptions");
+            var subscriptions = await subscriptionsIds.Select(s => new Subscription(s).Load()).WhenAll();
             console("done loading subscriptions");
 
             console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()) + " resourceGroups");
+
+            console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Where(r => !r.Tags.ContainsKey("CommonApiAppsDeployed")).Count()) + " bad resourceGroups");
 
             //console("calling MakeTrialSubscription on all subscriptions");
             //subscriptions = await subscriptions.Select(s => s.MakeTrialSubscription()).WhenAll();
@@ -65,10 +82,15 @@ namespace SimpleWAWS.Console
 
             console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()) + " resourceGroups");
             console(subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()));
+            console("make free trial");
+            foreach (var subscription in subscriptions)
+            {
+                var freeTrial = subscription.MakeTrialSubscription();
+                console(subscription.SubscriptionId + "\thas\t" + freeTrial.Ready.Count() + "\twill delete\t" + freeTrial.ToDelete.Count() + "\tcreate\t" + freeTrial.ToCreateInRegions.Count());
+            }
+            //await Task.WhenAll(subscriptions.Select(subscription => subscription.ResourceGroups.Where(r => !r.Tags.ContainsKey("CommonApiAppsDeployed")).Select(rg => rg.Delete(false))).SelectMany(i => i));
 
-            await Task.WhenAll(subscriptions.Select(subscription => subscription.ResourceGroups.Select(rg => rg.Delete(true))).SelectMany(i => i));
-
-            subscriptions.ToList().ForEach(printSub);
+            //subscriptions.ToList().ForEach(printSub);
             console("Done");
         }
 
