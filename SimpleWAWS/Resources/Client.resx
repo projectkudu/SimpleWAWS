@@ -462,4 +462,10 @@
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
     <value>From the Logic App resource blade you can try the following:</value>
   </data>
+  <data name="Information_XamarinBrandingLine1" xml:space="preserve">
+    <value>Go Mobile with Xamarin and Azure App Service</value>
+  </data>
+  <data name="Information_XamarinBrandingLine2" xml:space="preserve">
+    <value>Auth, Sync, and Push in seconds for any device. Start for free and scale as your app grows.</value>
+  </data>
 </root>

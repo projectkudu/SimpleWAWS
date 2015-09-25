@@ -826,6 +826,24 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Go Mobile with Xamarin and Azure App Service.
+        /// </summary>
+        public static string Information_XamarinBrandingLine1 {
+            get {
+                return ResourceManager.GetString("Information_XamarinBrandingLine1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auth, Sync, and Push in seconds for any device. Start for free and scale as your app grows..
+        /// </summary>
+        public static string Information_XamarinBrandingLine2 {
+            get {
+                return ResourceManager.GetString("Information_XamarinBrandingLine2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Xamarin iOS.
         /// </summary>
         public static string Information_XamariniOS {
