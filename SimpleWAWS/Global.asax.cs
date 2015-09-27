@@ -13,6 +13,7 @@ using Serilog;
 using Destructurama;
 using Serilog.Filters;
 using Serilog.Sinks.Email;
+using Serilog.Sinks.Elasticsearch;
 using System.Net;
 using System.Globalization;
 using System.Threading;
@@ -54,6 +55,7 @@ namespace SimpleWAWS
                     .MinimumLevel.Verbose()
                     .Enrich.With(new ExperimentEnricher())
                     .Enrich.With(new UserNameEnricher())
+                    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://10.0.0.4:9200")) { AutoRegisterTemplate = true })
                     .WriteTo.AzureDocumentDB(new Uri(SimpleSettings.DocumentDbUrl), SimpleSettings.DocumentDbKey, "TryAppService", "Diagnostics")
                     .WriteTo.Logger(lc => lc
                         .Filter.ByIncludingOnly(Matching.WithProperty<int>("Count", p => p % 10 == 0))
