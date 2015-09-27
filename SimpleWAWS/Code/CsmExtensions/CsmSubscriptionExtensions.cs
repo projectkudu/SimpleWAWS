@@ -23,7 +23,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.AppServiceRegister.Bind(subscription));
 
             var csmResourceGroupsRespnose = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.ResourceGroups.Bind(subscription));
-            csmResourceGroupsRespnose.EnsureSuccessStatusCode();
+            await csmResourceGroupsRespnose.EnsureSuccessStatusCodeWithFullError();
 
             var csmResourceGroups = await csmResourceGroupsRespnose.Content.ReadAsAsync<CsmArrayWrapper<CsmResourceGroup>>();
 
@@ -32,7 +32,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 .Select(async r => await Delete(await Load(new ResourceGroup(subscription.SubscriptionId, r.name), r, loadSubResources: false), block: false));
 
             var csmSubscriptionResourcesReponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.SubscriptionResources.Bind(subscription));
-            csmSubscriptionResourcesReponse.EnsureSuccessStatusCode();
+            await csmSubscriptionResourcesReponse.EnsureSuccessStatusCodeWithFullError();
             var csmSubscriptionResources = await csmSubscriptionResourcesReponse.Content.ReadAsAsync<CsmArrayWrapper<object>>();
 
             var goodResourceGroups = csmResourceGroups.value

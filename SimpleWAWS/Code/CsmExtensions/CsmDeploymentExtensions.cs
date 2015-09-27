@@ -17,7 +17,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         public static async Task<JToken> Deploy(this CsmDeployment csmDeployment, bool block = false)
         {
             var csmResponse = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.CsmTemplateDeployment.Bind(csmDeployment), csmDeployment.CsmTemplate);
-            csmResponse.EnsureSuccessStatusCode();
+            await csmResponse.EnsureSuccessStatusCodeWithFullError();
             var content = await csmResponse.Content.ReadAsAsync<JToken>();
             if (!block) return content;
 
@@ -59,7 +59,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 }
 
                 csmResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.CsmTemplateDeployment.Bind(csmDeployment));
-                csmResponse.EnsureSuccessStatusCode();
+                await csmResponse.EnsureSuccessStatusCodeWithFullError();
                 content = await csmResponse.Content.ReadAsAsync<JToken>();
             } while (block && count < 100);
             if (count == 120 && !result.Equals("Succeeded"))

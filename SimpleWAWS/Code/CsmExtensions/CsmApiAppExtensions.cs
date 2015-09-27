@@ -15,7 +15,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         public static async Task<JObject> GenerateCsmTemplate(this ApiApp apiApp)
         {
             var csmResponse = await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.AppServiceGenerateCsmDeployTemplate.Bind(apiApp), apiApp.GeneratePayload());
-            csmResponse.EnsureSuccessStatusCode();
+            await csmResponse.EnsureSuccessStatusCodeWithFullError();
             var response = await csmResponse.Content.ReadAsAsync<JObject>();
             return (JObject) response["value"];
         }

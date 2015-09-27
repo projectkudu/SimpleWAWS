@@ -24,7 +24,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             var properties = site.AppSettings.Select(e => new { name = e.Key, value = e.Value });
             response = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.PutSiteAppSettings.Bind(site), new { properties = properties });
-            response.EnsureSuccessStatusCode();
+            await response.EnsureSuccessStatusCodeWithFullError();
 
             return site;
         }
@@ -32,7 +32,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         public static async Task<Site> UpdateAppSettings(this Site site)
         {
             var csmResponse = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.PutSiteAppSettings.Bind(site), new { properties = site.AppSettings.Select(s => new { name = s.Key, value = s.Value }) });
-            csmResponse.EnsureSuccessStatusCode();
+            await csmResponse.EnsureSuccessStatusCodeWithFullError();
 
             return site;
         }
@@ -48,7 +48,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             var properties = site.Metadata.Select(e => new { name = e.Key, value = e.Value });
             response = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.PutSiteMetadata.Bind(site), new { properties = properties });
-            response.EnsureSuccessStatusCode();
+            await response.EnsureSuccessStatusCodeWithFullError();
 
             return site;
         }
@@ -56,7 +56,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         public static async Task<Site> UpdateMetadata(this Site site)
         {
             var csmResponse = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.PutSiteMetadata.Bind(site), new { properties = site.Metadata});
-            csmResponse.EnsureSuccessStatusCode();
+            await csmResponse.EnsureSuccessStatusCodeWithFullError();
 
             return site;
         }
@@ -69,7 +69,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             if (csmSite == null)
             {
                 var csmSiteResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.Site.Bind(site));
-                csmSiteResponse.EnsureSuccessStatusCode();
+                await csmSiteResponse.EnsureSuccessStatusCodeWithFullError();
                 csmSite = await csmSiteResponse.Content.ReadAsAsync<CsmWrapper<CsmSite>>();
             }
 
@@ -104,7 +104,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             Validate.NotNull(update, "update");
 
             var response = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.Site.Bind(site), update);
-            response.EnsureSuccessStatusCode();
+            await response.EnsureSuccessStatusCodeWithFullError();
 
             return site;
         }
@@ -115,7 +115,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             Validate.NotNull(config, "config");
 
             var response = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.SiteConfig.Bind(site), config);
-            response.EnsureSuccessStatusCode();
+            await response.EnsureSuccessStatusCodeWithFullError();
 
             return site;
         }
@@ -125,7 +125,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             Validate.ValidateCsmSite(site);
 
             var response = await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.SitePublishingProfile.Bind(site));
-            response.EnsureSuccessStatusCode();
+            await response.EnsureSuccessStatusCodeWithFullError();
             return await response.Content.ReadAsStreamAsync();
         }
 
@@ -134,7 +134,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             Validate.ValidateCsmSite(site);
 
             var response = await csmClient.HttpInvoke(HttpMethod.Delete, ArmUriTemplates.Site.Bind(site));
-            response.EnsureSuccessStatusCode();
+            await response.EnsureSuccessStatusCodeWithFullError();
         }
 
         public static async Task<DeployStatus> GetKuduDeploymentStatus(this Site site, bool block)
@@ -146,7 +146,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 do
                 {
                     var response = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.SiteDeployments.Bind(site));
-                    response.EnsureSuccessStatusCode();
+                    await response.EnsureSuccessStatusCodeWithFullError();
 
                     var deployment = await response.Content.ReadAsAsync<CsmArrayWrapper<CsmSiteDeployment>>();
                     value = deployment.value.Select(s => s.properties.status).FirstOrDefault();
@@ -170,7 +170,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 },
                 properties = new { }
             });
-            response.EnsureSuccessStatusCode();
+            await response.EnsureSuccessStatusCodeWithFullError();
         }
     }
 }

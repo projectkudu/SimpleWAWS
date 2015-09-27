@@ -67,7 +67,7 @@ namespace SimpleWAWS.Code
                 (resourceGroupTask != null && resourceGroupTask.Task.IsFaulted))
             {
                 //temp.RetryAction();
-                SimpleTrace.Diagnostics.Fatal(resourceGroupTask?.Task?.Exception, "Losing ResourceGroup");
+                SimpleTrace.Diagnostics.Fatal("Losing ResourceGroup with {@exception}", resourceGroupTask?.Task?.Exception);
                 return;
             }
 

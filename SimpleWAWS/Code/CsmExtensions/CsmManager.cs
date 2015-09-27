@@ -69,8 +69,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                     SimpleTrace.Diagnostics.Verbose(AnalyticsEvents.InviteUser, rbacUser);
                     //invite user
                     var graphResponse = await graphClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.GraphUsers.Bind(rbacUser), invitation);
-
-                    graphResponse.EnsureSuccessStatusCode();
+                    await graphResponse.EnsureSuccessStatusCodeWithFullError();
                     var invite = await graphResponse.Content.ReadAsAsync<JObject>();
 
                     SimpleTrace.Diagnostics.Verbose(AnalyticsEvents.RedeemUserInvitation);
@@ -89,7 +88,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                             Type = invite["inviteTicket"][0]["Type"]
                         }
                     });
-                    graphResponse.EnsureSuccessStatusCode();
+                    await graphResponse.EnsureSuccessStatusCodeWithFullError();
                     var redemption = await graphResponse.Content.ReadAsAsync<JObject>();
                     SimpleTrace.Diagnostics.Verbose(AnalyticsEvents.UserAddedToTenant, redemption["objectId"].ToString());
                     return redemption["objectId"].ToString();
@@ -136,7 +135,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                     }
                     else
                     {
-                        csmResponse.EnsureSuccessStatusCode();
+                        await csmResponse.EnsureSuccessStatusCodeWithFullError();
                         return true;
                     }
                 }
@@ -153,7 +152,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         public static async Task<Dictionary<string, string>> GetSubscriptionNamesToIdMap()
         {
             var response = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.Subscriptions.Bind(""));
-            response.EnsureSuccessStatusCode();
+            await response.EnsureSuccessStatusCodeWithFullError();
 
             var result = await response.Content.ReadAsAsync<CsmSubscriptionsArray>();
             return result.value.ToDictionary(k => k.displayName, v => v.subscriptionId);
@@ -162,7 +161,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         private static async Task<GraphArrayWrapper<GraphUser>> SearchGraph(RbacUser rbacUser)
         {
             var graphResponse = await graphClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.GraphSearchUsers.Bind(rbacUser));
-            graphResponse.EnsureSuccessStatusCode();
+            await graphResponse.EnsureSuccessStatusCodeWithFullError();
             return await graphResponse.Content.ReadAsAsync<GraphArrayWrapper<GraphUser>>();
         }
 

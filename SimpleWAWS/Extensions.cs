@@ -10,6 +10,7 @@ using System.IO.Compression;
 using System.Threading.Tasks;
 using SimpleWAWS.Models;
 using System.Globalization;
+using System.Net.Http;
 
 namespace SimpleWAWS
 {
@@ -132,6 +133,16 @@ namespace SimpleWAWS
         public static IEnumerable<T> NotDefaults<T>(this IEnumerable<T> collection)
         {
             return collection.Where(e => !EqualityComparer<T>.Default.Equals(e, default(T)));
+        }
+
+        public async static Task<HttpResponseMessage> EnsureSuccessStatusCodeWithFullError(this HttpResponseMessage response)
+        {
+            if (!response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                throw new FailedRequestException(response.RequestMessage.RequestUri, content, response.StatusCode, "Response status code does not indicate success");
+            }
+            return response;
         }
     }
 }
