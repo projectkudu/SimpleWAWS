@@ -169,7 +169,7 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Build and run your mobile client app.
+        ///   Looks up a localized string similar to Download and run your mobile client app.
         /// </summary>
         public static string Action_MobileClients {
             get {

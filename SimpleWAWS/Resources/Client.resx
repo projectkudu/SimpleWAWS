@@ -145,7 +145,7 @@
     <value>Manage in Azure Portal</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>Build and run your mobile client app</value>
+    <value>Download and run your mobile client app</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
     <value>Edit with Visual Studio Online "Monaco"</value>
