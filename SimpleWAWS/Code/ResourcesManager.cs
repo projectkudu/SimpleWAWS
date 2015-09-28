@@ -14,7 +14,6 @@ using System.Web;
 using Kudu.Client.Editor;
 using Kudu.Client.Zip;
 using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.Management.WebSites;
 using Newtonsoft.Json;
 using SimpleWAWS.Authentication;
 using System.Security.Principal;

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Security;
-using Microsoft.WindowsAzure.Management.WebSites.Models;
 using System.IO.Compression;
 using System.Threading.Tasks;
 using SimpleWAWS.Models;
@@ -17,20 +16,6 @@ namespace SimpleWAWS
     public static class Extensions
     {
         private const string DefaultEncryptReason = "DefaultEncryptReason";
-        public static string Serialize(this WebSiteGetPublishProfileResponse.PublishProfile profile)
-        {
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Append("<publishProfile ");
-            var type = profile.GetType();
-            foreach (var property in type.GetProperties())
-            {
-                if (property.Name.Equals("databases", StringComparison.OrdinalIgnoreCase))
-                    continue;
-                stringBuilder.AppendFormat("{0}=\"{1}\" ", SerializeFixups(property.Name.FirstCharToLower()), property.GetValue(profile));
-            }
-            stringBuilder.Append("></publishProfile>");
-            return stringBuilder.ToString();
-        }
 
         public static string SerializeFixups(string value)
         {

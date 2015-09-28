@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Hosting;
 using Kudu.Client.Editor;
-using Microsoft.WindowsAzure.Management.WebSites.Models;
 using Newtonsoft.Json;
 using SimpleWAWS.Kudu;
 using Newtonsoft.Json.Converters;

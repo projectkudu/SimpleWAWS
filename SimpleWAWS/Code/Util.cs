@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Microsoft.WindowsAzure.Management.WebSites.Models;
 using SimpleWAWS.Code;
 using SimpleWAWS.Trace;
 
