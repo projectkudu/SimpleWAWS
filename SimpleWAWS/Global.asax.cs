@@ -30,8 +30,6 @@ namespace SimpleWAWS
             //Analytics logger
             if (new[]
                 {
-                    SimpleSettings.DocumentDbKey,
-                    SimpleSettings.DocumentDbUrl,
                     SimpleSettings.EmailPassword,
                     SimpleSettings.EmailServer,
                     SimpleSettings.EmailUserName,
@@ -44,9 +42,7 @@ namespace SimpleWAWS
                     .Enrich.With(new ExperimentEnricher())
                     .Enrich.With(new UserNameEnricher())
                     .Destructure.JsonNetTypes()
-                    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://10.0.0.4:9200")) { AutoRegisterTemplate = true })
-                    .WriteTo.AzureDocumentDB(new Uri(SimpleSettings.DocumentDbUrl), SimpleSettings.DocumentDbKey, "TryAppService", "Analytics")
-                    .WriteTo.AzureDocumentDB(new Uri(SimpleSettings.DocumentDbUrl), SimpleSettings.DocumentDbKey, "TryAppService", "Diagnostics")
+                    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(SimpleSettings.ElasticSearchUri)) { AutoRegisterTemplate = true })
                     .CreateLogger();
 
                 SimpleTrace.Analytics = analyticsLogger;
@@ -56,8 +52,7 @@ namespace SimpleWAWS
                     .MinimumLevel.Verbose()
                     .Enrich.With(new ExperimentEnricher())
                     .Enrich.With(new UserNameEnricher())
-                    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://10.0.0.4:9200")) { AutoRegisterTemplate = true })
-                    .WriteTo.AzureDocumentDB(new Uri(SimpleSettings.DocumentDbUrl), SimpleSettings.DocumentDbKey, "TryAppService", "Diagnostics")
+                    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(SimpleSettings.ElasticSearchUri)) { AutoRegisterTemplate = true })
                     .WriteTo.Logger(lc => lc
                         .Filter.ByIncludingOnly(Matching.WithProperty<int>("Count", p => p % 10 == 0))
                         .WriteTo.Email(new EmailConnectionInfo
