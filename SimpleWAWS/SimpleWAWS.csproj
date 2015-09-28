@@ -58,6 +58,10 @@
     <Reference Include="Destructurama.JsonNet">
       <HintPath>..\packages\Destructurama.JsonNet.1.0.2\lib\portable-net45+win+wp80\Destructurama.JsonNet.dll</HintPath>
     </Reference>
+    <Reference Include="Elasticsearch.Net, Version=1.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Elasticsearch.Net.1.1.2\lib\Elasticsearch.Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Razor, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Razor.4.0.0-beta6\lib\net45\Microsoft.AspNet.Razor.dll</HintPath>
       <Private>True</Private>
@@ -133,6 +137,10 @@
     </Reference>
     <Reference Include="Serilog.Sinks.AzureDocumentDB">
       <HintPath>..\packages\Serilog.Sinks.AzureDocumentDb.1.5.4\lib\net45\Serilog.Sinks.AzureDocumentDB.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Sinks.Elasticsearch, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.Elasticsearch.2.0.60\lib\net45\Serilog.Sinks.Elasticsearch.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Serilog.Sinks.Email">
       <HintPath>..\packages\Serilog.Sinks.Email.1.5.13\lib\net45\Serilog.Sinks.Email.dll</HintPath>

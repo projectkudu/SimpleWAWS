@@ -17,6 +17,7 @@ using System.Net;
 using System.Globalization;
 using System.Threading;
 using System.Linq;
+using Serilog.Sinks.Elasticsearch;
 
 namespace SimpleWAWS
 {
@@ -43,6 +44,7 @@ namespace SimpleWAWS
                     .Enrich.With(new ExperimentEnricher())
                     .Enrich.With(new UserNameEnricher())
                     .Destructure.JsonNetTypes()
+                    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://10.0.0.4:9200")) { AutoRegisterTemplate = true })
                     .WriteTo.AzureDocumentDB(new Uri(SimpleSettings.DocumentDbUrl), SimpleSettings.DocumentDbKey, "TryAppService", "Analytics")
                     .WriteTo.AzureDocumentDB(new Uri(SimpleSettings.DocumentDbUrl), SimpleSettings.DocumentDbKey, "TryAppService", "Diagnostics")
                     .CreateLogger();
@@ -54,6 +56,7 @@ namespace SimpleWAWS
                     .MinimumLevel.Verbose()
                     .Enrich.With(new ExperimentEnricher())
                     .Enrich.With(new UserNameEnricher())
+                    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://10.0.0.4:9200")) { AutoRegisterTemplate = true })
                     .WriteTo.AzureDocumentDB(new Uri(SimpleSettings.DocumentDbUrl), SimpleSettings.DocumentDbKey, "TryAppService", "Diagnostics")
                     .WriteTo.Logger(lc => lc
                         .Filter.ByIncludingOnly(Matching.WithProperty<int>("Count", p => p % 10 == 0))
