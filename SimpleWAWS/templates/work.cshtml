@@ -30,6 +30,12 @@
             <input id="git-url-input" type="text" readonly="readonly" style="margin-left: -20px; margin-top: 8px; height: 20px; border: 2px inset" ng-model="resource.gitUrl" select-on-click />
         </a>
     </div>
+    <div class="work-with-site-tools" ng-if="currentAppService.name === 'Mobile' && selectedMobileClient">
+        <a ng-href="{{ selectedMobileClient.steps.clientHref }}" ng-click="downloadMobileClient(client.name)" target="_blank">
+            <div class="work-with-site-tools-img icons sprite-MobileClient"></div>
+            <div class="website-template-name" ng-bind="selectedMobileClient.steps.clientText"></div>
+        </a>
+    </div>
     <div class="work-with-site-tools" ng-if="resource.ibizaUrl && resource.IsRbacEnabled">
         <a ng-href="{{ resource.ibizaUrl }}" target="_blank" ng-click="ibizaClick()"><div class="work-with-site-tools-img icons sprite-MicrosoftAzure"></div><div class="website-template-name">@Client.Action_ManageInAzurePortal</div></a>
     </div>
