@@ -39,7 +39,8 @@ namespace SimpleWAWS.Code
                 ResourceGroupName = ResourceGroup.ResourceGroupName,
                 CsmTemplate = template
             };
-            return Deployment.Deploy(block: block);
+
+            return RetryHelper.Retry(() => Deployment.Deploy(block: block), 3);
         }
 
         public void Complete()

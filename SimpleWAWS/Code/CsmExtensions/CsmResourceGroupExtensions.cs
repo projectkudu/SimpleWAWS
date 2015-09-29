@@ -246,7 +246,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                     CsmTemplate = JsonConvert.DeserializeObject<JToken>(csmTemplateString),
                 };
 
-                await deployment.Deploy(block: true);
+                await RetryHelper.Retry(() => deployment.Deploy(block: true), 3);
                 resourceGroup.Tags[Constants.CommonApiAppsDeployed] = Constants.CommonApiAppsDeployedVersion;
                 await resourceGroup.Update();
                 await resourceGroup.Load();
