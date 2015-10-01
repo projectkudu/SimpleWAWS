@@ -15,7 +15,7 @@
         <h6>@Client.Information_LogicAppStep4</h6>
     </div>
     <div class="work-with-site-tools" ng-if="currentAppService.name === 'Mobile' && selectedMobileClient">
-        <a ng-href="{{ selectedMobileClient.steps.clientHref }}" ng-click="downloadMobileClient(client.name)" target="_blank">
+        <a ng-href="{{ selectedMobileClient.steps.clientHref }}" ng-click="downloadMobileClient(client.internal_name)" target="_blank">
             <div class="work-with-site-tools-img icons sprite-MobileClient"></div>
             <div class="website-template-name" ng-bind="selectedMobileClient.steps.clientText"></div>
         </a>

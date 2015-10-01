@@ -112,11 +112,12 @@ angular.module("tryApp")
                 templates: [],
                 description: Resources.Information_LogicAppDescription
             }],
-            getMobileClients: (sampleName: string) => {
+            downloadMobileClient: (sampleName: string) => {
                 //TODO: get list of available clients from the server like we do with templates
                 if (sampleName === "Todo List") {
                     return [{
                         name: Resources.Information_NativeiOS,
+                        internal_name: "Native iOS",
                         icon_url: "/Content/images/ios.png",
                         sprite: "mobile-icons sprite-ios",
                         steps: {
@@ -128,6 +129,7 @@ angular.module("tryApp")
 
                     }, {
                        name: Resources.Information_XamariniOS,
+                       internal_name: "Xamarin iOS",
                        icon_url: "/Content/images/xamarin.png",
                        sprite: "mobile-icons sprite-Xamarin",
                        steps: {
@@ -139,6 +141,7 @@ angular.module("tryApp")
 
                    }, {
                        name: Resources.Information_XamarinAndroid,
+                       internal_name: "Xamarin Android",
                        icon_url: "/Content/images/xamarin.png",
                        sprite: "mobile-icons sprite-Xamarin",
                        steps: {
@@ -149,6 +152,7 @@ angular.module("tryApp")
                        }
                    }, {
                        name: Resources.Information_Windows,
+                       internal_name: "Windows",
                        icon_url: "/Content/images/Windows.png",
                        sprite: "mobile-icons sprite-Windows",
                        steps: {
@@ -159,6 +163,7 @@ angular.module("tryApp")
                        }
                    }, {
                        name: Resources.Information_WebClient,
+                       internal_name: "Web Client",
                        sprite: "mobile-icons sprite-javascript",
                        steps: {
                            clientText: Resources.Information_VisitWebClient,
@@ -168,6 +173,7 @@ angular.module("tryApp")
                 } else if (sampleName === "Field Engineer") {
                     return [{
                         name: Resources.Information_XamariniOS,
+                        internal_name: "Xamarin iOS",
                         icon_url: "/Content/images/xamarin.png",
                         sprite: "mobile-icons sprite-Xamarin",
                         steps: {
@@ -178,6 +184,7 @@ angular.module("tryApp")
                         }
                     }, {
                         name: Resources.Information_WebClient,
+                        internal_name: "Web Client",
                         sprite: "mobile-icons sprite-javascript",
                         steps: {
                             clientText: Resources.Information_VisitWebClient,
@@ -187,6 +194,7 @@ angular.module("tryApp")
                 } else if (sampleName === "Xamarin CRM") {
                     return [{
                         name: Resources.Information_XamariniOS,
+                        internal_name: "Xamarin iOS",
                         icon_url: "/Content/images/xamarin.png",
                         sprite: "mobile-icons sprite-Xamarin",
                         steps: {
@@ -197,6 +205,7 @@ angular.module("tryApp")
                         }
                     }, {
                         name: Resources.Information_XamarinAndroid,
+                        internal_name: "Xamarin Android",
                         icon_url: "/Content/images/xamarin.png",
                         sprite: "mobile-icons sprite-Xamarin",
                         steps: {
