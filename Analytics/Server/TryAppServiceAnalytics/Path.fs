@@ -17,6 +17,8 @@ module Analytics =
     let sourceVariations = "/api/sourceVariations"
     let sourceVariationResults = "/api/sourceVariationResult"
     let userFeedback = "/api/userFeedback"
+    let mobileTemplates = "/api/mobileTemplates"
+    let mobileClientUsage = "/api/mobileClientUsage"
 
 module Info =
     let dbConnection = "/api/dbconnection"

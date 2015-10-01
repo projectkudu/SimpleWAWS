@@ -360,3 +360,30 @@ let userFeedback (startTime, endTime) =
     // This is to work around JSON serializer serilizing DateTime to 'YYYY-MM-DD'
     |> Seq.map (fun (userName, comment, contactMe, dateTime) -> { UserName = userName; Comment = comment; ContactMe = contactMe; DateTime = dateTime.ToString() })
     |> Seq.toArray
+
+let mobileTemplates (startTime, endTime) _ =
+    use context = getContext ()
+    query {
+        for u in context.UserActivities do
+        where (u.AppService = "Mobile")
+        groupBy u.TemplateName into g
+        select g.Key }
+    |> Seq.toArray
+
+type MobileClientDownload = { Windows: int; NativeiOS: int; XamariniOS: int; XamarinAndroid: int; WebClient: int; Unknown: int}
+let mobileClientDownloads =
+    executeQueryOverTimeRangeAsync (fun (startTime, endTime) context ->
+        query {
+            for u in context.UIEvents do
+            where (u.EventName = "DOWNLOAD_MOBILE_CLIENT" && u.DateTime >= startTime && u.DateTime < endTime)
+            groupBy u.Properties into g
+            select (g.Key, g.Count()) }
+        |> Seq.fold (fun record (client, count) ->
+                  match client with
+                  | "Windows" -> { record with Windows = count }
+                  | "Native iOS" -> { record with NativeiOS = count }
+                  | "Xamarin iOS" -> { record with XamariniOS = count}
+                  | "Xamarin Android" -> { record with XamarinAndroid = count }
+                  | "Web Client" -> { record with WebClient = count }
+                  | _ -> { record with Unknown = count }
+              ) { Windows = 0; NativeiOS = 0; XamariniOS = 0; XamarinAndroid = 0; WebClient = 0; Unknown = 0 })
