@@ -42,6 +42,10 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider', '$locati
             .state('userFeedback', {
                 url: '/userFeedback',
                 templateUrl: 'templates/userFeedback.html'
+            })
+            .state('mobileClients', {
+                url: '/mobileClients',
+                templateUrl: 'templates/graph.html'
             });
         $locationProvider.html5Mode(true);
     }

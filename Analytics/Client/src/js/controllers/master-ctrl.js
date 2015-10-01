@@ -499,6 +499,41 @@ function MasterCtrl($scope, $cookieStore, $rootScope, $http, $q) {
                     })
                 ];
             break;
+            case 'mobileClients':
+                $scope.model.loading = true;
+                promises = [
+                    $http({
+                        method: 'GET',
+                        url: '/api/mobileClientUsage?startTime=' + $scope.model.startTime + '&endTime=' + $scope.model.endTime + '&aggregate=' + $scope.model.aggregate
+                    })
+                    .success(function(data) {
+                        if (localEpisode !== globalEpisode) return;
+                        $scope.model.loading = false;
+                        var title = 'Mobile Clients Downloads by type';
+                        var xAxis = data.map(function(e) { return e.startTime + ' - ' + e.endTime; });
+                        var yAxis = 'Number of Downloads';
+                        var tooltip = 'Downloads';
+                        var graphData = [{
+                            name: 'Windows',
+                            data: data.map(function(e) { return e.value.Windows; })
+                        }, {
+                            name: 'NativeiOS',
+                            data: data.map(function(e) { return e.value.NativeiOS; })
+                        }, {
+                            name: 'XamariniOS',
+                            data: data.map(function(e) { return e.value.XamariniOS; })
+                        }, {
+                            name: 'XamarinAndroid',
+                            data: data.map(function(e) { return e.value.XamarinAndroid; })
+                        }, {
+                            name: 'WebClient',
+                            data: data.map(function(e) { return e.value.WebClient; })
+                        }];
+
+                        $('#graph').highcharts(getColumnChartConfig(title, xAxis, yAxis, tooltip, graphData, /*stack*/ false));
+                    })
+                ];
+            break;
 
         }
 
