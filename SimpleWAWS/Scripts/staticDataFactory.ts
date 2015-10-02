@@ -112,7 +112,7 @@ angular.module("tryApp")
                 templates: [],
                 description: Resources.Information_LogicAppDescription
             }],
-            downloadMobileClient: (sampleName: string) => {
+            getMobileClients: (sampleName: string) => {
                 //TODO: get list of available clients from the server like we do with templates
                 if (sampleName === "Todo List") {
                     return [{
