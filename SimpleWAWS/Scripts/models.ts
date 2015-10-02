@@ -84,7 +84,7 @@ interface ITryRootScope extends ng.IRootScopeService {
     downloadContentClick();
     downloadPublishingProfileClick();
     gitLinkClick();
-    downloadMobileClient(client: string);
+    downloadMobileClient(client: string, templateName: string);
     getComScorQuery();
     appTypeForQuery: string;
     cachedQuery: string;

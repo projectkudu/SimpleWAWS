@@ -53,8 +53,8 @@ angular.module("tryApp")
             uiTelemetry("GIT_LINK_CLICK");
         };
 
-        $rootScope.downloadMobileClient = (clientType) => {
-            uiTelemetry("DOWNLOAD_MOBILE_CLIENT", {clientType : clientType});
+        $rootScope.downloadMobileClient = (clientType, templateName) => {
+            uiTelemetry("DOWNLOAD_MOBILE_CLIENT", { clientType: clientType, templateName: templateName });
         };
 
         $rootScope.deleteResourceClick = () => {
