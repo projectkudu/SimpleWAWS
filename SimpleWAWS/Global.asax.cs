@@ -37,12 +37,27 @@ namespace SimpleWAWS
                     SimpleSettings.ToEmails
                 }.All(s => !string.IsNullOrEmpty(s)))
             {
+                var customFormatter = new ElasticsearchJsonFormatter(
+                    renderMessage: false,
+                    closingDelimiter: string.Empty
+                    );
+
+                var customDurableFormatter = new ElasticsearchJsonFormatter(
+                    renderMessage: false,
+                    closingDelimiter: Environment.NewLine
+                    );
+                var elasticSearchConfig = new ElasticsearchSinkOptions(new Uri(SimpleSettings.ElasticSearchUri))
+                {
+                    AutoRegisterTemplate = true,
+                    CustomDurableFormatter = customDurableFormatter,
+                    CustomFormatter = customFormatter
+                };
 
                 var analyticsLogger = new LoggerConfiguration()
                     .Enrich.With(new ExperimentEnricher())
                     .Enrich.With(new UserNameEnricher())
                     .Destructure.JsonNetTypes()
-                    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(SimpleSettings.ElasticSearchUri)) { AutoRegisterTemplate = true })
+                    .WriteTo.Elasticsearch(elasticSearchConfig)
                     .CreateLogger();
 
                 SimpleTrace.Analytics = analyticsLogger;
@@ -52,7 +67,7 @@ namespace SimpleWAWS
                     .MinimumLevel.Verbose()
                     .Enrich.With(new ExperimentEnricher())
                     .Enrich.With(new UserNameEnricher())
-                    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(SimpleSettings.ElasticSearchUri)) { AutoRegisterTemplate = true })
+                    .WriteTo.Elasticsearch(elasticSearchConfig)
                     .WriteTo.Logger(lc => lc
                         .Filter.ByIncludingOnly(Matching.WithProperty<int>("Count", p => p % 10 == 0))
                         .WriteTo.Email(new EmailConnectionInfo
