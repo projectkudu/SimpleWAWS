@@ -98,7 +98,7 @@ namespace SimpleWAWS.Code
         {
             try
             {
-                var site = resourceGroup.Sites.First();
+                var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
                 var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
                 var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
                 using (var httpContentStream = await zipManager.GetZipFileStreamAsync("LogFiles/http/RawLogs"))
@@ -116,7 +116,8 @@ namespace SimpleWAWS.Code
         private async Task DeleteResourceGroup(ResourceGroup resourceGroup)
         {
             SimpleTrace.Diagnostics.Information("Deleting expired resourceGroup {resourceGroupId}", resourceGroup.CsmId);
-            if (resourceGroup.AppService == AppService.Web)
+            if (resourceGroup.AppService == AppService.Web ||
+                resourceGroup.AppService == AppService.Mobile)
             {
                 await LogActiveUsageStatistics(resourceGroup);
             }
