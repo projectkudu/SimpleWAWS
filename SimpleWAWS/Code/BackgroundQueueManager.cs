@@ -73,9 +73,12 @@ namespace SimpleWAWS.Code
                 }
                 await StorageHelper.AddQueueMessage(new { BlobName = resourceGroup.ResourceUniqueId });
             }
-            catch (Exception e) when (!(e is HttpRequestException))
+            catch (Exception e)
             {
-                SimpleTrace.Diagnostics.Error(e, "Error logging active usage numbers");
+                if (!(e is HttpRequestException))
+                {
+                    SimpleTrace.Diagnostics.Error(e, "Error logging active usage numbers");
+                }
             }
 
             return resourceGroup;
