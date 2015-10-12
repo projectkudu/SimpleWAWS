@@ -130,8 +130,7 @@ namespace SimpleWAWS.Models
             get
             {
                 return !string.IsNullOrEmpty(SiteName) &&
-                       Regex.IsMatch(SiteName, "^[A-F0-9]{8}-0ee0-4-231-b9ee$", RegexOptions.IgnoreCase) &&
-                       SiteName.IndexOf("try", StringComparison.OrdinalIgnoreCase) == -1;
+                       Regex.IsMatch(SiteName, "^[A-F0-9]{8}-0ee0-4-231-b9ee$", RegexOptions.IgnoreCase);
             }
         }
 

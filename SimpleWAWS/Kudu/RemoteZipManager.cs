@@ -44,6 +44,7 @@ namespace Kudu.Client.Zip
         public async Task<Stream> GetZipFileStreamAsync(string path)
         {
             var response = await Client.GetAsync(new Uri(path, UriKind.Relative), HttpCompletionOption.ResponseHeadersRead);
+            response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsStreamAsync();
         }
     }

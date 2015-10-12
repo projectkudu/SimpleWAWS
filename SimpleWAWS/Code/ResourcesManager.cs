@@ -94,33 +94,9 @@ namespace SimpleWAWS.Code
         }
 
         // ARM
-        private async Task LogActiveUsageStatistics(ResourceGroup resourceGroup)
-        {
-            try
-            {
-                var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
-                var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-                var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
-                using (var httpContentStream = await zipManager.GetZipFileStreamAsync("LogFiles/http/RawLogs"))
-                {
-                    await StorageHelper.UploadBlob(resourceGroup.ResourceUniqueId, httpContentStream);
-                }
-                await StorageHelper.AddQueueMessage(new { BlobName = resourceGroup.ResourceUniqueId });
-            }
-            catch { }
-        }
-
-        // ARM
-
-        // ARM
-        private async Task DeleteResourceGroup(ResourceGroup resourceGroup)
+        private void DeleteResourceGroup(ResourceGroup resourceGroup)
         {
             SimpleTrace.Diagnostics.Information("Deleting expired resourceGroup {resourceGroupId}", resourceGroup.CsmId);
-            if (resourceGroup.AppService == AppService.Web ||
-                resourceGroup.AppService == AppService.Mobile)
-            {
-                await LogActiveUsageStatistics(resourceGroup);
-            }
             HostingEnvironment.QueueBackgroundWorkItem(_ => _backgroundQueueManager.DeleteResourceGroup(resourceGroup));
         }
 
@@ -202,9 +178,7 @@ namespace SimpleWAWS.Code
             //if we are here that means a bad exception happened above, but we might leak a site if we don't remove the site and replace it correctly.
             if (resourceGroup != null)
             {
-                //no need to await this call
-                //this call is to fix our internal state, return an error right away to the caller
-                ThreadPool.QueueUserWorkItem(async o => await DeleteResourceGroup(resourceGroup).IgnoreFailure());
+                DeleteResourceGroup(resourceGroup);
             }
             throw new Exception(Resources.Server.Error_GeneralErrorMessage);
         }
@@ -429,20 +403,14 @@ namespace SimpleWAWS.Code
         {
             using (await _lock.LockAsync())
             {
-                var list = new List<ResourceGroup>();
                 while (!_backgroundQueueManager.FreeResourceGroups.IsEmpty)
                 {
                     ResourceGroup temp;
                     if (_backgroundQueueManager.FreeResourceGroups.TryDequeue(out temp))
                     {
-                        list.Add(temp);
+                        DeleteResourceGroup(temp);
                     }
                 }
-                await list.Select(resourceGroup =>
-                {
-                    SimpleTrace.Diagnostics.Information("Deleting resourceGroup {resourceGroupId}", resourceGroup.CsmId);
-                    return DeleteResourceGroup(resourceGroup);
-                }).WhenAll();
             }
         }
 
@@ -462,14 +430,14 @@ namespace SimpleWAWS.Code
         }
 
         // ARM
-        public async Task DeleteResourceGroup(string userId)
+        public void DeleteResourceGroup(string userId)
         {
             ResourceGroup resourceGroup;
             _backgroundQueueManager.ResourceGroupsInUse.TryGetValue(userId, out resourceGroup);
 
             if (resourceGroup != null)
             {
-                await DeleteResourceGroup(resourceGroup);
+                DeleteResourceGroup(resourceGroup);
             }
         }
 

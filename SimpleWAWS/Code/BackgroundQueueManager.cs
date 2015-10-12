@@ -1,4 +1,5 @@
-﻿using SimpleWAWS.Code.CsmExtensions;
+﻿using Kudu.Client.Zip;
+using SimpleWAWS.Code.CsmExtensions;
 using SimpleWAWS.Models;
 using SimpleWAWS.Models.CsmModels;
 using SimpleWAWS.Trace;
@@ -7,6 +8,8 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -51,8 +54,31 @@ namespace SimpleWAWS.Code
         public void DeleteResourceGroup(ResourceGroup resourceGroup)
         {
             ResourceGroup temp;
-            this.ResourceGroupsInUse.TryRemove(resourceGroup.UserId, out temp);
-            DeleteAndCreateResourceGroupOperation(resourceGroup);
+            if (this.ResourceGroupsInUse.TryRemove(resourceGroup.UserId, out temp))
+            {
+                LogUsageStatistics(resourceGroup);
+            }
+        }
+
+        private async Task<ResourceGroup> LogActiveUsageStatistics(ResourceGroup resourceGroup)
+        {
+            try
+            {
+                var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
+                var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+                var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
+                using (var httpContentStream = await zipManager.GetZipFileStreamAsync("LogFiles/http/RawLogs"))
+                {
+                    await StorageHelper.UploadBlob(resourceGroup.ResourceUniqueId, httpContentStream);
+                }
+                await StorageHelper.AddQueueMessage(new { BlobName = resourceGroup.ResourceUniqueId });
+            }
+            catch (Exception e) when (!(e is HttpRequestException))
+            {
+                SimpleTrace.Diagnostics.Error(e, "Error logging active usage numbers");
+            }
+
+            return resourceGroup;
         }
 
         private void HandleBackgroundOperation(BackgroundOperation operation)
@@ -110,9 +136,12 @@ namespace SimpleWAWS.Code
                     PutResourceGroupInDesiredStateOperation(resourceGroupTask.Task.Result);
                     break;
 
+                case OperationType.LogUsageStatistics:
+                    DeleteAndCreateResourceGroupOperation(resourceGroupTask.Task.Result);
+                    break;
+
                 case OperationType.ResourceGroupDelete:
                 default:
-
                     break;
             }
 
@@ -145,10 +174,21 @@ namespace SimpleWAWS.Code
             var resources = this.ResourceGroupsInUse
                 .Select(e => e.Value)
                 .Where(rg => DateTime.UtcNow - rg.StartTime > ResourceGroupExpiryTime);
+
             foreach (var resource in resources)
                 DeleteResourceGroup(resource);
         }
 
+        private void LogUsageStatistics(ResourceGroup resourceGroup)
+        {
+            AddOperation(new BackgroundOperation<ResourceGroup>
+            {
+                Description = $"Logging usage statistics for resourceGroup {resourceGroup.ResourceGroupName}",
+                Type = OperationType.LogUsageStatistics,
+                Task = LogActiveUsageStatistics(resourceGroup),
+                RetryAction = () => LogUsageStatistics(resourceGroup)
+            });
+        }
 
         private void DeleteAndCreateResourceGroupOperation(ResourceGroup resourceGroup)
         {

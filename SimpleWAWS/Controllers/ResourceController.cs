@@ -205,7 +205,7 @@ namespace SimpleWAWS.Controllers
         public async Task<HttpResponseMessage> DeleteResource()
         {
             var resourceManager = await ResourcesManager.GetInstanceAsync();
-            await resourceManager.DeleteResourceGroup(HttpContext.Current.User.Identity.Name);
+            resourceManager.DeleteResourceGroup(HttpContext.Current.User.Identity.Name);
             return Request.CreateResponse(HttpStatusCode.Accepted);
         }
 
