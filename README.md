@@ -48,3 +48,4 @@ You don't have to create all the different Apps. You can only create the ones yo
 14. `ToEmail` Used for alert emails
 15. `SearchServiceName` Required for the Azure Search template to work
 16. `SearchServiceApiKeys` Required for the Azure Search template to work
+17. `ExtendedResourceExpireHours` number of hours that that `SiteExpiryMinutes` can be extended to. Default: `24`
