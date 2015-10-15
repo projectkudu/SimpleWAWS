@@ -45,7 +45,7 @@ namespace SimpleWAWS.Code
             if (context.Request.Cookies[_experimentCookie] == null && context.IsBrowserRequest())
             {
                 var experiment = GetExperiment();
-                context.Response.Cookies.Add(new HttpCookie(_experimentCookie, experiment) { Path = "/", Expires = DateTime.UtcNow.AddDays(1) });
+                context.Response.Cookies.Add(new HttpCookie(_experimentCookie, experiment) { Path = "/", Expires = DateTime.UtcNow.AddDays(2) });
             }
         }
 

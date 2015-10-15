@@ -130,12 +130,12 @@ namespace SimpleWAWS
             var context = new HttpContextWrapper(HttpContext.Current);
             ExperimentManager.AssignExperiment(context);
             GlobalizationManager.SetCurrentCulture(context);
-            
-            if (context.Request.Cookies[Constants.TiPCookie] == null &&
-                context.Request.QueryString[Constants.TiPCookie] != null)
-            {
-                context.Response.Cookies.Add(new HttpCookie(Constants.TiPCookie, context.Request.QueryString[AuthConstants.TiPCookie]) { Path = "/" });
-            }
+
+            //if (context.Request.Cookies[Constants.TiPCookie] == null &&
+            //    context.Request.QueryString[Constants.TiPCookie] != null)
+            //{
+            //    context.Response.Cookies.Add(new HttpCookie(Constants.TiPCookie, context.Request.QueryString[AuthConstants.TiPCookie]) { Path = "/" });
+            //}
         }
 
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
