@@ -39,7 +39,7 @@
     <div class="work-with-site-tools" ng-if="resource.ibizaUrl && resource.IsRbacEnabled">
         <a ng-href="{{ resource.ibizaUrl }}" target="_blank" ng-click="ibizaClick()"><div class="work-with-site-tools-img icons sprite-MicrosoftAzure"></div><div class="website-template-name">@Client.Action_ManageInAzurePortal</div></a>
     </div>
-    <div style="margin-top: 10px; margin-bottom: 20px"><strong>@string.Format(Client.Information_ExpireMessage, "{{ currentAppService.title }}") <span class="countdown" ng-bind="timeLeft"></span></strong></div>
+    <div style="margin-top: 10px; margin-bottom: 20px"><strong>@string.Format(Client.Information_ExpireMessage, "{{ currentAppService.title }}") <timer countdown="10" interval="1000" autostart="false" finish-callback="timerCallback()">{{hhours}}h:{{mminutes}}m:{{sseconds}}s</timer></strong></div>
     <h2>@Client.Information_WantMoreQuestionLine1</h2>
     <h6>@Client.Information_WantMoreQuestionLine2</h6>
 </div>

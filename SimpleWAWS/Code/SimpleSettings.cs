@@ -21,7 +21,7 @@ namespace SimpleWAWS.Code
 
         public static string TryTenantId { get { return config(); } }
         public static string TryTenantName { get { return config(); } }
-        public static string SiteExpiryMinutes { get { return config("59"); } }
+        public static string SiteExpiryMinutes { get { return config("60"); } }
         public static string GeoRegions { get { return config("East US,West US,North Europe,West Europe,South Central US,North Central US,East Asia,Southeast Asia,Japan West,Japan East,Brazil South"); } }
         public static string TryUserName { get { return config(); } }
         public static string TryPassword { get { return config(); } }
@@ -38,6 +38,7 @@ namespace SimpleWAWS.Code
         public static string ToEmails  { get { return config(); } }
         public static string SearchServiceName { get { return config(); } }
         public static string SearchServiceApiKeys { get { return config(); } }
+        public static string ExtendedResourceExpireHours { get { return config("24"); } }
         private const string CommonApiAppsCsmTemplatePathLocal = @"D:\scratch\repos\SimpleWAWS\SimpleWAWS\CSMTemplates\commonApiApps.json";
         public static string CommonApiAppsCsmTemplatePath { get; } = HostingEnvironment.MapPath("~/CSMTemplates/commonApiApps.json") ?? CommonApiAppsCsmTemplatePathLocal;
         public static string ElasticSearchUri = "http://10.0.0.4:9200";

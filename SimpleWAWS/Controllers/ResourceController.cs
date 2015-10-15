@@ -215,5 +215,26 @@ namespace SimpleWAWS.Controllers
             var status = await resourceManager.GetResourceStatusAsync(HttpContext.Current.User.Identity.Name);
             return Request.CreateResponse(HttpStatusCode.OK, status);
         }
+
+        public async Task<HttpResponseMessage> ExtendResourceExpirationTime()
+        {
+            var resourceManager = await ResourcesManager.GetInstanceAsync();
+            var resourceGroup = await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name);
+            try
+            {
+                await resourceManager.ExtendResourceExpirationTime(resourceGroup);
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (ResourceCanOnlyBeExtendedOnce e)
+            {
+                SimpleTrace.Diagnostics.Error(e, "Resource Extended Once");
+                return Request.CreateResponse(HttpStatusCode.BadRequest, e.Message);
+            }
+            catch (Exception e)
+            {
+                SimpleTrace.Diagnostics.Fatal(e, "Error extending expiration time");
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, Resources.Server.Error_GeneralErrorMessage);
+            }
+        }
     }
 }

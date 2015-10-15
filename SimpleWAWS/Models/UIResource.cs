@@ -27,8 +27,8 @@ namespace SimpleWAWS.Models
         [JsonProperty(PropertyName = "gitUrl", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string GitUrl { get; set; }
 
-        [JsonProperty(PropertyName = "timeLeftString", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string TimeLeftString { get; set; }
+        [JsonProperty(PropertyName = "timeLeft", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int TimeLeftInSeconds { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
         public AppService AppService { get; set; }
@@ -37,5 +37,8 @@ namespace SimpleWAWS.Models
 
         [JsonProperty(PropertyName = "templateName")]
         public string TemplateName { get; set; }
+
+        [JsonProperty(PropertyName = "isExtended")]
+        public bool IsExtended { get; set; }
     }
 }

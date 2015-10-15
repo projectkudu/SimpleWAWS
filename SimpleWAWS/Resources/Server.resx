@@ -147,6 +147,9 @@
   <data name="Error_OrgIdNotSupported" xml:space="preserve">
     <value>Sorry Organizational accounts are not supported. Please use a Microsoft Account.</value>
   </data>
+  <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
+    <value>Resource expiration time was already extended before. You can only extend the expiration time once for a resource.</value>
+  </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>Unsupported platform.</value>
   </data>

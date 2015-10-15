@@ -71,6 +71,7 @@ interface IAppControllerScope extends ng.IScope {
     onAppServiceMouseLeave();
     onTemplateMouseOver(template: ITemplate);
     onTemplateMouseLeave();
+    timerCallback();
 }
 
 interface ITryRootScope extends ng.IRootScopeService {

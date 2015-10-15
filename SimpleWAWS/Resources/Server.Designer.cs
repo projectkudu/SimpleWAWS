@@ -151,6 +151,15 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resource expiration time was already extended before. You can only extend the expiration time once for a resource..
+        /// </summary>
+        internal static string Error_ResourceExpirationTimeAlreadyExtended {
+            get {
+                return ResourceManager.GetString("Error_ResourceExpirationTimeAlreadyExtended", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unsupported platform..
         /// </summary>
         internal static string Error_UnsupportedPlatform {

@@ -42,6 +42,13 @@ namespace SimpleWAWS.Models
         { }
     }
 
+    public class ResourceCanOnlyBeExtendedOnce : Exception
+    {
+        public ResourceCanOnlyBeExtendedOnce()
+            : base(Resources.Server.Error_ResourceExpirationTimeAlreadyExtended)
+        { }
+    }
+
     public class FailedRequestException : Exception
     {
         public Uri Uri { get; private set; }

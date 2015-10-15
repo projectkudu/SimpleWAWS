@@ -27,11 +27,9 @@ namespace SimpleWAWS.Code
         private readonly JobHost _jobHost = new JobHost();
         private int _logCounter = 0;
         private static int _maintainResourceGroupListErrorCount = 0;
-        public static TimeSpan ResourceGroupExpiryTime;
 
         public BackgroundQueueManager()
         {
-            ResourceGroupExpiryTime = TimeSpan.FromMinutes(Int32.Parse(SimpleSettings.SiteExpiryMinutes, CultureInfo.InvariantCulture));
             if (_timer == null)
             {
                 _timer = new Timer(OnTimerElapsed);
@@ -176,7 +174,7 @@ namespace SimpleWAWS.Code
         {
             var resources = this.ResourceGroupsInUse
                 .Select(e => e.Value)
-                .Where(rg => DateTime.UtcNow - rg.StartTime > ResourceGroupExpiryTime);
+                .Where(rg => (int)rg.TimeLeft.TotalSeconds == 0);
 
             foreach (var resource in resources)
                 DeleteResourceGroup(resource);

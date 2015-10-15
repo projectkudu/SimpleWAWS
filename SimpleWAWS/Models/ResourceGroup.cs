@@ -34,24 +34,30 @@ namespace SimpleWAWS.Models
             get { return DateTime.Parse(Tags[Constants.StartTime], CultureInfo.InvariantCulture).ToUniversalTime(); }
         }
 
-        private readonly TimeSpan UsageTimeSpan = TimeSpan.FromMinutes(int.Parse(SimpleSettings.SiteExpiryMinutes, CultureInfo.InvariantCulture));
+        public TimeSpan LifeTime
+        {
+            get { return TimeSpan.FromMinutes(int.Parse(Tags[Constants.LifeTimeInMinutes])); }
+        }
 
-        public string TimeLeft
+        public static readonly TimeSpan DefaultUsageTimeSpan = TimeSpan.FromMinutes(int.Parse(SimpleSettings.SiteExpiryMinutes, CultureInfo.InvariantCulture));
+        public static readonly TimeSpan ExtendedUsageTimeSpan = TimeSpan.FromHours(int.Parse(SimpleSettings.ExtendedResourceExpireHours, CultureInfo.InvariantCulture));
+
+        public TimeSpan TimeLeft
         {
             get
             {
                 TimeSpan timeUsed = DateTime.UtcNow - StartTime;
                 TimeSpan timeLeft;
-                if (timeUsed > UsageTimeSpan)
+
+                if (timeUsed > LifeTime)
                 {
                     timeLeft = TimeSpan.FromMinutes(0);
                 }
                 else
                 {
-                    timeLeft = UsageTimeSpan - timeUsed;
+                    timeLeft = LifeTime - timeUsed;
                 }
-
-                return String.Format(CultureInfo.InvariantCulture, "{0}m:{1:D2}s", timeLeft.Minutes, timeLeft.Seconds);
+                return timeLeft;
             }
         }
 
@@ -97,6 +103,17 @@ namespace SimpleWAWS.Models
             set { Tags[Constants.IsRbacEnabled] = value.ToString(); }
         }
 
+        public bool IsExtended
+        {
+            get
+            {
+                bool value = false;
+                return Tags.ContainsKey(Constants.IsExtended) &&
+                       bool.TryParse(Tags[Constants.IsExtended], out value) &&
+                       value;
+            }
+        }
+
         public Dictionary<string, string> Tags { get; set; }
 
         public bool IsSimpleWAWS
@@ -136,10 +153,11 @@ namespace SimpleWAWS.Models
                 ? new UIResource
                 {
                     IbizaUrl = ibizaUrl,
-                    TimeLeftString = TimeLeft,
                     IsRbacEnabled = IsRbacEnabled,
                     AppService = AppService,
-                    TemplateName = templateName
+                    TemplateName = templateName,
+                    IsExtended = IsExtended,
+                    TimeLeftInSeconds = (int)TimeLeft.TotalSeconds
                 }
                 : new UIResource
                 {
@@ -149,10 +167,11 @@ namespace SimpleWAWS.Models
                     MonacoUrl = siteToUseForUi.MonacoUrl,
                     ContentDownloadUrl = siteToUseForUi.ContentDownloadUrl,
                     GitUrl = siteToUseForUi.GitUrlWithCreds,
-                    TimeLeftString = TimeLeft,
                     IsRbacEnabled = IsRbacEnabled,
                     AppService = AppService,
-                    TemplateName = templateName
+                    TemplateName = templateName,
+                    IsExtended = IsExtended,
+                    TimeLeftInSeconds = (int)TimeLeft.TotalSeconds
                 };
             }
         }

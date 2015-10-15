@@ -34,7 +34,6 @@ namespace SimpleWAWS.Code
         private readonly BackgroundQueueManager _backgroundQueueManager = new BackgroundQueueManager();
         private static readonly AsyncLock _lock = new AsyncLock();
 
-        public static TimeSpan ResourceGroupExpiryTime;
         private static ResourcesManager _instance;
 
         //private static int _stateInconsistencyErrorCount = 0;
@@ -62,7 +61,6 @@ namespace SimpleWAWS.Code
 
         private ResourcesManager()
         {
-            ResourceGroupExpiryTime = TimeSpan.FromMinutes(Int32.Parse(SimpleSettings.SiteExpiryMinutes, CultureInfo.InvariantCulture));
         }
 
         // ARM
@@ -120,7 +118,7 @@ namespace SimpleWAWS.Code
                 if (_backgroundQueueManager.FreeResourceGroups.TryDequeue(out resourceGroup))
                 {
                     //mark site in use as soon as it's checked out so that if there is a reload it will be sorted out to the used queue.
-                    await resourceGroup.MarkInUse(userId, ResourceGroupExpiryTime, appService);
+                    await resourceGroup.MarkInUse(userId, appService);
                     var rbacTask = Task.FromResult(false); //RbacHelper.AddRbacUser(userIdentity.Puid, userIdentity.Email, resourceGroup);
                     var process = new InProgressOperation(resourceGroup, deploymentType);
                     _backgroundQueueManager.ResourceGroupsInProgress.AddOrUpdate(userId, s => process, (s, task) => process);
@@ -132,7 +130,7 @@ namespace SimpleWAWS.Code
                     if (addedResourceGroup.ResourceGroupName == resourceGroup.ResourceGroupName)
                     {
                         //this means we just added the resourceGroup for the user.
-                        await addedResourceGroup.MarkInUse(userId, ResourceGroupExpiryTime, appService);
+                        await addedResourceGroup.MarkInUse(userId, appService);
                         return addedResourceGroup;
                     }
                     else
@@ -276,6 +274,16 @@ namespace SimpleWAWS.Code
                     site.FireAndForget();
                     return resourceGroup;
                 });
+        }
+
+        public async Task ExtendResourceExpirationTime(ResourceGroup resourceGroup)
+        {
+            if (resourceGroup.IsExtended)
+            {
+                throw new ResourceCanOnlyBeExtendedOnce();
+            }
+
+            await resourceGroup.ExtendExpirationTime();
         }
 
         // ARM

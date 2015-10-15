@@ -1,4 +1,4 @@
-﻿angular.module("tryApp", ["ui.router", "angular.filter", "ngSanitize"]);
+﻿angular.module("tryApp", ["ui.router", "angular.filter", "ngSanitize", "timer"]);
 angular.module("tryApp")
     .controller("appController", ["$scope", "$http", "$timeout", "$rootScope", "$state", "$location", "staticDataFactory", appController]);
 
@@ -217,7 +217,7 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
                     $scope.selectedMobileClient = $scope.mobileClients[0];
                 }
                 $state.go("home." + data.AppService.toLowerCase() + "app.work");
-                startCountDown(data.timeLeftString);
+                startCountDown(data.timeLeft);
             }
         }).error((err) => {
             handleNoResourceInitState();
@@ -232,6 +232,10 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
         $scope.deleteResource(true).finally(() => {
             createResource();
         });
+    };
+
+    $scope.timerCallback = () => {
+        $scope.siteExpired = true;
     };
 
     function handleNoResourceInitState() {
@@ -311,7 +315,7 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
             if ($scope.mobileClients && $scope.mobileClients.length > 0) {
                 $scope.selectedMobileClient = $scope.mobileClients[0];
             }
-            startCountDown($scope.resource.timeLeftString);
+            startCountDown($scope.resource.timeLeft);
             $state.go($scope.nextStep.sref);
             $scope.running = false;
         })
@@ -364,32 +368,11 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
         }
     }
 
-
-    function startCountDown(init) {
-        if (init !== undefined) {
-            var reg = '(\\d+)(m)?(:)(\\d+)(s)?';
-            var pattern = new RegExp(reg, "i");
-            var match = pattern.exec(init);
-            var expireDateTime = new Date();
-            expireDateTime.setMinutes(expireDateTime.getMinutes() + parseInt(match[1]));
-            expireDateTime.setSeconds(expireDateTime.getSeconds() + parseInt(match[4]));
-            countDown(expireDateTime);
-        }
+    function startCountDown(timeLeft) {
+        $timeout(() => {
+            $scope.$broadcast("timer-set-countdown-seconds", timeLeft);
+            $scope.$broadcast("timer-set-countdown", timeLeft);
+            $scope.$broadcast("timer-start");
+        });
     }
-
-    function countDown(expireDateTime) {
-        if ($scope.resource) {
-            var now: any = new Date();
-            var diff = expireDateTime - now;
-            if (diff <= 0) {
-                $scope.timeLeft = "00m:00s";
-                $scope.siteExpired = true;
-                return;
-            }
-            diff = diff / 1000;
-            $scope.timeLeft = ("0" + Math.floor(diff / 60)).slice(-2) + "m:" + ("0" + Math.floor(diff % 60)).slice(-2) + "s";
-            $timeout(() => countDown(expireDateTime), 1000);
-        }
-    }
-
 }

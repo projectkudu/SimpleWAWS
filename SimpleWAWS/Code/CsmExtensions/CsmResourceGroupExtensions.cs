@@ -142,7 +142,8 @@ namespace SimpleWAWS.Code.CsmExtensions
                     {
                         { Constants.StartTime, DateTime.UtcNow.ToString(CultureInfo.InvariantCulture) },
                         { Constants.IsRbacEnabled, false.ToString() },
-                        { Constants.GeoRegion, region }
+                        { Constants.GeoRegion, region },
+                        { Constants.IsExtended, false.ToString() }
                     }
                 };
 
@@ -263,12 +264,20 @@ namespace SimpleWAWS.Code.CsmExtensions
             return await PutInDesiredState(await CreateResourceGroup(subscriptionId, region));
         }
 
-        public static async Task<ResourceGroup> MarkInUse(this ResourceGroup resourceGroup, string userId, TimeSpan lifeTime, AppService appService)
+        public static async Task<ResourceGroup> MarkInUse(this ResourceGroup resourceGroup, string userId, AppService appService)
         {
             resourceGroup.Tags[Constants.UserId] = userId;
             resourceGroup.Tags[Constants.StartTime] = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
-            resourceGroup.Tags[Constants.LifeTimeInMinutes] = lifeTime.TotalMinutes.ToString();
+            resourceGroup.Tags[Constants.LifeTimeInMinutes] = ResourceGroup.DefaultUsageTimeSpan.TotalMinutes.ToString();
             resourceGroup.Tags[Constants.AppService] = appService.ToString();
+            return await Update(resourceGroup);
+        }
+
+        public static async Task<ResourceGroup> ExtendExpirationTime(this ResourceGroup resourceGroup)
+        {
+            resourceGroup.Tags[Constants.StartTime] = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
+            resourceGroup.Tags[Constants.IsExtended] = true.ToString();
+            resourceGroup.Tags[Constants.LifeTimeInMinutes] = ResourceGroup.ExtendedUsageTimeSpan.TotalMinutes.ToString();
             return await Update(resourceGroup);
         }
 
