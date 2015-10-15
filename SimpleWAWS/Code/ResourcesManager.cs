@@ -276,14 +276,14 @@ namespace SimpleWAWS.Code
                 });
         }
 
-        public async Task ExtendResourceExpirationTime(ResourceGroup resourceGroup)
+        public async Task<ResourceGroup> ExtendResourceExpirationTime(ResourceGroup resourceGroup)
         {
             if (resourceGroup.IsExtended)
             {
                 throw new ResourceCanOnlyBeExtendedOnce();
             }
 
-            await resourceGroup.ExtendExpirationTime();
+            return await resourceGroup.ExtendExpirationTime();
         }
 
         // ARM

@@ -222,8 +222,8 @@ namespace SimpleWAWS.Controllers
             var resourceGroup = await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name);
             try
             {
-                await resourceManager.ExtendResourceExpirationTime(resourceGroup);
-                return Request.CreateResponse(HttpStatusCode.OK);
+                resourceGroup = await resourceManager.ExtendResourceExpirationTime(resourceGroup);
+                return Request.CreateResponse(HttpStatusCode.OK, resourceGroup.UIResource);
             }
             catch (ResourceCanOnlyBeExtendedOnce e)
             {

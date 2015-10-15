@@ -216,8 +216,7 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
                 if ($scope.mobileClients && $scope.mobileClients.length > 0) {
                     $scope.selectedMobileClient = $scope.mobileClients[0];
                 }
-                $state.go("home." + data.AppService.toLowerCase() + "app.work");
-                startCountDown(data.timeLeft);
+                $state.go("home." + data.AppService.toLowerCase() + "app.work").then(() => startCountDown(data.timeLeft));
             }
         }).error((err) => {
             handleNoResourceInitState();
@@ -236,6 +235,19 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
 
     $scope.timerCallback = () => {
         $scope.siteExpired = true;
+    };
+
+    $scope.extendResourceLifeTime = () => {
+        $scope.running = true;
+        $http({
+            url: "api/resource/extend",
+            method: "POST"
+        }).success((data: any) => {
+            $scope.resource = data;
+            startCountDown(data.timeLeft);
+        }).error((e) => {
+            $scope.ngModels.errorMessage = e.Message;
+        }).finally(() => $scope.running = false);
     };
 
     function handleNoResourceInitState() {
@@ -315,8 +327,7 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
             if ($scope.mobileClients && $scope.mobileClients.length > 0) {
                 $scope.selectedMobileClient = $scope.mobileClients[0];
             }
-            startCountDown($scope.resource.timeLeft);
-            $state.go($scope.nextStep.sref);
+            $state.go($scope.nextStep.sref).then(() => startCountDown($scope.resource.timeLeft));;
             $scope.running = false;
         })
         .error((err, status, headers) => {
