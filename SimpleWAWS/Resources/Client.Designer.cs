@@ -529,6 +529,15 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Need more time? Click here to extend your trial to 24 hours..
+        /// </summary>
+        public static string Information_ExtendResourceLifeTimeText {
+            get {
+                return ResourceManager.GetString("Information_ExtendResourceLifeTimeText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Azure App Service is a cloud app service that integrates everything you need to quickly and easily build web and mobile apps for any platform or device..
         /// </summary>
         public static string Information_GenericBrandingLine1 {

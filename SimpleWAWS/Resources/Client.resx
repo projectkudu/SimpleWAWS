@@ -468,4 +468,7 @@
   <data name="Information_XamarinBrandingLine2" xml:space="preserve">
     <value>Auth, Sync, and Push in seconds for any device. Start for free and scale as your app grows.</value>
   </data>
+  <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
+    <value>Need more time? Click here to extend your trial to 24 hours.</value>
+  </data>
 </root>

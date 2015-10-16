@@ -45,9 +45,11 @@
             @string.Format(Client.Information_ExpireMessage, "{{ currentAppService.title }}")
             <timer countdown="10" interval="1000" autostart="false" finish-callback="timerCallback()">{{hhours}}h:{{mminutes}}m:{{sseconds}}s</timer>
         </strong>
-        <a ng-if="!resource.isExtended" href="#" ng-click="extendResourceLifeTime()" class="wa-button wa-button-alt wa-button-extend-trial">
-            Need more time? Extend your trial to 24 hours
-        </a>
+        <strong style="display: block">
+            <a ng-if="!resource.isExtended" href="#" ng-click="extendResourceLifeTime()">
+                @Client.Information_ExtendResourceLifeTimeText
+            </a>
+        </strong>
     </div>
     <h2>@Client.Information_WantMoreQuestionLine1</h2>
     <h6>@Client.Information_WantMoreQuestionLine2</h6>
