@@ -772,7 +772,7 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Azure Web Apps enable developers to easily deploy and scale enterprise grade web applications written in a variety of languages and integrated with a mutltitude of services without ever worying about infrastructure management..
+        ///   Looks up a localized string similar to Azure Web Apps enable developers to easily deploy and scale enterprise grade web applications written in a variety of languages and integrated with a mutltitude of services without ever worrying about infrastructure management..
         /// </summary>
         public static string Information_WebAppDescription {
             get {
