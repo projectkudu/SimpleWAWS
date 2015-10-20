@@ -278,7 +278,17 @@ namespace SimpleWAWS.Code.CsmExtensions
             resourceGroup.Tags[Constants.StartTime] = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
             resourceGroup.Tags[Constants.IsExtended] = true.ToString();
             resourceGroup.Tags[Constants.LifeTimeInMinutes] = ResourceGroup.ExtendedUsageTimeSpan.TotalMinutes.ToString();
-            return await Update(resourceGroup);
+            var site = resourceGroup.Sites.FirstOrDefault(s => s.IsSimpleWAWSOriginalSite);
+            var siteTask = Task.FromResult(site);
+            if (site != null)
+            {
+                site.AppSettings["LAST_MODIFIED_TIME_UTC"] = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
+                site.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = ResourceGroup.ExtendedUsageTimeSpan.TotalMinutes.ToString();
+                siteTask = site.UpdateAppSettings();
+            }
+            var resourceGroupTask = Update(resourceGroup);
+            await Task.WhenAll(siteTask, resourceGroupTask);
+            return resourceGroupTask.Result;
         }
 
         public static async Task<bool> AddResourceGroupRbac(this ResourceGroup resourceGroup, string puidOrAltSec, string emailAddress)
