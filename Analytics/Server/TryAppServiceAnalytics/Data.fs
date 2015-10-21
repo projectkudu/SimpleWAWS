@@ -365,7 +365,7 @@ let mobileTemplates (startTime, endTime) _ =
     use context = getContext ()
     query {
         for u in context.UserActivities do
-        where (u.AppService = "Mobile")
+        where (u.AppService = "Mobile" && u.DateTime >= startTime && u.DateTime < endTime)
         groupBy u.TemplateName into g
         select g.Key }
     |> Seq.toArray
