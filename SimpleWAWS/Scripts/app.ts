@@ -234,7 +234,7 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
     };
 
     $scope.timerCallback = () => {
-        $scope.siteExpired = true;
+        $scope.$apply(() => $scope.siteExpired = true);
     };
 
     $scope.extendResourceLifeTime = () => {
@@ -380,10 +380,8 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
     }
 
     function startCountDown(timeLeft) {
-        $timeout(() => {
-            $scope.$broadcast("timer-set-countdown-seconds", timeLeft);
-            $scope.$broadcast("timer-set-countdown", timeLeft);
-            $scope.$broadcast("timer-start");
-        });
+        $scope.$broadcast("timer-set-countdown-seconds", timeLeft);
+        $scope.$broadcast("timer-set-countdown", timeLeft);
+        $scope.$broadcast("timer-start");
     }
 }
