@@ -43,7 +43,7 @@
     <div style="margin-top: 10px; margin-bottom: 20px">
         <strong>
             @string.Format(Client.Information_ExpireMessage, "{{ currentAppService.title }}")
-            <timer countdown="10" interval="1000" autostart="false" finish-callback="timerCallback()">{{hhours}}h:{{mminutes}}m:{{sseconds}}s</timer>
+            <timer countdown="10" interval="1000" autostart="false" finish-callback="timerCallback()">{{hhours}}:{{mminutes}}:{{sseconds}}</timer>
         </strong>
         <strong style="display: block">
             <a ng-if="!resource.isExtended" href="#" ng-click="extendResourceLifeTime()">
