@@ -27,6 +27,8 @@ namespace TryAppService.WebJob.Aggregation
         private const string AnonymousUserLoggedIn = "ANONYMOUS_USER_LOGGEDIN";
         private const string AnonymousUserInit = "ANONYMOUS_USER_INIT";
         private const string UserFeedbackPattern = "FEEDBACK_COMMENT";
+        private const string ExtendTrial = "EXTEND_TRIAL";
+        private const string SiteIISLogsName = "SITE_IIS_LOGS_NAME";
 
         public ApplicationLogAnalyzer()
         {
@@ -64,6 +66,8 @@ namespace TryAppService.WebJob.Aggregation
                         var userAssignedExperiment = new List<UserAssignedExperiment>();
                         var userLoggedIn = new List<UserLoggedIn>();
                         var userFeedback = new List<UserFeedback>();
+                        var userExtendingTrial = new List<string>();
+                        var siteIISLogName = new List<string>();
                         try
                         {
                             using (var reader = new StreamReader(stream))
@@ -183,6 +187,14 @@ namespace TryAppService.WebJob.Aggregation
                                                 ContactMe = contactMe
                                             });
                                         }
+                                        else if (line.IndexOf(ExtendTrial) != -1)
+                                        {
+                                            userExtendingTrial.Add(splitedLine[1]);
+                                        }
+                                        else if (line.IndexOf(SiteIISLogsName) != -1)
+                                        {
+                                            siteIISLogName.Add(splitedLine[1]);
+                                        }
                                     }
                                     catch (Exception e)
                                     {
@@ -197,7 +209,7 @@ namespace TryAppService.WebJob.Aggregation
                         }
                         finally
                         {
-                            SaveHourAggregateInDataBase(userActivity, userPuids, uiEvents, userLoggedIn, userAssignedExperiment, userFeedback);
+                            SaveHourAggregateInDataBase(userActivity, userPuids, uiEvents, userLoggedIn, userAssignedExperiment, userFeedback, userExtendingTrial, siteIISLogName);
                             try
                             {
                                 stream.Dispose();
@@ -211,7 +223,14 @@ namespace TryAppService.WebJob.Aggregation
             }
         }
 
-        private void SaveHourAggregateInDataBase(IEnumerable<UserActivity> userActivity, IEnumerable<UserPuid> userPuids, IEnumerable<UIEvent> uiEvents, IEnumerable<UserLoggedIn> userLoggedIn, IEnumerable<UserAssignedExperiment> userAssignedExperiments, IEnumerable<UserFeedback> userFeedback)
+        private void SaveHourAggregateInDataBase(IEnumerable<UserActivity> userActivity,
+            IEnumerable<UserPuid> userPuids,
+            IEnumerable<UIEvent> uiEvents,
+            IEnumerable<UserLoggedIn> userLoggedIn,
+            IEnumerable<UserAssignedExperiment> userAssignedExperiments,
+            IEnumerable<UserFeedback> userFeedback,
+            IEnumerable<string> userExtendingTrial,
+            IEnumerable<string> siteIISLogName)
         {
             this._tryItNowAnalyticsContext.UserActivities.AddRange(userActivity);
             this._tryItNowAnalyticsContext.UserPuids.AddOrUpdate(p => p.Puid, userPuids.ToArray());
@@ -219,6 +238,33 @@ namespace TryAppService.WebJob.Aggregation
             this._tryItNowAnalyticsContext.UserLoggedIns.AddRange(userLoggedIn);
             this._tryItNowAnalyticsContext.UserAssignedExperiments.AddRange(userAssignedExperiments);
             this._tryItNowAnalyticsContext.UserFeedback.AddRange(userFeedback);
+
+            this._tryItNowAnalyticsContext.SaveChanges();
+
+            foreach (var id in userExtendingTrial)
+            {
+                var entry = this._tryItNowAnalyticsContext.UserActivities.SingleOrDefault(s => s.UniqueId.Equals(id, StringComparison.OrdinalIgnoreCase));
+                if (entry != null)
+                {
+                    entry.IsExtended = true;
+                }
+            }
+
+            this._tryItNowAnalyticsContext.SaveChanges();
+
+            foreach (var id in siteIISLogName)
+            {
+                var entry = this._tryItNowAnalyticsContext.UserActivities.SingleOrDefault(s => s.UniqueId.Equals(id, StringComparison.OrdinalIgnoreCase));
+                Guid temp;
+                if (Guid.TryParse(id, out temp))
+                {
+                    var ticks = this._tryItNowAnalyticsContext.SiteUsageTimes.SingleOrDefault(s => s.UniqueId == temp);
+                    if (entry != null && ticks != null)
+                    {
+                        entry.SiteUsageTicks = ticks.SiteUsageTicks;
+                    }
+                }
+            }
 
             this._tryItNowAnalyticsContext.SaveChanges();
         }
