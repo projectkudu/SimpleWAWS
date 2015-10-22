@@ -451,7 +451,7 @@
     <value>Azure Mobile Apps make it easy to add login, push, and data sync to your iOS, Android, or Windows app, to scale globally, and to connect your app to enterprise systems and on-premises resources.</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
-    <value>Azure Web Apps enable developers to easily deploy and scale enterprise grade web applications written in a variety of languages and integrated with a mutltitude of services without ever worrying about infrastructure management.</value>
+    <value>Azure Web Apps enable developers to easily deploy and scale enterprise grade web applications written in a variety of languages and integrated with a multitude of services without ever worrying about infrastructure management.</value>
   </data>
   <data name="Information_LogicAppStep3" xml:space="preserve">
     <value>3. Run the Logic App again by clicking on the Run Now command at the top of the blade.</value>
