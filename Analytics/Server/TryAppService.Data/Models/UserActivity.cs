@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TryAppService.Data.Models
 {
@@ -40,5 +41,19 @@ namespace TryAppService.Data.Models
 
         [JsonProperty(PropertyName = "userCulture", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string UserCulture { get; set; }
+
+        [JsonProperty(PropertyName = "isExtended", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool IsExtended { get; set; }
+
+        [JsonProperty(PropertyName = "siteUsageTicks", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public long SiteUsageTicks { get; set; }
+
+        [NotMapped]
+        [JsonProperty(PropertyName = "siteUsageTime", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public TimeSpan UsageTime
+        {
+            get { return TimeSpan.FromTicks(SiteUsageTicks); }
+            set { SiteUsageTicks = value.Ticks; }
+        }
     }
 }

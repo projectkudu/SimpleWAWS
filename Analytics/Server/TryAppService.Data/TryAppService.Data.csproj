@@ -114,6 +114,10 @@
     <Compile Include="Migrations\201508272138483_AddCultureColumns.Designer.cs">
       <DependentUpon>201508272138483_AddCultureColumns.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510222325433_AddSiteUsageTicksAndIsExtendedColumns.cs" />
+    <Compile Include="Migrations\201510222325433_AddSiteUsageTicksAndIsExtendedColumns.Designer.cs">
+      <DependentUpon>201510222325433_AddSiteUsageTicksAndIsExtendedColumns.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AnonymousUserAssignedExperiment.cs" />
     <Compile Include="Models\FreeTrialClick.cs" />
@@ -181,6 +185,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508272138483_AddCultureColumns.resx">
       <DependentUpon>201508272138483_AddCultureColumns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510222325433_AddSiteUsageTicksAndIsExtendedColumns.resx">
+      <DependentUpon>201510222325433_AddSiteUsageTicksAndIsExtendedColumns.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
