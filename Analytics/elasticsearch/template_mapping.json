@@ -1,0 +1,7 @@
+{
+    "@timestamp": { "type": "date" },
+    "username": { "type": "string", "index": "not_analyzed" },
+    "app_service": { "type": "string", "index": "not_analyzed" },
+    "template_name": { "type": "string", "index": "not_analyzed" },
+    "template_language": { "type": "string", "index": "not_analyzed" }
+}
