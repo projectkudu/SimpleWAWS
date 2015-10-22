@@ -401,6 +401,7 @@
     <Content Include="CSMTemplates\PingSite.json" />
     <None Include="Default.cshtml" />
     <Content Include="refs\ARMClient.Library.dll" />
+    <Content Include="Scripts\angular-timer.min.js" />
     <Content Include="Scripts\js.cookie-1.5.1.min.js" />
     <Content Include="Sorry.cshtml" />
     <Content Include="App_Data\web.config.file" />
