@@ -70,6 +70,7 @@ namespace SimpleWAWS.Code
                     await StorageHelper.UploadBlob(resourceGroup.ResourceUniqueId, httpContentStream);
                 }
                 await StorageHelper.AddQueueMessage(new { BlobName = resourceGroup.ResourceUniqueId });
+                SimpleTrace.TraceInformation("{0}; {1}", AnalyticsEvents.SiteIISLogsName, resourceGroup.ResourceUniqueId);
             }
             catch (Exception e)
             {

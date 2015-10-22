@@ -44,5 +44,6 @@ namespace SimpleWAWS.Models
 
         public const string FeedbackComment = "FEEDBACK_COMMENT";
         public const string ExtendTrial = "EXTEND_TRIAL";
+        public const string SiteIISLogsName = "SITE_IIS_LOGS_NAME";
     }
 }
