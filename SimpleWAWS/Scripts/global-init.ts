@@ -84,6 +84,7 @@ angular.module("tryApp")
         function init() {
             var referrer = getReferer();
             var sourceVariation = getSourceVariation();
+            $rootScope.sourceVariation = sourceVariation;
 
             if (referrer && referrer === "aspnet" || sourceVariation === "develop-aspnet" || sourceVariation === "aspnetdirect") {
                 $rootScope.branding = "aspnet";

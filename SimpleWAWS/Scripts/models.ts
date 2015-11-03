@@ -105,9 +105,10 @@ interface ITryRootScope extends ng.IRootScopeService {
     submitFeedback();
     cancelFeedback();
     currentCulture: string;
+    sourceVariation: string;
 }
 
 interface IStaticDataFactory {
-    getAppServices(): IAppService[];
+    getAppServices(sv?: string): IAppService[];
     getMobileClients(sampleName: string): any[];
 }

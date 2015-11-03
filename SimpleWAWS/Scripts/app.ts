@@ -8,7 +8,7 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
         return template.language;
     };
 
-    $scope.appServices = staticDataFactory.getAppServices();
+    $scope.appServices = staticDataFactory.getAppServices($rootScope.sourceVariation);
 
     $scope.mobileClients = staticDataFactory.getMobileClients("Todo List");
 
@@ -186,6 +186,22 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
                             }
                         })
                     });
+
+                // HACK: This is a hack for filtering the content for the bdc campaign
+                if ($rootScope.sourceVariation === "bdc") {
+                    $scope.appServices
+                        .filter(a => a.name === "Web")
+                        .forEach(a => {
+                            a.templates = a.templates.filter(t => (t.language === "PHP" || t.language === "NodeJs") &&
+                                (t.name === "ExpressJs" || t.name === "Ghost Blog" || t.name === "PHP Starter Site" || t.name === "WonderCMS"))
+                        });
+
+                    $scope.appServices
+                        .filter(a => a.name === "Mobile")
+                        .forEach(a => {
+                            a.templates = a.templates.filter(t => t.name === "Todo List" || t.name === "MyShuttle");
+                        });
+                }
                 //TODO: better way to choose default language
                 $scope.ngModels.selectedLanguage = $scope.currentAppService.templates.some(t => t.language === "Default")
                     ? "Default"
