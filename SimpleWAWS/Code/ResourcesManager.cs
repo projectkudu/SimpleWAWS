@@ -195,6 +195,7 @@ namespace SimpleWAWS.Code
                     SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}; {6}",
                             AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
                             template.Language, template.Name, resourceGroup.ResourceUniqueId, temp.ToString(), anonymousUserName);
+                    SimpleTrace.UserCreatedApp(userIdentity, template, resourceGroup, temp);
 
                     var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
                     var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email);
@@ -303,6 +304,7 @@ namespace SimpleWAWS.Code
                 SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}; {6}",
                             AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
                             "Api", template.ApiTemplateName, resourceGroup.ResourceUniqueId, AppService.Api.ToString(), anonymousUserName);
+                //SimpleTrace.UserCreatedApiApp()
 
                 var apiApp = new ApiApp(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, Guid.NewGuid().ToString().Replace("-", ""))
                 {
@@ -349,6 +351,7 @@ namespace SimpleWAWS.Code
                 SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}; {6}",
                             AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
                             "Logic", template.Name, resourceGroup.ResourceUniqueId, AppService.Logic.ToString(), anonymousUserName);
+                SimpleTrace.UserCreatedApp(userIdentity, template, resourceGroup, AppService.Logic);
 
                 var logicApp = new LogicApp(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, Guid.NewGuid().ToString().Replace("-", ""))
                 {

@@ -45,6 +45,7 @@ namespace SimpleWAWS.Controllers
                             cid,
                             sv
                         );
+                    SimpleTrace.InitializeAnonymousUser(userName, ExperimentManager.GetCurrentExperiment(), referer, cid, sv);
                 }
                 else
                 {

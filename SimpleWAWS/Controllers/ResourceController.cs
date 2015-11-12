@@ -224,6 +224,7 @@ namespace SimpleWAWS.Controllers
             {
                 resourceGroup = await resourceManager.ExtendResourceExpirationTime(resourceGroup);
                 SimpleTrace.TraceInformation("{0}; {1}", AnalyticsEvents.ExtendTrial, resourceGroup.ResourceUniqueId);
+                SimpleTrace.ExtendResourceGroup(resourceGroup);
                 return Request.CreateResponse(HttpStatusCode.OK, resourceGroup.UIResource);
             }
             catch (ResourceCanOnlyBeExtendedOnce e)

@@ -1,74 +1,78 @@
 {
-    "@timestamp": { "type": "date" },
-    "anonymous_username": {"type": "string", "index": "not_analyzed" },
-    "username": {"type": "string", "index": "not_analyzed" },
-    "referrer": { "type": "string" },
-    "referrer_catagorized": { "type": "string" },
-    "source_variation": { "type": "string", "index": "not_analyzed" },
-    "experiment": { "type": "string", "index": "not_analyzed" },
-    "culture": { "type": "string", "index": "not_analyzed" },
-    "landed_on": {
-        "type": "object",
-        "properties": {
-            "app_service": { "type": "string", "index": "not_analyzed" },
-            "template": { "type": "string", "index": "not_analyzed" },
-            "language": { "type": "string", "index": "not_analyzed" }
-        }
-    },
-    "free_trial_click_top": { "type": "boolean" },
-    "free_trial_click_bottom": { "type": "boolean" },
-    "free_trial_click_expire": { "type": "boolean" },
-    "logged_in": { "type": "boolean" },
-    "web_app_creates": {
-        "type": "object",
-        "properties" :{
-            "@timestamp": { "type": "date" },
-            "template_name": { "type": "string", "index": "not_analyzed" },
-            "template_language": { "type": "string", "index": "not_analyzed" },
-            "unique_id": { "type": "string", "index": "not_analyzed" },
-            "activity": { "type": "integer" },
-            "azure_portal": { "type": "boolean" },
-            "content_download": { "type": "boolean" },
-            "publishing_profile": { "type": "boolean" },
-            "git_link": { "type": "boolean" },
-            "extended": { "type": "boolean" },
-            "user_deleted": { "type": "boolean" },
-            "deleted_after": { "type": "integer" }
-        }
-    },
-    "mobile_app_creates": {
-        "type": "object",
+    "user_journey": {
         "properties": {
             "@timestamp": { "type": "date" },
-            "template_name": { "type": "string", "index": "not_analyzed" },
-            "unique_id": { "type": "string", "index": "not_analyzed" },
-            "activity": { "type": "integer" },
-            "azure_portal": { "type": "boolean" },
-            "content_download": { "type": "boolean" },
-            "publishing_profile": { "type": "boolean" },
-            "extended": { "type": "boolean" },
-            "user_deleted": { "type": "boolean" },
-            "deleted_after": { "type": "integer" },
-            "windows_client": { "type": "boolean" },
-            "xamarin_ios_client": { "type": "boolean" },
-            "xamarin_android_client": { "type": "boolean" },
-            "native_ios_client": { "type": "boolean" },
-            "web_client": { "type": "boolean" }
+            "anonymous_username": {"type": "string", "index": "not_analyzed" },
+            "username": {"type": "string", "index": "not_analyzed" },
+            "referrer": { "type": "string" },
+            "referrer_catagorized": { "type": "string" },
+            "source_variation": { "type": "string", "index": "not_analyzed" },
+            "experiment": { "type": "string", "index": "not_analyzed" },
+            "culture": { "type": "string", "index": "not_analyzed" },
+            "landed_on": {
+                "type": "object",
+                "properties": {
+                    "app_service": { "type": "string", "index": "not_analyzed" },
+                    "template": { "type": "string", "index": "not_analyzed" },
+                    "language": { "type": "string", "index": "not_analyzed" }
+                }
+            },
+            "free_trial_click_top": { "type": "boolean" },
+            "free_trial_click_bottom": { "type": "boolean" },
+            "free_trial_click_expire": { "type": "boolean" },
+            "logged_in": { "type": "boolean" },
+            "web_app_creates": {
+                "type": "object",
+                "properties" :{
+                    "@timestamp": { "type": "date" },
+                    "template_name": { "type": "string", "index": "not_analyzed" },
+                    "template_language": { "type": "string", "index": "not_analyzed" },
+                    "unique_id": { "type": "string", "index": "not_analyzed" },
+                    "activity_minutes": { "type": "integer" },
+                    "azure_portal": { "type": "boolean" },
+                    "content_download": { "type": "boolean" },
+                    "publishing_profile": { "type": "boolean" },
+                    "git_link": { "type": "boolean" },
+                    "extended": { "type": "boolean" },
+                    "user_deleted": { "type": "boolean" },
+                    "deleted_after_minutes": { "type": "integer" }
+                }
+            },
+            "mobile_app_creates": {
+                "type": "object",
+                "properties": {
+                    "@timestamp": { "type": "date" },
+                    "template_name": { "type": "string", "index": "not_analyzed" },
+                    "unique_id": { "type": "string", "index": "not_analyzed" },
+                    "activity_minutes": { "type": "integer" },
+                    "azure_portal": { "type": "boolean" },
+                    "content_download": { "type": "boolean" },
+                    "publishing_profile": { "type": "boolean" },
+                    "extended": { "type": "boolean" },
+                    "user_deleted": { "type": "boolean" },
+                    "deleted_after_minutes": { "type": "integer" },
+                    "windows_client": { "type": "boolean" },
+                    "xamarin_ios_client": { "type": "boolean" },
+                    "xamarin_android_client": { "type": "boolean" },
+                    "native_ios_client": { "type": "boolean" },
+                    "web_client": { "type": "boolean" }
+                }
+            },
+            "logic_app_creates": {
+                "type": "object",
+                "properties": {
+                    "@timestamp": { "type": "date" },
+                    "unique_id": { "type": "string", "index": "not_analyzed" },
+                    "template_name": { "type": "string", "index": "not_analyzed" },
+                    "azure_portal": { "type": "boolean" },
+                    "extended": { "type": "boolean" },
+                    "user_deleted": { "type": "boolean" },
+                    "deleted_after_minutes": { "type": "boolean" }
+                }
+            },
+            "web_apps_count": { "type": "integer" },
+            "mobile_apps_count": { "type": "integer" },
+            "logic_apps_count": { "type": "integer" }
         }
-    },
-    "logic_app_creates": {
-        "type": "object",
-        "properties": {
-            "@timestamp": { "type": "date" },
-            "unique_id": { "type": "string", "index": "not_analyzed" },
-            "template_name": { "type": "string", "index": "not_analyzed" },
-            "azure_portal": { "type": "boolean" },
-            "extended": { "type": "boolean" },
-            "user_deleted": { "type": "boolean" },
-            "deleted_after": { "type": "boolean" }
-        }
-    },
-    "web_apps_count": { "type": "integer" },
-    "mobile_apps_count": { "type": "integer" },
-    "logic_apps_count": { "type": "integer" }
+    }
 }

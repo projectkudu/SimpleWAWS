@@ -31,6 +31,7 @@ namespace SimpleWAWS.Authentication
         public string Puid { get; private set; }
         public string Email { get; private set; }
         public string Issuer { get; private set; }
+        public bool IsAnonymous { get { return Issuer != null && Issuer.Equals("Anonymous", StringComparison.OrdinalIgnoreCase); } }
 
         public override string ToString()
         {

@@ -107,6 +107,10 @@
       <HintPath>..\packages\WindowsAzure.Storage.5.0.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Nest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
+      <HintPath>..\packages\NEST.1.7.1\lib\net45\Nest.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -256,6 +260,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Server.resx</DependentUpon>
     </Compile>
+    <Compile Include="Trace\ElasticSearchTypes\AnonymousJourney.cs" />
+    <Compile Include="Trace\ElasticSearchTypes\LandedOn.cs" />
+    <Compile Include="Trace\ElasticSearchTypes\LogicAppCreate.cs" />
+    <Compile Include="Trace\ElasticSearchTypes\MobileAppCreate.cs" />
+    <Compile Include="Trace\ElasticSearchTypes\Template.cs" />
+    <Compile Include="Trace\ElasticSearchTypes\UserJourney.cs" />
+    <Compile Include="Trace\ElasticSearchTypes\WebAppCreate.cs" />
     <Compile Include="Trace\SimpleTrace.cs" />
     <Compile Include="Code\TaskExtensions.cs" />
     <Compile Include="Models\ApiApp.cs" />
