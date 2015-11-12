@@ -1,7 +1,7 @@
 angular.module("tryApp")
     .factory("staticDataFactory", () => {
         return {
-            getAppServices: (): IAppService[] => [{
+            getAppServices: (sv?: string): IAppService[] => [{
                 name: "Web",
                 sprite: "sprite-WebApp",
                 title: Resources.Information_WebApp,
@@ -111,7 +111,13 @@ angular.module("tryApp")
                 }],
                 templates: [],
                 description: Resources.Information_LogicAppDescription
-            }],
+            }].filter((e) => { // HACK: This is a hack to filter App Type Selection for bdc campaign
+                if (sv && sv === "bdc") {
+                    return e.name === "Web" || e.name === "Mobile";
+                } else {
+                    return true;
+                }
+            }),
             getMobileClients: (sampleName: string) => {
                 //TODO: get list of available clients from the server like we do with templates
                 if (sampleName === "Todo List") {
