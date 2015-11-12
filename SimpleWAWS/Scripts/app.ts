@@ -195,12 +195,6 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
                             a.templates = a.templates.filter(t => (t.language === "PHP" || t.language === "NodeJs") &&
                                 (t.name === "ExpressJs" || t.name === "Ghost Blog" || t.name === "PHP Starter Site" || t.name === "WonderCMS"))
                         });
-
-                    $scope.appServices
-                        .filter(a => a.name === "Mobile")
-                        .forEach(a => {
-                            a.templates = a.templates.filter(t => t.name === "Todo List" || t.name === "MyShuttle");
-                        });
                 }
                 //TODO: better way to choose default language
                 $scope.ngModels.selectedLanguage = $scope.currentAppService.templates.some(t => t.language === "Default")
