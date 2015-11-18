@@ -173,6 +173,7 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
                 $scope.appServices.forEach(a => {
                     a.templates = data.filter(e => e.appService === a.name);
                 });
+                // Custom sort for Mobile templates
                 $scope.appServices
                     .filter(a => a.name === "Mobile")
                     .forEach(a => {
@@ -181,6 +182,21 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
                                 return 1;
                             } else if (b.name === "Field Engineer") {
                                 return -1;
+                            } else {
+                                return a.name.localeCompare(b.name);
+                            }
+                        })
+                    });
+
+                // Custom sort for Web templates
+                $scope.appServices
+                    .filter(a => a.name === "Web")
+                    .forEach(a => {
+                        a.templates.sort((a, b) => {
+                            if (a.name === "ASP.NET Starter Site") {
+                                return -1;
+                            } else if (b.name === "ASP.NET Starter Site") {
+                                return 1;
                             } else {
                                 return a.name.localeCompare(b.name);
                             }
