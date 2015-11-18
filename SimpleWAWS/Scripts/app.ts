@@ -42,7 +42,7 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
         $scope.currentAppService = appService;
         $scope.setNextAndPreviousSteps(0);
         //TODO: better way to get default language
-        $scope.ngModels.selectedLanguage = $scope.currentAppService.templates[0].language ? "Default" : undefined;
+        $scope.ngModels.selectedLanguage = getDefaultLanguage($scope.currentAppService);
         $scope.selectedTemplate = $scope.ngModels.selectedLanguage
             ? $scope.currentAppService.templates.find(t => t.language === $scope.ngModels.selectedLanguage)
             : $scope.currentAppService.templates[0];
@@ -197,9 +197,7 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
                         });
                 }
                 //TODO: better way to choose default language
-                $scope.ngModels.selectedLanguage = $scope.currentAppService.templates.some(t => t.language === "Default")
-                    ? "Default"
-                    : $scope.currentAppService.templates[0].language;
+                $scope.ngModels.selectedLanguage = getDefaultLanguage($scope.currentAppService);
                 $scope.selectedTemplate = $scope.currentAppService.templates.find(t => t.language === $scope.ngModels.selectedLanguage);
             });
     }
@@ -300,8 +298,14 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
         if ($location.search().language) {
             var searchLanguage = $location.search().language === "cs" ? "C#" : $location.search().language;
             var correctTemplate = $scope.currentAppService.templates.find(t => t.language.toUpperCase() === searchLanguage.toUpperCase());
-            $scope.ngModels.selectedLanguage = correctTemplate ? correctTemplate.language : "Default";
+            $scope.ngModels.selectedLanguage = correctTemplate ? correctTemplate.language : getDefaultLanguage($scope.currentAppService);
         }
+    }
+
+    function getDefaultLanguage(appservice: IAppService): string {
+        return (appservice.templates.some(t => t.language === "Default")
+            ? "Default"
+            : appservice.templates[0].language) || undefined;
     }
 
     function selectAppService(appService?: string) {
