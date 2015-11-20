@@ -451,7 +451,7 @@
     <value>Azure Mobile Apps make it easy to add login, push, and data sync to your iOS, Android, or Windows app, to scale globally, and to connect your app to enterprise systems and on-premises resources.</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
-    <value>Azure Web Apps enable developers to easily deploy and scale enterprise grade web applications written in a variety of languages and integrated with a mutltitude of services without ever worying about infrastructure management.</value>
+    <value>Azure Web Apps enable developers to easily deploy and scale enterprise grade web applications written in a variety of languages and integrated with a multitude of services without ever worrying about infrastructure management.</value>
   </data>
   <data name="Information_LogicAppStep3" xml:space="preserve">
     <value>3. Run the Logic App again by clicking on the Run Now command at the top of the blade.</value>
@@ -461,5 +461,14 @@
   </data>
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
     <value>From the Logic App resource blade you can try the following:</value>
+  </data>
+  <data name="Information_XamarinBrandingLine1" xml:space="preserve">
+    <value>Go Mobile with Xamarin and Azure App Service</value>
+  </data>
+  <data name="Information_XamarinBrandingLine2" xml:space="preserve">
+    <value>Auth, Sync, and Push in seconds for any device. Start for free and scale as your app grows.</value>
+  </data>
+  <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
+    <value>Need more time? Click here to extend your trial to 24 hours.</value>
   </data>
 </root>

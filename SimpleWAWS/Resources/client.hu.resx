@@ -145,7 +145,7 @@
     <value>Kezelés az Azure-portálon</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>Mobil ügyfélalkalmazás létrehozása és futtatása</value>
+    <value>Mobil ügyfélalkalmazás letöltése és futtatása</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
     <value>Szerkesztés a Visual Studio Online „Monaco”-ban</value>
@@ -461,5 +461,14 @@
   </data>
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
     <value>A következőket teheti a Logic App erőforráspanelen:</value>
+  </data>
+  <data name="Information_XamarinBrandingLine1" xml:space="preserve">
+    <value>Legyen mobil a Xamarinnal és Azure App Service szolgáltatással</value>
+  </data>
+  <data name="Information_XamarinBrandingLine2" xml:space="preserve">
+    <value>Bármely eszközön pillanatok alatt végezhet hitelesítést vagy szinkronizálást, és küldhet rájuk leküldéses értesítéseket. A kezdés ingyenes, a méretezés pedig az alkalmazás forgalmához igazítható.</value>
+  </data>
+  <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
+    <value>Több időre van szüksége? Kattintson ide a próbaidőszak 24 órára való meghosszabbításához.</value>
   </data>
 </root>

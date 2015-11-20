@@ -145,7 +145,7 @@
     <value>Zarządzaj w Portalu Azure</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>Kompiluj i uruchom aplikację klienta mobilnego</value>
+    <value>Pobierz i uruchom kliencką aplikację mobilną</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
     <value>Edytuj w usłudze Visual Studio Online „Monaco”</value>
@@ -461,5 +461,14 @@
   </data>
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
     <value>Z poziomu boku zasobów aplikacji logiki możesz spróbować wykonać następujące czynności:</value>
+  </data>
+  <data name="Information_XamarinBrandingLine1" xml:space="preserve">
+    <value>Docieraj do urządzeń przenośnych dzięki platformie Xamarin i Usłudze aplikacji Azure</value>
+  </data>
+  <data name="Information_XamarinBrandingLine2" xml:space="preserve">
+    <value>W ciągu kilku chwil przygotuj rozwiązanie przeprowadzające uwierzytelnianie, synchronizację i wypychanie dla dowolnego urządzenia. Zacznij za darmo i wykonuj skalowanie w miarę wzrastania aplikacji.</value>
+  </data>
+  <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
+    <value>Potrzebujesz więcej czasu? Kliknij tutaj, aby przedłużyć okres próbny do 24 godzin.</value>
   </data>
 </root>

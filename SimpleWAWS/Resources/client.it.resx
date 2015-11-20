@@ -145,7 +145,7 @@
     <value>Gestisci nel portale di Azure</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>Compila ed esegui l'app client per dispositivi mobili</value>
+    <value>Scarica ed esegui l'app client per dispositivi mobili</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
     <value>Modifica con Visual Studio Online "Monaco"</value>
@@ -461,5 +461,14 @@
   </data>
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
     <value>Dal pannello della risorsa App per la logica, è possibile eseguire le operazioni seguenti:</value>
+  </data>
+  <data name="Information_XamarinBrandingLine1" xml:space="preserve">
+    <value>Soluzioni per la mobilità con Xamarin e Servizio app di Azure</value>
+  </data>
+  <data name="Information_XamarinBrandingLine2" xml:space="preserve">
+    <value>Funzionalità rapide di autenticazione, sincronizzazione e pushing per qualsiasi dispositivo. Inizia a usarle gratuitamente e scegli quelle più adatte ai requisiti dell'app.</value>
+  </data>
+  <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
+    <value>È necessario più tempo? Fare clic qui per estendere la prova gratuita per 24 ore.</value>
   </data>
 </root>

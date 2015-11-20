@@ -145,7 +145,7 @@
     <value>Azure ポータルでの管理</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>モバイル クライアント アプリケーションのビルドと実行</value>
+    <value>モバイル クライアント アプリケーションのダウンロードと実行</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
     <value>Visual Studio Online "Monaco" による編集</value>
@@ -451,7 +451,7 @@
     <value>Azure Mobile App により簡単に、iOS、Android、または Windows アプリにログイン、プッシュ、およびデータ同期を追加して、グローバルに拡大縮小し、アプリをエンタープライズ システムおよびオンプレミス リソースに接続できます。</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
-    <value>Azure Web App により、開発者はインフラストラクチャの管理に関して心配することなく、多様な言語で書かれ、多くのサービスと統合されるエンタープライズ レベルの Web アプリケーションを簡単にデプロイし、拡大縮小できます。</value>
+    <value>Azure Web Apps により、開発者はインフラストラクチャの管理に関して心配することなく、多様な言語で書かれ、多くのサービスと統合されるエンタープライズ レベルの Web アプリケーションを簡単にデプロイし、拡大縮小できます。</value>
   </data>
   <data name="Information_LogicAppStep3" xml:space="preserve">
     <value>3. ブレードの上部にある [今すぐ実行] コマンドをクリックして、Logic App を再度実行します。</value>
@@ -461,5 +461,14 @@
   </data>
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
     <value>Logic App リソース ブレードから、次を実行できます。</value>
+  </data>
+  <data name="Information_XamarinBrandingLine1" xml:space="preserve">
+    <value>Xamarin と Azure App Service でモバイルを活用</value>
+  </data>
+  <data name="Information_XamarinBrandingLine2" xml:space="preserve">
+    <value>あらゆるデバイスにおいて認証、同期、プッシュを数秒で実現できます。無料で使い始めて、アプリケーションの拡張に応じてスケーリングできます。</value>
+  </data>
+  <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
+    <value>もっと時間が必要な場合は、こちらをクリックすると試用期間を 24 時間に延長できます。</value>
   </data>
 </root>

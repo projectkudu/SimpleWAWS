@@ -147,10 +147,22 @@
   <data name="Error_OrgIdNotSupported" xml:space="preserve">
     <value>抱歉，不支持组织帐户。请使用 Microsoft 帐户。</value>
   </data>
+  <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
+    <value>以前已延长了资源到期时间。一个资源只能延长到期时间一次。</value>
+  </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>平台不受支持。</value>
   </data>
+  <data name="Templates_FieldEngineerDescription" xml:space="preserve">
+    <value>一款可供电缆公司技术人员或任何其他移动工作人员使用的移动仪表板应用，可用于 Xamarin Forms。&lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt; 上提供了完整示例。</value>
+  </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>此逻辑应用模板将定期 Ping 网站。你可以扩展此模板，以便根据 Ping 操作的结果执行相应操作。</value>
+  </data>
+  <data name="Templates_TodoListDescription" xml:space="preserve">
+    <value>这是一款简单的待办事项列表应用，可用于 iOS、Android、Xamarin 和 HTML/JS。</value>
+  </data>
+  <data name="Templates_XamarinCrmDescription" xml:space="preserve">
+    <value>一款移动销售 CRM 应用，可用于 Xamarin Forms。&lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt; 上提供了完整示例。</value>
   </data>
 </root>

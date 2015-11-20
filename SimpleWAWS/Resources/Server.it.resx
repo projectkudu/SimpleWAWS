@@ -147,10 +147,22 @@
   <data name="Error_OrgIdNotSupported" xml:space="preserve">
     <value>Gli account aziendali non sono supportati. Usare un account Microsoft.</value>
   </data>
+  <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
+    <value>La scadenza della risorsa è già stata estesa in precedenza. La scadenza può essere estesa una sola volta per ciascuna risorsa.</value>
+  </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>La piattaforma non è supportata.</value>
   </data>
+  <data name="Templates_FieldEngineerDescription" xml:space="preserve">
+    <value>Un'app dashboard per dispositivi mobili progettata per gli addetti all'installazione di cavi o per altri tecnici che operano fuori sede, disponibile per Xamarin Forms. Per un esempio completo, consultare il sito Web all'indirizzo &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
+  </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>Il modello di app per la logica eseguirà il ping di un sito Web in base a una pianificazione ricorrente. È possibile estenderlo in modo che esegua un'azione a seconda del risultato dell'operazione di ping.</value>
+  </data>
+  <data name="Templates_TodoListDescription" xml:space="preserve">
+    <value>Una semplice app di elenco attività, disponibile per iOS, Android, Xamarin e HTML/JS.</value>
+  </data>
+  <data name="Templates_XamarinCrmDescription" xml:space="preserve">
+    <value>Un'app CRM dashboard per le vendite per dispositivi mobili, disponibile per Xamarin Forms. Per un esempio completo, consultare il sito Web all'indirizzo &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>
   </data>
 </root>

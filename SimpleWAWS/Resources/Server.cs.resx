@@ -147,10 +147,22 @@
   <data name="Error_OrgIdNotSupported" xml:space="preserve">
     <value>Je nám líto, ale účty organizace nejsou podporované. Použijte prosím účet Microsoft.</value>
   </data>
+  <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
+    <value>Doba platnosti prostředku se už dříve prodlužovala. U jednoho prostředku jde doba platnosti prodloužit jenom jednou.</value>
+  </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>Platforma není podporovaná.</value>
   </data>
+  <data name="Templates_FieldEngineerDescription" xml:space="preserve">
+    <value>Mobilní aplikace řídicího panelu pro technického pracovníka poskytovatele kabelového nebo televizního signálu nebo ostatní mobilní pracovníky dostupná pro Xamarin Forms. Celou ukázku najdete na webu &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
+  </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>Tato šablona aplikace logiky pravidelně odesílá příkaz ping na web. Můžete ji rozšířit, aby na základě výsledku příkazu ping udělala nějakou akci.</value>
+  </data>
+  <data name="Templates_TodoListDescription" xml:space="preserve">
+    <value>Jedná se o jednoduchou aplikaci seznamu úkolů dostupnou pro iOS, Android, Xamarin a HTML/JS.</value>
+  </data>
+  <data name="Templates_XamarinCrmDescription" xml:space="preserve">
+    <value>Mobilní aplikace CRM řídicího panelu pro prodej dostupná pro Xamarin Forms. Celou ukázku najdete na webu &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>
   </data>
 </root>

@@ -147,10 +147,22 @@
   <data name="Error_OrgIdNotSupported" xml:space="preserve">
     <value>Organisationskonton stöds tyvärr inte. Använd ett Microsoft-konto.</value>
   </data>
+  <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
+    <value>Förfallotiden för resursen har redan förlängts. Förfallotiden för en resurs kan endast förlängas en gång.</value>
+  </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>Plattformen stöds inte.</value>
   </data>
+  <data name="Templates_FieldEngineerDescription" xml:space="preserve">
+    <value>En mobil instrumentpanelsapp för tekniker på ett kabelbolag och andra mobila arbetare. Tillgänglig för  Xamarin Forms. Fullständigt exempelprogram på &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
+  </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>Den här logiska appmallen pingar en webbplats enligt ett regelbundet schema.  Du kan utvidga den så att den vidtar åtgärder beroende på pingets resultat.</value>
+  </data>
+  <data name="Templates_TodoListDescription" xml:space="preserve">
+    <value>Det här är en enkel app med en att göra-lista, tillgänglig för iOS, Android, Xamarin och HTML/JS.</value>
+  </data>
+  <data name="Templates_XamarinCrmDescription" xml:space="preserve">
+    <value>En mobil säljinstrumentpanel-/CRM-app, tillgänglig för Xamarin Forms. Fullständigt exempelprogram på &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>
   </data>
 </root>

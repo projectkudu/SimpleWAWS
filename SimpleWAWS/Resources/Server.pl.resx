@@ -147,10 +147,22 @@
   <data name="Error_OrgIdNotSupported" xml:space="preserve">
     <value>Konta organizacyjne nie są obsługiwane. Użyj konta Microsoft.</value>
   </data>
+  <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
+    <value>Czas wygaśnięcia zasobu był już przedłużany wcześniej. Dla każdego zasobu czas wygaśnięcia można przedłużyć tylko raz.</value>
+  </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>Nieobsługiwana platforma.</value>
   </data>
+  <data name="Templates_FieldEngineerDescription" xml:space="preserve">
+    <value>Aplikacja mobilna z pulpitem nawigacyjnym dla techników w firmie dostarczającej telewizję kablową oraz wszystkich pracowników działających w terenie, dostępna dla platformy Xamarin Forms. Pełny przykład można znaleźć pod adresem &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
+  </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>Szablon aplikacji logiki będzie cyklicznie badać witrynę internetową za pomocą polecenia ping. Możesz go tak rozszerzyć, aby podejmować działanie na podstawie wyniku polecenia ping.</value>
+  </data>
+  <data name="Templates_TodoListDescription" xml:space="preserve">
+    <value>To jest prosta aplikacja z listą rzeczy do zrobienia, dostępna dla systemów iOS i Android, na platformy Xamarin i HTML/JS.</value>
+  </data>
+  <data name="Templates_XamarinCrmDescription" xml:space="preserve">
+    <value>Aplikacja mobilna z pulpitem nawigacyjnym sprzedaży CRM, dostępna dla platformy Xamarin Forms. Pełny przykład można znaleźć pod adresem &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>
   </data>
 </root>

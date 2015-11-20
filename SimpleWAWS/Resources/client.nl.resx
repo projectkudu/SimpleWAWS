@@ -145,7 +145,7 @@
     <value>Beheren in de Azure Portal</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>Uw eigen mobiele clientapp ontwikkelen en uitvoeren</value>
+    <value>Uw mobiele client-app downloaden en uitvoeren</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
     <value>Bewerken met Visual Studio Online Monaco</value>
@@ -461,5 +461,14 @@
   </data>
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
     <value>Vanaf de resourceblade van logische apps kunt u het volgende doen:</value>
+  </data>
+  <data name="Information_XamarinBrandingLine1" xml:space="preserve">
+    <value>Kies voor mobiel met Xamarin en Azure App Service</value>
+  </data>
+  <data name="Information_XamarinBrandingLine2" xml:space="preserve">
+    <value>In enkele seconden verifiëren, synchroniseren of pushen voor elk apparaat. Begin gratis en schaal omhoog wanneer uw app groeit.</value>
+  </data>
+  <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
+    <value>Meer tijd nodig? Klik hier om uw gratis proefperiode te verlengen tot 24 uur.</value>
   </data>
 </root>

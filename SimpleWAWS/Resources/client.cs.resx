@@ -145,7 +145,7 @@
     <value>Spravovat na portálu Azure</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>Vytvořit a spustit mobilní klientskou aplikaci</value>
+    <value>Stáhnout a spustit mobilní klientskou aplikaci</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
     <value>Upravit v „Monacu“ Visual Studia Online</value>
@@ -451,7 +451,7 @@
     <value>Mobilní aplikace Azure umožňují jednoduše přidávat přihlašovací údaje, nabízená oznámení a data, která se synchronizují s aplikací pro iOS, Android nebo Windows, globálně škálovat a připojovat vaše aplikace k podnikovým systémům a místním zdrojům.</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
-    <value>Webové aplikace Azure umožňují vývojářům jednoduše zavádět a škálovat podnikové webové aplikace, které jsou napsané v různých jazycích a integrují různé služby, bez starostí o správu infrastruktury.</value>
+    <value>Azure Web Apps umožňují vývojářům jednoduše nasazovat a škálovat podnikové webové aplikace, které jsou napsané v různých jazycích a integrují různé služby, bez starostí o správu infrastruktury.</value>
   </data>
   <data name="Information_LogicAppStep3" xml:space="preserve">
     <value>3. Nahoře v okně klikněte na příkaz Spustit a znovu spusťte aplikaci logiky.</value>
@@ -461,5 +461,14 @@
   </data>
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
     <value>V okně prostředků Aplikace logiky můžete vyzkoušet tyto věci:</value>
+  </data>
+  <data name="Information_XamarinBrandingLine1" xml:space="preserve">
+    <value>Buďte mobilní s Xamarinem a Aplikační službou Azure</value>
+  </data>
+  <data name="Information_XamarinBrandingLine2" xml:space="preserve">
+    <value>Vytvářejte, synchronizujte a nabízejte pro jakékoliv zařízení během několika minut. Začněte zadarmo a škálujte podle toho, jak vaše aplikace poroste.</value>
+  </data>
+  <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
+    <value>Potřebujete více času? Když kliknete sem, prodloužíte zkušební období na 24 hodin.</value>
   </data>
 </root>

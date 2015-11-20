@@ -147,10 +147,22 @@
   <data name="Error_OrgIdNotSupported" xml:space="preserve">
     <value>A munkahelyi és iskolai fiókok nem támogatottak. Használjon Microsoft-fiókot.</value>
   </data>
+  <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
+    <value>Az erőforrás lejárati idejét korábban már meghosszabbították. Csak egyszer hosszabbíthatja meg egy erőforrás lejárati idejét.</value>
+  </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>Nem támogatott platform.</value>
   </data>
+  <data name="Templates_FieldEngineerDescription" xml:space="preserve">
+    <value>Egy mobil irányítópult-alkalmazás egy kábeltelevíziós társaság technikusai vagy bármilyen más mobil dolgozók számára, mely elérhető a Xamarin Forms eszközkészlethez. A teljes minta a &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt; címen érhető el.</value>
+  </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>A Logic App-sablon ismétlődő ütemezéssel pingel egy webhelyet. Kiterjesztheti úgy, hogy a pingelés eredményétől függően végezzen el műveleteket.</value>
+  </data>
+  <data name="Templates_TodoListDescription" xml:space="preserve">
+    <value>Ez egy egyszerű teendőlistát megvalósító alkalmazás iOS, Android, Xamarin és HTML/JS rendszerekhez.</value>
+  </data>
+  <data name="Templates_XamarinCrmDescription" xml:space="preserve">
+    <value>Egy mobil értékesítési irányítópultot megvalósító CRM-alkalmazás, mely elérhető a Xamarin Forms eszközkészlethez. A teljes minta a &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt; címen érhető el.</value>
   </data>
 </root>

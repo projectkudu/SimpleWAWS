@@ -145,7 +145,7 @@
     <value>Gerir no Portal do Azure</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>Criar e executar a sua aplicação cliente para dispositivos móveis</value>
+    <value>Transfira e execute a aplicação cliente para dispositivos móveis</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
     <value>Editar com o Visual Studio Online "Monaco"</value>
@@ -217,7 +217,7 @@
     <value>Ligue-se às Redes Sociais</value>
   </data>
   <data name="Information_APIApp" xml:space="preserve">
-    <value>Aplicação API</value>
+    <value>Aplicação de API</value>
   </data>
   <data name="Information_AppAlreadyExists" xml:space="preserve">
     <value>Já tem um Serviço de Aplicações criado. Quer eliminá-lo e criar um novo?</value>
@@ -461,5 +461,14 @@
   </data>
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
     <value>No painel de recursos da Aplicação Lógica, pode tentar fazer o seguinte:</value>
+  </data>
+  <data name="Information_XamarinBrandingLine1" xml:space="preserve">
+    <value>Trabalhe em modo Móvel com o Xamarin e com o Serviço de Aplicações do Azure</value>
+  </data>
+  <data name="Information_XamarinBrandingLine2" xml:space="preserve">
+    <value>Autentique, Sincronize e Emita em segundos para qualquer dispositivo. Comece gratuitamente e ajuste enquanto a sua aplicação cresce.</value>
+  </data>
+  <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
+    <value>Precisa de mais tempo? Clique aqui para expandir a versão de avaliação para 24 horas.</value>
   </data>
 </root>

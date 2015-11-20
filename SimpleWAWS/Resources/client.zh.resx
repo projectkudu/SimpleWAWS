@@ -145,7 +145,7 @@
     <value>在 Azure 门户中管理</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>生成并运行移动客户端应用</value>
+    <value>下载并运行移动客户端应用</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
     <value>使用 Visual Studio Online "Monaco" 编辑</value>
@@ -461,5 +461,14 @@
   </data>
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
     <value>在逻辑应用资源边栏选项卡中，你可以尝试以下操作:</value>
+  </data>
+  <data name="Information_XamarinBrandingLine1" xml:space="preserve">
+    <value>使用 Xamarin 和 Azure App Service 随时随地处理业务</value>
+  </data>
+  <data name="Information_XamarinBrandingLine2" xml:space="preserve">
+    <value>对于任何设备，都可在数秒内完成身份验证、同步和推送。开始时免费使用，并且可以随着应用的成长而扩大规模。</value>
+  </data>
+  <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
+    <value>需要更多时间吗? 单击此处可将试用期延长到 24 小时。</value>
   </data>
 </root>

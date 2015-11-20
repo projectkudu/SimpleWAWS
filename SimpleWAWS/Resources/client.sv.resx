@@ -145,7 +145,7 @@
     <value>Hantera i Azure Portal</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>Skapa och kör din mobila klientapp</value>
+    <value>Ladda ner och kör din mobila klientapp</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
     <value>Redigera med Visual Studio Online "Monaco"</value>
@@ -451,7 +451,7 @@
     <value>Med Azure Mobilappar är det lätt att lägga till inloggnings-, push- och datasynkronisering till din iOS-, Android- eller Windows-app, skalanpassa globalt och ansluta din app till företagssystem och lokala resurser.</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
-    <value>Med Azure Webbappar kan utvecklare enkelt distribuera och skalanpassa företagswebbprogram som har skrivits i olika språk och integrerats med flera olika typer av tjänster utan att de behöver bekymra sig över infrastrukturhantering.</value>
+    <value>Med Azure-webbappar kan utvecklare enkelt distribuera och skalanpassa företagswebbprogram som har skrivits på olika språk och integrerats med flera olika typer av tjänster utan att de behöver bekymra sig över infrastrukturhantering.</value>
   </data>
   <data name="Information_LogicAppStep3" xml:space="preserve">
     <value>3. Kör logikappen igen genom att klicka på kommandot Kör nu överst på bladet.</value>
@@ -461,5 +461,14 @@
   </data>
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
     <value>Från resursbladet Logikapp kan du testa följande:</value>
+  </data>
+  <data name="Information_XamarinBrandingLine1" xml:space="preserve">
+    <value>Arbeta mobilt med Xamarin och Azure Apptjänst</value>
+  </data>
+  <data name="Information_XamarinBrandingLine2" xml:space="preserve">
+    <value>Autentisering, synkronisering och push-meddelanden på några sekunder för alla enheter. Prova gratis och skala enligt hur appen växer.</value>
+  </data>
+  <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
+    <value>Behöver du mer tid? Klicka här för att förlänga din provperiod till 24 timmar.</value>
   </data>
 </root>

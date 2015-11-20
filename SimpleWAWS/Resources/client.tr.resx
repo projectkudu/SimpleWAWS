@@ -145,7 +145,7 @@
     <value>Azure Portal'da yönetin</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>Mobil istemci uygulamanızı oluşturun ve çalıştırın</value>
+    <value>Mobil istemci uygulamanızı indirin ve çalıştırın</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
     <value>Visual Studio Online "Monaco" ile düzenle</value>
@@ -451,7 +451,7 @@
     <value>Azure Mobil Uygulamalar; iOS, Android veya Windows uygulamanıza oturum açma, gönderim ve veri eşitleme özellikleri eklemeyi, uygulamanızı küresel olarak ölçeklendirmeyi ve uygulamanızı kurumsal sistemler ile şirket içi kaynaklara bağlamayı kolaylaştırır.</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
-    <value>Azure Web Uygulamaları, geliştiricilerin altyapı yönetimi konusunda endişe duymasına gerek kalmadan, çeşitli dillerde yazılmış ve birçok hizmetle tümleşitirilmiş kurumsal sınıf web uygulamalarını kolayca dağıtmasına ve ölçeklendirmesine olanak sağlar.</value>
+    <value>Azure Web Uygulamaları, geliştiricilerin altyapı yönetimi konusunda endişe duymasına gerek kalmadan, çeşitli dillerde yazılmış ve birçok hizmetle tümleşitirilmiş kurumsal düzeyde web uygulamalarını kolayca dağıtmasına ve ölçeklendirmesine olanak sağlar.</value>
   </data>
   <data name="Information_LogicAppStep3" xml:space="preserve">
     <value>3. Dikey pencerenin üstündeki Şimdi Çalıştır komutuna tıklayarak Mantıksal Uygulama'yı yeniden çalıştırın.</value>
@@ -461,5 +461,14 @@
   </data>
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
     <value>Mantıksal Uygulama kaynağı dikey penceresinde aşağıdakileri yapnayı deneyebilirsiniz:</value>
+  </data>
+  <data name="Information_XamarinBrandingLine1" xml:space="preserve">
+    <value>Xamarin ve Azure Uygulama Hizmeti ile Mobil Çalışın</value>
+  </data>
+  <data name="Information_XamarinBrandingLine2" xml:space="preserve">
+    <value>İstediğiniz cihazda saniyeler içinde Kimlik Doğrulama, Eşitleme ve Gönderim yapın. Ücretsiz olarak kullanmaya başlayın ve uygulamanız geliştikçe ölçeğinizi büyütün.</value>
+  </data>
+  <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
+    <value>Daha fazla zamana mı ihtiyacınız var? Denemenizi 24 saate genişletmek için buraya tıklayın.</value>
   </data>
 </root>

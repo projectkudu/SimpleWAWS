@@ -145,7 +145,7 @@
     <value>Gerenciar no Portal do Azure</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>Criar e executar seu aplicativo cliente móvel</value>
+    <value>Transfira e execute seu aplicativo cliente móvel</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
     <value>Editar com o Visual Studio Online "Monaco"</value>
@@ -451,7 +451,7 @@
     <value>Os Aplicativos Móveis do Azure facilitam a adição de logon, o envio por push e a sincronização de dados para seu aplicativo para iOS, Android ou Windows, o dimensionamento global e a conexão de seu aplicativo a recursos locais e sistemas corporativos.</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
-    <value>Os Aplicativos Web do Azure permitem que os desenvolvedores implementem e dimensionem com facilidade aplicativos da Web de classe empresarial escritos em uma variedade de idiomas e integrados com um mutltitude de serviços, sem nunca se preocupar com o gerenciamento da infraestrutura.</value>
+    <value>Os Aplicativos Web do Azure permitem que os desenvolvedores implantem e dimensionem com facilidade aplicativos da Web de classe empresarial escritos em uma variedade de linguagens e integrados com uma multiplicidade de serviços, sem nunca se preocupar com o gerenciamento da infraestrutura.</value>
   </data>
   <data name="Information_LogicAppStep3" xml:space="preserve">
     <value>3. Execute o Aplicativo Lógico novamente clicando no comando Executar Agora na parte superior da folha.</value>
@@ -461,5 +461,14 @@
   </data>
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
     <value>Na folha de recursos Aplicativo Lógico, é possível tentar o seguinte:</value>
+  </data>
+  <data name="Information_XamarinBrandingLine1" xml:space="preserve">
+    <value>Modo móvel com o serviço Xamarin e aplicativo Azure</value>
+  </data>
+  <data name="Information_XamarinBrandingLine2" xml:space="preserve">
+    <value>Auth, Sync, e Push em segundos para qualquer dispositivo. Inicie grátis e dimensione conforme seus aplicativos cresçam.</value>
+  </data>
+  <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
+    <value>Necessita de mais tempo? Clique aqui para estender sua avaliação até 24 horas.</value>
   </data>
 </root>

@@ -145,7 +145,7 @@
     <value>Gérer dans le portail Azure</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>Créez et exécutez votre application cliente mobile</value>
+    <value>Téléchargez et exécutez votre application cliente mobile</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
     <value>Modifier avec Visual Studio Online « Monaco »</value>
@@ -461,5 +461,14 @@
   </data>
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
     <value>Depuis le panneau des ressources des applications logiques, vous pouvez essayer ce qui suit :</value>
+  </data>
+  <data name="Information_XamarinBrandingLine1" xml:space="preserve">
+    <value>Pensez mobile avec Xamarin et Azure App Service</value>
+  </data>
+  <data name="Information_XamarinBrandingLine2" xml:space="preserve">
+    <value>Authentifiez, synchronisez et envoyez en quelques secondes, sur n'importe quel appareil. Commencez gratuitement et adaptez vos besoins au fur et à mesure que votre application se développe.</value>
+  </data>
+  <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
+    <value>Besoin de plus de temps ? Cliquez ici pour prolonger votre version d'évaluation de 24 heures.</value>
   </data>
 </root>

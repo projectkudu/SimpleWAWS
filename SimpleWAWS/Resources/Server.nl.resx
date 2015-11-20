@@ -147,10 +147,22 @@
   <data name="Error_OrgIdNotSupported" xml:space="preserve">
     <value>Organisatieaccounts worden niet ondersteund. Gebruik een Microsoft-account.</value>
   </data>
+  <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
+    <value>De resourceverlooptijd is ooit eerder verlengd. U kunt de verlooptijd voor een resource slechts één keer verlengen.</value>
+  </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>Niet-ondersteund platform.</value>
   </data>
+  <data name="Templates_FieldEngineerDescription" xml:space="preserve">
+    <value>Een mobiele dashboard-app voor een technicus van een kabelbedrijf of andere mobiele werknemers, beschikbaar voor Xamarin Forms. Het volledige voorbeeld is beschikbaar op &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
+  </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>Dit sjabloon voor logische apps pingt een website volgens een vaste planning. U kunt ook instellen dat er, afhankelijk van het resultaat van het pingen, actie wordt ondernomen.</value>
+  </data>
+  <data name="Templates_TodoListDescription" xml:space="preserve">
+    <value>Dit een eenvoudige app voor takenlijstjes, beschikbaar voor iOS, Android, Xamarin en HTML/JS.</value>
+  </data>
+  <data name="Templates_XamarinCrmDescription" xml:space="preserve">
+    <value>Een CRM-app met een mobiel verkoopdashboard, beschikbaar voor Xamarin Forms. Het volledige voorbeeld is beschikbaar op &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>
   </data>
 </root>

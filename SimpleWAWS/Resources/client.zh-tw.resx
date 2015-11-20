@@ -145,7 +145,7 @@
     <value>使用 Azure 入口網站管理</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>建置並執行您的行動用戶端應用程式</value>
+    <value>下載並執行您的行動用戶端應用程式</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
     <value>使用 Visual Studio Online "Monaco" 編輯</value>
@@ -461,5 +461,14 @@
   </data>
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
     <value>您可以在邏輯應用程式資源刀鋒視窗中嘗試執行下列作業:</value>
+  </data>
+  <data name="Information_XamarinBrandingLine1" xml:space="preserve">
+    <value>透過 Xamarin 和 Azure App Service 邁向行動化</value>
+  </data>
+  <data name="Information_XamarinBrandingLine2" xml:space="preserve">
+    <value>幾秒內就可為任何裝置進行驗證、同步及推送。免費開始使用，並隨應用程式擴展進行調整規模。</value>
+  </data>
+  <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
+    <value>需要更多時間嗎? 按一下這裡即可將您的試用期延長至 24 小時。</value>
   </data>
 </root>

@@ -145,7 +145,7 @@
     <value>Azure 포털에서 관리</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>모바일 클라이언트 앱 빌드 및 실행</value>
+    <value>모바일 클라이언트 앱 다운로드 및 실행</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
     <value>Visual Studio Online "Monaco"에서 편집</value>
@@ -461,5 +461,14 @@
   </data>
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
     <value>논리 앱 리소스 블레이드에서 수행할 수 있는 작업은 다음과 같습니다.</value>
+  </data>
+  <data name="Information_XamarinBrandingLine1" xml:space="preserve">
+    <value>Xamarin과 Azure 앱 서비스를 통해 모바일로 전환</value>
+  </data>
+  <data name="Information_XamarinBrandingLine2" xml:space="preserve">
+    <value>어떤 장치에서든 빠른 인증과 동기화, 푸시가 가능합니다. 무료로 시작하고 앱이 늘어남에 따라 확장할 수 있습니다.</value>
+  </data>
+  <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
+    <value>시간이 더 필요하십니까? 평가판을 24시간 연장하려면 여기를 클릭하세요.</value>
   </data>
 </root>

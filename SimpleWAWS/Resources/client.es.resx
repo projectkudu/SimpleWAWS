@@ -145,7 +145,7 @@
     <value>Administrar en el Portal de Azure</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>Compile y ejecute su propia aplicación de cliente móvil</value>
+    <value>Descargue y ejecute su propia aplicación de cliente móvil</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
     <value>Editar con Visual Studio Online "Mónaco"</value>
@@ -451,7 +451,7 @@
     <value>Las aplicaciones móviles de Azure le permitirán agregar fácilmente a su aplicación de iOS, Android o Windows elementos de inicio de sesión y de inserción y sincronización de datos; asimismo, podrá conectar su aplicación a los sistemas de la empresa y a los recursos locales.</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
-    <value>Las Aplicaciones web de Azure permiten a los desarrolladores diseñar y escalar aplicaciones web de categoría empresarial, escritas en una gran variedad de idiomas e integradas en multitud de servicios, sin tener que preocuparse por la administración de la infraestructura.</value>
+    <value>Las aplicaciones web de Azure permiten a los desarrolladores implementar y escalar aplicaciones web de categoría empresarial, escritas en una gran variedad de lenguajes e integradas en multitud de servicios, sin tener que preocuparse por la administración de la infraestructura.</value>
   </data>
   <data name="Information_LogicAppStep3" xml:space="preserve">
     <value>3. Vuelva a ejecutar la Aplicación lógica haciendo clic en el comando Ejecutar de la parte superior de la hoja.</value>
@@ -461,5 +461,14 @@
   </data>
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
     <value>Puede intentar lo siguiente en la hoja de recursos de la Aplicación lógica:</value>
+  </data>
+  <data name="Information_XamarinBrandingLine1" xml:space="preserve">
+    <value>Use la tecnología móvil con Xamarin y el Servicio de aplicaciones de Azure</value>
+  </data>
+  <data name="Information_XamarinBrandingLine2" xml:space="preserve">
+    <value>Autentíquese y sincronice e inserte contenido en cuestión de segundos en cualquier dispositivo. Comience de forma gratuita y amplíe su suscripción a medida que crezca su aplicación.</value>
+  </data>
+  <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
+    <value>¿Necesita más tiempo? Haga clic aquí para ampliar el período de prueba a 24 horas.</value>
   </data>
 </root>

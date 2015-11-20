@@ -145,7 +145,7 @@
     <value>Управление на портале Azure</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>Выполнить сборку и запустить мобильное клиентское приложение</value>
+    <value>Скачайте и запустите мобильное клиентское приложение</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
     <value>Изменить в Visual Studio Online "Monaco"</value>
@@ -461,5 +461,14 @@
   </data>
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
     <value>Можно выполнить следующие действия из колонки ресурсов приложения логики.</value>
+  </data>
+  <data name="Information_XamarinBrandingLine1" xml:space="preserve">
+    <value>Станьте мобильным благодаря Xamarin и службе приложений Azure</value>
+  </data>
+  <data name="Information_XamarinBrandingLine2" xml:space="preserve">
+    <value>Выполняйте проверку подлинности, синхронизацию и отправку уведомлений за секунды для любого устройства. Попробуйте бесплатно и масштабируйтесь по мере роста популярности приложения.</value>
+  </data>
+  <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
+    <value>Требуется больше времени? Щелкните, чтобы продлить пробный период до 24 часов.</value>
   </data>
 </root>

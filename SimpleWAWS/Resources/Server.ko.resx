@@ -147,10 +147,22 @@
   <data name="Error_OrgIdNotSupported" xml:space="preserve">
     <value>죄송합니다. 조직 계정이 지원되지 않습니다. Microsoft 계정을 사용하세요.</value>
   </data>
+  <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
+    <value>리소스 만료 시간을 이전에 이미 연장했습니다. 리소스에 대한 만료 시간은 한 번만 연장할 수 있습니다.</value>
+  </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>지원되지 않는 플랫폼입니다.</value>
   </data>
+  <data name="Templates_FieldEngineerDescription" xml:space="preserve">
+    <value>Xamarin Forms에 사용할 수 있는, 케이블 회사 기술자나 다른 모든 모바일 작업자용 모바일 대시보드 앱입니다. 전체 샘플은 &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;를 참조하세요.</value>
+  </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>이 논리 앱 템플릿은 되풀이 일정에 따라 웹 사이트를 ping합니다. ping 결과에 따라 확장하여 조치를 취할 수 있습니다.</value>
+  </data>
+  <data name="Templates_TodoListDescription" xml:space="preserve">
+    <value>iOS, Android, Xamarin 및 HTML/JS에 사용할 수 있는 간단한 Todo 목록 앱입니다.</value>
+  </data>
+  <data name="Templates_XamarinCrmDescription" xml:space="preserve">
+    <value>Xamarin Forms에 사용할 수 있는 모바일 판매 대시보드 CRM 앱입니다. 전체 샘플은 &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;을 참조하세요.</value>
   </data>
 </root>

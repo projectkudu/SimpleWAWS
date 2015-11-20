@@ -145,7 +145,7 @@
     <value>Im Azure-Portal verwalten</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>Mobile Client-App erstellen und ausführen</value>
+    <value>Mobile Client-App herunterladen und ausführen</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
     <value>Mit Visual Studio Online "Monaco" bearbeiten</value>
@@ -461,5 +461,14 @@
   </data>
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
     <value>Auf dem Logik-App-Ressourcenblatt können Sie Folgendes versuchen:</value>
+  </data>
+  <data name="Information_XamarinBrandingLine1" xml:space="preserve">
+    <value>Mobilität durch Xamarin und Azure App Service</value>
+  </data>
+  <data name="Information_XamarinBrandingLine2" xml:space="preserve">
+    <value>Authentifizierung, Synchronisierung und Push für alle Geräte innerhalb von Sekunden. Starten Sie kostenlos, und skalieren Sie, wenn Ihre App wächst.</value>
+  </data>
+  <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
+    <value>Sie benötigen mehr Zeit? Klicken Sie hier, damit Ihnen Ihre Testversion 24 Stunden lang zur Verfügung steht.</value>
   </data>
 </root>

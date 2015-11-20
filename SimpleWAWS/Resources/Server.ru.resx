@@ -147,10 +147,22 @@
   <data name="Error_OrgIdNotSupported" xml:space="preserve">
     <value>Учетные записи организации не поддерживаются. Используйте учетную запись Майкрософт.</value>
   </data>
+  <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
+    <value>Срок действия ресурса уже был продлен. Для одного ресурса можно продлить срок действия только один раз.</value>
+  </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>Неподдерживаемая платформа</value>
   </data>
+  <data name="Templates_FieldEngineerDescription" xml:space="preserve">
+    <value>Мобильное приложение с панелью мониторинга для технического специалиста компании, предоставляющей услуги кабельного телевидения, или для любого другого мобильного специалиста, доступное для Xamarin Forms. Полнофункциональный пример доступен по адресу &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
+  </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>Шаблон приложения логики будет проверять связь с веб-сайтом по регулярному расписанию. Вы можете расширить его, чтобы предпринять действия в зависимости от результата проверки связи.</value>
+  </data>
+  <data name="Templates_TodoListDescription" xml:space="preserve">
+    <value>Это — простое приложение со списком задач, доступное для iOS, Android, Xamarin и HTML/JS.</value>
+  </data>
+  <data name="Templates_XamarinCrmDescription" xml:space="preserve">
+    <value>Мобильное приложение с панелью мониторинга продаж CRM, доступное для Xamarin Forms. Полнофункциональный пример доступен по адресу &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>
   </data>
 </root>
