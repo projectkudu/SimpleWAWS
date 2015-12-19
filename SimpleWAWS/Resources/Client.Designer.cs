@@ -385,6 +385,15 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Android.
+        /// </summary>
+        public static string Information_Android {
+            get {
+                return ResourceManager.GetString("Information_Android", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to API App.
         /// </summary>
         public static string Information_APIApp {
@@ -457,6 +466,15 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download the Android client app.
+        /// </summary>
+        public static string Information_DownloadAndroidClient {
+            get {
+                return ResourceManager.GetString("Information_DownloadAndroidClient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Download client.
         /// </summary>
         public static string Information_DownloadClient {
@@ -484,11 +502,29 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download the Universal Windows Platform (UWP).
+        /// </summary>
+        public static string Information_DownloadWUniversalWindowsPlatformClient {
+            get {
+                return ResourceManager.GetString("Information_DownloadWUniversalWindowsPlatformClient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Download the Xamarin Android client app.
         /// </summary>
         public static string Information_DownloadXamarinAndroidClient {
             get {
                 return ResourceManager.GetString("Information_DownloadXamarinAndroidClient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download the Android Forms client app.
+        /// </summary>
+        public static string Information_DownloadXamarinFormsClient {
+            get {
+                return ResourceManager.GetString("Information_DownloadXamarinFormsClient", resourceCulture);
             }
         }
         
@@ -736,6 +772,15 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Universal Windows Platform (UWP).
+        /// </summary>
+        public static string Information_UniversalWindowsPlatform {
+            get {
+                return ResourceManager.GetString("Information_UniversalWindowsPlatform", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Visit the web based client.
         /// </summary>
         public static string Information_VisitWebClient {
@@ -781,7 +826,7 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Web Client.
+        ///   Looks up a localized string similar to Web Portal.
         /// </summary>
         public static string Information_WebClient {
             get {
@@ -799,7 +844,7 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Windows.
+        ///   Looks up a localized string similar to Universal Windows 8.1.
         /// </summary>
         public static string Information_Windows {
             get {
@@ -849,6 +894,15 @@ namespace SimpleWAWS.Resources {
         public static string Information_XamarinBrandingLine2 {
             get {
                 return ResourceManager.GetString("Information_XamarinBrandingLine2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Xamarin.Forms.
+        /// </summary>
+        public static string Information_XamarinForms {
+            get {
+                return ResourceManager.GetString("Information_XamarinForms", resourceCulture);
             }
         }
         

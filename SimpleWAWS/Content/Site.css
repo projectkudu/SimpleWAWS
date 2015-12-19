@@ -9261,10 +9261,12 @@ div.mobile-icons {
     background: url(/Content/images/mobile-clients.png) no-repeat top left;
 }
 
-div.sprite-Windows { width: 115px; height: 115px; background-position: -5px -5px; }
-div.sprite-Xamarin { width: 115px; height: 115px; background-position: -5px -130px; }
-div.sprite-ios { width: 115px; height: 115px; background-position: -5px -255px; }
-div.sprite-javascript { width: 115px; height: 115px; background-position: -5px -380px; }
+div.sprite-android{ background-position: 0 0; width: 115px; height: 115px; }
+div.sprite-windows{ background-position: 0 -165px; width: 115px; height: 115px; }
+div.sprite-uwp{ background-position: 0 -330px; width: 115px; height: 115px; }
+div.sprite-xamarin{ background-position: 0 -495px; width: 115px; height: 115px; }
+div.sprite-ios{ background-position: 0 -660px; width: 115px; height: 115px; }
+div.sprite-javascript{ background-position: 0 -825px; width: 115px; height: 115px; }
 
 /* numbered buttons */
 #status-buttons {

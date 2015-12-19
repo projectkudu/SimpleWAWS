@@ -34,4 +34,10 @@
     export var Information_XamariniOS: string;
     export var Information_XamarinAndroid: string;
     export var Templates_PingSiteDescription: string;
+    export var Information_UniversalWindowsPlatform: string;
+    export var Information_Android: string;
+    export var Information_DownloadAndroidClient: string;
+    export var Information_DownloadXamarinFormsClient: string;
+    export var Information_XamarinForms: string;
+    export var Information_DownloadWUniversalWindowsPlatformClient: string;
 }

@@ -313,10 +313,10 @@
     <value>Web App</value>
   </data>
   <data name="Information_WebClient" xml:space="preserve">
-    <value>Web Client</value>
+    <value>Web Portal</value>
   </data>
   <data name="Information_Windows" xml:space="preserve">
-    <value>Windows</value>
+    <value>Universal Windows 8.1</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
     <value>To work with your app go to the Azure Portal link below which will take you to the Logic App resource blade.</value>
@@ -470,5 +470,23 @@
   </data>
   <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
     <value>Need more time? Click here to extend your trial to 24 hours.</value>
+  </data>
+  <data name="Information_Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Information_DownloadAndroidClient" xml:space="preserve">
+    <value>Download the Android client app</value>
+  </data>
+  <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
+    <value>Download the Universal Windows Platform (UWP)</value>
+  </data>
+  <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
+    <value>Download the Android Forms client app</value>
+  </data>
+  <data name="Information_UniversalWindowsPlatform" xml:space="preserve">
+    <value>Universal Windows Platform (UWP)</value>
+  </data>
+  <data name="Information_XamarinForms" xml:space="preserve">
+    <value>Xamarin.Forms</value>
   </data>
 </root>

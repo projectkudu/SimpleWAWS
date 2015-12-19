@@ -137,7 +137,7 @@ angular.module("tryApp")
                        name: Resources.Information_XamariniOS,
                        internal_name: "Xamarin iOS",
                        icon_url: "/Content/images/xamarin.png",
-                       sprite: "mobile-icons sprite-Xamarin",
+                       sprite: "mobile-icons sprite-xamarin",
                        steps: {
                            preText: Resources.Information_InstallXamarinStudio,
                            preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
@@ -149,7 +149,7 @@ angular.module("tryApp")
                        name: Resources.Information_XamarinAndroid,
                        internal_name: "Xamarin Android",
                        icon_url: "/Content/images/xamarin.png",
-                       sprite: "mobile-icons sprite-Xamarin",
+                       sprite: "mobile-icons sprite-xamarin",
                        steps: {
                            preText: Resources.Information_InstallXamarinStudio,
                            preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
@@ -160,7 +160,7 @@ angular.module("tryApp")
                        name: Resources.Information_Windows,
                        internal_name: "Windows",
                        icon_url: "/Content/images/Windows.png",
-                       sprite: "mobile-icons sprite-Windows",
+                       sprite: "mobile-icons sprite-windows",
                        steps: {
                            preText: Resources.Information_InstallVisualStudio,
                            preHref: "https://go.microsoft.com/fwLink/?LinkID=391934&clcid=0x409",
@@ -168,31 +168,55 @@ angular.module("tryApp")
                            clientHref: "/api/resource/mobileclient/Windows?templateName=TodoList"
                        }
                    }, {
-                       name: Resources.Information_WebClient,
-                       internal_name: "Web Client",
-                       sprite: "mobile-icons sprite-javascript",
+                       name: Resources.Information_UniversalWindowsPlatform,
+                       internal_name: "UWP",
+                       sprite: "mobile-icons sprite-uwp",
                        steps: {
-                           clientText: Resources.Information_VisitWebClient,
-                           clientHref: "webClient"
+                           preText: Resources.Information_InstallVisualStudio,
+                           preHref: "https://go.microsoft.com/fwLink/?LinkID=391934&clcid=0x409",
+                           clientText: Resources.Information_DownloadWUniversalWindowsPlatformClient,
+                           clientHref: "/api/resource/mobileclient/UWP?template=TodoList"
+                       }
+                   }, {
+                       name: Resources.Information_XamarinForms,
+                       internal_name: "Xamarin.Forms",
+                       sprite: "mobile-icons sprite-xamarin",
+                       steps: {
+                           preText: Resources.Information_InstallXamarinStudio,
+                           preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
+                           clientText: Resources.Information_DownloadXamarinFormsClient,
+                           clientHref: "/api/resource/mobileclient/XamarinForms?template=TodoList"
+                       }
+                   }, {
+                       name: Resources.Information_Android,
+                       internal_name: "Andorid",
+                       sprite: "mobile-icons sprite-android",
+                       steps: {
+                           preText: Resources.Information_InstallXamarinStudio,
+                           preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
+                           clientText: Resources.Information_DownloadAndroidClient,
+                           clientHref: "/api/resource/mobileclient/Android?template=TodoList"
                        }
                    }];
                 } else if (sampleName === "Field Engineer") {
                     return [{
-                        name: Resources.Information_XamariniOS,
-                        internal_name: "Xamarin iOS",
+                        name: Resources.Information_XamarinForms,
+                        internal_name: "Xamarin Forms",
                         icon_url: "/Content/images/xamarin.png",
                         sprite: "mobile-icons sprite-Xamarin",
                         steps: {
                             preText: Resources.Information_InstallXamarinStudio,
                             preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
-                            clientText: Resources.Information_DownloadXamariniOSClient,
-                            clientHref: "/api/resource/mobileclient/XamariniOS?templateName=FieldEngineer"
+                            clientText: Resources.Information_DownloadXamarinFormsClient,
+                            clientHref: "/api/resource/mobileclient/XamarinForms?templateName=FieldEngineer"
                         }
                     }, {
                         name: Resources.Information_WebClient,
                         internal_name: "Web Client",
                         sprite: "mobile-icons sprite-javascript",
                         steps: {
+                            preText: undefined,
+                            preHref: undefined,
                             clientText: Resources.Information_VisitWebClient,
                             clientHref: "webClient"
                         }
