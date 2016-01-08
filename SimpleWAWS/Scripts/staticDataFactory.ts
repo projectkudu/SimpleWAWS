@@ -157,6 +157,16 @@ angular.module("tryApp")
                            clientHref: "/api/resource/mobileclient/XamarinAndroid?templateName=TodoList"
                        }
                    }, {
+                       name: Resources.Information_XamarinForms,
+                       internal_name: "Xamarin.Forms",
+                       sprite: "mobile-icons sprite-xamarin",
+                       steps: {
+                           preText: Resources.Information_InstallXamarinStudio,
+                           preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
+                           clientText: Resources.Information_DownloadXamarinFormsClient,
+                           clientHref: "/api/resource/mobileclient/XamarinForms?templateName=TodoList"
+                       }
+                   }, {
                        name: Resources.Information_Windows,
                        internal_name: "Windows",
                        icon_url: "/Content/images/Windows.png",
@@ -175,17 +185,7 @@ angular.module("tryApp")
                            preText: Resources.Information_InstallVisualStudio,
                            preHref: "https://go.microsoft.com/fwLink/?LinkID=391934&clcid=0x409",
                            clientText: Resources.Information_DownloadWUniversalWindowsPlatformClient,
-                           clientHref: "/api/resource/mobileclient/UWP?template=TodoList"
-                       }
-                   }, {
-                       name: Resources.Information_XamarinForms,
-                       internal_name: "Xamarin.Forms",
-                       sprite: "mobile-icons sprite-xamarin",
-                       steps: {
-                           preText: Resources.Information_InstallXamarinStudio,
-                           preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
-                           clientText: Resources.Information_DownloadXamarinFormsClient,
-                           clientHref: "/api/resource/mobileclient/XamarinForms?template=TodoList"
+                           clientHref: "/api/resource/mobileclient/UWP?templateName=TodoList"
                        }
                    }, {
                        name: Resources.Information_Android,
@@ -195,7 +195,7 @@ angular.module("tryApp")
                            preText: Resources.Information_InstallXamarinStudio,
                            preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
                            clientText: Resources.Information_DownloadAndroidClient,
-                           clientHref: "/api/resource/mobileclient/Android?template=TodoList"
+                           clientHref: "/api/resource/mobileclient/Android?templateName=TodoList"
                        }
                    }];
                 } else if (sampleName === "Field Engineer") {

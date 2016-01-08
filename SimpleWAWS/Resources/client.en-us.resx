@@ -313,10 +313,10 @@
     <value>Web App</value>
   </data>
   <data name="Information_WebClient" xml:space="preserve">
-    <value>Web Client</value>
+    <value>Web Portal</value>
   </data>
   <data name="Information_Windows" xml:space="preserve">
-    <value>Windows</value>
+    <value>Universal Windows 8.1</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
     <value>To work with your app go to the Azure Portal link below which will take you to the Logic App resource blade.</value>

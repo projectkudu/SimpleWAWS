@@ -8,8 +8,11 @@ namespace SimpleWAWS.Models
     public enum MobileClientPlatform
     {
         Windows,
+        UWP,
         NativeiOS,
         XamariniOS,
-        XamarinAndroid
+        XamarinAndroid,
+        XamarinForms,
+        Android
     }
 }
