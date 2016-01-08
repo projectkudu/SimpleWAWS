@@ -121,6 +121,30 @@ angular.module("tryApp")
             init();
         };
 
+        var n = navigator.appVersion.indexOf("MSIE") != -1 ? "click" : "mousedown";
+        document.body.addEventListener(n, (e) => {
+            var cleanUp = (s: string) => s ? s.replace("_", "") : "-";
+            var wedcsCE = ["A", "IMG", "AREA", "INPUT"];
+            var MscomIsInList = function (n) {
+                for (var t in wedcsCE)
+                    if (wedcsCE[t] == n.toUpperCase()) return 1;
+                return 0
+            }
+            var t;
+            for (t = e.srcElement || e.target; t.tagName && MscomIsInList(t.tagName) == 0;) t = t.parentElement || t.parentNode;
+            $(t).attr({
+                "ms.pagetype": cleanUp(Cookies.get("exp1")),
+                "ms.pagearea": "",
+                "ms.title": "Free Trial",
+                "ms.sitename": "TryAppService",
+                "ms.referrercontentid": cleanUp(getReferer()),
+                "ms.referrerexitlinkid": cleanUp(getSourceVariation()),
+                "ms.interactiontype": cleanUp(Cookies.get("type")),
+                "ms.verbatim": $rootScope.selectedTemplate ? $rootScope.selectedTemplate.name : "none",
+                "ms.controlname": "none"
+            });
+        });
+
         var refererNameLookup = [
             { match: /http(s)?:\/\/azure\.microsoft\.com\/([a-z]){2}-([a-z]){2}\/services\/app-service\//, name: "acomaslp"},
             { match: /http(s)?:\/\/azure\.microsoft\.com\/([a-z]){2}-([a-z]){2}\/services\/app-service\/\?.*/, name: "acomaslp"},

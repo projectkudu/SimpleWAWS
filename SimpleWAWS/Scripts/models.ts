@@ -106,6 +106,7 @@ interface ITryRootScope extends ng.IRootScopeService {
     cancelFeedback();
     currentCulture: string;
     sourceVariation: string;
+    selectedTemplate: ITemplate;
 }
 
 interface IStaticDataFactory {

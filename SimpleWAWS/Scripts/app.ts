@@ -46,6 +46,9 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
         $scope.selectedTemplate = $scope.ngModels.selectedLanguage
             ? $scope.currentAppService.templates.find(t => t.language === $scope.ngModels.selectedLanguage)
             : $scope.currentAppService.templates[0];
+        // HACK for wedcs. TODO: find better way
+        $rootScope.selectedTemplate = $scope.selectedTemplate;
+
     };
 
     $scope.selectMobileClient = (client) => {
@@ -83,10 +86,14 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
 
     $scope.selectTemplate = (template) => {
         $scope.selectedTemplate = template;
+        // HACK for wedcs. TODO: find better way
+        $rootScope.selectedTemplate = $scope.selectedTemplate;
     };
 
     $scope.changeLanguage = () => {
         $scope.selectedTemplate = $scope.currentAppService.templates.find(t => t.language === $scope.ngModels.selectedLanguage);
+        // HACK for wedcs. TODO: find better way
+        $rootScope.selectedTemplate = $scope.selectedTemplate;
     };
 
     $scope.goToNextState = () => {
@@ -215,6 +222,8 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
                 //TODO: better way to choose default language
                 $scope.ngModels.selectedLanguage = getDefaultLanguage($scope.currentAppService);
                 $scope.selectedTemplate = $scope.currentAppService.templates.find(t => t.language === $scope.ngModels.selectedLanguage);
+                // HACK for wedcs. TODO: find better way
+                $rootScope.selectedTemplate = $scope.selectedTemplate;
             });
     }
 
