@@ -224,7 +224,7 @@
                 var newScript = document.createElement('script');
                 newScript.type = 'text/javascript';
                 newScript.id = 'wdcs';
-                newScript.src = "/Scripts/ms.js";//(window.location.protocol) + "//c.microsoft.com/ms.js";
+                newScript.src = (window.location.protocol) + "//c.microsoft.com/ms.js";
                 headID.appendChild(newScript);
             }, 1000);
         </script>

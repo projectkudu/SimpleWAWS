@@ -481,7 +481,7 @@
     <value>Download the Universal Windows Platform (UWP)</value>
   </data>
   <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
-    <value>Download the Android Forms client app</value>
+    <value>Download the Xamarin.Forms client app</value>
   </data>
   <data name="Information_UniversalWindowsPlatform" xml:space="preserve">
     <value>Universal Windows Platform (UWP)</value>

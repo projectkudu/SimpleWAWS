@@ -520,7 +520,7 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Download the Android Forms client app.
+        ///   Looks up a localized string similar to Download the Xamarin.Forms client app.
         /// </summary>
         public static string Information_DownloadXamarinFormsClient {
             get {
