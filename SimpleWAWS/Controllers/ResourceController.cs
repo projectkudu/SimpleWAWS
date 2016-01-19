@@ -126,7 +126,11 @@ namespace SimpleWAWS.Controllers
 
         public async Task<HttpResponseMessage> CreateResource(BaseTemplate template)
         {
-            if (template.Name != null && !template.Name.Equals("Github Repo"))
+            if (template == null)
+            {
+                template = WebsiteTemplate.EmptySiteTemplate;
+            }
+            else if (template.Name != null && !template.Name.Equals("Github Repo"))
             {
                 template = TemplatesManager.GetTemplates()
                     .FirstOrDefault(t => t.Name == template.Name && t.AppService == template.AppService);
