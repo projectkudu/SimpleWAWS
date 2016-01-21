@@ -372,7 +372,7 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
         .error((err, status, headers) => {
             if (status === 403) {
                 //show login options
-                if (($scope.currentAppService.name === "Api" || $scope.currentAppService.name === "Logic" || method) && headers("LoginUrl")) {
+                if (($scope.currentAppService.name === "Api" || $scope.currentAppService.name === "Logic" || method || $rootScope.branding === "zend") && headers("LoginUrl")) {
                     (<any>window).location = headers("LoginUrl");
                     return;
                 } else {
