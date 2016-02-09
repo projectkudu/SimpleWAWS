@@ -134,6 +134,15 @@ namespace SimpleWAWS.Models
             }
         }
 
+        public bool IsFunctionsContainer
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(SiteName) &&
+                    SiteName.StartsWith(Constants.FunctionsSitePrefix);
+            }
+        }
+
         public void FireAndForget()
         {
             try

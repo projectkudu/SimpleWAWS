@@ -15,6 +15,7 @@ namespace SimpleWAWS.Code
         private const string appServiceApiVersion = "2015-03-01-preview";
         private const string logicAppsApiVersion = "2015-02-01-preview";
         private const string graphApiVersion = "1.42-previewInternal";
+        private const string storageApiVersion = "2015-05-01-preview";
 
         public const string RbacApiVersion = "2014-07-01-preview";
         public const string CsmRootUrl = "https://management.azure.com";
@@ -63,5 +64,10 @@ namespace SimpleWAWS.Code
         public static readonly ArmUriTemplate GraphUser = new ArmUriTemplate(GraphUsers.TemplateUrl + "/{userId}", graphApiVersion);
         public static readonly ArmUriTemplate GraphSearchUsers = new ArmUriTemplate(GraphUsers.TemplateUrl + "/?$filter=netId eq '{userPuid}' or alternativeSecurityIds/any(x:x/type eq 1 and x/identityProvider eq null and x/key eq X'{userPuid}')", graphApiVersion);
         public static readonly ArmUriTemplate GraphRedeemInvite = new ArmUriTemplate(GraphTenant.TemplateUrl + "/redeemInvitation", graphApiVersion);
+
+        public static readonly ArmUriTemplate StorageRegister = new ArmUriTemplate(Subscription.TemplateUrl + "/providers/Microsoft.Storage/register", storageApiVersion);
+        public static readonly ArmUriTemplate StorageAccounts = new ArmUriTemplate(ResourceGroup.TemplateUrl+ "/providers/Microsoft.Storage/storageAccounts", storageApiVersion);
+        public static readonly ArmUriTemplate StorageAccount = new ArmUriTemplate(StorageAccounts.TemplateUrl + "/{storageAccountName}", storageApiVersion);
+        public static readonly ArmUriTemplate StorageListKeys = new ArmUriTemplate(StorageAccount.TemplateUrl + "/listKeys", storageApiVersion);
     }
 }

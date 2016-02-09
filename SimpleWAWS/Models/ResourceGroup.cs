@@ -92,6 +92,9 @@ namespace SimpleWAWS.Models
         [JsonIgnore]
         public IEnumerable<ServerFarm> ServerFarms { get; set; }
 
+        [JsonIgnore]
+        public IEnumerable<StorageAccount> StorageAccounts { get; set; }
+
         public string GeoRegion 
         {
             get { return Tags[Constants.GeoRegion]; }
@@ -184,6 +187,7 @@ namespace SimpleWAWS.Models
             this.Gateways = Enumerable.Empty<Gateway>();
             this.ServerFarms = Enumerable.Empty<ServerFarm>();
             this.LogicApps = Enumerable.Empty<LogicApp>();
+            this.StorageAccounts = Enumerable.Empty<StorageAccount>();
             this.Tags = new Dictionary<string, string>();
         }
     }

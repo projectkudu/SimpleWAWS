@@ -4,9 +4,10 @@ namespace SimpleWAWS.Code
 {
     public enum DeploymentType
     {
-        ZipDeploy,
+        ZipDeploy = 0,
         GitWithCsmDeploy,
         GitNoCsmDeploy,
-        CsmDeploy
+        CsmDeploy,
+        FunctionDeploy
     }
 }

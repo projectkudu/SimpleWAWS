@@ -232,8 +232,11 @@
     <Compile Include="Authentication\VkAuthProvider.cs" />
     <Compile Include="Code\BackgroundOperation.cs" />
     <Compile Include="Code\BackgroundQueueManager.cs" />
+    <Compile Include="Code\CsmExtensions\CsmStorageAccountExtensions.cs" />
     <Compile Include="Code\GlobalizationManager.cs" />
+    <Compile Include="Models\CsmModels\CsmStorageAccount.cs" />
     <Compile Include="Models\MakeSubscriptionFreeTrialResult.cs" />
+    <Compile Include="Models\StorageAccount.cs" />
     <Compile Include="Resources\Client.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

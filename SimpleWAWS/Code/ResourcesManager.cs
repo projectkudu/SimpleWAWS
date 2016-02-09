@@ -382,6 +382,40 @@ namespace SimpleWAWS.Code
         }
 
         // ARM
+        public async Task<ResourceGroup> ActivateFunctionApp(FunctionTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
+        {
+            return await ActivateResourceGroup(userIdentity, AppService.Function, DeploymentType.FunctionDeploy, async (resourceGroup, inProgressOperation) =>
+            {
+                SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
+                    userIdentity.Name, template, resourceGroup);
+                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}; {6}",
+                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
+                            "Function", template.Name, resourceGroup.ResourceUniqueId, AppService.Function.ToString(), anonymousUserName);
+                SimpleTrace.UserCreatedApp(userIdentity, template, resourceGroup, AppService.Function);
+
+                var site = resourceGroup.Sites.First(s => s.IsFunctionsContainer);
+                var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email, isFunctionContainer: true);
+
+                resourceGroup.Tags[Constants.TemplateName] = template.Name;
+                site.AppSettings["LAST_MODIFIED_TIME_UTC"] = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
+                site.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = SimpleSettings.SiteExpiryMinutes;
+                site.AppSettings["MONACO_EXTENSION_VERSION"] = "beta";
+                site.AppSettings["WEBSITE_TRY_MODE"] = "1";
+
+                await Task.WhenAll(site.UpdateAppSettings(), resourceGroup.Update());
+
+                if (template.GithubRepo == null)
+                {
+                    await site.UpdateConfig(new { properties = new { scmType = "LocalGit", httpLoggingEnabled = true } });
+                }
+
+                resourceGroup.IsRbacEnabled = await rbacTask;
+                site.FireAndForget();
+                return resourceGroup;
+            });
+        }
+
+        // ARM
         public async Task<ResourceGroup> GetResourceGroup(string userId)
         {
             ResourceGroup resourceGroup;

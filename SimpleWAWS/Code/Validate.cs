@@ -43,5 +43,13 @@ namespace SimpleWAWS.Code
             NotNull(subscription, "subscription");
             NotNullOrEmpty(subscription.SubscriptionId, "subscriptionId");
         }
+
+        internal static void ValidateCsmStorageAccount(StorageAccount storageAccount)
+        {
+            NotNull(storageAccount, nameof(storageAccount));
+            NotNullOrEmpty(storageAccount.SubscriptionId, nameof(storageAccount.SubscriptionId));
+            NotNullOrEmpty(storageAccount.ResourceGroupName, nameof(storageAccount.ResourceGroupName));
+            NotNullOrEmpty(storageAccount.StorageAccountName, nameof(storageAccount.StorageAccountName));
+        }
     }
 }

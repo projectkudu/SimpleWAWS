@@ -65,4 +65,11 @@ namespace SimpleWAWS.Models
             this.StatusCode = statusCode;
         }
     }
+
+    public class StorageNotReadyException : Exception
+    {
+        public StorageNotReadyException()
+            : base()
+        { }
+    }
 }

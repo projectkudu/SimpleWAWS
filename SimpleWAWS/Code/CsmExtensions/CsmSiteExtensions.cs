@@ -1,13 +1,18 @@
-﻿using SimpleWAWS.Models;
+﻿using Kudu.Client.Editor;
+using Kudu.Client.Zip;
+using Newtonsoft.Json;
+using SimpleWAWS.Models;
 using SimpleWAWS.Models.CsmModels;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Hosting;
 
 namespace SimpleWAWS.Code.CsmExtensions
 {
@@ -171,6 +176,37 @@ namespace SimpleWAWS.Code.CsmExtensions
                 properties = new { }
             });
             await response.EnsureSuccessStatusCodeWithFullError();
+        }
+
+        private static async Task CreateHostJson(Site site)
+        {
+            var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+            var vfsManager = new RemoteVfsManager($"{site.ScmUrl}vfs/", credentials, retryCount: 3);
+            var hostId = new { id = Guid.NewGuid().ToString().Replace("-", "") };
+            var putTask = vfsManager.Put("site/wwwroot/host.json", new StringContent(JsonConvert.SerializeObject(hostId)));
+            var deleteTask = vfsManager.Delete("site/wwwroot/hostingstart.html");
+            await Task.WhenAll(putTask, deleteTask);
+        }
+
+        private static async Task PublishCustomSiteExtensions(Site site)
+        {
+            var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+            var zipManager = new RemoteZipManager($"{site.ScmUrl}zip", credentials, retryCount: 3);
+            var appDataFolder = HostingEnvironment.MapPath(@"~/App_Data/SiteExtensions");
+            await zipManager.PutZipFileAsync("/", Path.Combine(appDataFolder, "Kudu.zip"));
+            await zipManager.PutZipFileAsync("/", Path.Combine(appDataFolder, "AzureFunctions.zip"));
+        }
+
+        private static async Task CreateSecretsForFunctionsContainer(Site site)
+        {
+            var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+            var vfsManager = new RemoteVfsManager($"{site.ScmUrl}vfs/", credentials, retryCount: 3);
+            var secrets = new
+            {
+                masterKey = Util.GetRandomHexNumber(40),
+                functionKey = Util.GetRandomHexNumber(40)
+            };
+            await vfsManager.Put("data/functions/secrets/host.json", new StringContent(JsonConvert.SerializeObject(secrets)));
         }
     }
 }

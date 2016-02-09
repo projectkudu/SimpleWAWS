@@ -50,12 +50,14 @@ namespace SimpleWAWS.Code.CsmExtensions
                                    LoadApiApps(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.AppService/apiapps", StringComparison.OrdinalIgnoreCase))),
                                    LoadGateways(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.AppService/gateways", StringComparison.OrdinalIgnoreCase))),
                                    LoadLogicApps(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Logic/workflows", StringComparison.OrdinalIgnoreCase))),
-                                   LoadServerFarms(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/serverFarms", StringComparison.OrdinalIgnoreCase))));
+                                   LoadServerFarms(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/serverFarms", StringComparison.OrdinalIgnoreCase))),
+                                   LoadStorageAccounts(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Storage/storageAccounts", StringComparison.OrdinalIgnoreCase))));
             }
 
             return resourceGroup;
         }
 
+        // Full Site Load
         public static async Task<ResourceGroup> LoadSites(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> sites = null)
         {
             var csmSitesResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.Sites.Bind(resourceGroup));
@@ -122,6 +124,20 @@ namespace SimpleWAWS.Code.CsmExtensions
             }
 
             resourceGroup.ServerFarms = serverFarms.Select(s => new ServerFarm(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, s.name));
+
+            return resourceGroup;
+        }
+
+        public static async Task<ResourceGroup> LoadStorageAccounts(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> storageAccounts = null)
+        {
+            if (storageAccounts == null)
+            {
+                var csmStorageAccountsResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.StorageAccounts.Bind(resourceGroup));
+                await csmStorageAccountsResponse.EnsureSuccessStatusCodeWithFullError();
+                storageAccounts = (await csmStorageAccountsResponse.Content.ReadAsAsync<CsmArrayWrapper<object>>()).value;
+            }
+
+            resourceGroup.StorageAccounts = await storageAccounts.Select(async s => await Load(new StorageAccount(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, s.name), null)).WhenAll();
 
             return resourceGroup;
         }
@@ -204,54 +220,32 @@ namespace SimpleWAWS.Code.CsmExtensions
             // If the resourceGroup is assigned, don't mess with it
             if (!string.IsNullOrEmpty(resourceGroup.UserId)) return resourceGroup;
 
-            //TODO: move to config
-            var neededSites = 1 - resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).Count();
-            var createdSites = Enumerable.Empty<Site>();
+            var createdSites = new List<Task<Site>>();
+            var storageAccounts = new List<Task<StorageAccount>>();
 
-            if (neededSites > 0)
+            if (!resourceGroup.Sites.Any(s => s.IsSimpleWAWSOriginalSite))
             {
-                createdSites = await Enumerable.Range(0, neededSites).Select(async n =>
-                {
-                    var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, SiteNameGenerator.GenerateName());
-                    var csmSiteResponse = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.Site.Bind(site), new { properties = new { }, location = resourceGroup.GeoRegion });
-                    await csmSiteResponse.EnsureSuccessStatusCodeWithFullError();
-
-                    var csmSite = await csmSiteResponse.Content.ReadAsAsync<CsmWrapper<CsmSite>>();
-
-                    return await Load(site, csmSite);
-                }).WhenAll();
+                createdSites.Add(CreateSite(resourceGroup, SiteNameGenerator.GenerateName));
             }
 
-            resourceGroup.Sites = resourceGroup.Sites.Union(createdSites);
-
-            if (!resourceGroup.Tags.ContainsKey(Constants.CommonApiAppsDeployed) ||
-                !resourceGroup.Tags[Constants.CommonApiAppsDeployed].Equals(Constants.CommonApiAppsDeployedVersion))
+            // Create Functions Container Site
+            if (!resourceGroup.Sites.Any(s => s.IsFunctionsContainer))
             {
-                var csmTemplateString = string.Empty;
-
-                using (var reader = new StreamReader(SimpleSettings.CommonApiAppsCsmTemplatePath))
-                {
-                    csmTemplateString = await reader.ReadToEndAsync();
-                }
-
-                var gatewayName = resourceGroup.Gateways.Count() != 0
-                    ? resourceGroup.Gateways.Select(s => s.GatewayName).First()
-                    : Guid.NewGuid().ToString().Replace("-", "");
-                csmTemplateString = csmTemplateString.Replace("{{gatewayName}}", gatewayName);
-
-                var deployment = new CsmDeployment
-                {
-                    DeploymentName = resourceGroup.ResourceUniqueId,
-                    SubscriptionId = resourceGroup.SubscriptionId,
-                    ResourceGroupName = resourceGroup.ResourceGroupName,
-                    CsmTemplate = JsonConvert.DeserializeObject<JToken>(csmTemplateString),
-                };
-
-                await RetryHelper.Retry(() => deployment.Deploy(block: true), 3);
-                resourceGroup.Tags[Constants.CommonApiAppsDeployed] = Constants.CommonApiAppsDeployedVersion;
-                await resourceGroup.Update();
-                await resourceGroup.Load();
+                createdSites.Add(CreateSite(resourceGroup, () => $"{Constants.FunctionsSitePrefix}{Guid.NewGuid().ToString().Split('-').First()}"));
             }
+
+            if (!resourceGroup.StorageAccounts.Any(s => s.IsFunctionsStorageAccount))
+            {
+                storageAccounts.Add(CreateStorageAccount(resourceGroup, () => $"{Constants.FunctionsStorageAccountPrefix}{Guid.NewGuid().ToString().Split('-').First()}".ToLowerInvariant()));
+            }
+
+            resourceGroup.Sites = resourceGroup.Sites.Union(await createdSites.WhenAll());
+            resourceGroup.StorageAccounts = resourceGroup.StorageAccounts.Union(await storageAccounts.WhenAll());
+
+            await InitApiApps(resourceGroup);
+
+
+            await InitFunctionsContainer(resourceGroup);
 
             return resourceGroup;
         }
@@ -291,7 +285,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             return resourceGroupTask.Result;
         }
 
-        public static async Task<bool> AddResourceGroupRbac(this ResourceGroup resourceGroup, string puidOrAltSec, string emailAddress)
+        public static async Task<bool> AddResourceGroupRbac(this ResourceGroup resourceGroup, string puidOrAltSec, string emailAddress, bool isFunctionContainer = false)
         {
             try
             {
@@ -306,6 +300,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                     .Concat(resourceGroup.Gateways.Select(s => s.AddRbacAccess(objectId)))
                     .Concat(resourceGroup.LogicApps.Select(s => s.AddRbacAccess(objectId)))
                     .Concat(resourceGroup.ServerFarms.Select(s => s.AddRbacAccess(objectId)))
+                    .Concat(resourceGroup.StorageAccounts.Select(s => s.AddRbacAccess(objectId)))
                     .WhenAll())
                     .All(e => e);
             }
@@ -315,12 +310,97 @@ namespace SimpleWAWS.Code.CsmExtensions
             }
         }
 
+        private static async Task<Site> CreateSite(ResourceGroup resourceGroup, Func<string> nameGenerator)
+        {
+            var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, nameGenerator());
+            var csmSiteResponse = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.Site.Bind(site), new { properties = new { }, location = resourceGroup.GeoRegion });
+            await csmSiteResponse.EnsureSuccessStatusCodeWithFullError();
+
+            var csmSite = await csmSiteResponse.Content.ReadAsAsync<CsmWrapper<CsmSite>>();
+
+            return await Load(site, csmSite);
+        }
+
         private static bool IsSimpleWaws(CsmWrapper<CsmResourceGroup> csmResourceGroup)
         {
             return !string.IsNullOrEmpty(csmResourceGroup.name) &&
                 csmResourceGroup.name.StartsWith(Constants.TryResourceGroupPrefix, StringComparison.OrdinalIgnoreCase) &&
                 csmResourceGroup.properties.provisioningState == "Succeeded" &&
                 !csmResourceGroup.tags.ContainsKey("Bad");
+        }
+
+        private static async Task InitApiApps(ResourceGroup resourceGroup)
+        {
+            if (!resourceGroup.Tags.ContainsKey(Constants.CommonApiAppsDeployed) ||
+                !resourceGroup.Tags[Constants.CommonApiAppsDeployed].Equals(Constants.CommonApiAppsDeployedVersion))
+            {
+                var csmTemplateString = string.Empty;
+
+                using (var reader = new StreamReader(SimpleSettings.CommonApiAppsCsmTemplatePath))
+                {
+                    csmTemplateString = await reader.ReadToEndAsync();
+                }
+
+                var gatewayName = resourceGroup.Gateways.Count() != 0
+                    ? resourceGroup.Gateways.Select(s => s.GatewayName).First()
+                    : Guid.NewGuid().ToString().Replace("-", "");
+                csmTemplateString = csmTemplateString.Replace("{{gatewayName}}", gatewayName);
+
+                var deployment = new CsmDeployment
+                {
+                    DeploymentName = resourceGroup.ResourceUniqueId,
+                    SubscriptionId = resourceGroup.SubscriptionId,
+                    ResourceGroupName = resourceGroup.ResourceGroupName,
+                    CsmTemplate = JsonConvert.DeserializeObject<JToken>(csmTemplateString),
+                };
+
+                await RetryHelper.Retry(() => deployment.Deploy(block: true), 3);
+                resourceGroup.Tags[Constants.CommonApiAppsDeployed] = Constants.CommonApiAppsDeployedVersion;
+                await resourceGroup.Update();
+                await resourceGroup.Load();
+            }
+        }
+
+        private static async Task InitFunctionsContainer(ResourceGroup resourceGroup)
+        {
+            if (!resourceGroup.Tags.ContainsKey(Constants.FunctionsContainerDeployed) ||
+                !resourceGroup.Tags[Constants.FunctionsContainerDeployedVersion].Equals(Constants.CommonApiAppsDeployedVersion))
+            {
+                var functionContainer = resourceGroup.Sites.FirstOrDefault(s => s.IsFunctionsContainer);
+                if (functionContainer != null)
+                {
+                    await Task.WhenAll(CreateHostJson(functionContainer), CreateSecretsForFunctionsContainer(functionContainer));
+                    await PublishCustomSiteExtensions(functionContainer);
+                    await UpdateConfig(functionContainer, new { properties = new { scmType = "LocalGit" } });
+                    resourceGroup.Tags[Constants.FunctionsContainerDeployed] = Constants.CommonApiAppsDeployedVersion;
+                    await resourceGroup.Update();
+                    await resourceGroup.Load();
+                }
+            }
+        }
+
+        private static async Task<StorageAccount> CreateStorageAccount(ResourceGroup resourceGroup, Func<string> nameGenerator)
+        {
+            var storageAccount = new StorageAccount(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, nameGenerator());
+            var csmStorageResponse = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.StorageAccount.Bind(storageAccount), new { properties = new { accountType = "Standard_LRS" }, location = resourceGroup.GeoRegion });
+            await csmStorageResponse.EnsureSuccessStatusCodeWithFullError();
+
+            var isSucceeded = false;
+            var tries = 40;
+            CsmWrapper<CsmStorageAccount> csmStorageAccount = null;
+            do
+            {
+                csmStorageResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.StorageAccount.Bind(storageAccount));
+                await csmStorageResponse.EnsureSuccessStatusCodeWithFullError();
+                csmStorageAccount = await csmStorageResponse.Content.ReadAsAsync<CsmWrapper<CsmStorageAccount>>();
+                isSucceeded = csmStorageAccount.properties.provisioningState.Equals("Succeeded", StringComparison.OrdinalIgnoreCase);
+                tries--;
+                if (!isSucceeded) await Task.Delay(500);
+            } while (!isSucceeded && tries > 0);
+
+            if (!isSucceeded) throw new StorageNotReadyException();
+
+            return await Load(storageAccount, csmStorageAccount);
         }
     }
 }

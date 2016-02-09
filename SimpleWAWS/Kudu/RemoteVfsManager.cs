@@ -33,7 +33,7 @@ namespace Kudu.Client.Editor
             }, _retryCount);
         }
 
-        public async Task Put(string remotePath, string localPath)
+        public async Task Put(string remotePath, HttpContent httpContent)
         {
             await RetryHelper.Retry(async () =>
             {
@@ -42,10 +42,15 @@ namespace Kudu.Client.Editor
                     request.Method = HttpMethod.Put;
                     request.RequestUri = new Uri(remotePath, UriKind.Relative);
                     request.Headers.IfMatch.Add(EntityTagHeaderValue.Any);
-                    request.Content = new StreamContent(new FileStream(localPath, FileMode.Open, FileAccess.Read, FileShare.Read));
+                    request.Content = httpContent;
                     await Client.SendAsync(request);
                 }
             }, _retryCount);
+        }
+
+        public Task Put(string remotePath, string localPath)
+        {
+            return Put(remotePath, new StreamContent(new FileStream(localPath, FileMode.Open, FileAccess.Read, FileShare.Read)));
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using SimpleWAWS.Code;
 using SimpleWAWS.Trace;
+using System.Linq;
 
 namespace SimpleWAWS.Models
 {
@@ -32,5 +33,16 @@ namespace SimpleWAWS.Models
             }
         }
 
+        //http://stackoverflow.com/a/1054087
+        static Random random = new Random();
+        public static string GetRandomHexNumber(int digits)
+        {
+            byte[] buffer = new byte[digits / 2];
+            random.NextBytes(buffer);
+            string result = String.Concat(buffer.Select(x => x.ToString("X2")).ToArray());
+            if (digits % 2 == 0)
+                return result.ToLowerInvariant();
+            return result + random.Next(16).ToString("X").ToLowerInvariant();
+        }
     }
 }

@@ -20,5 +20,9 @@ namespace SimpleWAWS.Code
         public const string TiPCookie = "x-ms-routing-name";
         public const string TemplateName = "TemplateName";
         public const string IsExtended = "IsExtended";
+        public const string FunctionsSitePrefix = "Functions";
+        public const string FunctionsContainerDeployed = "FunctionsContainerDeployed";
+        public const string FunctionsContainerDeployedVersion = "1.0.0";
+        public const string FunctionsStorageAccountPrefix = "Functions";
     }
 }

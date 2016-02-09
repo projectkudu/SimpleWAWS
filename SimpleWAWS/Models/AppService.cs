@@ -7,9 +7,10 @@ namespace SimpleWAWS.Models
 {
     public enum AppService
     {
-        Web,
+        Web = 0,
         Mobile,
         Api,
-        Logic
+        Logic,
+        Function
     }
 }
