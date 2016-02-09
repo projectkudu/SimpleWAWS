@@ -235,6 +235,7 @@
     <Compile Include="Code\CsmExtensions\CsmStorageAccountExtensions.cs" />
     <Compile Include="Code\GlobalizationManager.cs" />
     <Compile Include="Models\CsmModels\CsmStorageAccount.cs" />
+    <Compile Include="Models\FunctionTemplate.cs" />
     <Compile Include="Models\MakeSubscriptionFreeTrialResult.cs" />
     <Compile Include="Models\StorageAccount.cs" />
     <Compile Include="Resources\Client.Designer.cs">

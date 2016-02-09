@@ -295,12 +295,12 @@ namespace SimpleWAWS.Code.CsmExtensions
 
                 return (await
                     new[] { resourceGroup.AddRbacAccess(objectId) }
-                    .Concat(resourceGroup.Sites.Select(s => s.AddRbacAccess(objectId)))
+                    .Concat(resourceGroup.Sites.Where(s => !s.IsFunctionsContainer || isFunctionContainer).Select(s => s.AddRbacAccess(objectId)))
                     .Concat(resourceGroup.ApiApps.Select(s => s.AddRbacAccess(objectId)))
                     .Concat(resourceGroup.Gateways.Select(s => s.AddRbacAccess(objectId)))
                     .Concat(resourceGroup.LogicApps.Select(s => s.AddRbacAccess(objectId)))
                     .Concat(resourceGroup.ServerFarms.Select(s => s.AddRbacAccess(objectId)))
-                    .Concat(resourceGroup.StorageAccounts.Select(s => s.AddRbacAccess(objectId)))
+                    .Concat(resourceGroup.StorageAccounts.Where(s => isFunctionContainer).Select(s => s.AddRbacAccess(objectId)))
                     .WhenAll())
                     .All(e => e);
             }
