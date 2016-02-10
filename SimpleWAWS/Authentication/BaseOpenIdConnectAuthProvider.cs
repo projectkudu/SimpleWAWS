@@ -35,7 +35,7 @@ namespace SimpleWAWS.Authentication
         abstract public string GetIssuerName(string altSecId);
 
 
-        protected TokenResults TryAuthenticateBearer(HttpContextBase context)
+        public TokenResults TryAuthenticateBearer(HttpContextBase context)
         {
             var jwt = GetBearer(context);
 
@@ -67,6 +67,7 @@ namespace SimpleWAWS.Authentication
             {
                 ValidAudience = GetValidAudiance(),
                 ValidateIssuer = false,
+                ValidateAudience = false,
                 IssuerSigningTokens = OpenIdConfiguration.GetIssuerSigningKeys(jwt)
             };
 

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using SimpleWAWS.Code;
 using SimpleWAWS.Models;
 using System.Globalization;
+using System.Linq;
 
 namespace SimpleWAWS.Authentication
 {
@@ -19,6 +20,7 @@ namespace SimpleWAWS.Authentication
     {
         private static readonly Dictionary<string, IAuthProvider> _authProviders =
             new Dictionary<string, IAuthProvider>(StringComparer.OrdinalIgnoreCase);
+        private static IEnumerable<BaseOpenIdConnectAuthProvider> _openIdAuthProviders;
 
         public static string SelectedProvider(HttpContextBase context)
         {
@@ -56,6 +58,10 @@ namespace SimpleWAWS.Authentication
             _authProviders.Add("Twitter", new TwitterAuthProvider());
             _authProviders.Add("Google", new GoogleAuthProvider());
             _authProviders.Add("Vk", new VkAuthProvider());
+            _openIdAuthProviders = _authProviders
+                    .Where(e => e.Value is BaseOpenIdConnectAuthProvider)
+                    .Select(s => s.Value)
+                    .Cast<BaseOpenIdConnectAuthProvider>();
         }
 
         public static void AuthenticateRequest(HttpContextBase context)
@@ -106,6 +112,31 @@ namespace SimpleWAWS.Authentication
                 else
                 {
                     return false;
+                }
+            }
+            catch (NullReferenceException)
+            {
+                // we need to authenticate
+            }
+            catch (Exception e)
+            {
+                // we need to authenticate
+                //but also log the error
+                SimpleTrace.Diagnostics.Error(e, "Exception during cookie authentication");
+            }
+            return false;
+        }
+
+        public static bool TryAuthenticateBearer(HttpContextBase context)
+        {
+            try
+            {
+                foreach (var authProvider in _openIdAuthProviders)
+                {
+                    if (authProvider.TryAuthenticateBearer(context) == TokenResults.ExistsAndCorrect)
+                    {
+                        return true;
+                    }
                 }
             }
             catch (NullReferenceException)

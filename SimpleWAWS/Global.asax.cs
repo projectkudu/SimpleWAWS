@@ -68,6 +68,7 @@ namespace SimpleWAWS
                     .Enrich.With(new ExperimentEnricher())
                     .Enrich.With(new UserNameEnricher())
                     .WriteTo.Elasticsearch(elasticSearchConfig)
+                    .WriteTo.File(@"D:\home\site\log.log")
                     .WriteTo.Logger(lc => lc
                         .Filter.ByIncludingOnly(Matching.WithProperty<int>("Count", p => p % 10 == 0))
                         .WriteTo.Email(new EmailConnectionInfo
@@ -148,7 +149,8 @@ namespace SimpleWAWS
                 return;
             }
 
-            if (!SecurityManager.TryAuthenticateSessionCookie(context))
+            if (!SecurityManager.TryAuthenticateSessionCookie(context) &&
+                !SecurityManager.TryAuthenticateBearer(context))
             {
                 if (SecurityManager.HasToken(context))
                 {

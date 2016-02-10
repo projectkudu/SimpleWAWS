@@ -22,7 +22,10 @@ namespace SimpleWAWS.Code
         public const string IsExtended = "IsExtended";
         public const string FunctionsSitePrefix = "Functions";
         public const string FunctionsContainerDeployed = "FunctionsContainerDeployed";
-        public const string FunctionsContainerDeployedVersion = "1.0.0";
+        public const string FunctionsContainerDeployedVersion = "3.0.0";
         public const string FunctionsStorageAccountPrefix = "Functions";
+        public const string AzureStorageAppSettingsName = "AzureWebJobsStorage";
+        public const string AzureStorageDashboardAppSettingsName = "AzureWebJobsDashboard";
+        public const string StorageConnectionStringTemplate = "DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}";
     }
 }
