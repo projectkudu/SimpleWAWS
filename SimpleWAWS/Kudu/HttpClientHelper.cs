@@ -17,6 +17,10 @@ namespace Kudu.Client.Infrastructure
             {
                 throw new ArgumentNullException("serviceUrl");
             }
+            else
+            {
+                SimpleWAWS.Trace.SimpleTrace.Diagnostics.Information(serviceUrl);
+            }
 
             HttpMessageHandler effectiveHandler = handler ?? CreateClientHandler(serviceUrl, credentials);
             Uri serviceAddr = new Uri(serviceUrl);

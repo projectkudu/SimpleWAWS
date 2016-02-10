@@ -69,7 +69,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         public static async Task<Site> Load(this Site site, CsmWrapper<CsmSite> csmSite = null)
         {
             Validate.ValidateCsmSite(site);
-            if (!site.IsSimpleWAWSOriginalSite) return site;
+            if (!site.IsSimpleWAWSOriginalSite && !site.IsFunctionsContainer) return site;
 
             if (csmSite == null)
             {
@@ -191,10 +191,10 @@ namespace SimpleWAWS.Code.CsmExtensions
         private static async Task PublishCustomSiteExtensions(Site site)
         {
             var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-            var zipManager = new RemoteZipManager($"{site.ScmUrl}zip", credentials, retryCount: 3);
+            var zipManager = new RemoteZipManager($"{site.ScmUrl}zip/", credentials, retryCount: 3);
             var appDataFolder = HostingEnvironment.MapPath(@"~/App_Data/SiteExtensions");
-            await zipManager.PutZipFileAsync("/", Path.Combine(appDataFolder, "Kudu.zip"));
-            await zipManager.PutZipFileAsync("/", Path.Combine(appDataFolder, "AzureFunctions.zip"));
+            await zipManager.PutZipFileAsync(string.Empty, Path.Combine(appDataFolder, "Kudu.zip"));
+            await zipManager.PutZipFileAsync(string.Empty, Path.Combine(appDataFolder, "AzureFunctions.zip"));
         }
 
         private static async Task CreateSecretsForFunctionsContainer(Site site)

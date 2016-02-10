@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Kudu.Client.Infrastructure;
 using SimpleWAWS.Code;
+using SimpleWAWS;
 
 namespace Kudu.Client.Zip
 {
@@ -26,7 +27,8 @@ namespace Kudu.Client.Zip
                 request.RequestUri = new Uri(path, UriKind.Relative);
                 request.Headers.IfMatch.Add(EntityTagHeaderValue.Any);
                 request.Content = new StreamContent(zipFile);
-                await Client.SendAsync(request);
+                var response = await Client.SendAsync(request);
+                await response.EnsureSuccessStatusCodeWithFullError();
             }
         }
 

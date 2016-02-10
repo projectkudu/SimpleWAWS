@@ -14,6 +14,7 @@ using SimpleWAWS.Code.CsmExtensions;
 using System.Threading;
 using SimpleWAWS.Code;
 using SimpleWAWS.Trace;
+using Newtonsoft.Json;
 
 namespace SimpleWAWS.Controllers
 {
@@ -130,6 +131,10 @@ namespace SimpleWAWS.Controllers
             {
                 template = WebsiteTemplate.EmptySiteTemplate;
             }
+            else if (template.Name != null && template.Name.Equals("FunctionsContainer"))
+            {
+                template = FunctionTemplate.DefaultFunctionTemplate;
+            }
             else if (template.Name != null && !template.Name.Equals("Github Repo"))
             {
                 template = TemplatesManager.GetTemplates()
@@ -146,10 +151,6 @@ namespace SimpleWAWS.Controllers
                     Name = template.Name,
                     Language = "Github"
                 };
-            }
-            else if (template.Name != null && template.Name.Equals("FunctionsContainer"))
-            {
-                template = FunctionTemplate.DefaultFunctionTemplate;
             }
 
             var identity = HttpContext.Current.User.Identity as TryWebsitesIdentity;

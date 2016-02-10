@@ -363,20 +363,33 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         private static async Task InitFunctionsContainer(ResourceGroup resourceGroup)
         {
+            var functionContainer = resourceGroup.Sites.FirstOrDefault(s => s.IsFunctionsContainer);
+            var functionsStorageAccount = resourceGroup.StorageAccounts.FirstOrDefault(s => s.IsFunctionsStorageAccount);
+
+            if (functionContainer == null || functionsStorageAccount == null) return; // This should throw some kind of error? maybe?
             if (!resourceGroup.Tags.ContainsKey(Constants.FunctionsContainerDeployed) ||
-                !resourceGroup.Tags[Constants.FunctionsContainerDeployedVersion].Equals(Constants.CommonApiAppsDeployedVersion))
+                !resourceGroup.Tags[Constants.FunctionsContainerDeployed].Equals(Constants.FunctionsContainerDeployedVersion))
             {
-                var functionContainer = resourceGroup.Sites.FirstOrDefault(s => s.IsFunctionsContainer);
-                if (functionContainer != null)
-                {
-                    await Task.WhenAll(CreateHostJson(functionContainer), CreateSecretsForFunctionsContainer(functionContainer));
-                    await PublishCustomSiteExtensions(functionContainer);
-                    await UpdateConfig(functionContainer, new { properties = new { scmType = "LocalGit" } });
-                    resourceGroup.Tags[Constants.FunctionsContainerDeployed] = Constants.CommonApiAppsDeployedVersion;
-                    await resourceGroup.Update();
-                    await resourceGroup.Load();
-                }
+                await Task.WhenAll(CreateHostJson(functionContainer), CreateSecretsForFunctionsContainer(functionContainer));
+                await PublishCustomSiteExtensions(functionContainer);
+                await UpdateConfig(functionContainer, new { properties = new { scmType = "LocalGit" } });
+                resourceGroup.Tags[Constants.FunctionsContainerDeployed] = Constants.FunctionsContainerDeployedVersion;
+                await resourceGroup.Update();
+                await resourceGroup.Load();
             }
+
+            if (!functionContainer.AppSettings.ContainsKey(Constants.AzureStorageAppSettingsName))
+            {
+                await LinkSiteAndStorageAccount(functionContainer, functionsStorageAccount);
+            }
+        }
+
+        private static async Task LinkSiteAndStorageAccount(Site site, StorageAccount storageAccount)
+        {
+            // Assumes site and storage are loaded
+            site.AppSettings[Constants.AzureStorageAppSettingsName] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.StorageAccountName, storageAccount.StorageAccountKey);
+            site.AppSettings[Constants.AzureStorageDashboardAppSettingsName] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.StorageAccountName, storageAccount.StorageAccountKey);
+            await UpdateAppSettings(site);
         }
 
         private static async Task<StorageAccount> CreateStorageAccount(ResourceGroup resourceGroup, Func<string> nameGenerator)
@@ -385,21 +398,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             var csmStorageResponse = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.StorageAccount.Bind(storageAccount), new { properties = new { accountType = "Standard_LRS" }, location = resourceGroup.GeoRegion });
             await csmStorageResponse.EnsureSuccessStatusCodeWithFullError();
 
-            var isSucceeded = false;
-            var tries = 40;
-            CsmWrapper<CsmStorageAccount> csmStorageAccount = null;
-            do
-            {
-                csmStorageResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.StorageAccount.Bind(storageAccount));
-                await csmStorageResponse.EnsureSuccessStatusCodeWithFullError();
-                csmStorageAccount = await csmStorageResponse.Content.ReadAsAsync<CsmWrapper<CsmStorageAccount>>();
-                isSucceeded = csmStorageAccount.properties.provisioningState.Equals("Succeeded", StringComparison.OrdinalIgnoreCase);
-                tries--;
-                if (!isSucceeded) await Task.Delay(500);
-            } while (!isSucceeded && tries > 0);
-
-            if (!isSucceeded) throw new StorageNotReadyException();
-
+            var csmStorageAccount = await WaitUntilReady(storageAccount);
             return await Load(storageAccount, csmStorageAccount);
         }
     }

@@ -393,24 +393,11 @@ namespace SimpleWAWS.Code
                             "Function", template.Name, resourceGroup.ResourceUniqueId, AppService.Function.ToString(), anonymousUserName);
                 SimpleTrace.UserCreatedApp(userIdentity, template, resourceGroup, AppService.Function);
 
-                var site = resourceGroup.Sites.First(s => s.IsFunctionsContainer);
+                resourceGroup.Sites.First(s => s.IsFunctionsContainer).FireAndForget();
                 var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email, isFunctionContainer: true);
-
                 resourceGroup.Tags[Constants.TemplateName] = template.Name;
-                site.AppSettings["LAST_MODIFIED_TIME_UTC"] = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
-                site.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = SimpleSettings.SiteExpiryMinutes;
-                site.AppSettings["MONACO_EXTENSION_VERSION"] = "beta";
-                site.AppSettings["WEBSITE_TRY_MODE"] = "1";
-
-                await Task.WhenAll(site.UpdateAppSettings(), resourceGroup.Update());
-
-                if (template.GithubRepo == null)
-                {
-                    await site.UpdateConfig(new { properties = new { scmType = "LocalGit", httpLoggingEnabled = true } });
-                }
-
+                await resourceGroup.Update();
                 resourceGroup.IsRbacEnabled = await rbacTask;
-                site.FireAndForget();
                 return resourceGroup;
             });
         }

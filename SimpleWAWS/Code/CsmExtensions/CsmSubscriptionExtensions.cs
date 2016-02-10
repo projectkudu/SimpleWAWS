@@ -21,6 +21,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             //Make sure to register for AppServices RP at least once for each sub
             await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.WebsitesRegister.Bind(subscription));
             await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.AppServiceRegister.Bind(subscription));
+            await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.StorageRegister.Bind(subscription));
 
             var csmResourceGroupsRespnose = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.ResourceGroups.Bind(subscription));
             await csmResourceGroupsRespnose.EnsureSuccessStatusCodeWithFullError();
