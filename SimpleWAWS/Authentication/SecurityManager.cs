@@ -147,7 +147,7 @@ namespace SimpleWAWS.Authentication
             {
                 // we need to authenticate
                 //but also log the error
-                SimpleTrace.Diagnostics.Error(e, "Exception during cookie authentication");
+                SimpleTrace.Diagnostics.Error(e, "Exception during bearer authentication");
             }
             return false;
         }

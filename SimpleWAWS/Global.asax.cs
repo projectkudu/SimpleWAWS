@@ -149,15 +149,16 @@ namespace SimpleWAWS
                 return;
             }
 
-            if (context.IsFunctionsPortalRequest() &&
-                !context.IsBrowserRequest() &&
-                SecurityManager.TryAuthenticateBearer(context))
-            {
-                return;
-            }
-
             if (!SecurityManager.TryAuthenticateSessionCookie(context))
             {
+                // Support requests from non-browsers with bearer headers
+                if (context.IsFunctionsPortalRequest() &&
+                    !context.IsBrowserRequest() &&
+                    SecurityManager.TryAuthenticateBearer(context))
+                {
+                    return;
+                }
+
                 if (SecurityManager.HasToken(context))
                 {
                     // This is a login redirect
