@@ -71,6 +71,12 @@ namespace SimpleWAWS
                 && context.Request.UserAgent.IndexOf("bot", StringComparison.OrdinalIgnoreCase) == -1;
         }
 
+        public static bool IsFunctionsPortalRequest(this HttpContextBase context)
+        {
+            return context.Request.UserAgent != null
+                && context.Request.UserAgent.StartsWith("Functions/", StringComparison.OrdinalIgnoreCase);
+        }
+
         public static string PadBase64(this string value)
         {
             return value.Length % 4 == 0

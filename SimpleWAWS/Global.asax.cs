@@ -149,8 +149,14 @@ namespace SimpleWAWS
                 return;
             }
 
-            if (!SecurityManager.TryAuthenticateSessionCookie(context) &&
-                !SecurityManager.TryAuthenticateBearer(context))
+            if (context.IsFunctionsPortalRequest() &&
+                !context.IsBrowserRequest() &&
+                SecurityManager.TryAuthenticateBearer(context))
+            {
+                return;
+            }
+
+            if (!SecurityManager.TryAuthenticateSessionCookie(context))
             {
                 if (SecurityManager.HasToken(context))
                 {
