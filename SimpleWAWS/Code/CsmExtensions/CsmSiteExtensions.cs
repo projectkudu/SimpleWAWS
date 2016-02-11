@@ -195,6 +195,8 @@ namespace SimpleWAWS.Code.CsmExtensions
             var appDataFolder = HostingEnvironment.MapPath(@"~/App_Data/SiteExtensions");
             await zipManager.PutZipFileAsync(string.Empty, Path.Combine(appDataFolder, "Kudu.zip"));
             await zipManager.PutZipFileAsync(string.Empty, Path.Combine(appDataFolder, "AzureFunctions.zip"));
+            site.AppSettings[Constants.SiteExtensionsVersion] = Constants.CurrentSiteExtensionsVersion;
+            await site.UpdateAppSettings();
         }
 
         private static async Task CreateSecretsForFunctionsContainer(Site site)

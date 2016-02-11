@@ -368,7 +368,9 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             if (functionContainer == null || functionsStorageAccount == null) return; // This should throw some kind of error? maybe?
             if (!resourceGroup.Tags.ContainsKey(Constants.FunctionsContainerDeployed) ||
-                !resourceGroup.Tags[Constants.FunctionsContainerDeployed].Equals(Constants.FunctionsContainerDeployedVersion))
+                !resourceGroup.Tags[Constants.FunctionsContainerDeployed].Equals(Constants.FunctionsContainerDeployedVersion) ||
+                !functionContainer.AppSettings.ContainsKey(Constants.SiteExtensionsVersion) ||
+                !functionContainer.AppSettings.ContainsKey(Constants.CurrentSiteExtensionsVersion))
             {
                 await Task.WhenAll(CreateHostJson(functionContainer), CreateSecretsForFunctionsContainer(functionContainer));
                 await PublishCustomSiteExtensions(functionContainer);
