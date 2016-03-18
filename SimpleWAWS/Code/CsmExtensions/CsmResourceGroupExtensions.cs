@@ -401,7 +401,9 @@ namespace SimpleWAWS.Code.CsmExtensions
             await csmStorageResponse.EnsureSuccessStatusCodeWithFullError();
 
             var csmStorageAccount = await WaitUntilReady(storageAccount);
-            return await Load(storageAccount, csmStorageAccount);
+            storageAccount = await Load(storageAccount, csmStorageAccount);
+            await storageAccount.EnableStorageAnalytics();
+            return storageAccount;
         }
     }
 }

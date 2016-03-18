@@ -181,6 +181,11 @@ namespace SimpleWAWS.Code
                 DeleteResourceGroup(resource);
         }
 
+        private async Task<bool> StorageAccountaMetricsViolation(IEnumerable<StorageAccount> storageAccounts)
+        {
+            return 
+        }
+
         private void LogUsageStatistics(ResourceGroup resourceGroup)
         {
             AddOperation(new BackgroundOperation<ResourceGroup>
