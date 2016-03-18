@@ -402,6 +402,7 @@
     <Content Include="Content\images\packages\VSO.png" />
     <Content Include="Content\images\packages\Xamarin CRM.png" />
     <Content Include="Content\images\WebApp2.png" />
+    <Content Include="Content\images\what-is-azure.jpg" />
     <Content Include="Content\images\Windows.png" />
     <Content Include="Content\images\xamarin-appservice.png" />
     <Content Include="Content\images\Xamarin.png" />
