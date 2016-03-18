@@ -9448,3 +9448,10 @@ div.sprite-javascript{ background-position: 0 -825px; width: 115px; height: 115p
     position: absolute;
     font-size: 17px;
 }
+
+.background-what-is-azure {
+    background-image: url(/Content/images/what-is-azure.jpg);
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    text-align: center;
+}

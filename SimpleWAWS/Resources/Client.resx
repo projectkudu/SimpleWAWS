@@ -489,4 +489,10 @@
   <data name="Information_XamarinForms" xml:space="preserve">
     <value>Xamarin.Forms</value>
   </data>
+  <data name="Information_AzurePlatformBrandingLine1" xml:space="preserve">
+    <value>See how quickly you can create a Node.js app</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
+    <value>Azure App Service is the only cloud service that integrates everything you need to quickly and easily build web and mobile apps for any platform or device.  Pull data from anywhere and build virtually anything.  Play in the sandbox for up to an hour free of charge and commitment.</value>
+  </data>
 </root>

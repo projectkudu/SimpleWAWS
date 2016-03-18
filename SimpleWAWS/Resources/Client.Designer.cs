@@ -457,6 +457,24 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to See how quickly you can create a Node.js app.
+        /// </summary>
+        public static string Information_AzurePlatformBrandingLine1 {
+            get {
+                return ResourceManager.GetString("Information_AzurePlatformBrandingLine1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Azure App Service is the only cloud service that integrates everything you need to quickly and easily build web and mobile apps for any platform or device.  Pull data from anywhere and build virtually anything.  Play in the sandbox for up to an hour free of charge and commitment..
+        /// </summary>
+        public static string Information_AzurePlatformBrandingLine2 {
+            get {
+                return ResourceManager.GetString("Information_AzurePlatformBrandingLine2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Coming soon.
         /// </summary>
         public static string Information_ComingSoon {

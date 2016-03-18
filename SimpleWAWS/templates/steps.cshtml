@@ -1,6 +1,6 @@
 ﻿@using SimpleWAWS.Resources
 @using System.Globalization
-<section class="wa-section wa-section-mini" ng-if="branding !== 'aspnet' && branding !== 'azurecon'" ng-class="branding === 'mkt-b15.22' ? 'wa-section-mkt-b15' : 'wa-section-blue wa-section-compute'">
+<section class="wa-section wa-section-mini" ng-if="branding !== 'azureplatform' && branding !== 'aspnet' && branding !== 'azurecon'" ng-class="branding === 'mkt-b15.22' ? 'wa-section-mkt-b15' : 'wa-section-blue wa-section-compute'">
     <div class="wa-content">
         <h1>@Client.Action_CreateAppServiceApp</h1>
         <div class="wa-spacer">
@@ -28,6 +28,13 @@
     <div class="wa-content">
         <h1>Go Mobile with Xamarin and Azure App Service</h1>
         <h3>Auth, Sync, and Push in seconds for any device. Start for free and scale as your app grows.</h3>
+    </div>
+</section>
+
+<section class="wa-section wa-section-mini wa-section-blue wa-section-compute background-what-is-azure" ng-if="branding === 'azureplatform'" >
+    <div class="wa-content">
+        <h1>@Client.Information_AzurePlatformBrandingLine1</h1>
+        <h5>@Client.Information_AzurePlatformBrandingLine2</h5>
     </div>
 </section>
 

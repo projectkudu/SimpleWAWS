@@ -94,6 +94,8 @@ angular.module("tryApp")
                 $rootScope.branding = "azurecon";
             } else if (sourceVariation === "zend") {
                 $rootScope.branding = "zend";
+            } else if (sourceVariation === "azureplatform") {
+                $rootScope.branding = "azureplatform";
             }
 
             $rootScope.experiment = Cookies.get("exp2");
