@@ -107,6 +107,7 @@ interface ITryRootScope extends ng.IRootScopeService {
     currentCulture: string;
     sourceVariation: string;
     selectedTemplate: ITemplate;
+    atlasTrack(url: string);
 }
 
 interface IStaticDataFactory {

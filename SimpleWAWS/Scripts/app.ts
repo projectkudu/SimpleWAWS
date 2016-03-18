@@ -360,7 +360,8 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
             method: "POST",
             data: $scope.selectedTemplate
         })
-        .success((data: any) => {
+            .success((data: any) => {
+            $rootScope.atlasTrack("TryAzure_AppService_Create_CLK");
             $scope.resource = data;
             $scope.mobileClients = staticDataFactory.getMobileClients(data.templateName);
             if ($scope.mobileClients && $scope.mobileClients.length > 0) {

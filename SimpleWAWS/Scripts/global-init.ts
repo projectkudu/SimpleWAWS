@@ -30,7 +30,14 @@ angular.module("tryApp")
         };
 
         $rootScope.freeTrialClick = (place) => {
-            uiTelemetry("FREE_TRIAL_CLICK", { pagePlace: place});
+            uiTelemetry("FREE_TRIAL_CLICK", { pagePlace: place });
+            if (getSourceVariation() === "azureplatform") {
+                if (place === "top-banner" || place === "last-step") {
+                    $rootScope.atlasTrack("TryAzure_AppService_Trial_CLK")
+                } else if (place === "expired-banner") {
+                    $rootScope.atlasTrack("TryAzure_AppService_TrialComplete_CLK");
+                }
+            }
         };
 
         $rootScope.ibizaClick = () => {
@@ -80,7 +87,12 @@ angular.module("tryApp")
         $rootScope.freeTrialTopCachedQuery = "";
         $rootScope.freeTrialBottomCachedQuery = "";
         $rootScope.freeTrialExpireCachedQuery = "";
-        $(document).ready(init);
+        $(document).ready(() => {
+            init();
+            if (getSourceVariation() === "azureplatform") {
+                $rootScope.atlasTrack("TryAzure_App_Service_LP");
+            }
+        });
         function init() {
             var referrer = getReferer();
             var sourceVariation = getSourceVariation();
@@ -124,6 +136,20 @@ angular.module("tryApp")
             Cookies.set("type", value);
             init();
         };
+
+        $rootScope.atlasTrack = function (uri) {
+            var timestamp = new Date();
+
+            var qs = "&random=" + Math.ceil(Math.random() * 99999999) + timestamp.getUTCFullYear() + timestamp.getUTCMonth()
+                + timestamp.getUTCDate() + timestamp.getUTCHours() + timestamp.getUTCMinutes() + timestamp.getUTCSeconds() + timestamp.getUTCMilliseconds();
+
+            var uriPlus = "https://ad.atdmt.com/m/a.jsm=11087204082189?event=" + uri + qs;
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = uriPlus;
+
+            document.getElementsByTagName('head')[0].appendChild(script);
+        }
 
         var n = navigator.appVersion.indexOf("MSIE") != -1 ? "click" : "mousedown";
         document.body.addEventListener(n, (e) => {
