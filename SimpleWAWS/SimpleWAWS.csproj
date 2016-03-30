@@ -344,9 +344,11 @@
     <Content Include="Content\fonts\segoe-ui\light\latest.svg" />
     <Content Include="Content\fonts\segoe-ui\normal\latest.svg" />
     <Content Include="Content\fonts\segoe-ui\semibold\latest.svg" />
+    <Content Include="Content\images\Android.png" />
     <Content Include="Content\images\ApiApp2.png" />
     <Content Include="Content\images\appServices.png" />
     <Content Include="Content\images\azure-logo.png" />
+    <Content Include="Content\images\azurebanner.jpg" />
     <Content Include="Content\images\csg-54e3b7f2a19fc.png" />
     <Content Include="Content\images\filter-search-spyglass.png" />
     <Content Include="Content\images\footer-sprite.png" />
@@ -402,8 +404,8 @@
     <Content Include="Content\images\packages\VSO.png" />
     <Content Include="Content\images\packages\Xamarin CRM.png" />
     <Content Include="Content\images\WebApp2.png" />
-    <Content Include="Content\images\what-is-azure.jpg" />
     <Content Include="Content\images\Windows.png" />
+    <Content Include="Content\images\Windows10.png" />
     <Content Include="Content\images\xamarin-appservice.png" />
     <Content Include="Content\images\Xamarin.png" />
     <Content Include="Content\poster2.png" />
