@@ -148,7 +148,7 @@
     <value>Désolé, les comptes professionnels ne sont pas pris en charge. Utilisez un compte Microsoft.</value>
   </data>
   <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
-    <value>La date d'expiration de la ressource a déjà été prolongée. Vous ne pouvez prolonger la date d'expiration d'une ressource qu'une seule fois.</value>
+    <value>L'heure d'expiration de la ressource a déjà été prolongée. Vous ne pouvez prolonger l'heure d'expiration d'une ressource qu'une seule fois.</value>
   </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>Plateforme non prise en charge.</value>
@@ -160,7 +160,7 @@
     <value>Le modèle d'application logique effectue un test Ping avec un site web selon une planification récurrente. Vous pouvez l'étendre de façon à effectuer une action en fonction du résultat du test Ping.</value>
   </data>
   <data name="Templates_TodoListDescription" xml:space="preserve">
-    <value>Il s'agit d'une application de listes de tâches simple, disponible pour iOS, Android, Xamarin et HTML/JS.</value>
+    <value>Il s'agit d'une application de listes de tâches simple, disponible sur iOS, Android, Xamarin et HTML/JS.</value>
   </data>
   <data name="Templates_XamarinCrmDescription" xml:space="preserve">
     <value>Application mobile CRM de tableau de bord pour les ventes, disponible pour Xamarin Forms. Exemple complet sur &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>

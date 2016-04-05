@@ -145,7 +145,7 @@
     <value>Zarządzaj w Portalu Azure</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>Pobierz i uruchom kliencką aplikację mobilną</value>
+    <value>Pobierz i uruchom aplikację klienta mobilnego</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
     <value>Edytuj w usłudze Visual Studio Online „Monaco”</value>
@@ -313,10 +313,10 @@
     <value>Aplikacja sieci Web</value>
   </data>
   <data name="Information_WebClient" xml:space="preserve">
-    <value>Klient sieci Web</value>
+    <value>Portal sieci Web</value>
   </data>
   <data name="Information_Windows" xml:space="preserve">
-    <value>Windows</value>
+    <value>Aplikacja uniwersalna systemu Windows 8.1</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
     <value>Aby pracować ze swoją aplikacją, skorzystaj z podanego poniżej linku Portalu Azure w celu przejścia do bloku zasobów aplikacji logiki.</value>
@@ -463,12 +463,36 @@
     <value>Z poziomu boku zasobów aplikacji logiki możesz spróbować wykonać następujące czynności:</value>
   </data>
   <data name="Information_XamarinBrandingLine1" xml:space="preserve">
-    <value>Docieraj do urządzeń przenośnych dzięki platformie Xamarin i Usłudze aplikacji Azure</value>
+    <value>Rozszerz zasięg na urządzenia przenośne dzięki platformie Xamarin i Usłudze aplikacji Azure</value>
   </data>
   <data name="Information_XamarinBrandingLine2" xml:space="preserve">
-    <value>W ciągu kilku chwil przygotuj rozwiązanie przeprowadzające uwierzytelnianie, synchronizację i wypychanie dla dowolnego urządzenia. Zacznij za darmo i wykonuj skalowanie w miarę wzrastania aplikacji.</value>
+    <value>W ciągu sekund wykonuj operacje uwierzytelniania, synchronizacji i wypychania dla dowolnych urządzeń. Zacznij od wersji bezpłatnej i skaluj w miarę wzrastania aplikacji.</value>
   </data>
   <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
     <value>Potrzebujesz więcej czasu? Kliknij tutaj, aby przedłużyć okres próbny do 24 godzin.</value>
+  </data>
+  <data name="Information_Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Information_DownloadAndroidClient" xml:space="preserve">
+    <value>Pobierz aplikację kliencką dla systemu Android</value>
+  </data>
+  <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
+    <value>Pobierz aplikację kliencką dla platformy uniwersalnej systemu Windows (UWP)</value>
+  </data>
+  <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
+    <value>Pobierz aplikację kliencką interfejsu Xamarin.Forms</value>
+  </data>
+  <data name="Information_UniversalWindowsPlatform" xml:space="preserve">
+    <value>Platforma uniwersalna systemu Windows (UWP)</value>
+  </data>
+  <data name="Information_XamarinForms" xml:space="preserve">
+    <value>Xamarin.Forms</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine1" xml:space="preserve">
+    <value>Zobacz, jak szybko można utworzyć aplikację Node.js</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
+    <value>Usługa aplikacji Azure to jedyna usługa w chmurze, która integruje wszystkie narzędzia niezbędne do szybkiego i łatwego tworzenia aplikacji sieci Web i aplikacji mobilnych na dowolną platformę i dowolne urządzenie. Możesz pobierać dane z dowolnego miejsca i tworzyć niemal dowolne aplikacje. Piaskownicę usługi możesz wypróbować przez godzinę bezpłatnie i bez żadnych zobowiązań.</value>
   </data>
 </root>

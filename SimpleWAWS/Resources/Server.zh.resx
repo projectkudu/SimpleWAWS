@@ -118,51 +118,51 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Deployment_DeploymentInProgress" xml:space="preserve">
-    <value>正在进行部署。</value>
+    <value>部署進行中。</value>
   </data>
   <data name="Deployment_GitDeploymentInProgress" xml:space="preserve">
-    <value>正在进行 Git 部署。</value>
+    <value>Git 部署進行中。</value>
   </data>
   <data name="Error_GeneralErrorMessage" xml:space="preserve">
-    <value>出现错误。请稍后重试。</value>
+    <value>發生錯誤。請稍後再試一次。</value>
   </data>
   <data name="Error_GettingPublishingProfileStream" xml:space="preserve">
-    <value>无法检索发布配置文件。请稍后重试。</value>
+    <value>無法擷取發行設定檔。請稍後再試一次。</value>
   </data>
   <data name="Error_InvalidAppServiceType" xml:space="preserve">
-    <value>App Service 的类型必须是 'Mobile' 才能下载移动客户端。</value>
+    <value>App Service 必須是「行動」類型，才能下載行動用戶端。</value>
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
-    <value>GitHub 存储库 URI 无效或来自不受信任的组织。</value>
+    <value>Github 儲存機制 URI 無效，或該 URI 來自信任的組織。</value>
   </data>
   <data name="Error_InvalidUserIdentity" xml:space="preserve">
-    <value>用户无效。</value>
+    <value>無效的使用者。</value>
   </data>
   <data name="Error_MoreThanOneFreeResource" xml:space="preserve">
-    <value>你不能同时使用多个免费资源。</value>
+    <value>您無法同時擁有 1 個以上的免費資源。</value>
   </data>
   <data name="Error_NoFreeResourcesAvailable" xml:space="preserve">
-    <value>当前没有免费资源可供使用。请稍后重试。</value>
+    <value>目前沒有免費的資源可供使用。請稍後再試一次。</value>
   </data>
   <data name="Error_OrgIdNotSupported" xml:space="preserve">
-    <value>抱歉，不支持组织帐户。请使用 Microsoft 帐户。</value>
+    <value>抱歉! 不支援組織帳戶。請使用 Microsoft 帳戶。</value>
   </data>
   <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
-    <value>以前已延长了资源到期时间。一个资源只能延长到期时间一次。</value>
+    <value>先前已延長過資源到期時間。您只能為資源延長一次到期時間。</value>
   </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
-    <value>平台不受支持。</value>
+    <value>不支援的平台。</value>
   </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
-    <value>一款可供电缆公司技术人员或任何其他移动工作人员使用的移动仪表板应用，可用于 Xamarin Forms。&lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt; 上提供了完整示例。</value>
+    <value>專為有線電視公司技術人員或任何其他行動工作力所設計的行動儀表板應用程式，其適用於 Xamarin 格式。如需完整範例，請移至 &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;。</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
-    <value>此逻辑应用模板将定期 Ping 网站。你可以扩展此模板，以便根据 Ping 操作的结果执行相应操作。</value>
+    <value>此邏輯應用程式範本會依照排程定期 Ping 網站。您可以擴充其功能，依據 Ping 的結果採取動作。</value>
   </data>
   <data name="Templates_TodoListDescription" xml:space="preserve">
-    <value>这是一款简单的待办事项列表应用，可用于 iOS、Android、Xamarin 和 HTML/JS。</value>
+    <value>此為簡單待辦事項清單應用程式，適用於 iOS、Android、Xamarin 及 HTML/JS。</value>
   </data>
   <data name="Templates_XamarinCrmDescription" xml:space="preserve">
-    <value>一款移动销售 CRM 应用，可用于 Xamarin Forms。&lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt; 上提供了完整示例。</value>
+    <value>行動銷售儀表板 CRM 應用程式，適用於 Xamarin 格式。如需完整範例，請移至 &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;。</value>
   </data>
 </root>

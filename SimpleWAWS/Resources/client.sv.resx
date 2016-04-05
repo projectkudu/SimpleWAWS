@@ -145,7 +145,7 @@
     <value>Hantera i Azure Portal</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>Ladda ner och kör din mobila klientapp</value>
+    <value>Hämta och kör din mobila klientapp</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
     <value>Redigera med Visual Studio Online "Monaco"</value>
@@ -313,10 +313,10 @@
     <value>Webbapp</value>
   </data>
   <data name="Information_WebClient" xml:space="preserve">
-    <value>Webbklient</value>
+    <value>Webbportal</value>
   </data>
   <data name="Information_Windows" xml:space="preserve">
-    <value>Windows</value>
+    <value>Universellt Windows 8.1</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
     <value>Om du vill arbeta med din app går du till Azure Portal-länken nedan, vilken tar dig vidare till resursbladet för logiska appar.</value>
@@ -451,7 +451,7 @@
     <value>Med Azure Mobilappar är det lätt att lägga till inloggnings-, push- och datasynkronisering till din iOS-, Android- eller Windows-app, skalanpassa globalt och ansluta din app till företagssystem och lokala resurser.</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
-    <value>Med Azure-webbappar kan utvecklare enkelt distribuera och skalanpassa företagswebbprogram som har skrivits på olika språk och integrerats med flera olika typer av tjänster utan att de behöver bekymra sig över infrastrukturhantering.</value>
+    <value>Med Azure Webbappar kan utvecklare enkelt distribuera och skalanpassa företagswebbprogram som har skrivits i olika språk och integrerats med flera olika typer av tjänster utan att de behöver bekymra sig över infrastrukturhantering.</value>
   </data>
   <data name="Information_LogicAppStep3" xml:space="preserve">
     <value>3. Kör logikappen igen genom att klicka på kommandot Kör nu överst på bladet.</value>
@@ -463,12 +463,36 @@
     <value>Från resursbladet Logikapp kan du testa följande:</value>
   </data>
   <data name="Information_XamarinBrandingLine1" xml:space="preserve">
-    <value>Arbeta mobilt med Xamarin och Azure Apptjänst</value>
+    <value>Bli mobil med Xamarin och Azure Apptjänst</value>
   </data>
   <data name="Information_XamarinBrandingLine2" xml:space="preserve">
-    <value>Autentisering, synkronisering och push-meddelanden på några sekunder för alla enheter. Prova gratis och skala enligt hur appen växer.</value>
+    <value>Skriv, synka och pusha på några sekunder från vilken enhet du vill. Börja gratis och bygg ut i takt med din app växer.</value>
   </data>
   <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
-    <value>Behöver du mer tid? Klicka här för att förlänga din provperiod till 24 timmar.</value>
+    <value>Behöver du mer tid? Klicka här om du vill förlänga din utvärdering med 24 timmar.</value>
+  </data>
+  <data name="Information_Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Information_DownloadAndroidClient" xml:space="preserve">
+    <value>Hämta Android-klientappen</value>
+  </data>
+  <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
+    <value>Hämta den universella Windows-plattformen (UWP)</value>
+  </data>
+  <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
+    <value>Hämta Xamarin.Forms-klientappen</value>
+  </data>
+  <data name="Information_UniversalWindowsPlatform" xml:space="preserve">
+    <value>Universell Windows-plattform (UWP)</value>
+  </data>
+  <data name="Information_XamarinForms" xml:space="preserve">
+    <value>Xamarin.Forms</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine1" xml:space="preserve">
+    <value>Se hur snabbt du kan skapa en Node.js-app</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
+    <value>Azure Apptjänst är den enda molntjänsten som integrerar allt du behöver för att snabbt och lätt kunna skapa webbappar och mobila appar för vilken plattform eller enhet du vill. Hämta data från valfritt ställe och skapa i praktiken vad du vill. Jobba i begränsat läge gratis och utan åtaganden i upp till en timma.</value>
   </data>
 </root>

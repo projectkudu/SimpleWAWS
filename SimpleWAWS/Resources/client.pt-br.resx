@@ -145,7 +145,7 @@
     <value>Gerenciar no Portal do Azure</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>Transfira e execute seu aplicativo cliente móvel</value>
+    <value>Baixar e executar seu aplicativo cliente móvel</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
     <value>Editar com o Visual Studio Online "Monaco"</value>
@@ -313,10 +313,10 @@
     <value>Aplicativo Web</value>
   </data>
   <data name="Information_WebClient" xml:space="preserve">
-    <value>Cliente Web</value>
+    <value>Portal da Web</value>
   </data>
   <data name="Information_Windows" xml:space="preserve">
-    <value>Windows</value>
+    <value>Windows 8.1 Universal</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
     <value>Para trabalhar com seu aplicativo, vá para o link do Portal do Azure abaixo, que o levará até a folha de recursos do Aplicativo Lógico.</value>
@@ -451,7 +451,7 @@
     <value>Os Aplicativos Móveis do Azure facilitam a adição de logon, o envio por push e a sincronização de dados para seu aplicativo para iOS, Android ou Windows, o dimensionamento global e a conexão de seu aplicativo a recursos locais e sistemas corporativos.</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
-    <value>Os Aplicativos Web do Azure permitem que os desenvolvedores implantem e dimensionem com facilidade aplicativos da Web de classe empresarial escritos em uma variedade de linguagens e integrados com uma multiplicidade de serviços, sem nunca se preocupar com o gerenciamento da infraestrutura.</value>
+    <value>Os Aplicativos Web do Azure permitem que os desenvolvedores implementem e dimensionem com facilidade aplicativos da Web de classe empresarial escritos em uma variedade de idiomas e integrados com um mutltitude de serviços, sem nunca se preocupar com o gerenciamento da infraestrutura.</value>
   </data>
   <data name="Information_LogicAppStep3" xml:space="preserve">
     <value>3. Execute o Aplicativo Lógico novamente clicando no comando Executar Agora na parte superior da folha.</value>
@@ -463,12 +463,36 @@
     <value>Na folha de recursos Aplicativo Lógico, é possível tentar o seguinte:</value>
   </data>
   <data name="Information_XamarinBrandingLine1" xml:space="preserve">
-    <value>Modo móvel com o serviço Xamarin e aplicativo Azure</value>
+    <value>Passe a móvel com o serviço de aplicativo Xamarin e Azure</value>
   </data>
   <data name="Information_XamarinBrandingLine2" xml:space="preserve">
-    <value>Auth, Sync, e Push em segundos para qualquer dispositivo. Inicie grátis e dimensione conforme seus aplicativos cresçam.</value>
+    <value>Auth, Sync, e Push em segundos para qualquer dispositivo. Comece grátis e dimensione conforme seu aplicativo cresce.</value>
   </data>
   <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
-    <value>Necessita de mais tempo? Clique aqui para estender sua avaliação até 24 horas.</value>
+    <value>Necessita de mais tempo? Clique aqui para prolongar sua versão de avaliação para 24 horas.</value>
+  </data>
+  <data name="Information_Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Information_DownloadAndroidClient" xml:space="preserve">
+    <value>Baixar o aplicativo cliente para Android</value>
+  </data>
+  <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
+    <value>Baixar a Plataforma Universal do Windows (UWP)</value>
+  </data>
+  <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
+    <value>Baixar o aplicativo cliente Xamarin.Forms</value>
+  </data>
+  <data name="Information_UniversalWindowsPlatform" xml:space="preserve">
+    <value>Plataforma Universal do Windows (UWP)</value>
+  </data>
+  <data name="Information_XamarinForms" xml:space="preserve">
+    <value>Xamarin.Forms</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine1" xml:space="preserve">
+    <value>Veja como é rápido criar um aplicativo Node.js</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
+    <value>O Serviço de Aplicativo do Azure é o único serviço de nuvem que integra tudo o que você precisa para criar com rapidez e velocidade aplicativos Web e móveis para qualquer plataforma ou dispositivo. Extraia dados de qualquer lugar e crie virtualmente qualquer coisa.  Divirta-se por até uma hora gratuitamente e sem compromisso.</value>
   </data>
 </root>

@@ -313,10 +313,10 @@
     <value>Web 应用</value>
   </data>
   <data name="Information_WebClient" xml:space="preserve">
-    <value>Web 客户端</value>
+    <value>Web 门户</value>
   </data>
   <data name="Information_Windows" xml:space="preserve">
-    <value>Windows</value>
+    <value>通用 Windows 8.1</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
     <value>若要使用你的应用，请点击下面的“Azure 门户”链接，然后你就会转到逻辑应用资源边栏选项卡。</value>
@@ -463,12 +463,36 @@
     <value>在逻辑应用资源边栏选项卡中，你可以尝试以下操作:</value>
   </data>
   <data name="Information_XamarinBrandingLine1" xml:space="preserve">
-    <value>使用 Xamarin 和 Azure App Service 随时随地处理业务</value>
+    <value>使用 Xamarin 和 Azure App Service 随时随地办公</value>
   </data>
   <data name="Information_XamarinBrandingLine2" xml:space="preserve">
-    <value>对于任何设备，都可在数秒内完成身份验证、同步和推送。开始时免费使用，并且可以随着应用的成长而扩大规模。</value>
+    <value>在数秒内对任何设备完成授权、同步和推送。在开始时免费使用，并且可以随着你应用的增长而扩展。</value>
   </data>
   <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
     <value>需要更多时间吗? 单击此处可将试用期延长到 24 小时。</value>
+  </data>
+  <data name="Information_Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Information_DownloadAndroidClient" xml:space="preserve">
+    <value>下载 Android 客户端应用</value>
+  </data>
+  <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
+    <value>下载通用 Windows 平台(UWP)</value>
+  </data>
+  <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
+    <value>下载 Xamarin.Forms 客户端应用</value>
+  </data>
+  <data name="Information_UniversalWindowsPlatform" xml:space="preserve">
+    <value>通用 Windows 平台(UWP)</value>
+  </data>
+  <data name="Information_XamarinForms" xml:space="preserve">
+    <value>Xamarin.Forms</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine1" xml:space="preserve">
+    <value>了解创建 Node.js 应用的最快方式</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
+    <value>Azure App Service 是集成简便快捷地生成适用于任何平台或设备的 Web 应用所需全部内容的唯一云服务。从任何位置拉取数据，随心所欲地生成应用。在沙盒中使用，最多可实现一小时免费、免承诺试用。</value>
   </data>
 </root>

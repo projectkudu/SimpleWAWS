@@ -145,7 +145,7 @@
     <value>Управление на портале Azure</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>Скачайте и запустите мобильное клиентское приложение</value>
+    <value>Скачать и запустить мобильное клиентское приложение</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
     <value>Изменить в Visual Studio Online "Monaco"</value>
@@ -313,10 +313,10 @@
     <value>Веб-приложение</value>
   </data>
   <data name="Information_WebClient" xml:space="preserve">
-    <value>Веб-клиент</value>
+    <value>Веб-портал</value>
   </data>
   <data name="Information_Windows" xml:space="preserve">
-    <value>Windows</value>
+    <value>Универсальное для Windows 8.1</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
     <value>Для работы с приложением перейдите на портал Azure по ссылке ниже. Вы окажетесь на странице с колонкой ресурсов приложения логики.</value>
@@ -451,7 +451,7 @@
     <value>Мобильные приложения Azure позволяют легко выполнять вход, отправку и синхронизацию данных в приложении iOS, Android или Windows, глобально масштабировать и подключать приложение к корпоративным системам и локальным ресурсам.</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
-    <value>Веб-приложения Azure позволяют разработчикам легко развертывать и масштабировать веб-приложения корпоративного уровня, написанные на разных языках и интегрированные в несколько служб, не беспокоясь об управлении инфраструктурой.</value>
+    <value>Веб-приложения Azure позволяют разработчикам легко развертывать и масштабировать высококлассные веб-приложения, написанные на разных языках и интегрированные в несколько служб, не беспокоясь об управлении инфраструктурой.</value>
   </data>
   <data name="Information_LogicAppStep3" xml:space="preserve">
     <value>3. Запустите повторно приложение логики, щелкнув команду "Запустить сейчас" в верхней части колонки.</value>
@@ -463,12 +463,36 @@
     <value>Можно выполнить следующие действия из колонки ресурсов приложения логики.</value>
   </data>
   <data name="Information_XamarinBrandingLine1" xml:space="preserve">
-    <value>Станьте мобильным благодаря Xamarin и службе приложений Azure</value>
+    <value>Переходите на мобильные технологии с помощью Xamarin и службы приложений Azure</value>
   </data>
   <data name="Information_XamarinBrandingLine2" xml:space="preserve">
-    <value>Выполняйте проверку подлинности, синхронизацию и отправку уведомлений за секунды для любого устройства. Попробуйте бесплатно и масштабируйтесь по мере роста популярности приложения.</value>
+    <value>Проверка подлинности, синхронизация и отправка за секунды на любом устройстве. Начните бесплатно и изменяйте масштаб по мере роста приложения.</value>
   </data>
   <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
-    <value>Требуется больше времени? Щелкните, чтобы продлить пробный период до 24 часов.</value>
+    <value>Нужно больше времени? Щелкните здесь, чтобы продлить пробную версию на 24 часа.</value>
+  </data>
+  <data name="Information_Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Information_DownloadAndroidClient" xml:space="preserve">
+    <value>Скачать клиентское приложение для Android</value>
+  </data>
+  <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
+    <value>Скачать универсальную платформу Windows (UWP)</value>
+  </data>
+  <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
+    <value>Скачать клиентское приложение для Xamarin.Forms</value>
+  </data>
+  <data name="Information_UniversalWindowsPlatform" xml:space="preserve">
+    <value>Универсальная платформа Windows (UWP)</value>
+  </data>
+  <data name="Information_XamarinForms" xml:space="preserve">
+    <value>Xamarin.Forms</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine1" xml:space="preserve">
+    <value>Смотрите, как быстро можно создать приложение Node.js</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
+    <value>Служба приложений Azure — это единственная облачная служба, в которой собрано все необходимое для быстрого создания мобильных и веб-приложений для любых платформ и устройств. Вы можете извлекать данные отовсюду и создавать практически все, что угодно. До одного часа с ней можно поиграть в "песочнице" без оплаты и обязательств.</value>
   </data>
 </root>

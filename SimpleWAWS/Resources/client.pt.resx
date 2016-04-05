@@ -145,7 +145,7 @@
     <value>Gerir no Portal do Azure</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>Transfira e execute a aplicação cliente para dispositivos móveis</value>
+    <value>Descarregar e executar a sua aplicação cliente para dispositivos móveis</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
     <value>Editar com o Visual Studio Online "Monaco"</value>
@@ -217,7 +217,7 @@
     <value>Ligue-se às Redes Sociais</value>
   </data>
   <data name="Information_APIApp" xml:space="preserve">
-    <value>Aplicação de API</value>
+    <value>Aplicação API</value>
   </data>
   <data name="Information_AppAlreadyExists" xml:space="preserve">
     <value>Já tem um Serviço de Aplicações criado. Quer eliminá-lo e criar um novo?</value>
@@ -313,10 +313,10 @@
     <value>Aplicação Web</value>
   </data>
   <data name="Information_WebClient" xml:space="preserve">
-    <value>Cliente Web</value>
+    <value>Portal Web</value>
   </data>
   <data name="Information_Windows" xml:space="preserve">
-    <value>Windows</value>
+    <value>Universal Windows 8.1</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
     <value>Para trabalhar com a sua aplicação, aceda ao link do Portal do Azure, abaixo, que o encaminha para o painel de recursos da Aplicação Lógica.</value>
@@ -463,12 +463,36 @@
     <value>No painel de recursos da Aplicação Lógica, pode tentar fazer o seguinte:</value>
   </data>
   <data name="Information_XamarinBrandingLine1" xml:space="preserve">
-    <value>Trabalhe em modo Móvel com o Xamarin e com o Serviço de Aplicações do Azure</value>
+    <value>Torne-se móvel com o Xamarin e com Serviço de Aplicações do Azure</value>
   </data>
   <data name="Information_XamarinBrandingLine2" xml:space="preserve">
-    <value>Autentique, Sincronize e Emita em segundos para qualquer dispositivo. Comece gratuitamente e ajuste enquanto a sua aplicação cresce.</value>
+    <value>Autenticação, Sincronização e Emissão em qualquer dispositivo. Comece gratuitamente e dimensione conforme a sua aplicação cresce.</value>
   </data>
   <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
-    <value>Precisa de mais tempo? Clique aqui para expandir a versão de avaliação para 24 horas.</value>
+    <value>Precisa de mais tempo? Clique aqui para prolongar a avaliação para 24 horas.</value>
+  </data>
+  <data name="Information_Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Information_DownloadAndroidClient" xml:space="preserve">
+    <value>Transfira a aplicação cliente do Android</value>
+  </data>
+  <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
+    <value>Transfira a Plataforma Universal do Windows (UWP)</value>
+  </data>
+  <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
+    <value>Transfira a aplicação cliente de Xamarin.Forms</value>
+  </data>
+  <data name="Information_UniversalWindowsPlatform" xml:space="preserve">
+    <value>Plataforma Universal do Windows (UWP)</value>
+  </data>
+  <data name="Information_XamarinForms" xml:space="preserve">
+    <value>Xamarin.Forms</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine1" xml:space="preserve">
+    <value>Veja quão rapidamente pode criar uma aplicação Node.js</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
+    <value>O Serviço de Aplicações do Azure é o único serviço cloud que integra tudo o que precisa para criar de forma rápida e fácil aplicações Web e móveis para qualquer plataforma ou dispositivo. Retire dados de qualquer sítio e crie virtualmente tudo aquilo que desejar. Brinque na sandbox até um máximo de uma hora, de forma gratuita e sem compromisso.</value>
   </data>
 </root>

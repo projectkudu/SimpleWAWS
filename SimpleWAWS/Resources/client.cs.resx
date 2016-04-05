@@ -313,10 +313,10 @@
     <value>Webová aplikace</value>
   </data>
   <data name="Information_WebClient" xml:space="preserve">
-    <value>Webový klient</value>
+    <value>Webový portál</value>
   </data>
   <data name="Information_Windows" xml:space="preserve">
-    <value>Windows</value>
+    <value>Universal Windows 8.1</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
     <value>Pokud chcete s aplikací pracovat, použijte následující odkaz na portál Azure, který vás nasměruje do okna prostředků Aplikace logiky.</value>
@@ -451,7 +451,7 @@
     <value>Mobilní aplikace Azure umožňují jednoduše přidávat přihlašovací údaje, nabízená oznámení a data, která se synchronizují s aplikací pro iOS, Android nebo Windows, globálně škálovat a připojovat vaše aplikace k podnikovým systémům a místním zdrojům.</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
-    <value>Azure Web Apps umožňují vývojářům jednoduše nasazovat a škálovat podnikové webové aplikace, které jsou napsané v různých jazycích a integrují různé služby, bez starostí o správu infrastruktury.</value>
+    <value>Webové aplikace Azure umožňují vývojářům jednoduše zavádět a škálovat podnikové webové aplikace, které jsou napsané v různých jazycích a integrují různé služby, bez starostí o správu infrastruktury.</value>
   </data>
   <data name="Information_LogicAppStep3" xml:space="preserve">
     <value>3. Nahoře v okně klikněte na příkaz Spustit a znovu spusťte aplikaci logiky.</value>
@@ -463,12 +463,36 @@
     <value>V okně prostředků Aplikace logiky můžete vyzkoušet tyto věci:</value>
   </data>
   <data name="Information_XamarinBrandingLine1" xml:space="preserve">
-    <value>Buďte mobilní s Xamarinem a Aplikační službou Azure</value>
+    <value>Buďte mobilní s Xamarinem a službou Azure App Service.</value>
   </data>
   <data name="Information_XamarinBrandingLine2" xml:space="preserve">
-    <value>Vytvářejte, synchronizujte a nabízejte pro jakékoliv zařízení během několika minut. Začněte zadarmo a škálujte podle toho, jak vaše aplikace poroste.</value>
+    <value>Ověřujte, synchronizujte a posílejte nabízená oznámení během několika sekund z libovolného zařízení. Začněte zdarma a škálujte podle toho, jak se vaše aplikace bude rozšiřovat.</value>
   </data>
   <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
-    <value>Potřebujete více času? Když kliknete sem, prodloužíte zkušební období na 24 hodin.</value>
+    <value>Potřebujete víc času? Klikněte sem a prodlužte si zkušební verzi na 24 hodin.</value>
+  </data>
+  <data name="Information_Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Information_DownloadAndroidClient" xml:space="preserve">
+    <value>Stáhnout klientskou aplikaci pro Android</value>
+  </data>
+  <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
+    <value>Stáhnout Univerzální platformu Windows (UWP)</value>
+  </data>
+  <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
+    <value>Stáhnout klientskou aplikaci Formuláře pro Xamarin</value>
+  </data>
+  <data name="Information_UniversalWindowsPlatform" xml:space="preserve">
+    <value>Univerzální platforma Windows (UWP)</value>
+  </data>
+  <data name="Information_XamarinForms" xml:space="preserve">
+    <value>Xamarin.Forms</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine1" xml:space="preserve">
+    <value>Podívejte se, jak rychle se dá vytvořit aplikace Node.js.</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
+    <value>Služba Azure App Service je jediná cloudová služba, která integruje všechno, co je potřeba k rychlému a snadnému vytvoření webu a mobilních aplikací pro libovolnou platformu nebo zařízení. Data si můžete vytáhnout odkudkoliv a vytvořit můžete skutečně cokoliv. Pohrajte si v izolovaném prostoru až hodinu bezplatně a bez jakýchkoli závazků.</value>
   </data>
 </root>

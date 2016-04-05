@@ -313,10 +313,10 @@
     <value>Web App</value>
   </data>
   <data name="Information_WebClient" xml:space="preserve">
-    <value>Webügyfél</value>
+    <value>Webportál</value>
   </data>
   <data name="Information_Windows" xml:space="preserve">
-    <value>Windows</value>
+    <value>Univerzális Windows 8.1</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
     <value>Alkalmazása használatához nyissa meg az Azure-portál alábbi hivatkozását, mely a Logic App erőforráspanelre fogja irányítani.</value>
@@ -469,6 +469,30 @@
     <value>Bármely eszközön pillanatok alatt végezhet hitelesítést vagy szinkronizálást, és küldhet rájuk leküldéses értesítéseket. A kezdés ingyenes, a méretezés pedig az alkalmazás forgalmához igazítható.</value>
   </data>
   <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
-    <value>Több időre van szüksége? Kattintson ide a próbaidőszak 24 órára való meghosszabbításához.</value>
+    <value>Több időre van szüksége? Kattintson ide a próbaidőszak 24 órára való bővítéséhez.</value>
+  </data>
+  <data name="Information_Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Information_DownloadAndroidClient" xml:space="preserve">
+    <value>Az Android-ügyfélalkalmazás letöltése</value>
+  </data>
+  <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
+    <value>Az Univerzális Windows-platform (UWP) letöltése</value>
+  </data>
+  <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
+    <value>A Xamarin.Forms-ügyfélalkalmazás letöltése</value>
+  </data>
+  <data name="Information_UniversalWindowsPlatform" xml:space="preserve">
+    <value>Univerzális Windows-platform (UWP)</value>
+  </data>
+  <data name="Information_XamarinForms" xml:space="preserve">
+    <value>Xamarin.Forms</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine1" xml:space="preserve">
+    <value>Fedezze fel, milyen gyorsan lehet Node.js-alkalmazásokat fejleszteni</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
+    <value>Az Azure App Service az egyetlen felhőszolgáltatás, amelyben mindent megtalál, amire a webes és mobilalkalmazások gyors, egyszerű fejlesztéséhez szüksége lehet – platformtól és eszköztől függetlenül. Az adatokat tetszőleges forrásból beolvashatja, és szinte bármilyen alkalmazást elkészíthet. Tesztmódban egy órán át ingyenesen és kötelezettségvállalás nélkül kipróbálhatja a szolgáltatást.</value>
   </data>
 </root>

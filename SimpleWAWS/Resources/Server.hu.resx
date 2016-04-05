@@ -148,7 +148,7 @@
     <value>A munkahelyi és iskolai fiókok nem támogatottak. Használjon Microsoft-fiókot.</value>
   </data>
   <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
-    <value>Az erőforrás lejárati idejét korábban már meghosszabbították. Csak egyszer hosszabbíthatja meg egy erőforrás lejárati idejét.</value>
+    <value>Már korábban ki lett terjesztve az erőforrás lejárati ideje. Az erőforrások lejárati idejét csak egyszer lehet kiterjeszteni.</value>
   </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>Nem támogatott platform.</value>

@@ -148,21 +148,21 @@
     <value>抱歉! 不支援組織帳戶。請使用 Microsoft 帳戶。</value>
   </data>
   <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
-    <value>先前已延長過資源到期時間。您只可延長一次資源的到期時間。</value>
+    <value>先前已延長過資源到期時間。您只能為資源延長一次到期時間。</value>
   </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>不支援的平台。</value>
   </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
-    <value>供電纜公司工程師或其他任何行動工作者使用的行動儀表版應用程式，適用於 Xamarin Forms。完整範例位於 &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;。</value>
+    <value>專為有線電視公司技術人員或任何其他行動工作力所設計的行動儀表板應用程式，其適用於 Xamarin 格式。如需完整範例，請移至 &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;。</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>此邏輯應用程式範本會依照排程定期 Ping 網站。您可以擴充其功能，依據 Ping 的結果採取動作。</value>
   </data>
   <data name="Templates_TodoListDescription" xml:space="preserve">
-    <value>這是簡易的代辦事項清單應用程式，可供 iOS、Android、Xamarin 和 HTML/JS 使用。</value>
+    <value>此為簡單待辦事項清單應用程式，適用於 iOS、Android、Xamarin 及 HTML/JS。</value>
   </data>
   <data name="Templates_XamarinCrmDescription" xml:space="preserve">
-    <value>行動銷售儀表板 CRM 應用程式，適用於 Xamarin Forms。完整範例位於 &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;。</value>
+    <value>行動銷售儀表板 CRM 應用程式，適用於 Xamarin 格式。如需完整範例，請移至 &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;。</value>
   </data>
 </root>

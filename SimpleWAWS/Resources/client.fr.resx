@@ -313,10 +313,10 @@
     <value>Application web</value>
   </data>
   <data name="Information_WebClient" xml:space="preserve">
-    <value>Client web</value>
+    <value>Portail web</value>
   </data>
   <data name="Information_Windows" xml:space="preserve">
-    <value>Windows</value>
+    <value>Windows 8.1 universel</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
     <value>Pour travailler avec votre application, accédez au lien du portail Azure ci-dessous, qui ouvre le panneau des ressources de l'application logique.</value>
@@ -470,5 +470,29 @@
   </data>
   <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
     <value>Besoin de plus de temps ? Cliquez ici pour prolonger votre version d'évaluation de 24 heures.</value>
+  </data>
+  <data name="Information_Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Information_DownloadAndroidClient" xml:space="preserve">
+    <value>Télécharger l'application cliente Android</value>
+  </data>
+  <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
+    <value>Télécharger la plateforme Windows universelle</value>
+  </data>
+  <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
+    <value>Télécharger l'application cliente Xamarin.Forms</value>
+  </data>
+  <data name="Information_UniversalWindowsPlatform" xml:space="preserve">
+    <value>Plateforme Windows universelle</value>
+  </data>
+  <data name="Information_XamarinForms" xml:space="preserve">
+    <value>Xamarin.Forms</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine1" xml:space="preserve">
+    <value>Découvrez comment créer rapidement une application Node.js</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
+    <value>Azure App Service est le seul service cloud qui intègre tout ce dont vous avez besoin pour créer rapidement et facilement des applications web et mobiles pour toutes les plateformes et tous les appareils. Prenez des données d'où vous voulez et créez virtuellement tout ce que vous voulez. Profitez d'une heure gratuite sans engagement pour tester le service.</value>
   </data>
 </root>

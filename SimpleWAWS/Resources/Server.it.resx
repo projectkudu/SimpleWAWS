@@ -163,6 +163,6 @@
     <value>Una semplice app di elenco attività, disponibile per iOS, Android, Xamarin e HTML/JS.</value>
   </data>
   <data name="Templates_XamarinCrmDescription" xml:space="preserve">
-    <value>Un'app CRM dashboard per le vendite per dispositivi mobili, disponibile per Xamarin Forms. Per un esempio completo, consultare il sito Web all'indirizzo &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>
+    <value>Un'app CRM dashboard per dispositivi mobili dedicata alle vendite, disponibile per Xamarin Forms. Per un esempio completo, consultare il sito Web all'indirizzo &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>
   </data>
 </root>

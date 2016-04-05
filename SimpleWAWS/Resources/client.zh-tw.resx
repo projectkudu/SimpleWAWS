@@ -313,10 +313,10 @@
     <value>Web 應用程式</value>
   </data>
   <data name="Information_WebClient" xml:space="preserve">
-    <value>Web 用戶端</value>
+    <value>Web 入口網站</value>
   </data>
   <data name="Information_Windows" xml:space="preserve">
-    <value>Windows</value>
+    <value>通用 Windows 8.1</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
     <value>若要使用您的應用程式，請前往下方的 Azure 入口網站連結，連入邏輯應用程式資源刀鋒視窗。</value>
@@ -451,7 +451,7 @@
     <value>Azure 行動應用程式讓您很輕鬆就能將登入、推送及資料同步加入您的 iOS、Android 或 Windows 應用程式，而且進行全域調整也非常容易，將您的應用程式連接到企業系統及內部部署資源也十分簡單。</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
-    <value>Azure Web 應用程式可讓開發人員輕鬆部署及調整以各種語言編寫的企業級 Web 應用程式，而且很容易就能與多種服務進行整合，完全無須煩惱基礎結構的管理。</value>
+    <value>Azure Web Apps 可讓開發人員輕鬆部署及調整以各種語言編寫的企業級 Web 應用程式，而且很容易就能與多種服務進行整合，完全無須煩惱基礎結構的管理。</value>
   </data>
   <data name="Information_LogicAppStep3" xml:space="preserve">
     <value>3. 按一下刀鋒視窗最上方的 [立刻執行] 命令，以再次執行邏輯應用程式。</value>
@@ -463,12 +463,36 @@
     <value>您可以在邏輯應用程式資源刀鋒視窗中嘗試執行下列作業:</value>
   </data>
   <data name="Information_XamarinBrandingLine1" xml:space="preserve">
-    <value>透過 Xamarin 和 Azure App Service 邁向行動化</value>
+    <value>透過 Xamarin 及 Azure App Service 邁向行動化</value>
   </data>
   <data name="Information_XamarinBrandingLine2" xml:space="preserve">
-    <value>幾秒內就可為任何裝置進行驗證、同步及推送。免費開始使用，並隨應用程式擴展進行調整規模。</value>
+    <value>任何裝置都能快速地驗證、同步並推送。免費開始使用，並在您的應用程式茁壯時為其調整規模。</value>
   </data>
   <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
-    <value>需要更多時間嗎? 按一下這裡即可將您的試用期延長至 24 小時。</value>
+    <value>需要更多時間嗎? 按一下這裡，即可為您的試用期延長至 24 小時。</value>
+  </data>
+  <data name="Information_Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Information_DownloadAndroidClient" xml:space="preserve">
+    <value>下載 Android 用戶端應用程式</value>
+  </data>
+  <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
+    <value>下載通用 Windows 平台 (UWP)</value>
+  </data>
+  <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
+    <value>下載 Xamarin.Forms 用戶端應用程式</value>
+  </data>
+  <data name="Information_UniversalWindowsPlatform" xml:space="preserve">
+    <value>通用 Windows 平台 (UWP)</value>
+  </data>
+  <data name="Information_XamarinForms" xml:space="preserve">
+    <value>Xamarin.Forms</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine1" xml:space="preserve">
+    <value>查看您建立 Node.js 應用程式的速度可以多快</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
+    <value>Azure App Service 是唯一一項整合了您所需一切的雲端服務，讓您可快速並輕鬆地為任何平台或裝置建立 Web 與行動應用程式。您可隨處提取資料並建置近乎任何項目，並可免費使用沙箱一小時，無須任何承諾用量。</value>
   </data>
 </root>

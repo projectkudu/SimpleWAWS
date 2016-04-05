@@ -286,7 +286,7 @@
     <value>Mobile App</value>
   </data>
   <data name="Information_NativeiOS" xml:space="preserve">
-    <value>Systemeigenes iOS</value>
+    <value>Natives iOS</value>
   </data>
   <data name="Information_SelectAppType" xml:space="preserve">
     <value>App-Typ auswählen</value>
@@ -313,10 +313,10 @@
     <value>Web-App</value>
   </data>
   <data name="Information_WebClient" xml:space="preserve">
-    <value>Webclient</value>
+    <value>Webportal</value>
   </data>
   <data name="Information_Windows" xml:space="preserve">
-    <value>Windows</value>
+    <value>Universal Windows 8.1</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
     <value>Wenn Sie mit Ihrer App arbeiten möchten, verwenden Sie den Link unten zum Azure-Portal. Dieser führt Sie zum Ressourcenblatt der Logik-App.</value>
@@ -451,7 +451,7 @@
     <value>Mit Azure Mobile Apps ist es ganz einfach, Ihrer iOS-, Android- oder Windows-App Anmelde-, Push- und Datensynchronisierungsfunktionen hinzuzufügen, die App global zu skalieren und Ihre App mit Unternehmenssystemen und lokalen Ressourcen zu verbinden.</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
-    <value>Azure Web Apps ermöglichen Entwicklern das einfache Bereitstellen und Skalieren von Unternehmensanwendungen, die in einer Vielzahl von Sprachen geschrieben und in vielfältige Dienste integriert werden können, ohne sich Gedanken über die Infrastrukturverwaltung machen zu müssen.</value>
+    <value>Azure Web Apps ermöglicht Entwicklern das einfache Bereitstellen und Skalieren von Unternehmensanwendungen, die in einer Vielzahl von Sprachen geschrieben und in vielfältige Dienste integriert werden können, ohne sich Gedanken über die Infrastrukturverwaltung machen zu müssen.</value>
   </data>
   <data name="Information_LogicAppStep3" xml:space="preserve">
     <value>3. Führen Sie die Logik-App erneut aus, indem Sie oben auf dem Blatt auf den Befehl "Jetzt ausführen" klicken.</value>
@@ -470,5 +470,29 @@
   </data>
   <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
     <value>Sie benötigen mehr Zeit? Klicken Sie hier, damit Ihnen Ihre Testversion 24 Stunden lang zur Verfügung steht.</value>
+  </data>
+  <data name="Information_Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Information_DownloadAndroidClient" xml:space="preserve">
+    <value>Android-Client-App herunterladen</value>
+  </data>
+  <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
+    <value>Universelle Windows-Plattform (UWP) herunterladen</value>
+  </data>
+  <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
+    <value>Xamarin.Forms-Client-App herunterladen</value>
+  </data>
+  <data name="Information_UniversalWindowsPlatform" xml:space="preserve">
+    <value>Universelle Windows-Plattform (UWP)</value>
+  </data>
+  <data name="Information_XamarinForms" xml:space="preserve">
+    <value>Xamarin.Forms</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine1" xml:space="preserve">
+    <value>So schnell können Sie eine Node.js-App erstellen</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
+    <value>Azure App Service ist der einzige Clouddienst, in den alle Funktionen integriert sind, die Sie zum schnellen und einfachen Erstellen von Web- und mobilen Apps für beliebige Plattformen oder Geräte brauchen. Beziehen Sie Daten aus allen erdenklichen Quellen, und lassen Sie Ihrer Kreativität freien Lauf. Probieren Sie Ihre Apps im Sandkasten für bis zu eine Stunde kostenlos und unverbindlich aus.</value>
   </data>
 </root>

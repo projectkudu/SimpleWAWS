@@ -313,10 +313,10 @@
     <value>웹앱</value>
   </data>
   <data name="Information_WebClient" xml:space="preserve">
-    <value>웹 클라이언트</value>
+    <value>웹 포털</value>
   </data>
   <data name="Information_Windows" xml:space="preserve">
-    <value>Windows</value>
+    <value>유니버설 Windows 8.1</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
     <value>앱을 사용하려면 아래 Azure 포털 링크로 이동하여 논리 앱 리소스 블레이드를 확인하세요.</value>
@@ -470,5 +470,29 @@
   </data>
   <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
     <value>시간이 더 필요하십니까? 평가판을 24시간 연장하려면 여기를 클릭하세요.</value>
+  </data>
+  <data name="Information_Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Information_DownloadAndroidClient" xml:space="preserve">
+    <value>Android 클라이언트 앱 다운로드</value>
+  </data>
+  <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
+    <value>UWP(유니버설 Windows 플랫폼) 다운로드</value>
+  </data>
+  <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
+    <value>Xamarin.Forms 클라이언트 앱 다운로드</value>
+  </data>
+  <data name="Information_UniversalWindowsPlatform" xml:space="preserve">
+    <value>UWP(유니버설 Windows 플랫폼)</value>
+  </data>
+  <data name="Information_XamarinForms" xml:space="preserve">
+    <value>Xamarin.Forms</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine1" xml:space="preserve">
+    <value>Node.js 앱을 얼마나 빨리 만들 수 있는지 확인해보세요.</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
+    <value>Azure 앱 서비스는 모든 플랫폼 및 장치용 웹앱과  모바일 앱을 빠르고 쉽게 빌드하는 데 필요한 모든 사항을 통합하는 유일한 클라우드 서비스입니다. 어디서든 데이터를 끌어오고 거의 모든 것을 빌드해보세요. 샌드박스에서 약 1시간 동안 약정 없이 무료로 사용해보세요.</value>
   </data>
 </root>

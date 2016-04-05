@@ -148,21 +148,21 @@
     <value>Üzgünüz, Kurumsal hesaplar desteklenmiyor. Lütfen bir Microsoft Hesabı kullanın.</value>
   </data>
   <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
-    <value>Kaynağın son kullanım tarihi daha önce genişletildi. Bir kaynağın son kullanım tarihini yalnızca bir kez genişletebilirsiniz.</value>
+    <value>Kaynak sona erme süresi daha önce zaten uzatılmıştı. Bir kaynağın sona erme süresini yalnızca bir kez uzatabilirsiniz.</value>
   </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>Desteklenmeyen platform.</value>
   </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
-    <value>Xamarin Forms'da kullanılabilen, kablo TV teknisyenleri veya diğer mobil çalışanlara yönelik bir mobil pano uygulaması. Tam örnek: &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
+    <value>Bir telefon şirketi teknisyeni veya herhangi başka bir mobil iş gücü için Xamarin Forms ile kullanılabilen bir mobil pano uygulaması. Tam örneğini şurada bulabilirsiniz: &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>Bu Mantıksal Uygulama şablonu, yinelenen bir zamanlamaya göre bir web sitesine ping gönderecek.  Şablonu, ping sonucuna göre eylem gerçekleştirecek şekilde genişletebilirsiniz.</value>
   </data>
   <data name="Templates_TodoListDescription" xml:space="preserve">
-    <value>Bu; iOS, Android, Xamarin ve HTML/JS ile kullanılabilen basit bir yapılacaklar listesi uygulamasıdır.</value>
+    <value>iOS, Android, Xamarin ve HTML/JS ile kullanılabilen basit bir yapılacaklar listesi uygulamasıdır.</value>
   </data>
   <data name="Templates_XamarinCrmDescription" xml:space="preserve">
-    <value>Xamarin Forms'da kullanılabilen bir mobil satış pano CRM uygulaması. Tam örnek: &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>
+    <value>Xamarin Forms ile kullanılabilen bir mobil satış pano CRM uygulaması. Tam örneğini şurada bulabilirsiniz: &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>
   </data>
 </root>

@@ -148,13 +148,13 @@
     <value>No se permiten las cuentas de empresa. Use una cuenta de Microsoft.</value>
   </data>
   <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
-    <value>La hora de expiración del recurso ya se amplió una vez. Solo puede ampliarla una vez por recurso.</value>
+    <value>La hora de expiración del recurso ya se amplió anteriormente. Solo puede ampliar la hora de expiración una vez para cada recurso.</value>
   </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>Plataforma no admitida.</value>
   </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
-    <value>Una aplicación de paneles móviles para un técnico de una compañía de TV o cualquier otro recurso móvil, disponible para Xamarin Forms. Consulte la muestra completa en &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
+    <value>Una aplicación de paneles móviles para un técnico de una compañía de TV por cable o cualquier otro recurso móvil, disponible para Xamarin Forms. Consulte la muestra completa en &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>Esta plantilla de Aplicación lógica hará ping a un sitio web durante un horario establecido. Puede ampliarlo para que tome medidas según el resultado del ping.</value>

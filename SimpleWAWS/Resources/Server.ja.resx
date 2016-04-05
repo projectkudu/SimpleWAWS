@@ -148,21 +148,21 @@
     <value>組織アカウントはサポートされていません。Microsoft アカウントを使用してください。</value>
   </data>
   <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
-    <value>リソースの有効期限は以前に延長済みです。リソースの有効期限を延長できるのは 1 回のみです。</value>
+    <value>リソースの有効期限を既に延長しています。1 つのリソースの有効期限を延長できるのは 1 回のみです。</value>
   </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>サポートされていないプラットフォームです。</value>
   </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
-    <value>Xamarin Formsで利用できる、ケーブル会社の技術者、またはその他のモバイル ワーカー向けのモバイル ダッシュボード アプリケーションです。完全なサンプルは &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt; にあります。</value>
+    <value>ケーブル会社の技術者や他のモバイル従業員向けのモバイル ダッシュボード アプリは Xamarin Forms でご利用いただけます。フル サンプルは、&lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt; にあります。</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>この Logic App テンプレートは、定期的なスケジュールで Web サイトを ping します。ping の結果に応じて、それを拡張して、対応策を取ることができます。</value>
   </data>
   <data name="Templates_TodoListDescription" xml:space="preserve">
-    <value>iOS、Android、Xamarin、HTML/JS で利用できるシンプルな ToDo リスト アプリケーションです。</value>
+    <value>これはシンプルな ToDo リスト アプリです。iOS、Android、Xamarin、HTML/JS でご利用いただけます。</value>
   </data>
   <data name="Templates_XamarinCrmDescription" xml:space="preserve">
-    <value>Xamarin Forms で利用できるモバイル営業ダッシュボード CRM アプリケーションです。完全なサンプルは &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt; にあります。</value>
+    <value>モバイル販売ダッシュボード CRM アプリは、Xamarin Forms でご利用いただけます。フル サンプルは、&lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt; にあります。</value>
   </data>
 </root>

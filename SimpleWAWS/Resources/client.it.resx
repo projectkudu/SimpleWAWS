@@ -313,10 +313,10 @@
     <value>App Web</value>
   </data>
   <data name="Information_WebClient" xml:space="preserve">
-    <value>Client Web</value>
+    <value>Portale Web</value>
   </data>
   <data name="Information_Windows" xml:space="preserve">
-    <value>Windows</value>
+    <value>Universal Windows 8.1</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
     <value>Per usare l'app, fare clic sul collegamento al portale di Azure per passare direttamente al pannello della risorsa App per a logica.</value>
@@ -470,5 +470,29 @@
   </data>
   <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
     <value>È necessario più tempo? Fare clic qui per estendere la prova gratuita per 24 ore.</value>
+  </data>
+  <data name="Information_Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Information_DownloadAndroidClient" xml:space="preserve">
+    <value>Scarica l'app client per Android</value>
+  </data>
+  <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
+    <value>Scarica la piattaforma UWP (Universal Windows Platform)</value>
+  </data>
+  <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
+    <value>Scarica l'app client per Xamarin.Forms</value>
+  </data>
+  <data name="Information_UniversalWindowsPlatform" xml:space="preserve">
+    <value>Piattaforma UWP (Universal Windows Platform)</value>
+  </data>
+  <data name="Information_XamarinForms" xml:space="preserve">
+    <value>Xamarin.Forms</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine1" xml:space="preserve">
+    <value>Come creare velocemente un'app Node.js</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
+    <value>Il Servizio app di Azure è l'unico servizio cloud che integra tutto ciò che serve per creare app Web e per dispositivi mobili, per qualsiasi piattaforma o dispositivo in modo facile e veloce. Il pull dei dati può essere eseguito da qualsiasi posizione e consente di creare qualunque app. È anche possibile provare gratuitamente l'ambiente sandbox per un'ora senza alcun impegno.</value>
   </data>
 </root>

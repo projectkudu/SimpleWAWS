@@ -154,7 +154,7 @@
     <value>Nicht unterstützte Plattform.</value>
   </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
-    <value>Eine mobile Dashboard-App für Techniker eines Kabelnetzbetreibers oder andere mobile Mitarbeiter, die für Xamarin Forms verfügbar ist. Das vollständige Codebeispiel finden Sie unter '&lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;'.</value>
+    <value>Eine mobile Dashboard-App für Techniker eines Kabelnetzbetreibers oder andere mobile Mitarbeiter, die für Xamarin Forms verfügbar ist. Das vollständige Codebeispiel finden Sie unter "&lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;".</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>Diese Logik-App-Vorlage führt Ping für eine Website gemäß einer Zeitplanserie aus. Sie können sie so erweitern, dass abhängig vom Ergebnis des Ping-Vorgangs eine Aktion ausgeführt wird.</value>
@@ -163,6 +163,6 @@
     <value>Dies ist eine einfache Aufgabenlisten-App für iOS, Android, Xamarin und HTML/JS.</value>
   </data>
   <data name="Templates_XamarinCrmDescription" xml:space="preserve">
-    <value>Eine mobile Vertriebsdashboard-CRM-App, die für Xamarin Forms verfügbar ist. Das vollständige Codebeispiel finden Sie unter &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>
+    <value>Eine mobile Vertriebsdashboard-CRM-App, die für Xamarin Forms verfügbar ist. Das vollständige Codebeispiel finden Sie unter "&lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;".</value>
   </data>
 </root>

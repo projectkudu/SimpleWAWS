@@ -118,82 +118,82 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Action_AllowContact" xml:space="preserve">
-    <value>允许 Microsoft 就此反馈与我联系。</value>
+    <value>允許 Microsoft 與我接洽此意見反應的相關事宜。</value>
   </data>
   <data name="Action_Cancel" xml:space="preserve">
     <value>取消</value>
   </data>
   <data name="Action_CreateAppServiceApp" xml:space="preserve">
-    <value>创建 Azure App Service 应用</value>
+    <value>建立您的 Azure App Service 應用程式</value>
   </data>
   <data name="Action_Delete" xml:space="preserve">
-    <value>删除</value>
+    <value>刪除</value>
   </data>
   <data name="Action_DownloadAppContent" xml:space="preserve">
-    <value>下载 {0} 内容</value>
+    <value>下載 {0} 內容</value>
   </data>
   <data name="Action_DownloadPublishingProfile" xml:space="preserve">
-    <value>下载发布配置文件</value>
+    <value>下載發行設定檔</value>
   </data>
   <data name="Action_GitClone" xml:space="preserve">
-    <value>使用 Git 克隆或推送</value>
+    <value>使用 Git 複製或推送</value>
   </data>
   <data name="Action_GoToExistingApp" xml:space="preserve">
-    <value>转到现有应用</value>
+    <value>移至現有的應用程式</value>
   </data>
   <data name="Action_ManageInAzurePortal" xml:space="preserve">
-    <value>在 Azure 门户中管理</value>
+    <value>使用 Azure 入口網站管理</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>下载并运行移动客户端应用</value>
+    <value>下載並執行您的行動用戶端應用程式</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
-    <value>使用 Visual Studio Online "Monaco" 编辑</value>
+    <value>使用 Visual Studio Online "Monaco" 編輯</value>
   </data>
   <data name="Action_ReportAnIssue" xml:space="preserve">
-    <value>报告问题</value>
+    <value>回報問題</value>
   </data>
   <data name="Action_SelectAppType" xml:space="preserve">
-    <value>选择应用类型</value>
+    <value>選取應用程式類型</value>
   </data>
   <data name="Action_SelectTemplate" xml:space="preserve">
-    <value>选择模板并创建你的 {0}</value>
+    <value>選取範本並建立您的 {0}</value>
   </data>
   <data name="Action_ShareAComment" xml:space="preserve">
-    <value>分享评论</value>
+    <value>共用註解</value>
   </data>
   <data name="Action_Submit" xml:space="preserve">
-    <value>提交</value>
+    <value>送出</value>
   </data>
   <data name="Action_Yes" xml:space="preserve">
     <value>是</value>
   </data>
   <data name="Blog" xml:space="preserve">
-    <value>博客</value>
+    <value>部落格</value>
   </data>
   <data name="Calculator" xml:space="preserve">
-    <value>计算器</value>
+    <value>計算機</value>
   </data>
   <data name="CaseStudies" xml:space="preserve">
     <value>案例研究</value>
   </data>
   <data name="Community" xml:space="preserve">
-    <value>社区</value>
+    <value>社群</value>
   </data>
   <data name="Compliance" xml:space="preserve">
-    <value>合规性</value>
+    <value>相容性</value>
   </data>
   <data name="ContactUs" xml:space="preserve">
-    <value>联系我们</value>
+    <value>與我們連絡</value>
   </data>
   <data name="Documentation" xml:space="preserve">
-    <value>文档</value>
+    <value>文件</value>
   </data>
   <data name="Downloads" xml:space="preserve">
-    <value>下载</value>
+    <value>下載</value>
   </data>
   <data name="Error_SubmittingFeedback" xml:space="preserve">
-    <value>提交你的反馈时出错。请稍后重试。</value>
+    <value>送出您的意見反應時發生錯誤。請稍後再試一次。</value>
   </data>
   <data name="Events" xml:space="preserve">
     <value>事件</value>
@@ -205,124 +205,124 @@
     <value>功能</value>
   </data>
   <data name="Feedback" xml:space="preserve">
-    <value>反馈</value>
+    <value>意見反應</value>
   </data>
   <data name="Forums" xml:space="preserve">
-    <value>论坛</value>
+    <value>論壇</value>
   </data>
   <data name="FreeTrial" xml:space="preserve">
-    <value>免费试用</value>
+    <value>免費試用</value>
   </data>
   <data name="GoSocial" xml:space="preserve">
-    <value>社会化</value>
+    <value>Go Social</value>
   </data>
   <data name="Information_APIApp" xml:space="preserve">
-    <value>API 应用</value>
+    <value>API 應用程式</value>
   </data>
   <data name="Information_AppAlreadyExists" xml:space="preserve">
-    <value>你已创建 App Service。是否要删除它，然后创建一个新的?</value>
+    <value>您已有建立 App Service。要將其刪除再另建一個新的服務嗎?</value>
   </data>
   <data name="Information_AppHasBeenCreated" xml:space="preserve">
-    <value>你的 {0} 已创建!</value>
+    <value>您的 {0} 已建立!</value>
   </data>
   <data name="Information_AspNetBrandingLine1" xml:space="preserve">
-    <value>使用 Azure App Service 可免费托管 10 个 ASP.NET 网站</value>
+    <value>免費使用 Azure App Service 託管 10 個 ASP.NET 網站</value>
   </data>
   <data name="Information_AspNetBrandingLine2" xml:space="preserve">
-    <value>既安全又可靠，几秒钟内即可开展业务。一开始提供免费版本，随着流量增长可以进行扩展。</value>
+    <value>安全、可靠，而且只要短短幾秒的時間，就能開始營運。現在就開始免費使用，然後隨您的流量增加而調整其規模。</value>
   </data>
   <data name="Information_ComingSoon" xml:space="preserve">
-    <value>即将推出</value>
+    <value>即將推出</value>
   </data>
   <data name="Information_DownloadClient" xml:space="preserve">
-    <value>下载客户端</value>
+    <value>下載用戶端</value>
   </data>
   <data name="Information_DownloadiOSClient" xml:space="preserve">
-    <value>下载 iOS 客户端应用</value>
+    <value>下載 iOS 用戶端應用程式</value>
   </data>
   <data name="Information_DownloadWindowsClient" xml:space="preserve">
-    <value>下载 Windows 客户端应用</value>
+    <value>下載 Windows 用戶端應用程式</value>
   </data>
   <data name="Information_DownloadXamarinAndroidClient" xml:space="preserve">
-    <value>下载 Xamarin Android 客户端应用</value>
+    <value>下載 Xamarin Android 用戶端應用程式</value>
   </data>
   <data name="Information_DownloadXamariniOSClient" xml:space="preserve">
-    <value>下载 Xamarin iOS 客户端应用</value>
+    <value>下載 Xamarin iOS 用戶端應用程式</value>
   </data>
   <data name="Information_ExperienceComingSoon" xml:space="preserve">
-    <value>此处尚未提供 Azure {0} 试用体验，但你仍可以通过注册免费 30 天试用版来创建 {0}。你可以通过这种方式免费创建多达 10 个任何类型的应用。</value>
+    <value>Azure {0} 試用版尚未推出，但您仍然可以註冊 30 天的免費試用版 (可讓您免費建立最多 10 個各種類型的應用程式) 來建立 {0}。</value>
   </data>
   <data name="Information_ExperienceNotHereYet" xml:space="preserve">
-    <value>此处尚未提供 {0} 体验。</value>
+    <value>{0} 尚未推出。</value>
   </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
-    <value>你的免费 {0} 只可使用一小时，将在以下时间到期:</value>
+    <value>您可以免費使用 {0} 一小時。到期前剩餘時間:</value>
   </data>
   <data name="Information_GenericBrandingLine1" xml:space="preserve">
-    <value>Azure App Service 是集成了你所需的一切内容的云应用服务，你可以使用它为任何平台或设备快速、轻松地生成 Web 应用和移动应用。</value>
+    <value>Azure App Service 為雲端應用程式服務，整合您需要的一切，讓您可以快速便利地建置適用於任何平台或裝置的 Web 應用程式及行動應用程式。</value>
   </data>
   <data name="Information_GenericBrandingLine2" xml:space="preserve">
-    <value>成为我们的来宾即可获得长达一小时的 Azure App Service 体验，无需 Azure 订阅，无需费用，无需承诺。进行 Azure 免费试用版订阅以后，若要获得更长时间的体验，则需订阅完整版 Azure App Service。</value>
+    <value>您可以免費體驗 Azure App Service 最多一個小時，而且完全不需要 Azure 訂用帳戶、付費及綁約。使用免費的 Azure 試用訂用帳戶能夠體驗完整的 Azure App Service 更久。</value>
   </data>
   <data name="Information_GoingBackWillDeleteApp" xml:space="preserve">
-    <value>返回将删除当前应用</value>
+    <value>返回將會刪除目前的應用程式</value>
   </data>
   <data name="Information_InstallVisualStudio" xml:space="preserve">
-    <value>安装 Visual Studio Professional 2013 (更新 4)</value>
+    <value>安裝 Visual Studio Professional 2013 (更新 4)</value>
   </data>
   <data name="Information_InstallXamarinStudio" xml:space="preserve">
-    <value>安装适用于 Windows 或 OS X 的 Xamarin Studio</value>
+    <value>安裝適用於 Windows 或 OS X 的 Xamarin Studio</value>
   </data>
   <data name="Information_InstallXcode" xml:space="preserve">
-    <value>安装 Xcode (v4.4+)</value>
+    <value>安裝 Xcode (4.4 版以上)</value>
   </data>
   <data name="Information_LogicApp" xml:space="preserve">
-    <value>逻辑应用</value>
+    <value>邏輯應用程式</value>
   </data>
   <data name="Information_LoginFirst" xml:space="preserve">
-    <value>首先登录，然后尝试创建应用</value>
+    <value>先登入，以建立應用程式</value>
   </data>
   <data name="Information_MobileApp" xml:space="preserve">
-    <value>移动应用</value>
+    <value>行動應用程式</value>
   </data>
   <data name="Information_NativeiOS" xml:space="preserve">
-    <value>本机 iOS</value>
+    <value>原生 iOS</value>
   </data>
   <data name="Information_SelectAppType" xml:space="preserve">
-    <value>选择应用类型</value>
+    <value>選取應用程式類型</value>
   </data>
   <data name="Information_SelectTemplate" xml:space="preserve">
-    <value>选择模板</value>
+    <value>選取範本</value>
   </data>
   <data name="Information_SubmittingFeedback" xml:space="preserve">
-    <value>正在提交反馈...</value>
+    <value>正在送出意見反應...</value>
   </data>
   <data name="Information_ThanksForFeedback" xml:space="preserve">
-    <value>感谢你提供反馈!</value>
+    <value>感謝您的寶貴意見!</value>
   </data>
   <data name="Information_VisitWebClient" xml:space="preserve">
-    <value>访问基于 Web 的客户端</value>
+    <value>前往網頁用戶端</value>
   </data>
   <data name="Information_WantMoreQuestionLine1" xml:space="preserve">
-    <value>想要免费获取更多内容?</value>
+    <value>想要享有更多免費的優惠嗎?</value>
   </data>
   <data name="Information_WantMoreQuestionLine2" xml:space="preserve">
-    <value>创建更多 Web 应用、移动应用、逻辑应用和 API 应用。注册免费的 30 天试用版即可免费创建多达 10 个任何类型的应用。</value>
+    <value>建立更多 Web 應用程式、行動應用程式、邏輯應用程式及 API 應用程式。註冊 30 天的免費試用版，可以免費建立最多 10 個各種類型的應用程式。</value>
   </data>
   <data name="Information_WebApp" xml:space="preserve">
-    <value>Web 应用</value>
+    <value>Web 應用程式</value>
   </data>
   <data name="Information_WebClient" xml:space="preserve">
-    <value>Web 客户端</value>
+    <value>Web 入口網站</value>
   </data>
   <data name="Information_Windows" xml:space="preserve">
-    <value>Windows</value>
+    <value>通用 Windows 8.1</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
-    <value>若要使用你的应用，请点击下面的“Azure 门户”链接，然后你就会转到逻辑应用资源边栏选项卡。</value>
+    <value>若要使用您的應用程式，請前往下方的 Azure 入口網站連結，連入邏輯應用程式資源刀鋒視窗。</value>
   </data>
   <data name="Information_WorkWithYourApp" xml:space="preserve">
-    <value>在以下位置使用你的 {0} </value>
+    <value>使用您的 {0}，位於:</value>
   </data>
   <data name="Information_XamarinAndroid" xml:space="preserve">
     <value>Xamarin Android</value>
@@ -331,46 +331,46 @@
     <value>Xamarin iOS</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value>注销</value>
+    <value>登出</value>
   </data>
   <data name="ManagementPortal" xml:space="preserve">
-    <value>管理门户</value>
+    <value>管理入口網站</value>
   </data>
   <data name="Marketplace" xml:space="preserve">
-    <value>应用商店</value>
+    <value>Marketplace</value>
   </data>
   <data name="MicrosoftAzure" xml:space="preserve">
     <value>Microsoft Azure</value>
   </data>
   <data name="Mooncake" xml:space="preserve">
-    <value>Microsoft Azure (中国)</value>
+    <value>中國的 Microsoft Azure</value>
   </data>
   <data name="MyAccount" xml:space="preserve">
-    <value>我的帐户</value>
+    <value>我的帳戶</value>
   </data>
   <data name="Newsletter" xml:space="preserve">
-    <value>新闻稿</value>
+    <value>電子報</value>
   </data>
   <data name="Portal" xml:space="preserve">
-    <value>门户</value>
+    <value>入口網站</value>
   </data>
   <data name="PreviewFeatures" xml:space="preserve">
-    <value>预览功能</value>
+    <value>預覽版功能</value>
   </data>
   <data name="Pricing" xml:space="preserve">
-    <value>定价</value>
+    <value>定價</value>
   </data>
   <data name="Privacy" xml:space="preserve">
-    <value>隐私</value>
+    <value>隱私權</value>
   </data>
   <data name="PrivacyCookies" xml:space="preserve">
-    <value>隐私和 Cookie</value>
+    <value>隱私權與 Cookie</value>
   </data>
   <data name="Profile" xml:space="preserve">
-    <value>配置文件</value>
+    <value>設定檔</value>
   </data>
   <data name="Regions" xml:space="preserve">
-    <value>区域</value>
+    <value>地區</value>
   </data>
   <data name="Rss" xml:space="preserve">
     <value>RSS</value>
@@ -379,25 +379,25 @@
     <value>安全性</value>
   </data>
   <data name="ServiceDashboard" xml:space="preserve">
-    <value>服务仪表板</value>
+    <value>服務儀表板</value>
   </data>
   <data name="Services" xml:space="preserve">
-    <value>服务</value>
+    <value>服務</value>
   </data>
   <data name="ServiceUpdates" xml:space="preserve">
-    <value>服务更新</value>
+    <value>服務更新</value>
   </data>
   <data name="Subscriptions" xml:space="preserve">
-    <value>订阅</value>
+    <value>訂用帳戶</value>
   </data>
   <data name="Support" xml:space="preserve">
-    <value>支持</value>
+    <value>支援</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>试用 Azure App Service</value>
+    <value>試用 Azure App Service</value>
   </data>
   <data name="Trademarks" xml:space="preserve">
-    <value>商标</value>
+    <value>商標</value>
   </data>
   <data name="TrustCenter" xml:space="preserve">
     <value>信任中心</value>
@@ -406,69 +406,93 @@
     <value>Twitter</value>
   </data>
   <data name="Information_LogicAppDescription" xml:space="preserve">
-    <value>Azure 逻辑应用允许开发人员从触发器开始设计工作流程，然后执行一系列步骤，每一步都调用 App Service API 应用，同时安全地进行身份验证和最佳实践操作(如检查点操作和持久执行)。</value>
+    <value>Azure 邏輯應用程式可讓開發人員設計從觸發程序開始，到執行一系列步驟 (每個步驟都會叫用 App Service API 應用程式)，乃至於安全處理驗證及最佳實務 (例如檢查點檢查與長時間執行) 的工作流程。</value>
   </data>
   <data name="Information_LogicAppStep1" xml:space="preserve">
-    <value>1. 查看“摘要”功能区，了解上次运行时间以及运行是否成功等信息</value>
+    <value>1. 查看 [摘要] 濾鏡，從中找出最後執行的時間及成功與否等資訊</value>
   </data>
   <data name="Information_LogicAppStep2" xml:space="preserve">
-    <value>2. 通过单击“摘要”功能区中的相同部分，打开逻辑应用定义，并查看定义。你可以尝试扩展逻辑应用，使其在 ping 失败时发送推文。</value>
+    <value>2. 按一下 [摘要] 濾鏡中的同一個區段，以開啟邏輯應用程式定義進行查看。您可以嘗試擴充邏輯應用程式，讓您 Ping 失敗時也能傳送推文。</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
-    <value>此逻辑应用模板将定期 Ping 网站。你可以扩展此模板，以便根据 Ping 操作的结果执行相应操作。</value>
+    <value>此邏輯應用程式範本會依照排程定期 Ping 網站。您可以擴充其功能，依據 Ping 的結果採取動作。</value>
   </data>
   <data name="Action_Dismiss" xml:space="preserve">
-    <value>取消</value>
+    <value>關閉</value>
   </data>
   <data name="Information_AppHasExpired" xml:space="preserve">
-    <value>你的 {0} 已过期。你可以尝试再创建一个 App Service 应用，或者注册一个免费的 30 天试用帐户。</value>
+    <value>您的 {0} 已到期。您可以嘗試建立其他 App Service 應用程式，或註冊免費使用 30 天的試用帳戶。</value>
   </data>
   <data name="Information_Prerequisite" xml:space="preserve">
-    <value>先决条件</value>
+    <value>必要條件</value>
   </data>
   <data name="Information_WelcomeFeedback" xml:space="preserve">
-    <value>我们欢迎你提供反馈!</value>
+    <value>歡迎您提供寶貴的意見!</value>
   </data>
   <data name="Action_Create" xml:space="preserve">
-    <value>创建</value>
+    <value>建立</value>
   </data>
   <data name="Action_GenericWorkWithYourApp" xml:space="preserve">
-    <value>使用你的应用</value>
+    <value>使用您的應用程式</value>
   </data>
   <data name="Information_YouCantHaveMoreThanOne" xml:space="preserve">
-    <value>你不能同时使用多个免费资源</value>
+    <value>您無法同時擁有 1 個以上的免費資源</value>
   </data>
   <data name="Next" xml:space="preserve">
-    <value>下一页</value>
+    <value>下一個</value>
   </data>
   <data name="Previous" xml:space="preserve">
-    <value>上一页</value>
+    <value>上一個</value>
   </data>
   <data name="Information_ApiAppDescription" xml:space="preserve">
-    <value>此处尚未提供 Azure API 应用试用体验，但你仍可以通过注册免费 30 天试用版来创建 API 应用。你可以通过这种方式免费创建多达 10 个任何类型的应用。</value>
+    <value>Azure API 應用程式試用版尚未推出，但您仍可註冊 30 天的免費試用版 (可讓您免費建立最多 10 個各種類型的應用程式) 來建立 API 應用程式。</value>
   </data>
   <data name="Information_MobileAppDescription" xml:space="preserve">
-    <value>使用 Azure 移动应用可以轻松地为你的 iOS、Android 或 Windows 应用添加登录、推送和数据同步功能，在全球进行扩展，并可将你的应用连接到企业系统和本地资源。</value>
+    <value>Azure 行動應用程式讓您很輕鬆就能將登入、推送及資料同步加入您的 iOS、Android 或 Windows 應用程式，而且進行全域調整也非常容易，將您的應用程式連接到企業系統及內部部署資源也十分簡單。</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
-    <value>有了 Azure Web 应用，开发人员就能够轻松地部署和扩展使用各种语言编写并与多种服务集成的企业级 Web 应用程序，而不用担心基础结构管理。</value>
+    <value>Azure Web Apps 可讓開發人員輕鬆部署及調整以各種語言編寫的企業級 Web 應用程式，而且很容易就能與多種服務進行整合，完全無須煩惱基礎結構的管理。</value>
   </data>
   <data name="Information_LogicAppStep3" xml:space="preserve">
-    <value>3. 通过单击边栏选项卡顶部的“立即运行”命令重新运行逻辑应用。</value>
+    <value>3. 按一下刀鋒視窗最上方的 [立刻執行] 命令，以再次執行邏輯應用程式。</value>
   </data>
   <data name="Information_LogicAppStep4" xml:space="preserve">
-    <value>4. 若要了解更多有关如何使用逻辑应用的信息，请单击“快速入门”，此时会显示相关文档。</value>
+    <value>4. 如需更多有關如何使用邏輯應用程式的資訊，請按一下 [快速入門]，其中提供前往各種文件的指標。</value>
   </data>
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
-    <value>在逻辑应用资源边栏选项卡中，你可以尝试以下操作:</value>
+    <value>您可以在邏輯應用程式資源刀鋒視窗中嘗試執行下列作業:</value>
   </data>
   <data name="Information_XamarinBrandingLine1" xml:space="preserve">
-    <value>使用 Xamarin 和 Azure App Service 随时随地处理业务</value>
+    <value>透過 Xamarin 及 Azure App Service 邁向行動化</value>
   </data>
   <data name="Information_XamarinBrandingLine2" xml:space="preserve">
-    <value>对于任何设备，都可在数秒内完成身份验证、同步和推送。开始时免费使用，并且可以随着应用的成长而扩大规模。</value>
+    <value>任何裝置都能快速地驗證、同步並推送。免費開始使用，並在您的應用程式茁壯時為其調整規模。</value>
   </data>
   <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
-    <value>需要更多时间吗? 单击此处可将试用期延长到 24 小时。</value>
+    <value>需要更多時間嗎? 按一下這裡，即可為您的試用期延長至 24 小時。</value>
+  </data>
+  <data name="Information_Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Information_DownloadAndroidClient" xml:space="preserve">
+    <value>下載 Android 用戶端應用程式</value>
+  </data>
+  <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
+    <value>下載通用 Windows 平台 (UWP)</value>
+  </data>
+  <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
+    <value>下載 Xamarin.Forms 用戶端應用程式</value>
+  </data>
+  <data name="Information_UniversalWindowsPlatform" xml:space="preserve">
+    <value>通用 Windows 平台 (UWP)</value>
+  </data>
+  <data name="Information_XamarinForms" xml:space="preserve">
+    <value>Xamarin.Forms</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine1" xml:space="preserve">
+    <value>查看您建立 Node.js 應用程式的速度可以多快</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
+    <value>Azure App Service 是唯一一項整合了您所需一切的雲端服務，讓您可快速並輕鬆地為任何平台或裝置建立 Web 與行動應用程式。您可隨處提取資料並建置近乎任何項目，並可免費使用沙箱一小時，無須任何承諾用量。</value>
   </data>
 </root>

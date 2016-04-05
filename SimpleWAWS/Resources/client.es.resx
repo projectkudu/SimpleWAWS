@@ -313,10 +313,10 @@
     <value>Aplicación web</value>
   </data>
   <data name="Information_WebClient" xml:space="preserve">
-    <value>Cliente web</value>
+    <value>Portal web</value>
   </data>
   <data name="Information_Windows" xml:space="preserve">
-    <value>Windows</value>
+    <value>Windows 8.1 universal</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
     <value>Para trabajar con su aplicación, vaya al vínculo del Portal de Azure que tiene a continuación; este le llevará a la hoja de recursos de la Aplicación lógica.</value>
@@ -451,7 +451,7 @@
     <value>Las aplicaciones móviles de Azure le permitirán agregar fácilmente a su aplicación de iOS, Android o Windows elementos de inicio de sesión y de inserción y sincronización de datos; asimismo, podrá conectar su aplicación a los sistemas de la empresa y a los recursos locales.</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
-    <value>Las aplicaciones web de Azure permiten a los desarrolladores implementar y escalar aplicaciones web de categoría empresarial, escritas en una gran variedad de lenguajes e integradas en multitud de servicios, sin tener que preocuparse por la administración de la infraestructura.</value>
+    <value>Las Aplicaciones web de Azure permiten a los desarrolladores diseñar y escalar aplicaciones web de categoría empresarial, escritas en una gran variedad de idiomas e integradas en multitud de servicios, sin tener que preocuparse por la administración de la infraestructura.</value>
   </data>
   <data name="Information_LogicAppStep3" xml:space="preserve">
     <value>3. Vuelva a ejecutar la Aplicación lógica haciendo clic en el comando Ejecutar de la parte superior de la hoja.</value>
@@ -469,6 +469,30 @@
     <value>Autentíquese y sincronice e inserte contenido en cuestión de segundos en cualquier dispositivo. Comience de forma gratuita y amplíe su suscripción a medida que crezca su aplicación.</value>
   </data>
   <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
-    <value>¿Necesita más tiempo? Haga clic aquí para ampliar el período de prueba a 24 horas.</value>
+    <value>¿Necesita más tiempo? Haga clic aquí para ampliar su prueba y disponer de 24 horas más.</value>
+  </data>
+  <data name="Information_Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Information_DownloadAndroidClient" xml:space="preserve">
+    <value>Descargar la aplicación cliente de Android</value>
+  </data>
+  <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
+    <value>Descargar la Plataforma universal de Windows (UWP)</value>
+  </data>
+  <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
+    <value>Descargar la aplicación cliente de Xamarin.Forms</value>
+  </data>
+  <data name="Information_UniversalWindowsPlatform" xml:space="preserve">
+    <value>Plataforma universal de Windows (UWP)</value>
+  </data>
+  <data name="Information_XamarinForms" xml:space="preserve">
+    <value>Xamarin.Forms</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine1" xml:space="preserve">
+    <value>Descubra lo rápido que puede ser creando una aplicación Node.js.</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
+    <value>Servicio de aplicaciones de Azure es el único servicio en la nube que integra todo lo que necesita para compilar de forma rápida y fácil aplicaciones móviles y web para cualquier plataforma y dispositivo. Extraiga datos desde cualquier sitio y compile prácticamente cualquier cosa.  Juegue en el espacio aislado durante una hora de forma gratuita y sin compromiso.</value>
   </data>
 </root>

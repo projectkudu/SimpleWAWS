@@ -145,7 +145,7 @@
     <value>Beheren in de Azure Portal</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>Uw mobiele client-app downloaden en uitvoeren</value>
+    <value>Uw mobiele clientapp downloaden en uitvoeren</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
     <value>Bewerken met Visual Studio Online Monaco</value>
@@ -313,10 +313,10 @@
     <value>Web-app</value>
   </data>
   <data name="Information_WebClient" xml:space="preserve">
-    <value>Webclient</value>
+    <value>Webportal</value>
   </data>
   <data name="Information_Windows" xml:space="preserve">
-    <value>Windows</value>
+    <value>Universeel Windows 8.1</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
     <value>Als u met uw app aan de slag wilt, klikt u op de Azure Portal-koppeling hieronder. U gaat dan naar de resourceblade van logische apps.</value>
@@ -469,6 +469,30 @@
     <value>In enkele seconden verifiëren, synchroniseren of pushen voor elk apparaat. Begin gratis en schaal omhoog wanneer uw app groeit.</value>
   </data>
   <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
-    <value>Meer tijd nodig? Klik hier om uw gratis proefperiode te verlengen tot 24 uur.</value>
+    <value>Meer tijd nodig? Klik hier om uw proefversie te verlengen tot 24 uur.</value>
+  </data>
+  <data name="Information_Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Information_DownloadAndroidClient" xml:space="preserve">
+    <value>De Android-clientapp downloaden</value>
+  </data>
+  <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
+    <value>Het universeel Windows-platform (UWP) downloaden</value>
+  </data>
+  <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
+    <value>De Xamarin.Forms-clientapp downloaden</value>
+  </data>
+  <data name="Information_UniversalWindowsPlatform" xml:space="preserve">
+    <value>Universeel Windows-platform (UWP)</value>
+  </data>
+  <data name="Information_XamarinForms" xml:space="preserve">
+    <value>Xamarin.Forms</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine1" xml:space="preserve">
+    <value>Bekijk hoe snel u een Node.js-app kunt maken</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
+    <value>Azure App Service is de enige cloudservice waarin alles is geïntegreerd dat u nodig hebt om snel en eenvoudig web- en mobiele apps te maken voor elk platform of apparaat. Gebruik gegevens vanaf elke locatie en bouw vrijwel alles. Speel tot een uur gratis en zonder enige verplichtingen in de sandbox.</value>
   </data>
 </root>

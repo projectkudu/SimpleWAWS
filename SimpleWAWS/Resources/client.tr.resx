@@ -313,10 +313,10 @@
     <value>Web Uygulaması</value>
   </data>
   <data name="Information_WebClient" xml:space="preserve">
-    <value>Web İstemcisi</value>
+    <value>Web Portalı</value>
   </data>
   <data name="Information_Windows" xml:space="preserve">
-    <value>Windows</value>
+    <value>Evrensel Windows 8.1</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
     <value>Uygulamanızın üzerinde çalışmak için aşağıdaki Azure Portal bağlantısına tıklayın. Bu bağlantı sizi Mantıksal Uygulama kaynağı dikey penceresine yönlendirir.</value>
@@ -451,7 +451,7 @@
     <value>Azure Mobil Uygulamalar; iOS, Android veya Windows uygulamanıza oturum açma, gönderim ve veri eşitleme özellikleri eklemeyi, uygulamanızı küresel olarak ölçeklendirmeyi ve uygulamanızı kurumsal sistemler ile şirket içi kaynaklara bağlamayı kolaylaştırır.</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
-    <value>Azure Web Uygulamaları, geliştiricilerin altyapı yönetimi konusunda endişe duymasına gerek kalmadan, çeşitli dillerde yazılmış ve birçok hizmetle tümleşitirilmiş kurumsal düzeyde web uygulamalarını kolayca dağıtmasına ve ölçeklendirmesine olanak sağlar.</value>
+    <value>Azure Web Uygulamaları, geliştiricilerin altyapı yönetimi konusunda endişe duymasına gerek kalmadan, çeşitli dillerde yazılmış ve birçok hizmetle tümleştirilmiş kurumsal sınıf web uygulamalarını kolayca dağıtmasına ve ölçeklendirmesine olanak sağlar.</value>
   </data>
   <data name="Information_LogicAppStep3" xml:space="preserve">
     <value>3. Dikey pencerenin üstündeki Şimdi Çalıştır komutuna tıklayarak Mantıksal Uygulama'yı yeniden çalıştırın.</value>
@@ -463,12 +463,36 @@
     <value>Mantıksal Uygulama kaynağı dikey penceresinde aşağıdakileri yapnayı deneyebilirsiniz:</value>
   </data>
   <data name="Information_XamarinBrandingLine1" xml:space="preserve">
-    <value>Xamarin ve Azure Uygulama Hizmeti ile Mobil Çalışın</value>
+    <value>Xamarin ve Azure Uygulama Hizmetiyle Mobil Olun</value>
   </data>
   <data name="Information_XamarinBrandingLine2" xml:space="preserve">
-    <value>İstediğiniz cihazda saniyeler içinde Kimlik Doğrulama, Eşitleme ve Gönderim yapın. Ücretsiz olarak kullanmaya başlayın ve uygulamanız geliştikçe ölçeğinizi büyütün.</value>
+    <value>Herhangi bir cihazla saniyeler içinde Kimlik Doğrulayın, Eşitleyin ve Gönderin. Ücret ödemeden başlayın ve uygulamanız büyüdükçe ölçeğinizi artırın.</value>
   </data>
   <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
-    <value>Daha fazla zamana mı ihtiyacınız var? Denemenizi 24 saate genişletmek için buraya tıklayın.</value>
+    <value>Daha fazla zamana mı ihtiyacınız var? Deneme sürenizi 24 saate çıkarmak için buraya tıklayın.</value>
+  </data>
+  <data name="Information_Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Information_DownloadAndroidClient" xml:space="preserve">
+    <value>Android istemci uygulamasını indir</value>
+  </data>
+  <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
+    <value>Evrensel Windows Platformu'nu (UWP) indir</value>
+  </data>
+  <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
+    <value>Xamarin.Forms istemci uygulamasını indir</value>
+  </data>
+  <data name="Information_UniversalWindowsPlatform" xml:space="preserve">
+    <value>Evrensel Windows Platformu (UWP)</value>
+  </data>
+  <data name="Information_XamarinForms" xml:space="preserve">
+    <value>Xamarin.Forms</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine1" xml:space="preserve">
+    <value>Node.js uygulaması oluşturmanın ne kadar kısa sürdüğünü görün</value>
+  </data>
+  <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
+    <value>Azure Uygulama Hizmeti, web uygulamalarını ve mobil uygulamaları istediğiniz platformda kolayca derlemek için ihtiyacınız olan her şeyi tümleştiren tek bulut hizmetidir. Verileri herhangi bir kaynaktan çekebilir ve hemen her şeyi derleyebilirsiniz. Korumalı alanı bir saat süreyle ücretsiz olarak, taahhüt vermeden kullanın.</value>
   </data>
 </root>
