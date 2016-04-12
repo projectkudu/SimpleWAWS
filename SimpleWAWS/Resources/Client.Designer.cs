@@ -520,7 +520,7 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Download the Universal Windows Platform (UWP).
+        ///   Looks up a localized string similar to Download the Universal Windows Platform (UWP) client.
         /// </summary>
         public static string Information_DownloadWUniversalWindowsPlatformClient {
             get {
@@ -619,7 +619,16 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Install Visual Studio Professional 2013 (Update 4).
+        ///   Looks up a localized string similar to Download Android Studio.
+        /// </summary>
+        public static string Information_InstallAndroidStudio {
+            get {
+                return ResourceManager.GetString("Information_InstallAndroidStudio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Install Visual Studio Professional 2015 (Update 2).
         /// </summary>
         public static string Information_InstallVisualStudio {
             get {

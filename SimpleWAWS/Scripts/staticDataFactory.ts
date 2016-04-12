@@ -192,8 +192,8 @@ angular.module("tryApp")
                        internal_name: "Andorid",
                        sprite: "mobile-icons sprite-android",
                        steps: {
-                           preText: Resources.Information_InstallXamarinStudio,
-                           preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
+                           preText: Resources.Information_InstallAndroidStudio,
+                           preHref: "http://go.microsoft.com/fwlink/?LinkID=708403&clcid=0x409",
                            clientText: Resources.Information_DownloadAndroidClient,
                            clientHref: "/api/resource/mobileclient/Android?templateName=TodoList"
                        }

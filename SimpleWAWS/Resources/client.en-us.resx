@@ -268,7 +268,7 @@
     <value>Going back will delete the current app</value>
   </data>
   <data name="Information_InstallVisualStudio" xml:space="preserve">
-    <value>Install Visual Studio Professional 2013 (Update 4)</value>
+    <value>Install Visual Studio Professional 2015 (Update 2)</value>
   </data>
   <data name="Information_InstallXamarinStudio" xml:space="preserve">
     <value>Install Xamarin Studio for Windows or OS X</value>
@@ -478,7 +478,7 @@
     <value>Download the Android client app</value>
   </data>
   <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
-    <value>Download the Universal Windows Platform (UWP)</value>
+    <value>Download the Universal Windows Platform (UWP) client</value>
   </data>
   <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
     <value>Download the Xamarin.Forms client app</value>
@@ -494,5 +494,8 @@
   </data>
   <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
     <value>Azure App Service is the only cloud service that integrates everything you need to quickly and easily build web and mobile apps for any platform or device.  Pull data from anywhere and build virtually anything.  Play in the sandbox for up to an hour free of charge and commitment.</value>
+  </data>
+  <data name="Information_InstallAndroidStudio" xml:space="preserve">
+    <value>Download Android Studio</value>
   </data>
 </root>
