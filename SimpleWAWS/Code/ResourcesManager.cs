@@ -353,6 +353,8 @@ namespace SimpleWAWS.Code
                             "Logic", template.Name, resourceGroup.ResourceUniqueId, AppService.Logic.ToString(), anonymousUserName);
                 SimpleTrace.UserCreatedApp(userIdentity, template, resourceGroup, AppService.Logic);
 
+                //await resourceGroup.InitApiApps();
+
                 var logicApp = new LogicApp(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, Guid.NewGuid().ToString().Replace("-", ""))
                 {
                     Location = resourceGroup.GeoRegion
@@ -365,7 +367,7 @@ namespace SimpleWAWS.Code
                     csmTemplateString = await reader.ReadToEndAsync();
                 }
 
-                csmTemplateString = csmTemplateString.Replace("{{gatewayName}}", resourceGroup.Gateways.Select(g => g.GatewayName).First()).Replace("{{logicAppName}}", logicApp.LogicAppName);
+                csmTemplateString = csmTemplateString.Replace("{{logicAppName}}", logicApp.LogicAppName);
                 //csmTemplateString = csmTemplateString.Replace("{{gatewayName}}", Guid.NewGuid().ToString().Replace("-", "")).Replace("{{logicAppName}}", logicApp.LogicAppName);
 
                 await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true);

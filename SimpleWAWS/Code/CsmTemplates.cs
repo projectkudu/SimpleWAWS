@@ -16,6 +16,7 @@ namespace SimpleWAWS.Code
         private const string logicAppsApiVersion = "2015-02-01-preview";
         private const string graphApiVersion = "1.42-previewInternal";
         private const string storageApiVersion = "2015-05-01-preview";
+        private const string csmTemplateApiVersoin = "2016-02-01";
 
         public const string RbacApiVersion = "2014-07-01-preview";
         public const string CsmRootUrl = "https://management.azure.com";
@@ -29,7 +30,7 @@ namespace SimpleWAWS.Code
         public static readonly ArmUriTemplate ResourceGroup = new ArmUriTemplate(ResourceGroups.TemplateUrl + "/{resourceGroupName}", csmApiVersoin);
         public static readonly ArmUriTemplate ResourceGroupResources = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/resources", csmApiVersoin);
 
-        public static readonly ArmUriTemplate CsmTemplateDeployment = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/deployments/{deploymentName}", csmApiVersoin);
+        public static readonly ArmUriTemplate CsmTemplateDeployment = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/deployments/{deploymentName}", csmTemplateApiVersoin);
 
         public static readonly ArmUriTemplate AppServiceRegister = new ArmUriTemplate(Subscription.TemplateUrl + "/providers/Microsoft.AppService/register", appServiceApiVersion);
         public static readonly ArmUriTemplate AppServiceGenerateCsmDeployTemplate = new ArmUriTemplate(Subscription.TemplateUrl + "/providers/Microsoft.AppService/deploymenttemplates/{microserviceId}/generate?resourceGroup={resourceGroupName}", appServiceApiVersion);

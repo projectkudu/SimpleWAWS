@@ -1,82 +1,69 @@
 {
-    "properties": {
-        "mode": "Incremental",
-        "parameters": {
-            "gatewayName": { "value": "{{gatewayName}}" },
-            "logicAppName": { "value": "{{logicAppName}}" },
-            "svcPlanName": { "value": "Default1" }
+  "properties": {
+    "mode": "Incremental",
+    "parameters": {
+      "logicAppName": { "value": "{{logicAppName}}" },
+      "svcPlanName": { "value": "Default1" }
+    },
+    "template": {
+      "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "logicAppName": {
+          "type": "string"
         },
-        "template": {
-            "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-            "contentVersion": "1.0.0.0",
-            "parameters": {
-                "gatewayName": {
-                    "type": "string"
-                },
-                "logicAppName": {
-                    "type": "string"
-                },
-                "svcPlanName": {
-                    "type": "string"
-                },
-                "sku": {
-                    "type": "string",
-                    "defaultValue": "Free",
-                    "allowedValues": [
-                        "Free",
-                        "Basic",
-                        "Standard",
-                        "Premium"
-                    ]
-                }
-            },
-            "variables": { },
-            "resources": [
-                {
-                    "type": "Microsoft.Logic/workflows",
-                    "apiVersion": "2015-02-01-preview",
-                    "name": "[parameters('logicAppName')]",
-                    "location": "[resourceGroup().location]",
-                    "properties": {
-                        "sku": {
-                            "name": "[parameters('sku')]",
-                            "plan": {
-                                "id": "[concat(resourceGroup().id, '/providers/Microsoft.Web/serverfarms/',parameters('svcPlanName'))]"
-                            }
-                        },
-                        "definition": {
-                            "$schema": "http://schema.management.azure.com/providers/Microsoft.Logic/schemas/2014-12-01-preview/workflowdefinition.json#",
-                            "contentVersion": "1.0.0.0",
-                            "parameters": { },
-                            "triggers": {
-                                "recurrence": {
-                                    "type": "recurrence",
-                                    "recurrence": {
-                                        "frequency": "Hour",
-                                        "interval": 1
-                                    }
-                                }
-                            },
-                            "actions": {
-                                "pingNewsSite": {
-                                    "type": "http",
-                                    "inputs": {
-                                        "method": "GET",
-                                        "uri": "https://www.bing.com/news?q=technology&format=json"
-                                    }
-                                }
-                            },
-                            "outputs": {
-                                "result": {
-                                    "type": "array",
-                                    "value": "@body('pingNewsSite')"
-                                }
-                            }
-                        },
-                        "parameters": { }
-                    }
-                }
-            ]
+        "svcPlanName": {
+          "type": "string"
         }
+      },
+
+      "resources": [
+        {
+          "type": "Microsoft.Logic/workflows",
+          "apiVersion": "2015-08-01-preview",
+          "name": "[parameters('logicAppName')]",
+          "location": "[resourceGroup().location]",
+          "properties": {
+            "sku": {
+              "name": "Free",
+              "plan": {
+                "id": "[concat(resourceGroup().id, '/providers/Microsoft.Web/serverfarms/',parameters('svcPlanName'))]"
+              }
+            },
+            "state": "Enabled",
+            "definition": {
+              "$schema": "http://schema.management.azure.com/providers/Microsoft.Logic/schemas/2015-08-01-preview/workflowdefinition.json#",
+              "contentVersion": "1.0.0.0",
+              "parameters": { },
+              "triggers": {
+                "recurrence": {
+                  "type": "recurrence",
+                  "recurrence": {
+                    "frequency": "Hour",
+                    "interval": 1
+                  }
+                }
+              },
+              "actions": {
+                "pingGeoSite": {
+                  "type": "http",
+                  "inputs": {
+                    "method": "GET",
+                    "uri": "http://api.geonames.org/searchJSON?q=seattle&maxRows=10&username=demo"
+                  }
+                }
+              },
+              "outputs": {
+                "result": {
+                  "type": "object",
+                  "value": "@body('pingGeoSite')"
+                }
+              }
+            },
+            "parameters": { }
+          }
+        }
+      ]
     }
+  }
 }
