@@ -27,6 +27,7 @@ namespace SimpleWAWS.Code
         private readonly JobHost _jobHost = new JobHost();
         private int _logCounter = 0;
         private static int _maintainResourceGroupListErrorCount = 0;
+        private static Random rand = new Random();
 
         public BackgroundQueueManager()
         {
@@ -242,8 +243,19 @@ namespace SimpleWAWS.Code
 
         private void AddOperation<T>(BackgroundOperation<T> operation)
         {
-            BackgroundInternalOperations.TryAdd(operation.OperationId, operation);
-            operation.Task.ContinueWith(_ => HandleBackgroundOperation(operation)).ConfigureAwait(false);
+            if (BackgroundInternalOperations.Count > 50)
+            {
+                Task.Run(async () =>
+                {
+                    await Task.Delay(rand.Next(1000, 5000));
+                    AddOperation(operation);
+                });
+            }
+            else
+            {
+                BackgroundInternalOperations.TryAdd(operation.OperationId, operation);
+                operation.Task.ContinueWith(_ => HandleBackgroundOperation(operation)).ConfigureAwait(false);
+            }
         }
     }
 }

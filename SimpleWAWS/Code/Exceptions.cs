@@ -58,7 +58,7 @@ namespace SimpleWAWS.Models
         public HttpStatusCode StatusCode { get; private set; }
 
         public FailedRequestException(Uri uri, string content, HttpStatusCode statusCode, string message)
-            : base(message)
+            : base($"{message}, {uri}, {content}, {statusCode}")
         {
             this.Uri = uri;
             this.Content = content;

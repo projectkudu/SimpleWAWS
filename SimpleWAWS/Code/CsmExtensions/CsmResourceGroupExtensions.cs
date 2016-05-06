@@ -221,7 +221,6 @@ namespace SimpleWAWS.Code.CsmExtensions
             if (!string.IsNullOrEmpty(resourceGroup.UserId)) return resourceGroup;
 
             var createdSites = new List<Task<Site>>();
-            var storageAccounts = new List<Task<StorageAccount>>();
 
             if (!resourceGroup.Sites.Any(s => s.IsSimpleWAWSOriginalSite))
             {
@@ -234,19 +233,10 @@ namespace SimpleWAWS.Code.CsmExtensions
                 createdSites.Add(CreateSite(resourceGroup, () => $"{Constants.FunctionsSitePrefix}{Guid.NewGuid().ToString().Split('-').First()}"));
             }
 
-            if (!resourceGroup.StorageAccounts.Any(s => s.IsFunctionsStorageAccount))
-            {
-                storageAccounts.Add(CreateStorageAccount(resourceGroup, () => $"{Constants.FunctionsStorageAccountPrefix}{Guid.NewGuid().ToString().Split('-').First()}".ToLowerInvariant()));
-            }
-
             resourceGroup.Sites = resourceGroup.Sites.Union(await createdSites.WhenAll());
-            resourceGroup.StorageAccounts = resourceGroup.StorageAccounts.Union(await storageAccounts.WhenAll());
 
-            await InitApiApps(resourceGroup);
-
-
-            await InitFunctionsContainer(resourceGroup);
-
+            //await InitApiApps(resourceGroup);
+            //await InitFunctionsContainer(resourceGroup);
             return resourceGroup;
         }
 
@@ -329,7 +319,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 !csmResourceGroup.tags.ContainsKey("Bad");
         }
 
-        private static async Task InitApiApps(ResourceGroup resourceGroup)
+        public static async Task InitApiApps(this ResourceGroup resourceGroup)
         {
             if (!resourceGroup.Tags.ContainsKey(Constants.CommonApiAppsDeployed) ||
                 !resourceGroup.Tags[Constants.CommonApiAppsDeployed].Equals(Constants.CommonApiAppsDeployedVersion))
