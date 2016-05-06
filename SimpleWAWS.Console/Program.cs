@@ -20,7 +20,7 @@ namespace SimpleWAWS.Console
                 .CreateLogger();
             SimpleTrace.Diagnostics = log;
             SimpleTrace.Analytics = log;
-            Task.Run(() => Main2Async()).Wait();
+            Task.Run(() => MainAsync()).Wait();
         }
 
         public static void PrettyPrint(this ResourceGroup e)
@@ -80,15 +80,15 @@ namespace SimpleWAWS.Console
             //subscriptions = await subscriptions.Select(s => s.MakeTrialSubscription()).WhenAll();
             //console("done calling make trial subscription");
 
-            console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()) + " resourceGroups");
-            console(subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()));
-            console("make free trial");
-            foreach (var subscription in subscriptions)
-            {
-                var freeTrial = subscription.MakeTrialSubscription();
-                console(subscription.SubscriptionId + "\thas\t" + freeTrial.Ready.Count() + "\twill delete\t" + freeTrial.ToDelete.Count() + "\tcreate\t" + freeTrial.ToCreateInRegions.Count());
-            }
-            //await Task.WhenAll(subscriptions.Select(subscription => subscription.ResourceGroups.Where(r => !r.Tags.ContainsKey("CommonApiAppsDeployed")).Select(rg => rg.Delete(false))).SelectMany(i => i));
+            //console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()) + " resourceGroups");
+            //console(subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()));
+            //console("make free trial");
+            //foreach (var subscription in subscriptions)
+            //{
+            //    var freeTrial = subscription.MakeTrialSubscription();
+            //    console(subscription.SubscriptionId + "\thas\t" + freeTrial.Ready.Count() + "\twill delete\t" + freeTrial.ToDelete.Count() + "\tcreate\t" + freeTrial.ToCreateInRegions.Count());
+            //}
+            await Task.WhenAll(subscriptions.Select(subscription => subscription.ResourceGroups.Select(rg => rg.Delete(false))).SelectMany(i => i));
 
             //subscriptions.ToList().ForEach(printSub);
             console("Done");
