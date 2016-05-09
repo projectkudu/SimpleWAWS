@@ -21,7 +21,10 @@ let intervals (timeRange: TimeRange) aggregate =
 
 type TimeWrappedResult<'a> = { startTime: DateTime; endTime: DateTime; value: 'a }
 let wrap (startTime, endTime) a = { startTime = startTime; endTime = endTime; value = a }
-let private getContext () = EntityConnection.GetDataContext (System.Environment.GetEnvironmentVariable ("TryAppService"))
+let private getContext () =
+    let context = EntityConnection.GetDataContext (System.Environment.GetEnvironmentVariable ("TryAppService"))
+    context.DataContext.CommandTimeout <- new System.Nullable<_> 1000
+    context
 
 let private executeQueryOverTimeRangeAsync fq (timeRange: TimeRange) aggregate =
     intervals timeRange aggregate
