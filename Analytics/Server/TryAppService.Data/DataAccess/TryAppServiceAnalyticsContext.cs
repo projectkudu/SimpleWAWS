@@ -32,6 +32,22 @@ namespace TryAppService.Data.DataAccess
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            modelBuilder.Entity<UserLoggedIn>()
+                .HasIndex("IX_UserLoggedIn_DateTime_AnonymousUserName_LoggedInUserName",
+                    e => e.Property(x => x.DateTime),
+                    e => e.Property(x => x.AnonymousUserName),
+                    e => e.Property(x => x.LoggedInUserName));
+
+            modelBuilder.Entity<UserAssignedExperiment>()
+                .HasIndex("IX_UserLoggedIn_DateTime_UserName",
+                    e => e.Property(x => x.DateTime),
+                    e => e.Property(x => x.UserName));
+
+            modelBuilder.Entity<UIEvent>()
+                .HasIndex("IX_UIEvent_DateTime_UserName_EventName",
+                    e => e.Property(x => x.DateTime),
+                    e => e.Property(x => x.UserName),
+                    e => e.Property(x => x.EventName));
         }
     }
 }
