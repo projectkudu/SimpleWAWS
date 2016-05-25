@@ -49,6 +49,8 @@ namespace SimpleWAWS.Controllers
                 return Request.CreateResponse(HttpStatusCode.Accepted);
             });
         }
+
+        [HttpGet]
         public async Task<HttpResponseMessage> DeleteUserResource(string userIdentity)
         {
             var resourceManager = await ResourcesManager.GetInstanceAsync();
