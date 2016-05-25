@@ -236,7 +236,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             resourceGroup.Sites = resourceGroup.Sites.Union(await createdSites.WhenAll());
 
             //await InitApiApps(resourceGroup);
-            //await InitFunctionsContainer(resourceGroup);
+            await InitFunctionsContainer(resourceGroup);
             return resourceGroup;
         }
 
