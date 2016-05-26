@@ -230,7 +230,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             // Create Functions Container Site
             if (!resourceGroup.Sites.Any(s => s.IsFunctionsContainer))
             {
-                createdSites.Add(CreateSite(resourceGroup, () => $"{Constants.FunctionsSitePrefix}{Guid.NewGuid().ToString().Split('-').First()}"));
+                createdSites.Add(CreateSite(resourceGroup, () => $"{Constants.FunctionsSitePrefix}{Guid.NewGuid().ToString().Split('-').First()}", "functionapp"));
             }
 
             resourceGroup.Sites = resourceGroup.Sites.Union(await createdSites.WhenAll());
@@ -300,10 +300,10 @@ namespace SimpleWAWS.Code.CsmExtensions
             }
         }
 
-        private static async Task<Site> CreateSite(ResourceGroup resourceGroup, Func<string> nameGenerator)
+        private static async Task<Site> CreateSite(ResourceGroup resourceGroup, Func<string> nameGenerator, string kind = null)
         {
             var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, nameGenerator());
-            var csmSiteResponse = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.Site.Bind(site), new { properties = new { }, location = resourceGroup.GeoRegion });
+            var csmSiteResponse = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.Site.Bind(site), new { properties = new { }, location = resourceGroup.GeoRegion , kind = "functionapp"});
             await csmSiteResponse.EnsureSuccessStatusCodeWithFullError();
 
             var csmSite = await csmSiteResponse.Content.ReadAsAsync<CsmWrapper<CsmSite>>();
