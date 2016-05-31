@@ -21,6 +21,7 @@ namespace SimpleWAWS.Code
         public const string TemplateName = "TemplateName";
         public const string IsExtended = "IsExtended";
         public const string FunctionsSitePrefix = "Functions";
+        public const string FunctionsContainerSiteKind = "functionapp";
         public const string FunctionsContainerDeployed = "FunctionsContainerDeployed";
         public const string FunctionsContainerDeployedVersion = "3.0.0";
         public const string FunctionsStorageAccountPrefix = "Functions";
@@ -29,5 +30,7 @@ namespace SimpleWAWS.Code
         public const string StorageConnectionStringTemplate = "DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}";
         public const string SiteExtensionsVersion = "SiteExtensionsVersion";
         public const string CurrentSiteExtensionsVersion = "13";
+        public const string TryAppServiceSku = "Free";
+        public const string DefaultServerFarmName = "Default1";
     }
 }

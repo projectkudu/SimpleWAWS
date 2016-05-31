@@ -266,5 +266,9 @@ namespace SimpleWAWS.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, Resources.Server.Error_GeneralErrorMessage);
             }
         }
+        public  HttpResponseMessage GetUserIdentityName()
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, HttpContext.Current.User.Identity.Name);
+        }
     }
 }

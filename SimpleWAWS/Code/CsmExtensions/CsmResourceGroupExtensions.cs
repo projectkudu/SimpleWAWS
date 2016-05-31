@@ -123,7 +123,8 @@ namespace SimpleWAWS.Code.CsmExtensions
                 serverFarms = (await csmServerFarmsResponse.Content.ReadAsAsync<CsmArrayWrapper<object>>()).value;
             }
 
-            resourceGroup.ServerFarms = serverFarms.Select(s => new ServerFarm(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, s.name));
+            resourceGroup.ServerFarms = serverFarms.Select(s => new ServerFarm(resourceGroup.SubscriptionId, 
+                resourceGroup.ResourceGroupName, s.name, resourceGroup.GeoRegion, Constants.TryAppServiceSku));
 
             return resourceGroup;
         }
@@ -240,11 +241,11 @@ namespace SimpleWAWS.Code.CsmExtensions
             return resourceGroup;
         }
 
-        public static async Task<ResourceGroup> DeleteAndCreateReplacement(this ResourceGroup resourceGroup)
+        public static async Task<ResourceGroup> DeleteAndCreateReplacement(this ResourceGroup resourceGroup, bool blockDelete = false)
         {
             var region = resourceGroup.GeoRegion;
             var subscriptionId = resourceGroup.SubscriptionId;
-            await Delete(resourceGroup, block: false);
+            await Delete(resourceGroup, block: blockDelete);
             return await PutInDesiredState(await CreateResourceGroup(subscriptionId, region));
         }
 
@@ -300,15 +301,36 @@ namespace SimpleWAWS.Code.CsmExtensions
             }
         }
 
-        private static async Task<Site> CreateSite(ResourceGroup resourceGroup, Func<string> nameGenerator, string kind = null)
+        private static async Task<Site> CreateSite(ResourceGroup resourceGroup, Func<string> nameGenerator, string siteKind = null)
         {
             var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, nameGenerator());
-            var csmSiteResponse = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.Site.Bind(site), new { properties = new { }, location = resourceGroup.GeoRegion , kind = "functionapp"});
+            await resourceGroup.LoadServerFarms(null);
+            if (resourceGroup.ServerFarms.All(sf => sf.Sku["tier"] != Constants.TryAppServiceSku))
+            {
+                await CreateServerFarm(resourceGroup, Constants.DefaultServerFarmName);
+            }
+            var csmSiteResponse = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.Site.Bind(site), new { properties = new { }, location = resourceGroup.GeoRegion , kind = siteKind });
             await csmSiteResponse.EnsureSuccessStatusCodeWithFullError();
 
             var csmSite = await csmSiteResponse.Content.ReadAsAsync<CsmWrapper<CsmSite>>();
 
             return await Load(site, csmSite);
+        }
+
+        private static async Task<ServerFarm> CreateServerFarm(ResourceGroup resourceGroup, string serverFarmName)
+        {
+            var serverFarm = new ServerFarm(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, serverFarmName, resourceGroup.GeoRegion, Constants.TryAppServiceSku);
+            var csmServerFarmResponse = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.ServerFarm.Bind(serverFarm), 
+                new {
+                        properties = new { },
+                        location = resourceGroup.GeoRegion,
+                        sku = new{tier= Constants.TryAppServiceSku}
+                    });
+            await csmServerFarmResponse.EnsureSuccessStatusCodeWithFullError();
+
+            var csmServerFarm = await csmServerFarmResponse.Content.ReadAsAsync<CsmWrapper<CsmServerFarm>>();
+
+            return await Load(serverFarm, csmServerFarm);
         }
 
         private static bool IsSimpleWaws(CsmWrapper<CsmResourceGroup> csmResourceGroup)

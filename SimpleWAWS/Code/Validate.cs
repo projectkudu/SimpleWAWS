@@ -33,6 +33,13 @@ namespace SimpleWAWS.Code
             NotNullOrEmpty(site.SiteName, "Name");
         }
 
+        public static void ValidateCsmServerFarm(ServerFarm serverFarm)
+        {
+            NotNull(serverFarm, "serverFarm");
+            NotNullOrEmpty(serverFarm.Location, "Location");
+            NotNullOrEmpty(serverFarm.ServerFarmName, "serverFarmName");
+            NotNull(serverFarm.Sku, "Sku");
+        }
         public static void ValidateCsmResourceGroup(ResourceGroup resourceGroup)
         {
 

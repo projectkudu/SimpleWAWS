@@ -10,6 +10,8 @@ namespace SimpleWAWS.Models
     {
         private string _csmIdTemplate = "/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Web/serverFarms/{2}";
         public string ServerFarmName { get; private set; }
+        public Dictionary<string, string> Sku { get; set; }
+        public string Location { get; set; }
 
         public override string CsmId
         {
@@ -19,10 +21,12 @@ namespace SimpleWAWS.Models
             }
         }
 
-        public ServerFarm(string subscriptionId, string resoruceGroupName, string serverFarmName)
-            : base(subscriptionId, resoruceGroupName)
+        public ServerFarm(string subscriptionId, string resourceGroupName, string serverFarmName, string location, string sku)
+            : base(subscriptionId, resourceGroupName)
         {
             this.ServerFarmName = serverFarmName;
+            this.Location = location;
+            this.Sku["tier"] = sku;
         }
     }
 }

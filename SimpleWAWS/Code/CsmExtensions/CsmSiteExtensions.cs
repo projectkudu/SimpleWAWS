@@ -80,6 +80,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             site.HostName = csmSite.properties.hostNames.FirstOrDefault();
             site.ScmHostName = csmSite.properties.enabledHostNames.FirstOrDefault(h => h.IndexOf(".scm.", StringComparison.OrdinalIgnoreCase) != -1);
+            site.Kind = csmSite.kind;
 
             await Task.WhenAll(LoadAppSettings(site), LoadPublishingCredentials(site), UpdateConfig(site, new { properties = new { scmType = "LocalGit" } }));
 
