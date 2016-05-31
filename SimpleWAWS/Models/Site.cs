@@ -133,16 +133,25 @@ namespace SimpleWAWS.Models
                        Regex.IsMatch(SiteName, "^[A-F0-9]{8}-0ee0-4-231-b9ee$", RegexOptions.IgnoreCase);
             }
         }
+        public string Kind { get; set; }
 
         public bool IsFunctionsContainer
         {
             get
             {
-                return !string.IsNullOrEmpty(SiteName) &&
-                    SiteName.StartsWith(Constants.FunctionsSitePrefix);
+                return !string.IsNullOrEmpty(Kind) &&
+                    Kind.StartsWith(Constants.FunctionsContainerSiteKind);
             }
         }
 
+        public bool NameStartsWithFunctions
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(SiteName) &&
+                SiteName.StartsWith(Constants.FunctionsSitePrefix);
+            }
+        }
         public void FireAndForget()
         {
             try

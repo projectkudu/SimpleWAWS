@@ -83,13 +83,29 @@ namespace SimpleWAWS.Console
             //console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()) + " resourceGroups");
             //console(subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()));
             //console("make free trial");
-            //foreach (var subscription in subscriptions)
-            //{
-            //    var freeTrial = subscription.MakeTrialSubscription();
-            //    console(subscription.SubscriptionId + "\thas\t" + freeTrial.Ready.Count() + "\twill delete\t" + freeTrial.ToDelete.Count() + "\tcreate\t" + freeTrial.ToCreateInRegions.Count());
-            //}
-            await Task.WhenAll(subscriptions.Select(subscription => subscription.ResourceGroups.Select(rg => rg.Delete(false))).SelectMany(i => i));
+            foreach (var subscription in subscriptions)
+            {
+                for (int i =subscription.ResourceGroups.Count()-1; i>9; i--)
+                //remove excess
+                {
+                    await subscription.ResourceGroups.ElementAt(i).Delete(true);
+                }
+            }
+            console("Re-start loading subscriptions");
+            console("We have " + subscriptionsIds.Count() + " subscriptions");
+            subscriptions = await subscriptionsIds.Select(s => new Subscription(s).Load()).WhenAll();
+            console("done loading subscriptions");
 
+            foreach (var subscription in subscriptions)
+            {
+                foreach (var resourcegroup in subscription.ResourceGroups)
+                {
+                    console($" Replacing Resource Group : {resourcegroup.CsmId}");
+                    await resourcegroup.DeleteAndCreateReplacement(true);
+                    console($" Replaced");
+
+                }
+            }
             //subscriptions.ToList().ForEach(printSub);
             console("Done");
         }

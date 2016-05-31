@@ -248,6 +248,7 @@
     <Compile Include="Authentication\VkAuthProvider.cs" />
     <Compile Include="Code\BackgroundOperation.cs" />
     <Compile Include="Code\BackgroundQueueManager.cs" />
+    <Compile Include="Code\CsmExtensions\CsmServerFarmExtensions.cs" />
     <Compile Include="Code\CsmExtensions\CsmStorageAccountExtensions.cs" />
     <Compile Include="Code\GlobalizationManager.cs" />
     <Compile Include="Models\CsmModels\CsmStorageAccount.cs" />
