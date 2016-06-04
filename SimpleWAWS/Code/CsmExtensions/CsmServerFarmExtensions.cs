@@ -30,8 +30,8 @@ namespace SimpleWAWS.Code.CsmExtensions
                 csmServerFarm = await csmServerFarmResponse.Content.ReadAsAsync<CsmWrapper<CsmServerFarm>>();
             }
 
-            serverFarm.Sku = csmServerFarm.sku;
-            serverFarm.Location = csmServerFarm.location;
+            //serverFarm.Sku = csmServerFarm.sku;
+            //serverFarm.Location = csmServerFarm.location;
 
             return serverFarm;
         }

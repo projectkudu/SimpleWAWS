@@ -193,9 +193,9 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
             var zipManager = new RemoteZipManager($"{site.ScmUrl}zip/", credentials, retryCount: 3);
-            var appDataFolder = HostingEnvironment.MapPath(@"~/App_Data/SiteExtensions");
-            await zipManager.PutZipFileAsync(string.Empty, Path.Combine(appDataFolder, "Kudu.zip"));
-            await zipManager.PutZipFileAsync(string.Empty, Path.Combine(appDataFolder, "AzureFunctions.zip"));
+
+            await zipManager.PutZipFileAsync(string.Empty, Path.Combine(SimpleSettings.AppDataPath, "SiteExtensions", "Kudu.zip"));
+            await zipManager.PutZipFileAsync(string.Empty, Path.Combine(SimpleSettings.AppDataPath, "SiteExtensions", "AzureFunctions.zip"));
             site.AppSettings[Constants.SiteExtensionsVersion] = Constants.CurrentSiteExtensionsVersion;
             await site.UpdateAppSettings();
         }

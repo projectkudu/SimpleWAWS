@@ -37,7 +37,7 @@ namespace SimpleWAWS.Code
         {
             NotNull(serverFarm, "serverFarm");
             NotNullOrEmpty(serverFarm.Location, "Location");
-            NotNullOrEmpty(serverFarm.ServerFarmName, "serverFarmName");
+            NotNullOrEmpty(serverFarm.ServerFarmName, "ServerFarmName");
             NotNull(serverFarm.Sku, "Sku");
         }
         public static void ValidateCsmResourceGroup(ResourceGroup resourceGroup)

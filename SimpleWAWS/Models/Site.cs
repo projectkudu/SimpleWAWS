@@ -139,6 +139,7 @@ namespace SimpleWAWS.Models
         {
             get
             {
+
                 return !string.IsNullOrEmpty(Kind) &&
                     Kind.StartsWith(Constants.FunctionsContainerSiteKind);
             }

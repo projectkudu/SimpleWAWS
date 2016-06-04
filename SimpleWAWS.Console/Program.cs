@@ -72,17 +72,17 @@ namespace SimpleWAWS.Console
             var subscriptions = await subscriptionsIds.Select(s => new Subscription(s).Load()).WhenAll();
             console("done loading subscriptions");
 
+            ////console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()) + " resourceGroups");
+
+            ////console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Where(r => !r.Tags.ContainsKey("CommonApiAppsDeployed")).Count()) + " bad resourceGroups");
+
+            console("calling MakeTrialSubscription on all subscriptions");
+            subscriptions.Select(s => s.MakeTrialSubscription());
+            console("done calling make trial subscription");
+
             console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()) + " resourceGroups");
-
-            console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Where(r => !r.Tags.ContainsKey("CommonApiAppsDeployed")).Count()) + " bad resourceGroups");
-
-            //console("calling MakeTrialSubscription on all subscriptions");
-            //subscriptions = await subscriptions.Select(s => s.MakeTrialSubscription()).WhenAll();
-            //console("done calling make trial subscription");
-
-            //console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()) + " resourceGroups");
-            //console(subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()));
-            //console("make free trial");
+            console(subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()));
+            console("make free trial");
             foreach (var subscription in subscriptions)
             {
                 for (int i =subscription.ResourceGroups.Count()-1; i>9; i--)

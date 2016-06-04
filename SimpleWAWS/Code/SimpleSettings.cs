@@ -39,8 +39,10 @@ namespace SimpleWAWS.Code
         public static string SearchServiceName { get { return config(); } }
         public static string SearchServiceApiKeys { get { return config(); } }
         public static string ExtendedResourceExpireHours { get { return config("24"); } }
-        private const string CommonApiAppsCsmTemplatePathLocal = @"D:\scratch\repos\SimpleWAWS\SimpleWAWS\CSMTemplates\commonApiApps.json";
+        private const string CommonApiAppsCsmTemplatePathLocal = @"C:\Users\fashaikh\Documents\GitHub\SimpleWAWS\SimpleWAWS\CSMTemplates\commonApiApps.json";
+        private const string AppDataPathLocal = @"C:\Users\fashaikh\Documents\GitHub\SimpleWAWS\SimpleWAWS\App_Data\";
         public static string CommonApiAppsCsmTemplatePath { get; } = HostingEnvironment.MapPath("~/CSMTemplates/commonApiApps.json") ?? CommonApiAppsCsmTemplatePathLocal;
+        public static string AppDataPath { get; } = HostingEnvironment.MapPath(@"~/App_Data/")?? AppDataPathLocal;
         public static string ElasticSearchUri = "http://10.0.0.4:9200";
     }
 }
