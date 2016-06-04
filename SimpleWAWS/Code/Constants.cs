@@ -31,6 +31,9 @@ namespace SimpleWAWS.Code
         public const string SiteExtensionsVersion = "SiteExtensionsVersion";
         public const string CurrentSiteExtensionsVersion = "13";
         public const string TryAppServiceSku = "Free";
+        public const string TryAppServiceSkuName = "F1";
+        public const string TryAppServiceSkuFamily = "F";
+        public const int    TryAppServiceSkuCapacity = 0;
         public const string DefaultServerFarmName = "Default1";
     }
 }

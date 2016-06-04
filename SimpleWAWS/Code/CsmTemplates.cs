@@ -10,6 +10,7 @@ namespace SimpleWAWS.Code
     {
         private const string csmApiVersoin = "2014-04-01";
         private const string websitesApiVersion = "2014-06-01";
+        private const string latestWebsitesApiVersion = "2015-08-01";
         private const string newWebsitesApiVersion = "2015-02-01";
         private const string zRayApiVersion = "2015-04-01";
         private const string appServiceApiVersion = "2015-03-01-preview";
@@ -38,6 +39,7 @@ namespace SimpleWAWS.Code
         public static readonly ArmUriTemplate WebsitesRegister = new ArmUriTemplate(Subscription.TemplateUrl + "/providers/Microsoft.Web/register", websitesApiVersion);
         public static readonly ArmUriTemplate Sites = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Web/sites", websitesApiVersion);
         public static readonly ArmUriTemplate Site = new ArmUriTemplate(Sites.TemplateUrl + "/{siteName}", websitesApiVersion);
+        public static readonly ArmUriTemplate LatestSiteApiVersionTemplate = new ArmUriTemplate(Sites.TemplateUrl + "/{siteName}", latestWebsitesApiVersion);
         public static readonly ArmUriTemplate GetSiteAppSettings = new ArmUriTemplate(Site.TemplateUrl + "/config/AppSettings/list", websitesApiVersion);
         public static readonly ArmUriTemplate PutSiteAppSettings = new ArmUriTemplate(Site.TemplateUrl + "/config/AppSettings", websitesApiVersion);
         public static readonly ArmUriTemplate GetSiteMetadata = new ArmUriTemplate(Site.TemplateUrl + "/config/Metadata/list", websitesApiVersion);
