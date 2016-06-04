@@ -55,7 +55,7 @@ namespace SimpleWAWS.Controllers
         {
             var resourceManager = await ResourcesManager.GetInstanceAsync();
             resourceManager.DeleteResourceGroup(userIdentity);
-            return Request.CreateResponse(HttpStatusCode.Accepted);
+            return Request.CreateResponse(HttpStatusCode.Accepted,$"Queued up deletes for resource assigned to: {userIdentity}");
         }
 
         [HttpGet]
@@ -234,7 +234,7 @@ namespace SimpleWAWS.Controllers
         {
             var resourceManager = await ResourcesManager.GetInstanceAsync();
             resourceManager.DeleteResourceGroup(HttpContext.Current.User.Identity.Name);
-            return Request.CreateResponse(HttpStatusCode.Accepted);
+            return Request.CreateResponse(HttpStatusCode.Accepted,$"Removed any assigned resources to:{HttpContext.Current.User.Identity.Name}");
         }
 
         public async Task<HttpResponseMessage> GetResourceStatus()
