@@ -59,7 +59,7 @@ namespace SimpleWAWS.Controllers
         }
 
         [HttpGet]
-        public Task<HttpResponseMessage> All()
+        public Task<HttpResponseMessage> All(bool showFreeSites = false)
         {
             return SecurityManager.AdminOnly(async () =>
             {
@@ -75,7 +75,7 @@ namespace SimpleWAWS.Controllers
                         inProgressSitesCount = inProgress.Count(),
                         inUseSitesCount = inUseSites.Count(),
                         backgroundOperationsCount = backgroundOperations.Count(),
-                        //freeSites = freeSites,
+                        freeSites = showFreeSites? freeSites:null,
                         inUseSites = inUseSites,
                         inProgress = inProgress,
                         backgroundOperations = backgroundOperations
