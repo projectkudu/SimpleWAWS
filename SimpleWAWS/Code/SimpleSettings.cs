@@ -22,7 +22,7 @@ namespace SimpleWAWS.Code
         public static string TryTenantId { get { return config(); } }
         public static string TryTenantName { get { return config(); } }
         public static string SiteExpiryMinutes { get { return config("60"); } }
-        public static string GeoRegions { get { return config("East US,West US,North Europe,West Europe,South Central US,North Central US,East Asia,Southeast Asia,Japan West,Japan East,Brazil South"); } }
+        public static string GeoRegions { get { return config("East US,West US,North Europe,West Europe,South Central US,East Asia,Southeast Asia,Japan West,Japan East,Brazil South"); } }
         public static string TryUserName { get { return config(); } }
         public static string TryPassword { get { return config(); } }
         public static string Subscriptions { get { return config(); } }

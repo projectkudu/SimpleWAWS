@@ -69,7 +69,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 .Where(g => g.Count > 1)
                 .Select(g => g.ResourceGroups.Where(rg => string.IsNullOrEmpty(rg.UserId)).Skip(1))
                 .SelectMany(i => i);
-
+            
             result.Ready = subscription.ResourceGroups.Where(rg => !result.ToDelete.Any(drg => drg.ResourceGroupName == rg.ResourceGroupName));
 
             return result;
