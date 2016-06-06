@@ -214,7 +214,7 @@ namespace SimpleWAWS.Code
             {
                 Description = $"Deleting resourceGroup {resourceGroup.ResourceGroupName}",
                 Type = OperationType.ResourceGroupDelete,
-                Task = resourceGroup.Delete(true),
+                Task = resourceGroup.Delete(false),
                 RetryAction = () => DeleteResourceGroupOperation(resourceGroup)
             });
         }
