@@ -47,9 +47,9 @@ namespace SimpleWAWS.Code.CsmExtensions
             if (loadSubResources)
             {
                  await Task.WhenAll(LoadSites(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/sites", StringComparison.OrdinalIgnoreCase))),
-                                   LoadApiApps(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.AppService/apiapps", StringComparison.OrdinalIgnoreCase))),
-                                   LoadGateways(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.AppService/gateways", StringComparison.OrdinalIgnoreCase))),
-                                   LoadLogicApps(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Logic/workflows", StringComparison.OrdinalIgnoreCase))),
+                                   //LoadApiApps(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.AppService/apiapps", StringComparison.OrdinalIgnoreCase))),
+                                   //LoadGateways(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.AppService/gateways", StringComparison.OrdinalIgnoreCase))),
+                                   //LoadLogicApps(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Logic/workflows", StringComparison.OrdinalIgnoreCase))),
                                    LoadServerFarms(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/serverFarms", StringComparison.OrdinalIgnoreCase))),
                                    LoadStorageAccounts(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Storage/storageAccounts", StringComparison.OrdinalIgnoreCase))));
             }
@@ -64,7 +64,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             await csmSitesResponse.EnsureSuccessStatusCodeWithFullError();
 
             var csmSites = await csmSitesResponse.Content.ReadAsAsync<CsmArrayWrapper<CsmSite>>();
-            resourceGroup.Sites = await csmSites.value.Select(async cs => await Load(new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, cs.name), cs)).WhenAll();
+            resourceGroup.Sites = await csmSites.value.Select(async cs => await Load(new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, cs.name, cs.kind), cs)).WhenAll();
             return resourceGroup;
         }
 
@@ -304,7 +304,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         private static async Task<Site> CreateSite(ResourceGroup resourceGroup, Func<string> nameGenerator, string siteKind = null)
         {
-            var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, nameGenerator());
+            var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, nameGenerator(), siteKind);
             site.Kind = siteKind;
             await resourceGroup.LoadServerFarms(null);
             ServerFarm serverFarm = new ServerFarm(resourceGroup.SubscriptionId,resourceGroup.ResourceGroupName,Constants.DefaultServerFarmName,
@@ -327,8 +327,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         }
         private static async Task<Site> CreateSiteUsingLatestVersion(ResourceGroup resourceGroup, Func<string> nameGenerator, string siteKind = null)
         {
-            var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, nameGenerator());
-            site.Kind = siteKind;
+            var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, nameGenerator(), siteKind);
             await resourceGroup.LoadServerFarms(null);
             ServerFarm serverFarm = new ServerFarm(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, Constants.DefaultServerFarmName,
                 resourceGroup.GeoRegion);
@@ -404,7 +403,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             resourceGroup.StorageAccounts = resourceGroup.StorageAccounts.Union(await storageAccounts.WhenAll());
 
-            await InitApiApps(resourceGroup);
+            //await InitApiApps(resourceGroup);
 
             var functionsStorageAccount = resourceGroup.StorageAccounts.FirstOrDefault(s => s.IsFunctionsStorageAccount);
 
