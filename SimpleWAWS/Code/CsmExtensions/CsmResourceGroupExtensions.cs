@@ -217,6 +217,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             return null;
         }
 
+
         public static async Task<ResourceGroup> PutInDesiredState(this ResourceGroup resourceGroup)
         {
             // If the resourceGroup is assigned, don't mess with it
