@@ -210,8 +210,8 @@
   <data name="Forums" xml:space="preserve">
     <value>Forums</value>
   </data>
-  <data name="FreeAccount" xml:space="preserve">
-    <value>Free Account</value>
+  <data name="FreeTrial" xml:space="preserve">
+    <value>Free Trial</value>
   </data>
   <data name="GoSocial" xml:space="preserve">
     <value>Go Social</value>

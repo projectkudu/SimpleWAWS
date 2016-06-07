@@ -367,11 +367,11 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Free Account.
+        ///   Looks up a localized string similar to Free Trial.
         /// </summary>
-        public static string FreeAccount {
+        public static string FreeTrial {
             get {
-                return ResourceManager.GetString("FreeAccount", resourceCulture);
+                return ResourceManager.GetString("FreeTrial", resourceCulture);
             }
         }
         
