@@ -230,6 +230,9 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiApp.cs" />
+    <Compile Include="ApiTemplate.cs" />
+    <Compile Include="AppService.cs" />
     <Compile Include="Authentication\AADProvider.cs" />
     <Compile Include="Authentication\AuthSettings.cs" />
     <Compile Include="Authentication\AuthUtilities.cs" />
@@ -246,15 +249,44 @@
     <Compile Include="Authentication\TryWebsitesPrincipal.cs" />
     <Compile Include="Authentication\TwitterAuthProvider.cs" />
     <Compile Include="Authentication\VkAuthProvider.cs" />
+    <Compile Include="BaseResource.cs" />
+    <Compile Include="BaseTemplate.cs" />
     <Compile Include="Code\BackgroundOperation.cs" />
     <Compile Include="Code\BackgroundQueueManager.cs" />
     <Compile Include="Code\CsmExtensions\CsmServerFarmExtensions.cs" />
     <Compile Include="Code\CsmExtensions\CsmStorageAccountExtensions.cs" />
     <Compile Include="Code\GlobalizationManager.cs" />
-    <Compile Include="Models\CsmModels\CsmStorageAccount.cs" />
-    <Compile Include="Models\FunctionTemplate.cs" />
-    <Compile Include="Models\MakeSubscriptionFreeTrialResult.cs" />
-    <Compile Include="Models\StorageAccount.cs" />
+    <Compile Include="CsmModels\CsmApiApp.cs" />
+    <Compile Include="CsmModels\CsmArrayWrapper.cs" />
+    <Compile Include="CsmModels\CsmDeployment.cs" />
+    <Compile Include="CsmModels\CsmGateway.cs" />
+    <Compile Include="CsmModels\CsmLogicApp.cs" />
+    <Compile Include="CsmModels\CsmNameValuePair.cs" />
+    <Compile Include="CsmModels\CsmResourceGroup.cs" />
+    <Compile Include="CsmModels\CsmServerFarm.cs" />
+    <Compile Include="CsmModels\CsmSite.cs" />
+    <Compile Include="CsmModels\CsmSiteConfig.cs" />
+    <Compile Include="CsmModels\CsmSiteDeployment.cs" />
+    <Compile Include="CsmModels\CsmSitePublishingCredentials.cs" />
+    <Compile Include="CsmModels\CsmStorageAccount.cs" />
+    <Compile Include="CsmModels\CsmSubscription.cs" />
+    <Compile Include="CsmModels\CsmSubscriptionsArray.cs" />
+    <Compile Include="CsmModels\CsmTemplateLink.cs" />
+    <Compile Include="CsmModels\CsmTemplateParameter.cs" />
+    <Compile Include="CsmModels\CsmTemplateWrapper.cs" />
+    <Compile Include="CsmModels\CsmWrapper.cs" />
+    <Compile Include="CsmModels\GraphArrayWrapper.cs" />
+    <Compile Include="CsmModels\GraphUser.cs" />
+    <Compile Include="Experiment.cs" />
+    <Compile Include="Feedback.cs" />
+    <Compile Include="FunctionTemplate.cs" />
+    <Compile Include="Gateway.cs" />
+    <Compile Include="LogicApp.cs" />
+    <Compile Include="LogicTemplate.cs" />
+    <Compile Include="MakeSubscriptionFreeTrialResult.cs" />
+    <Compile Include="MobileTemplate.cs" />
+    <Compile Include="RbacUser.cs" />
+    <Compile Include="ResourceGroup.cs" />
     <Compile Include="Resources\Client.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -269,18 +301,15 @@
     <Compile Include="Code\RetryHelper.cs" />
     <Compile Include="Code\SimpleSettings.cs" />
     <Compile Include="Code\UserNameEnricher.cs" />
-    <Compile Include="Models\CsmModels\CsmLogicApp.cs" />
-    <Compile Include="Models\CsmModels\CsmSiteDeployment.cs" />
-    <Compile Include="Models\CsmModels\CsmTemplateLink.cs" />
-    <Compile Include="Models\CsmModels\CsmTemplateParameter.cs" />
-    <Compile Include="Models\Experiment.cs" />
-    <Compile Include="Models\Feedback.cs" />
-    <Compile Include="Models\UIResource.cs" />
     <Compile Include="Resources\Server.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Server.resx</DependentUpon>
     </Compile>
+    <Compile Include="ServerFarm.cs" />
+    <Compile Include="Site.cs" />
+    <Compile Include="StorageAccount.cs" />
+    <Compile Include="Subscription.cs" />
     <Compile Include="Trace\ElasticSearchTypes\AnonymousJourney.cs" />
     <Compile Include="Trace\ElasticSearchTypes\LandedOn.cs" />
     <Compile Include="Trace\ElasticSearchTypes\LogicAppCreate.cs" />
@@ -290,8 +319,6 @@
     <Compile Include="Trace\ElasticSearchTypes\WebAppCreate.cs" />
     <Compile Include="Trace\SimpleTrace.cs" />
     <Compile Include="Code\TaskExtensions.cs" />
-    <Compile Include="Models\ApiApp.cs" />
-    <Compile Include="Models\AppService.cs" />
     <Compile Include="Code\AsyncLock.cs" />
     <Compile Include="Code\Constants.cs" />
     <Compile Include="Code\CsmExtensions\CsmManager.cs" />
@@ -308,24 +335,6 @@
     <Compile Include="Controllers\TelemetryController.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Code\StorageHelper.cs" />
-    <Compile Include="Models\ApiTemplate.cs" />
-    <Compile Include="Models\BaseResource.cs" />
-    <Compile Include="Models\BaseTemplate.cs" />
-    <Compile Include="Models\CsmModels\CsmApiApp.cs" />
-    <Compile Include="Models\CsmModels\CsmDeployment.cs" />
-    <Compile Include="Models\CsmModels\CsmGateway.cs" />
-    <Compile Include="Models\CsmModels\CsmSitePublishingCredentials.cs" />
-    <Compile Include="Models\CsmModels\CsmServerFarm.cs" />
-    <Compile Include="Models\CsmModels\CsmTemplateWrapper.cs" />
-    <Compile Include="Models\Gateway.cs" />
-    <Compile Include="Models\CsmModels\GraphArrayWrapper.cs" />
-    <Compile Include="Models\CsmModels\GraphUser.cs" />
-    <Compile Include="Models\LogicApp.cs" />
-    <Compile Include="Models\LogicTemplate.cs" />
-    <Compile Include="Models\MobileTemplate.cs" />
-    <Compile Include="Models\RbacUser.cs" />
-    <Compile Include="Models\ServerFarm.cs" />
-    <Compile Include="Models\WebsiteTemplate.cs" />
     <Compile Include="Code\TemplatesManager.cs" />
     <Compile Include="Controllers\ResourceController.cs" />
     <Compile Include="Controllers\TemplatesController.cs" />
@@ -337,24 +346,15 @@
     <Compile Include="Kudu\ProcessManager.cs" />
     <Compile Include="Kudu\RemoteVfsManager.cs" />
     <Compile Include="Kudu\RemoteZipManager.cs" />
-    <Compile Include="Models\CsmModels\CsmArrayWrapper.cs" />
-    <Compile Include="Models\CsmModels\CsmResourceGroup.cs" />
-    <Compile Include="Models\CsmModels\CsmSite.cs" />
-    <Compile Include="Models\CsmModels\CsmNameValuePair.cs" />
-    <Compile Include="Models\CsmModels\CsmSiteConfig.cs" />
-    <Compile Include="Models\CsmModels\CsmWrapper.cs" />
-    <Compile Include="Models\ResourceGroup.cs" />
-    <Compile Include="Models\Subscription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Models\Site.cs" />
     <Compile Include="Code\ResourcesManager.cs" />
     <Compile Include="Code\SiteNameGenerator.cs" />
     <Compile Include="Code\JobHost.cs" />
     <Compile Include="Code\Util.cs" />
-    <Compile Include="Models\CsmModels\CsmSubscription.cs" />
-    <Compile Include="Models\CsmModels\CsmSubscriptionsArray.cs" />
     <Compile Include="Code\InProgressOperation.cs" />
     <Compile Include="Code\DeploymentType.cs" />
+    <Compile Include="UIResource.cs" />
+    <Compile Include="WebsiteTemplate.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\segoe-ui\bold\latest.svg" />
