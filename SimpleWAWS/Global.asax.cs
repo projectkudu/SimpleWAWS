@@ -162,7 +162,8 @@ namespace SimpleWAWS
 
                 if (SecurityManager.HasToken(context))
                 {
-                    // This is a login redirect
+                    // This is a login 
+
                     SecurityManager.AuthenticateRequest(context);
                     return;
                 }

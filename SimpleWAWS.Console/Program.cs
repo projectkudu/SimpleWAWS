@@ -3,6 +3,7 @@ using SimpleWAWS.Code;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using SimpleWAWS.Code.CsmExtensions;
@@ -72,13 +73,14 @@ namespace SimpleWAWS.Console
             var subscriptions = await subscriptionsIds.Select(s => new Subscription(s).Load()).WhenAll();
             console("done loading subscriptions");
 
-            ////console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()) + " resourceGroups");
+            console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()) + " resourceGroups");
 
-            ////console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Where(r => !r.Tags.ContainsKey("CommonApiAppsDeployed")).Count()) + " bad resourceGroups");
+            console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Where(r => !r.Tags.ContainsKey("CommonApiAppsDeployed")).Count()) + " bad resourceGroups");
 
             console("calling MakeTrialSubscription on all subscriptions");
-            await subscriptions.Select(async s =>     {
-                
+            await subscriptions.Select(async s =>
+            {
+
                 var result = s.MakeTrialSubscription();
                 foreach (var resourceGroup in result.Ready)
                 {
@@ -94,11 +96,13 @@ namespace SimpleWAWS.Console
                 }
                 foreach (var geoRegion in result.ToCreateInRegions)
                 {
-                    try { await  CsmManager.CreateResourceGroup(s.SubscriptionId, geoRegion);
+                    try
+                    {
+                        await CsmManager.CreateResourceGroup(s.SubscriptionId, geoRegion).Result.PutInDesiredState();
                     }
                     catch (Exception ex)
                     {
-                        console($"GR Delete Exception:{ex.ToString()}-{ex.StackTrace}-{ex.InnerException?.StackTrace.ToString() ?? String.Empty}");
+                        console($"GR Create Exception:{ex.ToString()}-{ex.StackTrace}-{ex.InnerException?.StackTrace.ToString() ?? String.Empty}");
                     }
                 }
                 foreach (var resourceGroup in result.ToDelete)
@@ -127,15 +131,26 @@ namespace SimpleWAWS.Console
             subscriptions = await subscriptionsIds.Select(s => new Subscription(s).Load()).WhenAll();
             console("done loading subscriptions");
 
-            Parallel.ForEach(
-                subscriptions.SelectMany(subscription => subscription.ResourceGroups), async (resourcegroup) =>
-                {
-                    console($" Replacing Resource Group : {resourcegroup.CsmId}");
-                    await resourcegroup.DeleteAndCreateReplacement(true);
-                    console($" Replaced");
+            //Parallel.ForEach(
+            //    subscriptions.SelectMany(subscription => subscription.ResourceGroups), async (resourcegroup) =>
+            //    {
+            ////foreach (var resourcegroup in subscriptions.SelectMany(subscription => subscription.ResourceGroups))
+            ////{
+            ////    try
+            ////    {
+            ////        console($" Replacing Resource Group : {resourcegroup.CsmId}");
+            ////        await resourcegroup.Delete(true);//DeleteAndCreateReplacement(true);
+            ////        console($" Replaced");
+            ////    }
+            ////    catch (Exception ex)
+            ////    {
+            ////        console(ex.ToString());
+            ////    }
+            
+            ////}
 
-                }
-                );
+                //}
+                //);
             //subscriptions.ToList().ForEach(printSub);
             console("Done");
         }
