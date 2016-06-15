@@ -27,8 +27,11 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             site.AppSettings = config.properties.ToDictionary(k => k.name, v => v.value);
 
-            var properties = site.AppSettings.Select(e => new { name = e.Key, value = e.Value });
-            response = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.PutSiteAppSettings.Bind(site), new { properties = properties });
+            var properties = site.AppSettings.Select(e => new {name = e.Key, value = e.Value});
+            response =
+                await
+                    csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.PutSiteAppSettings.Bind(site),
+                        new {properties = properties});
             await response.EnsureSuccessStatusCodeWithFullError();
 
             return site;
@@ -36,7 +39,10 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task<Site> UpdateAppSettings(this Site site)
         {
-            var csmResponse = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.PutSiteAppSettings.Bind(site), new { properties = site.AppSettings.Select(s => new { name = s.Key, value = s.Value }) });
+            var csmResponse =
+                await
+                    csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.PutSiteAppSettings.Bind(site),
+                        new {properties = site.AppSettings.Select(s => new {name = s.Key, value = s.Value})});
             await csmResponse.EnsureSuccessStatusCodeWithFullError();
 
             return site;
@@ -51,8 +57,11 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             site.Metadata = config.properties.ToDictionary(k => k.name, v => v.value);
 
-            var properties = site.Metadata.Select(e => new { name = e.Key, value = e.Value });
-            response = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.PutSiteMetadata.Bind(site), new { properties = properties });
+            var properties = site.Metadata.Select(e => new {name = e.Key, value = e.Value});
+            response =
+                await
+                    csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.PutSiteMetadata.Bind(site),
+                        new {properties = properties});
             await response.EnsureSuccessStatusCodeWithFullError();
 
             return site;
@@ -60,7 +69,10 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task<Site> UpdateMetadata(this Site site)
         {
-            var csmResponse = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.PutSiteMetadata.Bind(site), new { properties = site.Metadata});
+            var csmResponse =
+                await
+                    csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.PutSiteMetadata.Bind(site),
+                        new {properties = site.Metadata});
             await csmResponse.EnsureSuccessStatusCodeWithFullError();
 
             return site;
@@ -79,10 +91,12 @@ namespace SimpleWAWS.Code.CsmExtensions
             }
 
             site.HostName = csmSite.properties.hostNames.FirstOrDefault();
-            site.ScmHostName = csmSite.properties.enabledHostNames.FirstOrDefault(h => h.IndexOf(".scm.", StringComparison.OrdinalIgnoreCase) != -1);
+            site.ScmHostName =
+                csmSite.properties.enabledHostNames.FirstOrDefault(
+                    h => h.IndexOf(".scm.", StringComparison.OrdinalIgnoreCase) != -1);
             site.Kind = csmSite.kind;
 
-            await Task.WhenAll(LoadAppSettings(site), LoadPublishingCredentials(site), UpdateConfig(site, new { properties = new { scmType = "LocalGit" } }));
+            await Task.WhenAll(LoadAppSettings(site), LoadPublishingCredentials(site), UpdateScmConfig(site));
 
             site.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = SimpleSettings.SiteExpiryMinutes;
             site.AppSettings["MONACO_EXTENSION_VERSION"] = "beta";
@@ -91,7 +105,21 @@ namespace SimpleWAWS.Code.CsmExtensions
             return site;
         }
 
-        public static async Task<Site> LoadPublishingCredentials(this Site site)
+        public static async Task UpdateScmConfig(this Site site)
+        {
+            if (site.Kind=="functionapp")
+                await UpdateConfig(site, new
+                {
+                    properties = new { scmType = "None" }
+                });
+            else
+            await UpdateConfig(site, new
+            {
+                properties = new {scmType = "LocalGit"}
+            });
+        }
+        
+    public static async Task<Site> LoadPublishingCredentials(this Site site)
         {
             Validate.ValidateCsmSite(site);
 

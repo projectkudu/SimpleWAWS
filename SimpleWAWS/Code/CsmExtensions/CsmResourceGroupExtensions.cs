@@ -416,7 +416,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             {
                 await Task.WhenAll(CreateHostJson(functionContainer), CreateSecretsForFunctionsContainer(functionContainer));
                 await PublishCustomSiteExtensions(functionContainer);
-                await UpdateConfig(functionContainer, new { properties = new { scmType = "LocalGit" } });
+                await UpdateConfig(functionContainer, new { properties = new { scmType = "None" } });
                 resourceGroup.Tags[Constants.FunctionsContainerDeployed] = Constants.FunctionsContainerDeployedVersion;
                 await resourceGroup.Update();
                 await resourceGroup.Load();

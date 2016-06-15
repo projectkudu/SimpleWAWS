@@ -268,7 +268,10 @@ namespace SimpleWAWS.Code
 
                     if (template.GithubRepo == null)
                     {
-                        await site.UpdateConfig(new { properties = new { scmType = "LocalGit", httpLoggingEnabled = true } });
+                        if(site.Kind == "functionapp")
+                            await site.UpdateConfig(new { properties = new { scmType = "None", httpLoggingEnabled = true } });
+                        else
+                            await site.UpdateConfig(new { properties = new { scmType = "LocalGit", httpLoggingEnabled = true } });
                     }
 
                     resourceGroup.IsRbacEnabled = await rbacTask;
