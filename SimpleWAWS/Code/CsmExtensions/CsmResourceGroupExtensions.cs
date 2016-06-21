@@ -289,9 +289,6 @@ namespace SimpleWAWS.Code.CsmExtensions
                 return (await
                     new[] { resourceGroup.AddRbacAccess(objectId) }
                     .Concat(resourceGroup.Sites.Where(s => !s.IsFunctionsContainer || isFunctionContainer).Select(s => s.AddRbacAccess(objectId)))
-                    //.Concat(resourceGroup.ApiApps.Select(s => s.AddRbacAccess(objectId)))
-                    //.Concat(resourceGroup.Gateways.Select(s => s.AddRbacAccess(objectId)))
-                    //.Concat(resourceGroup.LogicApps.Select(s => s.AddRbacAccess(objectId)))
                     .Concat(resourceGroup.ServerFarms.Select(s => s.AddRbacAccess(objectId)))
                     .Concat(resourceGroup.StorageAccounts.Where(s => isFunctionContainer).Select(s => s.AddRbacAccess(objectId)))
                     .WhenAll())
@@ -415,8 +412,9 @@ namespace SimpleWAWS.Code.CsmExtensions
                 !functionContainer.AppSettings.ContainsKey(Constants.CurrentSiteExtensionsVersion))
             {
                 await Task.WhenAll(CreateHostJson(functionContainer), CreateSecretsForFunctionsContainer(functionContainer));
-                await PublishCustomSiteExtensions(functionContainer);
-                await UpdateConfig(functionContainer, new { properties = new { scmType = "None" } });
+                //await PublishCustomSiteExtensions(functionContainer);
+                //Shouldnt need to do this again
+                //await UpdateConfig(functionContainer, new { properties = new { scmType = "None" } });
                 resourceGroup.Tags[Constants.FunctionsContainerDeployed] = Constants.FunctionsContainerDeployedVersion;
                 await resourceGroup.Update();
                 await resourceGroup.Load();
