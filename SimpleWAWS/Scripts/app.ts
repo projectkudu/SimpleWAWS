@@ -425,3 +425,4 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
         $scope.$broadcast("timer-start");
     }
 }
+
