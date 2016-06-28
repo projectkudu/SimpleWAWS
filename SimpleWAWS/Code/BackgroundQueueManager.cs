@@ -172,6 +172,11 @@ namespace SimpleWAWS.Code
             }
         }
 
+        private List<ResourceGroup> GetResourceGroupsWithHighStorageUsage()
+        {
+            return null;
+        }
+
         private void MaintainResourceGroupLists()
         {
             var resources = this.ResourceGroupsInUse
