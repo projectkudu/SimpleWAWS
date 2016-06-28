@@ -208,14 +208,14 @@ namespace SimpleWAWS.Controllers
                         resourceGroup = await resourceManager.ActivateLogicApp(template as LogicTemplate, identity, anonymousUserName);
                         break;
                     case AppService.Function:
-                        if (identity.Issuer == "OrgId")
-                        {
-                            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_OrgIdNotSupported);
-                        }
-                        else if (identity.Issuer != "MSA")
-                        {
-                            return SecurityManager.RedirectToAAD(template.CreateQueryString());
-                        }
+                        //if (identity.Issuer == "OrgId")
+                        //{
+                        //    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_OrgIdNotSupported);
+                        //}
+                        //else if (identity.Issuer != "MSA")
+                        //{
+                        //    return SecurityManager.RedirectToAAD(template.CreateQueryString());
+                        //}
                         resourceGroup = await resourceManager.ActivateFunctionApp(template as FunctionTemplate, identity, anonymousUserName);
                         break;
                 }
