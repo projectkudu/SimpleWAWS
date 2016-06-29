@@ -25,7 +25,7 @@ namespace SimpleWAWS.Authentication
                 switch (providerSpecificAuthMethod(context))
                 {
                     case TokenResults.DoesntExist:
-                        if (context.IsAjaxRequest())
+                        if (context.IsAjaxRequest() || context.IsFunctionsPortalRequest())
                         {
                             context.Response.Headers["LoginUrl"] = GetLoginUrl(context);
                             context.Response.StatusCode = 403; // Forbidden

@@ -153,8 +153,7 @@ namespace SimpleWAWS
             if (!SecurityManager.TryAuthenticateSessionCookie(context))
             {
                 // Support requests from non-browsers with bearer headers
-                if (context.IsFunctionsPortalRequest() &&
-                    !context.IsBrowserRequest() &&
+                if (!context.IsBrowserRequest() &&
                     SecurityManager.TryAuthenticateBearer(context))
                 {
                     return;
