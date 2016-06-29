@@ -73,8 +73,8 @@ namespace SimpleWAWS
 
         public static bool IsFunctionsPortalRequest(this HttpContextBase context)
         {
-            return context.Request.UserAgent != null
-                && context.Request.UserAgent.StartsWith("Functions/", StringComparison.OrdinalIgnoreCase);
+            return context.Request.Headers["User-Agent2"] != null
+                && context.Request.Headers["User-Agent2"].StartsWith("Functions/", StringComparison.OrdinalIgnoreCase);
         }
 
         public static string PadBase64(this string value)
