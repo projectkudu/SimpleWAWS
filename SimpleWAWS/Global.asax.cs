@@ -134,9 +134,11 @@ namespace SimpleWAWS
             ExperimentManager.AssignExperiment(context);
             GlobalizationManager.SetCurrentCulture(context);
 
-            context.Response.Cookies.Add(CreateSessionCookie(context.User));
+            if (context.Request["state"]!=null)
             if (context.Request["state"].Contains("appServiceName=Function"))
             {
+                if (context.User!=null)
+                context.Response.Cookies.Add(CreateSessionCookie(context.User));
                 var a = context.Request["state"];
                 var redirectlocation = a.Split('/')[0];
                 context.Response.RedirectLocation = redirectlocation;
