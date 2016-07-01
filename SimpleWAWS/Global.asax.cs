@@ -177,7 +177,7 @@ namespace SimpleWAWS
             {
 
                 // Support requests from non-browsers with bearer headers
-                    if (!context.IsBrowserRequest() &&
+                if (!context.IsBrowserRequest() &&
                     SecurityManager.TryAuthenticateBearer(context))
                 {
                     return;
@@ -188,20 +188,6 @@ namespace SimpleWAWS
                     // This is a login 
 
                     SecurityManager.AuthenticateRequest(context);
-                    if (context.IsBrowserRequest())
-                    {
-                        if (context.Request["state"] != null)
-                            if (context.Request["state"].Contains("appServiceName=Function"))
-                            {
-                                if (context.User != null)
-                                {
-                                    string cookie = CreateSessionCookieData(context.User);
-                                    var a = context.Request["state"];
-                                    var redirectlocation = a.Split('?')[0];
-                                    Response.Redirect(String.Format("{0}?cookie={1}{2}", redirectlocation, cookie, context.Request.QueryString), true);
-                                }
-                            }
-                    }
                     return;
                 }
 
@@ -209,7 +195,8 @@ namespace SimpleWAWS
                 // If the route is not registerd in the WebAPI RouteTable
                 //      then it's not an API route, which means it's a resource (*.js, *.css, *.cshtml), not authenticated.
                 // If the route doesn't have authenticated value assume true
-                var isAuthenticated = route != null && (route.Values["authenticated"] == null || (bool)route.Values["authenticated"]);
+                var isAuthenticated = route != null &&
+                                      (route.Values["authenticated"] == null || (bool) route.Values["authenticated"]);
 
                 if (isAuthenticated)
                 {
@@ -219,6 +206,17 @@ namespace SimpleWAWS
                 {
                     SecurityManager.HandleAnonymousUser(context);
                 }
+            }
+            else //coming in from auth provider
+            {
+                if (!context.IsBrowserRequest()) return;
+                if (context.Request["state"] == null) return;
+                if (!context.Request["state"].Contains("appServiceName=Function")) return;
+                if (context.User == null) return;
+                var cookie = CreateSessionCookieData(context.User);
+                var a = context.Request["state"];
+                var redirectlocation = a.Split('?')[0];
+                Response.Redirect($"{redirectlocation}?cookie={cookie}{context.Request.QueryString}", true);
             }
         }
 
