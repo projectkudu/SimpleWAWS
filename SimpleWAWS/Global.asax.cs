@@ -142,7 +142,7 @@ namespace SimpleWAWS
                     string cookie = CreateSessionCookieData(context.User);
                     var a = context.Request["state"];
                     var redirectlocation = a.Split('?')[0];
-                   Response.Redirect("",);
+                   Response.Redirect(String.Format("{0}?cookie={1}{2}",redirectlocation,cookie,context.Request.QueryString) ,true);
                 }
             }
 
