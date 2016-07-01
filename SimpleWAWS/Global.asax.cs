@@ -143,9 +143,6 @@ namespace SimpleWAWS
                 var redirectlocation = a.Split('/')[0];
                 context.Response.RedirectLocation = redirectlocation;
             }
-            else
-                context.Response.RedirectLocation = context.Request["state"];
-            context.Response.StatusCode = 302; // Redirect
 
             //if (context.Request.Cookies[Constants.TiPCookie] == null &&
             //    context.Request.QueryString[Constants.TiPCookie] != null)
