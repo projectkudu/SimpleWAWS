@@ -137,13 +137,14 @@ namespace SimpleWAWS
             if (context.Request["state"]!=null)
             if (context.Request["state"].Contains("appServiceName=Function"))
             {
-                if (context.User!=null)
-                context.Response.Cookies.Add(CreateSessionCookie(context.User));
-                var a = context.Request["state"];
-                var redirectlocation = a.Split('/')[0];
-                context.Response.RedirectLocation = redirectlocation;
-                context.Response.StatusCode = 302; // Redirect
+                if (context.User != null)
+                {
+                    string cookie = CreateSessionCookieData(context.User);
+                    var a = context.Request["state"];
+                    var redirectlocation = a.Split('?')[0];
+                   Response.Redirect("",);
                 }
+            }
 
             //if (context.Request.Cookies[Constants.TiPCookie] == null &&
             //    context.Request.QueryString[Constants.TiPCookie] != null)
@@ -151,28 +152,28 @@ namespace SimpleWAWS
             //    context.Response.Cookies.Add(new HttpCookie(Constants.TiPCookie, context.Request.QueryString[AuthConstants.TiPCookie]) { Path = "/" });
             //}
         }
-        public HttpCookie CreateSessionCookie(IPrincipal user)
+        public string CreateSessionCookieData(IPrincipal user)
         {
             var identity = user.Identity as TryWebsitesIdentity;
             var value = string.Format(CultureInfo.InvariantCulture, "{0};{1};{2};{3}", identity.Email, identity.Puid, identity.Issuer, DateTime.UtcNow.ToString(CultureInfo.InvariantCulture));
             SimpleTrace.Analytics.Information(AnalyticsEvents.UserLoggedIn, identity);
             SimpleTrace.TraceInformation("{0}; {1}; {2}", AnalyticsEvents.OldUserLoggedIn, identity.Email, identity.Issuer);
-            try
-            {
-                var anonymousUser = HttpContext.Current.Request.Cookies[AuthConstants.AnonymousUser];
-                if (anonymousUser != null)
-                {
-                    var anonymousIdentity = new TryWebsitesIdentity(Uri.UnescapeDataString(anonymousUser.Value).Decrypt(AuthConstants.EncryptionReason), null, "Anonymous");
-                    SimpleTrace.TraceInformation("{0}; {1}; {2}",
-                        AnalyticsEvents.AnonymousUserLogedIn,
-                        anonymousIdentity.Name,
-                        identity.Name);
-                    SimpleTrace.AnonymousUserLoggedIn(anonymousIdentity, identity);
-                }
-            }
-            catch
-            { }
-            return new HttpCookie(AuthConstants.LoginSessionCookie, Uri.EscapeDataString(value.Encrypt(AuthConstants.EncryptionReason))) { Path = "/", Expires = DateTime.UtcNow.AddDays(2) };
+            //try
+            //{
+            //    var anonymousUser = HttpContext.Current.Request.Cookies[AuthConstants.AnonymousUser];
+            //    if (anonymousUser != null)
+            //    {
+            //        var anonymousIdentity = new TryWebsitesIdentity(Uri.UnescapeDataString(anonymousUser.Value).Decrypt(AuthConstants.EncryptionReason), null, "Anonymous");
+            //        SimpleTrace.TraceInformation("{0}; {1}; {2}",
+            //            AnalyticsEvents.AnonymousUserLogedIn,
+            //            anonymousIdentity.Name,
+            //            identity.Name);
+            //        SimpleTrace.AnonymousUserLoggedIn(anonymousIdentity, identity);
+            //    }
+            //}
+            //catch
+            //{ }
+            return Uri.EscapeDataString(value.Encrypt(AuthConstants.EncryptionReason));
         }
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
         {
