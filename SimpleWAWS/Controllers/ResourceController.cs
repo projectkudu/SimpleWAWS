@@ -219,7 +219,6 @@ namespace SimpleWAWS.Controllers
                         resourceGroup = await resourceManager.ActivateFunctionApp(template as FunctionTemplate, identity, anonymousUserName);
                         break;
                 }
-
                 return Request.CreateResponse(HttpStatusCode.OK, resourceGroup == null ? null : resourceGroup.UIResource);
             }
             catch (Exception ex)
