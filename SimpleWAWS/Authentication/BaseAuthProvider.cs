@@ -22,14 +22,19 @@ namespace SimpleWAWS.Authentication
         {
             try
             {
+                if (context.IsFunctionsPortalRequest())
+                {
+                    context.Response.Headers["Access-Control-Expose-Headers"] = "LoginUrl";
+                    context.Response.Headers["Access-Control-Allow-Credentials"] = "true";
+                }
+
                 switch (providerSpecificAuthMethod(context))
                 {
                     case TokenResults.DoesntExist:
                         if (context.IsAjaxRequest() || context.IsFunctionsPortalRequest())
                         {
                             context.Response.Headers["LoginUrl"] = GetLoginUrl(context);
-                            if (context.IsFunctionsPortalRequest())
-                                context.Response.Headers["Access-Control-Expose-Headers"] = "LoginUrl";
+
 
                             context.Response.StatusCode = 403; // Forbidden
                         }
