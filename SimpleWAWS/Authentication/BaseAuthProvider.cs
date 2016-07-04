@@ -22,11 +22,6 @@ namespace SimpleWAWS.Authentication
         {
             try
             {
-                if (context.IsFunctionsPortalRequest())
-                {
-                    context.Response.Headers["Access-Control-Expose-Headers"] = "LoginUrl";
-                    context.Response.Headers["Access-Control-Allow-Credentials"] = "true";
-                }
 
                 switch (providerSpecificAuthMethod(context))
                 {
