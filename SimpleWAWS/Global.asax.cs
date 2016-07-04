@@ -166,6 +166,8 @@ namespace SimpleWAWS
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
         {
             var context = new HttpContextWrapper(HttpContext.Current);
+            context.Response.Headers["Access-Control-Expose-Headers"] = "LoginUrl";
+            context.Response.Headers["Access-Control-Allow-Credentials"] = "true";
             if (!string.IsNullOrEmpty(AuthSettings.EnableAuth) &&
                 AuthSettings.EnableAuth.Equals(false.ToString(), StringComparison.OrdinalIgnoreCase))
             {
@@ -218,6 +220,7 @@ namespace SimpleWAWS
                 var redirectlocation = a.Split('?')[0];
                 Response.Redirect($"{redirectlocation}?cookie={cookie}&{context.Request.QueryString}", true);
             }
+
         }
 
         protected void Application_Error(object sender, EventArgs e)
