@@ -184,7 +184,7 @@ namespace SimpleWAWS
             {
 
                 // Support requests from non-browsers with bearer headers
-                if (!context.IsBrowserRequest() &&
+                if (context.IsFunctionsPortalRequest() && !context.IsBrowserRequest() &&
                     SecurityManager.TryAuthenticateBearer(context))
                 {
                     return;
