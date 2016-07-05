@@ -15,6 +15,7 @@ using System.Threading;
 using SimpleWAWS.Code;
 using SimpleWAWS.Trace;
 using Newtonsoft.Json;
+using System.Web.Http.Cors;
 
 namespace SimpleWAWS.Controllers
 {
@@ -133,6 +134,8 @@ namespace SimpleWAWS.Controllers
             return response;
         }
 
+        [HttpPost]
+        [EnableCors(origins: "http://localhost:44300,https://functions.azure.com,https://functions-next.azure.com,https://functions-staging.azure.com", headers: "*", methods: "*",SupportsCredentials= true)]
         public async Task<HttpResponseMessage> CreateResource(BaseTemplate template)
         {
             if (template == null)
