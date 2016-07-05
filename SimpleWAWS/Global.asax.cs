@@ -102,6 +102,9 @@ namespace SimpleWAWS
                 SimpleTrace.Diagnostics.Error(args.ErrorContext.Error.Message);
                 args.ErrorContext.Handled = true;
             };
+
+            GlobalConfiguration.Configuration.EnableCors();
+
             //Templates Routes
             RouteTable.Routes.MapHttpRoute("templates", "api/templates", new { controller = "Templates", action = "Get", authenticated = false });
 
@@ -133,6 +136,9 @@ namespace SimpleWAWS
             var context = new HttpContextWrapper(HttpContext.Current);
             ExperimentManager.AssignExperiment(context);
             GlobalizationManager.SetCurrentCulture(context);
+
+            context.Response.Headers["Access-Control-Expose-Headers"] = "LoginUrl";
+            context.Response.Headers["Access-Control-Allow-Credentials"] = "true";
 
             //if (context.Request.Cookies[Constants.TiPCookie] == null &&
             //    context.Request.QueryString[Constants.TiPCookie] != null)
@@ -166,8 +172,7 @@ namespace SimpleWAWS
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
         {
             var context = new HttpContextWrapper(HttpContext.Current);
-            context.Response.Headers["Access-Control-Expose-Headers"] = "LoginUrl";
-            context.Response.Headers["Access-Control-Allow-Credentials"] = "true";
+
             if (!string.IsNullOrEmpty(AuthSettings.EnableAuth) &&
                 AuthSettings.EnableAuth.Equals(false.ToString(), StringComparison.OrdinalIgnoreCase))
             {
