@@ -85,7 +85,7 @@ namespace SimpleWAWS.Authentication
             {
                 var authHeader = context.Request.Headers["Authorization"];
                 var token = String.Empty;
-                    if (authHeader == null || authHeader.IndexOf(AuthConstants.BearerHeader, StringComparison.OrdinalIgnoreCase) == -1)
+                    if (authHeader != null &&  authHeader.IndexOf(AuthConstants.BearerHeader, StringComparison.OrdinalIgnoreCase) > -1)
                     token = authHeader.Substring(AuthConstants.BearerHeader.Length).Trim();
 
                 var loginSessionCookie =
