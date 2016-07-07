@@ -19,7 +19,8 @@ namespace SimpleWAWS.Authentication
             builder.Append("?response_type=id_token");
             var slot = String.Empty;
             if (context.Request.QueryString["x-ms-routing-name"] != null)
-                slot = $"?x-ms-routing-name={context.Request.QueryString["x-ms-routing-name"]}";
+               // slot = $"?x-ms-routing-name={context.Request.QueryString["x-ms-routing-name"]}";
+               context.Response.Cookies.Add(new HttpCookie("x-ms-routing-name", context.Request.QueryString["x-ms-routing-name"]));
 
             builder.AppendFormat("&redirect_uri={0}", WebUtility.UrlEncode(string.Format(CultureInfo.InvariantCulture, "https://{0}/Login{1}", context.Request.Headers["HOST"], slot)));
             builder.AppendFormat("&client_id={0}", AuthSettings.GoogleAppId);
