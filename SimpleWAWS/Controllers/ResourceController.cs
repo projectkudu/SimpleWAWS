@@ -15,7 +15,6 @@ using System.Threading;
 using SimpleWAWS.Code;
 using SimpleWAWS.Trace;
 using Newtonsoft.Json;
-using System.Web.Http.Cors;
 
 namespace SimpleWAWS.Controllers
 {
