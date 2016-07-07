@@ -103,7 +103,7 @@ namespace SimpleWAWS
                 args.ErrorContext.Handled = true;
             };
 
-            GlobalConfiguration.Configuration.EnableCors();
+            //GlobalConfiguration.Configuration.EnableCors();
 
             //Templates Routes
             RouteTable.Routes.MapHttpRoute("templates", "api/templates", new { controller = "Templates", action = "Get", authenticated = false });
@@ -138,7 +138,7 @@ namespace SimpleWAWS
             GlobalizationManager.SetCurrentCulture(context);
 
             context.Response.Headers["Access-Control-Expose-Headers"] = "LoginUrl";
-            context.Response.Headers["Access-Control-Allow-Credentials"] = "true";
+            //context.Response.Headers["Access-Control-Allow-Credentials"] = "true";
 
             //if (context.Request.Cookies[Constants.TiPCookie] == null &&
             //    context.Request.QueryString[Constants.TiPCookie] != null)
