@@ -26,7 +26,7 @@ namespace SimpleWAWS.Controllers
          var resourceManager = await ResourcesManager.GetInstanceAsync();
          var resourceGroup = await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name);
 
-            return Request.CreateResponse(HttpStatusCode.OK, resourceGroup == null ? null : (Request.QueryString["appServiceName"] == "Function")? resourceGroup.FunctionsUIResource: resourceGroup.UIResource);
+            return Request.CreateResponse(HttpStatusCode.OK, resourceGroup == null ? null : (HttpContext.Current.Request.QueryString["appServiceName"] == "Function")? resourceGroup.FunctionsUIResource: resourceGroup.UIResource);
         }
 
         [HttpGet]
@@ -220,7 +220,7 @@ namespace SimpleWAWS.Controllers
                         resourceGroup = await resourceManager.ActivateFunctionApp(template as FunctionTemplate, identity, anonymousUserName);
                         break;
                 }
-                return Request.CreateResponse(HttpStatusCode.OK, resourceGroup == null ? null :  (Request.QueryString["appServiceName"] == "Function") ? resourceGroup.FunctionsUIResource : resourceGroup.UIResource);
+                return Request.CreateResponse(HttpStatusCode.OK, resourceGroup == null ? null :  (HttpContext.Current.Request.QueryString["appServiceName"] == "Function") ? resourceGroup.FunctionsUIResource : resourceGroup.UIResource);
             }
             catch (Exception ex)
             {
