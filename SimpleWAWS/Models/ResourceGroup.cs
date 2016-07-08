@@ -185,6 +185,46 @@ namespace SimpleWAWS.Models
             }
         }
 
+        public UIResource FunctionsUIResource
+        {
+            get
+            {
+                string ibizaUrl = null;
+                string csmId = null;
+                Site siteToUseForUi = null;
+                siteToUseForUi = Sites.Where(s => s.IsFunctionsContainer).First();
+                csmId = Sites.Where(s => s.IsFunctionsContainer).First().CsmId;
+                var templateName = Tags.ContainsKey(Constants.TemplateName) ? Tags[Constants.TemplateName] : string.Empty;
+                var appService = AppService.Function;
+                return siteToUseForUi == null
+                ? new UIResource
+                {
+                    IbizaUrl = ibizaUrl,
+                    IsRbacEnabled = IsRbacEnabled,
+                    AppService = appService,
+                    TemplateName = templateName,
+                    IsExtended = IsExtended,
+                    TimeLeftInSeconds = (int)TimeLeft.TotalSeconds,
+                    CsmId = csmId
+                }
+                : new UIResource
+                {
+                    Url = siteToUseForUi.Url,
+                    MobileWebClient = null,
+                    IbizaUrl = ibizaUrl,
+                    MonacoUrl = siteToUseForUi.MonacoUrl,
+                    ContentDownloadUrl = siteToUseForUi.ContentDownloadUrl,
+                    GitUrl = siteToUseForUi.GitUrlWithCreds,
+                    IsRbacEnabled = IsRbacEnabled,
+                    AppService = appService,
+                    TemplateName = templateName,
+                    IsExtended = IsExtended,
+                    TimeLeftInSeconds = (int)TimeLeft.TotalSeconds,
+                    CsmId = csmId
+                };
+            }
+        }
+
         public ResourceGroup(string subsciptionId, string resourceGroupName)
             : base(subsciptionId, resourceGroupName)
         {
