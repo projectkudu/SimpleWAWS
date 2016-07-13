@@ -20,4 +20,8 @@ namespace TryAppService.Data.Models
         [JsonProperty(PropertyName = "hour", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public DateTime Hour { get; set; }
     }
+
+    public class UserHourAggregate2 : UserHourAggregate
+    {
+    }
 }

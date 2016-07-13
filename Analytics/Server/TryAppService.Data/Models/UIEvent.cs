@@ -35,4 +35,7 @@ namespace TryAppService.Data.Models
         [JsonProperty(PropertyName = "userCulture", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string UserCulture { get; set; }
     }
+    public class UIEvent2 : UIEvent
+    {
+    }
 }
