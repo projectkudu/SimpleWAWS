@@ -36,4 +36,7 @@ namespace TryAppService.Data.Models
                 .Equals(this.Puid, userPuid.Puid);
         }
     }
+    public class UserPuid2 : UserPuid
+    {
+    }
 }
