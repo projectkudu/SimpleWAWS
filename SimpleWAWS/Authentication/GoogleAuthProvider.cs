@@ -22,10 +22,10 @@ namespace SimpleWAWS.Authentication
             builder.AppendFormat("&scope={0}", "email");
             if (context.IsFunctionsPortalRequest())
             {
-                builder.AppendFormat("&state={0}", WebUtility.UrlEncode(string.Format(CultureInfo.InvariantCulture, "/{0}/{1}", context.Request.Headers["Referer"], context.Request.Url.Query)));
+                builder.AppendFormat("&state={0}", WebUtility.UrlEncode(string.Format(CultureInfo.InvariantCulture, "{0}/{1}", context.Request.Headers["Referer"], context.Request.Url.Query)));
             }
             else
-                builder.AppendFormat("&state={0}", WebUtility.UrlEncode(context.IsAjaxRequest() ? string.Format(CultureInfo.InvariantCulture, "/{0}{1}", culture, context.Request.Url.Query) : context.Request.Url.PathAndQuery));
+                builder.AppendFormat("&state={0}", WebUtility.UrlEncode(context.IsAjaxRequest() ? string.Format(CultureInfo.InvariantCulture, "{0}{1}", culture, context.Request.Url.Query) : context.Request.Url.PathAndQuery));
             return builder.ToString();
         }
 

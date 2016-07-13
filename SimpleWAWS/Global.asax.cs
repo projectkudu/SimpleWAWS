@@ -224,7 +224,8 @@ namespace SimpleWAWS
                 var cookie = CreateSessionCookieData(context.User);
                 var a = context.Request["state"];
                 var redirectlocation = a.Split('?')[0];
-                Response.Redirect($"{redirectlocation}?cookie={cookie}&{context.Request.QueryString}", true);
+                Response.Headers.Add("AuthorizationToken",cookie);
+                Response.Redirect($"{redirectlocation}?{context.Request.QueryString}", true);
             }
 
         }
