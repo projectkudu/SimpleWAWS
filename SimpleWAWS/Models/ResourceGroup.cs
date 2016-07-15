@@ -196,6 +196,9 @@ namespace SimpleWAWS.Models
                 csmId = Sites.Where(s => s.IsFunctionsContainer).First().CsmId;
                 var templateName = Tags.ContainsKey(Constants.TemplateName) ? Tags[Constants.TemplateName] : string.Empty;
                 var appService = AppService.Function;
+                var storageAccount = StorageAccounts.FirstOrDefault();
+                var storageAccountConnectionString =
+                    $"DefaultEndpointsProtocol=https;AccountName={storageAccount.StorageAccountName};AccountKey={storageAccount.StorageAccountKey}";
                 return siteToUseForUi == null
                 ? new UIResource
                 {
