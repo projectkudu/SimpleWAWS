@@ -22,7 +22,12 @@ namespace SimpleWAWS.Authentication
             builder.AppendFormat("&resource={0}", WebUtility.UrlEncode("https://management.core.windows.net/"));
             builder.AppendFormat("&site_id={0}", "500879");
             builder.AppendFormat("&nonce={0}", Guid.NewGuid());
-            builder.AppendFormat("&state={0}", WebUtility.UrlEncode(context.IsAjaxRequest() ? string.Format(CultureInfo.InvariantCulture, "/{0}{1}", culture, context.Request.Url.Query) : context.Request.Url.PathAndQuery));
+            if (context.IsFunctionsPortalRequest())
+            {
+                builder.AppendFormat("&state={0}", WebUtility.UrlEncode(string.Format(CultureInfo.InvariantCulture, "{0}{1}", context.Request.Headers["Referer"], context.Request.Url.Query)));
+            }
+            else
+                builder.AppendFormat("&state={0}", WebUtility.UrlEncode(context.IsAjaxRequest() ? string.Format(CultureInfo.InvariantCulture, "{0}{1}", culture, context.Request.Url.Query) : context.Request.Url.PathAndQuery));
             return builder.ToString();
         }
 
