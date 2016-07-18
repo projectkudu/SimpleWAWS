@@ -138,13 +138,7 @@ namespace SimpleWAWS
             GlobalizationManager.SetCurrentCulture(context);
 
             context.Response.Headers["Access-Control-Expose-Headers"] = "LoginUrl";
-            //context.Response.Headers["Access-Control-Allow-Credentials"] = "true";
 
-            //if (context.Request.Cookies[Constants.TiPCookie] == null &&
-            //    context.Request.QueryString[Constants.TiPCookie] != null)
-            //{
-            //    context.Response.Cookies.Add(new HttpCookie(Constants.TiPCookie, context.Request.QueryString[AuthConstants.TiPCookie]) { Path = "/" });
-            //}
         }
         public string CreateSessionCookieData(IPrincipal user)
         {
@@ -152,22 +146,8 @@ namespace SimpleWAWS
             var value = string.Format(CultureInfo.InvariantCulture, "{0};{1};{2};{3}", identity.Email, identity.Puid, identity.Issuer, DateTime.UtcNow.ToString(CultureInfo.InvariantCulture));
             SimpleTrace.Analytics.Information(AnalyticsEvents.UserLoggedIn, identity);
             SimpleTrace.TraceInformation("{0}; {1}; {2}", AnalyticsEvents.OldUserLoggedIn, identity.Email, identity.Issuer);
-            //try
-            //{
-            //    var anonymousUser = HttpContext.Current.Request.Cookies[AuthConstants.AnonymousUser];
-            //    if (anonymousUser != null)
-            //    {
-            //        var anonymousIdentity = new TryWebsitesIdentity(Uri.UnescapeDataString(anonymousUser.Value).Decrypt(AuthConstants.EncryptionReason), null, "Anonymous");
-            //        SimpleTrace.TraceInformation("{0}; {1}; {2}",
-            //            AnalyticsEvents.AnonymousUserLogedIn,
-            //            anonymousIdentity.Name,
-            //            identity.Name);
-            //        SimpleTrace.AnonymousUserLoggedIn(anonymousIdentity, identity);
-            //    }
-            //}
-            //catch
-            //{ }
-            return Uri.EscapeDataString(value.Encrypt(AuthConstants.EncryptionReason));
+
+            return Uri.EscapeDataString(value.Encrypt(AuthConstants.EncryptionReason).Encrypt(SimpleSettings.SessionCookieEncryptKey));
         }
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
         {
