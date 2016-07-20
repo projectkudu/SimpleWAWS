@@ -147,7 +147,7 @@ namespace SimpleWAWS
             SimpleTrace.Analytics.Information(AnalyticsEvents.UserLoggedIn, identity);
             SimpleTrace.TraceInformation("{0}; {1}; {2}", AnalyticsEvents.OldUserLoggedIn, identity.Email, identity.Issuer);
 
-            return Uri.EscapeDataString(value.Encrypt(AuthConstants.EncryptionReason).Encrypt(SimpleSettings.SessionCookieEncryptKey));
+            return Uri.EscapeDataString(value.Encrypt(AuthConstants.EncryptionReason));
         }
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
         {

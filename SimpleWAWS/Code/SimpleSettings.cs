@@ -44,7 +44,6 @@ namespace SimpleWAWS.Code
         public static string CommonApiAppsCsmTemplatePath { get; } = HostingEnvironment.MapPath("~/CSMTemplates/commonApiApps.json") ?? CommonApiAppsCsmTemplatePathLocal;
         public static string AppDataPath { get; } = HostingEnvironment.MapPath(@"~/App_Data/")?? AppDataPathLocal;
         public static string ElasticSearchUri = "http://10.0.0.4:9200";
-        public static string SessionCookieEncryptKey {get { return config(); }
         }
     }
 }
