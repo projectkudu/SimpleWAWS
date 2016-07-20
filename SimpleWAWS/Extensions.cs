@@ -48,8 +48,8 @@ namespace SimpleWAWS
 
         public static string Decrypt(this string str, string reason = null)
         {
-            var encryptesBytes = Convert.FromBase64String(str.PadBase64());
-            var decryptedBytes = MachineKey.Unprotect(encryptesBytes, reason ?? DefaultEncryptReason);
+            var encryptedBytes = Convert.FromBase64String(str.PadBase64());
+            var decryptedBytes = MachineKey.Unprotect(encryptedBytes, reason ?? DefaultEncryptReason);
             if (decryptedBytes != null)
             {
                 return Encoding.Default.GetString(decryptedBytes);
