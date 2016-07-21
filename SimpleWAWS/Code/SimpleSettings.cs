@@ -46,4 +46,3 @@ namespace SimpleWAWS.Code
         public static string ElasticSearchUri = "http://10.0.0.4:9200";
         }
     }
-}
