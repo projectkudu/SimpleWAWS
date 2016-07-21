@@ -431,6 +431,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             // Assumes site and storage are loaded
             site.AppSettings[Constants.AzureStorageAppSettingsName] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.StorageAccountName, storageAccount.StorageAccountKey);
             site.AppSettings[Constants.AzureStorageDashboardAppSettingsName] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.StorageAccountName, storageAccount.StorageAccountKey);
+            site.AppSettings[Constants.TryFunctionsStorageAccount] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.StorageAccountName, storageAccount.StorageAccountKey);
             await UpdateAppSettings(site);
         }
 
