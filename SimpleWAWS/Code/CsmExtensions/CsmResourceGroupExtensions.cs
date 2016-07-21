@@ -424,6 +424,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             {
                 await LinkSiteAndStorageAccount(functionContainer, functionsStorageAccount);
             }
+            //TODO: add localhost:44300 to cors allowed list here for -next slot subs
         }
 
         private static async Task LinkSiteAndStorageAccount(Site site, StorageAccount storageAccount)
@@ -431,7 +432,6 @@ namespace SimpleWAWS.Code.CsmExtensions
             // Assumes site and storage are loaded
             site.AppSettings[Constants.AzureStorageAppSettingsName] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.StorageAccountName, storageAccount.StorageAccountKey);
             site.AppSettings[Constants.AzureStorageDashboardAppSettingsName] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.StorageAccountName, storageAccount.StorageAccountKey);
-            site.AppSettings[Constants.TryFunctionsStorageAccount] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.StorageAccountName, storageAccount.StorageAccountKey);
             await UpdateAppSettings(site);
         }
 

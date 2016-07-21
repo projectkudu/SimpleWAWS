@@ -26,7 +26,6 @@ namespace SimpleWAWS.Code
         public const string FunctionsContainerDeployedVersion = "3.0.0";
         public const string FunctionsStorageAccountPrefix = "Functions";
         public const string AzureStorageAppSettingsName = "AzureWebJobsStorage";
-        public const string TryFunctionsStorageAccount = "TRY_FUNCTIONS_STORAGE_ACCOUNT";
         public const string AzureStorageDashboardAppSettingsName = "AzureWebJobsDashboard";
         public const string StorageConnectionStringTemplate = "DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}";
         public const string SiteExtensionsVersion = "SiteExtensionsVersion";
