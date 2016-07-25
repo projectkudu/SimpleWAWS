@@ -574,7 +574,7 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your free {0} is available for one hour and will expire in:.
+        ///   Looks up a localized string similar to Your free {0} will expire in:.
         /// </summary>
         public static string Information_ExpireMessage {
             get {
