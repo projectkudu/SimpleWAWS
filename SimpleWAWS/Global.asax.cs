@@ -202,10 +202,10 @@ namespace SimpleWAWS
                 if (!context.Request["state"].Contains("appServiceName=Function")) return;
                 if (context.User == null) return;
                 var cookie = CreateSessionCookieData(context.User);
-                var a = context.Request["state"];
-                var redirectlocation = a.Split('?')[0];
+                var state = context.Request["state"];
+                var redirectlocation = state.Split('?')[0];
                 //Response.Headers.Add("Authentication","Bearer " + cookie);
-                Response.Redirect($"{redirectlocation}?cookie={cookie}&{context.Request.QueryString}", true);
+                Response.Redirect($"{redirectlocation}?cookie={cookie}&state={Uri.EscapeDataString(state)}", true);
             }
 
         }
