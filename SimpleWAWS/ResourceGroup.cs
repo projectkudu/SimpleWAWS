@@ -165,7 +165,7 @@ namespace SimpleWAWS.Models
                     TemplateName = templateName,
                     IsExtended = IsExtended,
                     TimeLeftInSeconds = (int)TimeLeft.TotalSeconds,
-                    CsmId= csmId
+                    CsmId = csmId
                 }
                 : new UIResource
                 {
@@ -180,7 +180,7 @@ namespace SimpleWAWS.Models
                     TemplateName = templateName,
                     IsExtended = IsExtended,
                     TimeLeftInSeconds = (int)TimeLeft.TotalSeconds,
-                    CsmId= csmId
+                    CsmId = csmId
                 };
             }
         }
@@ -189,29 +189,15 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                string ibizaUrl = null;
-                string csmId = null;
-                Site siteToUseForUi = null;
-                siteToUseForUi = Sites.Where(s => s.IsFunctionsContainer).First();
-                csmId = Sites.Where(s => s.IsFunctionsContainer).First().CsmId;
                 var templateName = Tags.ContainsKey(Constants.TemplateName) ? Tags[Constants.TemplateName] : string.Empty;
                 var appService = AppService.Function;
-                return siteToUseForUi == null
-                ? new UIResource
-                {
-                    IbizaUrl = ibizaUrl,
-                    IsRbacEnabled = IsRbacEnabled,
-                    AppService = appService,
-                    TemplateName = templateName,
-                    IsExtended = IsExtended,
-                    TimeLeftInSeconds = (int)TimeLeft.TotalSeconds,
-                    CsmId = csmId
-                }
-                : new UIResource
+                var siteToUseForUi = Sites.First(s => s.IsFunctionsContainer);
+
+                return new UIResource
                 {
                     Url = siteToUseForUi.Url,
                     MobileWebClient = null,
-                    IbizaUrl = ibizaUrl,
+                    IbizaUrl = siteToUseForUi.IbizaUrl,
                     MonacoUrl = siteToUseForUi.MonacoUrl,
                     ContentDownloadUrl = siteToUseForUi.ContentDownloadUrl,
                     GitUrl = siteToUseForUi.GitUrlWithCreds,
@@ -220,7 +206,7 @@ namespace SimpleWAWS.Models
                     TemplateName = templateName,
                     IsExtended = IsExtended,
                     TimeLeftInSeconds = (int)TimeLeft.TotalSeconds,
-                    CsmId = csmId
+                    CsmId = siteToUseForUi.CsmId
                 };
             }
         }

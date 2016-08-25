@@ -103,8 +103,6 @@ namespace SimpleWAWS
                 args.ErrorContext.Handled = true;
             };
 
-            //GlobalConfiguration.Configuration.EnableCors();
-
             //Templates Routes
             RouteTable.Routes.MapHttpRoute("templates", "api/templates", new { controller = "Templates", action = "Get", authenticated = false });
 
@@ -162,10 +160,8 @@ namespace SimpleWAWS
 
             if (!SecurityManager.TryAuthenticateSessionCookie(context))
             {
-                //
-
                 // Support requests from non-browsers with bearer headers
-                if (context.IsFunctionsPortalRequest() && !context.IsBrowserRequest() &&
+                if (context.IsFunctionsPortalBackendRequest() && !context.IsBrowserRequest() &&
                     SecurityManager.TryAuthenticateBearer(context))
                 {
                     return;
@@ -174,17 +170,15 @@ namespace SimpleWAWS
                 if (SecurityManager.HasToken(context))
                 {
                     // This is a login 
-
                     SecurityManager.AuthenticateRequest(context);
                     return;
                 }
 
                 var route = RouteTable.Routes.GetRouteData(context);
-                // If the route is not registerd in the WebAPI RouteTable
-                //      then it's not an API route, which means it's a resource (*.js, *.css, *.cshtml), not authenticated.
+                // If the route is not registered in the WebAPI RouteTable
+                //    then it's not an API route, which means it's a resource (*.js, *.css, *.cshtml), not authenticated.
                 // If the route doesn't have authenticated value assume true
-                var isAuthenticated = route != null &&
-                                      (route.Values["authenticated"] == null || (bool) route.Values["authenticated"]);
+                var isAuthenticated = route != null && (route.Values["authenticated"] == null || (bool) route.Values["authenticated"]);
 
                 if (isAuthenticated)
                 {
@@ -195,7 +189,7 @@ namespace SimpleWAWS
                     SecurityManager.HandleAnonymousUser(context);
                 }
             }
-            else //coming in from auth provider
+            else //coming in from auth provider . Now lets return to the source (Try Functions)
             {
                 if (!context.IsBrowserRequest()) return;
                 if (context.Request["state"] == null) return;
@@ -204,7 +198,6 @@ namespace SimpleWAWS
                 var cookie = CreateSessionCookieData(context.User);
                 var state = context.Request["state"];
                 var redirectlocation = state.Split('?')[0];
-                //Response.Headers.Add("Authentication","Bearer " + cookie);
                 Response.Redirect($"{redirectlocation}?cookie={cookie}&state={Uri.EscapeDataString(state)}", true);
             }
 

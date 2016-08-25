@@ -47,9 +47,9 @@ namespace SimpleWAWS.Code.CsmExtensions
             if (loadSubResources)
             {
                  await Task.WhenAll(LoadSites(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/sites", StringComparison.OrdinalIgnoreCase))),
-                                   //LoadApiApps(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.AppService/apiapps", StringComparison.OrdinalIgnoreCase))),
-                                   //LoadGateways(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.AppService/gateways", StringComparison.OrdinalIgnoreCase))),
-                                   //LoadLogicApps(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Logic/workflows", StringComparison.OrdinalIgnoreCase))),
+                                   LoadApiApps(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.AppService/apiapps", StringComparison.OrdinalIgnoreCase))),
+                                   LoadGateways(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.AppService/gateways", StringComparison.OrdinalIgnoreCase))),
+                                   LoadLogicApps(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Logic/workflows", StringComparison.OrdinalIgnoreCase))),
                                    LoadServerFarms(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/serverFarms", StringComparison.OrdinalIgnoreCase))),
                                    LoadStorageAccounts(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Storage/storageAccounts", StringComparison.OrdinalIgnoreCase))));
             }
@@ -122,9 +122,8 @@ namespace SimpleWAWS.Code.CsmExtensions
                 await csmServerFarmsResponse.EnsureSuccessStatusCodeWithFullError();
                 serverFarms = (await csmServerFarmsResponse.Content.ReadAsAsync<CsmArrayWrapper<object>>()).value;
             }
-
             resourceGroup.ServerFarms = serverFarms.Select(s => new ServerFarm(resourceGroup.SubscriptionId, 
-                resourceGroup.ResourceGroupName, s.name, resourceGroup.GeoRegion, Constants.TryAppServiceSku));
+                resourceGroup.ResourceGroupName, s.name, resourceGroup.GeoRegion));
 
             return resourceGroup;
         }
@@ -133,14 +132,12 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             if (storageAccounts == null)
             {
-
                 var csmStorageAccountsResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.StorageAccounts.Bind(resourceGroup));
                 await csmStorageAccountsResponse.EnsureSuccessStatusCodeWithFullError();
                 storageAccounts = (await csmStorageAccountsResponse.Content.ReadAsAsync<CsmArrayWrapper<object>>()).value;
             }
 
             resourceGroup.StorageAccounts = await storageAccounts.Select(async s => await Load(new StorageAccount(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, s.name), null)).WhenAll();
-
             return resourceGroup;
         }
 
@@ -217,7 +214,6 @@ namespace SimpleWAWS.Code.CsmExtensions
             return null;
         }
 
-
         public static async Task<ResourceGroup> PutInDesiredState(this ResourceGroup resourceGroup)
         {
             // If the resourceGroup is assigned, don't mess with it
@@ -227,18 +223,17 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             if (!resourceGroup.Sites.Any(s => s.IsSimpleWAWSOriginalSite))
             {
-                await CreateSite(resourceGroup, SiteNameGenerator.GenerateName);
+                createdSites.Add(CreateSite(resourceGroup, SiteNameGenerator.GenerateName));
             }
 
             // Create Functions Container Site
             if (!resourceGroup.Sites.Any(s => s.IsFunctionsContainer))
             {
-                createdSites.Add(CreateSiteUsingLatestVersion(resourceGroup, (() => $"{Constants.FunctionsSitePrefix}{Guid.NewGuid().ToString().Split('-').First()}"), "functionapp"));
+                createdSites.Add(CreateFunctionApp(resourceGroup, (() => $"{Constants.FunctionsSitePrefix}{Guid.NewGuid().ToString().Split('-').First()}"), "functionapp"));
             }
 
             resourceGroup.Sites = resourceGroup.Sites.Union(await createdSites.WhenAll());
 
-            //await InitApiApps(resourceGroup);
             await InitFunctionsContainer(resourceGroup);
             return resourceGroup;
         }
@@ -269,7 +264,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             var siteTask = Task.FromResult(site);
             if (site != null)
             {
-               site.AppSettings["LAST_MODIFIED_TIME_UTC"] = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
+                site.AppSettings["LAST_MODIFIED_TIME_UTC"] = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
                 site.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = ResourceGroup.ExtendedUsageTimeSpan.TotalMinutes.ToString();
                 siteTask = site.UpdateAppSettings();
             }
@@ -303,18 +298,20 @@ namespace SimpleWAWS.Code.CsmExtensions
         private static async Task<Site> CreateSite(ResourceGroup resourceGroup, Func<string> nameGenerator, string siteKind = null)
         {
             var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, nameGenerator(), siteKind);
-            site.Kind = siteKind;
-            await resourceGroup.LoadServerFarms(null);
-            ServerFarm serverFarm = new ServerFarm(resourceGroup.SubscriptionId,resourceGroup.ResourceGroupName,Constants.DefaultServerFarmName,
-                resourceGroup.GeoRegion);
+            await resourceGroup.LoadServerFarms(serverFarms:null);
+            var serverFarm = new ServerFarm(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, 
+                Constants.DefaultServerFarmName, resourceGroup.GeoRegion);
                 var csmSiteResponse =
                     await
                         csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.Site.Bind(site),
                             new
                             {
                                 properties =
-                                    new { serverFarm = serverFarm,
-                                        sku = Constants.TryAppServiceSku},
+                                    new
+                                    {
+                                        serverFarm = serverFarm,
+                                        sku = Constants.TryAppServiceTier
+                                    },
                                 location = resourceGroup.GeoRegion,
                                 kind = siteKind
                             });
@@ -323,10 +320,10 @@ namespace SimpleWAWS.Code.CsmExtensions
 
                 return await Load(site, csmSite);
         }
-        private static async Task<Site> CreateSiteUsingLatestVersion(ResourceGroup resourceGroup, Func<string> nameGenerator, string siteKind = null)
+        private static async Task<Site> CreateFunctionApp(ResourceGroup resourceGroup, Func<string> nameGenerator, string siteKind = null)
         {
             var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, nameGenerator(), siteKind);
-            await resourceGroup.LoadServerFarms(null);
+            await resourceGroup.LoadServerFarms(serverFarms: null);
             ServerFarm serverFarm = new ServerFarm(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, Constants.DefaultServerFarmName,
                 resourceGroup.GeoRegion);
             var csmSiteResponse =
@@ -338,7 +335,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                                 new
                                 {
                                     serverFarmId=serverFarm.CsmId,
-                                    sku = Constants.TryAppServiceSku
+                                    sku = Constants.TryAppServiceTier
                                 },
                             location = resourceGroup.GeoRegion,
                             kind = siteKind
@@ -353,7 +350,8 @@ namespace SimpleWAWS.Code.CsmExtensions
             return !string.IsNullOrEmpty(csmResourceGroup.name) &&
                 csmResourceGroup.name.StartsWith(Constants.TryResourceGroupPrefix, StringComparison.OrdinalIgnoreCase) &&
                 csmResourceGroup.properties.provisioningState == "Succeeded" &&
-                csmResourceGroup.tags!=null && !csmResourceGroup.tags.ContainsKey("Bad");
+                csmResourceGroup.tags != null && !csmResourceGroup.tags.ContainsKey("Bad")
+                && csmResourceGroup.tags.ContainsKey("FunctionsContainerDeployed");
         }
 
         public static async Task InitApiApps(this ResourceGroup resourceGroup)
@@ -401,8 +399,6 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             resourceGroup.StorageAccounts = resourceGroup.StorageAccounts.Union(await storageAccounts.WhenAll());
 
-            //await InitApiApps(resourceGroup);
-
             var functionsStorageAccount = resourceGroup.StorageAccounts.FirstOrDefault(s => s.IsFunctionsStorageAccount);
 
             if (functionContainer == null || functionsStorageAccount == null) return; // This should throw some kind of error? maybe?
@@ -412,9 +408,6 @@ namespace SimpleWAWS.Code.CsmExtensions
                 !functionContainer.AppSettings.ContainsKey(Constants.CurrentSiteExtensionsVersion))
             {
                 await Task.WhenAll(CreateHostJson(functionContainer), CreateSecretsForFunctionsContainer(functionContainer));
-                //await PublishCustomSiteExtensions(functionContainer);
-                //Shouldnt need to do this again
-                //await UpdateConfig(functionContainer, new { properties = new { scmType = "None" } });
                 resourceGroup.Tags[Constants.FunctionsContainerDeployed] = Constants.FunctionsContainerDeployedVersion;
                 await resourceGroup.Update();
                 await resourceGroup.Load();

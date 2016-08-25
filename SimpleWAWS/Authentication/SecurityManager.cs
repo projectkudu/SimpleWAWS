@@ -84,12 +84,12 @@ namespace SimpleWAWS.Authentication
             try
             {
                 var authHeader = context.Request.Headers["Authorization"];
-                var token = String.Empty;
+                var token = string.Empty;
                     if (authHeader != null &&  authHeader.IndexOf(AuthConstants.BearerHeader, StringComparison.OrdinalIgnoreCase) > -1)
                     token = authHeader.Substring(AuthConstants.BearerHeader.Length).Trim();
 
                 var loginSessionCookie =
-                    Uri.UnescapeDataString(token==String.Empty? context.Request.Cookies[AuthConstants.LoginSessionCookie].Value:token)
+                    Uri.UnescapeDataString(string.IsNullOrEmpty(token) ? context.Request.Cookies[AuthConstants.LoginSessionCookie].Value:token)
                         .Decrypt(AuthConstants.EncryptionReason);
                 var splited = loginSessionCookie.Split(';');
                 if (splited.Length == 2)

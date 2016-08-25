@@ -23,7 +23,4 @@ namespace TryAppService.Data.Models
         [JsonProperty(PropertyName = "hour", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public DateTime Hour { get; set; }
     }
-
-    public class TemplateUsageHourlyAggregate2 : TemplateUsageHourlyAggregate{
-    }
 }

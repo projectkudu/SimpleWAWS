@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using SimpleWAWS.Code;
+using SimpleWAWS.Models.CsmModels;
 
 namespace SimpleWAWS.Models
 {
@@ -11,7 +12,7 @@ namespace SimpleWAWS.Models
     {
         private string _csmIdTemplate = "/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Web/serverFarms/{2}";
         public string ServerFarmName { get; private set; }
-        public Dictionary<string, string> Sku { get; private set; }
+        public Sku Sku { get; private set; }
         public string Location { get; private set; }
 
         public override string CsmId
@@ -22,18 +23,20 @@ namespace SimpleWAWS.Models
             }
         }
 
-        public ServerFarm(string subscriptionId, string resourceGroupName, string name, string location, 
-            string sku = Constants.TryAppServiceSku,
-            string skuname= Constants.TryAppServiceSkuName, 
-            string skusize= Constants.TryAppServiceSkuName, 
-            string skufamily= Constants.TryAppServiceSkuFamily,
-            int skucapacity=Constants.TryAppServiceSkuCapacity)
+        public ServerFarm(string subscriptionId, string resourceGroupName, string name, string location)
             : base(subscriptionId, resourceGroupName)
         {
             this.ServerFarmName = name;
             this.Location = location;
-            this.Sku = new Dictionary<string, string> {["tier"] = sku, ["name"]= skuname, ["size"] = skusize,
-                ["family"] = skufamily, ["capacity"] = skucapacity.ToString()};
+            var sku = new Sku
+            {
+                capacity = Constants.TryAppServiceSkuCapacity,
+                family = Constants.TryAppServiceSkuFamily,
+                name = Constants.TryAppServiceSkuName,
+                size = Constants.TryAppServiceSkuName,
+                tier = Constants.TryAppServiceTier
+            };
+            this.Sku = sku;
         }
     }
 }

@@ -76,7 +76,7 @@ namespace SimpleWAWS.Controllers
                         inProgressSitesCount = inProgress.Count(),
                         inUseSitesCount = inUseSites.Count(),
                         backgroundOperationsCount = backgroundOperations.Count(),
-                        freeSites = showFreeSites? freeSites:null,
+                        freeSites = showFreeSites ? freeSites : null,
                         inUseSites = inUseSites,
                         inProgress = inProgress,
                         backgroundOperations = backgroundOperations
@@ -209,18 +209,10 @@ namespace SimpleWAWS.Controllers
                         resourceGroup = await resourceManager.ActivateLogicApp(template as LogicTemplate, identity, anonymousUserName);
                         break;
                     case AppService.Function:
-                        //if (identity.Issuer == "OrgId")
-                        //{
-                        //    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_OrgIdNotSupported);
-                        //}
-                        //else if (identity.Issuer != "MSA")
-                        //{
-                        //    return SecurityManager.RedirectToAAD(template.CreateQueryString());
-                        //}
                         resourceGroup = await resourceManager.ActivateFunctionApp(template as FunctionTemplate, identity, anonymousUserName);
                         break;
                 }
-                return Request.CreateResponse(HttpStatusCode.OK, resourceGroup == null ? null :  (HttpContext.Current.Request.QueryString["appServiceName"] == "Function") ? resourceGroup.FunctionsUIResource : resourceGroup.UIResource);
+                return Request.CreateResponse(HttpStatusCode.OK, resourceGroup == null ? null : GetUIResource(resourceGroup) );
             }
             catch (Exception ex)
             {
@@ -230,11 +222,18 @@ namespace SimpleWAWS.Controllers
             }
         }
 
+        private UIResource GetUIResource(ResourceGroup resourceGroup)
+        {
+            return (HttpContext.Current.Request.QueryString["appServiceName"].Equals("Function",StringComparison.InvariantCultureIgnoreCase))
+                ? resourceGroup.FunctionsUIResource
+                : resourceGroup.UIResource;
+        }
+
         public async Task<HttpResponseMessage> DeleteResource()
         {
             var resourceManager = await ResourcesManager.GetInstanceAsync();
             resourceManager.DeleteResourceGroup(HttpContext.Current.User.Identity.Name);
-            return Request.CreateResponse(HttpStatusCode.Accepted,$"Removed any assigned resources to:{HttpContext.Current.User.Identity.Name}");
+            return Request.CreateResponse(HttpStatusCode.Accepted, $"Removed any assigned resources to:{ HttpContext.Current.User.Identity.Name }");
         }
 
         public async Task<HttpResponseMessage> GetResourceStatus()
@@ -253,7 +252,7 @@ namespace SimpleWAWS.Controllers
                 resourceGroup = await resourceManager.ExtendResourceExpirationTime(resourceGroup);
                 SimpleTrace.TraceInformation("{0}; {1}", AnalyticsEvents.ExtendTrial, resourceGroup.ResourceUniqueId);
                 SimpleTrace.ExtendResourceGroup(resourceGroup);
-                return Request.CreateResponse(HttpStatusCode.OK, ((HttpContext.Current.Request.QueryString["appServiceName"] == "Function") ? resourceGroup.FunctionsUIResource : resourceGroup.UIResource));
+                return Request.CreateResponse(HttpStatusCode.OK, GetUIResource(resourceGroup));
             }
             catch (ResourceCanOnlyBeExtendedOnce e)
             {
@@ -265,10 +264,6 @@ namespace SimpleWAWS.Controllers
                 SimpleTrace.Diagnostics.Fatal(e, "Error extending expiration time");
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, Resources.Server.Error_GeneralErrorMessage);
             }
-        }
-        public  HttpResponseMessage GetUserIdentityName()
-        {
-            return Request.CreateResponse(HttpStatusCode.OK, HttpContext.Current.User.Identity.Name);
         }
     }
 }
