@@ -29,13 +29,7 @@ namespace SimpleWAWS.Authentication
             builder.Append("&v=5.35");
             // Vk.com UrlDecode the state query before passing it back to us. This is different from how AAD, Google and Facebook do it.
             // Hence the double encoding below to work around that issue.
-            if (context.IsFunctionsPortalRequest())
-            {
-                builder.AppendFormat("&state={0}", WebUtility.UrlEncode(WebUtility.UrlEncode(string.Format(CultureInfo.InvariantCulture, "{0}{1}", context.Request.Headers["Referer"], context.Request.Url.Query))));
-            }
-            else
-                builder.AppendFormat("&state={0}", WebUtility.UrlEncode(WebUtility.UrlEncode(context.IsAjaxRequest() ? string.Format(CultureInfo.InvariantCulture, "{0}{1}", culture, context.Request.Url.Query) : context.Request.Url.PathAndQuery)));
-
+            builder.Append(LoginStateUrlFragment(context, encodeTwice:true));
             return builder.ToString();
         }
 

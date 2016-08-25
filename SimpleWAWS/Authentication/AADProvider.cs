@@ -12,7 +12,6 @@ namespace SimpleWAWS.Authentication
     {
         public override string GetLoginUrl(HttpContextBase context)
         {
-            var culture = CultureInfo.CurrentCulture.Name.ToLowerInvariant();
             var builder = new StringBuilder();
             builder.Append(AuthSettings.BaseLoginUrl);
             builder.Append("?response_type=id_token");
@@ -22,12 +21,7 @@ namespace SimpleWAWS.Authentication
             builder.AppendFormat("&resource={0}", WebUtility.UrlEncode("https://management.core.windows.net/"));
             builder.AppendFormat("&site_id={0}", "500879");
             builder.AppendFormat("&nonce={0}", Guid.NewGuid());
-            if (context.IsFunctionsPortalRequest())
-            {
-                builder.AppendFormat("&state={0}", WebUtility.UrlEncode(string.Format(CultureInfo.InvariantCulture, "{0}{1}", context.Request.Headers["Referer"], context.Request.Url.Query)));
-            }
-            else
-                builder.AppendFormat("&state={0}", WebUtility.UrlEncode(context.IsAjaxRequest() ? string.Format(CultureInfo.InvariantCulture, "{0}{1}", culture, context.Request.Url.Query) : context.Request.Url.PathAndQuery));
+            builder.Append(LoginStateUrlFragment(context));
             return builder.ToString();
         }
 

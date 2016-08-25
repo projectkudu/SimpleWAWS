@@ -17,14 +17,14 @@ namespace SimpleWAWS.CleanAAD
             switch (args.Length)
             {
                     case 0:
-                    Run().Wait();
+                            Run().Wait();
                     break;
                     case 2:
-                    if (args[0] == "DeleteUser")
-                    DeleteUser(args[1]).Wait();
+                            if (args[0] == "DeleteUser")
+                                DeleteUser(args[1]).Wait();
                     break;
                     default:
-                    console("Usage : SimpleWAWS.CleanAAD.exe or SimpleWAWS.CleanAAD.exe DeleteUser <lowercaseusername> ");
+                            console("Usage : SimpleWAWS.CleanAAD.exe or SimpleWAWS.CleanAAD.exe DeleteUser <lowercaseusername> ");
                     break;
             }
         }

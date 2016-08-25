@@ -140,20 +140,11 @@ namespace SimpleWAWS.Models
         {
             get
             {
-
                 return !string.IsNullOrEmpty(Kind) &&
                     Kind.StartsWith(Constants.FunctionsContainerSiteKind);
             }
         }
 
-        public bool NameStartsWithFunctions
-        {
-            get
-            {
-                return !string.IsNullOrEmpty(SiteName) &&
-                SiteName.StartsWith(Constants.FunctionsSitePrefix);
-            }
-        }
         public void FireAndForget()
         {
             try

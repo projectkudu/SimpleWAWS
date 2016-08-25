@@ -172,11 +172,6 @@ namespace SimpleWAWS.Code
             }
         }
 
-        private List<ResourceGroup> GetResourceGroupsWithHighStorageUsage()
-        {
-            return null;
-        }
-
         private void MaintainResourceGroupLists()
         {
             var resources = this.ResourceGroupsInUse
@@ -204,7 +199,7 @@ namespace SimpleWAWS.Code
             {
                 Description = $"Deleting and creating resourceGroup {resourceGroup.ResourceGroupName}",
                 Type = OperationType.ResourceGroupDeleteThenCreate,
-                Task = resourceGroup.DeleteAndCreateReplacement(false),
+                Task = resourceGroup.DeleteAndCreateReplacement(blockDelete:false),
                 RetryAction = () => DeleteAndCreateResourceGroupOperation(resourceGroup)
             });
         }

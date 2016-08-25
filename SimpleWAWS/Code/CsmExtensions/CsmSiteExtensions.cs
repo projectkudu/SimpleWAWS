@@ -39,10 +39,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task<Site> UpdateAppSettings(this Site site)
         {
-            var csmResponse =
-                await
-                    csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.PutSiteAppSettings.Bind(site),
-                        new {properties = site.AppSettings.Select(s => new {name = s.Key, value = s.Value})});
+            var csmResponse = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.PutSiteAppSettings.Bind(site), new { properties = site.AppSettings.Select(s => new { name = s.Key, value = s.Value }) });
             await csmResponse.EnsureSuccessStatusCodeWithFullError();
 
             return site;
@@ -57,11 +54,8 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             site.Metadata = config.properties.ToDictionary(k => k.name, v => v.value);
 
-            var properties = site.Metadata.Select(e => new {name = e.Key, value = e.Value});
-            response =
-                await
-                    csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.PutSiteMetadata.Bind(site),
-                        new {properties = properties});
+            var properties = site.Metadata.Select(e => new { name = e.Key, value = e.Value });
+            response = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.PutSiteMetadata.Bind(site), new { properties = properties });
             await response.EnsureSuccessStatusCodeWithFullError();
 
             return site;
@@ -69,10 +63,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task<Site> UpdateMetadata(this Site site)
         {
-            var csmResponse =
-                await
-                    csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.PutSiteMetadata.Bind(site),
-                        new {properties = site.Metadata});
+            var csmResponse = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.PutSiteMetadata.Bind(site), new { properties = site.Metadata });
             await csmResponse.EnsureSuccessStatusCodeWithFullError();
 
             return site;
@@ -91,9 +82,8 @@ namespace SimpleWAWS.Code.CsmExtensions
             }
 
             site.HostName = csmSite.properties.hostNames.FirstOrDefault();
-            site.ScmHostName =
-                csmSite.properties.enabledHostNames.FirstOrDefault(
-                    h => h.IndexOf(".scm.", StringComparison.OrdinalIgnoreCase) != -1);
+            site.ScmHostName = csmSite.properties.enabledHostNames.FirstOrDefault(h => h.IndexOf(".scm.", StringComparison.OrdinalIgnoreCase) != -1);
+
             site.Kind = csmSite.kind;
 
             await Task.WhenAll(LoadAppSettings(site), LoadPublishingCredentials(site), UpdateScmConfig(site));
@@ -107,16 +97,19 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task UpdateScmConfig(this Site site)
         {
-            if (site.Kind=="functionapp")
+            if (site.IsFunctionsContainer)
+            {    await UpdateConfig(site, new
+                {
+                    properties = new {scmType = "None"}
+                });
+            }
+            else
+            {
                 await UpdateConfig(site, new
                 {
-                    properties = new { scmType = "None" }
+                    properties = new {scmType = "LocalGit"}
                 });
-            else
-            await UpdateConfig(site, new
-            {
-                properties = new {scmType = "LocalGit"}
-            });
+            }
         }
         
     public static async Task<Site> LoadPublishingCredentials(this Site site)
@@ -215,17 +208,6 @@ namespace SimpleWAWS.Code.CsmExtensions
             var putTask = vfsManager.Put("site/wwwroot/host.json", new StringContent(JsonConvert.SerializeObject(hostId)));
             var deleteTask = vfsManager.Delete("site/wwwroot/hostingstart.html");
             await Task.WhenAll(putTask, deleteTask);
-        }
-
-        private static async Task PublishCustomSiteExtensions(Site site)
-        {
-            var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-            var zipManager = new RemoteZipManager($"{site.ScmUrl}zip/", credentials, retryCount: 3);
-
-            await zipManager.PutZipFileAsync(string.Empty, Path.Combine(SimpleSettings.AppDataPath, "SiteExtensions", "Kudu.zip"));
-            await zipManager.PutZipFileAsync(string.Empty, Path.Combine(SimpleSettings.AppDataPath, "SiteExtensions", "AzureFunctions.zip"));
-            site.AppSettings[Constants.SiteExtensionsVersion] = Constants.CurrentSiteExtensionsVersion;
-            await site.UpdateAppSettings();
         }
 
         private static async Task CreateSecretsForFunctionsContainer(Site site)
