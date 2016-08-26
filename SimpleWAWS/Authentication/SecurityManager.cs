@@ -76,7 +76,7 @@ namespace SimpleWAWS.Authentication
 
         public static bool IsAdmin(HttpContextBase context)
         {
-            return AuthSettings.AdminUserId.Split(';').Contains(context.User.Identity.Name);
+            return AuthSettings.AdminUserId.Split(';').Any(n => n == context.User.Identity.Name);
         }
 
         public static bool TryAuthenticateSessionCookie(HttpContextBase context)
