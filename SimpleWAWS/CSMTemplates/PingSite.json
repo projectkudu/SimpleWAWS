@@ -2,8 +2,7 @@
   "properties": {
     "mode": "Incremental",
     "parameters": {
-      "logicAppName": { "value": "{{logicAppName}}" },
-      "svcPlanName": { "value": "Default1" }
+      "logicAppName": { "value": "{{logicAppName}}" }
     },
     "template": {
       "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
@@ -11,57 +10,45 @@
       "parameters": {
         "logicAppName": {
           "type": "string"
-        },
-        "svcPlanName": {
-          "type": "string"
         }
       },
-
       "resources": [
         {
           "type": "Microsoft.Logic/workflows",
-          "apiVersion": "2015-08-01-preview",
+          "apiVersion": "2016-06-01",
           "name": "[parameters('logicAppName')]",
           "location": "[resourceGroup().location]",
           "properties": {
-            "sku": {
-              "name": "Free",
-              "plan": {
-                "id": "[concat(resourceGroup().id, '/providers/Microsoft.Web/serverfarms/',parameters('svcPlanName'))]"
-              }
-            },
             "state": "Enabled",
             "definition": {
-              "$schema": "http://schema.management.azure.com/providers/Microsoft.Logic/schemas/2015-08-01-preview/workflowdefinition.json#",
+              "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
               "contentVersion": "1.0.0.0",
               "parameters": { },
               "triggers": {
-                "recurrence": {
-                  "type": "recurrence",
+                "Recurrence": {
                   "recurrence": {
                     "frequency": "Hour",
                     "interval": 1
-                  }
+                  },
+                  "type": "Recurrence"
                 }
               },
               "actions": {
                 "pingGeoSite": {
-                  "type": "http",
+                  "runAfter": { },
+                  "type": "Http",
                   "inputs": {
                     "method": "GET",
                     "uri": "http://api.geonames.org/searchJSON?q=seattle&maxRows=10&username=demo"
                   }
                 }
               },
-              "outputs": {
-                "result": {
-                  "type": "object",
-                  "value": "@body('pingGeoSite')"
-                }
-              }
+              "outputs": { }
             },
             "parameters": { }
-          }
+          },
+          "resources": [ ],
+          "dependsOn": [ ]
         }
       ]
     }
