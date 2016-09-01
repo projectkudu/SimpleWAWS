@@ -21,4 +21,8 @@ namespace TryAppService.Data.Models
         public string UserCulture { get; set; }
 
     }
+
+    public class UserAssignedExperiment2 : UserAssignedExperiment
+    {
+    }
 }

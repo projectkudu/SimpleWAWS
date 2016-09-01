@@ -16,4 +16,8 @@ namespace TryAppService.Data.Models
         public string LoggedInUserName { get; set; }
         public DateTime DateTime { get; set; }
     }
+
+    public class UserLoggedIn2: UserLoggedIn
+    {
+    }
 }

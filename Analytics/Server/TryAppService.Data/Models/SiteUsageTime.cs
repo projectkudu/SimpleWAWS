@@ -25,4 +25,6 @@ namespace TryAppService.Data.Models
             set { SiteUsageTicks = value.Ticks; }
         }
     }
-}
+    public class SiteUsageTime2: SiteUsageTime
+    {
+    }
