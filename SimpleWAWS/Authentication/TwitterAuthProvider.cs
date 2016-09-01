@@ -19,7 +19,7 @@ namespace SimpleWAWS.Authentication
             builder.AppendFormat("&redirect_uri={0}", WebUtility.UrlEncode(string.Format(CultureInfo.InvariantCulture, "https://{0}/", context.Request.Headers["HOST"])));
             builder.AppendFormat("&client_id={0}", "");
             builder.AppendFormat("&scope={0}", "email");
-            builder.AppendFormat("&state={0}", WebUtility.UrlEncode(context.IsAjaxRequest() ? string.Format(CultureInfo.InvariantCulture, "/{0}{1}", culture, context.Request.Url.Query) : context.Request.Url.PathAndQuery));
+            builder.Append(LoginStateUrlFragment(context));
             return builder.ToString();
         }
 

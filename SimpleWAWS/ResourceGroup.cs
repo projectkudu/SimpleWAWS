@@ -132,6 +132,7 @@ namespace SimpleWAWS.Models
             get
             {
                 string ibizaUrl = null;
+                string csmId = null;
                 Site siteToUseForUi = null;
                 switch (AppService)
                 {
@@ -149,6 +150,9 @@ namespace SimpleWAWS.Models
                     case Models.AppService.Logic:
                         ibizaUrl = LogicApps.First().IbizaUrl;
                         break;
+                    case Models.AppService.Function:
+                        csmId = Sites.Where(s => s.IsFunctionsContainer).First().CsmId;
+                        break;
                 }
                 var templateName = Tags.ContainsKey(Constants.TemplateName) ? Tags[Constants.TemplateName] : string.Empty;
 
@@ -160,7 +164,8 @@ namespace SimpleWAWS.Models
                     AppService = AppService,
                     TemplateName = templateName,
                     IsExtended = IsExtended,
-                    TimeLeftInSeconds = (int)TimeLeft.TotalSeconds
+                    TimeLeftInSeconds = (int)TimeLeft.TotalSeconds,
+                    CsmId = csmId
                 }
                 : new UIResource
                 {
@@ -174,7 +179,34 @@ namespace SimpleWAWS.Models
                     AppService = AppService,
                     TemplateName = templateName,
                     IsExtended = IsExtended,
-                    TimeLeftInSeconds = (int)TimeLeft.TotalSeconds
+                    TimeLeftInSeconds = (int)TimeLeft.TotalSeconds,
+                    CsmId = csmId
+                };
+            }
+        }
+
+        public UIResource FunctionsUIResource
+        {
+            get
+            {
+                var templateName = Tags.ContainsKey(Constants.TemplateName) ? Tags[Constants.TemplateName] : string.Empty;
+                var appService = AppService.Function;
+                var siteToUseForUi = Sites.First(s => s.IsFunctionsContainer);
+
+                return new UIResource
+                {
+                    Url = siteToUseForUi.Url,
+                    MobileWebClient = null,
+                    IbizaUrl = siteToUseForUi.IbizaUrl,
+                    MonacoUrl = siteToUseForUi.MonacoUrl,
+                    ContentDownloadUrl = siteToUseForUi.ContentDownloadUrl,
+                    GitUrl = siteToUseForUi.GitUrlWithCreds,
+                    IsRbacEnabled = IsRbacEnabled,
+                    AppService = appService,
+                    TemplateName = templateName,
+                    IsExtended = IsExtended,
+                    TimeLeftInSeconds = (int)TimeLeft.TotalSeconds,
+                    CsmId = siteToUseForUi.CsmId
                 };
             }
         }

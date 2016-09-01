@@ -22,13 +22,13 @@ namespace SimpleWAWS.Code.CsmExtensions
             await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.AppServiceRegister.Bind(subscription));
             await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.StorageRegister.Bind(subscription));
 
-            var csmResourceGroupsRespnose = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.ResourceGroups.Bind(subscription));
-            await csmResourceGroupsRespnose.EnsureSuccessStatusCodeWithFullError();
+            var csmResourceGroupsResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.ResourceGroups.Bind(subscription));
+            await csmResourceGroupsResponse.EnsureSuccessStatusCodeWithFullError();
 
-            var csmResourceGroups = await csmResourceGroupsRespnose.Content.ReadAsAsync<CsmArrayWrapper<CsmResourceGroup>>();
+            var csmResourceGroups = await csmResourceGroupsResponse.Content.ReadAsAsync<CsmArrayWrapper<CsmResourceGroup>>();
 
             var deleteBadResourceGroupsTasks = csmResourceGroups.value
-                .Where(r => r.tags != null && r.tags.ContainsKey("Bad") && r.properties.provisioningState != "Deleting")
+                .Where(r => r.tags != null && (r.tags.ContainsKey("Bad") || (!r.tags.ContainsKey("FunctionsContainerDeployed")) && r.properties.provisioningState != "Deleting"  ))
                 .Select(async r => await Delete(await Load(new ResourceGroup(subscription.SubscriptionId, r.name), r, loadSubResources: false), block: false));
 
             var csmSubscriptionResourcesReponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.SubscriptionResources.Bind(subscription));
@@ -42,8 +42,6 @@ namespace SimpleWAWS.Code.CsmExtensions
                     ResourceGroup = r,
                     Resources = csmSubscriptionResources.value.Where(resource => resource.id.IndexOf(r.id, StringComparison.OrdinalIgnoreCase) != -1)
                 });
-
-
 
             subscription.ResourceGroups = await goodResourceGroups
                 .Select(async r => await Load(new ResourceGroup(subscription.SubscriptionId, r.ResourceGroup.name), r.ResourceGroup, r.Resources))
@@ -74,6 +72,5 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             return result;
         }
-
-    }
+     }
 }

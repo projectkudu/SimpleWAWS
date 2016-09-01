@@ -40,5 +40,9 @@ namespace SimpleWAWS.Models
 
         [JsonProperty(PropertyName = "isExtended")]
         public bool IsExtended { get; set; }
+
+        [JsonProperty(PropertyName = "csmId")]
+        public string CsmId { get; set; }
+
     }
 }

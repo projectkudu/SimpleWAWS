@@ -199,7 +199,7 @@ namespace SimpleWAWS.Code
             {
                 Description = $"Deleting and creating resourceGroup {resourceGroup.ResourceGroupName}",
                 Type = OperationType.ResourceGroupDeleteThenCreate,
-                Task = resourceGroup.DeleteAndCreateReplacement(),
+                Task = resourceGroup.DeleteAndCreateReplacement(blockDelete:false),
                 RetryAction = () => DeleteAndCreateResourceGroupOperation(resourceGroup)
             });
         }

@@ -48,8 +48,8 @@ namespace SimpleWAWS
 
         public static string Decrypt(this string str, string reason = null)
         {
-            var encryptesBytes = Convert.FromBase64String(str.PadBase64());
-            var decryptedBytes = MachineKey.Unprotect(encryptesBytes, reason ?? DefaultEncryptReason);
+            var encryptedBytes = Convert.FromBase64String(str.PadBase64());
+            var decryptedBytes = MachineKey.Unprotect(encryptedBytes, reason ?? DefaultEncryptReason);
             if (decryptedBytes != null)
             {
                 return Encoding.Default.GetString(decryptedBytes);
@@ -71,10 +71,10 @@ namespace SimpleWAWS
                 && context.Request.UserAgent.IndexOf("bot", StringComparison.OrdinalIgnoreCase) == -1;
         }
 
-        public static bool IsFunctionsPortalRequest(this HttpContextBase context)
+        public static bool IsFunctionsPortalBackendRequest(this HttpContextBase context)
         {
-            return context.Request.UserAgent != null
-                && context.Request.UserAgent.StartsWith("Functions/", StringComparison.OrdinalIgnoreCase);
+            return context.Request.Headers["ms-x-user-agent"] != null
+                && context.Request.Headers["ms-x-user-agent"].StartsWith("Functions/", StringComparison.OrdinalIgnoreCase);
         }
 
         public static string PadBase64(this string value)

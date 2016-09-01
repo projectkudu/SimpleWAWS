@@ -6,6 +6,7 @@ using System.Configuration;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Security.Principal;
 using System.Threading;
 using System.Web;
@@ -17,7 +18,6 @@ namespace SimpleWAWS.Authentication
         public abstract void AuthenticateRequest(HttpContextBase context);
         public abstract bool HasToken(HttpContextBase context);
         public abstract string GetLoginUrl(HttpContextBase context);
-
         protected void AuthenticateRequest(HttpContextBase context, Func<HttpContextBase, TokenResults> providerSpecificAuthMethod)
         {
             try
@@ -25,7 +25,7 @@ namespace SimpleWAWS.Authentication
                 switch (providerSpecificAuthMethod(context))
                 {
                     case TokenResults.DoesntExist:
-                        if (context.IsAjaxRequest())
+                        if (context.IsAjaxRequest() || context.IsFunctionsPortalBackendRequest())
                         {
                             context.Response.Headers["LoginUrl"] = GetLoginUrl(context);
                             context.Response.StatusCode = 403; // Forbidden
@@ -44,7 +44,7 @@ namespace SimpleWAWS.Authentication
                     case TokenResults.ExistsAndCorrect:
                         // Ajax can never send Bearer token
                         context.Response.Cookies.Add(CreateSessionCookie(context.User));
-                        context.Response.RedirectLocation = context.Request["state"];
+                        context.Response.RedirectLocation = GetRedirectLocationFromState(context);
                         context.Response.StatusCode = 302; // Redirect
                         break;
                     default:
@@ -86,6 +86,37 @@ namespace SimpleWAWS.Authentication
             catch
             { }
             return new HttpCookie(AuthConstants.LoginSessionCookie, Uri.EscapeDataString(value.Encrypt(AuthConstants.EncryptionReason))) { Path = "/", Expires = DateTime.UtcNow.AddDays(2) };
+        }
+
+        private string GetRedirectLocationFromState(HttpContextBase context)
+        {
+            if (context.Request["state"].Contains("appServiceName=Function"))
+            {
+                var state = context.Request["state"];
+                var redirectLocation = state.Split('/')[0];
+                return redirectLocation;
+            }
+            else
+            {
+                return context.Request["state"];
+            }
+        }
+
+        protected string LoginStateUrlFragment(HttpContextBase context, bool encodeTwice = false)
+        {
+            if (context.IsFunctionsPortalBackendRequest())
+            {
+                return encodeTwice ? 
+                      $"&state={WebUtility.UrlEncode(WebUtility.UrlEncode(string.Format(CultureInfo.InvariantCulture, "{0}{1}", context.Request.Headers["Referer"], context.Request.Url.Query)))}" 
+                    : $"&state={WebUtility.UrlEncode(string.Format(CultureInfo.InvariantCulture, "{0}{1}", context.Request.Headers["Referer"], context.Request.Url.Query))}";
+            }
+            else
+            {
+                var culture = CultureInfo.CurrentCulture.Name.ToLowerInvariant();
+                return encodeTwice ? 
+                    $"&state={WebUtility.UrlEncode(WebUtility.UrlEncode(context.IsAjaxRequest() ? string.Format(CultureInfo.InvariantCulture, "{0}{1}", culture, context.Request.Url.Query) : context.Request.Url.PathAndQuery))}" 
+                  : $"&state={WebUtility.UrlEncode(context.IsAjaxRequest() ? string.Format(CultureInfo.InvariantCulture, "{0}{1}", culture, context.Request.Url.Query) : context.Request.Url.PathAndQuery)}";
+            }
         }
     }
 }

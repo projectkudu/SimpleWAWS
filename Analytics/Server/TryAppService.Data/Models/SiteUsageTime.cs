@@ -16,7 +16,7 @@ namespace TryAppService.Data.Models
 
         [JsonProperty(PropertyName = "siteUsageTicks", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public long SiteUsageTicks { get; set; }
-        
+
         [NotMapped]
         [JsonProperty(PropertyName = "siteUsageTime", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public TimeSpan UsageTime

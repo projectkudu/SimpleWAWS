@@ -76,15 +76,20 @@ namespace SimpleWAWS.Authentication
 
         public static bool IsAdmin(HttpContextBase context)
         {
-            return context.User.Identity.Name == AuthSettings.AdminUserId;
+            return AuthSettings.AdminUserId.Split(';').Any(n => n == context.User.Identity.Name);
         }
 
         public static bool TryAuthenticateSessionCookie(HttpContextBase context)
         {
             try
             {
+                var authHeader = context.Request.Headers["Authorization"];
+                var token = string.Empty;
+                    if (authHeader != null &&  authHeader.IndexOf(AuthConstants.BearerHeader, StringComparison.OrdinalIgnoreCase) > -1)
+                    token = authHeader.Substring(AuthConstants.BearerHeader.Length).Trim();
+
                 var loginSessionCookie =
-                    Uri.UnescapeDataString(context.Request.Cookies[AuthConstants.LoginSessionCookie].Value)
+                    Uri.UnescapeDataString(string.IsNullOrEmpty(token) ? context.Request.Cookies[AuthConstants.LoginSessionCookie].Value:token)
                         .Decrypt(AuthConstants.EncryptionReason);
                 var splited = loginSessionCookie.Split(';');
                 if (splited.Length == 2)

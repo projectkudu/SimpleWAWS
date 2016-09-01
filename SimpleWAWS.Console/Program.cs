@@ -3,6 +3,7 @@ using SimpleWAWS.Code;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using SimpleWAWS.Code.CsmExtensions;
@@ -76,24 +77,100 @@ namespace SimpleWAWS.Console
 
             console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Where(r => !r.Tags.ContainsKey("CommonApiAppsDeployed")).Count()) + " bad resourceGroups");
 
-            //console("calling MakeTrialSubscription on all subscriptions");
-            //subscriptions = await subscriptions.Select(s => s.MakeTrialSubscription()).WhenAll();
-            //console("done calling make trial subscription");
+            foreach (var resourcegroup in subscriptions.SelectMany(subscription => subscription.ResourceGroups))
+                    {
+                        try
+                        {
+                            console($" Replacing Resource Group : {resourcegroup.CsmId}");
+                            await resourcegroup.DeleteAndCreateReplacement(true);
+                            console($" Replaced");
+                        }
+                        catch (Exception ex)
+                        {
+                            console(ex.ToString());
+                        }
 
-            //console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()) + " resourceGroups");
-            //console(subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()));
-            //console("make free trial");
-            //foreach (var subscription in subscriptions)
-            //{
-            //    var freeTrial = subscription.MakeTrialSubscription();
-            //    console(subscription.SubscriptionId + "\thas\t" + freeTrial.Ready.Count() + "\twill delete\t" + freeTrial.ToDelete.Count() + "\tcreate\t" + freeTrial.ToCreateInRegions.Count());
-            //}
-            await Task.WhenAll(subscriptions.Select(subscription => subscription.ResourceGroups.Select(rg => rg.Delete(false))).SelectMany(i => i));
+            }
+            
+            ////console("calling MakeTrialSubscription on all subscriptions");
+            ////await subscriptions.Select(async s =>
+            ////{
 
+            ////    var result = s.MakeTrialSubscription();
+            ////    foreach (var resourceGroup in result.Ready)
+            ////    {
+            ////        try
+            ////        {
+            ////            await resourceGroup.PutInDesiredState();
+            ////        }
+            ////        catch (Exception ex)
+            ////        {
+            ////            console(
+            ////                $"RG PIDS Exception:{ex.ToString()}-{ex.StackTrace}-{ex.InnerException?.StackTrace.ToString() ?? String.Empty}");
+            ////        }
+            ////    }
+            ////    foreach (var geoRegion in result.ToCreateInRegions)
+            ////    {
+            ////        try
+            ////        {
+            ////            await CsmManager.CreateResourceGroup(s.SubscriptionId, geoRegion).Result.PutInDesiredState();
+            ////        }
+            ////        catch (Exception ex)
+            ////        {
+            ////            console($"GR Create Exception:{ex.ToString()}-{ex.StackTrace}-{ex.InnerException?.StackTrace.ToString() ?? String.Empty}");
+            ////        }
+            ////    }
+            ////    foreach (var resourceGroup in result.ToDelete)
+            ////    {
+            ////        try { await resourceGroup.Delete(true); }
+            ////        catch (Exception ex)
+            ////        {
+            ////            console($"RG Delete Exception:{ex.ToString()}-{ex.StackTrace}-{ex.InnerException?.StackTrace.ToString() ?? String.Empty}");
+            ////        }
+            ////    }
+            ////}).WhenAll();
+            ////console("done calling make trial subscription");
+
+            ////console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()) + " resourceGroups");
+            ////console(subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()));
+            ////console("make free trial");
+            //////Parallel.ForEach(
+            //////    subscriptions.SelectMany(subscription => subscription.ResourceGroups), async (resourcegroup) =>
+            //////    {
+            //////        console($"Deleting resourcegroup:{resourcegroup.ResourceGroupName} from \tsubscription:{resourcegroup.SubscriptionId}");
+            //////        await resourcegroup.Delete(true);
+            //////    });
+
+            console("Re-start loading subscriptions");
+            console("We have " + subscriptionsIds.Count() + " subscriptions");
+            subscriptions = await subscriptionsIds.Select(s => new Subscription(s).Load()).WhenAll();
+            console("done loading subscriptions");
+
+            //Parallel.ForEach(
+            //    subscriptions.SelectMany(subscription => subscription.ResourceGroups), async (resourcegroup) =>
+            //    {
+            ////foreach (var resourcegroup in subscriptions.SelectMany(subscription => subscription.ResourceGroups))
+            ////{
+            ////    try
+            ////    {
+            ////        console($" Replacing Resource Group : {resourcegroup.CsmId}");
+            ////        await resourcegroup.Delete(true);//DeleteAndCreateReplacement(true);
+            ////        console($" Replaced");
+            ////    }
+            ////    catch (Exception ex)
+            ////    {
+            ////        console(ex.ToString());
+            ////    }
+            
+            ////}
+
+                //}
+                //);
             //subscriptions.ToList().ForEach(printSub);
             console("Done");
         }
 
+     
         public static async Task Main2Async()
         {
             var startTime = DateTime.UtcNow;

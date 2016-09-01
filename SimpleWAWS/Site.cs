@@ -46,10 +46,11 @@ namespace SimpleWAWS.Models
 
         public string ScmHostName { get; set; }
 
-        public Site(string subscriptionId, string resourceGroupName, string name)
+        public Site(string subscriptionId, string resourceGroupName, string name, string kind = null)
             : base (subscriptionId, resourceGroupName)
         {
             this.SiteName = name;
+            this.Kind = kind;
         }
 
         public string Url
@@ -133,13 +134,14 @@ namespace SimpleWAWS.Models
                        Regex.IsMatch(SiteName, "^[A-F0-9]{8}-0ee0-4-231-b9ee$", RegexOptions.IgnoreCase);
             }
         }
+        public string Kind { get; set; }
 
         public bool IsFunctionsContainer
         {
             get
             {
-                return !string.IsNullOrEmpty(SiteName) &&
-                    SiteName.StartsWith(Constants.FunctionsSitePrefix);
+                return !string.IsNullOrEmpty(Kind) &&
+                    Kind.StartsWith(Constants.FunctionsContainerSiteKind);
             }
         }
 

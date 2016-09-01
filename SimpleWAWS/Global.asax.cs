@@ -17,6 +17,7 @@ using System.Net;
 using System.Globalization;
 using System.Threading;
 using System.Linq;
+using System.Security.Principal;
 using Serilog.Sinks.Elasticsearch;
 
 namespace SimpleWAWS
@@ -101,6 +102,7 @@ namespace SimpleWAWS
                 SimpleTrace.Diagnostics.Error(args.ErrorContext.Error.Message);
                 args.ErrorContext.Handled = true;
             };
+
             //Templates Routes
             RouteTable.Routes.MapHttpRoute("templates", "api/templates", new { controller = "Templates", action = "Get", authenticated = false });
 
@@ -110,6 +112,7 @@ namespace SimpleWAWS
 
             //Resources Api Routes
             RouteTable.Routes.MapHttpRoute("get-resource", "api/resource", new { controller = "Resource", action = "GetResource", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("get-username", "api/resource/user", new { controller = "Resource", action = "GetUserIdentityName", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
             RouteTable.Routes.MapHttpRoute("create-resource", "api/resource", new { controller = "Resource", action = "CreateResource", authenticated = true }, new { verb = new HttpMethodConstraint("POST") });
             RouteTable.Routes.MapHttpRoute("get-webapp-publishing-profile", "api/resource/getpublishingprofile", new { controller = "Resource", action = "GetWebAppPublishingProfile", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
             RouteTable.Routes.MapHttpRoute("get-mobile-client-app", "api/resource/mobileclient/{platformString}", new { controller = "Resource", action = "GetMobileClientZip", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
@@ -118,10 +121,10 @@ namespace SimpleWAWS
             RouteTable.Routes.MapHttpRoute("extend-resource-expiration-time", "api/resource/extend", new { controller = "Resource", action = "ExtendResourceExpirationTime", authenticated = true }, new { verb = new HttpMethodConstraint("POST") });
 
             //Admin Only Routes
-            RouteTable.Routes.MapHttpRoute("get-all-resources", "api/resource/all", new { controller = "Resource", action = "All", authenticated = true, adminOnly = true }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("get-all-resources", "api/resource/all/{showFreeSites}", new { controller = "Resource", action = "All", authenticated = true, adminOnly = true , showFreeSites = RouteParameter.Optional}, new { verb = new HttpMethodConstraint("GET") });
             RouteTable.Routes.MapHttpRoute("reset-all-free-resources", "api/resource/reset", new { controller = "Resource", action = "Reset", authenticated = true, adminOnly = true }, new { verb = new HttpMethodConstraint("GET") });
             RouteTable.Routes.MapHttpRoute("reload-all-free-resources", "api/resource/reload", new { controller = "Resource", action = "DropAndReloadFromAzure", authenticated = true, adminOnly = true }, new { verb = new HttpMethodConstraint("GET") });
-
+            RouteTable.Routes.MapHttpRoute("delete-users-resource", "api/resource/delete/{userIdentity}", new { controller = "Resource", action = "DeleteUserResource", authenticated = true, adminOnly = true }, new { verb = new HttpMethodConstraint("GET") });
             //Register auth provider
             SecurityManager.InitAuthProviders();
         }
@@ -132,16 +135,22 @@ namespace SimpleWAWS
             ExperimentManager.AssignExperiment(context);
             GlobalizationManager.SetCurrentCulture(context);
 
-            //if (context.Request.Cookies[Constants.TiPCookie] == null &&
-            //    context.Request.QueryString[Constants.TiPCookie] != null)
-            //{
-            //    context.Response.Cookies.Add(new HttpCookie(Constants.TiPCookie, context.Request.QueryString[AuthConstants.TiPCookie]) { Path = "/" });
-            //}
-        }
+            context.Response.Headers["Access-Control-Expose-Headers"] = "LoginUrl";
 
+        }
+        public string CreateSessionCookieData(IPrincipal user)
+        {
+            var identity = user.Identity as TryWebsitesIdentity;
+            var value = string.Format(CultureInfo.InvariantCulture, "{0};{1};{2};{3}", identity.Email, identity.Puid, identity.Issuer, DateTime.UtcNow.ToString(CultureInfo.InvariantCulture));
+            SimpleTrace.Analytics.Information(AnalyticsEvents.UserLoggedIn, identity);
+            SimpleTrace.TraceInformation("{0}; {1}; {2}", AnalyticsEvents.OldUserLoggedIn, identity.Email, identity.Issuer);
+
+            return Uri.EscapeDataString(value.Encrypt(AuthConstants.EncryptionReason));
+        }
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
         {
             var context = new HttpContextWrapper(HttpContext.Current);
+
             if (!string.IsNullOrEmpty(AuthSettings.EnableAuth) &&
                 AuthSettings.EnableAuth.Equals(false.ToString(), StringComparison.OrdinalIgnoreCase))
             {
@@ -152,8 +161,7 @@ namespace SimpleWAWS
             if (!SecurityManager.TryAuthenticateSessionCookie(context))
             {
                 // Support requests from non-browsers with bearer headers
-                if (context.IsFunctionsPortalRequest() &&
-                    !context.IsBrowserRequest() &&
+                if (context.IsFunctionsPortalBackendRequest() && !context.IsBrowserRequest() &&
                     SecurityManager.TryAuthenticateBearer(context))
                 {
                     return;
@@ -161,16 +169,16 @@ namespace SimpleWAWS
 
                 if (SecurityManager.HasToken(context))
                 {
-                    // This is a login redirect
+                    // This is a login 
                     SecurityManager.AuthenticateRequest(context);
                     return;
                 }
 
                 var route = RouteTable.Routes.GetRouteData(context);
-                // If the route is not registerd in the WebAPI RouteTable
-                //      then it's not an API route, which means it's a resource (*.js, *.css, *.cshtml), not authenticated.
+                // If the route is not registered in the WebAPI RouteTable
+                //    then it's not an API route, which means it's a resource (*.js, *.css, *.cshtml), not authenticated.
                 // If the route doesn't have authenticated value assume true
-                var isAuthenticated = route != null && (route.Values["authenticated"] == null || (bool)route.Values["authenticated"]);
+                var isAuthenticated = route != null && (route.Values["authenticated"] == null || (bool) route.Values["authenticated"]);
 
                 if (isAuthenticated)
                 {
@@ -181,6 +189,18 @@ namespace SimpleWAWS
                     SecurityManager.HandleAnonymousUser(context);
                 }
             }
+            else //coming in from auth provider . Now lets return to the source (Try Functions)
+            {
+                if (!context.IsBrowserRequest()) return;
+                if (context.Request["state"] == null) return;
+                if (!context.Request["state"].Contains("appServiceName=Function")) return;
+                if (context.User == null) return;
+                var cookie = CreateSessionCookieData(context.User);
+                var state = context.Request["state"];
+                var redirectlocation = state.Split('?')[0];
+                Response.Redirect($"{redirectlocation}?cookie={cookie}&state={Uri.EscapeDataString(state)}", true);
+            }
+
         }
 
         protected void Application_Error(object sender, EventArgs e)
