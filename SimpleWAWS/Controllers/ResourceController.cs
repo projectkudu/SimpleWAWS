@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -224,9 +225,12 @@ namespace SimpleWAWS.Controllers
 
         private UIResource GetUIResource(ResourceGroup resourceGroup)
         {
-            return (HttpContext.Current.Request.QueryString["appServiceName"].Equals("Function",StringComparison.InvariantCultureIgnoreCase))
-                ? resourceGroup.FunctionsUIResource
-                : resourceGroup.UIResource;
+            return string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["appServiceName"])
+                   ? resourceGroup.UIResource
+                   : ((HttpContext.Current.Request.QueryString["appServiceName"].Equals("Function",
+                        StringComparison.InvariantCultureIgnoreCase))
+                        ? resourceGroup.FunctionsUIResource
+                        : resourceGroup.UIResource);
         }
 
         public async Task<HttpResponseMessage> DeleteResource()
