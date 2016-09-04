@@ -328,7 +328,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 resourceGroup.GeoRegion);
             var csmSiteResponse =
                 await
-                    csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.LatestSiteApiVersionTemplate.Bind(site),
+                    csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.FunctionsAppApiVersionTemplate.Bind(site),
                         new
                         {
                             properties =
@@ -403,9 +403,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             if (functionContainer == null || functionsStorageAccount == null) return; // This should throw some kind of error? maybe?
             if (!resourceGroup.Tags.ContainsKey(Constants.FunctionsContainerDeployed) ||
-                !resourceGroup.Tags[Constants.FunctionsContainerDeployed].Equals(Constants.FunctionsContainerDeployedVersion) ||
-                !functionContainer.AppSettings.ContainsKey(Constants.SiteExtensionsVersion) ||
-                !functionContainer.AppSettings.ContainsKey(Constants.CurrentSiteExtensionsVersion))
+                !resourceGroup.Tags[Constants.FunctionsContainerDeployed].Equals(Constants.FunctionsContainerDeployedVersion))
             {
                 await Task.WhenAll(CreateHostJson(functionContainer), CreateSecretsForFunctionsContainer(functionContainer));
                 resourceGroup.Tags[Constants.FunctionsContainerDeployed] = Constants.FunctionsContainerDeployedVersion;
@@ -415,16 +413,21 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             if (!functionContainer.AppSettings.ContainsKey(Constants.AzureStorageAppSettingsName))
             {
-                await LinkSiteAndStorageAccount(functionContainer, functionsStorageAccount);
+                await LinkStorageAndUpdateSettings(functionContainer, functionsStorageAccount);
             }
             //TODO: add localhost:44300 to cors allowed list here for -next slot subs
         }
 
-        private static async Task LinkSiteAndStorageAccount(Site site, StorageAccount storageAccount)
+        private static async Task LinkStorageAndUpdateSettings(Site site, StorageAccount storageAccount)
         {
             // Assumes site and storage are loaded
             site.AppSettings[Constants.AzureStorageAppSettingsName] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.StorageAccountName, storageAccount.StorageAccountKey);
             site.AppSettings[Constants.AzureStorageDashboardAppSettingsName] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.StorageAccountName, storageAccount.StorageAccountKey);
+
+            site.AppSettings["FUNCTIONS_EXTENSION_VERSION"] = "latest";
+            site.AppSettings["MONACO_EXTENSION_VERSION"] = "beta";
+            site.AppSettings["AZUREJOBS_EXTENSION_VERSION"] = "beta";
+            site.AppSettings["WEBSITE_NODE_DEFAULT_VERSION"] = "6.4.0";
             await UpdateAppSettings(site);
         }
 
