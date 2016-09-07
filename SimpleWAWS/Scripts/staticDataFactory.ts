@@ -203,7 +203,7 @@ angular.module("tryApp")
                         name: Resources.Information_XamarinForms,
                         internal_name: "Xamarin Forms",
                         icon_url: "/Content/images/xamarin.png",
-                        sprite: "mobile-icons sprite-Xamarin",
+                        sprite: "mobile-icons sprite-xamarin",
                         steps: {
                             preText: Resources.Information_InstallXamarinStudio,
                             preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
@@ -226,7 +226,7 @@ angular.module("tryApp")
                         name: Resources.Information_XamariniOS,
                         internal_name: "Xamarin iOS",
                         icon_url: "/Content/images/xamarin.png",
-                        sprite: "mobile-icons sprite-Xamarin",
+                        sprite: "mobile-icons sprite-xamarin",
                         steps: {
                             preText: Resources.Information_InstallXamarinStudio,
                             preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
@@ -237,7 +237,7 @@ angular.module("tryApp")
                         name: Resources.Information_XamarinAndroid,
                         internal_name: "Xamarin Android",
                         icon_url: "/Content/images/xamarin.png",
-                        sprite: "mobile-icons sprite-Xamarin",
+                        sprite: "mobile-icons sprite-xamarin",
                         steps: {
                             preText: Resources.Information_InstallXamarinStudio,
                             preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
