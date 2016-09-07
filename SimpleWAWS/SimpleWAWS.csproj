@@ -260,6 +260,7 @@
     <Compile Include="Models\CsmModels\CsmArrayWrapper.cs" />
     <Compile Include="Models\CsmModels\CsmDeployment.cs" />
     <Compile Include="Models\CsmModels\CsmGateway.cs" />
+    <Compile Include="Models\CsmModels\CsmJenkinsResource.cs" />
     <Compile Include="Models\CsmModels\CsmLogicApp.cs" />
     <Compile Include="Models\CsmModels\CsmNameValuePair.cs" />
     <Compile Include="Models\CsmModels\CsmResourceGroup.cs" />
@@ -281,7 +282,9 @@
     <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\FunctionTemplate.cs" />
     <Compile Include="Models\Gateway.cs" />
+    <Compile Include="Models\JenkinsResource.cs" />
     <Compile Include="Models\LogicApp.cs" />
+    <Compile Include="Models\JenkinsTemplate.cs" />
     <Compile Include="Models\LogicTemplate.cs" />
     <Compile Include="Models\MakeSubscriptionFreeTrialResult.cs" />
     <Compile Include="Models\MobileTemplate.cs" />
@@ -479,6 +482,7 @@
     </Content>
     <Content Include="Login.cshtml" />
     <Content Include="Logout.cshtml" />
+    <Content Include="CSMTemplates\JenkinsResource.json" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
@@ -518,8 +522,8 @@
     <EmbeddedResource Include="Resources\client.pt.resx" />
     <EmbeddedResource Include="Resources\Client.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Client.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Client1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\client.ru.resx">
       <SubType>Designer</SubType>

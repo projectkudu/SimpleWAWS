@@ -209,6 +209,9 @@ namespace SimpleWAWS.Controllers
                     case AppService.Function:
                         resourceGroup = await resourceManager.ActivateFunctionApp(template as FunctionTemplate, identity, anonymousUserName);
                         break;
+                    case AppService.Jenkins:
+                        resourceGroup = await resourceManager.ActivateJenkinsResource(template as JenkinsTemplate, identity, anonymousUserName);
+                        break;
                 }
                 return Request.CreateResponse(HttpStatusCode.OK, resourceGroup == null ? null : GetUIResource(resourceGroup) );
             }

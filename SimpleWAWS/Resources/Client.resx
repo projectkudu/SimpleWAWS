@@ -498,4 +498,7 @@
   <data name="Information_InstallAndroidStudio" xml:space="preserve">
     <value>Download Android Studio</value>
   </data>
+  <data name="Templates_AzureDevOpsDescription" xml:space="preserve">
+    <value>This template will create an Azure Jenkins CI</value>
+  </data>
 </root>

@@ -1159,6 +1159,15 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This DevOps template will create an Azure Jenkins CI.
+        /// </summary>
+        public static string Templates_AzureDevOpsDescription {
+            get {
+                return ResourceManager.GetString("Templates_AzureDevOpsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This Logic App template will ping a website on a recurring schedule.  You can extend it to take an action depending on the result of the ping..
         /// </summary>
         public static string Templates_PingSiteDescription {

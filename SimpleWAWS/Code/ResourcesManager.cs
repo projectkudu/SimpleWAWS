@@ -390,6 +390,39 @@ namespace SimpleWAWS.Code
             });
         }
 
+        public async Task<ResourceGroup> ActivateJenkinsResource(JenkinsTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
+        {
+            return await ActivateResourceGroup(userIdentity, AppService.Jenkins, DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
+            {
+
+                SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
+                    userIdentity.Name, template, resourceGroup);
+                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}; {6}",
+                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
+                            "Jenkins", template.Name, resourceGroup.ResourceUniqueId, AppService.Jenkins.ToString(), anonymousUserName);
+                SimpleTrace.UserCreatedApp(userIdentity, template, resourceGroup, AppService.Jenkins);
+
+                var csmTemplateString = string.Empty;
+
+                using (var reader = new StreamReader(template.CsmTemplateFilePath))
+                {
+                    csmTemplateString = await reader.ReadToEndAsync();
+                }
+
+                csmTemplateString = csmTemplateString.Replace("{{jenkinsPassword}}", SimpleSettings.TryDevOpsVMPassword);
+
+                await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true);
+
+                // After a deployment, we have no idea what changes happened in the resource group
+                // we should reload it.
+                // TODO: consider reloading the resourceGroup along with the deployment itself.
+                await resourceGroup.Load(loadJenkinsResources:true);
+
+                resourceGroup.IsRbacEnabled = false;
+                return resourceGroup;
+            });
+        }
+
         // ARM
         public async Task<ResourceGroup> ActivateFunctionApp(FunctionTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {

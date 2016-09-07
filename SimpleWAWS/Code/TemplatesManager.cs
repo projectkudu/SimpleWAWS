@@ -79,6 +79,14 @@ namespace SimpleWAWS.Models
                         CsmTemplateFilePath = HostingEnvironment.MapPath("~/CSMTemplates/PingSite.json"),
                         Description = Resources.Server.Templates_PingSiteDescription
                     });
+                list.Add(new JenkinsTemplate
+                {
+                    Name = "Jenkins CI",
+                    SpriteName = "sprite-PingSite PingSite",
+                    AppService = AppService.Jenkins,
+                    CsmTemplateFilePath = HostingEnvironment.MapPath("~/CSMTemplates/JenkinsResource.json"),
+                    Description = Resources.Server.Templates_JenkinsDescription
+                });
                 //TODO: Implement a FileSystemWatcher for changes in the directory
             }
             catch (Exception)
