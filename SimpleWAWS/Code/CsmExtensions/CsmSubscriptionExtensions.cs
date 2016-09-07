@@ -16,7 +16,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         public static async Task<Subscription> Load(this Subscription subscription)
         {
             Validate.ValidateCsmSubscription(subscription);
-
+            subscription.MakeTrialSubscription();
             //Make sure to register for AppServices RP at least once for each sub
             await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.WebsitesRegister.Bind(subscription));
             await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.AppServiceRegister.Bind(subscription));
@@ -28,7 +28,10 @@ namespace SimpleWAWS.Code.CsmExtensions
             var csmResourceGroups = await csmResourceGroupsResponse.Content.ReadAsAsync<CsmArrayWrapper<CsmResourceGroup>>();
 
             var deleteBadResourceGroupsTasks = csmResourceGroups.value
-                .Where(r => r.tags != null && ((r.tags.ContainsKey("Bad") || !r.tags.ContainsKey("FunctionsContainerDeployed")) && r.properties.provisioningState != "Deleting" ))
+                .Where(r => r.tags != null 
+                && ((r.tags.ContainsKey("Bad") || !r.tags.ContainsKey("FunctionsContainerDeployed")) 
+                && (!r.tags.ContainsKey("UserId"))
+                && r.properties.provisioningState != "Deleting" ) )
                 .Select(async r => await DeleteAndCreateReplacement(await Load(new ResourceGroup(subscription.SubscriptionId, r.name), r, loadSubResources: false)));
 
             var csmSubscriptionResourcesReponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.SubscriptionResources.Bind(subscription));
