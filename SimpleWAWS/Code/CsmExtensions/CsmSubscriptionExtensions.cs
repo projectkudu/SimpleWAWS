@@ -16,7 +16,11 @@ namespace SimpleWAWS.Code.CsmExtensions
         public static async Task<Subscription> Load(this Subscription subscription)
         {
             Validate.ValidateCsmSubscription(subscription);
-            subscription.MakeTrialSubscription();
+            var trialSubscriptionResult = subscription.MakeTrialSubscription();
+            var createNewResourceGroupsTasks =
+            trialSubscriptionResult.ToCreateInRegions.Select
+            (async region => await CreateResourceGroup(subscription.SubscriptionId, region));
+
             //Make sure to register for AppServices RP at least once for each sub
             await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.WebsitesRegister.Bind(subscription));
             await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.AppServiceRegister.Bind(subscription));
@@ -51,6 +55,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 .IgnoreAndFilterFailures();
 
             await deleteBadResourceGroupsTasks.IgnoreFailures().WhenAll();
+            await createNewResourceGroupsTasks.IgnoreFailures().WhenAll();
             return subscription;
         }
 
