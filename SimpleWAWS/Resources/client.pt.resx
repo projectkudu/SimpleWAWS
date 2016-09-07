@@ -210,8 +210,8 @@
   <data name="Forums" xml:space="preserve">
     <value>Fóruns</value>
   </data>
-  <data name="FreeTrial" xml:space="preserve">
-    <value>Avaliação Gratuita</value>
+  <data name="FreeAccount" xml:space="preserve">
+    <value>Conta Gratuita</value>
   </data>
   <data name="GoSocial" xml:space="preserve">
     <value>Ligue-se às Redes Sociais</value>
@@ -256,7 +256,7 @@
     <value>A experiência do {0} ainda não está disponível.</value>
   </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
-    <value>O {0} gratuito está disponível por uma hora e expira em:</value>
+    <value>O {0} gratuito expira em:</value>
   </data>
   <data name="Information_GenericBrandingLine1" xml:space="preserve">
     <value>O Serviço de Aplicações do Azure é um serviço de aplicações na nuvem que integra tudo o que necessita para criar, rápida e facilmente, aplicações Web e móveis para qualquer plataforma ou dispositivo.</value>
@@ -268,7 +268,7 @@
     <value>Retroceder eliminará a aplicação atual</value>
   </data>
   <data name="Information_InstallVisualStudio" xml:space="preserve">
-    <value>Instalar o Visual Studio Professional 2013 (Update 4)</value>
+    <value>Instalar o Visual Studio Professional 2015 (Update 2)</value>
   </data>
   <data name="Information_InstallXamarinStudio" xml:space="preserve">
     <value>Instalar o Xamarin Studio para Windows ou OS X</value>
@@ -478,7 +478,7 @@
     <value>Transfira a aplicação cliente do Android</value>
   </data>
   <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
-    <value>Transfira a Plataforma Universal do Windows (UWP)</value>
+    <value>Transfira o cliente da Plataforma Universal do Windows (UWP)</value>
   </data>
   <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
     <value>Transfira a aplicação cliente de Xamarin.Forms</value>
@@ -494,5 +494,8 @@
   </data>
   <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
     <value>O Serviço de Aplicações do Azure é o único serviço cloud que integra tudo o que precisa para criar de forma rápida e fácil aplicações Web e móveis para qualquer plataforma ou dispositivo. Retire dados de qualquer sítio e crie virtualmente tudo aquilo que desejar. Brinque na sandbox até um máximo de uma hora, de forma gratuita e sem compromisso.</value>
+  </data>
+  <data name="Information_InstallAndroidStudio" xml:space="preserve">
+    <value>Transferir o Android Studio</value>
   </data>
 </root>

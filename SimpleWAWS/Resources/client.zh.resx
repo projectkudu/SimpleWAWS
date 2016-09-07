@@ -210,8 +210,8 @@
   <data name="Forums" xml:space="preserve">
     <value>論壇</value>
   </data>
-  <data name="FreeTrial" xml:space="preserve">
-    <value>免費試用</value>
+  <data name="FreeAccount" xml:space="preserve">
+    <value>免費帳戶</value>
   </data>
   <data name="GoSocial" xml:space="preserve">
     <value>Go Social</value>
@@ -256,7 +256,7 @@
     <value>{0} 尚未推出。</value>
   </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
-    <value>您可以免費使用 {0} 一小時。到期前剩餘時間:</value>
+    <value>您的免費 {0} 到期前剩餘時間:</value>
   </data>
   <data name="Information_GenericBrandingLine1" xml:space="preserve">
     <value>Azure App Service 為雲端應用程式服務，整合您需要的一切，讓您可以快速便利地建置適用於任何平台或裝置的 Web 應用程式及行動應用程式。</value>
@@ -268,7 +268,7 @@
     <value>返回將會刪除目前的應用程式</value>
   </data>
   <data name="Information_InstallVisualStudio" xml:space="preserve">
-    <value>安裝 Visual Studio Professional 2013 (更新 4)</value>
+    <value>安裝 Visual Studio Professional 2015 (Update 2)</value>
   </data>
   <data name="Information_InstallXamarinStudio" xml:space="preserve">
     <value>安裝適用於 Windows 或 OS X 的 Xamarin Studio</value>
@@ -478,7 +478,7 @@
     <value>下載 Android 用戶端應用程式</value>
   </data>
   <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
-    <value>下載通用 Windows 平台 (UWP)</value>
+    <value>下載通用 Windows 平台 (UWP) 用戶端</value>
   </data>
   <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
     <value>下載 Xamarin.Forms 用戶端應用程式</value>
@@ -494,5 +494,8 @@
   </data>
   <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
     <value>Azure App Service 是唯一一項整合了您所需一切的雲端服務，讓您可快速並輕鬆地為任何平台或裝置建立 Web 與行動應用程式。您可隨處提取資料並建置近乎任何項目，並可免費使用沙箱一小時，無須任何承諾用量。</value>
+  </data>
+  <data name="Information_InstallAndroidStudio" xml:space="preserve">
+    <value>下載 Android Studio</value>
   </data>
 </root>

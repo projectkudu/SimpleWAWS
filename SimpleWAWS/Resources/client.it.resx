@@ -210,8 +210,8 @@
   <data name="Forums" xml:space="preserve">
     <value>Forum</value>
   </data>
-  <data name="FreeTrial" xml:space="preserve">
-    <value>Versione di valutazione gratuita</value>
+  <data name="FreeAccount" xml:space="preserve">
+    <value>Account gratuito</value>
   </data>
   <data name="GoSocial" xml:space="preserve">
     <value>Social network</value>
@@ -256,7 +256,7 @@
     <value>L'esperienza per le {0} non è ancora disponibile.</value>
   </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
-    <value>L'{0} gratuita è disponibile per un'ora e scadrà tra:</value>
+    <value>La versione di valutazione gratuita di {0} scade tra:</value>
   </data>
   <data name="Information_GenericBrandingLine1" xml:space="preserve">
     <value>Il Servizio app di Azure è un servizio app cloud che integra tutto ciò che serve per compilare app Web e per dispositivi mobili per qualsiasi piattaforma o dispositivo, rapidamente e con la massima facilità.</value>
@@ -268,7 +268,7 @@
     <value>Se si torna indietro, l'app corrente verrà eliminata</value>
   </data>
   <data name="Information_InstallVisualStudio" xml:space="preserve">
-    <value>Installa Visual Studio Professional 2013 (Update 4)</value>
+    <value>Installa Visual Studio Professional 2015 (Update 2)</value>
   </data>
   <data name="Information_InstallXamarinStudio" xml:space="preserve">
     <value>Installa Xamarin Studio per Windows o OS X</value>
@@ -478,7 +478,7 @@
     <value>Scarica l'app client per Android</value>
   </data>
   <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
-    <value>Scarica la piattaforma UWP (Universal Windows Platform)</value>
+    <value>Scarica il client della piattaforma UWP (Universal Windows Platform)</value>
   </data>
   <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
     <value>Scarica l'app client per Xamarin.Forms</value>
@@ -494,5 +494,8 @@
   </data>
   <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
     <value>Il Servizio app di Azure è l'unico servizio cloud che integra tutto ciò che serve per creare app Web e per dispositivi mobili, per qualsiasi piattaforma o dispositivo in modo facile e veloce. Il pull dei dati può essere eseguito da qualsiasi posizione e consente di creare qualunque app. È anche possibile provare gratuitamente l'ambiente sandbox per un'ora senza alcun impegno.</value>
+  </data>
+  <data name="Information_InstallAndroidStudio" xml:space="preserve">
+    <value>Scarica Android Studio</value>
   </data>
 </root>

@@ -210,8 +210,8 @@
   <data name="Forums" xml:space="preserve">
     <value>Форумы</value>
   </data>
-  <data name="FreeTrial" xml:space="preserve">
-    <value>Бесплатная пробная версия</value>
+  <data name="FreeAccount" xml:space="preserve">
+    <value>Бесплатная учетная запись</value>
   </data>
   <data name="GoSocial" xml:space="preserve">
     <value>Социальные сети</value>
@@ -256,7 +256,7 @@
     <value>Версия {0} еще не доступна.</value>
   </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
-    <value>Бесплатная версия {0} доступна в течение одного часа. До окончания ее срока действия:</value>
+    <value>Бесплатная версия {0} истечет через:</value>
   </data>
   <data name="Information_GenericBrandingLine1" xml:space="preserve">
     <value>Служба приложений Azure — это облачная служба, которая интегрируется со всем, что вам нужно для быстрой и простой сборки веб- и мобильных приложений для любых платформ или устройств.</value>
@@ -268,7 +268,7 @@
     <value>Если вы вернетесь назад, текущее приложение будет удалено.</value>
   </data>
   <data name="Information_InstallVisualStudio" xml:space="preserve">
-    <value>Установить Visual Studio Professional 2013 (с обновлением 4)</value>
+    <value>Установить Visual Studio Professional 2015 (с обновлением 2)</value>
   </data>
   <data name="Information_InstallXamarinStudio" xml:space="preserve">
     <value>Установить Xamarin Studio для Windows или OS X</value>
@@ -478,7 +478,7 @@
     <value>Скачать клиентское приложение для Android</value>
   </data>
   <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
-    <value>Скачать универсальную платформу Windows (UWP)</value>
+    <value>Скачать клиент универсальной платформы Windows (UWP)</value>
   </data>
   <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
     <value>Скачать клиентское приложение для Xamarin.Forms</value>
@@ -494,5 +494,8 @@
   </data>
   <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
     <value>Служба приложений Azure — это единственная облачная служба, в которой собрано все необходимое для быстрого создания мобильных и веб-приложений для любых платформ и устройств. Вы можете извлекать данные отовсюду и создавать практически все, что угодно. До одного часа с ней можно поиграть в "песочнице" без оплаты и обязательств.</value>
+  </data>
+  <data name="Information_InstallAndroidStudio" xml:space="preserve">
+    <value>Скачать Android Studio</value>
   </data>
 </root>

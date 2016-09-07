@@ -130,7 +130,7 @@
     <value>Yayımlama profili alınamadı. Lütfen daha sonra yeniden deneyin.</value>
   </data>
   <data name="Error_InvalidAppServiceType" xml:space="preserve">
-    <value>Mobil istemcilerin indirilebilmesi için Uygulama Hizmeti'nin 'Mobil' türünde olması gerekir.</value>
+    <value>Mobil istemcilerin indirilebilmesi için App Service'in 'Mobil' türünde olması gerekir.</value>
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
     <value>Github depo URI'si geçersiz veya güvenilmeyen bir kuruma ait.</value>

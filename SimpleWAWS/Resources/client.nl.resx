@@ -210,8 +210,8 @@
   <data name="Forums" xml:space="preserve">
     <value>Forums</value>
   </data>
-  <data name="FreeTrial" xml:space="preserve">
-    <value>Gratis versie</value>
+  <data name="FreeAccount" xml:space="preserve">
+    <value>Gratis account</value>
   </data>
   <data name="GoSocial" xml:space="preserve">
     <value>Gebruik van sociale media</value>
@@ -256,10 +256,10 @@
     <value>U kunt de {0} nog niet zelf ervaren.</value>
   </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
-    <value>Uw gratis {0} is gedurende één uur beschikbaar en verloopt over:</value>
+    <value>Uw gratis {0} verloopt over:</value>
   </data>
   <data name="Information_GenericBrandingLine1" xml:space="preserve">
-    <value>De Azure App Service is een app-service in de cloud waarmee alles wordt geïntegreerd dat u nodig hebt om snel en eenvoudig web- en mobiele apps te ontwikkelen voor alle platforms en apparaten.</value>
+    <value>Azure App Service is een app-service in de cloud waarmee alles wordt geïntegreerd dat u nodig hebt om snel en eenvoudig Web Apps en Mobile Apps te ontwikkelen voor alle platforms en apparaten.</value>
   </data>
   <data name="Information_GenericBrandingLine2" xml:space="preserve">
     <value>Maak maximaal een uur gratis gebruik van de Azure App Service zonder dat u daarvoor een abonnement hoeft te nemen of u hoeft vast te leggen. Als u nog langer van de Azure App Service gebruik wilt maken, neemt u een gratis Azure-proefabonnement.</value>
@@ -268,7 +268,7 @@
     <value>Als u terugkeert, wordt de huidige app verwijderd</value>
   </data>
   <data name="Information_InstallVisualStudio" xml:space="preserve">
-    <value>Visual Studio Professional 2013 (update 4) installeren</value>
+    <value>Visual Studio Professional 2015 (update 2) installeren</value>
   </data>
   <data name="Information_InstallXamarinStudio" xml:space="preserve">
     <value>Xamarin Studio voor Windows of OS X installeren</value>
@@ -307,7 +307,7 @@
     <value>Wilt u graag meer gratis opties?</value>
   </data>
   <data name="Information_WantMoreQuestionLine2" xml:space="preserve">
-    <value>Maak nog meer web-, mobiele, logische en API-apps. Meld u aan voor een gratis proefversie van 30 dagen en maak gratis maximaal 10 apps van welk type dan ook.</value>
+    <value>Maak nog meer Web Apps, Mobile Apps, Logic Apps en API Apps. Meld u aan voor een gratis proefversie van 30 dagen en maak gratis maximaal 10 apps van welk type dan ook.</value>
   </data>
   <data name="Information_WebApp" xml:space="preserve">
     <value>Web-app</value>
@@ -427,7 +427,7 @@
     <value>Vereiste</value>
   </data>
   <data name="Information_WelcomeFeedback" xml:space="preserve">
-    <value>Uw stellen uw feedback op prijs.</value>
+    <value>We stellen uw feedback op prijs.</value>
   </data>
   <data name="Action_Create" xml:space="preserve">
     <value>Maken</value>
@@ -445,13 +445,13 @@
     <value>Vorige</value>
   </data>
   <data name="Information_ApiAppDescription" xml:space="preserve">
-    <value>Er bestaat nog geen gratis versie van de Azure API-app, maar u kunt wel API-apps maken door u aan te melden voor een gratis proefperiode van 30 dagen waarbij u gratis maximaal 10 apps kunt maken.</value>
+    <value>Er bestaat nog geen gratis versie van Azure API Apps, maar u kunt wel API Apps maken door u aan te melden voor een gratis proefperiode van 30 dagen waarbij u gratis maximaal 10 apps kunt maken.</value>
   </data>
   <data name="Information_MobileAppDescription" xml:space="preserve">
-    <value>Met mobiele apps van Azure kunt u eenvoudig aanmeld-, push- en gegevenssynchronisatiefunctionaliteit toevoegen aan uw iOS-, Android- of Windows-app zodat u wereldwijd kunt schalen en uw app kunt koppelen aan het bedrijfssysteem en on-premises resources.</value>
+    <value>Met Azure Mobile Apps kunt u eenvoudig aanmeld-, push- en gegevenssynchronisatiefunctionaliteit toevoegen aan uw iOS-, Android- of Windows-app zodat u wereldwijd kunt schalen en uw app kunt koppelen aan het bedrijfssysteem en on-premises resources.</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
-    <value>Met web-apps van Azure kunnen ontwikkelaars eenvoudig bedrijfswebtoepassingen implementeren en schalen die zijn geschreven in verschillende talen en die zijn geïntegreerd met meerdere services zonder zich zorgen te hoeven maken over infrastructuurbeheer.</value>
+    <value>Met Azure Web Apps kunnen ontwikkelaars eenvoudig bedrijfswebtoepassingen implementeren en schalen die zijn geschreven in verschillende talen en die zijn geïntegreerd met meerdere services zonder zich zorgen te hoeven maken over infrastructuurbeheer.</value>
   </data>
   <data name="Information_LogicAppStep3" xml:space="preserve">
     <value>3. Voer de logische app opnieuw uit door boven aan de blade op Nu uitvoeren te klikken.</value>
@@ -478,7 +478,7 @@
     <value>De Android-clientapp downloaden</value>
   </data>
   <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
-    <value>Het universeel Windows-platform (UWP) downloaden</value>
+    <value>De UWP-client (universeel Windows-platform) downloaden</value>
   </data>
   <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
     <value>De Xamarin.Forms-clientapp downloaden</value>
@@ -493,6 +493,9 @@
     <value>Bekijk hoe snel u een Node.js-app kunt maken</value>
   </data>
   <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
-    <value>Azure App Service is de enige cloudservice waarin alles is geïntegreerd dat u nodig hebt om snel en eenvoudig web- en mobiele apps te maken voor elk platform of apparaat. Gebruik gegevens vanaf elke locatie en bouw vrijwel alles. Speel tot een uur gratis en zonder enige verplichtingen in de sandbox.</value>
+    <value>Azure App Service is de enige cloudservice waarin alles is geïntegreerd dat u nodig hebt om snel en eenvoudig Web Apps en Mobile Apps te maken voor elk platform of apparaat. Gebruik gegevens vanaf elke locatie en bouw vrijwel alles. Speel tot een uur gratis en zonder enige verplichtingen in de sandbox.</value>
+  </data>
+  <data name="Information_InstallAndroidStudio" xml:space="preserve">
+    <value>Android Studio downloaden</value>
   </data>
 </root>

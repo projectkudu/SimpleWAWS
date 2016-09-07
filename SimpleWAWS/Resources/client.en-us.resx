@@ -210,8 +210,8 @@
   <data name="Forums" xml:space="preserve">
     <value>Forums</value>
   </data>
-  <data name="FreeTrial" xml:space="preserve">
-    <value>Free Trial</value>
+  <data name="FreeAccount" xml:space="preserve">
+    <value>Free Account</value>
   </data>
   <data name="GoSocial" xml:space="preserve">
     <value>Go Social</value>
@@ -256,7 +256,7 @@
     <value>The {0} experience is not here yet.</value>
   </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
-    <value>Your free {0} is available for one hour and will expire in:</value>
+    <value>Your free {0} will expire in:</value>
   </data>
   <data name="Information_GenericBrandingLine1" xml:space="preserve">
     <value>Azure App Service is a cloud app service that integrates everything you need to quickly and easily build web and mobile apps for any platform or device.</value>

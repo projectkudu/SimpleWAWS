@@ -124,7 +124,7 @@
     <value>İptal</value>
   </data>
   <data name="Action_CreateAppServiceApp" xml:space="preserve">
-    <value>Azure Uygulama Hizmeti uygulamanızı oluşturun</value>
+    <value>Azure App Service uygulamanızı oluşturun</value>
   </data>
   <data name="Action_Delete" xml:space="preserve">
     <value>Sil</value>
@@ -210,8 +210,8 @@
   <data name="Forums" xml:space="preserve">
     <value>Forumlar</value>
   </data>
-  <data name="FreeTrial" xml:space="preserve">
-    <value>Ücretsiz Deneme</value>
+  <data name="FreeAccount" xml:space="preserve">
+    <value>Ücretsiz Hesap</value>
   </data>
   <data name="GoSocial" xml:space="preserve">
     <value>Sosyalleşin</value>
@@ -220,13 +220,13 @@
     <value>API Uygulaması</value>
   </data>
   <data name="Information_AppAlreadyExists" xml:space="preserve">
-    <value>Zaten bir Uygulama Hizmeti oluşturmuşsunuz. Bunu silip yenisini oluşturmak ister misiniz?</value>
+    <value>Zaten bir App Service oluşturmuşsunuz. Bunu silip yenisini oluşturmak ister misiniz?</value>
   </data>
   <data name="Information_AppHasBeenCreated" xml:space="preserve">
     <value>{0} uygulamanız oluşturuldu!</value>
   </data>
   <data name="Information_AspNetBrandingLine1" xml:space="preserve">
-    <value>Azure Uygulama Hizmeti ile 10 ASP.NET web sitesini ücretsiz barındırın</value>
+    <value>Azure App Service ile 10 ASP.NET web sitesini ücretsiz barındırın</value>
   </data>
   <data name="Information_AspNetBrandingLine2" xml:space="preserve">
     <value>Güvenli ve güvenilir. Saniyeler içinde işiniz için kullanıma hazır hale getirin. Ücret ödemeden başlayın ve trafiğiniz büyüdükçe ölçeğinizi artırın.</value>
@@ -256,19 +256,19 @@
     <value>{0} deneyimi henüz hazır değil.</value>
   </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
-    <value>Ücretsiz {0} hizmetiniz bir saatliğine kullanılabilir durumda ve süresi şu saatte dolacak:</value>
+    <value>Ücretsiz {0} sürümünüzün süresi şu tarihte dolacak:</value>
   </data>
   <data name="Information_GenericBrandingLine1" xml:space="preserve">
-    <value>Azure Uygulama Hizmeti, tüm platform veya cihazlar için hızla ve kolayca web ve mobil uygulamaları oluşturmak için ihtiyacınız olan her şeyi tümleştiren bir bulut uygulama hizmetidir.</value>
+    <value>Azure App Service, tüm platform veya cihazlar için hızla ve kolayca web ve mobil uygulamaları oluşturmak için ihtiyacınız olan her şeyi tümleştiren bir bulut uygulama hizmetidir.</value>
   </data>
   <data name="Information_GenericBrandingLine2" xml:space="preserve">
-    <value>Azure aboneliğiniz olmadan, hiçbir ücret ödemeden veya taahhütte bulunmadan bir saatlik Azure Uygulama Hizmeti deneyimi için misafirimiz olun. Ücretsiz Azure deneme aboneliğiyle tam Azure Uygulama Hizmeti deneyiminizi uzatın.</value>
+    <value>Azure aboneliğiniz olmadan, hiçbir ücret ödemeden veya taahhütte bulunmadan bir saatlik Azure App Service deneyimi için misafirimiz olun. Ücretsiz Azure deneme aboneliğiyle tam Azure App Service deneyiminizi uzatın.</value>
   </data>
   <data name="Information_GoingBackWillDeleteApp" xml:space="preserve">
     <value>Geri dönerseniz geçerli uygulama silinecek</value>
   </data>
   <data name="Information_InstallVisualStudio" xml:space="preserve">
-    <value>Visual Studio Professional 2013'ü (Güncelleştirme 4) yükle </value>
+    <value>Visual Studio Professional 2015'i (Güncelleştirme 2) yükle</value>
   </data>
   <data name="Information_InstallXamarinStudio" xml:space="preserve">
     <value>Windows veya OS X için Xamarin Studio'yu yükle</value>
@@ -307,7 +307,7 @@
     <value>Daha fazlasına ücretsiz olarak sahip olmak ister misiniz?</value>
   </data>
   <data name="Information_WantMoreQuestionLine2" xml:space="preserve">
-    <value>Daha fazla web uygulaması, mobil uygulama ve API uygulaması oluşturun. 30 günlük ücretsiz deneme için kaydolun ve herhangi bir türde 10'a kadar uygulamayı ücretsiz oluşturun.</value>
+    <value>Daha fazla web uygulaması, mobil uygulama ve API Apps oluşturun. 30 günlük ücretsiz deneme için kaydolun ve herhangi bir türde 10'a kadar uygulamayı ücretsiz oluşturun.</value>
   </data>
   <data name="Information_WebApp" xml:space="preserve">
     <value>Web Uygulaması</value>
@@ -394,7 +394,7 @@
     <value>Destek</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Azure Uygulama Hizmeti'ni deneyin</value>
+    <value>Azure App Service'i deneyin</value>
   </data>
   <data name="Trademarks" xml:space="preserve">
     <value>Ticari Markalar</value>
@@ -406,7 +406,7 @@
     <value>Twitter</value>
   </data>
   <data name="Information_LogicAppDescription" xml:space="preserve">
-    <value>Azure Mantıksal Uygulamaları, geliştiricilerin; bir tetikleyiciyle başlayan ve her adımında bir Uygulama Hizmeti API'sinin çağrıldığı bir dizi adımı yürütürken aynı zamanda kimlik doğrulama gereksinimlerini yerine getiren, bunların yanı sıra denetim noktası oluşturma ve dayanıklı yürütme gibi en iyi uygulamaları da gerçekleştiren iş akışları tasarlamasına olanak sağlar.</value>
+    <value>Azure Logic Apps, geliştiricilerin; bir tetikleyiciyle başlayan ve her adımında bir App Service API'sinin çağrıldığı bir dizi adımı yürütürken aynı zamanda kimlik doğrulama gereksinimlerini yerine getiren, bunların yanı sıra denetim noktası oluşturma ve dayanıklı yürütme gibi en iyi uygulamaları da gerçekleştiren iş akışları tasarlamasına olanak sağlar.</value>
   </data>
   <data name="Information_LogicAppStep1" xml:space="preserve">
     <value>1. Uygulamanın en son ne zaman çalıştırıldığı ve başarılı olup olmadığı gibi bilgileri bulabileceğiniz Özet odağına bakın</value>
@@ -421,7 +421,7 @@
     <value>Kapat</value>
   </data>
   <data name="Information_AppHasExpired" xml:space="preserve">
-    <value>{0} uygulamanızın süresi doldu. Başka bir uygulama hizmeti uygulaması oluşturmayı deneyebilir ya da 30 günlük ücretsiz deneme hesabı için kaydolabilirsiniz.</value>
+    <value>{0} uygulamanızın süresi doldu. Başka bir App Service uygulaması oluşturmayı deneyebilir ya da 30 günlük ücretsiz deneme hesabı için kaydolabilirsiniz.</value>
   </data>
   <data name="Information_Prerequisite" xml:space="preserve">
     <value>Önkoşul</value>
@@ -445,25 +445,25 @@
     <value>Önceki</value>
   </data>
   <data name="Information_ApiAppDescription" xml:space="preserve">
-    <value>Azure API Uygulaması deneme sürümü deneyimi henüz hazır değil. Ancak istediğiniz türdeki 10 adede kadar uygulamayı ücretsiz olarak oluşturmanıza olanak tanıyan 30 günlük ücretsiz denemeye kaydolarak API Uygulamaları oluşturabilirsiniz.</value>
+    <value>Azure API App deneme sürümü deneyimi henüz hazır değil. Ancak istediğiniz türdeki 10 adede kadar uygulamayı ücretsiz olarak oluşturmanıza olanak tanıyan 30 günlük ücretsiz denemeye kaydolarak API Apps oluşturabilirsiniz.</value>
   </data>
   <data name="Information_MobileAppDescription" xml:space="preserve">
-    <value>Azure Mobil Uygulamalar; iOS, Android veya Windows uygulamanıza oturum açma, gönderim ve veri eşitleme özellikleri eklemeyi, uygulamanızı küresel olarak ölçeklendirmeyi ve uygulamanızı kurumsal sistemler ile şirket içi kaynaklara bağlamayı kolaylaştırır.</value>
+    <value>Azure Mobile Apps; iOS, Android veya Windows uygulamanıza oturum açma, gönderim ve veri eşitleme özellikleri eklemeyi, uygulamanızı küresel olarak ölçeklendirmeyi ve uygulamanızı kurumsal sistemler ile şirket içi kaynaklara bağlamayı kolaylaştırır.</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
-    <value>Azure Web Uygulamaları, geliştiricilerin altyapı yönetimi konusunda endişe duymasına gerek kalmadan, çeşitli dillerde yazılmış ve birçok hizmetle tümleştirilmiş kurumsal sınıf web uygulamalarını kolayca dağıtmasına ve ölçeklendirmesine olanak sağlar.</value>
+    <value>Azure Web Apps, geliştiricilerin altyapı yönetimi konusunda endişe duymasına gerek kalmadan, çeşitli dillerde yazılmış ve birçok hizmetle tümleştirilmiş kurumsal sınıf web uygulamalarını kolayca dağıtmasına ve ölçeklendirmesine olanak sağlar.</value>
   </data>
   <data name="Information_LogicAppStep3" xml:space="preserve">
     <value>3. Dikey pencerenin üstündeki Şimdi Çalıştır komutuna tıklayarak Mantıksal Uygulama'yı yeniden çalıştırın.</value>
   </data>
   <data name="Information_LogicAppStep4" xml:space="preserve">
-    <value>4. Mantıksal Uygulamalar'ın nasıl kullanılacağı hakkında daha fazla bilgi edinmek için, belgelere yönelik işaretçiler sağlayan Hızlı Başlangıç'a tıklayın.</value>
+    <value>4. Logic Apps'in nasıl kullanılacağı hakkında daha fazla bilgi edinmek için, belgelere yönelik işaretçiler sağlayan Hızlı Başlangıç'a tıklayın.</value>
   </data>
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
     <value>Mantıksal Uygulama kaynağı dikey penceresinde aşağıdakileri yapnayı deneyebilirsiniz:</value>
   </data>
   <data name="Information_XamarinBrandingLine1" xml:space="preserve">
-    <value>Xamarin ve Azure Uygulama Hizmetiyle Mobil Olun</value>
+    <value>Xamarin ve Azure App Service ile Mobil Olun</value>
   </data>
   <data name="Information_XamarinBrandingLine2" xml:space="preserve">
     <value>Herhangi bir cihazla saniyeler içinde Kimlik Doğrulayın, Eşitleyin ve Gönderin. Ücret ödemeden başlayın ve uygulamanız büyüdükçe ölçeğinizi artırın.</value>
@@ -478,7 +478,7 @@
     <value>Android istemci uygulamasını indir</value>
   </data>
   <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
-    <value>Evrensel Windows Platformu'nu (UWP) indir</value>
+    <value>Evrensel Windows Platformu (UWP) istemcisini indir</value>
   </data>
   <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
     <value>Xamarin.Forms istemci uygulamasını indir</value>
@@ -493,6 +493,9 @@
     <value>Node.js uygulaması oluşturmanın ne kadar kısa sürdüğünü görün</value>
   </data>
   <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
-    <value>Azure Uygulama Hizmeti, web uygulamalarını ve mobil uygulamaları istediğiniz platformda kolayca derlemek için ihtiyacınız olan her şeyi tümleştiren tek bulut hizmetidir. Verileri herhangi bir kaynaktan çekebilir ve hemen her şeyi derleyebilirsiniz. Korumalı alanı bir saat süreyle ücretsiz olarak, taahhüt vermeden kullanın.</value>
+    <value>Azure App Service, web uygulamalarını ve mobil uygulamaları istediğiniz platformda kolayca derlemek için ihtiyacınız olan her şeyi tümleştiren tek bulut hizmetidir. Verileri herhangi bir kaynaktan çekebilir ve hemen her şeyi derleyebilirsiniz. Korumalı alanı bir saat süreyle ücretsiz olarak, taahhüt vermeden kullanın.</value>
+  </data>
+  <data name="Information_InstallAndroidStudio" xml:space="preserve">
+    <value>Android Studio'yu indir</value>
   </data>
 </root>

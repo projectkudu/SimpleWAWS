@@ -142,7 +142,7 @@
     <value>Meglévő alkalmazás megnyitása</value>
   </data>
   <data name="Action_ManageInAzurePortal" xml:space="preserve">
-    <value>Kezelés az Azure-portálon</value>
+    <value>Kezelés az Azure Portal webhelyen</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
     <value>Mobil ügyfélalkalmazás letöltése és futtatása</value>
@@ -210,8 +210,8 @@
   <data name="Forums" xml:space="preserve">
     <value>Fórumok</value>
   </data>
-  <data name="FreeTrial" xml:space="preserve">
-    <value>Ingyenes próba</value>
+  <data name="FreeAccount" xml:space="preserve">
+    <value>Ingyenes fiók</value>
   </data>
   <data name="GoSocial" xml:space="preserve">
     <value>Közösségi média</value>
@@ -256,7 +256,7 @@
     <value>A(z) {0} szolgáltatás még nem érhető el.</value>
   </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
-    <value>Az ingyenes {0} egy óráig érhető el, és ennyi idő múlva jár le:</value>
+    <value>Az ingyenes {0} ennyi idő múlva jár le:</value>
   </data>
   <data name="Information_GenericBrandingLine1" xml:space="preserve">
     <value>Az Azure App Service egy felhőalapú alkalmazásszolgáltatás, mely egyesít mindent, amire szüksége lehet ahhoz, hogy gyorsan és könnyen készítsen web- és mobilalkalmazásokat bármilyen platformra vagy eszközre.</value>
@@ -268,7 +268,7 @@
     <value>Ha visszalép, a jelenlegi alkalmazás törlődik</value>
   </data>
   <data name="Information_InstallVisualStudio" xml:space="preserve">
-    <value>Visual Studio Professional 2013 (Update 4) telepítése</value>
+    <value>A Visual Studio Professional 2015 (Update 2) telepítése</value>
   </data>
   <data name="Information_InstallXamarinStudio" xml:space="preserve">
     <value>A Windowshoz vagy az OS X-hez készült Xamarin Studio telepítése</value>
@@ -319,7 +319,7 @@
     <value>Univerzális Windows 8.1</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
-    <value>Alkalmazása használatához nyissa meg az Azure-portál alábbi hivatkozását, mely a Logic App erőforráspanelre fogja irányítani.</value>
+    <value>Alkalmazása használatához nyissa meg az Azure Portal alábbi hivatkozását, amely a Logic App erőforráspanelre fogja irányítani.</value>
   </data>
   <data name="Information_WorkWithYourApp" xml:space="preserve">
     <value>A(z) {0} itt használható:</value>
@@ -478,7 +478,7 @@
     <value>Az Android-ügyfélalkalmazás letöltése</value>
   </data>
   <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
-    <value>Az Univerzális Windows-platform (UWP) letöltése</value>
+    <value>Az Univerzális Windows-platform (UWP) ügyfél letöltése</value>
   </data>
   <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
     <value>A Xamarin.Forms-ügyfélalkalmazás letöltése</value>
@@ -494,5 +494,8 @@
   </data>
   <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
     <value>Az Azure App Service az egyetlen felhőszolgáltatás, amelyben mindent megtalál, amire a webes és mobilalkalmazások gyors, egyszerű fejlesztéséhez szüksége lehet – platformtól és eszköztől függetlenül. Az adatokat tetszőleges forrásból beolvashatja, és szinte bármilyen alkalmazást elkészíthet. Tesztmódban egy órán át ingyenesen és kötelezettségvállalás nélkül kipróbálhatja a szolgáltatást.</value>
+  </data>
+  <data name="Information_InstallAndroidStudio" xml:space="preserve">
+    <value>Az Android Studio letöltése</value>
   </data>
 </root>
