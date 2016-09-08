@@ -124,7 +124,7 @@
     <value>Anuluj</value>
   </data>
   <data name="Action_CreateAppServiceApp" xml:space="preserve">
-    <value>Utwórz aplikację Usługi aplikacji Azure</value>
+    <value>Utwórz aplikację usługi Azure App Service</value>
   </data>
   <data name="Action_Delete" xml:space="preserve">
     <value>Usuń</value>
@@ -142,7 +142,7 @@
     <value>Przejdź do istniejącej aplikacji</value>
   </data>
   <data name="Action_ManageInAzurePortal" xml:space="preserve">
-    <value>Zarządzaj w Portalu Azure</value>
+    <value>Zarządzaj w portalu Azure Portal</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
     <value>Pobierz i uruchom aplikację klienta mobilnego</value>
@@ -210,8 +210,8 @@
   <data name="Forums" xml:space="preserve">
     <value>Fora</value>
   </data>
-  <data name="FreeTrial" xml:space="preserve">
-    <value>Bezpłatna wersja próbna</value>
+  <data name="FreeAccount" xml:space="preserve">
+    <value>Bezpłatne konto</value>
   </data>
   <data name="GoSocial" xml:space="preserve">
     <value>Bądź w kontakcie</value>
@@ -220,13 +220,13 @@
     <value>Aplikacja interfejsu API</value>
   </data>
   <data name="Information_AppAlreadyExists" xml:space="preserve">
-    <value>Masz już utworzoną usługę aplikacji. Czy chcesz ją usunąć i utworzyć nową?</value>
+    <value>Masz już utworzoną usługę App Service. Czy chcesz ją usunąć i utworzyć nową?</value>
   </data>
   <data name="Information_AppHasBeenCreated" xml:space="preserve">
     <value>Utworzono Twoją aplikację {0}!</value>
   </data>
   <data name="Information_AspNetBrandingLine1" xml:space="preserve">
-    <value>Hostuj 10 witryn internetowych platformy ASP.NET bezpłatnie za pomocą Usługi aplikacji Azure</value>
+    <value>Hostuj 10 witryn sieci Web platformy ASP.NET bezpłatnie za pomocą usługi Azure App Service</value>
   </data>
   <data name="Information_AspNetBrandingLine2" xml:space="preserve">
     <value>Bezpieczeństwo, niezawodność i gotowość do profesjonalnego użytku w ciągu sekund. Rozpocznij bezpłatnie i skaluj w miarę zwiększania się ruchu.</value>
@@ -256,19 +256,19 @@
     <value>Środowisko {0} nie jest jeszcze dostępne.</value>
   </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
-    <value>Bezpłatny składnik {0} jest dostępny przez godzinę i wygaśnie w ciągu:</value>
+    <value>Bezpłatny składnik {0} wygaśnie w ciągu:</value>
   </data>
   <data name="Information_GenericBrandingLine1" xml:space="preserve">
-    <value>Usługa aplikacji Azure jest usługą aplikacji w chmurze, w której zintegrowano wszystko, co jest potrzebne do szybkiego i łatwego tworzenia aplikacji sieci Web i mobilnych na dowolną platformę i dowolne urządzenie.</value>
+    <value>Usługa Azure App Service jest usługą aplikacji w chmurze, w której zintegrowano wszystko, co jest potrzebne do szybkiego i łatwego tworzenia aplikacji sieci Web i mobilnych na dowolną platformę i dowolne urządzenie.</value>
   </data>
   <data name="Information_GenericBrandingLine2" xml:space="preserve">
-    <value>Korzystaj z naszej gościnności w środowisku Usługi aplikacji Azure przez nawet godzinę bez subskrypcji platformy Azure, opłat ani zobowiązań. Chcesz korzystać z Usługi aplikacji Azure dłużej, aby w pełni poznać jej środowisko? Skorzystaj z bezpłatnej subskrypcji próbnej platformy Azure.</value>
+    <value>Korzystaj z naszej gościnności w środowisku usługi Azure App Service przez nawet godzinę bez subskrypcji platformy Azure, opłat ani zobowiązań. Chcesz korzystać z usługi Azure App Service dłużej, aby w pełni poznać jej środowisko? Skorzystaj z bezpłatnej subskrypcji próbnej platformy Azure.</value>
   </data>
   <data name="Information_GoingBackWillDeleteApp" xml:space="preserve">
     <value>Cofnięcie się spowoduje usunięcie bieżącej aplikacji</value>
   </data>
   <data name="Information_InstallVisualStudio" xml:space="preserve">
-    <value>Zainstaluj program Visual Studio Professional 2013 (Update 4)</value>
+    <value>Zainstaluj program Visual Studio Professional 2015 (Update 2)</value>
   </data>
   <data name="Information_InstallXamarinStudio" xml:space="preserve">
     <value>Zainstaluj program Xamarin Studio dla systemu Windows lub OS X</value>
@@ -307,7 +307,7 @@
     <value>Chcesz uzyskać więcej bezpłatnie?</value>
   </data>
   <data name="Information_WantMoreQuestionLine2" xml:space="preserve">
-    <value>Twórz więcej aplikacji sieci Web, mobilnych, logiki i interfejsu API. Utwórz konto w celu używania bezpłatnej 30-dniowej wersji próbnej, aby bezpłatnie utworzyć do 10 aplikacji dowolnego typu.</value>
+    <value>Twórz więcej aplikacji sieci Web, mobilnych, logiki i interfejsów API. Utwórz konto w celu używania bezpłatnej 30-dniowej wersji próbnej, aby bezpłatnie utworzyć do 10 aplikacji dowolnego typu.</value>
   </data>
   <data name="Information_WebApp" xml:space="preserve">
     <value>Aplikacja sieci Web</value>
@@ -319,7 +319,7 @@
     <value>Aplikacja uniwersalna systemu Windows 8.1</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
-    <value>Aby pracować ze swoją aplikacją, skorzystaj z podanego poniżej linku Portalu Azure w celu przejścia do bloku zasobów aplikacji logiki.</value>
+    <value>Aby pracować ze swoją aplikacją, skorzystaj z podanego poniżej linku portalu Azure Portal w celu przejścia do bloku zasobów aplikacji logiki.</value>
   </data>
   <data name="Information_WorkWithYourApp" xml:space="preserve">
     <value>Praca ze składnikiem {0} w: </value>
@@ -394,7 +394,7 @@
     <value>Pomoc techniczna</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Wypróbuj Usługę aplikacji Azure</value>
+    <value>Wypróbuj usługę Azure App Service</value>
   </data>
   <data name="Trademarks" xml:space="preserve">
     <value>Znaki towarowe</value>
@@ -406,7 +406,7 @@
     <value>Twitter</value>
   </data>
   <data name="Information_LogicAppDescription" xml:space="preserve">
-    <value>Aplikacje logiki platformy Azure umożliwiają deweloperom projektowanie przepływów pracy uruchamianych wyzwalaczami i wykonujących serie kroków, z których każdy wywołuje aplikację interfejsu API Usługi aplikacji, przy bezpiecznej obsłudze uwierzytelniania i zastosowaniu najlepszych rozwiązań, takich jak punkty kontrolne i wykonywanie trwałe.</value>
+    <value>Usługa Azure Logic Apps umożliwia deweloperom projektowanie przepływów pracy uruchamianych wyzwalaczami i wykonujących serie kroków, z których każdy wywołuje aplikację interfejsu API usługi App Service, przy bezpiecznej obsłudze uwierzytelniania i zastosowaniu najlepszych rozwiązań, takich jak punkty kontrolne i wykonywanie trwałe.</value>
   </data>
   <data name="Information_LogicAppStep1" xml:space="preserve">
     <value>1. Sprawdź obiektyw podsumowania pod kątem takich informacji, jak kiedy miało miejsce ostatnie uruchomienie i czy było pomyślne</value>
@@ -421,7 +421,7 @@
     <value>Odrzuć</value>
   </data>
   <data name="Information_AppHasExpired" xml:space="preserve">
-    <value>Twoja aplikacja {0} wygasła. Możesz spróbować utworzyć kolejną aplikację usługi aplikacji lub utworzyć bezpłatne 30-dniowe konto próbne.</value>
+    <value>Twoja aplikacja {0} wygasła. Możesz spróbować utworzyć kolejną aplikację usługi App Service lub utworzyć bezpłatne 30-dniowe konto próbne.</value>
   </data>
   <data name="Information_Prerequisite" xml:space="preserve">
     <value>Wymaganie wstępne</value>
@@ -445,10 +445,10 @@
     <value>Wstecz</value>
   </data>
   <data name="Information_ApiAppDescription" xml:space="preserve">
-    <value>Mimo że środowisko wersji próbnej aplikacji interfejsu API platformy Azure nie jest jeszcze dostępne, można tworzyć aplikacje interfejsu API po utworzeniu konta w celu używania bezpłatnej 30-dniowej wersji próbnej, która umożliwia bezpłatne utworzenie do 10 aplikacji dowolnego typu.</value>
+    <value>Mimo że środowisko wersji próbnej usługi Azure API Apps nie jest jeszcze dostępne, można tworzyć aplikacje usługi API Apps po utworzeniu konta w celu używania bezpłatnej 30-dniowej wersji próbnej, która umożliwia bezpłatne utworzenie do 10 aplikacji dowolnego typu.</value>
   </data>
   <data name="Information_MobileAppDescription" xml:space="preserve">
-    <value>Aplikacje mobilne platformy Azure ułatwiają dodawanie logowania, wypychania i synchronizacji danych do aplikacji dla systemów iOS, Android i Windows, globalne skalowanie, a także łączenie aplikacji z systemami przedsiębiorstw oraz z zasobami lokalnymi.</value>
+    <value>Usługa Azure Mobile Apps ułatwia dodawanie logowania, wypychania i synchronizacji danych do aplikacji dla systemów iOS, Android i Windows, globalne skalowanie, a także łączenie aplikacji z systemami przedsiębiorstw oraz z zasobami lokalnymi.</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
     <value>Aplikacje sieci Web platformy Azure umożliwiają deweloperom łatwe wdrażanie i skalowanie aplikacji sieci Web klasy przedsiębiorstwa, które mogą być napisane w różnych językach i zintegrowane z wieloma usługami, bez obaw o zarządzanie infrastrukturą.</value>
@@ -457,13 +457,13 @@
     <value>3. Ponownie uruchom aplikację logiki, klikając polecenie Uruchom teraz u góry bloku.</value>
   </data>
   <data name="Information_LogicAppStep4" xml:space="preserve">
-    <value>4. Aby dowiedzieć się więcej o tym, jak korzystać z aplikacji logiki, kliknij pozycję Szybki start, która udostępnia odwołania do dokumentacji.</value>
+    <value>4. Aby dowiedzieć się więcej o tym, jak korzystać z usługi Logic Apps, kliknij pozycję Szybki start, która udostępnia odwołania do dokumentacji.</value>
   </data>
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
-    <value>Z poziomu boku zasobów aplikacji logiki możesz spróbować wykonać następujące czynności:</value>
+    <value>Z poziomu bloku zasobów aplikacji logiki możesz spróbować wykonać następujące czynności:</value>
   </data>
   <data name="Information_XamarinBrandingLine1" xml:space="preserve">
-    <value>Rozszerz zasięg na urządzenia przenośne dzięki platformie Xamarin i Usłudze aplikacji Azure</value>
+    <value>Rozszerz zasięg na urządzenia przenośne dzięki platformie Xamarin i usłudze Azure App Service</value>
   </data>
   <data name="Information_XamarinBrandingLine2" xml:space="preserve">
     <value>W ciągu sekund wykonuj operacje uwierzytelniania, synchronizacji i wypychania dla dowolnych urządzeń. Zacznij od wersji bezpłatnej i skaluj w miarę wzrastania aplikacji.</value>
@@ -478,7 +478,7 @@
     <value>Pobierz aplikację kliencką dla systemu Android</value>
   </data>
   <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
-    <value>Pobierz aplikację kliencką dla platformy uniwersalnej systemu Windows (UWP)</value>
+    <value>Pobierz klienta platformy uniwersalnej systemu Windows (UWP)</value>
   </data>
   <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
     <value>Pobierz aplikację kliencką interfejsu Xamarin.Forms</value>
@@ -493,6 +493,9 @@
     <value>Zobacz, jak szybko można utworzyć aplikację Node.js</value>
   </data>
   <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
-    <value>Usługa aplikacji Azure to jedyna usługa w chmurze, która integruje wszystkie narzędzia niezbędne do szybkiego i łatwego tworzenia aplikacji sieci Web i aplikacji mobilnych na dowolną platformę i dowolne urządzenie. Możesz pobierać dane z dowolnego miejsca i tworzyć niemal dowolne aplikacje. Piaskownicę usługi możesz wypróbować przez godzinę bezpłatnie i bez żadnych zobowiązań.</value>
+    <value>Usługa Azure App Service to jedyna usługa w chmurze, która integruje wszystkie narzędzia niezbędne do szybkiego i łatwego tworzenia aplikacji sieci Web i aplikacji mobilnych na dowolną platformę i dowolne urządzenie. Możesz pobierać dane z dowolnego miejsca i tworzyć niemal dowolne aplikacje. Piaskownicę usługi możesz wypróbować przez godzinę bezpłatnie i bez żadnych zobowiązań.</value>
+  </data>
+  <data name="Information_InstallAndroidStudio" xml:space="preserve">
+    <value>Pobierz program Android Studio</value>
   </data>
 </root>

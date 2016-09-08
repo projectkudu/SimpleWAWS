@@ -210,8 +210,8 @@
   <data name="Forums" xml:space="preserve">
     <value>Foros</value>
   </data>
-  <data name="FreeTrial" xml:space="preserve">
-    <value>Prueba gratuita</value>
+  <data name="FreeAccount" xml:space="preserve">
+    <value>Cuenta gratuita</value>
   </data>
   <data name="GoSocial" xml:space="preserve">
     <value>Entre en las redes sociales</value>
@@ -256,7 +256,7 @@
     <value>Aún no tenemos preparada la experiencia {0}.</value>
   </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
-    <value>Tiene {0} disponible de forma gratuita durante una hora y expirará en:</value>
+    <value>La versión gratuita {0} expirará en:</value>
   </data>
   <data name="Information_GenericBrandingLine1" xml:space="preserve">
     <value>El Servicio de aplicaciones de Azure es un servicio de aplicaciones de nube que incluye todo aquello que necesita para compilar de forma rápida y sencilla aplicaciones móviles y web para cualquier plataforma o dispositivo.</value>
@@ -268,7 +268,7 @@
     <value>Si vuelve, se borrará la aplicación</value>
   </data>
   <data name="Information_InstallVisualStudio" xml:space="preserve">
-    <value>Instalar Visual Studio Professional 2013 (actualización 4)</value>
+    <value>Instalar Visual Studio Professional 2015 (actualización 2)</value>
   </data>
   <data name="Information_InstallXamarinStudio" xml:space="preserve">
     <value>Instalar Xamarin Studio para Windows u OS X</value>
@@ -478,7 +478,7 @@
     <value>Descargar la aplicación cliente de Android</value>
   </data>
   <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
-    <value>Descargar la Plataforma universal de Windows (UWP)</value>
+    <value>Descargar el cliente de la Plataforma universal de Windows (UWP)</value>
   </data>
   <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
     <value>Descargar la aplicación cliente de Xamarin.Forms</value>
@@ -494,5 +494,8 @@
   </data>
   <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
     <value>Servicio de aplicaciones de Azure es el único servicio en la nube que integra todo lo que necesita para compilar de forma rápida y fácil aplicaciones móviles y web para cualquier plataforma y dispositivo. Extraiga datos desde cualquier sitio y compile prácticamente cualquier cosa.  Juegue en el espacio aislado durante una hora de forma gratuita y sin compromiso.</value>
+  </data>
+  <data name="Information_InstallAndroidStudio" xml:space="preserve">
+    <value>Descargar Android Studio</value>
   </data>
 </root>

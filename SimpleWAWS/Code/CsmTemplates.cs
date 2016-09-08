@@ -15,6 +15,7 @@ namespace SimpleWAWS.Code
         private const string zRayApiVersion = "2015-04-01";
         private const string appServiceApiVersion = "2015-03-01-preview";
         private const string logicAppsApiVersion = "2015-02-01-preview";
+        private const string jenkinsResourceApiVersion = "2016-03-30";
         private const string graphApiVersion = "1.42-previewInternal";
         private const string storageApiVersion = "2015-05-01-preview";
         private const string csmTemplateApiVersoin = "2016-02-01";
@@ -39,7 +40,7 @@ namespace SimpleWAWS.Code
         public static readonly ArmUriTemplate WebsitesRegister = new ArmUriTemplate(Subscription.TemplateUrl + "/providers/Microsoft.Web/register", websitesApiVersion);
         public static readonly ArmUriTemplate Sites = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Web/sites", websitesApiVersion);
         public static readonly ArmUriTemplate Site = new ArmUriTemplate(Sites.TemplateUrl + "/{siteName}", websitesApiVersion);
-        public static readonly ArmUriTemplate LatestSiteApiVersionTemplate = new ArmUriTemplate(Sites.TemplateUrl + "/{siteName}", functionsApiVersion);
+        public static readonly ArmUriTemplate FunctionsAppApiVersionTemplate = new ArmUriTemplate(Sites.TemplateUrl + "/{siteName}", functionsApiVersion);
         public static readonly ArmUriTemplate GetSiteAppSettings = new ArmUriTemplate(Site.TemplateUrl + "/config/AppSettings/list", websitesApiVersion);
         public static readonly ArmUriTemplate PutSiteAppSettings = new ArmUriTemplate(Site.TemplateUrl + "/config/AppSettings", websitesApiVersion);
         public static readonly ArmUriTemplate GetSiteMetadata = new ArmUriTemplate(Site.TemplateUrl + "/config/Metadata/list", websitesApiVersion);
@@ -72,5 +73,7 @@ namespace SimpleWAWS.Code
         public static readonly ArmUriTemplate StorageAccounts = new ArmUriTemplate(ResourceGroup.TemplateUrl+ "/providers/Microsoft.Storage/storageAccounts", storageApiVersion);
         public static readonly ArmUriTemplate StorageAccount = new ArmUriTemplate(StorageAccounts.TemplateUrl + "/{storageAccountName}", storageApiVersion);
         public static readonly ArmUriTemplate StorageListKeys = new ArmUriTemplate(StorageAccount.TemplateUrl + "/listKeys", storageApiVersion);
+
+        public static readonly ArmUriTemplate JenkinsResource = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Network/publicIPAddresses/TrialJenkinsVMPublicIP", jenkinsResourceApiVersion);
     }
 }

@@ -210,8 +210,8 @@
   <data name="Forums" xml:space="preserve">
     <value>Forums</value>
   </data>
-  <data name="FreeTrial" xml:space="preserve">
-    <value>Évaluation gratuite</value>
+  <data name="FreeAccount" xml:space="preserve">
+    <value>Compte gratuit</value>
   </data>
   <data name="GoSocial" xml:space="preserve">
     <value>Accéder aux réseaux sociaux</value>
@@ -256,7 +256,7 @@
     <value>L'expérience de {0} n'est pas encore disponible ici.</value>
   </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
-    <value>Votre {0} gratuit est disponible pendant une heure et expirera dans :</value>
+    <value>Votre {0} gratuit expire dans :</value>
   </data>
   <data name="Information_GenericBrandingLine1" xml:space="preserve">
     <value>Azure App Service est un service d'applications cloud qui intègre tout ce dont vous avez besoin pour créer rapidement et facilement des applications web et mobiles pour n'importe quelle plateforme ou n'importe quel appareil.</value>
@@ -268,7 +268,7 @@
     <value>Si vous revenez en arrière, l'application actuelle sera supprimée</value>
   </data>
   <data name="Information_InstallVisualStudio" xml:space="preserve">
-    <value>Installer Visual Studio Professional 2013 (Update 4)</value>
+    <value>Installer Visual Studio Professional 2015 (Update 2)</value>
   </data>
   <data name="Information_InstallXamarinStudio" xml:space="preserve">
     <value>Installer Xamarin Studio pour Windows ou OS X</value>
@@ -478,7 +478,7 @@
     <value>Télécharger l'application cliente Android</value>
   </data>
   <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
-    <value>Télécharger la plateforme Windows universelle</value>
+    <value>Télécharger le client UWP (plateforme Windows universelle)</value>
   </data>
   <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
     <value>Télécharger l'application cliente Xamarin.Forms</value>
@@ -494,5 +494,8 @@
   </data>
   <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
     <value>Azure App Service est le seul service cloud qui intègre tout ce dont vous avez besoin pour créer rapidement et facilement des applications web et mobiles pour toutes les plateformes et tous les appareils. Prenez des données d'où vous voulez et créez virtuellement tout ce que vous voulez. Profitez d'une heure gratuite sans engagement pour tester le service.</value>
+  </data>
+  <data name="Information_InstallAndroidStudio" xml:space="preserve">
+    <value>Télécharger Android Studio</value>
   </data>
 </root>

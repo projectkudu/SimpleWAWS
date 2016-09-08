@@ -124,7 +124,7 @@
     <value>Avbryt</value>
   </data>
   <data name="Action_CreateAppServiceApp" xml:space="preserve">
-    <value>Skapa din Azure Apptjänst-app</value>
+    <value>Skapa din Azure App Service-app</value>
   </data>
   <data name="Action_Delete" xml:space="preserve">
     <value>Ta bort</value>
@@ -210,8 +210,8 @@
   <data name="Forums" xml:space="preserve">
     <value>Forum</value>
   </data>
-  <data name="FreeTrial" xml:space="preserve">
-    <value>Kostnadsfri utvärderingsversion</value>
+  <data name="FreeAccount" xml:space="preserve">
+    <value>Kostnadsfritt konto</value>
   </data>
   <data name="GoSocial" xml:space="preserve">
     <value>Bli social</value>
@@ -220,13 +220,13 @@
     <value>API-app</value>
   </data>
   <data name="Information_AppAlreadyExists" xml:space="preserve">
-    <value>Du har redan skapat en apptjänst. Vill du ta bort den och skapa en ny?</value>
+    <value>Du har redan skapat en App Service. Vill du ta bort den och skapa en ny?</value>
   </data>
   <data name="Information_AppHasBeenCreated" xml:space="preserve">
     <value>Din {0} har skapats!</value>
   </data>
   <data name="Information_AspNetBrandingLine1" xml:space="preserve">
-    <value>Bli värd för 10 ASP.NET-webbplatser kostnadsfritt med Azure Apptjänst</value>
+    <value>Bli värd för 10 ASP.NET-webbplatser kostnadsfritt med Azure App Service</value>
   </data>
   <data name="Information_AspNetBrandingLine2" xml:space="preserve">
     <value>Säkert, tillförlitligt och klart att använda på några sekunder. Börja gratis och bygg ut i takt med att trafiken växer.</value>
@@ -256,19 +256,19 @@
     <value>{0}-erfarenheten är inte här ännu.</value>
   </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
-    <value>Din kostnadsfria {0} är tillgänglig under en timma och upphör att gälla om:</value>
+    <value>Din kostnadsfria {0} upphör att gälla om:</value>
   </data>
   <data name="Information_GenericBrandingLine1" xml:space="preserve">
-    <value>Azure Apptjänst är en molnapptjänst som integrerar allt du behöver för att snabbt och enkelt kunna skapa webb- och mobilappar för alla typer av plattformar och enheter.</value>
+    <value>Azure App Service är en molnapptjänst som integrerar allt du behöver för att snabbt och enkelt kunna skapa webb- och mobilappar för alla typer av plattformar och enheter.</value>
   </data>
   <data name="Information_GenericBrandingLine2" xml:space="preserve">
-    <value>Var vår gäst i upp till en timma med Azure Apptjänst utan någon Azure-prenumeration, helt kostnadsfritt och utan några åtaganden. Stanna längre med den fullständiga Azure Apptjänst-upplevelsen genom en kostnadsfri Azure-provprenumeration.</value>
+    <value>Var vår gäst i upp till en timma med Azure App Service utan någon Azure-prenumeration, helt kostnadsfritt och utan några åtaganden. Stanna längre med den fullständiga Azure App Service-upplevelsen genom en kostnadsfri Azure-provprenumeration.</value>
   </data>
   <data name="Information_GoingBackWillDeleteApp" xml:space="preserve">
     <value>Om du går tillbaka tas den aktuella appen bort</value>
   </data>
   <data name="Information_InstallVisualStudio" xml:space="preserve">
-    <value>Installera Visual Studio Professional 2013 (Update 4)</value>
+    <value>Installera Visual Studio Professional 2015 (Uppdatering 2)</value>
   </data>
   <data name="Information_InstallXamarinStudio" xml:space="preserve">
     <value>Installera Xamarin Studio för Windows eller OS X</value>
@@ -394,7 +394,7 @@
     <value>Support</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Testa Azure Apptjänst</value>
+    <value>Testa Azure App Service</value>
   </data>
   <data name="Trademarks" xml:space="preserve">
     <value>Varumärken</value>
@@ -406,7 +406,7 @@
     <value>Twitter</value>
   </data>
   <data name="Information_LogicAppDescription" xml:space="preserve">
-    <value>Med Azure Logikappar kan utvecklare utforma arbetsflöden som startar med en utlösare och sedan exekverar en följd av steg, som vart och ett anropar en Apptjänst-API-app samtidigt som autentisering och bästa praxis observeras, t.ex. när det gäller kontrollpunkter och beständig exekvering.</value>
+    <value>Med Azure Logikappar kan utvecklare utforma arbetsflöden som startar med en utlösare och sedan exekverar en följd av steg, som vart och ett anropar en App Service-API-app samtidigt som autentisering och bästa praxis observeras, t.ex. när det gäller kontrollpunkter och beständig exekvering.</value>
   </data>
   <data name="Information_LogicAppStep1" xml:space="preserve">
     <value>1. Gå till sammanfattningslinsen där du hittar information t.ex. om när appen senast kördes och om den var framgångsrik.</value>
@@ -445,13 +445,13 @@
     <value>Föregående</value>
   </data>
   <data name="Information_ApiAppDescription" xml:space="preserve">
-    <value>Utvärderingsversionen av Azure API-appen är inte här ännu, men du kan ändå skapa API-appar genom att registrera dig för en kostnadsfri 30 dagars utvärderingsversion med vilken du kan skapa upp till 10 appar av valfri typ utan någon extra kostnad.</value>
+    <value>Utvärderingsversionen av Azure API-appen är inte här ännu, men du kan ändå skapa API Apps genom att registrera dig för en kostnadsfri 30 dagars utvärderingsversion med vilken du kan skapa upp till 10 appar av valfri typ utan någon extra kostnad.</value>
   </data>
   <data name="Information_MobileAppDescription" xml:space="preserve">
-    <value>Med Azure Mobilappar är det lätt att lägga till inloggnings-, push- och datasynkronisering till din iOS-, Android- eller Windows-app, skalanpassa globalt och ansluta din app till företagssystem och lokala resurser.</value>
+    <value>Med Azure Mobile Apps är det lätt att lägga till inloggnings-, push- och datasynkronisering till din iOS-, Android- eller Windows-app, skalanpassa globalt och ansluta din app till företagssystem och lokala resurser.</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
-    <value>Med Azure Webbappar kan utvecklare enkelt distribuera och skalanpassa företagswebbprogram som har skrivits i olika språk och integrerats med flera olika typer av tjänster utan att de behöver bekymra sig över infrastrukturhantering.</value>
+    <value>Med Azure Web Apps kan utvecklare enkelt distribuera och skalanpassa företagswebbprogram som har skrivits i olika språk och integrerats med flera olika typer av tjänster utan att de behöver bekymra sig över infrastrukturhantering.</value>
   </data>
   <data name="Information_LogicAppStep3" xml:space="preserve">
     <value>3. Kör logikappen igen genom att klicka på kommandot Kör nu överst på bladet.</value>
@@ -463,7 +463,7 @@
     <value>Från resursbladet Logikapp kan du testa följande:</value>
   </data>
   <data name="Information_XamarinBrandingLine1" xml:space="preserve">
-    <value>Bli mobil med Xamarin och Azure Apptjänst</value>
+    <value>Bli mobil med Xamarin och Azure App Service</value>
   </data>
   <data name="Information_XamarinBrandingLine2" xml:space="preserve">
     <value>Skriv, synka och pusha på några sekunder från vilken enhet du vill. Börja gratis och bygg ut i takt med din app växer.</value>
@@ -478,7 +478,7 @@
     <value>Hämta Android-klientappen</value>
   </data>
   <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
-    <value>Hämta den universella Windows-plattformen (UWP)</value>
+    <value>Hämta den universella Windows-plattformsklienten (UWP)</value>
   </data>
   <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
     <value>Hämta Xamarin.Forms-klientappen</value>
@@ -493,6 +493,9 @@
     <value>Se hur snabbt du kan skapa en Node.js-app</value>
   </data>
   <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
-    <value>Azure Apptjänst är den enda molntjänsten som integrerar allt du behöver för att snabbt och lätt kunna skapa webbappar och mobila appar för vilken plattform eller enhet du vill. Hämta data från valfritt ställe och skapa i praktiken vad du vill. Jobba i begränsat läge gratis och utan åtaganden i upp till en timma.</value>
+    <value>Azure App Service är den enda molntjänsten som integrerar allt du behöver för att snabbt och lätt kunna skapa webbappar och mobila appar för vilken plattform eller enhet du vill. Hämta data från valfritt ställe och skapa i praktiken vad du vill. Jobba i begränsat läge gratis och utan åtaganden i upp till en timma.</value>
+  </data>
+  <data name="Information_InstallAndroidStudio" xml:space="preserve">
+    <value>Hämta Android Studio</value>
   </data>
 </root>

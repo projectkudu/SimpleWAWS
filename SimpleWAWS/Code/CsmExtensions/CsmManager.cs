@@ -21,6 +21,7 @@ namespace SimpleWAWS.Code.CsmExtensions
     {
         private static readonly AzureClient csmClient;
         private static readonly AzureClient graphClient;
+        private static readonly AzureClient acomClient;
 
         private const string _readerRole = "acdd72a7-3385-48ef-bd42-f606fba81ae7";
         private const string _contributorRold = "b24988ac-6180-42a0-ab88-20f7382dd24c";
@@ -34,6 +35,9 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             graphClient = new AzureClient(retryCount: 3);
             graphClient.ConfigureUpnLogin(SimpleSettings.TryUserName, SimpleSettings.TryPassword);
+
+            acomClient = new AzureClient(retryCount: 3);
+            acomClient.ConfigureSpnLogin(SimpleSettings.TryDevOpsTenant, SimpleSettings.TryDevOpsServicePrincipal , SimpleSettings.TryDevOpsServicePrincipalKey);
         }
 
         public static async Task<string> GetUserObjectId(string puidOrAltSec, string emailAddress)

@@ -127,6 +127,7 @@ namespace SimpleWAWS
             RouteTable.Routes.MapHttpRoute("delete-users-resource", "api/resource/delete/{userIdentity}", new { controller = "Resource", action = "DeleteUserResource", authenticated = true, adminOnly = true }, new { verb = new HttpMethodConstraint("GET") });
             //Register auth provider
             SecurityManager.InitAuthProviders();
+            ResourcesManager.GetInstanceAsync().ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         protected void Application_BeginRequest(Object sender, EventArgs e)

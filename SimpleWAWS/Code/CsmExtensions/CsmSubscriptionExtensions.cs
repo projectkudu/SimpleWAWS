@@ -16,6 +16,10 @@ namespace SimpleWAWS.Code.CsmExtensions
         public static async Task<Subscription> Load(this Subscription subscription)
         {
             Validate.ValidateCsmSubscription(subscription);
+            var trialSubscriptionResult = subscription.MakeTrialSubscription();
+            var createNewResourceGroupsTasks =
+            trialSubscriptionResult.ToCreateInRegions.Select
+            (async region => await CreateResourceGroup(subscription.SubscriptionId, region));
 
             //Make sure to register for AppServices RP at least once for each sub
             await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.WebsitesRegister.Bind(subscription));
@@ -28,8 +32,11 @@ namespace SimpleWAWS.Code.CsmExtensions
             var csmResourceGroups = await csmResourceGroupsResponse.Content.ReadAsAsync<CsmArrayWrapper<CsmResourceGroup>>();
 
             var deleteBadResourceGroupsTasks = csmResourceGroups.value
-                .Where(r => r.tags != null && (r.tags.ContainsKey("Bad") || (!r.tags.ContainsKey("FunctionsContainerDeployed")) && r.properties.provisioningState != "Deleting"  ))
-                .Select(async r => await Delete(await Load(new ResourceGroup(subscription.SubscriptionId, r.name), r, loadSubResources: false), block: false));
+                .Where(r => r.tags != null 
+                && ((r.tags.ContainsKey("Bad") || !r.tags.ContainsKey("FunctionsContainerDeployed")) 
+                && (!r.tags.ContainsKey("UserId"))
+                && r.properties.provisioningState != "Deleting" ) )
+                .Select(async r => await DeleteAndCreateReplacement(await Load(new ResourceGroup(subscription.SubscriptionId, r.name), r, loadSubResources: false)));
 
             var csmSubscriptionResourcesReponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.SubscriptionResources.Bind(subscription));
             await csmSubscriptionResourcesReponse.EnsureSuccessStatusCodeWithFullError();
@@ -48,6 +55,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 .IgnoreAndFilterFailures();
 
             await deleteBadResourceGroupsTasks.IgnoreFailures().WhenAll();
+            await createNewResourceGroupsTasks.IgnoreFailures().WhenAll();
             return subscription;
         }
 

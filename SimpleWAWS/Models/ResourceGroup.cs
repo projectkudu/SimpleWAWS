@@ -36,11 +36,12 @@ namespace SimpleWAWS.Models
 
         public TimeSpan LifeTime
         {
-            get { return TimeSpan.FromMinutes(int.Parse(Tags[Constants.LifeTimeInMinutes])); }
+            get{ return TimeSpan.FromMinutes(int.Parse(Tags[Constants.LifeTimeInMinutes])); }
         }
 
         public static readonly TimeSpan DefaultUsageTimeSpan = TimeSpan.FromMinutes(int.Parse(SimpleSettings.SiteExpiryMinutes, CultureInfo.InvariantCulture));
         public static readonly TimeSpan ExtendedUsageTimeSpan = TimeSpan.FromHours(int.Parse(SimpleSettings.ExtendedResourceExpireHours, CultureInfo.InvariantCulture));
+        public static readonly TimeSpan JenkinsUsageTimeSpan = TimeSpan.FromMinutes(int.Parse(SimpleSettings.JenkinsExpiryMinutes, CultureInfo.InvariantCulture));
 
         public TimeSpan TimeLeft
         {
@@ -85,6 +86,8 @@ namespace SimpleWAWS.Models
 
         [JsonIgnore]
         public IEnumerable<LogicApp> LogicApps { get; set; }
+        [JsonIgnore]
+        public JenkinsResource JenkinsResources { get; set; }
 
         [JsonIgnore]
         public IEnumerable<Gateway> Gateways { get; set; }
@@ -115,6 +118,15 @@ namespace SimpleWAWS.Models
                        bool.TryParse(Tags[Constants.IsExtended], out value) &&
                        value;
             }
+        }
+        public string JenkinsUri
+        {
+            get { return JenkinsUrlPopulated ? Tags[Constants.JenkinsUri]:String.Empty; }
+        }
+
+        public bool JenkinsUrlPopulated
+        {
+            get { return Tags.ContainsKey(Constants.JenkinsUri); }
         }
 
         public Dictionary<string, string> Tags { get; set; }
@@ -153,10 +165,13 @@ namespace SimpleWAWS.Models
                     case Models.AppService.Function:
                         csmId = Sites.Where(s => s.IsFunctionsContainer).First().CsmId;
                         break;
+                    case Models.AppService.Jenkins:
+                        ibizaUrl = JenkinsResources?.IbizaUrl;
+                        break;
                 }
                 var templateName = Tags.ContainsKey(Constants.TemplateName) ? Tags[Constants.TemplateName] : string.Empty;
 
-                return siteToUseForUi == null
+                return (siteToUseForUi == null|| (AppService ==AppService.Jenkins))
                 ? new UIResource
                 {
                     IbizaUrl = ibizaUrl,
@@ -165,7 +180,9 @@ namespace SimpleWAWS.Models
                     TemplateName = templateName,
                     IsExtended = IsExtended,
                     TimeLeftInSeconds = (int)TimeLeft.TotalSeconds,
-                    CsmId = csmId
+                    CsmId = csmId,
+                    Url = JenkinsUri,
+                    JenkinsUrlPopulated = JenkinsUrlPopulated
                 }
                 : new UIResource
                 {

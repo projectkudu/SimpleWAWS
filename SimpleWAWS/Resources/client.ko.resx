@@ -210,8 +210,8 @@
   <data name="Forums" xml:space="preserve">
     <value>포럼</value>
   </data>
-  <data name="FreeTrial" xml:space="preserve">
-    <value>무료 평가판</value>
+  <data name="FreeAccount" xml:space="preserve">
+    <value>무료 계정</value>
   </data>
   <data name="GoSocial" xml:space="preserve">
     <value>Go Social</value>
@@ -256,7 +256,7 @@
     <value>{0} 체험은 아직 제공되지 않습니다.</value>
   </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
-    <value>무료 {0}은(는) 1시간 동안 사용 가능하며 다음 이후에 만료됩니다.</value>
+    <value>무료 {0}은(는) 다음 이후에 만료됩니다.</value>
   </data>
   <data name="Information_GenericBrandingLine1" xml:space="preserve">
     <value>Azure 앱 서비스는 모든 플랫폼이나 장치에서 사용되는 웹앱 및 모바일 앱을 빠르고 간편하게 빌드하는 데 필요한 모든 요소가 통합된 클라우드 앱 서비스입니다.</value>
@@ -268,7 +268,7 @@
     <value>뒤로 이동하면 현재 앱이 삭제됩니다.</value>
   </data>
   <data name="Information_InstallVisualStudio" xml:space="preserve">
-    <value>Visual Studio Professional 2013(업데이트 4) 설치</value>
+    <value>Visual Studio Professional 2015(업데이트 2) 설치</value>
   </data>
   <data name="Information_InstallXamarinStudio" xml:space="preserve">
     <value>Windows 또는 OS X용 Xamarin Studio 설치</value>
@@ -478,7 +478,7 @@
     <value>Android 클라이언트 앱 다운로드</value>
   </data>
   <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
-    <value>UWP(유니버설 Windows 플랫폼) 다운로드</value>
+    <value>UWP(유니버설 Windows 플랫폼) 클라이언트 다운로드</value>
   </data>
   <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
     <value>Xamarin.Forms 클라이언트 앱 다운로드</value>
@@ -494,5 +494,8 @@
   </data>
   <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
     <value>Azure 앱 서비스는 모든 플랫폼 및 장치용 웹앱과  모바일 앱을 빠르고 쉽게 빌드하는 데 필요한 모든 사항을 통합하는 유일한 클라우드 서비스입니다. 어디서든 데이터를 끌어오고 거의 모든 것을 빌드해보세요. 샌드박스에서 약 1시간 동안 약정 없이 무료로 사용해보세요.</value>
+  </data>
+  <data name="Information_InstallAndroidStudio" xml:space="preserve">
+    <value>Android Studio 다운로드</value>
   </data>
 </root>

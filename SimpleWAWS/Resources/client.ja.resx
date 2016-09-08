@@ -142,7 +142,7 @@
     <value>既存のアプリケーションに移動</value>
   </data>
   <data name="Action_ManageInAzurePortal" xml:space="preserve">
-    <value>Azure ポータルでの管理</value>
+    <value>Azure Portal での管理</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
     <value>あなたのモバイル クライアント アプリをダウンロードして実行する</value>
@@ -210,8 +210,8 @@
   <data name="Forums" xml:space="preserve">
     <value>フォーラム</value>
   </data>
-  <data name="FreeTrial" xml:space="preserve">
-    <value>無料試用版</value>
+  <data name="FreeAccount" xml:space="preserve">
+    <value>無料アカウント</value>
   </data>
   <data name="GoSocial" xml:space="preserve">
     <value>ソーシャル ネットワーク</value>
@@ -256,7 +256,7 @@
     <value>{0} エクスペリエンスはまだ提供されていません。</value>
   </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
-    <value>無料の {0} を 1 時間ご利用になれます。期限切れまでの時間:</value>
+    <value>無料の {0} が期限切れになるまでの時間:</value>
   </data>
   <data name="Information_GenericBrandingLine1" xml:space="preserve">
     <value>Azure App Service は、あらゆるプラットフォームまたはデバイス用の Web およびモバイル アプリケーションをすばやく簡単に作成するために必要なすべてのものを統合するクラウド アプリケーション サービスです。</value>
@@ -268,7 +268,7 @@
     <value>戻ると現在のアプリケーションが削除されます</value>
   </data>
   <data name="Information_InstallVisualStudio" xml:space="preserve">
-    <value>Visual Studio Professional 2013 (Update 4) のインストール</value>
+    <value>Visual Studio Professional 2015 (Update 2) のインストール</value>
   </data>
   <data name="Information_InstallXamarinStudio" xml:space="preserve">
     <value>Xamarin Studio for Windows または OS X のインストール</value>
@@ -319,7 +319,7 @@
     <value>ユニバーサル Windows 8.1</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
-    <value>アプリを操作するには、下の Azure ポータル リンクに移動し、Logic App リソース ブレードに移動します。</value>
+    <value>アプリを操作するには、下の Azure Portal リンクに移動し、Logic App リソース ブレードに移動します。</value>
   </data>
   <data name="Information_WorkWithYourApp" xml:space="preserve">
     <value>{0} を操作する場所 </value>
@@ -478,7 +478,7 @@
     <value>Android クライアント アプリケーションのダウンロード</value>
   </data>
   <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
-    <value>ユニバーサル Windows プラットフォーム (UWP) のダウンロード</value>
+    <value>ユニバーサル Windows プラットフォーム (UWP) クライアントのダウンロード</value>
   </data>
   <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
     <value>Xamarin.Forms クライアント アプリケーションのダウンロード</value>
@@ -494,5 +494,8 @@
   </data>
   <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
     <value>Azure App Service は、あらゆるプラットフォームやデバイス向けの Web アプリとモバイル アプリをすばやく簡単に作成するために必要なものがすべて統合された、他に類を見ないクラウド サービスです。どこからでもデータを取得し、なんでも作成できます。サンドボックスを最大 1 時間、無料で使用できます。コミットメントが発生することはありません。</value>
+  </data>
+  <data name="Information_InstallAndroidStudio" xml:space="preserve">
+    <value>Android Studio のダウンロード</value>
   </data>
 </root>

@@ -130,7 +130,7 @@
     <value>Det gick inte att hämta publiceringsprofilen. Försök igen senare.</value>
   </data>
   <data name="Error_InvalidAppServiceType" xml:space="preserve">
-    <value>Apptjänsten måste vara av typen "Mobil" för att det ska gå att hämta mobila klienter.</value>
+    <value>App Service måste vara av typen "Mobil" för att det ska gå att hämta mobila klienter.</value>
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
     <value>Github-repo-URI är antingen ogiltig eller från en betrodd organisation.</value>
@@ -139,7 +139,7 @@
     <value>Ogiltig användare.</value>
   </data>
   <data name="Error_MoreThanOneFreeResource" xml:space="preserve">
-    <value>Du kan inte ha mer än 1 fri resurs åt gången</value>
+    <value>Du kan inte ha mer än 1 fri resurs åt gången.</value>
   </data>
   <data name="Error_NoFreeResourcesAvailable" xml:space="preserve">
     <value>Det finns inga fria resurser tillgängliga för tillfället. Försök igen senare.</value>

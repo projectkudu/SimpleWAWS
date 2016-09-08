@@ -130,7 +130,7 @@
     <value>Nie można pobrać profilu publikowania. Spróbuj ponownie później.</value>
   </data>
   <data name="Error_InvalidAppServiceType" xml:space="preserve">
-    <value>Usługa aplikacji musi być typu mobilnego, aby można było pobierać klientów mobilnych.</value>
+    <value>Usługa App Service musi być typu mobilnego, aby można było pobierać klientów mobilnych.</value>
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
     <value>Identyfikator URI repozytorium Github jest nieprawidłowy lub pochodzi z niezaufanej organizacji.</value>

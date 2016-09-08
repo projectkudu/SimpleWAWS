@@ -5,12 +5,8 @@ using System.Web;
 
 namespace SimpleWAWS.Models
 {
-    public enum AppService
+    public class JenkinsTemplate : BaseTemplate
     {
-        Web = 0,
-        Mobile,
-        Api,
-        Logic,
-        Function
+        public string CsmTemplateFilePath { get; set; }
     }
 }

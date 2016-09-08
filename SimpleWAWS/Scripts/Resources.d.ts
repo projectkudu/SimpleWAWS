@@ -34,6 +34,7 @@
     export var Information_XamariniOS: string;
     export var Information_XamarinAndroid: string;
     export var Templates_PingSiteDescription: string;
+    export var Templates_AzureDevOpsDescription: string;
     export var Information_UniversalWindowsPlatform: string;
     export var Information_Android: string;
     export var Information_DownloadAndroidClient: string;
