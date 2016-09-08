@@ -27,7 +27,7 @@ namespace SimpleWAWS.Models
 
         public string JenkinsResourceUrl
         {
-            get { return String.Format($"https://{_ipAddress}:8080"); }
+            get { return String.Format($"http://{_ipAddress}:8080"); }
             set { }
         }
         public string Location { get; set; }

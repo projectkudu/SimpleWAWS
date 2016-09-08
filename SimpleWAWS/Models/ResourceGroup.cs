@@ -119,6 +119,10 @@ namespace SimpleWAWS.Models
                        value;
             }
         }
+        public string JenkinsUri
+        {
+            get { return Tags.ContainsKey(Constants.JenkinsUri)? Tags[Constants.JenkinsUri]:String.Empty; }
+        }
 
         public Dictionary<string, string> Tags { get; set; }
 
@@ -157,7 +161,7 @@ namespace SimpleWAWS.Models
                         csmId = Sites.Where(s => s.IsFunctionsContainer).First().CsmId;
                         break;
                     case Models.AppService.Jenkins:
-                        ibizaUrl = JenkinsResources?.JenkinsResourceUrl;
+                        ibizaUrl = JenkinsResources?.IbizaUrl;
                         break;
                 }
                 var templateName = Tags.ContainsKey(Constants.TemplateName) ? Tags[Constants.TemplateName] : string.Empty;
@@ -172,7 +176,7 @@ namespace SimpleWAWS.Models
                     IsExtended = IsExtended,
                     TimeLeftInSeconds = (int)TimeLeft.TotalSeconds,
                     CsmId = csmId,
-                    Url = JenkinsResources?.JenkinsResourceUrl
+                    Url = JenkinsUri
                 }
                 : new UIResource
                 {

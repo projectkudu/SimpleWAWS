@@ -33,5 +33,6 @@ namespace SimpleWAWS.Code
         public const string TryAppServiceSkuFamily = "F";
         public const int    TryAppServiceSkuCapacity = 0;
         public const string DefaultServerFarmName = "Default1";
+        public const string JenkinsUri = "JenkinsUri";
     }
 }
