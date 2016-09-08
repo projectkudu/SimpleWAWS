@@ -469,12 +469,14 @@ namespace SimpleWAWS.Code
                     _backgroundQueueManager.ResourceGroupsInUse.TryGetValue(userId, out resourceGroup);
                 }
             }
-            if (resourceGroup?.AppService==AppService.Jenkins &&
-                string.IsNullOrEmpty(resourceGroup.JenkinsUri))
+            if (resourceGroup?.AppService == AppService.Jenkins && string.IsNullOrEmpty(resourceGroup.JenkinsUri))
             {
                 await resourceGroup.LoadJenkinsResources(load: true);
-                resourceGroup.Tags[Constants.JenkinsUri] = resourceGroup.JenkinsResources?.JenkinsResourceUrl;
-                await resourceGroup.Update();
+                if (!string.IsNullOrEmpty(resourceGroup.JenkinsResources?.JenkinsResourceUrl))
+                {
+                    resourceGroup.Tags[Constants.JenkinsUri] = resourceGroup.JenkinsResources?.JenkinsResourceUrl;
+                    await resourceGroup.Update();
+                }
             }
             return resourceGroup;
         }

@@ -44,5 +44,8 @@ namespace SimpleWAWS.Models
         [JsonProperty(PropertyName = "csmId")]
         public string CsmId { get; set; }
 
+        [JsonProperty(PropertyName = "jenkinsUrlPopulated")]
+        public bool JenkinsUrlPopulated { get; set; }
+
     }
 }

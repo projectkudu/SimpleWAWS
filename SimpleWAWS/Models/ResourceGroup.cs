@@ -121,7 +121,12 @@ namespace SimpleWAWS.Models
         }
         public string JenkinsUri
         {
-            get { return Tags.ContainsKey(Constants.JenkinsUri)? Tags[Constants.JenkinsUri]:String.Empty; }
+            get { return JenkinsUrlPopulated ? Tags[Constants.JenkinsUri]:String.Empty; }
+        }
+
+        public bool JenkinsUrlPopulated
+        {
+            get { return Tags.ContainsKey(Constants.JenkinsUri); }
         }
 
         public Dictionary<string, string> Tags { get; set; }
@@ -176,7 +181,8 @@ namespace SimpleWAWS.Models
                     IsExtended = IsExtended,
                     TimeLeftInSeconds = (int)TimeLeft.TotalSeconds,
                     CsmId = csmId,
-                    Url = JenkinsUri
+                    Url = JenkinsUri,
+                    JenkinsUrlPopulated = JenkinsUrlPopulated
                 }
                 : new UIResource
                 {
