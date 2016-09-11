@@ -253,6 +253,11 @@ namespace SimpleWAWS.Code
                     site.AppSettings["MONACO_EXTENSION_VERSION"] = SimpleSettings.MonacoExtensionVersion;
                     site.AppSettings["WEBSITE_TRY_MODE"] = "1";
 
+                    if (site.AppSettings.ContainsKey("FUNCTIONS_EXTENSION_VERSION"))
+                    {
+                        site.AppSettings.Remove("FUNCTIONS_EXTENSION_VERSION");
+                    }
+
                     if (template.Name.Equals("ASP.NET + Azure Search Site", StringComparison.OrdinalIgnoreCase))
                     {
                         site.AppSettings["SearchServiceName"] = SimpleSettings.SearchServiceName;
