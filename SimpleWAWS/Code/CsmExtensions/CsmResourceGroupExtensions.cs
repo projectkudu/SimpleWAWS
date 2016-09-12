@@ -47,8 +47,6 @@ namespace SimpleWAWS.Code.CsmExtensions
             if (loadSubResources)
             {
                  await Task.WhenAll(LoadSites(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/sites", StringComparison.OrdinalIgnoreCase))),
-                                   LoadApiApps(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.AppService/apiapps", StringComparison.OrdinalIgnoreCase))),
-                                   LoadGateways(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.AppService/gateways", StringComparison.OrdinalIgnoreCase))),
                                    LoadLogicApps(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Logic/workflows", StringComparison.OrdinalIgnoreCase))),
                                    LoadJenkinsResources(resourceGroup, load: loadJenkinsResources),
                                    LoadServerFarms(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/serverFarms", StringComparison.OrdinalIgnoreCase))),
@@ -69,20 +67,6 @@ namespace SimpleWAWS.Code.CsmExtensions
             return resourceGroup;
         }
 
-        //Shallow load
-        public static async Task<ResourceGroup> LoadApiApps(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> apiApps = null)
-        {
-            if (apiApps == null)
-            {
-                var csmApiAppsResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.ApiApps.Bind(resourceGroup));
-                await csmApiAppsResponse.EnsureSuccessStatusCodeWithFullError();
-                apiApps = (await csmApiAppsResponse.Content.ReadAsAsync<CsmArrayWrapper<object>>()).value;
-            }
-
-            resourceGroup.ApiApps = apiApps.Select(a => new ApiApp(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, a.name));
-
-            return resourceGroup;
-        }
 
         //Shallow load
         public static async Task<ResourceGroup> LoadLogicApps(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> logicApps = null)
@@ -453,11 +437,13 @@ namespace SimpleWAWS.Code.CsmExtensions
             // Assumes site and storage are loaded
             site.AppSettings[Constants.AzureStorageAppSettingsName] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.StorageAccountName, storageAccount.StorageAccountKey);
             site.AppSettings[Constants.AzureStorageDashboardAppSettingsName] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.StorageAccountName, storageAccount.StorageAccountKey);
-
-            site.AppSettings["FUNCTIONS_EXTENSION_VERSION"] = "latest";
-            site.AppSettings["MONACO_EXTENSION_VERSION"] = "beta";
-            site.AppSettings["AZUREJOBS_EXTENSION_VERSION"] = "beta";
-            site.AppSettings["WEBSITE_NODE_DEFAULT_VERSION"] = "6.4.0";
+            if (!site.IsSimpleWAWSOriginalSite)
+            {
+                site.AppSettings["FUNCTIONS_EXTENSION_VERSION"] = SimpleSettings.FunctionsExtensionVersion;
+            }
+            site.AppSettings["MONACO_EXTENSION_VERSION"] = SimpleSettings.MonacoExtensionVersion;
+            site.AppSettings["AZUREJOBS_EXTENSION_VERSION"] = SimpleSettings.AzureJobsExtensionVersion;
+            site.AppSettings["WEBSITE_NODE_DEFAULT_VERSION"] = SimpleSettings.WebsiteNodeDefautlVersion;
             await UpdateAppSettings(site);
         }
 

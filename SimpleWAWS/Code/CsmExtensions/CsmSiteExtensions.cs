@@ -89,7 +89,10 @@ namespace SimpleWAWS.Code.CsmExtensions
             await Task.WhenAll(LoadAppSettings(site), LoadPublishingCredentials(site), UpdateScmConfig(site));
 
             site.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = SimpleSettings.SiteExpiryMinutes;
-            site.AppSettings["FUNCTIONS_EXTENSION_VERSION"] = SimpleSettings.FunctionsExtensionVersion;
+            if (!site.IsSimpleWAWSOriginalSite)
+            {
+                site.AppSettings["FUNCTIONS_EXTENSION_VERSION"] = SimpleSettings.FunctionsExtensionVersion;
+            }
             site.AppSettings["AZUREJOBS_EXTENSION_VERSION"] = SimpleSettings.AzureJobsExtensionVersion;
             site.AppSettings["MONACO_EXTENSION_VERSION"] = SimpleSettings.MonacoExtensionVersion;
             site.AppSettings["WEBSITE_NODE_DEFAULT_VERSION"] = SimpleSettings.WebsiteNodeDefautlVersion;
