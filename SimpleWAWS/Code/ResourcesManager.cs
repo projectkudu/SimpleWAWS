@@ -258,7 +258,7 @@ namespace SimpleWAWS.Code
                         site.AppSettings.Remove("FUNCTIONS_EXTENSION_VERSION");
                     }
 
-                    if (template.Name.Equals("ASP.NET + Azure Search Site", StringComparison.OrdinalIgnoreCase))
+                    if (template.Name.Equals("ASP.NET with Azure Search Site", StringComparison.OrdinalIgnoreCase))
                     {
                         site.AppSettings["SearchServiceName"] = SimpleSettings.SearchServiceName;
                         site.AppSettings["SearchServiceApiKey"] = AzureSearchHelper.GetApiKey();
