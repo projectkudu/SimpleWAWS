@@ -232,6 +232,8 @@ namespace SimpleWAWS.Code.CsmExtensions
                 createdSites.Add(CreateSite(resourceGroup, SiteNameGenerator.GenerateName));
             }
 
+            resourceGroup.Sites = resourceGroup.Sites.Union(await createdSites.WhenAll());
+
             // Create Functions Container Site
             if (!resourceGroup.Sites.Any(s => s.IsFunctionsContainer))
             {

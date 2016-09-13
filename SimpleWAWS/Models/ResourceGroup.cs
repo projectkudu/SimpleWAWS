@@ -135,7 +135,9 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return !string.IsNullOrEmpty(ResourceGroupName) && ResourceGroupName.StartsWith("TRY-AZURE-RG-", StringComparison.InvariantCulture);
+                return !string.IsNullOrEmpty(ResourceGroupName) && ResourceGroupName.StartsWith(Constants.TryResourceGroupPrefix, StringComparison.InvariantCulture)
+                 && Tags != null && !Tags.ContainsKey("Bad")
+                && Tags.ContainsKey("FunctionsContainerDeployed");
             }
         }
 
