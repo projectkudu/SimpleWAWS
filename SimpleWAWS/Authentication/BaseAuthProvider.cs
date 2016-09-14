@@ -44,7 +44,7 @@ namespace SimpleWAWS.Authentication
                     case TokenResults.ExistsAndCorrect:
                         // Ajax can never send Bearer token
                         context.Response.Cookies.Add(CreateSessionCookie(context.User));
-                        context.Response.RedirectLocation = GetRedirectLocationFromState(context);
+                        context.Response.RedirectLocation = SecurityManager.GetRedirectLocationFromState(context);
                         context.Response.StatusCode = 302; // Redirect
                         break;
                     default:
@@ -88,19 +88,6 @@ namespace SimpleWAWS.Authentication
             return new HttpCookie(AuthConstants.LoginSessionCookie, Uri.EscapeDataString(value.Encrypt(AuthConstants.EncryptionReason))) { Path = "/", Expires = DateTime.UtcNow.AddDays(2) };
         }
 
-        private string GetRedirectLocationFromState(HttpContextBase context)
-        {
-            if (context.Request["state"].Contains("appServiceName=Function"))
-            {
-                var state = context.Request["state"];
-                var redirectLocation = state.Split('?')[0];
-                return redirectLocation;
-            }
-            else
-            {
-                return context.Request["state"];
-            }
-        }
 
         protected string LoginStateUrlFragment(HttpContextBase context, bool encodeTwice = false)
         {
