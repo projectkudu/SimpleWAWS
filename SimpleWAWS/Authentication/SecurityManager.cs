@@ -10,6 +10,7 @@ using SimpleWAWS.Trace;
 using System.Threading.Tasks;
 using System.Globalization;
 using System.Linq;
+using System.Security.Principal;
 
 
 namespace SimpleWAWS.Authentication
@@ -218,6 +219,30 @@ namespace SimpleWAWS.Authentication
         private static bool ValidDateTimeSessionCookie(DateTime date)
         {
             return date.Add(AuthConstants.SessionCookieValidTimeSpan) > DateTime.UtcNow;
+        }
+
+        public static string GetRedirectLocationFromState(HttpContextBase context)
+        {
+            if (context.Request["state"].Contains("appServiceName=Function"))
+            {
+                var cookie = CreateTrySessionCookie(context.User);
+                var state = context.Request["state"];
+                var redirectlocation = state.Split('?')[0];
+                return $"{redirectlocation}?cookie={cookie}&state={Uri.EscapeDataString(state)}";
+            }
+            else
+            {
+                return context.Request["state"];
+            }
+        }
+        public static string CreateTrySessionCookie(IPrincipal user)
+        {
+            var identity = user.Identity as TryWebsitesIdentity;
+            var value = string.Format(CultureInfo.InvariantCulture, "{0};{1};{2};{3}", identity.Email, identity.Puid, identity.Issuer, DateTime.UtcNow.ToString(CultureInfo.InvariantCulture));
+            SimpleTrace.Analytics.Information(AnalyticsEvents.UserLoggedIn, identity);
+            SimpleTrace.TraceInformation("{0}; {1}; {2}", AnalyticsEvents.OldUserLoggedIn, identity.Email, identity.Issuer);
+
+            return Uri.EscapeDataString(value.Encrypt(AuthConstants.EncryptionReason));
         }
     }
 }
