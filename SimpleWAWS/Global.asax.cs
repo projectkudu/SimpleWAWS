@@ -181,18 +181,6 @@ namespace SimpleWAWS
                     SecurityManager.HandleAnonymousUser(context);
                 }
             }
-            //else //coming in from auth provider . Now lets return to the source (Try Functions)
-            //{
-            //    if (!context.IsBrowserRequest()) return;
-            //    if (context.Request["state"] == null) return;
-            //    if (!context.Request["state"].Contains("appServiceName=Function")) return;
-            //    if (context.User == null) return;
-            //    var cookie = CreateSessionCookieData(context.User);
-            //    var state = context.Request["state"];
-            //    var redirectlocation = state.Split('?')[0];
-            //    Response.Redirect($"{redirectlocation}?cookie={cookie}&state={Uri.EscapeDataString(state)}", true);
-            //}
-
         }
 
         protected void Application_Error(object sender, EventArgs e)
