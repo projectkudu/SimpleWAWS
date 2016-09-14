@@ -93,7 +93,7 @@ namespace SimpleWAWS.Authentication
             if (context.Request["state"].Contains("appServiceName=Function"))
             {
                 var state = context.Request["state"];
-                var redirectLocation = state.Split('/')[0];
+                var redirectLocation = state.Split('?')[0];
                 return redirectLocation;
             }
             else
