@@ -151,8 +151,8 @@ angular.module("tryApp")
                        icon_url: "/Content/images/xamarin.png",
                        sprite: "mobile-icons sprite-xamarin",
                        steps: {
-                           preText: Resources.Information_InstallXamarinStudio,
-                           preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
+                           preText: Resources.Information_InstallVisualStudio,
+                           preHref: "https://go.microsoft.com/fwLink/?LinkID=391934&clcid=0x409",
                            clientText: Resources.Information_DownloadXamarinAndroidClient,
                            clientHref: "/api/resource/mobileclient/XamarinAndroid?templateName=TodoList"
                        }
@@ -161,8 +161,8 @@ angular.module("tryApp")
                        internal_name: "Xamarin.Forms",
                        sprite: "mobile-icons sprite-xamarin",
                        steps: {
-                           preText: Resources.Information_InstallXamarinStudio,
-                           preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
+                           preText: Resources.Information_InstallVisualStudio,
+                           preHref: "https://go.microsoft.com/fwLink/?LinkID=391934&clcid=0x409",
                            clientText: Resources.Information_DownloadXamarinFormsClient,
                            clientHref: "/api/resource/mobileclient/XamarinForms?templateName=TodoList"
                        }
@@ -239,8 +239,8 @@ angular.module("tryApp")
                         icon_url: "/Content/images/xamarin.png",
                         sprite: "mobile-icons sprite-xamarin",
                         steps: {
-                            preText: Resources.Information_InstallXamarinStudio,
-                            preHref: "https://go.microsoft.com/fwLink/?LinkID=330242&clcid=0x409",
+                            preText: Resources.Information_InstallVisualStudio,
+                            preHref: "https://go.microsoft.com/fwLink/?LinkID=391934&clcid=0x409",
                             clientText: Resources.Information_DownloadXamarinAndroidClient,
                             clientHref: "/api/resource/mobileclient/XamarinAndroid?templateName=XamarinCRM"
                         }

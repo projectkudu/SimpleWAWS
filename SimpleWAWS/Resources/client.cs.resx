@@ -271,7 +271,7 @@
     <value>Nainstalovat Visual Studio Professional 2015 (aktualizace 2)</value>
   </data>
   <data name="Information_InstallXamarinStudio" xml:space="preserve">
-    <value>Nainstalovat Xamarin Studio pro Windows nebo OS X</value>
+    <value>Nainstalovat Xamarin Studio pro OS X</value>
   </data>
   <data name="Information_InstallXcode" xml:space="preserve">
     <value>Nainstalovat Xcode (verze 4.4+)</value>
