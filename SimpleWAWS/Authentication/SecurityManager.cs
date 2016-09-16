@@ -10,7 +10,7 @@ using SimpleWAWS.Trace;
 using System.Threading.Tasks;
 using System.Globalization;
 using System.Linq;
-using System.Security.Principal;
+
 
 
 namespace SimpleWAWS.Authentication
