@@ -21,6 +21,28 @@
 			"description": "Name of the new VM deployed from the custom image."
 		  }
 		},
+        "resourceLocation": {
+          "type": "string",
+          "defaultValue": "West US",
+          "allowedValues": [
+            "West US",
+            "North US",
+            "East US",
+            "South US",
+            "Central US",
+            "North Europe",
+            "West Europe",
+            "Japan West",
+            "Japan East",
+            "Southeast Asia",
+            "East Asia",
+            "Australia East",
+            "Australia Southeast"
+          ],
+      "metadata": {
+        "description":  "supported locations as of now"
+      }
+    },
 		"adminUserName": {
 		  "type": "string",
 		  "minLength": 1,
@@ -81,7 +103,7 @@
 		  "comments": "# Storage Account",
 		  "name": "[variables('storageAccountName')]",
 		  "type": "Microsoft.Storage/storageAccounts",
-		  "location": "[resourceGroup().location]",
+		  "location": "[parameters('resourceLocation')]",
 		  "apiVersion": "2015-05-01-preview",
 		  "dependsOn": [],
 		  "tags": {
@@ -95,7 +117,7 @@
 		  "comments": "# Virtual Network",
 		  "name": "[variables('VirtualNetworkName')]",
 		  "type": "Microsoft.Network/virtualNetworks",
-		  "location": "[resourceGroup().location]",
+		  "location": "[parameters('resourceLocation')]",
 		  "apiVersion": "2015-06-15",
 		  "tags": {
 			"displayName": "vnet"
@@ -120,7 +142,7 @@
 		  "comments": "# Public IP",
 		  "name": "[variables('publicIpNames')[copyIndex()]]",
 		  "type": "Microsoft.Network/publicIPAddresses",
-		  "location": "[resourceGroup().location]",
+		  "location": "[parameters('resourceLocation')]",
 		  "apiVersion": "2015-06-15",
 		  "dependsOn": [],
 		  "copy": {
@@ -138,7 +160,7 @@
 		  "comments": "# NICs",
 		  "name": "[variables('nicNames')[copyIndex()]]",
 		  "type": "Microsoft.Network/networkInterfaces",
-		  "location": "[resourceGroup().location]",
+		  "location": "[parameters('resourceLocation')]",
 		  "apiVersion": "2015-06-15",
 		  "copy": {
 			"count": "[variables('vmCount')]",
@@ -172,7 +194,7 @@
 		  "comments": "# TRANSFER VM",
 		  "name": "[variables('vmNames')[0]]",
 		  "type": "Microsoft.Compute/virtualMachines",
-		  "location": "[resourceGroup().location]",
+		  "location": "[parameters('resourceLocation')]",
 		  "apiVersion": "2015-06-15",
 		  "dependsOn": [
 			"[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
@@ -220,7 +242,7 @@
 			  "apiVersion": "2015-06-15",
 			  "type": "extensions",
 			  "name": "[concat(variables('vmNames')[0],'CustomScriptExtension')]",
-			  "location": "[resourceGroup().location]",
+			  "location": "[parameters('resourceLocation')]",
 			  "dependsOn": [
 				"[concat('Microsoft.Compute/virtualMachines/', variables('vmNames')[0])]"
 			  ],
@@ -245,7 +267,7 @@
 		  "comments": "# New Linux VM based on custom image",
 		  "name": "[variables('vmNames')[1]]",
 		  "type": "Microsoft.Compute/virtualMachines",
-		  "location": "[resourceGroup().location]",
+		  "location": "[parameters('resourceLocation')]",
 		  "apiVersion": "2015-06-15",
 		  "dependsOn": [
 			"[concat('Microsoft.Storage/storageAccounts/', variables('StorageAccountName'))]",
@@ -291,22 +313,23 @@
 		  "type": "Microsoft.Compute/virtualMachines/extensions",
 		  "name": "[concat(variables('vmNames')[1],'/downloadinitazurejenkinsscript')]",
 		  "apiVersion": "2015-06-15",
-		  "location": "[resourceGroup().location]",
+		  "location": "[parameters('resourceLocation')]",
 		  "dependsOn": [
 			"[concat('Microsoft.Compute/virtualMachines/', variables('vmNames')[1])]"
 		  ],
-		  "properties": {
-			"publisher": "Microsoft.OSTCExtensions",
-			"type": "CustomScriptForLinux",
-			"typeHandlerVersion": "1.4",
-			"autoUpgradeMinorVersion": true,
-			"settings": {
-			  "fileUris": [
-				"https://raw.githubusercontent.com/arroyc/azure-quickstart-templates/master/azure-jenkins/scripts/init_azure_jenkins.sh"
-			  ],
-			  "commandToExecute": "sh init_azure_jenkins.sh", "randomParam": "$RANDOM"
-			}
-		  }
+      "properties": {
+        "publisher": "Microsoft.OSTCExtensions",
+        "type": "CustomScriptForLinux",
+        "typeHandlerVersion": "1.4",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": [
+            "https://raw.githubusercontent.com/arroyc/azure-quickstart-templates/master/azure-jenkins/scripts/init_azure_jenkins.sh"
+          ],
+          "commandToExecute": "sh init_azure_jenkins.sh",
+          "randomParam": "$RANDOM"
+        }
+      }
 		}
 	  ],
 	  "outputs": {}

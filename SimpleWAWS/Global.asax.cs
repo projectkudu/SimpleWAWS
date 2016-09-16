@@ -139,15 +139,6 @@ namespace SimpleWAWS
             context.Response.Headers["Access-Control-Expose-Headers"] = "LoginUrl";
 
         }
-        public string CreateSessionCookieData(IPrincipal user)
-        {
-            var identity = user.Identity as TryWebsitesIdentity;
-            var value = string.Format(CultureInfo.InvariantCulture, "{0};{1};{2};{3}", identity.Email, identity.Puid, identity.Issuer, DateTime.UtcNow.ToString(CultureInfo.InvariantCulture));
-            SimpleTrace.Analytics.Information(AnalyticsEvents.UserLoggedIn, identity);
-            SimpleTrace.TraceInformation("{0}; {1}; {2}", AnalyticsEvents.OldUserLoggedIn, identity.Email, identity.Issuer);
-
-            return Uri.EscapeDataString(value.Encrypt(AuthConstants.EncryptionReason));
-        }
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
         {
             var context = new HttpContextWrapper(HttpContext.Current);
@@ -190,18 +181,6 @@ namespace SimpleWAWS
                     SecurityManager.HandleAnonymousUser(context);
                 }
             }
-            else //coming in from auth provider . Now lets return to the source (Try Functions)
-            {
-                if (!context.IsBrowserRequest()) return;
-                if (context.Request["state"] == null) return;
-                if (!context.Request["state"].Contains("appServiceName=Function")) return;
-                if (context.User == null) return;
-                var cookie = CreateSessionCookieData(context.User);
-                var state = context.Request["state"];
-                var redirectlocation = state.Split('?')[0];
-                Response.Redirect($"{redirectlocation}?cookie={cookie}&state={Uri.EscapeDataString(state)}", true);
-            }
-
         }
 
         protected void Application_Error(object sender, EventArgs e)
