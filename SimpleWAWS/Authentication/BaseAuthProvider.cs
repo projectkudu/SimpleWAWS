@@ -44,7 +44,7 @@ namespace SimpleWAWS.Authentication
                     case TokenResults.ExistsAndCorrect:
                         // Ajax can never send Bearer token
                         context.Response.Cookies.Add(CreateSessionCookie(context.User));
-                        context.Response.RedirectLocation = SecurityManager.GetRedirectLocationFromState(context);
+                        context.Response.RedirectLocation = GetRedirectLocationFromState(context);
                         context.Response.StatusCode = 302; // Redirect
                         break;
                     default:
@@ -67,7 +67,6 @@ namespace SimpleWAWS.Authentication
         public HttpCookie CreateSessionCookie(IPrincipal user)
         {
             var identity = user.Identity as TryWebsitesIdentity;
-            var value = string.Format(CultureInfo.InvariantCulture, "{0};{1};{2};{3}", identity.Email, identity.Puid, identity.Issuer, DateTime.UtcNow.ToString(CultureInfo.InvariantCulture));
             SimpleTrace.Analytics.Information(AnalyticsEvents.UserLoggedIn, identity);
             SimpleTrace.TraceInformation("{0}; {1}; {2}", AnalyticsEvents.OldUserLoggedIn, identity.Email, identity.Issuer);
             try
@@ -85,9 +84,29 @@ namespace SimpleWAWS.Authentication
             }
             catch
             { }
-            return new HttpCookie(AuthConstants.LoginSessionCookie, Uri.EscapeDataString(value.Encrypt(AuthConstants.EncryptionReason))) { Path = "/", Expires = DateTime.UtcNow.AddDays(2) };
+            return new HttpCookie(AuthConstants.LoginSessionCookie, GetSessionCookieString(user)) { Path = "/", Expires = DateTime.UtcNow.AddDays(2) };
         }
 
+        public string GetRedirectLocationFromState(HttpContextBase context)
+        {
+            if (context.Request["state"].Contains("appServiceName=Function"))
+            {
+                var cookie = GetSessionCookieString(context.User);
+                var state = context.Request["state"];
+                var redirectlocation = state.Split('?')[0];
+                return $"{redirectlocation}?cookie={cookie}&state={Uri.EscapeDataString(state)}";
+            }
+            else
+            {
+                return context.Request["state"];
+            }
+        }
+        public string GetSessionCookieString(IPrincipal user)
+        {
+            var identity = user.Identity as TryWebsitesIdentity;
+            var value = string.Format(CultureInfo.InvariantCulture, "{0};{1};{2};{3}", identity.Email, identity.Puid, identity.Issuer, DateTime.UtcNow.ToString(CultureInfo.InvariantCulture));
+            return Uri.EscapeDataString(value.Encrypt(AuthConstants.EncryptionReason));
+        }
 
         protected string LoginStateUrlFragment(HttpContextBase context, bool encodeTwice = false)
         {
