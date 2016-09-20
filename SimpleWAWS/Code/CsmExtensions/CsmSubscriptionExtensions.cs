@@ -13,7 +13,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 {
     public static partial class CsmManager
     {
-        public static async Task<Subscription> Load(this Subscription subscription)
+        public static async Task<Subscription> Load(this Subscription subscription, bool deleteBadResourceGroups = true)
         {
             Validate.ValidateCsmSubscription(subscription);
             if (subscription.Type == Subscription.SubscriptionType.AppService)
@@ -24,28 +24,30 @@ namespace SimpleWAWS.Code.CsmExtensions
                 await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.StorageRegister.Bind(subscription));
 
                 var csmResourceGroups = await subscription.LoadResourceGroupsForSubscription();
+                if (deleteBadResourceGroups)
+                {
+                    var deleteBadResourceGroupsTasks = csmResourceGroups.value
+                        .Where(r => r.tags != null
+                                    && ((r.tags.ContainsKey("Bad") || !r.tags.ContainsKey("FunctionsContainerDeployed"))
+                                        && (!r.tags.ContainsKey("UserId"))
+                                        && r.properties.provisioningState != "Deleting"))
+                        .Select(async r => await
+                            Delete(
+                                await
+                                    Load(new ResourceGroup(subscription.SubscriptionId, r.name), r,
+                                        loadSubResources: false), block: false));
+              
+                    await deleteBadResourceGroupsTasks.IgnoreFailures().WhenAll();
 
-                var deleteBadResourceGroupsTasks = csmResourceGroups.value
-                    .Where(r => r.tags != null
-                                && ((r.tags.ContainsKey("Bad") || !r.tags.ContainsKey("FunctionsContainerDeployed"))
-                                    && (!r.tags.ContainsKey("UserId"))
-                                    && r.properties.provisioningState != "Deleting"))
-                    .Select(
-                        async r =>
-                            await
-                                Delete(
-                                    await
-                                        Load(new ResourceGroup(subscription.SubscriptionId, r.name), r,
-                                            loadSubResources: false), block: false));
-                await deleteBadResourceGroupsTasks.IgnoreFailures().WhenAll();
-
-                //reload after deleting the bad subs
-                //TODO: Ensure a background task always takes care of this  
-                csmResourceGroups = await subscription.LoadResourceGroupsForSubscription();
-
+                    //reload after deleting the bad subs
+                    //TODO: Ensure a background task always takes care of this  
+                    csmResourceGroups = await subscription.LoadResourceGroupsForSubscription();
+                }
                 var csmSubscriptionResourcesReponse =
                     await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.SubscriptionResources.Bind(subscription));
+
                 await csmSubscriptionResourcesReponse.EnsureSuccessStatusCodeWithFullError();
+
                 var csmSubscriptionResources =
                     await csmSubscriptionResourcesReponse.Content.ReadAsAsync<CsmArrayWrapper<object>>();
 

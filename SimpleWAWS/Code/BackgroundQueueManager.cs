@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using SimpleWawsService;
 
 namespace SimpleWAWS.Code
 {
@@ -216,6 +217,20 @@ namespace SimpleWAWS.Code
 
         private void LogQueueStatistics()
         {
+            var freeSitesCount = FreeResourceGroups.Count(sub => sub.SubscriptionType == Subscription.SubscriptionType.AppService);
+            var inUseSitesCount = ResourceGroupsInUse.Select(s=>s.Value).Count(sub => sub.SubscriptionType == Subscription.SubscriptionType.AppService);
+            var inProgress = ResourceGroupsInProgress.Select(s => s.Value).Count();
+            var backgroundOperations = BackgroundInternalOperations.Select(s => s.Value).Count();
+            var freeJenkinsResources = FreeJenkinsResourceGroups.Count(sub => sub.SubscriptionType == Subscription.SubscriptionType.Jenkins);
+            var inUseJenkinsResources = ResourceGroupsInUse.Select(s => s.Value).Count(sub => sub.SubscriptionType == Subscription.SubscriptionType.Jenkins);
+
+            AppInsights.TelemetryClient.TrackMetric("freeSites", freeSitesCount);
+            AppInsights.TelemetryClient.TrackMetric("inUseSites", inUseSitesCount);
+            AppInsights.TelemetryClient.TrackMetric("inProgressOperations", inProgress);
+            AppInsights.TelemetryClient.TrackMetric("backgroundOperations", backgroundOperations);
+            AppInsights.TelemetryClient.TrackMetric("freeJenkinsResources", freeJenkinsResources);
+            AppInsights.TelemetryClient.TrackMetric("inUseJenkinsResources", inUseJenkinsResources);
+
         }
 
         private void DeleteResourceGroupOperation(ResourceGroup resourceGroup)

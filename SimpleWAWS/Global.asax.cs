@@ -18,7 +18,10 @@ using System.Globalization;
 using System.Threading;
 using System.Linq;
 using System.Security.Principal;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
 using Serilog.Sinks.Elasticsearch;
+using SimpleWawsService;
 
 namespace SimpleWAWS
 {
@@ -27,6 +30,7 @@ namespace SimpleWAWS
         protected void Application_Start()
         {
             //Init logger
+            InitAppInsights();
 
             //Analytics logger
             if (new[]
@@ -130,6 +134,20 @@ namespace SimpleWAWS
             ResourcesManager.GetInstanceAsync().ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
+        private void InitAppInsights()
+        {
+            var key = SimpleSettings.AppInsightsInstrumentationKey;
+            if (!string.IsNullOrEmpty(key))
+            {
+                TelemetryConfiguration.Active.InstrumentationKey = key;
+                TelemetryConfiguration.Active.DisableTelemetry = false;
+            }
+            else
+            {
+                TelemetryConfiguration.Active.DisableTelemetry = true;
+            }
+        }
+
         protected void Application_BeginRequest(Object sender, EventArgs e)
         {
             var context = new HttpContextWrapper(HttpContext.Current);
@@ -189,9 +207,9 @@ namespace SimpleWAWS
             {
                 Exception ex = Server.GetLastError();
 
-                if (Response.StatusCode >= 500)
+                if (Response.StatusCode >= 400)
                 {
-                    SimpleTrace.Diagnostics.Error(ex, "Exception from Application_Error");
+                    AppInsights.TelemetryClient.TrackException(ex);
                 }
             }
         }

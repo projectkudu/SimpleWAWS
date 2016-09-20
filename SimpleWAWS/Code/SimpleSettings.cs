@@ -54,6 +54,7 @@ namespace SimpleWAWS.Code
         public static string JenkinsSubscriptions { get { return config(); } }
         public static string JenkinsGeoRegions { get { return config(); } }
         public static int JenkinsResourceGroupsPerRegion { get { return Int32.Parse(config()); } }
+        public static string AppInsightsInstrumentationKey { get { return config(); } }
 
     }
 }   
