@@ -25,6 +25,7 @@ using Newtonsoft.Json.Linq;
 using SimpleWAWS.Trace;
 using System.Web.Hosting;
 using System.Globalization;
+using System.Reflection;
 
 namespace SimpleWAWS.Code
 {
@@ -68,8 +69,10 @@ namespace SimpleWAWS.Code
         {
             // Load all subscriptions
             var csmSubscriptions = await CsmManager.GetSubscriptionNamesToIdMap();
-            var subscriptions = SimpleSettings.Subscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            var subscriptions = (SimpleSettings.Subscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Union(SimpleSettings.JenkinsSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)))
                 //It can be either a displayName or a subscriptionId
+                //For Jenkins it needs to be subscriptionId
                 .Select(s => s.Trim())
                 .Where(n =>
                 {
@@ -114,8 +117,16 @@ namespace SimpleWAWS.Code
                 {
                     throw new MoreThanOneResourceGroupException();
                 }
-
-                if (_backgroundQueueManager.FreeResourceGroups.TryDequeue(out resourceGroup))
+                bool resourceGroupFound = false;
+                if (appService == AppService.Jenkins)
+                {
+                    resourceGroupFound = _backgroundQueueManager.FreeJenkinsResourceGroups.TryDequeue(out resourceGroup);
+                }
+                else
+                {
+                    resourceGroupFound = _backgroundQueueManager.FreeResourceGroups.TryDequeue(out resourceGroup);
+                }
+                if (resourceGroupFound)
                 {
                     //mark site in use as soon as it's checked out so that if there is a reload it will be sorted out to the used queue.
                     await resourceGroup.MarkInUse(userId, appService);
@@ -233,7 +244,7 @@ namespace SimpleWAWS.Code
                                     }
                                 }
                             };
-                            await inProgressOperation.CreateDeployment(csmTemplate, block: true);
+                            await inProgressOperation.CreateDeployment(csmTemplate, block: true, subscriptionType: resourceGroup.SubscriptionType);
                             await site.GetKuduDeploymentStatus(block: true);
                             await resourceGroup.Load();
                         }
@@ -336,7 +347,7 @@ namespace SimpleWAWS.Code
                     }
                 };
 
-                await inProgressOperation.CreateDeployment(templateWrapper, block: true);
+                await inProgressOperation.CreateDeployment(templateWrapper, block: true, subscriptionType: resourceGroup.SubscriptionType);
 
                 // We don't need the original site that we create for Web or Mobile apps, delete it or it'll show up in ibiza
                 await resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).Select(s => s.Delete()).IgnoreFailures().WhenAll();
@@ -382,7 +393,7 @@ namespace SimpleWAWS.Code
                 csmTemplateString = csmTemplateString.Replace("{{logicAppName}}", logicApp.LogicAppName);
                 //csmTemplateString = csmTemplateString.Replace("{{gatewayName}}", Guid.NewGuid().ToString().Replace("-", "")).Replace("{{logicAppName}}", logicApp.LogicAppName);
 
-                await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true);
+                await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true, subscriptionType: resourceGroup.SubscriptionType);
 
                 // After a deployment, we have no idea what changes happened in the resource group
                 // we should reload it.
@@ -414,14 +425,14 @@ namespace SimpleWAWS.Code
                     csmTemplateString = await reader.ReadToEndAsync();
                 }
 
-                csmTemplateString = csmTemplateString.Replace("{{jenkinsPassword}}", SimpleSettings.TryDevOpsVMPassword);
+                csmTemplateString = csmTemplateString.Replace("{{jenkinsPassword}}", SimpleSettings.JenkinsVMPassword);
 
-                await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true);
+                await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true, subscriptionType: resourceGroup.SubscriptionType);
 
                 // After a deployment, we have no idea what changes happened in the resource group
                 // we should reload it.
                 // TODO: consider reloading the resourceGroup along with the deployment itself.
-                await resourceGroup.Load(loadJenkinsResources:true);
+                await resourceGroup.Load();
 
                 resourceGroup.IsRbacEnabled = false;
                 return resourceGroup;
@@ -476,7 +487,7 @@ namespace SimpleWAWS.Code
             }
             if (resourceGroup?.AppService == AppService.Jenkins && string.IsNullOrEmpty(resourceGroup.JenkinsUri))
             {
-                await resourceGroup.LoadJenkinsResources(load: true);
+                await resourceGroup.LoadJenkinsResources();
                 if (!string.IsNullOrEmpty(resourceGroup.JenkinsResources?.JenkinsResourceUrl))
                 {
                     resourceGroup.Tags[Constants.JenkinsUri] = resourceGroup.JenkinsResources?.JenkinsResourceUrl;
@@ -532,6 +543,10 @@ namespace SimpleWAWS.Code
         public IReadOnlyCollection<ResourceGroup> GetAllFreeResourceGroups()
         {
             return _backgroundQueueManager.FreeResourceGroups.ToList();
+        }
+        public IReadOnlyCollection<ResourceGroup> GetAllFreeJenkinsResourceGroups()
+        {
+            return _backgroundQueueManager.FreeJenkinsResourceGroups.ToList();
         }
 
         // ARM

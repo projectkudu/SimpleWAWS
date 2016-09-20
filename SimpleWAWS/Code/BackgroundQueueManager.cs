@@ -20,6 +20,7 @@ namespace SimpleWAWS.Code
     {
 
         public readonly ConcurrentQueue<ResourceGroup> FreeResourceGroups = new ConcurrentQueue<ResourceGroup>();
+        public readonly ConcurrentQueue<ResourceGroup> FreeJenkinsResourceGroups = new ConcurrentQueue<ResourceGroup>();
         public readonly ConcurrentDictionary<string, InProgressOperation> ResourceGroupsInProgress = new ConcurrentDictionary<string, InProgressOperation>();
         public readonly ConcurrentDictionary<string, ResourceGroup> ResourceGroupsInUse = new ConcurrentDictionary<string, ResourceGroup>();
         public readonly ConcurrentDictionary<Guid, BackgroundOperation> BackgroundInternalOperations = new ConcurrentDictionary<Guid, BackgroundOperation>();
@@ -61,26 +62,28 @@ namespace SimpleWAWS.Code
 
         private async Task<ResourceGroup> LogActiveUsageStatistics(ResourceGroup resourceGroup)
         {
-            try
+            if (resourceGroup.SubscriptionType == Subscription.SubscriptionType.AppService)
             {
-                var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
-                var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-                var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
-                using (var httpContentStream = await zipManager.GetZipFileStreamAsync("LogFiles/http/RawLogs"))
+                try
                 {
-                    await StorageHelper.UploadBlob(resourceGroup.ResourceUniqueId, httpContentStream);
+                    var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
+                    var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+                    var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
+                    using (var httpContentStream = await zipManager.GetZipFileStreamAsync("LogFiles/http/RawLogs"))
+                    {
+                        await StorageHelper.UploadBlob(resourceGroup.ResourceUniqueId, httpContentStream);
+                    }
+                    await StorageHelper.AddQueueMessage(new { BlobName = resourceGroup.ResourceUniqueId });
+                    SimpleTrace.TraceInformation("{0}; {1}", AnalyticsEvents.SiteIISLogsName, resourceGroup.ResourceUniqueId);
                 }
-                await StorageHelper.AddQueueMessage(new { BlobName = resourceGroup.ResourceUniqueId });
-                SimpleTrace.TraceInformation("{0}; {1}", AnalyticsEvents.SiteIISLogsName, resourceGroup.ResourceUniqueId);
-            }
-            catch (Exception e)
-            {
-                if (!(e is HttpRequestException))
+                catch (Exception e)
                 {
-                    SimpleTrace.Diagnostics.Error(e, "Error logging active usage numbers");
+                    if (!(e is HttpRequestException))
+                    {
+                        SimpleTrace.Diagnostics.Error(e, "Error logging active usage numbers");
+                    }
                 }
             }
-
             return resourceGroup;
         }
 
@@ -104,16 +107,18 @@ namespace SimpleWAWS.Code
             {
                 case OperationType.SubscriptionLoad:
                     var subscription = subTask.Task.Result;
-                    var result = subscription.MakeTrialSubscription();
+                    var result = (subscription.Type == Subscription.SubscriptionType.AppService) ?
+                        subscription.MakeTrialSubscription() :
+                        subscription.MakeJenkinsTrialSubscription();
                     foreach (var resourceGroup in result.Ready)
                     {
                         PutResourceGroupInDesiredStateOperation(resourceGroup);
                     }
-                    foreach(var geoRegion in result.ToCreateInRegions)
+                    foreach (var geoRegion in result.ToCreateInRegions)
                     {
                         CreateResourceGroupOperation(subscription.SubscriptionId, geoRegion);
                     }
-                    foreach(var resourceGroup in result.ToDelete)
+                    foreach (var resourceGroup in result.ToDelete)
                     {
                         DeleteResourceGroupOperation(resourceGroup);
                     }
@@ -131,9 +136,12 @@ namespace SimpleWAWS.Code
                     }
                     else
                     {
-                        FreeResourceGroups.Enqueue(readyToAddRg);
+                        if (readyToAddRg.SubscriptionType == Subscription.SubscriptionType.AppService)
+                            FreeResourceGroups.Enqueue(readyToAddRg);
+                        else
+                            FreeJenkinsResourceGroups.Enqueue(readyToAddRg);
                     }
-                break;
+                    break;
 
                 case OperationType.ResourceGroupCreate:
                     PutResourceGroupInDesiredStateOperation(resourceGroupTask.Task.Result);
@@ -180,6 +188,8 @@ namespace SimpleWAWS.Code
 
             foreach (var resource in resources)
                 DeleteResourceGroup(resource);
+            //TODO:Add a way replenish leaking resourcegroups
+
         }
 
         private void LogUsageStatistics(ResourceGroup resourceGroup)
@@ -199,7 +209,7 @@ namespace SimpleWAWS.Code
             {
                 Description = $"Deleting and creating resourceGroup {resourceGroup.ResourceGroupName}",
                 Type = OperationType.ResourceGroupDeleteThenCreate,
-                Task = resourceGroup.DeleteAndCreateReplacement(blockDelete:false),
+                Task = resourceGroup.DeleteAndCreateReplacement(blockDelete: false),
                 RetryAction = () => DeleteAndCreateResourceGroupOperation(resourceGroup)
             });
         }

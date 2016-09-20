@@ -46,10 +46,14 @@ namespace SimpleWAWS.Code
         public static string AzureJobsExtensionVersion { get { return config("beta"); } }
         public static string MonacoExtensionVersion { get { return config("beta"); } }
         public static string WebsiteNodeDefautlVersion { get { return config("6.4.0"); } }
-        public static string TryDevOpsTenant { get { return config(); } }
-        public static string TryDevOpsServicePrincipal { get { return config(); } }
-        public static string TryDevOpsServicePrincipalKey { get { return config(); } }
-        public static string TryDevOpsVMPassword { get { return config(); } }
+        public static string JenkinsTenant { get { return config(); } }
+        public static string JenkinsServicePrincipal { get { return config(); } }
+        public static string JenkinsServicePrincipalKey { get { return config(); } }
+        public static string JenkinsVMPassword { get { return config(); } }
         public static string JenkinsExpiryMinutes { get { return config(); } }
+        public static string JenkinsSubscriptions { get { return config(); } }
+        public static string JenkinsGeoRegions { get { return config(); } }
+        public static int JenkinsResourceGroupsPerRegion { get { return Int32.Parse(config()); } }
+
     }
 }   

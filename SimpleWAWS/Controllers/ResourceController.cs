@@ -58,26 +58,33 @@ namespace SimpleWAWS.Controllers
         }
 
         [HttpGet]
-        public Task<HttpResponseMessage> All(bool showFreeSites = false)
+        public Task<HttpResponseMessage> All(bool showFreeResources = false)
         {
             return SecurityManager.AdminOnly(async () =>
             {
                 var resourceManager = await ResourcesManager.GetInstanceAsync();
-                var freeSites = resourceManager.GetAllFreeResourceGroups();
-                var inUseSites = resourceManager.GetAllInUseResourceGroups();
+                var freeSites = resourceManager.GetAllFreeResourceGroups().Where(sub => sub.SubscriptionType==Subscription.SubscriptionType.AppService);
+                var inUseSites = resourceManager.GetAllInUseResourceGroups().Where(sub => sub.SubscriptionType == Subscription.SubscriptionType.AppService);
                 var inProgress = resourceManager.GetAllInProgressResourceGroups();
                 var backgroundOperations = resourceManager.GetAllBackgroundOperations();
+                var freeJenkinsResources = resourceManager.GetAllFreeJenkinsResourceGroups();
+                var inUseJenkinsResources = resourceManager.GetAllInUseResourceGroups().Where(sub => sub.SubscriptionType == Subscription.SubscriptionType.Jenkins);
                 return Request.CreateResponse(HttpStatusCode.OK,
                     new
                     {
                         freeSiteCount = freeSites.Count(),
-                        inProgressSitesCount = inProgress.Count(),
+                        freeJenkinsResourceCount = freeJenkinsResources.Count(),
                         inUseSitesCount = inUseSites.Count(),
+                        inUseJenkinsResourceCount = inUseJenkinsResources.Count(),
+                        inProgressSitesCount = inProgress.Count(),
                         backgroundOperationsCount = backgroundOperations.Count(),
-                        freeSites = showFreeSites ? freeSites : null,
                         inUseSites = inUseSites,
+                        inUseJenkinsResources = inUseJenkinsResources,
+                        freeSites = showFreeResources ? freeSites : null,
+                        freeJenkinsResources = showFreeResources ? freeJenkinsResources : null,
                         inProgress = inProgress,
                         backgroundOperations = backgroundOperations
+
                     });
             });
         }

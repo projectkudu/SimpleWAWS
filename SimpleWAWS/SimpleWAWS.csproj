@@ -286,6 +286,7 @@
     <Compile Include="Models\LogicApp.cs" />
     <Compile Include="Models\JenkinsTemplate.cs" />
     <Compile Include="Models\LogicTemplate.cs" />
+    <Compile Include="Models\MakeJenkinsSubscriptionFreeTrialResult.cs" />
     <Compile Include="Models\MakeSubscriptionFreeTrialResult.cs" />
     <Compile Include="Models\MobileTemplate.cs" />
     <Compile Include="Models\RbacUser.cs" />

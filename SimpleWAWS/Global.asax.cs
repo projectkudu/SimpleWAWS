@@ -121,7 +121,7 @@ namespace SimpleWAWS
             RouteTable.Routes.MapHttpRoute("extend-resource-expiration-time", "api/resource/extend", new { controller = "Resource", action = "ExtendResourceExpirationTime", authenticated = true }, new { verb = new HttpMethodConstraint("POST") });
 
             //Admin Only Routes
-            RouteTable.Routes.MapHttpRoute("get-all-resources", "api/resource/all/{showFreeSites}", new { controller = "Resource", action = "All", authenticated = true, adminOnly = true , showFreeSites = RouteParameter.Optional}, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("get-all-resources", "api/resource/all/{showFreeResources}", new { controller = "Resource", action = "All", authenticated = true, adminOnly = true , showFreeResources = RouteParameter.Optional}, new { verb = new HttpMethodConstraint("GET") });
             RouteTable.Routes.MapHttpRoute("reset-all-free-resources", "api/resource/reset", new { controller = "Resource", action = "Reset", authenticated = true, adminOnly = true }, new { verb = new HttpMethodConstraint("GET") });
             RouteTable.Routes.MapHttpRoute("reload-all-free-resources", "api/resource/reload", new { controller = "Resource", action = "DropAndReloadFromAzure", authenticated = true, adminOnly = true }, new { verb = new HttpMethodConstraint("GET") });
             RouteTable.Routes.MapHttpRoute("delete-users-resource", "api/resource/delete/{userIdentity}", new { controller = "Resource", action = "DeleteUserResource", authenticated = true, adminOnly = true }, new { verb = new HttpMethodConstraint("GET") });

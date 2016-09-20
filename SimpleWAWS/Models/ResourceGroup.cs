@@ -15,6 +15,7 @@ namespace SimpleWAWS.Models
     public class ResourceGroup : BaseResource
     {
         private const string _csmIdTemplate = "/subscriptions/{0}/resourceGroups/{1}";
+        private Subscription.SubscriptionType _subscriptionType = Subscription.SubscriptionType.AppService;
 
         public override string CsmId
         {
@@ -24,6 +25,12 @@ namespace SimpleWAWS.Models
             }
         }
 
+        public Subscription.SubscriptionType SubscriptionType
+        {
+            get { return _subscriptionType; }
+            set { _subscriptionType = value; }
+        }
+
         public string UserId
         {
             get { return Tags.ContainsKey(Constants.UserId) ? Tags[Constants.UserId] : null; }
@@ -31,7 +38,7 @@ namespace SimpleWAWS.Models
 
         public DateTime StartTime 
         {
-            get { return DateTime.Parse(Tags[Constants.StartTime], CultureInfo.InvariantCulture).ToUniversalTime(); }
+            get { return DateTime.Parse(Tags[Constants.StartTime], CultureInfo.InvariantCulture); }
         }
 
         public TimeSpan LifeTime
@@ -230,7 +237,7 @@ namespace SimpleWAWS.Models
             }
         }
 
-        public ResourceGroup(string subsciptionId, string resourceGroupName)
+        public ResourceGroup(string subsciptionId, string resourceGroupName, Subscription.SubscriptionType subscriptionType = Subscription.SubscriptionType.AppService)
             : base(subsciptionId, resourceGroupName)
         {
             this.Sites = Enumerable.Empty<Site>();
@@ -240,6 +247,7 @@ namespace SimpleWAWS.Models
             this.LogicApps = Enumerable.Empty<LogicApp>();
             this.StorageAccounts = Enumerable.Empty<StorageAccount>();
             this.Tags = new Dictionary<string, string>();
+            this.SubscriptionType = subscriptionType;
         }
     }
 }
