@@ -67,15 +67,18 @@ namespace SimpleWAWS.Code
             {
                 try
                 {
-                    var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
-                    var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-                    var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
-                    using (var httpContentStream = await zipManager.GetZipFileStreamAsync("LogFiles/http/RawLogs"))
+                    foreach (var site in resourceGroup.Sites)
                     {
-                        await StorageHelper.UploadBlob(resourceGroup.ResourceUniqueId, httpContentStream);
+                        var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+                        var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
+                        var uniqueId = String.Concat(resourceGroup.ResourceUniqueId, '_', site.SiteName);
+                        using (var httpContentStream = await zipManager.GetZipFileStreamAsync("LogFiles/http/RawLogs"))
+                        {
+                            await StorageHelper.UploadBlob(uniqueId, httpContentStream);
+                        }
+                        await StorageHelper.AddQueueMessage(new { BlobName = uniqueId });
+                        SimpleTrace.TraceInformation("{0}; {1}", AnalyticsEvents.SiteIISLogsName, uniqueId);
                     }
-                    await StorageHelper.AddQueueMessage(new { BlobName = resourceGroup.ResourceUniqueId });
-                    SimpleTrace.TraceInformation("{0}; {1}", AnalyticsEvents.SiteIISLogsName, resourceGroup.ResourceUniqueId);
                 }
                 catch (Exception e)
                 {
