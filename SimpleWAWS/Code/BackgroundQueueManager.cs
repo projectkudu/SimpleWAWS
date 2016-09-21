@@ -217,6 +217,7 @@ namespace SimpleWAWS.Code
 
         private void LogQueueStatistics()
         {
+            AppInsights.TelemetryClient.TrackEvent("StartLoggingQueueStats", null);
             var freeSitesCount = FreeResourceGroups.Count(sub => sub.SubscriptionType == Subscription.SubscriptionType.AppService);
             var inUseSitesCount = ResourceGroupsInUse.Select(s=>s.Value).Count(sub => sub.SubscriptionType == Subscription.SubscriptionType.AppService);
             var inProgress = ResourceGroupsInProgress.Select(s => s.Value).Count();
