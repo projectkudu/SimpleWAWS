@@ -9,8 +9,9 @@ namespace SimpleWAWS.Models
 {
     public class JenkinsResource : BaseResource
     {
-        private const string _csmIdTemplate = "/subscriptions/{0}/resourceGroups/{1}/providers/.Network/publicIPAddresses/TrialJenkinsVMPublicIP";
+        private const string _csmIdTemplate = "/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Network/publicIPAddresses/TrialJenkinsVMPublicIP";
         private string _ipAddress = String.Empty;
+        private string _hostName = String.Empty;
         public JenkinsResource(string subscriptionId, string resourceGroupName, string ipAddress)
             : base(subscriptionId, resourceGroupName)
         {

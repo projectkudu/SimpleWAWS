@@ -74,6 +74,6 @@ namespace SimpleWAWS.Code
         public static readonly ArmUriTemplate StorageAccount = new ArmUriTemplate(StorageAccounts.TemplateUrl + "/{storageAccountName}", storageApiVersion);
         public static readonly ArmUriTemplate StorageListKeys = new ArmUriTemplate(StorageAccount.TemplateUrl + "/listKeys", storageApiVersion);
 
-        public static readonly ArmUriTemplate JenkinsResource = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Network/publicIPAddresses/TrialJenkinsVMPublicIP", jenkinsResourceApiVersion);
+        public static readonly ArmUriTemplate JenkinsResource = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Network/publicIPAddresses/{jenkinsDnsUri}", jenkinsResourceApiVersion);
     }
 }

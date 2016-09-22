@@ -56,6 +56,15 @@
           "metadata": {
             "description": "Local administrator password, complex password is required, do not use any variation of the password word because it will be rejected."
           }
+        },
+        "dnsNameForPublicIP": {
+          "type": "string",
+          "defaultValue": "azurejenkins.cloudapp.net",
+          "minLength": 18,
+          "maxLength": 40,
+          "metadata": {
+            "description": "DnsName of the new VM deployed from the custom image."
+          }
         }
       },
       "variables": {
@@ -247,6 +256,9 @@
       },
       "resourceLocation": {
         "value": "West US"
+      },
+      "dnsNameForPublicIP": {
+        "value": "{{jenkinsDnsNameForPublicIP}}"
       }
     }
   }

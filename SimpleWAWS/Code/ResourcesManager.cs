@@ -425,11 +425,13 @@ namespace SimpleWAWS.Code
                     csmTemplateString = await reader.ReadToEndAsync();
                 }
 
-                csmTemplateString = csmTemplateString.Replace("{{jenkinsPassword}}", SimpleSettings.JenkinsVMPassword);
+                var hostName = SiteNameGenerator.GenerateVmName();
+                csmTemplateString = csmTemplateString.Replace("{{jenkinsPassword}}", SimpleSettings.JenkinsVMPassword).Replace("{{jenkinsDnsNameForPublicIP}}", hostName);
 
                 await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true, subscriptionType: resourceGroup.SubscriptionType);
-
-                // After a deployment, we have no idea what changes happened in the resource group
+                resourceGroup.Tags[Constants.JenkinsDnsUri] = hostName;
+                await resourceGroup.Update();
+                // After a deployment, fetch the Ip address. if the vm is up
                 // we should reload it.
                 // TODO: consider reloading the resourceGroup along with the deployment itself.
                 await resourceGroup.Load();

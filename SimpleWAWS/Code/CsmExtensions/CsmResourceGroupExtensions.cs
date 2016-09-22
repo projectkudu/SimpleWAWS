@@ -93,8 +93,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             if (jenkinsResources == null && !string.IsNullOrEmpty(resourceGroup.UserId))
             {
-                var csmjenkinsResourcesResponse =
-                    await jenkinsClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.JenkinsResource.Bind(resourceGroup));
+                var csmjenkinsResourcesResponse = await jenkinsClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.JenkinsResource.Bind(resourceGroup));
                 await csmjenkinsResourcesResponse.EnsureSuccessStatusCodeWithFullError();
                 jenkinsResources = await csmjenkinsResourcesResponse.Content.ReadAsAsync<CsmWrapper<CsmJenkinsResource>>();
             }
