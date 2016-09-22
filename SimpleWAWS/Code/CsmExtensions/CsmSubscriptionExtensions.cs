@@ -111,7 +111,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 });
 
             subscription.ResourceGroups = await goodResourceGroups
-                .Select(async r => await Load(new ResourceGroup(subscription.SubscriptionId, r.ResourceGroup.name, Subscription.SubscriptionType.Jenkins), r.ResourceGroup, r.Resources))
+                .Select(async r => await Load(new ResourceGroup(subscription.SubscriptionId, r.ResourceGroup.name), r.ResourceGroup, r.Resources))
                 .IgnoreAndFilterFailures();
 
             return subscription;

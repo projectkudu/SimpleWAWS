@@ -27,8 +27,15 @@ namespace SimpleWAWS.Models
 
         public Subscription.SubscriptionType SubscriptionType
         {
-            get { return _subscriptionType; }
-            set { _subscriptionType = value; }
+            get
+            {
+                return
+                    (SimpleSettings.JenkinsSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                        .Contains(SubscriptionId))
+                        ? Subscription.SubscriptionType.Jenkins
+                        : Subscription.SubscriptionType.AppService;
+
+            }
         }
 
         public string UserId
@@ -237,7 +244,7 @@ namespace SimpleWAWS.Models
             }
         }
 
-        public ResourceGroup(string subsciptionId, string resourceGroupName, Subscription.SubscriptionType subscriptionType = Subscription.SubscriptionType.AppService)
+        public ResourceGroup(string subsciptionId, string resourceGroupName)
             : base(subsciptionId, resourceGroupName)
         {
             this.Sites = Enumerable.Empty<Site>();
@@ -247,7 +254,6 @@ namespace SimpleWAWS.Models
             this.LogicApps = Enumerable.Empty<LogicApp>();
             this.StorageAccounts = Enumerable.Empty<StorageAccount>();
             this.Tags = new Dictionary<string, string>();
-            this.SubscriptionType = subscriptionType;
         }
     }
 }

@@ -91,14 +91,14 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task<ResourceGroup> LoadJenkinsResources(this ResourceGroup resourceGroup, CsmWrapper<CsmJenkinsResource> jenkinsResources = null)
         {
-            if (jenkinsResources == null)
+            if (jenkinsResources == null && !string.IsNullOrEmpty(resourceGroup.UserId))
             {
                 var csmjenkinsResourcesResponse =
                     await jenkinsClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.JenkinsResource.Bind(resourceGroup));
                 await csmjenkinsResourcesResponse.EnsureSuccessStatusCodeWithFullError();
                 jenkinsResources = await csmjenkinsResourcesResponse.Content.ReadAsAsync<CsmWrapper<CsmJenkinsResource>>();
             }
-            resourceGroup.JenkinsResources = new JenkinsResource(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, jenkinsResources.properties.ipAddress);
+            resourceGroup.JenkinsResources = new JenkinsResource(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, jenkinsResources?.properties?.ipAddress);
             return resourceGroup;
         }
 
@@ -155,7 +155,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             var guid = Guid.NewGuid().ToString();
             var subscription = new Subscription(subscriptionId);
-            var resourceGroup = new ResourceGroup(subscriptionId, string.Join(Constants.TryResourceGroupSeparator, Constants.TryResourceGroupPrefix, region.Replace(" ", Constants.TryResourceGroupSeparator), guid), subscription.Type)
+            var resourceGroup = new ResourceGroup(subscriptionId, string.Join(Constants.TryResourceGroupSeparator, Constants.TryResourceGroupPrefix, region.Replace(" ", Constants.TryResourceGroupSeparator), guid))
             {
                 Tags = new Dictionary<string, string>
                     {
@@ -245,10 +245,6 @@ namespace SimpleWAWS.Code.CsmExtensions
                 resourceGroup.Sites = resourceGroup.Sites.Union(await createdSites.WhenAll());
 
                 await InitFunctionsContainer(resourceGroup);
-            }
-            else
-            {
-                resourceGroup.SubscriptionType = Subscription.SubscriptionType.Jenkins;
             }
             return resourceGroup;
         }
