@@ -16,15 +16,17 @@ namespace SimpleWAWS.CleanAAD
         {
             switch (args.Length)
             {
-                    case 0:
-                            Run().Wait();
+                case 0:
+                    Run().Wait();
                     break;
-                    case 2:
-                            if (args[0] == "DeleteUser")
-                                DeleteUser(args[1]).Wait();
+                case 2:
+                    if (args[0] == "DeleteUser")
+                    {
+                        DeleteUser(args[1]).Wait();
+                    }
                     break;
-                    default:
-                            console("Usage : SimpleWAWS.CleanAAD.exe or SimpleWAWS.CleanAAD.exe DeleteUser <lowercaseusername> ");
+                default:
+                    console("Usage : SimpleWAWS.CleanAAD.exe or SimpleWAWS.CleanAAD.exe DeleteUser <lowercaseusername> ");
                     break;
             }
         }
@@ -38,23 +40,29 @@ namespace SimpleWAWS.CleanAAD
             while (true)
             {
                 var users = (GraphArray)await GraphClient.Users.Query("$top=999").GetAsync<GraphArray>();
-                foreach (var user in users.value)
+                var usersToDelete = users.value.Where(user => user.acceptedOn != null && user.acceptedOn < DateTime.UtcNow.AddDays(-2) && IsNotAdminUserName(user.displayName)).ToList();
+                if (!usersToDelete.Any())
                 {
-                    if (user.acceptedOn != null &&
-                        user.acceptedOn < DateTime.UtcNow.AddDays(-2) && IsNotAdminUserName(user.displayName)
-                        )
+                    if (tasks.Any())
+                    {
+                        await Task.WhenAll(tasks);
+                    }
+                    return;
+                }
+                else
+                {
+                    foreach (var user in usersToDelete)
                     {
                         Console.WriteLine(user.displayName);
                         tasks.Add(GraphClient.Users[user.objectId].DeleteAsync());
-                    }
 
-                    if (tasks.Count >= 50)
-                    {
-                        await Task.WhenAll(tasks);
-                        tasks.Clear();
+                        if (tasks.Count >= 50)
+                        {
+                            await Task.WhenAll(tasks);
+                            tasks.Clear();
+                        }
                     }
                 }
-                await Task.Delay(20 * 60 * 1000);
             }
         }
 
