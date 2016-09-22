@@ -68,7 +68,6 @@
                     "metadata": {
                         "description": "Local administrator password, complex password is required, do not use any variation of the password word because it will be rejected."
                     }
-<<<<<<< HEAD
                 },
                 "dnsNameForPublicIP": {
                     "type": "string",
@@ -76,8 +75,6 @@
                     "metadata": {
                         "description": "Globally unique DNS Name for the Public IP used to access the Virtual Machine."
                     }
-=======
->>>>>>> 441ad8a0f1497073f2e966710f5753feb8fc7bc9
                 }
             },
             "variables": {
