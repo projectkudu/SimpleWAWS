@@ -26,8 +26,12 @@
                     "defaultValue": "West US",
                     "allowedValues": [
                         "West US",
-                        "North US",
+                        "West US 2",
+                        "North Central US",
+                        "South Central US",
+                        "West CEntral US",
                         "East US",
+                        "East US 2",
                         "South US",
                         "Central US",
                         "North Europe",
@@ -36,8 +40,16 @@
                         "Japan East",
                         "Southeast Asia",
                         "East Asia",
+                        "Brazil South",
                         "Australia East",
-                        "Australia Southeast"
+                        "Australia Southeast",
+                        "South India",
+                        "Central India",
+                        "West India",
+                        "Canada Central",
+                        "Canada East",
+                        "UK South",
+                        "UK West"
                     ],
                     "metadata": {
                         "description": "supported locations as of now"
@@ -55,6 +67,13 @@
                     "minLength": 12,
                     "metadata": {
                         "description": "Local administrator password, complex password is required, do not use any variation of the password word because it will be rejected."
+                    }
+                },
+                "dnsNameForPublicIP": {
+                    "type": "string",
+                    "minLength": 1,
+                    "metadata": {
+                        "description": "Globally unique DNS Name for the Public IP used to access the Virtual Machine."
                     }
                 }
             },
@@ -245,8 +264,11 @@
             "newVmName": {
                 "value": "AzureJenkinsVM"
             },
-			"resourceLocation": {
+            "resourceLocation": {
                 "value": "West US"
+            },
+            "dnsNameForPublicIP": {
+                "value": "{{jenkinsDnsUrl}}"
             }
         }
     }
