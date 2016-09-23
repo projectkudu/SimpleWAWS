@@ -16,7 +16,7 @@ namespace SimpleWAWS.Models
             : base(subscriptionId, resourceGroupName)
         {
             this._ipAddress = ipAddress;
-            this._hostName = dnsSettings["fqdn"];
+            this._hostName = dnsSettings?["fqdn"];
         }
 
         public override string CsmId
