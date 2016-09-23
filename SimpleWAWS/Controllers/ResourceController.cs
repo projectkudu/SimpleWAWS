@@ -21,10 +21,9 @@ namespace SimpleWAWS.Controllers
         private static int _userGotErrorErrorCount = 0;
         public async Task<HttpResponseMessage> GetResource()
         {
-         var resourceManager = await ResourcesManager.GetInstanceAsync();
-         var resourceGroup = await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name);
-
-            return Request.CreateResponse(HttpStatusCode.OK, resourceGroup == null ? null : (HttpContext.Current.Request.QueryString["appServiceName"] == "Function")? resourceGroup.FunctionsUIResource: resourceGroup.UIResource);
+             var resourceManager = await ResourcesManager.GetInstanceAsync();
+             var resourceGroup = await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name);
+             return Request.CreateResponse(HttpStatusCode.OK, resourceGroup == null ? null : (HttpContext.Current.Request.QueryString["appServiceName"] == "Function")? resourceGroup.FunctionsUIResource: resourceGroup.UIResource);
         }
 
         [HttpGet]

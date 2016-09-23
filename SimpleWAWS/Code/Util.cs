@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using SimpleWAWS.Code;
 using SimpleWAWS.Trace;
 using System.Linq;
+using System.Net.Sockets;
+using System.Text;
 
 namespace SimpleWAWS.Models
 {
@@ -43,6 +45,25 @@ namespace SimpleWAWS.Models
             if (digits % 2 == 0)
                 return result.ToLowerInvariant();
             return result + random.Next(16).ToString("X").ToLowerInvariant();
+        }
+        public static void FireAndForget(string hostName)
+        {
+            try
+            {
+                var httpHeaders = "GET / HTTP/1.0\r\n" +
+                "Host: " + hostName + "\r\n" +
+                "\r\n";
+                using (var tcpClient = new TcpClient(hostName, 80))
+                {
+                    tcpClient.Client.Send(Encoding.ASCII.GetBytes(httpHeaders));
+                    tcpClient.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                //log and ignore any tcp exceptions
+                SimpleTrace.Diagnostics.Error(ex, "TCP Error");
+            }
         }
     }
 }

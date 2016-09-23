@@ -98,7 +98,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 await csmjenkinsResourcesResponse.EnsureSuccessStatusCodeWithFullError();
                 jenkinsResources = await csmjenkinsResourcesResponse.Content.ReadAsAsync<CsmWrapper<CsmJenkinsResource>>();
             }
-            resourceGroup.JenkinsResources = new JenkinsResource(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, jenkinsResources?.properties?.ipAddress);
+            resourceGroup.JenkinsResources = new JenkinsResource(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, jenkinsResources?.properties?.ipAddress, jenkinsResources?.properties?.dnsSettings);
             return resourceGroup;
         }
 

@@ -295,7 +295,7 @@ namespace SimpleWAWS.Code
                     }
 
                     resourceGroup.IsRbacEnabled = await rbacTask;
-                    site.FireAndForget();
+                    Util.FireAndForget(site.HostName);
                     return resourceGroup;
                 });
         }
@@ -456,7 +456,7 @@ namespace SimpleWAWS.Code
                             "Function", template.Name, resourceGroup.ResourceUniqueId, AppService.Function.ToString(), anonymousUserName);
                 SimpleTrace.UserCreatedApp(userIdentity, template, resourceGroup, AppService.Function);
 
-                resourceGroup.Sites.First(s => s.IsFunctionsContainer).FireAndForget();
+                Util.FireAndForget(resourceGroup.Sites.First(s => s.IsFunctionsContainer).HostName); 
                 var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email, isFunctionContainer: true);
                 resourceGroup.Tags[Constants.TemplateName] = template.Name;
                 await resourceGroup.Update();
@@ -496,9 +496,11 @@ namespace SimpleWAWS.Code
                 if (!string.IsNullOrEmpty(resourceGroup.JenkinsResources?.JenkinsResourceUrl))
                 {
                     resourceGroup.Tags[Constants.JenkinsUri] = resourceGroup.JenkinsResources?.JenkinsResourceUrl;
+                    resourceGroup.Tags[Constants.JenkinsDnsUri] = resourceGroup.JenkinsResources?.JenkinsDnsUrl;
                     await resourceGroup.Update();
                 }
             }
+            Util.FireAndForget(resourceGroup.JenkinsResources?.JenkinsResourceUrl);
             return resourceGroup;
         }
 

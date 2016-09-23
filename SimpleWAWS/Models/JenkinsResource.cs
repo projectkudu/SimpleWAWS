@@ -12,10 +12,11 @@ namespace SimpleWAWS.Models
         private const string _csmIdTemplate = "/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Network/publicIPAddresses/TrialJenkinsVMPublicIP";
         private string _ipAddress = String.Empty;
         private string _hostName = String.Empty;
-        public JenkinsResource(string subscriptionId, string resourceGroupName, string ipAddress)
+        public JenkinsResource(string subscriptionId, string resourceGroupName, string ipAddress, Dictionary<string, string> dnsSettings)
             : base(subscriptionId, resourceGroupName)
         {
             this._ipAddress = ipAddress;
+            this._hostName = dnsSettings["fqdn"];
         }
 
         public override string CsmId
@@ -29,6 +30,11 @@ namespace SimpleWAWS.Models
         public string JenkinsResourceUrl
         {
             get { return string.IsNullOrEmpty(_ipAddress)? string.Empty: string.Format($"http://{_ipAddress}:8080"); }
+            set { }
+        }
+        public string JenkinsDnsUrl
+        {
+            get { return string.IsNullOrEmpty(_hostName) ? string.Empty : string.Format($"{_hostName}:8080"); }
             set { }
         }
         public string Location { get; set; }
