@@ -14,7 +14,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 {
     public static partial class CsmManager
     {
-        public static async Task<JToken> Deploy(this CsmDeployment csmDeployment, bool block = false, Subscription.SubscriptionType subscriptionType = Subscription.SubscriptionType.AppService)
+        public static async Task<JToken> Deploy(this CsmDeployment csmDeployment, bool block = false, SubscriptionType subscriptionType = SubscriptionType.AppService)
         {
             var csmResponse = await GetClient(subscriptionType).HttpInvoke(HttpMethod.Put, ArmUriTemplates.CsmTemplateDeployment.Bind(csmDeployment), csmDeployment.CsmTemplate);
             await csmResponse.EnsureSuccessStatusCodeWithFullError();

@@ -15,7 +15,7 @@ namespace SimpleWAWS.Models
     public class ResourceGroup : BaseResource
     {
         private const string _csmIdTemplate = "/subscriptions/{0}/resourceGroups/{1}";
-        private Subscription.SubscriptionType _subscriptionType = Subscription.SubscriptionType.AppService;
+        private SubscriptionType _subscriptionType = SubscriptionType.AppService;
 
         public override string CsmId
         {
@@ -25,15 +25,15 @@ namespace SimpleWAWS.Models
             }
         }
 
-        public Subscription.SubscriptionType SubscriptionType
+        public SubscriptionType SubscriptionType
         {
             get
             {
                 return
                     (SimpleSettings.JenkinsSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                         .Contains(SubscriptionId))
-                        ? Subscription.SubscriptionType.Jenkins
-                        : Subscription.SubscriptionType.AppService;
+                        ? SubscriptionType.Jenkins
+                        : SubscriptionType.AppService;
 
             }
         }

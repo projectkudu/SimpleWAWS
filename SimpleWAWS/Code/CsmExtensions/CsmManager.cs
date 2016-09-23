@@ -41,15 +41,15 @@ namespace SimpleWAWS.Code.CsmExtensions
             jenkinsClient.ConfigureSpnLogin(SimpleSettings.JenkinsTenant, SimpleSettings.JenkinsServicePrincipal , SimpleSettings.JenkinsServicePrincipalKey);
         }
 
-        static AzureClient GetClient(Subscription.SubscriptionType subscriptionType)
+        static AzureClient GetClient(SubscriptionType subscriptionType)
         {
             switch (subscriptionType)
             {
-                    case Subscription.SubscriptionType.Jenkins:
-                    return jenkinsClient;
-                    case Subscription.SubscriptionType.AppService:
+                    case SubscriptionType.Jenkins:
+                            return jenkinsClient;
+                    case SubscriptionType.AppService:
                     default:
-                    return csmClient;
+                            return csmClient;
             }
         }
 
@@ -171,13 +171,13 @@ namespace SimpleWAWS.Code.CsmExtensions
             var response = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.Subscriptions.Bind(""));
             await response.EnsureSuccessStatusCodeWithFullError();
 
-            var result = await response.Content.ReadAsAsync<CsmSubscriptionsArray>();
+            var appServiceSubscriptions = await response.Content.ReadAsAsync<CsmSubscriptionsArray>();
 
             response = await jenkinsClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.Subscriptions.Bind(""));
             await response.EnsureSuccessStatusCodeWithFullError();
 
-            var result2 = await response.Content.ReadAsAsync<CsmSubscriptionsArray>();
-            return result.value.Union(result2.value).ToDictionary(k => k.displayName, v => v.subscriptionId);
+            var jenkinsSubscriptions = await response.Content.ReadAsAsync<CsmSubscriptionsArray>();
+            return appServiceSubscriptions.value.Union(jenkinsSubscriptions.value).ToDictionary(k => k.displayName, v => v.subscriptionId);
         }
 
         private static async Task<GraphArrayWrapper<GraphUser>> SearchGraph(RbacUser rbacUser)

@@ -18,10 +18,10 @@ using System.Globalization;
 using System.Threading;
 using System.Linq;
 using System.Security.Principal;
+using System.Web.Http.ExceptionHandling;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Serilog.Sinks.Elasticsearch;
-using SimpleWawsService;
 
 namespace SimpleWAWS
 {
@@ -31,6 +31,9 @@ namespace SimpleWAWS
         {
             //Init logger
             InitAppInsights();
+            var config = GlobalConfiguration.Configuration;
+            config.Services.Add(typeof(IExceptionLogger), new TelemetryExceptionLogger());
+            config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
 
             //Analytics logger
             if (new[]

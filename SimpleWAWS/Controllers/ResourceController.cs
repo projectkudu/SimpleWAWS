@@ -63,12 +63,12 @@ namespace SimpleWAWS.Controllers
             return SecurityManager.AdminOnly(async () =>
             {
                 var resourceManager = await ResourcesManager.GetInstanceAsync();
-                var freeSites = resourceManager.GetAllFreeResourceGroups().Where(sub => sub.SubscriptionType==Subscription.SubscriptionType.AppService);
-                var inUseSites = resourceManager.GetAllInUseResourceGroups().Where(sub => sub.SubscriptionType == Subscription.SubscriptionType.AppService);
+                var freeSites = resourceManager.GetAllFreeResourceGroups().Where(sub => sub.SubscriptionType == SubscriptionType.AppService);
+                var inUseSites = resourceManager.GetAllInUseResourceGroups().Where(sub => sub.SubscriptionType == SubscriptionType.AppService);
                 var inProgress = resourceManager.GetAllInProgressResourceGroups();
                 var backgroundOperations = resourceManager.GetAllBackgroundOperations();
                 var freeJenkinsResources = resourceManager.GetAllFreeJenkinsResourceGroups();
-                var inUseJenkinsResources = resourceManager.GetAllInUseResourceGroups().Where(sub => sub.SubscriptionType == Subscription.SubscriptionType.Jenkins);
+                var inUseJenkinsResources = resourceManager.GetAllInUseResourceGroups().Where(sub => sub.SubscriptionType == SubscriptionType.Jenkins);
                 return Request.CreateResponse(HttpStatusCode.OK,
                     new
                     {

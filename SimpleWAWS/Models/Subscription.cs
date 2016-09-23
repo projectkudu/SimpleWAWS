@@ -6,15 +6,15 @@ using SimpleWAWS.Code;
 
 namespace SimpleWAWS.Models
 {
+    public enum SubscriptionType
+    {
+        AppService,
+        Jenkins
+    }
+
     public class Subscription
     {
         public string SubscriptionId { get; private set; }
-        public enum SubscriptionType
-        {
-            AppService,
-            Jenkins
-        }
-
         public SubscriptionType Type {
             get
             {

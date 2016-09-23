@@ -30,7 +30,7 @@ namespace SimpleWAWS.Code
             this.Task = Task.Delay(Timeout.Infinite, this._tokenSource.Token);
         }
 
-        public Task<JToken> CreateDeployment(object template, bool block, Subscription.SubscriptionType subscriptionType)
+        public Task<JToken> CreateDeployment(object template, bool block, SubscriptionType subscriptionType)
         {
             Deployment = new CsmDeployment
             {

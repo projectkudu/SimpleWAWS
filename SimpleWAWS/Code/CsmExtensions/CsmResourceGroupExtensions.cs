@@ -46,7 +46,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             if (loadSubResources)
             {
-                if (resourceGroup.SubscriptionType == Subscription.SubscriptionType.AppService)
+                if (resourceGroup.SubscriptionType == SubscriptionType.AppService)
                 {
                     await Task.WhenAll(LoadSites(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/sites", StringComparison.OrdinalIgnoreCase))),
                                    LoadLogicApps(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Logic/workflows", StringComparison.OrdinalIgnoreCase))),
@@ -91,6 +91,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task<ResourceGroup> LoadJenkinsResources(this ResourceGroup resourceGroup, CsmWrapper<CsmJenkinsResource> jenkinsResources = null)
         {
+            //Dont try to look for the IP address if the resourcegroup hasnt been assgined yet.
             if (jenkinsResources == null && !string.IsNullOrEmpty(resourceGroup.UserId))
             {
                 var csmjenkinsResourcesResponse = await jenkinsClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.JenkinsResource.Bind(resourceGroup));
@@ -153,7 +154,6 @@ namespace SimpleWAWS.Code.CsmExtensions
         public static async Task<ResourceGroup> CreateResourceGroup(string subscriptionId, string region)
         {
             var guid = Guid.NewGuid().ToString();
-            var subscription = new Subscription(subscriptionId);
             var resourceGroup = new ResourceGroup(subscriptionId, string.Join(Constants.TryResourceGroupSeparator, Constants.TryResourceGroupPrefix, region.Replace(" ", Constants.TryResourceGroupSeparator), guid))
             {
                 Tags = new Dictionary<string, string>
@@ -219,7 +219,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task<ResourceGroup> PutInDesiredState(this ResourceGroup resourceGroup)
         {
-            if (resourceGroup.SubscriptionType == Subscription.SubscriptionType.AppService)
+            if (resourceGroup.SubscriptionType == SubscriptionType.AppService)
             {
                 // If the resourceGroup is assigned, don't mess with it
                 if (!string.IsNullOrEmpty(resourceGroup.UserId)) return resourceGroup;

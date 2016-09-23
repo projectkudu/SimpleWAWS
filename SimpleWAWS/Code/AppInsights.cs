@@ -1,10 +1,8 @@
 ﻿using Microsoft.ApplicationInsights;
 
-namespace SimpleWawsService
+namespace SimpleWAWS
 {
     public class AppInsights{
-
-        private static TelemetryClient _instance;
-        public static TelemetryClient TelemetryClient => _instance ?? (_instance = new TelemetryClient());
+        public static TelemetryClient TelemetryClient { get; } = new TelemetryClient();
     }
 }

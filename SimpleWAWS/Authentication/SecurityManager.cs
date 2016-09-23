@@ -11,8 +11,6 @@ using System.Threading.Tasks;
 using System.Globalization;
 using System.Linq;
 
-
-
 namespace SimpleWAWS.Authentication
 {
     public static class SecurityManager

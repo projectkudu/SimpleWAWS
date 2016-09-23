@@ -13,7 +13,6 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
-using SimpleWawsService;
 
 namespace SimpleWAWS.Code
 {
@@ -63,22 +62,23 @@ namespace SimpleWAWS.Code
 
         private async Task<ResourceGroup> LogActiveUsageStatistics(ResourceGroup resourceGroup)
         {
-            if (resourceGroup.SubscriptionType == Subscription.SubscriptionType.AppService)
+            if (resourceGroup.SubscriptionType == SubscriptionType.AppService)
             {
                 try
                 {
-                    foreach (var site in resourceGroup.Sites)
-                    {
-                        var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+                    var site = resourceGroup.Sites.FirstOrDefault(s => resourceGroup.SubscriptionType == SubscriptionType.AppService
+                            ? s.IsSimpleWAWSOriginalSite
+                            : s.IsFunctionsContainer);
+                    if (site == null) throw new ArgumentNullException(nameof(site));
+                    var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
                         var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
-                        var uniqueId = String.Concat(resourceGroup.ResourceUniqueId, '_', site.SiteName);
+                        
                         using (var httpContentStream = await zipManager.GetZipFileStreamAsync("LogFiles/http/RawLogs"))
                         {
-                            await StorageHelper.UploadBlob(uniqueId, httpContentStream);
+                            await StorageHelper.UploadBlob(resourceGroup.ResourceUniqueId, httpContentStream);
                         }
-                        await StorageHelper.AddQueueMessage(new { BlobName = uniqueId });
-                        SimpleTrace.TraceInformation("{0}; {1}", AnalyticsEvents.SiteIISLogsName, uniqueId);
-                    }
+                        await StorageHelper.AddQueueMessage(new { BlobName = resourceGroup.ResourceUniqueId });
+                        SimpleTrace.TraceInformation("{0}; {1}", AnalyticsEvents.SiteIISLogsName, resourceGroup.ResourceUniqueId);
                 }
                 catch (Exception e)
                 {
@@ -111,9 +111,7 @@ namespace SimpleWAWS.Code
             {
                 case OperationType.SubscriptionLoad:
                     var subscription = subTask.Task.Result;
-                    var result = (subscription.Type == Subscription.SubscriptionType.AppService) ?
-                        subscription.MakeTrialSubscription() :
-                        subscription.MakeJenkinsTrialSubscription();
+                    var result = subscription.MakeTrialSubscription();
                     foreach (var resourceGroup in result.Ready)
                     {
                         PutResourceGroupInDesiredStateOperation(resourceGroup);
@@ -140,10 +138,14 @@ namespace SimpleWAWS.Code
                     }
                     else
                     {
-                        if (readyToAddRg.SubscriptionType == Subscription.SubscriptionType.AppService)
+                        if (readyToAddRg.SubscriptionType == SubscriptionType.AppService)
+                        {
                             FreeResourceGroups.Enqueue(readyToAddRg);
+                        }
                         else
+                        {
                             FreeJenkinsResourceGroups.Enqueue(readyToAddRg);
+                        }
                     }
                     break;
 
@@ -221,12 +223,12 @@ namespace SimpleWAWS.Code
         private void LogQueueStatistics()
         {
             AppInsights.TelemetryClient.TrackEvent("StartLoggingQueueStats", null);
-            var freeSitesCount = FreeResourceGroups.Count(sub => sub.SubscriptionType == Subscription.SubscriptionType.AppService);
-            var inUseSitesCount = ResourceGroupsInUse.Select(s=>s.Value).Count(sub => sub.SubscriptionType == Subscription.SubscriptionType.AppService);
+            var freeSitesCount = FreeResourceGroups.Count(sub => sub.SubscriptionType == SubscriptionType.AppService);
+            var inUseSitesCount = ResourceGroupsInUse.Select(s=>s.Value).Count(sub => sub.SubscriptionType == SubscriptionType.AppService);
             var inProgress = ResourceGroupsInProgress.Select(s => s.Value).Count();
             var backgroundOperations = BackgroundInternalOperations.Select(s => s.Value).Count();
-            var freeJenkinsResources = FreeJenkinsResourceGroups.Count(sub => sub.SubscriptionType == Subscription.SubscriptionType.Jenkins);
-            var inUseJenkinsResources = ResourceGroupsInUse.Select(s => s.Value).Count(sub => sub.SubscriptionType == Subscription.SubscriptionType.Jenkins);
+            var freeJenkinsResources = FreeJenkinsResourceGroups.Count(sub => sub.SubscriptionType == SubscriptionType.Jenkins);
+            var inUseJenkinsResources = ResourceGroupsInUse.Select(s => s.Value).Count(sub => sub.SubscriptionType == SubscriptionType.Jenkins);
 
             AppInsights.TelemetryClient.TrackMetric("freeSites", freeSitesCount);
             AppInsights.TelemetryClient.TrackMetric("inUseSites", inUseSitesCount);

@@ -425,8 +425,11 @@ namespace SimpleWAWS.Code
                     csmTemplateString = await reader.ReadToEndAsync();
                 }
 
-                var hostName = SiteNameGenerator.GenerateVmName();
-                csmTemplateString = csmTemplateString.Replace("{{jenkinsPassword}}", SimpleSettings.JenkinsVMPassword).Replace("{{jenkinsDnsNameForPublicIP}}", hostName);
+                var hostName = SiteNameGenerator.GenerateJenksinsDnsName();
+                csmTemplateString = csmTemplateString
+                                    .Replace("{{jenkinsPassword}}", SimpleSettings.JenkinsVMPassword)
+                                    .Replace("{{jenkinsDnsNameForPublicIP}}", hostName)
+                                    .Replace("{{vmLocation}}", resourceGroup.GeoRegion);
 
                 await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true, subscriptionType: resourceGroup.SubscriptionType);
                 resourceGroup.Tags[Constants.JenkinsDnsUri] = hostName;
