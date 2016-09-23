@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Web;
 
 namespace SimpleWAWS.Models
 {
@@ -30,12 +28,10 @@ namespace SimpleWAWS.Models
         public string JenkinsResourceUrl
         {
             get { return string.IsNullOrEmpty(_ipAddress)? string.Empty: string.Format($"http://{_ipAddress}:8080"); }
-            set { }
         }
         public string JenkinsDnsUrl
         {
-            get { return string.IsNullOrEmpty(_hostName) ? string.Empty : string.Format($"{_hostName}:8080"); }
-            set { }
+            get { return string.IsNullOrEmpty(_hostName) ? string.Empty : string.Format($"http://{_hostName}:8080"); }
         }
         public string Location { get; set; }
 
