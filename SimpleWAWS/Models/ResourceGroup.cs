@@ -139,7 +139,10 @@ namespace SimpleWAWS.Models
         }
         public string JenkinsDnsUri
         {
-            get { return Tags[Constants.JenkinsDnsUri]; }
+            get
+            {
+                return Tags.ContainsKey(Constants.JenkinsDnsUri)?Tags[Constants.JenkinsDnsUri]:String.Empty; 
+            }
         }
         public bool JenkinsUrlPopulated
         {
