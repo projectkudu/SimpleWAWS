@@ -438,7 +438,7 @@ namespace SimpleWAWS.Code
                 // we should reload it.
                 // TODO: consider reloading the resourceGroup along with the deployment itself.
                 await resourceGroup.Load();
-
+                Util.FireAndForget(resourceGroup.JenkinsResources?.JenkinsResourceUrl);
                 resourceGroup.IsRbacEnabled = false;
                 return resourceGroup;
             });
@@ -500,7 +500,6 @@ namespace SimpleWAWS.Code
                     await resourceGroup.Update();
                 }
             }
-            Util.FireAndForget(resourceGroup.JenkinsResources?.JenkinsResourceUrl);
             return resourceGroup;
         }
 
