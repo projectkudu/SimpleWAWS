@@ -86,7 +86,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 .GroupBy(s => s.GeoRegion)
                 .Select(g => new { Region = g.Key, ResourceGroups = g.Select(r => r), Count = g.Count() })
                 .Where(g => g.Count > (subscription.Type==SubscriptionType.AppService? 1: SimpleSettings.JenkinsResourceGroupsPerRegion))
-                .Select(g => g.ResourceGroups.Where(rg => string.IsNullOrEmpty(rg.UserId)).Skip(1))
+                .Select(g => g.ResourceGroups.Where(rg => string.IsNullOrEmpty(rg.UserId)).Skip((subscription.Type == SubscriptionType.AppService ? 1 : SimpleSettings.JenkinsResourceGroupsPerRegion)))
                 .SelectMany(i => i);
 
             result.Ready = subscription.ResourceGroups.Where(rg => !result.ToDelete.Any(drg => drg.ResourceGroupName == rg.ResourceGroupName));
