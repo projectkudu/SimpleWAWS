@@ -35,5 +35,6 @@ namespace SimpleWAWS.Code
         public const string DefaultServerFarmName = "Default1";
         public const string JenkinsUri = "JenkinsUri";
         public const string JenkinsDnsUri = "JenkinsDnsUri";
+        public const string SubscriptionType = "SubscriptionType";
     }
 }

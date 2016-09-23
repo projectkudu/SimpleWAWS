@@ -26,14 +26,11 @@ namespace SimpleWAWS.Code.CsmExtensions
                 {
                     var deleteBadResourceGroupsTasks = csmResourceGroups.value
                         .Where(r => r.tags != null
-                                    && ((r.tags.ContainsKey("Bad") || !r.tags.ContainsKey("FunctionsContainerDeployed"))
-                                        && (!r.tags.ContainsKey("UserId"))
-                                        && r.properties.provisioningState != "Deleting"))
-                        .Select(async r => await
-                            Delete(
-                                await
-                                    Load(new ResourceGroup(subscription.SubscriptionId, r.name), r,
-                                        loadSubResources: false), block: false));
+                                    && ((r.tags.ContainsKey("Bad") || 
+                                    (subscription.Type==SubscriptionType.AppService?!r.tags.ContainsKey("FunctionsContainerDeployed"): !r.tags.ContainsKey(Constants.SubscriptionType)))
+                                    && (!r.tags.ContainsKey("UserId"))
+                                    && r.properties.provisioningState != "Deleting"))
+                        .Select(async r => await Delete(await Load(new ResourceGroup(subscription.SubscriptionId, r.name), r, loadSubResources: false), block: false));
               
                     await deleteBadResourceGroupsTasks.IgnoreFailures().WhenAll();
 
@@ -41,8 +38,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                     //TODO: Ensure a background task always takes care of this  
                     csmResourceGroups = await subscription.LoadResourceGroupsForSubscription();
                 }
-                var csmSubscriptionResourcesReponse =
-                    await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.SubscriptionResources.Bind(subscription));
+                var csmSubscriptionResourcesReponse = await GetClient(subscription.Type).HttpInvoke(HttpMethod.Get, ArmUriTemplates.SubscriptionResources.Bind(subscription));
 
                 await csmSubscriptionResourcesReponse.EnsureSuccessStatusCodeWithFullError();
 
@@ -54,17 +50,12 @@ namespace SimpleWAWS.Code.CsmExtensions
                     .Select(r => new
                     {
                         ResourceGroup = r,
-                        Resources =
-                            csmSubscriptionResources.value.Where(
-                                resource => resource.id.IndexOf(r.id, StringComparison.OrdinalIgnoreCase) != -1)
+                        Resources = csmSubscriptionResources.value.Where(
+                                    resource => resource.id.IndexOf(r.id, StringComparison.OrdinalIgnoreCase) != -1)
                     });
 
                 subscription.ResourceGroups = await goodResourceGroups
-                    .Select(
-                        async r =>
-                            await
-                                Load(new ResourceGroup(subscription.SubscriptionId, r.ResourceGroup.name),
-                                    r.ResourceGroup, r.Resources))
+                    .Select( async r => await Load(new ResourceGroup(subscription.SubscriptionId, r.ResourceGroup.name),r.ResourceGroup, r.Resources))
                     .IgnoreAndFilterFailures();
 
                 return subscription;
@@ -94,7 +85,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             result.ToDelete = subscription.ResourceGroups
                 .GroupBy(s => s.GeoRegion)
                 .Select(g => new { Region = g.Key, ResourceGroups = g.Select(r => r), Count = g.Count() })
-                .Where(g => g.Count > 1)
+                .Where(g => g.Count > (subscription.Type==SubscriptionType.AppService? 1: SimpleSettings.JenkinsResourceGroupsPerRegion))
                 .Select(g => g.ResourceGroups.Where(rg => string.IsNullOrEmpty(rg.UserId)).Skip(1))
                 .SelectMany(i => i);
 

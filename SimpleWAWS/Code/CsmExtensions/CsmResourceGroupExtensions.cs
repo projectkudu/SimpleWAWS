@@ -161,7 +161,8 @@ namespace SimpleWAWS.Code.CsmExtensions
                         { Constants.StartTime, DateTime.UtcNow.ToString(CultureInfo.InvariantCulture) },
                         { Constants.IsRbacEnabled, false.ToString() },
                         { Constants.GeoRegion, region },
-                        { Constants.IsExtended, false.ToString() }
+                        { Constants.IsExtended, false.ToString() },
+                        { Constants.SubscriptionType, (new Subscription(subscriptionId)).Type.ToString()}
                     }
             };
 
@@ -376,7 +377,9 @@ namespace SimpleWAWS.Code.CsmExtensions
             return !string.IsNullOrEmpty(csmResourceGroup.name) &&
                 csmResourceGroup.name.StartsWith(Constants.TryResourceGroupPrefix, StringComparison.OrdinalIgnoreCase) &&
                 csmResourceGroup.properties.provisioningState == "Succeeded" &&
-                csmResourceGroup.tags != null && !csmResourceGroup.tags.ContainsKey("Bad");
+                csmResourceGroup.tags != null && !csmResourceGroup.tags.ContainsKey("Bad") 
+                && csmResourceGroup.tags.ContainsKey(Constants.SubscriptionType)
+                && string.Equals(csmResourceGroup.tags[Constants.SubscriptionType], SubscriptionType.Jenkins.ToString(),StringComparison.OrdinalIgnoreCase);
         }
 
         public static async Task InitApiApps(this ResourceGroup resourceGroup)
