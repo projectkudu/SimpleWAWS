@@ -20,6 +20,7 @@ namespace SimpleWAWS.Code
     {
 
         public readonly ConcurrentQueue<ResourceGroup> FreeResourceGroups = new ConcurrentQueue<ResourceGroup>();
+        public readonly ConcurrentQueue<ResourceGroup> FreeJenkinsResourceGroups = new ConcurrentQueue<ResourceGroup>();
         public readonly ConcurrentDictionary<string, InProgressOperation> ResourceGroupsInProgress = new ConcurrentDictionary<string, InProgressOperation>();
         public readonly ConcurrentDictionary<string, ResourceGroup> ResourceGroupsInUse = new ConcurrentDictionary<string, ResourceGroup>();
         public readonly ConcurrentDictionary<Guid, BackgroundOperation> BackgroundInternalOperations = new ConcurrentDictionary<Guid, BackgroundOperation>();
@@ -61,26 +62,32 @@ namespace SimpleWAWS.Code
 
         private async Task<ResourceGroup> LogActiveUsageStatistics(ResourceGroup resourceGroup)
         {
-            try
+            if (resourceGroup.SubscriptionType == SubscriptionType.AppService)
             {
-                var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
-                var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-                var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
-                using (var httpContentStream = await zipManager.GetZipFileStreamAsync("LogFiles/http/RawLogs"))
+                try
                 {
-                    await StorageHelper.UploadBlob(resourceGroup.ResourceUniqueId, httpContentStream);
+                    var site = resourceGroup.Sites.FirstOrDefault(s => resourceGroup.SubscriptionType == SubscriptionType.AppService
+                            ? s.IsSimpleWAWSOriginalSite
+                            : s.IsFunctionsContainer);
+                    if (site == null) throw new ArgumentNullException(nameof(site));
+                    var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+                        var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
+                        
+                        using (var httpContentStream = await zipManager.GetZipFileStreamAsync("LogFiles/http/RawLogs"))
+                        {
+                            await StorageHelper.UploadBlob(resourceGroup.ResourceUniqueId, httpContentStream);
+                        }
+                        await StorageHelper.AddQueueMessage(new { BlobName = resourceGroup.ResourceUniqueId });
+                        SimpleTrace.TraceInformation("{0}; {1}", AnalyticsEvents.SiteIISLogsName, resourceGroup.ResourceUniqueId);
                 }
-                await StorageHelper.AddQueueMessage(new { BlobName = resourceGroup.ResourceUniqueId });
-                SimpleTrace.TraceInformation("{0}; {1}", AnalyticsEvents.SiteIISLogsName, resourceGroup.ResourceUniqueId);
-            }
-            catch (Exception e)
-            {
-                if (!(e is HttpRequestException))
+                catch (Exception e)
                 {
-                    SimpleTrace.Diagnostics.Error(e, "Error logging active usage numbers");
+                    if (!(e is HttpRequestException))
+                    {
+                        SimpleTrace.Diagnostics.Error(e, "Error logging active usage numbers");
+                    }
                 }
             }
-
             return resourceGroup;
         }
 
@@ -109,11 +116,11 @@ namespace SimpleWAWS.Code
                     {
                         PutResourceGroupInDesiredStateOperation(resourceGroup);
                     }
-                    foreach(var geoRegion in result.ToCreateInRegions)
+                    foreach (var geoRegion in result.ToCreateInRegions)
                     {
                         CreateResourceGroupOperation(subscription.SubscriptionId, geoRegion);
                     }
-                    foreach(var resourceGroup in result.ToDelete)
+                    foreach (var resourceGroup in result.ToDelete)
                     {
                         DeleteResourceGroupOperation(resourceGroup);
                     }
@@ -131,9 +138,16 @@ namespace SimpleWAWS.Code
                     }
                     else
                     {
-                        FreeResourceGroups.Enqueue(readyToAddRg);
+                        if (readyToAddRg.SubscriptionType == SubscriptionType.AppService)
+                        {
+                            FreeResourceGroups.Enqueue(readyToAddRg);
+                        }
+                        else
+                        {
+                            FreeJenkinsResourceGroups.Enqueue(readyToAddRg);
+                        }
                     }
-                break;
+                    break;
 
                 case OperationType.ResourceGroupCreate:
                     PutResourceGroupInDesiredStateOperation(resourceGroupTask.Task.Result);
@@ -180,6 +194,8 @@ namespace SimpleWAWS.Code
 
             foreach (var resource in resources)
                 DeleteResourceGroup(resource);
+            //TODO:Add a way replenish leaking resourcegroups
+
         }
 
         private void LogUsageStatistics(ResourceGroup resourceGroup)
@@ -199,13 +215,28 @@ namespace SimpleWAWS.Code
             {
                 Description = $"Deleting and creating resourceGroup {resourceGroup.ResourceGroupName}",
                 Type = OperationType.ResourceGroupDeleteThenCreate,
-                Task = resourceGroup.DeleteAndCreateReplacement(blockDelete:false),
+                Task = resourceGroup.DeleteAndCreateReplacement(blockDelete: false),
                 RetryAction = () => DeleteAndCreateResourceGroupOperation(resourceGroup)
             });
         }
 
         private void LogQueueStatistics()
         {
+            AppInsights.TelemetryClient.TrackEvent("StartLoggingQueueStats", null);
+            var freeSitesCount = FreeResourceGroups.Count(sub => sub.SubscriptionType == SubscriptionType.AppService);
+            var inUseSitesCount = ResourceGroupsInUse.Select(s=>s.Value).Count(sub => sub.SubscriptionType == SubscriptionType.AppService);
+            var inProgress = ResourceGroupsInProgress.Select(s => s.Value).Count();
+            var backgroundOperations = BackgroundInternalOperations.Select(s => s.Value).Count();
+            var freeJenkinsResources = FreeJenkinsResourceGroups.Count(sub => sub.SubscriptionType == SubscriptionType.Jenkins);
+            var inUseJenkinsResources = ResourceGroupsInUse.Select(s => s.Value).Count(sub => sub.SubscriptionType == SubscriptionType.Jenkins);
+
+            AppInsights.TelemetryClient.TrackMetric("freeSites", freeSitesCount);
+            AppInsights.TelemetryClient.TrackMetric("inUseSites", inUseSitesCount);
+            AppInsights.TelemetryClient.TrackMetric("inProgressOperations", inProgress);
+            AppInsights.TelemetryClient.TrackMetric("backgroundOperations", backgroundOperations);
+            AppInsights.TelemetryClient.TrackMetric("freeJenkinsResources", freeJenkinsResources);
+            AppInsights.TelemetryClient.TrackMetric("inUseJenkinsResources", inUseJenkinsResources);
+
         }
 
         private void DeleteResourceGroupOperation(ResourceGroup resourceGroup)

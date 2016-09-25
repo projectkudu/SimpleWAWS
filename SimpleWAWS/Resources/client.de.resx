@@ -271,7 +271,7 @@
     <value>Visual Studio Professional 2015 (Update 2) installieren</value>
   </data>
   <data name="Information_InstallXamarinStudio" xml:space="preserve">
-    <value>Xamarin Studio für Windows oder OS X installieren</value>
+    <value>Xamarin Studio für OS X installieren</value>
   </data>
   <data name="Information_InstallXcode" xml:space="preserve">
     <value>Xcode (v4.4+) installieren</value>

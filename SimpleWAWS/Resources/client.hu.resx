@@ -271,7 +271,7 @@
     <value>A Visual Studio Professional 2015 (Update 2) telepítése</value>
   </data>
   <data name="Information_InstallXamarinStudio" xml:space="preserve">
-    <value>A Windowshoz vagy az OS X-hez készült Xamarin Studio telepítése</value>
+    <value>A OS X-hez készült Xamarin Studio telepítése</value>
   </data>
   <data name="Information_InstallXcode" xml:space="preserve">
     <value>Xcode (v4.4+) telepítése</value>

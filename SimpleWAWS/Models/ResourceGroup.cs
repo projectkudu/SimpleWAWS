@@ -15,12 +15,26 @@ namespace SimpleWAWS.Models
     public class ResourceGroup : BaseResource
     {
         private const string _csmIdTemplate = "/subscriptions/{0}/resourceGroups/{1}";
+        private SubscriptionType _subscriptionType = SubscriptionType.AppService;
 
         public override string CsmId
         {
             get
             {
                 return string.Format(CultureInfo.InvariantCulture, _csmIdTemplate, SubscriptionId, ResourceGroupName);
+            }
+        }
+
+        public SubscriptionType SubscriptionType
+        {
+            get
+            {
+                return
+                    (SimpleSettings.JenkinsSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                        .Contains(SubscriptionId))
+                        ? SubscriptionType.Jenkins
+                        : SubscriptionType.AppService;
+
             }
         }
 
@@ -31,7 +45,7 @@ namespace SimpleWAWS.Models
 
         public DateTime StartTime 
         {
-            get { return DateTime.Parse(Tags[Constants.StartTime], CultureInfo.InvariantCulture).ToUniversalTime(); }
+            get { return DateTime.Parse(Tags[Constants.StartTime], CultureInfo.InvariantCulture); }
         }
 
         public TimeSpan LifeTime
@@ -123,7 +137,13 @@ namespace SimpleWAWS.Models
         {
             get { return JenkinsUrlPopulated ? Tags[Constants.JenkinsUri]:String.Empty; }
         }
-
+        public string JenkinsDnsUri
+        {
+            get
+            {
+                return Tags.ContainsKey(Constants.JenkinsDnsUri)?Tags[Constants.JenkinsDnsUri]:String.Empty; 
+            }
+        }
         public bool JenkinsUrlPopulated
         {
             get { return Tags.ContainsKey(Constants.JenkinsUri); }
@@ -184,6 +204,7 @@ namespace SimpleWAWS.Models
                     TimeLeftInSeconds = (int)TimeLeft.TotalSeconds,
                     CsmId = csmId,
                     Url = JenkinsUri,
+                    JenkinsDnsUrl= JenkinsDnsUri,
                     JenkinsUrlPopulated = JenkinsUrlPopulated
                 }
                 : new UIResource

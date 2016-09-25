@@ -53,9 +53,10 @@ namespace SimpleWAWS.Console
 
         public static async Task MainAsync()
         {
-            var subscriptionNames = System.Environment.GetEnvironmentVariable("Subscriptions").Split(',');
+            //var subscriptionNames = System.Environment.GetEnvironmentVariable("Subscriptions").Split(',');
             var csmSubscriptions = await CsmManager.GetSubscriptionNamesToIdMap();
             var subscriptionsIds = SimpleSettings.Subscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Union(SimpleSettings.JenkinsSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 //It can be either a displayName or a subscriptionId
                 .Select(s => s.Trim())
                 .Where(n =>
@@ -129,7 +130,10 @@ namespace SimpleWAWS.Console
                 {
                     try
                     {
-                        await CsmManager.CreateResourceGroup(s.SubscriptionId, geoRegion).Result.PutInDesiredState();
+                        for (int i=0; i < (s.Type==SubscriptionType.Jenkins?41: 1); i++)
+                        {
+                            await CsmManager.CreateResourceGroup(s.SubscriptionId, geoRegion).Result.PutInDesiredState();
+                        }
                     }
                     catch (Exception ex)
                     {

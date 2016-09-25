@@ -14,6 +14,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Services.Protocols;
 
 namespace SimpleWAWS.Code.CsmExtensions
 {
@@ -21,7 +22,7 @@ namespace SimpleWAWS.Code.CsmExtensions
     {
         private static readonly AzureClient csmClient;
         private static readonly AzureClient graphClient;
-        private static readonly AzureClient acomClient;
+        private static readonly AzureClient jenkinsClient;
 
         private const string _readerRole = "acdd72a7-3385-48ef-bd42-f606fba81ae7";
         private const string _contributorRold = "b24988ac-6180-42a0-ab88-20f7382dd24c";
@@ -36,8 +37,20 @@ namespace SimpleWAWS.Code.CsmExtensions
             graphClient = new AzureClient(retryCount: 3);
             graphClient.ConfigureUpnLogin(SimpleSettings.TryUserName, SimpleSettings.TryPassword);
 
-            acomClient = new AzureClient(retryCount: 3);
-            acomClient.ConfigureSpnLogin(SimpleSettings.TryDevOpsTenant, SimpleSettings.TryDevOpsServicePrincipal , SimpleSettings.TryDevOpsServicePrincipalKey);
+            jenkinsClient = new AzureClient(retryCount: 3);
+            jenkinsClient.ConfigureSpnLogin(SimpleSettings.JenkinsTenant, SimpleSettings.JenkinsServicePrincipal , SimpleSettings.JenkinsServicePrincipalKey);
+        }
+
+        static AzureClient GetClient(SubscriptionType subscriptionType)
+        {
+            switch (subscriptionType)
+            {
+                    case SubscriptionType.Jenkins:
+                            return jenkinsClient;
+                    case SubscriptionType.AppService:
+                    default:
+                            return csmClient;
+            }
         }
 
         public static async Task<string> GetUserObjectId(string puidOrAltSec, string emailAddress)
@@ -158,8 +171,13 @@ namespace SimpleWAWS.Code.CsmExtensions
             var response = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.Subscriptions.Bind(""));
             await response.EnsureSuccessStatusCodeWithFullError();
 
-            var result = await response.Content.ReadAsAsync<CsmSubscriptionsArray>();
-            return result.value.ToDictionary(k => k.displayName, v => v.subscriptionId);
+            var appServiceSubscriptions = await response.Content.ReadAsAsync<CsmSubscriptionsArray>();
+
+            response = await jenkinsClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.Subscriptions.Bind(""));
+            await response.EnsureSuccessStatusCodeWithFullError();
+
+            var jenkinsSubscriptions = await response.Content.ReadAsAsync<CsmSubscriptionsArray>();
+            return appServiceSubscriptions.value.Union(jenkinsSubscriptions.value).ToDictionary(k => k.displayName, v => v.subscriptionId);
         }
 
         private static async Task<GraphArrayWrapper<GraphUser>> SearchGraph(RbacUser rbacUser)

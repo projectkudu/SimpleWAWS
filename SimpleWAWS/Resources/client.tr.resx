@@ -271,7 +271,7 @@
     <value>Visual Studio Professional 2015'i (Güncelleştirme 2) yükle</value>
   </data>
   <data name="Information_InstallXamarinStudio" xml:space="preserve">
-    <value>Windows veya OS X için Xamarin Studio'yu yükle</value>
+    <value>OS X için Xamarin Studio'yu yükle</value>
   </data>
   <data name="Information_InstallXcode" xml:space="preserve">
     <value>Xcode'u (v4.4+) yükle</value>

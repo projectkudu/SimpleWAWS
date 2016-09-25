@@ -1,25 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Cache;
-using System.Net.Http;
-using System.Net.Sockets;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Hosting;
-using Kudu.Client.Editor;
-using Newtonsoft.Json;
-using SimpleWAWS.Kudu;
-using Newtonsoft.Json.Converters;
 using SimpleWAWS.Code;
-using SimpleWAWS.Code.CsmExtensions;
-using SimpleWAWS.Trace;
-using System.Configuration;
 using System.Globalization;
 
 namespace SimpleWAWS.Models
@@ -142,26 +124,6 @@ namespace SimpleWAWS.Models
             {
                 return !string.IsNullOrEmpty(Kind) &&
                     Kind.StartsWith(Constants.FunctionsContainerSiteKind);
-            }
-        }
-
-        public void FireAndForget()
-        {
-            try
-            {
-                var httpHeaders = "GET / HTTP/1.0\r\n" +
-                "Host: " + this.HostName + "\r\n" +
-                "\r\n";
-                using (var tcpClient = new TcpClient(this.HostName, 80))
-                {
-                    tcpClient.Client.Send(Encoding.ASCII.GetBytes(httpHeaders));
-                    tcpClient.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                //log and ignore any tcp exceptions
-                SimpleTrace.Diagnostics.Error(ex, "TCP Error");
             }
         }
     }

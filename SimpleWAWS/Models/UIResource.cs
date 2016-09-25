@@ -47,5 +47,9 @@ namespace SimpleWAWS.Models
         [JsonProperty(PropertyName = "jenkinsUrlPopulated")]
         public bool JenkinsUrlPopulated { get; set; }
 
+        [JsonProperty(PropertyName = "jenkinsDnsUrl", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string JenkinsDnsUrl { get; set; }
+
+
     }
 }

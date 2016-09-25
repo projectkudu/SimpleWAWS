@@ -18,6 +18,9 @@ using System.Globalization;
 using System.Threading;
 using System.Linq;
 using System.Security.Principal;
+using System.Web.Http.ExceptionHandling;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
 using Serilog.Sinks.Elasticsearch;
 
 namespace SimpleWAWS
@@ -27,6 +30,10 @@ namespace SimpleWAWS
         protected void Application_Start()
         {
             //Init logger
+            InitAppInsights();
+            var config = GlobalConfiguration.Configuration;
+            config.Services.Add(typeof(IExceptionLogger), new TelemetryExceptionLogger());
+            config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
 
             //Analytics logger
             if (new[]
@@ -121,13 +128,27 @@ namespace SimpleWAWS
             RouteTable.Routes.MapHttpRoute("extend-resource-expiration-time", "api/resource/extend", new { controller = "Resource", action = "ExtendResourceExpirationTime", authenticated = true }, new { verb = new HttpMethodConstraint("POST") });
 
             //Admin Only Routes
-            RouteTable.Routes.MapHttpRoute("get-all-resources", "api/resource/all/{showFreeSites}", new { controller = "Resource", action = "All", authenticated = true, adminOnly = true , showFreeSites = RouteParameter.Optional}, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("get-all-resources", "api/resource/all/{showFreeResources}", new { controller = "Resource", action = "All", authenticated = true, adminOnly = true , showFreeResources = RouteParameter.Optional}, new { verb = new HttpMethodConstraint("GET") });
             RouteTable.Routes.MapHttpRoute("reset-all-free-resources", "api/resource/reset", new { controller = "Resource", action = "Reset", authenticated = true, adminOnly = true }, new { verb = new HttpMethodConstraint("GET") });
             RouteTable.Routes.MapHttpRoute("reload-all-free-resources", "api/resource/reload", new { controller = "Resource", action = "DropAndReloadFromAzure", authenticated = true, adminOnly = true }, new { verb = new HttpMethodConstraint("GET") });
             RouteTable.Routes.MapHttpRoute("delete-users-resource", "api/resource/delete/{userIdentity}", new { controller = "Resource", action = "DeleteUserResource", authenticated = true, adminOnly = true }, new { verb = new HttpMethodConstraint("GET") });
             //Register auth provider
             SecurityManager.InitAuthProviders();
             ResourcesManager.GetInstanceAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        private void InitAppInsights()
+        {
+            var key = SimpleSettings.AppInsightsInstrumentationKey;
+            if (!string.IsNullOrEmpty(key))
+            {
+                TelemetryConfiguration.Active.InstrumentationKey = key;
+                TelemetryConfiguration.Active.DisableTelemetry = false;
+            }
+            else
+            {
+                TelemetryConfiguration.Active.DisableTelemetry = true;
+            }
         }
 
         protected void Application_BeginRequest(Object sender, EventArgs e)
@@ -138,15 +159,6 @@ namespace SimpleWAWS
 
             context.Response.Headers["Access-Control-Expose-Headers"] = "LoginUrl";
 
-        }
-        public string CreateSessionCookieData(IPrincipal user)
-        {
-            var identity = user.Identity as TryWebsitesIdentity;
-            var value = string.Format(CultureInfo.InvariantCulture, "{0};{1};{2};{3}", identity.Email, identity.Puid, identity.Issuer, DateTime.UtcNow.ToString(CultureInfo.InvariantCulture));
-            SimpleTrace.Analytics.Information(AnalyticsEvents.UserLoggedIn, identity);
-            SimpleTrace.TraceInformation("{0}; {1}; {2}", AnalyticsEvents.OldUserLoggedIn, identity.Email, identity.Issuer);
-
-            return Uri.EscapeDataString(value.Encrypt(AuthConstants.EncryptionReason));
         }
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
         {
@@ -190,18 +202,6 @@ namespace SimpleWAWS
                     SecurityManager.HandleAnonymousUser(context);
                 }
             }
-            else //coming in from auth provider . Now lets return to the source (Try Functions)
-            {
-                if (!context.IsBrowserRequest()) return;
-                if (context.Request["state"] == null) return;
-                if (!context.Request["state"].Contains("appServiceName=Function")) return;
-                if (context.User == null) return;
-                var cookie = CreateSessionCookieData(context.User);
-                var state = context.Request["state"];
-                var redirectlocation = state.Split('?')[0];
-                Response.Redirect($"{redirectlocation}?cookie={cookie}&state={Uri.EscapeDataString(state)}", true);
-            }
-
         }
 
         protected void Application_Error(object sender, EventArgs e)
@@ -210,9 +210,9 @@ namespace SimpleWAWS
             {
                 Exception ex = Server.GetLastError();
 
-                if (Response.StatusCode >= 500)
+                if (Response.StatusCode >= 400)
                 {
-                    SimpleTrace.Diagnostics.Error(ex, "Exception from Application_Error");
+                    AppInsights.TelemetryClient.TrackException(ex);
                 }
             }
         }

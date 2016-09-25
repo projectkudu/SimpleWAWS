@@ -21,10 +21,9 @@ namespace SimpleWAWS.Controllers
         private static int _userGotErrorErrorCount = 0;
         public async Task<HttpResponseMessage> GetResource()
         {
-         var resourceManager = await ResourcesManager.GetInstanceAsync();
-         var resourceGroup = await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name);
-
-            return Request.CreateResponse(HttpStatusCode.OK, resourceGroup == null ? null : (HttpContext.Current.Request.QueryString["appServiceName"] == "Function")? resourceGroup.FunctionsUIResource: resourceGroup.UIResource);
+             var resourceManager = await ResourcesManager.GetInstanceAsync();
+             var resourceGroup = await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name);
+             return Request.CreateResponse(HttpStatusCode.OK, resourceGroup == null ? null : (HttpContext.Current.Request.QueryString["appServiceName"] == "Function")? resourceGroup.FunctionsUIResource: resourceGroup.UIResource);
         }
 
         [HttpGet]
@@ -58,26 +57,33 @@ namespace SimpleWAWS.Controllers
         }
 
         [HttpGet]
-        public Task<HttpResponseMessage> All(bool showFreeSites = false)
+        public Task<HttpResponseMessage> All(bool showFreeResources = false)
         {
             return SecurityManager.AdminOnly(async () =>
             {
                 var resourceManager = await ResourcesManager.GetInstanceAsync();
-                var freeSites = resourceManager.GetAllFreeResourceGroups();
-                var inUseSites = resourceManager.GetAllInUseResourceGroups();
+                var freeSites = resourceManager.GetAllFreeResourceGroups().Where(sub => sub.SubscriptionType == SubscriptionType.AppService);
+                var inUseSites = resourceManager.GetAllInUseResourceGroups().Where(sub => sub.SubscriptionType == SubscriptionType.AppService);
                 var inProgress = resourceManager.GetAllInProgressResourceGroups();
                 var backgroundOperations = resourceManager.GetAllBackgroundOperations();
+                var freeJenkinsResources = resourceManager.GetAllFreeJenkinsResourceGroups();
+                var inUseJenkinsResources = resourceManager.GetAllInUseResourceGroups().Where(sub => sub.SubscriptionType == SubscriptionType.Jenkins);
                 return Request.CreateResponse(HttpStatusCode.OK,
                     new
                     {
                         freeSiteCount = freeSites.Count(),
-                        inProgressSitesCount = inProgress.Count(),
+                        freeJenkinsResourceCount = freeJenkinsResources.Count(),
                         inUseSitesCount = inUseSites.Count(),
+                        inUseJenkinsResourceCount = inUseJenkinsResources.Count(),
+                        inProgressSitesCount = inProgress.Count(),
                         backgroundOperationsCount = backgroundOperations.Count(),
-                        freeSites = showFreeSites ? freeSites : null,
                         inUseSites = inUseSites,
+                        inUseJenkinsResources = inUseJenkinsResources,
+                        freeSites = showFreeResources ? freeSites : null,
+                        freeJenkinsResources = showFreeResources ? freeJenkinsResources : null,
                         inProgress = inProgress,
                         backgroundOperations = backgroundOperations
+
                     });
             });
         }
