@@ -501,4 +501,13 @@
   <data name="Templates_AzureDevOpsDescription" xml:space="preserve">
     <value>This template will create an Azure Jenkins CI</value>
   </data>
+  <data name="Information_FunctionApp" xml:space="preserve">
+    <value>Function App</value>
+  </data>
+  <data name="Information_FunctionAppDescription" xml:space="preserve">
+    <value>Azure Functions is a serverless event driven experience  that extends the existing Azure App Service platform. These nano-services can scale based on demand and you pay only for the resources you consume.</value>
+  </data>
+  <data name="TryFunctions" xml:space="preserve">
+    <value>Try Functions</value>
+  </data>
 </root>

@@ -7,6 +7,8 @@
     export var Information_LogicApp: string;
     export var Information_WebApp: string;
     export var Information_APIApp: string;
+    export var Information_FunctionApp: string;
+    export var Information_FunctionAppDescription: string;
     export var Information_MobileApp: string;
     export var Action_SelectAppType: string;
     export var Action_SelectTemplate: string;

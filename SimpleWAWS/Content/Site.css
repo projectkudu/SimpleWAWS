@@ -9260,6 +9260,11 @@ div.sprite-WebApp {
     background-position: -5px -380px;
 }
 
+div.sprite-FunctionApp {
+    width: 115px;
+    height: 115px;
+    background-position: -5px -504px;
+}
 div.mobile-icons {
     background: url(/Content/images/mobile-clients.png) no-repeat top left;
 }

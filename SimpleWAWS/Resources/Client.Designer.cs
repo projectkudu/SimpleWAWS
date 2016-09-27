@@ -590,7 +590,29 @@ namespace SimpleWAWS.Resources {
                 return ResourceManager.GetString("Information_ExtendResourceLifeTimeText", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Function App.
+        /// </summary>
+        public static string Information_FunctionApp
+        {
+            get
+            {
+                return ResourceManager.GetString("Information_FunctionApp", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Azure Functions is a serverless event driven experience  that extends the existing Azure App Service platform. These nano-services can scale based on demand and you pay only for the resources you consume..
+        /// </summary>
+        public static string Information_FunctionAppDescription
+        {
+            get
+            {
+                return ResourceManager.GetString("Information_FunctionAppDescription", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Azure App Service is a cloud app service that integrates everything you need to quickly and easily build web and mobile apps for any platform or device..
         /// </summary>
@@ -1211,5 +1233,17 @@ namespace SimpleWAWS.Resources {
                 return ResourceManager.GetString("Twitter", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Try Functions.
+        /// </summary>
+        public static string TryFunctions
+        {
+            get
+            {
+                return ResourceManager.GetString("TryFunctions", resourceCulture);
+            }
+        }
+
     }
 }

@@ -49,7 +49,18 @@ angular.module("tryApp")
                 }],
                 templates: [],
                 description: Resources.Information_MobileAppDescription
-            }, {
+                }, {
+                    name: "FunctionApp",
+                    sprite: "sprite-FunctionApp",
+                    title: Resources.Information_FunctionApp,
+                    steps: [{
+                        id: 1,
+                        title: Resources.Information_SelectTemplate,
+                        sref: "home"
+                    }],
+                    templates: [],
+                    description: Resources.Information_FunctionAppDescription
+                }, {
                 name: "Api",
                 sprite: "sprite-ApiApp",
                 title: Resources.Information_APIApp,
