@@ -66,7 +66,7 @@ angular.module("tryApp")
                 title: Resources.Information_APIApp,
                 steps: [{
                     id: 1,
-                    title: Resources.Information_SelectTemplate,
+                    title: Resources.Action_SelectAppType,
                     sref: "home"
                 }, {
                     id: 2,
