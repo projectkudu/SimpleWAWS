@@ -279,7 +279,7 @@ namespace SimpleWAWS.Code
                         //Enable ZRay
                         await site.EnableZRay(resourceGroup.GeoRegion);
                     }
-                    else if (template.Name.Equals("ExpressJs", StringComparison.OrdinalIgnoreCase))
+                    else if (template.Name.Equals("WordPress", StringComparison.OrdinalIgnoreCase))
                     {
                         site.AppSettings["WEBSITE_NODE_DEFAULT_VERSION"] = "6.3.0";
                     }
@@ -292,9 +292,13 @@ namespace SimpleWAWS.Code
                         {
                             await site.UpdateConfig(new {properties = new {scmType = "None", httpLoggingEnabled = true}});
                         }
+                        else if (template.Name.Equals("WordPress", StringComparison.OrdinalIgnoreCase))
+                        {
+                            await site.UpdateConfig(new {properties = new {scmType = "LocalGit", httpLoggingEnabled = true, localMySqlEnabled = true} });
+                        }
                         else
                         {
-                            await site.UpdateConfig(new {properties = new {scmType = "LocalGit", httpLoggingEnabled = true}});
+                            await site.UpdateConfig(new { properties = new { scmType = "LocalGit", httpLoggingEnabled = true } });
                         }
                     }
 

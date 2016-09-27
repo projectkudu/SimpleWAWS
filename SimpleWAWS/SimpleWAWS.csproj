@@ -444,6 +444,7 @@
     <Content Include="Content\images\packages\Hello C#.png" />
     <Content Include="Content\images\packages\HTML5 Empty Site.png" />
     <Content Include="Content\images\packages\Large.png" />
+    <Content Include="Content\images\packages\logic-message-red.png" />
     <Content Include="Content\images\packages\Microsoft Azure.png" />
     <Content Include="Content\images\packages\MobileClient.png" />
     <Content Include="Content\images\packages\MVC 5 With Entity Framework.png" />
@@ -456,6 +457,7 @@
     <Content Include="Content\images\packages\Todo List.png" />
     <Content Include="Content\images\packages\TypeScript.png" />
     <Content Include="Content\images\packages\VSO.png" />
+    <Content Include="Content\images\packages\WordPress.png" />
     <Content Include="Content\images\packages\Xamarin CRM.png" />
     <Content Include="Content\images\WebApp2.png" />
     <Content Include="Content\images\Windows.png" />
