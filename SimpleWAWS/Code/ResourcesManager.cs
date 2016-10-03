@@ -281,7 +281,7 @@ namespace SimpleWAWS.Code
                     }
                     else if (template.Name.Equals("WordPress", StringComparison.OrdinalIgnoreCase))
                     {
-                        site.AppSettings["WEBSITE_NODE_DEFAULT_VERSION"] = "6.3.0";
+                        site.AppSettings["WEBSITE_NODE_DEFAULT_VERSION"] = "5.8.0";
                     }
 
                     await Task.WhenAll(site.UpdateAppSettings(), resourceGroup.Update());
