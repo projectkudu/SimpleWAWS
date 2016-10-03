@@ -279,7 +279,7 @@ namespace SimpleWAWS.Code
                         //Enable ZRay
                         await site.EnableZRay(resourceGroup.GeoRegion);
                     }
-                    else if (template.Name.Equals("WordPress", StringComparison.OrdinalIgnoreCase))
+                    else if (template.Name.Equals("ExpressJs", StringComparison.OrdinalIgnoreCase))
                     {
                         site.AppSettings["WEBSITE_NODE_DEFAULT_VERSION"] = "5.8.0";
                     }
