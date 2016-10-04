@@ -230,6 +230,7 @@ namespace SimpleWAWS.Models
             get
             {
                 var templateName = Tags.ContainsKey(Constants.TemplateName) ? Tags[Constants.TemplateName] : string.Empty;
+                var userName= Tags.ContainsKey(Constants.UserId) ? Tags[Constants.UserId] : string.Empty;
                 var appService = AppService.Function;
                 var siteToUseForUi = Sites.First(s => s.IsFunctionsContainer);
 
@@ -246,7 +247,8 @@ namespace SimpleWAWS.Models
                     TemplateName = templateName,
                     IsExtended = IsExtended,
                     TimeLeftInSeconds = (int)TimeLeft.TotalSeconds,
-                    CsmId = siteToUseForUi.CsmId
+                    CsmId = siteToUseForUi.CsmId,
+                    UserName = userName
                 };
             }
         }

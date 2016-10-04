@@ -50,6 +50,9 @@ namespace SimpleWAWS.Models
         [JsonProperty(PropertyName = "jenkinsDnsUrl", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string JenkinsDnsUrl { get; set; }
 
+        [JsonProperty(PropertyName = "userName", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string UserName { get; set; }
+
 
     }
 }
