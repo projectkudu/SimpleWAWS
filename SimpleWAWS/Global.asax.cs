@@ -210,7 +210,7 @@ namespace SimpleWAWS
             {
                 Exception ex = Server.GetLastError();
 
-                if (Response.StatusCode >= 400)
+                if (Response.StatusCode > 403)
                 {
                     AppInsights.TelemetryClient.TrackException(ex);
                 }

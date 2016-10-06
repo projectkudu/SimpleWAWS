@@ -224,7 +224,14 @@ namespace SimpleWAWS.Code
         {
             AppInsights.TelemetryClient.TrackEvent("StartLoggingQueueStats", null);
             var freeSitesCount = FreeResourceGroups.Count(sub => sub.SubscriptionType == SubscriptionType.AppService);
-            var inUseSitesCount = ResourceGroupsInUse.Select(s=>s.Value).Count(sub => sub.SubscriptionType == SubscriptionType.AppService);
+            var inUseSites      = ResourceGroupsInUse.Select(s => s.Value).Where(sub => sub.SubscriptionType == SubscriptionType.AppService);
+            var resourceGroups = inUseSites as IList<ResourceGroup> ?? inUseSites.ToList();
+            var inUseSitesCount = resourceGroups.Count();
+            var inUseFunctionsCount = resourceGroups.Count(res => res.AppService== AppService.Function);
+            var inUseWebsitesCount = resourceGroups.Count(res => res.AppService == AppService.Web);
+            var inUseMobileCount = resourceGroups.Count(res => res.AppService == AppService.Mobile);
+            var inUseLogicAppCount = resourceGroups.Count(res => res.AppService == AppService.Logic);
+//            var inUseApiAppCount = resourceGroups.Count(res => res.AppService == AppService.Api);
             var inProgress = ResourceGroupsInProgress.Select(s => s.Value).Count();
             var backgroundOperations = BackgroundInternalOperations.Select(s => s.Value).Count();
             var freeJenkinsResources = FreeJenkinsResourceGroups.Count(sub => sub.SubscriptionType == SubscriptionType.Jenkins);
@@ -232,6 +239,13 @@ namespace SimpleWAWS.Code
 
             AppInsights.TelemetryClient.TrackMetric("freeSites", freeSitesCount);
             AppInsights.TelemetryClient.TrackMetric("inUseSites", inUseSitesCount);
+            AppInsights.TelemetryClient.TrackMetric("inUseFunctionsCount", inUseFunctionsCount);
+            AppInsights.TelemetryClient.TrackMetric("inUseWebsitesCount", inUseWebsitesCount);
+            AppInsights.TelemetryClient.TrackMetric("inUseMobileCount", inUseMobileCount);
+            AppInsights.TelemetryClient.TrackMetric("inUseLogicAppCount", inUseLogicAppCount);
+//            AppInsights.TelemetryClient.TrackMetric("inUseApiAppCount", inUseApiAppCount);
+            AppInsights.TelemetryClient.TrackMetric("inUseSites", inUseSitesCount);
+
             AppInsights.TelemetryClient.TrackMetric("inProgressOperations", inProgress);
             AppInsights.TelemetryClient.TrackMetric("backgroundOperations", backgroundOperations);
             AppInsights.TelemetryClient.TrackMetric("freeJenkinsResources", freeJenkinsResources);
@@ -274,7 +288,7 @@ namespace SimpleWAWS.Code
 
         private void AddOperation<T>(BackgroundOperation<T> operation)
         {
-            if (BackgroundInternalOperations.Count > 50)
+            if (BackgroundInternalOperations.Count > 20)
             {
                 Task.Run(async () =>
                 {

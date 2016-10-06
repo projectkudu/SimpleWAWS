@@ -64,22 +64,36 @@ namespace SimpleWAWS.Controllers
                 var resourceManager = await ResourcesManager.GetInstanceAsync();
                 var freeSites = resourceManager.GetAllFreeResourceGroups().Where(sub => sub.SubscriptionType == SubscriptionType.AppService);
                 var inUseSites = resourceManager.GetAllInUseResourceGroups().Where(sub => sub.SubscriptionType == SubscriptionType.AppService);
+                var inUseSitesList = inUseSites as IList<ResourceGroup> ?? inUseSites.ToList();
+                var inUseSitesCount = inUseSitesList.Count();
+                var inUseFunctionsCount = inUseSitesList.Count(res => res.AppService == AppService.Function);
+                var inUseWebsitesCount = inUseSitesList.Count(res => res.AppService == AppService.Web);
+                var inUseMobileCount = inUseSitesList.Count(res => res.AppService == AppService.Mobile);
+                var inUseLogicAppCount = inUseSitesList.Count(res => res.AppService == AppService.Logic);
+
+
                 var inProgress = resourceManager.GetAllInProgressResourceGroups();
                 var backgroundOperations = resourceManager.GetAllBackgroundOperations();
                 var freeJenkinsResources = resourceManager.GetAllFreeJenkinsResourceGroups();
                 var inUseJenkinsResources = resourceManager.GetAllInUseResourceGroups().Where(sub => sub.SubscriptionType == SubscriptionType.Jenkins);
+                var freeSitesList = freeSites as IList<ResourceGroup> ?? freeSites.ToList();
+                var inUseJenkinsResourcesList = inUseJenkinsResources as IList<ResourceGroup> ?? inUseJenkinsResources.ToList();
                 return Request.CreateResponse(HttpStatusCode.OK,
                     new
                     {
-                        freeSiteCount = freeSites.Count(),
+                        freeSiteCount = freeSitesList.Count(),
                         freeJenkinsResourceCount = freeJenkinsResources.Count(),
-                        inUseSitesCount = inUseSites.Count(),
-                        inUseJenkinsResourceCount = inUseJenkinsResources.Count(),
+                        inUseSitesCount = inUseSitesCount,
+                        inUseFunctionsCount = inUseFunctionsCount,
+                        inUseWebsitesCount= inUseWebsitesCount,
+                        inUseMobileCount= inUseMobileCount,
+                        inUseLogicAppCount =inUseLogicAppCount,
+                        inUseJenkinsResourceCount = inUseJenkinsResourcesList.Count(),
                         inProgressSitesCount = inProgress.Count(),
                         backgroundOperationsCount = backgroundOperations.Count(),
-                        inUseSites = inUseSites,
-                        inUseJenkinsResources = inUseJenkinsResources,
-                        freeSites = showFreeResources ? freeSites : null,
+                        inUseSites = inUseSitesList,
+                        inUseJenkinsResources = inUseJenkinsResourcesList,
+                        freeSites = showFreeResources ? freeSitesList : null,
                         freeJenkinsResources = showFreeResources ? freeJenkinsResources : null,
                         inProgress = inProgress,
                         backgroundOperations = backgroundOperations
@@ -144,11 +158,11 @@ namespace SimpleWAWS.Controllers
             {
                 template = WebsiteTemplate.EmptySiteTemplate;
             }
-            else if (template.Name != null && template.Name.Equals("FunctionsContainer"))
+            else if (template.AppService.Equals(AppService.Function))
             {
-                template = FunctionTemplate.DefaultFunctionTemplate;
+                template = FunctionTemplate.DefaultFunctionTemplate(template.Name);
             }
-            else if (template.Name != null && !template.Name.Equals("Github Repo"))
+            else if (template.Name != null && !template.Name.Equals("Github Repo") && !template.AppService.Equals(AppService.Function))
             {
                 template = TemplatesManager.GetTemplates()
                     .FirstOrDefault(t => t.Name == template.Name && t.AppService == template.AppService);

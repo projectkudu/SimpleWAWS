@@ -7,9 +7,9 @@ namespace SimpleWAWS.Models
 {
     public class FunctionTemplate : BaseTemplate
     {
-        public static BaseTemplate DefaultFunctionTemplate
+        public static BaseTemplate DefaultFunctionTemplate(string templateName)
         {
-            get { return new FunctionTemplate() { Name = "FunctionsContainer", AppService = AppService.Function }; }
+            return new FunctionTemplate() { Name = templateName, AppService = AppService.Function }; 
         }
     }
 }
