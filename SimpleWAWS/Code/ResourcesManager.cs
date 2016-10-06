@@ -279,7 +279,7 @@ namespace SimpleWAWS.Code
                         //Enable ZRay
                         await site.EnableZRay(resourceGroup.GeoRegion);
                     }
-                    else if (template.Language.Equals("NodeJs", StringComparison.OrdinalIgnoreCase))
+                    else if ((template.Language!=null) && template.Language.Equals("NodeJs", StringComparison.OrdinalIgnoreCase))
                     {
                         site.AppSettings["WEBSITE_NODE_DEFAULT_VERSION"] = "5.8.0";
                     }
