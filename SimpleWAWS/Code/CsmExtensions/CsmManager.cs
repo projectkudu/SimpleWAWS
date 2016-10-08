@@ -27,10 +27,10 @@ namespace SimpleWAWS.Code.CsmExtensions
         static CsmManager()
         {
             csmClient = new AzureClient(retryCount: 3);
-            csmClient.ConfigureUpnLogin(SimpleSettings.TryUserName, SimpleSettings.TryPassword);
+            csmClient.ConfigureSpnLogin(SimpleSettings.TryTenantId, SimpleSettings.TryUserName, SimpleSettings.TryPassword);
 
             graphClient = new AzureClient(retryCount: 3);
-            graphClient.ConfigureUpnLogin(SimpleSettings.TryUserName, SimpleSettings.TryPassword);
+            graphClient.ConfigureSpnLogin(SimpleSettings.TryTenantId, SimpleSettings.TryUserName, SimpleSettings.TryPassword);
 
             jenkinsClient = new AzureClient(retryCount: 3);
             jenkinsClient.ConfigureSpnLogin(SimpleSettings.JenkinsTenant, SimpleSettings.JenkinsServicePrincipal , SimpleSettings.JenkinsServicePrincipalKey);
@@ -68,7 +68,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             {
                 var users = await SearchGraph(rbacUser);
 
-                if (users.value.Count() == 0)
+                if (!users.value.Any())
                 {
                     var invitation = new
                     {
