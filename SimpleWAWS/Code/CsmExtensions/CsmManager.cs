@@ -30,7 +30,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             csmClient.ConfigureSpnLogin(SimpleSettings.TryTenantId, SimpleSettings.TryUserName, SimpleSettings.TryPassword);
 
             graphClient = new AzureClient(retryCount: 3);
-            graphClient.ConfigureSpnLogin(SimpleSettings.TryTenantId, SimpleSettings.TryUserName, SimpleSettings.TryPassword);
+            graphClient.ConfigureUpnLogin(SimpleSettings.GraphUserName, SimpleSettings.GraphPassword);
 
             jenkinsClient = new AzureClient(retryCount: 3);
             jenkinsClient.ConfigureSpnLogin(SimpleSettings.JenkinsTenant, SimpleSettings.JenkinsServicePrincipal , SimpleSettings.JenkinsServicePrincipalKey);

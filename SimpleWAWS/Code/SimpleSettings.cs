@@ -52,5 +52,8 @@ namespace SimpleWAWS.Code
         public static int JenkinsResourceGroupsPerRegion { get { return Int32.Parse(config()); } }
         public static string AppInsightsInstrumentationKey { get { return config(); } }
 
+        public static string GraphUserName { get { return config(); } }
+        public static string GraphPassword { get { return config(); } }
+
     }
 }   
