@@ -1,12 +1,7 @@
 ﻿using Serilog;
 using SimpleWAWS.Code;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Web;
 using SimpleWAWS.Models;
 using SimpleWAWS.Authentication;
 

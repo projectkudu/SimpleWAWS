@@ -1,18 +1,15 @@
 ﻿using Kudu.Client.Zip;
 using SimpleWAWS.Code.CsmExtensions;
 using SimpleWAWS.Models;
-using SimpleWAWS.Models.CsmModels;
 using SimpleWAWS.Trace;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace SimpleWAWS.Code
 {

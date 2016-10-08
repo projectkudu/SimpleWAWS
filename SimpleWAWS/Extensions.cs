@@ -8,7 +8,6 @@ using System.Web.Security;
 using System.IO.Compression;
 using System.Threading.Tasks;
 using SimpleWAWS.Models;
-using System.Globalization;
 using System.Net.Http;
 
 namespace SimpleWAWS

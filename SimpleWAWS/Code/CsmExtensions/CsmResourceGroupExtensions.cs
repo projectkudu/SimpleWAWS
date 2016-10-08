@@ -2,18 +2,14 @@
 using Newtonsoft.Json.Linq;
 using SimpleWAWS.Models;
 using SimpleWAWS.Models.CsmModels;
-using SimpleWAWS.Trace;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Hosting;
 
 namespace SimpleWAWS.Code.CsmExtensions
 {

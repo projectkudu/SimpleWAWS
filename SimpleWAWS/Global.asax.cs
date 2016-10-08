@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Configuration;
-using System.Diagnostics;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Routing;
 using SimpleWAWS.Authentication;
-using SimpleWAWS.Models;
 using System.Web;
 using SimpleWAWS.Trace;
 using SimpleWAWS.Code;
@@ -14,12 +11,8 @@ using Destructurama;
 using Serilog.Filters;
 using Serilog.Sinks.Email;
 using System.Net;
-using System.Globalization;
-using System.Threading;
 using System.Linq;
-using System.Security.Principal;
 using System.Web.Http.ExceptionHandling;
-using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 
 namespace SimpleWAWS
