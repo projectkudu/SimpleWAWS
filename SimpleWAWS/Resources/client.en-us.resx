@@ -148,7 +148,7 @@
     <value>Download and run your mobile client app</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
-    <value>Edit with Visual Studio Online "Monaco"</value>
+    <value>Edit your code online</value>
   </data>
   <data name="Action_ReportAnIssue" xml:space="preserve">
     <value>Report an issue</value>
