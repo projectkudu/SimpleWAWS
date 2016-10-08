@@ -42,6 +42,7 @@ namespace SimpleWAWS
                     .Enrich.With(new ExperimentEnricher())
                     .Enrich.With(new UserNameEnricher())
                     .Destructure.JsonNetTypes()
+                    .WriteTo.ApplicationInsightsEvents(AppInsights.TelemetryClient)
                     .CreateLogger();
 
                 SimpleTrace.Analytics = analyticsLogger;
