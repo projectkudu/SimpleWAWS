@@ -52,6 +52,7 @@ namespace SimpleWAWS
                     .Enrich.With(new ExperimentEnricher())
                     .Enrich.With(new UserNameEnricher())
                     .WriteTo.File(@"D:\home\site\log.log")
+                    .WriteTo.ApplicationInsightsTraces(AppInsights.TelemetryClient)
                     .WriteTo.Logger(lc => lc
                         .Filter.ByIncludingOnly(Matching.WithProperty<int>("Count", p => p % 10 == 0))
                         .WriteTo.Email(new EmailConnectionInfo
@@ -190,6 +191,19 @@ namespace SimpleWAWS
                     AppInsights.TelemetryClient.TrackException(ex);
                 }
             }
+        }
+        //https://github.com/serilog/serilog-sinks-applicationinsights
+        protected void Application_Shutdown(object sender, EventArgs e)
+        {
+
+            AppInsights.TelemetryClient.Flush();
+
+            // The AI Documentation mentions that calling .Flush() *can* be asynchronous and non-blocking so
+            // depending on the underlying Channel to AI you might want to wait some time
+            // specific to your application and its connectivity constraints for the flush to finish.
+
+            System.Threading.Thread.Sleep(1000);
+
         }
     }
 }
