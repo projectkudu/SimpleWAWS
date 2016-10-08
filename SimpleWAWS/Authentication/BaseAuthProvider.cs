@@ -63,7 +63,7 @@ namespace SimpleWAWS.Authentication
         {
             var identity = user.Identity as TryWebsitesIdentity;
             SimpleTrace.Analytics.Information(AnalyticsEvents.UserLoggedIn, identity);
-            SimpleTrace.TraceInformation("{0}; {1}; {2}", AnalyticsEvents.OldUserLoggedIn, identity.Email, identity.Issuer);
+            SimpleTrace.TraceInformation("{0}; {1}; {2}", AnalyticsEvents.OldUserLoggedIn, identity?.Email, identity?.Issuer);
             try
             {
                 var anonymousUser = HttpContext.Current.Request.Cookies[AuthConstants.AnonymousUser];
