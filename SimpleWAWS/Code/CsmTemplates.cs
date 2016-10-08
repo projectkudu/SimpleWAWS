@@ -12,7 +12,7 @@ namespace SimpleWAWS.Code
         private const string appServiceApiVersion = "2015-03-01-preview";
         private const string logicAppsApiVersion = "2015-02-01-preview";
         private const string jenkinsResourceApiVersion = "2016-03-30";
-        private const string graphApiVersion = "1.42-previewInternal";
+        private const string graphApiVersion = "1.6";
         private const string storageApiVersion = "2015-05-01-preview";
         private const string csmTemplateApiVersoin = "2016-02-01";
 
