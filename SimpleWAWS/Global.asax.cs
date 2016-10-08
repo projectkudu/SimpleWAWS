@@ -21,7 +21,6 @@ using System.Security.Principal;
 using System.Web.Http.ExceptionHandling;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
-using Serilog.Sinks.Elasticsearch;
 
 namespace SimpleWAWS
 {
@@ -45,27 +44,11 @@ namespace SimpleWAWS
                     SimpleSettings.ToEmails
                 }.All(s => !string.IsNullOrEmpty(s)))
             {
-                var customFormatter = new ElasticsearchJsonFormatter(
-                    renderMessage: false,
-                    closingDelimiter: string.Empty
-                    );
-
-                var customDurableFormatter = new ElasticsearchJsonFormatter(
-                    renderMessage: false,
-                    closingDelimiter: Environment.NewLine
-                    );
-                var elasticSearchConfig = new ElasticsearchSinkOptions(new Uri(SimpleSettings.ElasticSearchUri))
-                {
-                    AutoRegisterTemplate = true,
-                    CustomDurableFormatter = customDurableFormatter,
-                    CustomFormatter = customFormatter
-                };
 
                 var analyticsLogger = new LoggerConfiguration()
                     .Enrich.With(new ExperimentEnricher())
                     .Enrich.With(new UserNameEnricher())
                     .Destructure.JsonNetTypes()
-                    .WriteTo.Elasticsearch(elasticSearchConfig)
                     .CreateLogger();
 
                 SimpleTrace.Analytics = analyticsLogger;
@@ -75,7 +58,6 @@ namespace SimpleWAWS
                     .MinimumLevel.Verbose()
                     .Enrich.With(new ExperimentEnricher())
                     .Enrich.With(new UserNameEnricher())
-                    .WriteTo.Elasticsearch(elasticSearchConfig)
                     .WriteTo.File(@"D:\home\site\log.log")
                     .WriteTo.Logger(lc => lc
                         .Filter.ByIncludingOnly(Matching.WithProperty<int>("Count", p => p % 10 == 0))

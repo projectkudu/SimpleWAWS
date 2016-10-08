@@ -9,8 +9,6 @@ using System.Linq;
 using System.Web;
 using SimpleWAWS.Models;
 using SimpleWAWS.Authentication;
-using Nest;
-using Elasticsearch.Net.ConnectionPool;
 
 namespace SimpleWAWS.Trace
 {
@@ -18,13 +16,9 @@ namespace SimpleWAWS.Trace
     {
         public static ILogger Analytics;
         public static ILogger Diagnostics;
-        private static ElasticClient elasticClient;
 
         static SimpleTrace()
         {
-            var pool = new SniffingConnectionPool(SimpleSettings.ElasticSearchUri.Split(new[] { ',' }).Select(u => new Uri(u)));
-            var settings = new ConnectionSettings(pool);
-            elasticClient = new ElasticClient(settings);
         }
 
         public static void TraceInformation(string message)
