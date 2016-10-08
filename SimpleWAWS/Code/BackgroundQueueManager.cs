@@ -288,7 +288,7 @@ namespace SimpleWAWS.Code
 
         private void AddOperation<T>(BackgroundOperation<T> operation)
         {
-            if (BackgroundInternalOperations.Count > 20)
+            if (BackgroundInternalOperations.Count > 70)
             {
                 Task.Run(async () =>
                 {
