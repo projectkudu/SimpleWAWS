@@ -73,6 +73,8 @@ interface IAppControllerScope extends ng.IScope {
     onTemplateMouseLeave();
     timerCallback();
     extendResourceLifeTime();
+    countDownStoppedAt:Date;
+    countDownStartedAt: Date;
 }
 
 interface ITryRootScope extends ng.IRootScopeService {

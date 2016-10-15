@@ -272,15 +272,23 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
 
     $scope.extendResourceLifeTime = () => {
         $scope.running = true;
+
         $http({
             url: "api/resource/extend",
             method: "POST"
         }).success((data: any) => {
             $scope.resource = data;
             startCountDown(data.timeLeft);
+            $http({
+                url: "/api/telemetry/EXTEND_TRIAL",
+                method: "POST",
+                data: { timeElapsed: ($scope.countDownStartedAt.getTime() - $scope.countDownStoppedAt.getTime() )/(1000)  }
+            });
         }).error((e) => {
             $scope.ngModels.errorMessage = e.Message;
-        }).finally(() => $scope.running = false);
+        }).finally(() => {
+            $scope.running = false;
+        });
     };
 
     function handleNoResourceInitState() {
@@ -420,6 +428,9 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
     }
 
     function startCountDown(timeLeft) {
+        $scope.countDownStoppedAt = $scope.countDownStartedAt;
+        $scope.countDownStartedAt = new Date(); 
+
         $scope.$broadcast("timer-set-countdown-seconds", timeLeft);
         $scope.$broadcast("timer-set-countdown", timeLeft);
         $scope.$broadcast("timer-start");
