@@ -69,7 +69,7 @@ namespace SimpleWAWS.CleanAAD
         private static bool IsNotAdminUserName(string usernName)
         {
             return
-                new[] {"ahmels", "graphAdmin", "trywebsitesnow", "faiz_a_shaikh"}.All(
+                new[] { "ahmels", "graphAdmin", "trywebsitesnow", "faiz_a_shaikh", "arroyc", "soninaren", "rcarun", "odvoskin", "yochay", "aaronl", "modembug", "cory.fowler" }.All(
                     n => usernName.IndexOf(n, StringComparison.OrdinalIgnoreCase) == -1);
         }
 
