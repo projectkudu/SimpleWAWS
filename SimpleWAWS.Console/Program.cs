@@ -86,7 +86,7 @@ namespace SimpleWAWS.Console
 
             console("start loading subscriptions");
             console("We have " + subscriptionsIds.Count() + " subscriptions");
-            var subscriptions = await subscriptionsIds.Select(s => new Subscription(s).Load()).WhenAll();
+            var subscriptions = await subscriptionsIds.Select(s => new Subscription(s).Load(false)).WhenAll();
             console("done loading subscriptions");
 
             console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()) + " resourceGroups");
@@ -109,85 +109,85 @@ namespace SimpleWAWS.Console
 
             //}
 
-            console("calling MakeTrialSubscription on all subscriptions");
-            await subscriptions.Select(async s =>
-            {
+            ////console("calling MakeTrialSubscription on all subscriptions");
+            ////await subscriptions.Select(async s =>
+            ////{
 
-                var result = s.MakeTrialSubscription();
-                foreach (var resourceGroup in result.Ready)
-                {
-                    try
-                    {
-                        await resourceGroup.PutInDesiredState();
-                    }
-                    catch (Exception ex)
-                    {
-                        console(
-                            $"RG PIDS Exception:{ex.ToString()}-{ex.StackTrace}-{ex.InnerException?.StackTrace.ToString() ?? String.Empty}");
-                    }
-                }
-                foreach (var geoRegion in result.ToCreateInRegions)
-                {
-                    try
-                    {
-                        for (int i=0; i < (s.Type==SubscriptionType.Jenkins?41: 1); i++)
-                        {
-                            await CsmManager.CreateResourceGroup(s.SubscriptionId, geoRegion).Result.PutInDesiredState();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        console($"GR Create Exception:{ex.ToString()}-{ex.StackTrace}-{ex.InnerException?.StackTrace.ToString() ?? String.Empty}");
-                    }
-                }
-                foreach (var resourceGroup in result.ToDelete)
-                {
-                    try { await resourceGroup.Delete(true); }
-                    catch (Exception ex)
-                    {
-                        console($"RG Delete Exception:{ex.ToString()}-{ex.StackTrace}-{ex.InnerException?.StackTrace.ToString() ?? String.Empty}");
-                    }
-                }
-            }).WhenAll();
+            ////    var result = s.MakeTrialSubscription();
+            ////    foreach (var resourceGroup in result.Ready)
+            ////    {
+            ////        try
+            ////        {
+            ////            await resourceGroup.PutInDesiredState();
+            ////        }
+            ////        catch (Exception ex)
+            ////        {
+            ////            console(
+            ////                $"RG PIDS Exception:{ex.ToString()}-{ex.StackTrace}-{ex.InnerException?.StackTrace.ToString() ?? String.Empty}");
+            ////        }
+            ////    }
+            ////    //foreach (var geoRegion in result.ToCreateInRegions)
+            ////    //{
+            ////    //    try
+            ////    //    {
+            ////    //        for (int i=0; i < (s.Type==SubscriptionType.Jenkins?41: 1); i++)
+            ////    //        {
+            ////    //            await CsmManager.CreateResourceGroup(s.SubscriptionId, geoRegion).Result.PutInDesiredState();
+            ////    //        }
+            ////    //    }
+            ////    //    catch (Exception ex)
+            ////    //    {
+            ////    //        console($"GR Create Exception:{ex.ToString()}-{ex.StackTrace}-{ex.InnerException?.StackTrace.ToString() ?? String.Empty}");
+            ////    //    }
+            ////    //}
+            ////    foreach (var resourceGroup in result.ToDelete)
+            ////    {
+            ////        try { await resourceGroup.Delete(true); }
+            ////        catch (Exception ex)
+            ////        {
+            ////            console($"RG Delete Exception:{ex.ToString()}-{ex.StackTrace}-{ex.InnerException?.StackTrace.ToString() ?? String.Empty}");
+            ////        }
+            ////    }
+            ////}).WhenAll();
             console("done calling make trial subscription");
 
-            ////console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()) + " resourceGroups");
-            ////console(subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()));
-            ////console("make free trial");
-            //////Parallel.ForEach(
-            //////    subscriptions.SelectMany(subscription => subscription.ResourceGroups), async (resourcegroup) =>
-            //////    {
-            //////        console($"Deleting resourcegroup:{resourcegroup.ResourceGroupName} from \tsubscription:{resourcegroup.SubscriptionId}");
-            //////        await resourcegroup.Delete(true);
-            //////    });
-
-            console("Re-start loading subscriptions");
-            console("We have " + subscriptionsIds.Count() + " subscriptions");
-            subscriptions = await subscriptionsIds.Select(s => new Subscription(s).Load()).WhenAll();
-            console("done loading subscriptions");
-
+            console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()) + " resourceGroups");
+            console(subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()));
+            console("make free trial");
             //Parallel.ForEach(
-            //    subscriptions.SelectMany(subscription => subscription.ResourceGroups), async (resourcegroup) =>
+            //    subscriptions.Where(r => r.Type == SubscriptionType.AppService).SelectMany(subscription => subscription.ResourceGroups), async (resourcegroup) =>
             //    {
-            ////foreach (var resourcegroup in subscriptions.SelectMany(subscription => subscription.ResourceGroups))
-            ////{
-            ////    try
-            ////    {
-            ////        console($" Replacing Resource Group : {resourcegroup.CsmId}");
-            ////        await resourcegroup.Delete(true);//DeleteAndCreateReplacement(true);
-            ////        console($" Replaced");
-            ////    }
-            ////    catch (Exception ex)
-            ////    {
-            ////        console(ex.ToString());
-            ////    }
-            
-            ////}
+            //        console($"Deleting resourcegroup:{resourcegroup.ResourceGroupName} from \tsubscription:{resourcegroup.SubscriptionId}");
+            //        await resourcegroup.Delete(true);
+            //    });
+
+            //console("Re-start loading subscriptions");
+            //console("We have " + subscriptionsIds.Count() + " subscriptions");
+            //subscriptions = await subscriptionsIds.Select(s => new Subscription(s).Load()).WhenAll();
+            //console("done loading subscriptions");
+
+            Parallel.ForEach(
+                subscriptions.Where(r => r.Type == SubscriptionType.AppService).SelectMany(subscription => subscription.ResourceGroups), async (resourcegroup) =>
+                {
+                    //foreach (var resourcegroup in subscriptions.Where(r => r.Type == SubscriptionType.AppService).SelectMany(subscription => subscription.ResourceGroups))
+                    //{
+                    try
+                {
+                    console($" Deleting Resource Group : {resourcegroup.CsmId}");
+                    resourcegroup.Delete(false).GetAwaiter().GetResult();//DeleteAndCreateReplacement(true);
+                    console($" Deleted");
+                }
+                catch (Exception ex)
+                {
+                    console(ex.ToString());
+                }
+
+                }
 
                 //}
-                //);
-            //subscriptions.ToList().ForEach(printSub);
-            console("Done");
+                );
+                //subscriptions.ToList().ForEach(printSub);
+                console("Done");
         }
 
      
