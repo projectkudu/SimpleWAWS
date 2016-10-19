@@ -118,51 +118,54 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Deployment_DeploymentInProgress" xml:space="preserve">
-    <value>Telepítés folyamatban.</value>
+    <value>[9TvJr][£@Deployment in progress. !!! !!! !]</value>
   </data>
   <data name="Deployment_GitDeploymentInProgress" xml:space="preserve">
-    <value>GIT-telepítés folyamatban.</value>
+    <value>[ch3vN][ËÄGit deployment in progress. !!! !!! !!]</value>
   </data>
   <data name="Error_GeneralErrorMessage" xml:space="preserve">
-    <value>Hiba történt. Próbálkozzon újra később.</value>
+    <value>[8vjfH][ÎÿAn Error occured. Please try again later. !!! !!! !!! !!!]</value>
   </data>
   <data name="Error_GettingPublishingProfileStream" xml:space="preserve">
-    <value>A közzétételi profil nem kérdezhető le. Próbálkozzon újra később.</value>
+    <value>[siDQa][@ùUnable to retrieve the publishing profile. Please try again later. !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="Error_InvalidAppServiceType" xml:space="preserve">
-    <value>A mobilügyfelek akkor tölthetők le, ha az App Service típusa Mobil.</value>
+    <value>[FiWBA][ÇâApp Service has to be of type 'Mobile' to download mobile clients. !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
-    <value>A GitHub-tárház URI azonosítója érvénytelen vagy nem megbízható szervezettől származik.</value>
+    <value>[wZo2I][ÇØThe Github repo URI is either invalid of from an trusted organization. !!! !!! !!! !!! !!! !!! !]</value>
   </data>
   <data name="Error_InvalidUserIdentity" xml:space="preserve">
-    <value>Érvénytelen felhasználó.</value>
+    <value>[H4WBJ][ñÏInvalid user. !!! !!]</value>
   </data>
   <data name="Error_MoreThanOneFreeResource" xml:space="preserve">
-    <value>Egyszerre csak 1 ingyenes erőforrással rendelkezhet.</value>
+    <value>[fCs7j][ÊþYou can't have more than 1 free resource at a time. !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="Error_NoFreeResourcesAvailable" xml:space="preserve">
-    <value>Jelenleg nincsenek elérhető ingyenes erőforrások. Próbálkozzon újra később.</value>
+    <value>[W6rDi][øÚNo free resources are available currently. Please try again later. !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="Error_OrgIdNotSupported" xml:space="preserve">
-    <value>A munkahelyi és iskolai fiókok nem támogatottak. Használjon Microsoft-fiókot.</value>
+    <value>[xxtUj][ÎëSorry Organizational accounts are not supported. Please use a Microsoft Account. !!! !!! !!! !!! !!! !!! !!! !]</value>
   </data>
   <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
-    <value>Már korábban ki lett terjesztve az erőforrás lejárati ideje. Az erőforrások lejárati idejét csak egyszer lehet kiterjeszteni.</value>
+    <value>[8naPJ][Ë¢Resource expiration time was already extended before. You can only extend the expiration time once for a resource. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
   </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
-    <value>Nem támogatott platform.</value>
+    <value>[IyLxF][ÖÉUnsupported platform. !!! !!! ]</value>
   </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
-    <value>Egy mobil irányítópult-alkalmazás egy kábeltelevíziós társaság technikusai vagy bármilyen más mobil dolgozók számára, mely elérhető a Xamarin Forms eszközkészlethez. A teljes minta a &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt; címen érhető el.</value>
+    <value>[Bl5Wz][ØÃA mobile dashboard app for a cable company technician, or any other mobile workforce, available for Xamarin Forms. Full sample at &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+  </data>
+  <data name="Templates_JenkinsDescription" xml:space="preserve">
+    <value>[ztXgZ][äÒThis template will create an Azure Jenkins CI !!! !!! !!! !!! !]</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
-    <value>A Logic App-sablon ismétlődő ütemezéssel pingel egy webhelyet. Kiterjesztheti úgy, hogy a pingelés eredményétől függően végezzen el műveleteket.</value>
+    <value>[DZJ9Y][ÀüThis Logic App template will ping a website on a recurring schedule.  You can extend it to take an action depending on the result of the ping. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="Templates_TodoListDescription" xml:space="preserve">
-    <value>Ez egy egyszerű teendőlistát megvalósító alkalmazás iOS, Android, Xamarin és HTML/JS rendszerekhez.</value>
+    <value>[gmfCR][ØøThis is a simple todo list app, available for iOS, Android, Xamarin, and HTML/JS. !!! !!! !!! !!! !!! !!! !!! !]</value>
   </data>
   <data name="Templates_XamarinCrmDescription" xml:space="preserve">
-    <value>Egy mobil értékesítési irányítópultot megvalósító CRM-alkalmazás, mely elérhető a Xamarin Forms eszközkészlethez. A teljes minta a &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt; címen érhető el.</value>
+    <value>[bda9x][çßA mobile sales dashboard CRM app, available for Xamarin Forms. Full sample at &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
 </root>

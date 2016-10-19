@@ -118,223 +118,223 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Action_AllowContact" xml:space="preserve">
-    <value>Permitir que Microsoft se ponga en contacto conmigo acerca de mis comentarios.</value>
+    <value>このフィードバックに関して、Microsoft からご連絡を差し上げることに同意したものと見なされます。</value>
   </data>
   <data name="Action_Cancel" xml:space="preserve">
-    <value>Cancelar</value>
+    <value>キャンセル</value>
   </data>
   <data name="Action_CreateAppServiceApp" xml:space="preserve">
-    <value>Cree su aplicación del Servicio de aplicaciones de Azure</value>
+    <value>Azure App Service アプリケーションの作成</value>
   </data>
   <data name="Action_Delete" xml:space="preserve">
-    <value>Eliminar</value>
+    <value>削除</value>
   </data>
   <data name="Action_DownloadAppContent" xml:space="preserve">
-    <value>Descargar el contenido de {0}</value>
+    <value>{0} コンテンツのダウンロード</value>
   </data>
   <data name="Action_DownloadPublishingProfile" xml:space="preserve">
-    <value>Descargar el perfil de publicación</value>
+    <value>発行プロファイルのダウンロード</value>
   </data>
   <data name="Action_GitClone" xml:space="preserve">
-    <value>Clonar o insertar con GIT</value>
+    <value>Git による複製またはプッシュ</value>
   </data>
   <data name="Action_GoToExistingApp" xml:space="preserve">
-    <value>Ir a una aplicación ya existente</value>
+    <value>既存のアプリケーションに移動</value>
   </data>
   <data name="Action_ManageInAzurePortal" xml:space="preserve">
-    <value>Administrar en el Portal de Azure</value>
+    <value>Azure Portal での管理</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>Descargue y ejecute su propia aplicación de cliente móvil</value>
+    <value>あなたのモバイル クライアント アプリをダウンロードして実行する</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
-    <value>Editar con Visual Studio Online "Mónaco"</value>
+    <value>コードをオンラインで編集する</value>
   </data>
   <data name="Action_ReportAnIssue" xml:space="preserve">
-    <value>Notificar un problema</value>
+    <value>問題の報告</value>
   </data>
   <data name="Action_SelectAppType" xml:space="preserve">
-    <value>Seleccionar un tipo de aplicación</value>
+    <value>アプリケーションの種類の選択</value>
   </data>
   <data name="Action_SelectTemplate" xml:space="preserve">
-    <value>Seleccione una plantilla y cree su {0}</value>
+    <value>テンプレートを選択して {0} を作成する</value>
   </data>
   <data name="Action_ShareAComment" xml:space="preserve">
-    <value>Compartir comentario</value>
+    <value>コメントの共有</value>
   </data>
   <data name="Action_Submit" xml:space="preserve">
-    <value>Enviar</value>
+    <value>送信</value>
   </data>
   <data name="Action_Yes" xml:space="preserve">
-    <value>Sí</value>
+    <value>はい</value>
   </data>
   <data name="Blog" xml:space="preserve">
-    <value>Blog</value>
+    <value>ブログ</value>
   </data>
   <data name="Calculator" xml:space="preserve">
-    <value>Calculadora</value>
+    <value>電卓</value>
   </data>
   <data name="CaseStudies" xml:space="preserve">
-    <value>Casos prácticos</value>
+    <value>導入事例</value>
   </data>
   <data name="Community" xml:space="preserve">
-    <value>Comunidad</value>
+    <value>コミュニティ</value>
   </data>
   <data name="Compliance" xml:space="preserve">
-    <value>Cumplimiento</value>
+    <value>コンプライアンス</value>
   </data>
   <data name="ContactUs" xml:space="preserve">
-    <value>Póngase en contacto con nosotros</value>
+    <value>お問い合わせ</value>
   </data>
   <data name="Documentation" xml:space="preserve">
-    <value>Documentación</value>
+    <value>ドキュメント</value>
   </data>
   <data name="Downloads" xml:space="preserve">
-    <value>Descargas</value>
+    <value>ダウンロード</value>
   </data>
   <data name="Error_SubmittingFeedback" xml:space="preserve">
-    <value>Se produjo un error al enviar su comentario. Inténtelo de nuevo más tarde.</value>
+    <value>フィードバックの送信中にエラーが発生しました。後でもう一度実行してください。</value>
   </data>
   <data name="Events" xml:space="preserve">
-    <value>Eventos</value>
+    <value>イベント</value>
   </data>
   <data name="Facebook" xml:space="preserve">
     <value>Facebook</value>
   </data>
   <data name="Features" xml:space="preserve">
-    <value>Características</value>
+    <value>機能</value>
   </data>
   <data name="Feedback" xml:space="preserve">
-    <value>Comentarios</value>
+    <value>フィードバック</value>
   </data>
   <data name="Forums" xml:space="preserve">
-    <value>Foros</value>
+    <value>フォーラム</value>
   </data>
   <data name="FreeAccount" xml:space="preserve">
-    <value>Cuenta gratuita</value>
+    <value>無料アカウント</value>
   </data>
   <data name="GoSocial" xml:space="preserve">
-    <value>Entre en las redes sociales</value>
+    <value>ソーシャル ネットワーク</value>
   </data>
   <data name="Information_APIApp" xml:space="preserve">
-    <value>Aplicación de API</value>
+    <value>API App</value>
   </data>
   <data name="Information_AppAlreadyExists" xml:space="preserve">
-    <value>Ya tiene un Servicio de aplicaciones creado. ¿Desea borrarlo y crear uno nuevo?</value>
+    <value>既に App Service を作成しています。それを削除して、新規作成しますか?</value>
   </data>
   <data name="Information_AppHasBeenCreated" xml:space="preserve">
-    <value>Se creó su {0}.</value>
+    <value>{0} が作成されました。</value>
   </data>
   <data name="Information_AspNetBrandingLine1" xml:space="preserve">
-    <value>Hospede sitios web de 10 ASP.NET de forma gratuita, gracias al Servicio de aplicaciones de Azure</value>
+    <value>Azure App Service によって 10 個の ASP.NET Web サイトを無料でホストします</value>
   </data>
   <data name="Information_AspNetBrandingLine2" xml:space="preserve">
-    <value>Es seguro, fiable y lo tendrá listo para su negocio en segundos. Pruébelo de forma gratuita y, a medida que su tráfico vaya aumentando, amplíe su suscripción.</value>
+    <value>数秒で、セキュリティ保護された信頼性の高いビジネス対応のレベルになります。初めは無料で、トラフィックの増大に応じて拡張できます。</value>
   </data>
   <data name="Information_ComingSoon" xml:space="preserve">
-    <value>Próximamente</value>
+    <value>近日中にご利用になれます</value>
   </data>
   <data name="Information_DownloadClient" xml:space="preserve">
-    <value>Descargar cliente</value>
+    <value>クライアントのダウンロード</value>
   </data>
   <data name="Information_DownloadiOSClient" xml:space="preserve">
-    <value>Descargar la aplicación de cliente de iOS</value>
+    <value>iOS クライアント アプリケーションのダウンロード</value>
   </data>
   <data name="Information_DownloadWindowsClient" xml:space="preserve">
-    <value>Descargar la aplicación de cliente de Windows</value>
+    <value>Windows クライアント アプリケーションのダウンロード</value>
   </data>
   <data name="Information_DownloadXamarinAndroidClient" xml:space="preserve">
-    <value>Descargar la aplicación de cliente de Xamarin para Android</value>
+    <value>Xamarin Android クライアント アプリケーションのダウンロード</value>
   </data>
   <data name="Information_DownloadXamariniOSClient" xml:space="preserve">
-    <value>Descargar la aplicación de cliente de Xamarin para iOS</value>
+    <value>Xamarin iOS クライアント アプリケーションのダウンロード</value>
   </data>
   <data name="Information_ExperienceComingSoon" xml:space="preserve">
-    <value>Aún no tenemos preparada la experiencia de prueba de {0} de Azure, pero todavía puede crear {0} si se suscribe; obtendrá un período de prueba de 30 días y podrá crear de forma gratuita hasta 10 aplicaciones de cualquier tipo.</value>
+    <value>Azure {0} の試用エクスペリエンスはまだ提供されていませんが、30 日間の無料試用版にサインアップして、{0} を作成できます。任意の種類のアプリを無料で 10 個まで作成できます。</value>
   </data>
   <data name="Information_ExperienceNotHereYet" xml:space="preserve">
-    <value>Aún no tenemos preparada la experiencia {0}.</value>
+    <value>{0} エクスペリエンスはまだ提供されていません。</value>
   </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
-    <value>La versión gratuita {0} expirará en:</value>
+    <value>無料の {0} が期限切れになるまでの時間:</value>
   </data>
   <data name="Information_GenericBrandingLine1" xml:space="preserve">
-    <value>El Servicio de aplicaciones de Azure es un servicio de aplicaciones de nube que incluye todo aquello que necesita para compilar de forma rápida y sencilla aplicaciones móviles y web para cualquier plataforma o dispositivo.</value>
+    <value>Azure App Service は、あらゆるプラットフォームまたはデバイス用の Web およびモバイル アプリケーションをすばやく簡単に作成するために必要なすべてのものを統合するクラウド アプリケーション サービスです。</value>
   </data>
   <data name="Information_GenericBrandingLine2" xml:space="preserve">
-    <value>Disfrute de la experiencia que ofrece nuestro Servicio de aplicaciones de Azure durante una hora, sin necesidad de suscribirse a Azure, de forma gratuita y sin compromiso. Si desea disfrutar de la experiencia completa del Servicio de aplicaciones de Azure durante un período de tiempo mayor, suscríbase y obtenga una prueba gratuita de Azure.</value>
+    <value>Azure サブスクリプション、料金、コミットメントのいずれも不要で、最大 1 時間の Azure App Service エクスペリエンスをゲストとしてご利用いただけます。無料評価版サブスクリプションにより、さらに長時間、Azure App Service エクスペリエンスのすべての機能をご利用いただけます。</value>
   </data>
   <data name="Information_GoingBackWillDeleteApp" xml:space="preserve">
-    <value>Si vuelve, se borrará la aplicación</value>
+    <value>戻ると現在のアプリケーションが削除されます</value>
   </data>
   <data name="Information_InstallVisualStudio" xml:space="preserve">
-    <value>Instalar Visual Studio Professional 2015 (actualización 2)</value>
+    <value>Visual Studio Professional 2015 (Update 2) のインストール</value>
   </data>
   <data name="Information_InstallXamarinStudio" xml:space="preserve">
-    <value>Instalar Xamarin Studio para OS X</value>
+    <value>Xamarin Studio for OS X のインストール</value>
   </data>
   <data name="Information_InstallXcode" xml:space="preserve">
-    <value>Instalar Xcode (v4.4+)</value>
+    <value>Xcode (v4.4 以上) のインストール</value>
   </data>
   <data name="Information_LogicApp" xml:space="preserve">
-    <value>Aplicación lógica</value>
+    <value>Logic App</value>
   </data>
   <data name="Information_LoginFirst" xml:space="preserve">
-    <value>Primero, inicie sesión para crear una aplicación</value>
+    <value>まずログインしてアプリケーションを作成する</value>
   </data>
   <data name="Information_MobileApp" xml:space="preserve">
-    <value>Aplicación móvil</value>
+    <value>Mobile App</value>
   </data>
   <data name="Information_NativeiOS" xml:space="preserve">
-    <value>iOS nativo</value>
+    <value>ネイティブ iOS</value>
   </data>
   <data name="Information_SelectAppType" xml:space="preserve">
-    <value>Seleccionar un tipo de aplicación</value>
+    <value>アプリケーションの種類の選択</value>
   </data>
   <data name="Information_SelectTemplate" xml:space="preserve">
-    <value>Seleccionar plantilla</value>
+    <value>テンプレートの選択</value>
   </data>
   <data name="Information_SubmittingFeedback" xml:space="preserve">
-    <value>Enviando comentarios...</value>
+    <value>フィードバックを送信しています...</value>
   </data>
   <data name="Information_ThanksForFeedback" xml:space="preserve">
-    <value>¡Gracias por sus comentarios!</value>
+    <value>フィードバックをありがとうございます。</value>
   </data>
   <data name="Information_VisitWebClient" xml:space="preserve">
-    <value>Visitar el cliente web</value>
+    <value>Web ベースのクライアントへのアクセス</value>
   </data>
   <data name="Information_WantMoreQuestionLine1" xml:space="preserve">
-    <value>¿Desea obtener más de forma gratuita?</value>
+    <value>無料でもっと試しますか?</value>
   </data>
   <data name="Information_WantMoreQuestionLine2" xml:space="preserve">
-    <value>Cree más aplicaciones web, móviles, lógicas y de API. Suscríbase para obtener un período de prueba de 30 días y cree hasta 10 aplicaciones de cualquier tipo de forma gratuita.</value>
+    <value>さらに Web、モバイル、ロジック、および API アプリケーションを作成できます。30 日間の無料の試用版にサインアップし、無料で任意の種類のアプリケーションを 10 個まで作成できます。</value>
   </data>
   <data name="Information_WebApp" xml:space="preserve">
-    <value>Aplicación web</value>
+    <value>Web App</value>
   </data>
   <data name="Information_WebClient" xml:space="preserve">
-    <value>Portal web</value>
+    <value>Web ポータル</value>
   </data>
   <data name="Information_Windows" xml:space="preserve">
-    <value>Windows 8.1 universal</value>
+    <value>ユニバーサル Windows 8.1</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
-    <value>Para trabajar con su aplicación, vaya al vínculo del Portal de Azure que tiene a continuación; este le llevará a la hoja de recursos de la Aplicación lógica.</value>
+    <value>アプリを操作するには、下の Azure Portal リンクに移動し、Logic App リソース ブレードに移動します。</value>
   </data>
   <data name="Information_WorkWithYourApp" xml:space="preserve">
-    <value>Trabaje con su {0} en </value>
+    <value>{0} を操作する場所 </value>
   </data>
   <data name="Information_XamarinAndroid" xml:space="preserve">
-    <value>Xamarin para Android</value>
+    <value>Xamarin Android</value>
   </data>
   <data name="Information_XamariniOS" xml:space="preserve">
-    <value>Xamarin para iOS</value>
+    <value>Xamarin iOS</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value>Cerrar sesión</value>
+    <value>ログアウト</value>
   </data>
   <data name="ManagementPortal" xml:space="preserve">
-    <value>Portal de administración</value>
+    <value>管理ポータル</value>
   </data>
   <data name="Marketplace" xml:space="preserve">
     <value>Marketplace</value>
@@ -343,159 +343,171 @@
     <value>Microsoft Azure</value>
   </data>
   <data name="Mooncake" xml:space="preserve">
-    <value>Microsoft Azure en China</value>
+    <value>Microsoft Azure (中国)</value>
   </data>
   <data name="MyAccount" xml:space="preserve">
-    <value>Mi cuenta</value>
+    <value>マイ アカウント</value>
   </data>
   <data name="Newsletter" xml:space="preserve">
-    <value>Boletín</value>
+    <value>ニュースレター</value>
   </data>
   <data name="Portal" xml:space="preserve">
-    <value>Portal</value>
+    <value>ポータル</value>
   </data>
   <data name="PreviewFeatures" xml:space="preserve">
-    <value>Características de vista previa</value>
+    <value>プレビュー機能</value>
   </data>
   <data name="Pricing" xml:space="preserve">
-    <value>Precio</value>
+    <value>価格</value>
   </data>
   <data name="Privacy" xml:space="preserve">
-    <value>Privacidad</value>
+    <value>プライバシー</value>
   </data>
   <data name="PrivacyCookies" xml:space="preserve">
-    <value>Privacidad y cookies</value>
+    <value>プライバシーと Cookie</value>
   </data>
   <data name="Profile" xml:space="preserve">
-    <value>Perfil</value>
+    <value>プロファイル</value>
   </data>
   <data name="Regions" xml:space="preserve">
-    <value>Regiones</value>
+    <value>リージョン</value>
   </data>
   <data name="Rss" xml:space="preserve">
-    <value>Rss</value>
+    <value>RSS</value>
   </data>
   <data name="Security" xml:space="preserve">
-    <value>Seguridad</value>
+    <value>セキュリティ</value>
   </data>
   <data name="ServiceDashboard" xml:space="preserve">
-    <value>Panel de servicios</value>
+    <value>サービス ダッシュボード</value>
   </data>
   <data name="Services" xml:space="preserve">
-    <value>Servicios</value>
+    <value>サービス</value>
   </data>
   <data name="ServiceUpdates" xml:space="preserve">
-    <value>Actualizaciones de servicios</value>
+    <value>サービスの更新情報</value>
   </data>
   <data name="Subscriptions" xml:space="preserve">
-    <value>Suscripciones</value>
+    <value>サブスクリプション</value>
   </data>
   <data name="Support" xml:space="preserve">
-    <value>Ayuda técnica</value>
+    <value>サポート</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Pruebe el Servicio de aplicaciones de Azure</value>
+    <value>Azure App Service を使ってみる</value>
   </data>
   <data name="Trademarks" xml:space="preserve">
-    <value>Marcas comerciales</value>
+    <value>商標</value>
   </data>
   <data name="TrustCenter" xml:space="preserve">
-    <value>Centro de confianza</value>
+    <value>セキュリティ センター</value>
   </data>
   <data name="Twitter" xml:space="preserve">
-    <value>Twitter</value>
+    <value>ツイッター</value>
   </data>
   <data name="Information_LogicAppDescription" xml:space="preserve">
-    <value>Las aplicaciones lógicas de Azure permiten a los desarrolladores diseñar flujos de trabajo que comienzan con un elemento desencadenante y que ejecutan una serie de pasos que, además de invocar una aplicación de API del Servicio de aplicaciones, también se aseguran de que la autenticación y procedimientos recomendados como la creación de puntos de comprobación y la ejecución duradera, se realizan como es debido.</value>
+    <value>Azure Logic Apps により、開発者はトリガーから始め、認証とチェックポイント処理や永続的実行などのベスト プラクティスに安全に対処しながら、それぞれ App Service API App を呼び出す一連の手順を実行するワークフローを設計できます。</value>
   </data>
   <data name="Information_LogicAppStep1" xml:space="preserve">
-    <value>1. En la lente Resumen, encontrará información que le indicará la última ejecución y si esta se realizó correctamente</value>
+    <value>1. サマリー レンズを確認します。最後に実行した時とそれが成功したかどうかなどの情報を確認することができます</value>
   </data>
   <data name="Information_LogicAppStep2" xml:space="preserve">
-    <value>2. Abra la definición de la Aplicación lógica haciendo clic en la misma parte de la lente Resumen y échele un vistazo a la definición. Puede intentar ampliar la Aplicación lógica para que envíe un aviso cada vez que el ping falle.</value>
+    <value>2. サマリー レンズの同じ部分をクリックして、Logic App 定義を開き、定義を確認します。ping が失敗したときにいつでも Logic App を展開して、ツイートの送信を試みることができます。</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
-    <value>Esta plantilla de Aplicación lógica hará ping a un sitio web durante un horario establecido. Puede ampliarlo para que tome medidas según el resultado del ping.</value>
+    <value>この Logic App テンプレートは、定期的なスケジュールで Web サイトを ping します。ping の結果に応じて、それを拡張して、対応策を取ることができます。</value>
   </data>
   <data name="Action_Dismiss" xml:space="preserve">
-    <value>Descargar</value>
+    <value>閉じる</value>
   </data>
   <data name="Information_AppHasExpired" xml:space="preserve">
-    <value>Su {0} expiró. Puede intentar crear otra aplicación de Servicio de aplicaciones o suscribirse para obtener una cuenta de prueba gratuita durante 30 días.</value>
+    <value>{0} の期限が切れました。別の App Service アプリを作成するか、30 日間の無料の試用アカウントにサインアップできます。</value>
   </data>
   <data name="Information_Prerequisite" xml:space="preserve">
-    <value>Requisito previo</value>
+    <value>前提条件</value>
   </data>
   <data name="Information_WelcomeFeedback" xml:space="preserve">
-    <value>Agradecemos sus comentarios.</value>
+    <value>フィードバックをお待ちしております。</value>
   </data>
   <data name="Action_Create" xml:space="preserve">
-    <value>Crear</value>
+    <value>作成</value>
   </data>
   <data name="Action_GenericWorkWithYourApp" xml:space="preserve">
-    <value>Trabajar con la aplicación</value>
+    <value>アプリケーションの操作</value>
   </data>
   <data name="Information_YouCantHaveMoreThanOne" xml:space="preserve">
-    <value>No puede tener más de 1 recurso gratuito a la vez</value>
+    <value>同時に複数の無料リソースを使用することはできません</value>
   </data>
   <data name="Next" xml:space="preserve">
-    <value>Siguiente</value>
+    <value>次へ</value>
   </data>
   <data name="Previous" xml:space="preserve">
-    <value>Anterior</value>
+    <value>前へ</value>
   </data>
   <data name="Information_ApiAppDescription" xml:space="preserve">
-    <value>Aún no tenemos preparada la experiencia de prueba de la aplicación de API de Azure, pero todavía puede crear aplicaciones de API si se suscribe; obtendrá un período de prueba de 30 días y podrá crear de forma gratuita hasta 10 aplicaciones de cualquier tipo.</value>
+    <value>Azure API App の試用エクスペリエンスはまだ提供されていませんが、30 日間の無料試用版にサインアップして、API Apps を作成できます。任意の種類のアプリを無料で 10 個まで作成できます。</value>
   </data>
   <data name="Information_MobileAppDescription" xml:space="preserve">
-    <value>Las aplicaciones móviles de Azure le permitirán agregar fácilmente a su aplicación de iOS, Android o Windows elementos de inicio de sesión y de inserción y sincronización de datos; asimismo, podrá conectar su aplicación a los sistemas de la empresa y a los recursos locales.</value>
+    <value>Azure Mobile App により簡単に、iOS、Android、または Windows アプリにログイン、プッシュ、およびデータ同期を追加して、グローバルに拡大縮小し、アプリをエンタープライズ システムおよびオンプレミス リソースに接続できます。</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
-    <value>Las Aplicaciones web de Azure permiten a los desarrolladores diseñar y escalar aplicaciones web de categoría empresarial, escritas en una gran variedad de idiomas e integradas en multitud de servicios, sin tener que preocuparse por la administración de la infraestructura.</value>
+    <value>Azure Web Apps により、開発者はインフラストラクチャの管理に関して心配することなく、多様な言語で作成され、多くのサービスと統合されるエンタープライズ レベルの Web アプリケーションを簡単にデプロイし、拡大縮小できます。</value>
   </data>
   <data name="Information_LogicAppStep3" xml:space="preserve">
-    <value>3. Vuelva a ejecutar la Aplicación lógica haciendo clic en el comando Ejecutar de la parte superior de la hoja.</value>
+    <value>3. ブレードの上部にある [今すぐ実行] コマンドをクリックして、Logic App を再度実行します。</value>
   </data>
   <data name="Information_LogicAppStep4" xml:space="preserve">
-    <value>4. Para obtener más información acerca de cómo usar las Aplicaciones lógicas, haga clic en Inicio rápido para conseguir una serie de indicaciones que le llevarán a la documentación.</value>
+    <value>4. Logic Apps の使用方法の詳細は、[クイック スタート] をクリックすると表示される、ドキュメントへのポインターから参照してください。</value>
   </data>
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
-    <value>Puede intentar lo siguiente en la hoja de recursos de la Aplicación lógica:</value>
+    <value>Logic App リソース ブレードから、次を実行できます。</value>
   </data>
   <data name="Information_XamarinBrandingLine1" xml:space="preserve">
-    <value>Use la tecnología móvil con Xamarin y el Servicio de aplicaciones de Azure</value>
+    <value>Xamarin と Azure App Service でモバイルへ移行</value>
   </data>
   <data name="Information_XamarinBrandingLine2" xml:space="preserve">
-    <value>Autentíquese y sincronice e inserte contenido en cuestión de segundos en cualquier dispositivo. Comience de forma gratuita y amplíe su suscripción a medida que crezca su aplicación.</value>
+    <value>どのデバイスでも数秒で、認証、同期、プッシュが行えます。無料で始めて、アプリの成長に合わせて拡張できます。</value>
   </data>
   <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
-    <value>¿Necesita más tiempo? Haga clic aquí para ampliar su prueba y disponer de 24 horas más.</value>
+    <value>さらに時間が必要な場合は、ここをクリックすると、試用を 24 時間に延長できます。</value>
   </data>
   <data name="Information_Android" xml:space="preserve">
     <value>Android</value>
   </data>
   <data name="Information_DownloadAndroidClient" xml:space="preserve">
-    <value>Descargar la aplicación cliente de Android</value>
+    <value>Android クライアント アプリケーションのダウンロード</value>
   </data>
   <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
-    <value>Descargar el cliente de la Plataforma universal de Windows (UWP)</value>
+    <value>ユニバーサル Windows プラットフォーム (UWP) クライアントのダウンロード</value>
   </data>
   <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
-    <value>Descargar la aplicación cliente de Xamarin.Forms</value>
+    <value>Xamarin.Forms クライアント アプリケーションのダウンロード</value>
   </data>
   <data name="Information_UniversalWindowsPlatform" xml:space="preserve">
-    <value>Plataforma universal de Windows (UWP)</value>
+    <value>ユニバーサル Windows プラットフォーム (UWP)</value>
   </data>
   <data name="Information_XamarinForms" xml:space="preserve">
     <value>Xamarin.Forms</value>
   </data>
   <data name="Information_AzurePlatformBrandingLine1" xml:space="preserve">
-    <value>Descubra lo rápido que puede ser creando una aplicación Node.js.</value>
+    <value>どれほどすばやく Node.js アプリを作成できるか、お試しください</value>
   </data>
   <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
-    <value>Servicio de aplicaciones de Azure es el único servicio en la nube que integra todo lo que necesita para compilar de forma rápida y fácil aplicaciones móviles y web para cualquier plataforma y dispositivo. Extraiga datos desde cualquier sitio y compile prácticamente cualquier cosa.  Juegue en el espacio aislado durante una hora de forma gratuita y sin compromiso.</value>
+    <value>Azure App Service は、あらゆるプラットフォームやデバイス向けの Web アプリとモバイル アプリをすばやく簡単に作成するために必要なものがすべて統合された、他に類を見ないクラウド サービスです。どこからでもデータを取得し、なんでも作成できます。サンドボックスを最大 1 時間、無料で使用できます。コミットメントが発生することはありません。</value>
   </data>
   <data name="Information_InstallAndroidStudio" xml:space="preserve">
-    <value>Descargar Android Studio</value>
+    <value>Android Studio のダウンロード</value>
+  </data>
+  <data name="Templates_AzureDevOpsDescription" xml:space="preserve">
+    <value>このテンプレートでは、Azure Jenkins CI を作成します</value>
+  </data>
+  <data name="Information_FunctionApp" xml:space="preserve">
+    <value>Function App</value>
+  </data>
+  <data name="Information_FunctionAppDescription" xml:space="preserve">
+    <value>Azure Functions は、サーバーなしのイベント駆動型エクスペリエンスで、既存の Azure App Service プラットフォームを拡張するものです。これらのナノサービスは、需要に応じて規模を調節でき、消費したリソースのみ支払いが発生します。</value>
+  </data>
+  <data name="TryFunctions" xml:space="preserve">
+    <value>Functions を試す</value>
   </data>
 </root>

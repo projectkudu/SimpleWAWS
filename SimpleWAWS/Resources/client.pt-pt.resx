@@ -148,7 +148,7 @@
     <value>Descarregar e executar a sua aplicação cliente para dispositivos móveis</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
-    <value>Editar com o Visual Studio Online "Monaco"</value>
+    <value>Edite o seu código online</value>
   </data>
   <data name="Action_ReportAnIssue" xml:space="preserve">
     <value>Comunicar problemas</value>
@@ -497,5 +497,17 @@
   </data>
   <data name="Information_InstallAndroidStudio" xml:space="preserve">
     <value>Transferir o Android Studio</value>
+  </data>
+  <data name="Templates_AzureDevOpsDescription" xml:space="preserve">
+    <value>Este modelo irá criar um Azure Jenkins CI</value>
+  </data>
+  <data name="Information_FunctionApp" xml:space="preserve">
+    <value>Aplicação de Funções</value>
+  </data>
+  <data name="Information_FunctionAppDescription" xml:space="preserve">
+    <value>As Funções do Azure são uma experiência acionada por um evento sem servidor  que expande a plataforma existe do Serviço de Aplicações do Azure. Estes nanoserviços podem dimensionar com base na procura e paga apenas pelos recursos que consumir.</value>
+  </data>
+  <data name="TryFunctions" xml:space="preserve">
+    <value>Experimente Funções</value>
   </data>
 </root>

@@ -118,51 +118,54 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Deployment_DeploymentInProgress" xml:space="preserve">
-    <value>デプロイは進行中です。</value>
+    <value>Implementação em curso.</value>
   </data>
   <data name="Deployment_GitDeploymentInProgress" xml:space="preserve">
-    <value>Git デプロイは進行中です。</value>
+    <value>Implementação de git em curso.</value>
   </data>
   <data name="Error_GeneralErrorMessage" xml:space="preserve">
-    <value>エラーが発生しました。後でもう一度実行してください。</value>
+    <value>Ocorreu um erro. Tente novamente mais tarde.</value>
   </data>
   <data name="Error_GettingPublishingProfileStream" xml:space="preserve">
-    <value>発行プロファイルを取得できません。後でもう一度実行してください。</value>
+    <value>Não é possível obter o perfil de publicação. Tente novamente mais tarde.</value>
   </data>
   <data name="Error_InvalidAppServiceType" xml:space="preserve">
-    <value>モバイル クライアントをダウンロードするには、App Service の種類が 'Mobile' である必要があります。</value>
+    <value>Para transferir clientes móveis, o Serviço de Aplicações tem de ser do tipo "Móvel".</value>
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
-    <value>Github リポジトリ URI が無効か、信頼できない組織からのものです。</value>
+    <value>O URI de repositório do Github é inválido ou não é proveniente de uma organização fidedigna.</value>
   </data>
   <data name="Error_InvalidUserIdentity" xml:space="preserve">
-    <value>無効なユーザーです。</value>
+    <value>Utilizador inválido.</value>
   </data>
   <data name="Error_MoreThanOneFreeResource" xml:space="preserve">
-    <value>同時に複数の無料リソースを使用することはできません。</value>
+    <value>Só pode ter um recurso gratuito de cada vez.</value>
   </data>
   <data name="Error_NoFreeResourcesAvailable" xml:space="preserve">
-    <value>現在無料リソースを使用できません。後でもう一度実行してください。</value>
+    <value>Não existem recursos gratuitos disponíveis neste momento. Tente novamente mais tarde.</value>
   </data>
   <data name="Error_OrgIdNotSupported" xml:space="preserve">
-    <value>組織アカウントはサポートされていません。Microsoft アカウントを使用してください。</value>
+    <value>Lamentamos, mas as contas organizacionais não são suportadas. Utilize uma Conta Microsoft.</value>
   </data>
   <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
-    <value>リソースの有効期限を既に延長しています。1 つのリソースの有効期限を延長できるのは 1 回のみです。</value>
+    <value>A hora de expiração já foi prolongada antes. Só pode prolongar a hora de expiração uma vez por recurso.</value>
   </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
-    <value>サポートされていないプラットフォームです。</value>
+    <value>Plataforma não suportada.</value>
   </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
-    <value>ケーブル会社の技術者や他のモバイル従業員向けのモバイル ダッシュボード アプリは Xamarin Forms でご利用いただけます。フル サンプルは、&lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt; にあります。</value>
+    <value>Uma aplicação de dashboard móvel para um técnico de uma empresa de serviços por cabo, ou qualquer outra mão-de-obra móvel, disponível para o Xamarin Forms. Exemplo completo em &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
+  </data>
+  <data name="Templates_JenkinsDescription" xml:space="preserve">
+    <value>Este modelo irá criar um Azure Jenkins CI</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
-    <value>この Logic App テンプレートは、定期的なスケジュールで Web サイトを ping します。ping の結果に応じて、それを拡張して、対応策を取ることができます。</value>
+    <value>Este modelo de Aplicação Lógica vai enviar um ping para um Web site de acordo com uma agenda periódica. Pode expandi-lo de modo a efetuar uma ação consoante o resultado do ping.</value>
   </data>
   <data name="Templates_TodoListDescription" xml:space="preserve">
-    <value>これはシンプルな ToDo リスト アプリです。iOS、Android、Xamarin、HTML/JS でご利用いただけます。</value>
+    <value>Esta é uma simples aplicação de uma lista de tarefas, disponível para iOS, Android, Xamarin e HTML/JS.</value>
   </data>
   <data name="Templates_XamarinCrmDescription" xml:space="preserve">
-    <value>モバイル販売ダッシュボード CRM アプリは、Xamarin Forms でご利用いただけます。フル サンプルは、&lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt; にあります。</value>
+    <value>Uma aplicação CRM de um dashboard de vendas móvel disponível para Formulários Xamarin. Exemplo completo em &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>
   </data>
 </root>

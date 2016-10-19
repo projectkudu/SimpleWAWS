@@ -118,51 +118,54 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Deployment_DeploymentInProgress" xml:space="preserve">
-    <value>部署進行中。</value>
+    <value>Distribution pågår.</value>
   </data>
   <data name="Deployment_GitDeploymentInProgress" xml:space="preserve">
-    <value>Git 部署進行中。</value>
+    <value>Git-distribution pågår.</value>
   </data>
   <data name="Error_GeneralErrorMessage" xml:space="preserve">
-    <value>發生錯誤。請稍後再試一次。</value>
+    <value>Det har uppstått ett fel. Försök igen senare.</value>
   </data>
   <data name="Error_GettingPublishingProfileStream" xml:space="preserve">
-    <value>無法擷取發行設定檔。請稍後再試一次。</value>
+    <value>Det gick inte att hämta publiceringsprofilen. Försök igen senare.</value>
   </data>
   <data name="Error_InvalidAppServiceType" xml:space="preserve">
-    <value>App Service 必須是「行動」類型，才能下載行動用戶端。</value>
+    <value>App Service måste vara av typen "Mobil" för att det ska gå att hämta mobila klienter.</value>
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
-    <value>Github 儲存機制 URI 無效，或該 URI 來自信任的組織。</value>
+    <value>Github-repo-URI är antingen ogiltig eller från en betrodd organisation.</value>
   </data>
   <data name="Error_InvalidUserIdentity" xml:space="preserve">
-    <value>無效的使用者。</value>
+    <value>Ogiltig användare.</value>
   </data>
   <data name="Error_MoreThanOneFreeResource" xml:space="preserve">
-    <value>您無法同時擁有 1 個以上的免費資源。</value>
+    <value>Du kan inte ha mer än 1 fri resurs åt gången.</value>
   </data>
   <data name="Error_NoFreeResourcesAvailable" xml:space="preserve">
-    <value>目前沒有免費的資源可供使用。請稍後再試一次。</value>
+    <value>Det finns inga fria resurser tillgängliga för tillfället. Försök igen senare.</value>
   </data>
   <data name="Error_OrgIdNotSupported" xml:space="preserve">
-    <value>抱歉! 不支援組織帳戶。請使用 Microsoft 帳戶。</value>
+    <value>Organisationskonton stöds tyvärr inte. Använd ett Microsoft-konto.</value>
   </data>
   <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
-    <value>先前已延長過資源到期時間。您只能為資源延長一次到期時間。</value>
+    <value>Resursens förfallotid har redan förlängts. Du kan bara förlänga förfallotiden för en resurs en gång.</value>
   </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
-    <value>不支援的平台。</value>
+    <value>Plattformen stöds inte.</value>
   </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
-    <value>專為有線電視公司技術人員或任何其他行動工作力所設計的行動儀表板應用程式，其適用於 Xamarin 格式。如需完整範例，請移至 &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;。</value>
+    <value>En mobil instrumentpanelsapp för kabelföretagstekniker, eller vilka andra fältarbetare som helst, finns nu tillgänglig för Xamarin Forms. Kompletta exempel finns på &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
+  </data>
+  <data name="Templates_JenkinsDescription" xml:space="preserve">
+    <value>Den här mallen skapar en Azure Jenkins CI</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
-    <value>此邏輯應用程式範本會依照排程定期 Ping 網站。您可以擴充其功能，依據 Ping 的結果採取動作。</value>
+    <value>Den här logiska appmallen pingar en webbplats enligt ett regelbundet schema.  Du kan utvidga den så att den vidtar åtgärder beroende på pingets resultat.</value>
   </data>
   <data name="Templates_TodoListDescription" xml:space="preserve">
-    <value>此為簡單待辦事項清單應用程式，適用於 iOS、Android、Xamarin 及 HTML/JS。</value>
+    <value>Detta är en enkel att göra-app som finns tillgänglig för iOS, Android, Xamarin och HTML/JS.</value>
   </data>
   <data name="Templates_XamarinCrmDescription" xml:space="preserve">
-    <value>行動銷售儀表板 CRM 應用程式，適用於 Xamarin 格式。如需完整範例，請移至 &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;。</value>
+    <value>En mobil CRM-instrumentpanelsapp för säljare finns nu tillgänglig för Xamarin Forms. Ett komplett exempel finns på &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>
   </data>
 </root>

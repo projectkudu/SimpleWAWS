@@ -118,211 +118,211 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Action_AllowContact" xml:space="preserve">
-    <value>Microsoft에서 이 피드백에 대해 나에게 연락하는 것을 허용합니다.</value>
+    <value>Microsoft erlauben, bezüglich dieses Feedbacks Kontakt mit mir aufzunehmen.</value>
   </data>
   <data name="Action_Cancel" xml:space="preserve">
-    <value>취소</value>
+    <value>Abbrechen</value>
   </data>
   <data name="Action_CreateAppServiceApp" xml:space="preserve">
-    <value>Azure 앱 서비스 앱 만들기</value>
+    <value>Azure App Service-App erstellen</value>
   </data>
   <data name="Action_Delete" xml:space="preserve">
-    <value>삭제</value>
+    <value>Löschen</value>
   </data>
   <data name="Action_DownloadAppContent" xml:space="preserve">
-    <value>{0} 콘텐츠 다운로드</value>
+    <value>{0}-Inhalt herunterladen</value>
   </data>
   <data name="Action_DownloadPublishingProfile" xml:space="preserve">
-    <value>게시 프로필 다운로드</value>
+    <value>Veröffentlichungsprofil herunterladen</value>
   </data>
   <data name="Action_GitClone" xml:space="preserve">
-    <value>Git를 통한 복제 또는 푸시</value>
+    <value>Mit Git klonen oder mithilfe von Push übertragen</value>
   </data>
   <data name="Action_GoToExistingApp" xml:space="preserve">
-    <value>기존 앱으로 이동</value>
+    <value>Zu vorhandener App wechseln</value>
   </data>
   <data name="Action_ManageInAzurePortal" xml:space="preserve">
-    <value>Azure 포털에서 관리</value>
+    <value>Im Azure-Portal verwalten</value>
   </data>
   <data name="Action_MobileClients" xml:space="preserve">
-    <value>모바일 클라이언트 앱 다운로드 및 실행</value>
+    <value>Mobile Client-App herunterladen und ausführen</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
-    <value>Visual Studio Online "Monaco"에서 편집</value>
+    <value>Code online bearbeiten</value>
   </data>
   <data name="Action_ReportAnIssue" xml:space="preserve">
-    <value>문제 보고</value>
+    <value>Problem melden</value>
   </data>
   <data name="Action_SelectAppType" xml:space="preserve">
-    <value>앱 유형 선택</value>
+    <value>App-Typ auswählen</value>
   </data>
   <data name="Action_SelectTemplate" xml:space="preserve">
-    <value>템플릿 선택 및 {0} 만들기</value>
+    <value>Vorlage auswählen und Ihre {0} erstellen</value>
   </data>
   <data name="Action_ShareAComment" xml:space="preserve">
-    <value>의견 공유</value>
+    <value>Kommentar teilen</value>
   </data>
   <data name="Action_Submit" xml:space="preserve">
-    <value>제출</value>
+    <value>Absenden</value>
   </data>
   <data name="Action_Yes" xml:space="preserve">
-    <value>예</value>
+    <value>Ja</value>
   </data>
   <data name="Blog" xml:space="preserve">
-    <value>블로그</value>
+    <value>Blog</value>
   </data>
   <data name="Calculator" xml:space="preserve">
-    <value>계산기</value>
+    <value>Rechner</value>
   </data>
   <data name="CaseStudies" xml:space="preserve">
-    <value>사례 연구</value>
+    <value>Fallstudien</value>
   </data>
   <data name="Community" xml:space="preserve">
-    <value>커뮤니티</value>
+    <value>Community</value>
   </data>
   <data name="Compliance" xml:space="preserve">
-    <value>규정 준수</value>
+    <value>Kompatibilität</value>
   </data>
   <data name="ContactUs" xml:space="preserve">
-    <value>문의처</value>
+    <value>Kontakt</value>
   </data>
   <data name="Documentation" xml:space="preserve">
-    <value>설명서</value>
+    <value>Dokumentation</value>
   </data>
   <data name="Downloads" xml:space="preserve">
-    <value>다운로드</value>
+    <value>Downloads</value>
   </data>
   <data name="Error_SubmittingFeedback" xml:space="preserve">
-    <value>피드백을 제출하는 동안 오류가 발생했습니다. 나중에 다시 시도하세요.</value>
+    <value>Fehler beim Übermitteln Ihres Feedbacks. Bitte versuchen Sie es später erneut.</value>
   </data>
   <data name="Events" xml:space="preserve">
-    <value>이벤트</value>
+    <value>Ereignisse</value>
   </data>
   <data name="Facebook" xml:space="preserve">
     <value>Facebook</value>
   </data>
   <data name="Features" xml:space="preserve">
-    <value>기능</value>
+    <value>Features</value>
   </data>
   <data name="Feedback" xml:space="preserve">
-    <value>피드백</value>
+    <value>Feedback</value>
   </data>
   <data name="Forums" xml:space="preserve">
-    <value>포럼</value>
+    <value>Foren</value>
   </data>
   <data name="FreeAccount" xml:space="preserve">
-    <value>무료 계정</value>
+    <value>Kostenloses Konto</value>
   </data>
   <data name="GoSocial" xml:space="preserve">
-    <value>Go Social</value>
+    <value>Soziale Netzwerke</value>
   </data>
   <data name="Information_APIApp" xml:space="preserve">
-    <value>API 앱</value>
+    <value>API-App</value>
   </data>
   <data name="Information_AppAlreadyExists" xml:space="preserve">
-    <value>앱 서비스를 이미 만들었습니다. 서비스를 삭제하고 새로 만드시겠습니까?</value>
+    <value>Sie haben bereits einen App Service erstellt. Möchten Sie diese löschen und eine neue App erstellen?</value>
   </data>
   <data name="Information_AppHasBeenCreated" xml:space="preserve">
-    <value>{0}을(를) 만들었습니다.</value>
+    <value>Ihre {0} wurde erstellt!</value>
   </data>
   <data name="Information_AspNetBrandingLine1" xml:space="preserve">
-    <value>Azure 앱 서비스를 사용하여 무료로 10개 ASP.NET 웹 사이트 호스트</value>
+    <value>Hosten Sie 10 ASP.NET-Websites mit Azure App Service kostenlos.</value>
   </data>
   <data name="Information_AspNetBrandingLine2" xml:space="preserve">
-    <value>몇 초 내에 안전하고 안정적인 비즈니스 지원 가능 무료로 시작하고 트래픽이 증가함에 따라 확장 가능</value>
+    <value>Sicher, zuverlässig und innerhalb von Sekunden verwendungsbereit. Steigen Sie kostenlos ein, und skalieren Sie, wenn Ihr Datenverkehr zunimmt.</value>
   </data>
   <data name="Information_ComingSoon" xml:space="preserve">
-    <value>서비스 예정</value>
+    <value>In Kürze verfügbar</value>
   </data>
   <data name="Information_DownloadClient" xml:space="preserve">
-    <value>클라이언트 다운로드</value>
+    <value>Client herunterladen</value>
   </data>
   <data name="Information_DownloadiOSClient" xml:space="preserve">
-    <value>iOS 클라이언트 앱 다운로드</value>
+    <value>iOS-Client-App herunterladen</value>
   </data>
   <data name="Information_DownloadWindowsClient" xml:space="preserve">
-    <value>Windows 클라이언트 앱 다운로드</value>
+    <value>Windows-Client-App herunterladen</value>
   </data>
   <data name="Information_DownloadXamarinAndroidClient" xml:space="preserve">
-    <value>Xamarin Android 클라이언트 앱 다운로드</value>
+    <value>Xamarin Android-Client-App herunterladen</value>
   </data>
   <data name="Information_DownloadXamariniOSClient" xml:space="preserve">
-    <value>Xamarin iOS 클라이언트 앱 다운로드</value>
+    <value>Xamarin iOS-Client-App herunterladen</value>
   </data>
   <data name="Information_ExperienceComingSoon" xml:space="preserve">
-    <value>Azure {0} 무료 체험은 아직 제공되지 않지만 모든 유형의 앱을 10개까지 무료로 만들 수 있는 30일 무료 평가판을 신청하여 {0}을(를) 계속 만들 수 있습니다.</value>
+    <value>Die Azure-{0}-Testbenutzeroberfläche ist noch nicht verfügbar. Sie können dennoch {0}s erstellen, indem Sie sich für einen kostenlosen Testzeitraum von 30 Tagen registrieren. Dies ermöglicht das kostenlose Erstellen von bis zu 10 Apps eines beliebigen Typs.</value>
   </data>
   <data name="Information_ExperienceNotHereYet" xml:space="preserve">
-    <value>{0} 체험은 아직 제공되지 않습니다.</value>
+    <value>Die {0}-Benutzeroberfläche ist noch nicht verfügbar.</value>
   </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
-    <value>무료 {0}은(는) 다음 이후에 만료됩니다.</value>
+    <value>Die kostenlose Version von {0} läuft ab in:</value>
   </data>
   <data name="Information_GenericBrandingLine1" xml:space="preserve">
-    <value>Azure 앱 서비스는 모든 플랫폼이나 장치에서 사용되는 웹앱 및 모바일 앱을 빠르고 간편하게 빌드하는 데 필요한 모든 요소가 통합된 클라우드 앱 서비스입니다.</value>
+    <value>Azure App Service ist ein Cloud App Service, der alle Funktionen integriert, die zum schnellen und einfachen Erstellen von Web- und mobilen Apps für beliebige Plattformen oder Geräte erforderlich sind.</value>
   </data>
   <data name="Information_GenericBrandingLine2" xml:space="preserve">
-    <value>Azure 구독이나 요금 및 약정 없이 최대 한 시간 동안 Azure 앱 서비스를 경험해 보세요. Azure 무료 평가판 구독을 통해 전체 Azure 앱 서비스 경험을 더 오래 지속할 수 있습니다.</value>
+    <value>Nutzen Sie als Gast bis zu eine Stunde lang die Azure App Service-Benutzeroberfläche ohne Azure-Abonnement, kostenlos und ohne weitere Verpflichtungen. Verlängern Sie Ihre Erfahrung mit einem kostenlosen Azure-Testabonnement, um Azure App Service umfassend zu erleben.</value>
   </data>
   <data name="Information_GoingBackWillDeleteApp" xml:space="preserve">
-    <value>뒤로 이동하면 현재 앱이 삭제됩니다.</value>
+    <value>Durch Zurückwechseln wird die aktuelle App gelöscht.</value>
   </data>
   <data name="Information_InstallVisualStudio" xml:space="preserve">
-    <value>Visual Studio Professional 2015(업데이트 2) 설치</value>
+    <value>Visual Studio Professional 2015 (Update 2) installieren</value>
   </data>
   <data name="Information_InstallXamarinStudio" xml:space="preserve">
-    <value>Windows 또는 OS X용 Xamarin Studio 설치</value>
+    <value>Xamarin Studio für OS X installieren</value>
   </data>
   <data name="Information_InstallXcode" xml:space="preserve">
-    <value>Xcode(v4.4+) 설치</value>
+    <value>Xcode (v4.4+) installieren</value>
   </data>
   <data name="Information_LogicApp" xml:space="preserve">
-    <value>논리 앱</value>
+    <value>Logik-App</value>
   </data>
   <data name="Information_LoginFirst" xml:space="preserve">
-    <value>앱을 만들려면 먼저 로그인하세요.</value>
+    <value>Melden Sie sich zuerst an, um eine App zu erstellen.</value>
   </data>
   <data name="Information_MobileApp" xml:space="preserve">
-    <value>모바일 앱</value>
+    <value>Mobile App</value>
   </data>
   <data name="Information_NativeiOS" xml:space="preserve">
-    <value>기본 iOS</value>
+    <value>Natives iOS</value>
   </data>
   <data name="Information_SelectAppType" xml:space="preserve">
-    <value>앱 유형 선택</value>
+    <value>App-Typ auswählen</value>
   </data>
   <data name="Information_SelectTemplate" xml:space="preserve">
-    <value>템플릿 선택</value>
+    <value>Vorlage auswählen</value>
   </data>
   <data name="Information_SubmittingFeedback" xml:space="preserve">
-    <value>피드백 제출 중...</value>
+    <value>Feedback wird übermittelt...</value>
   </data>
   <data name="Information_ThanksForFeedback" xml:space="preserve">
-    <value>피드백을 보내 주셔서 감사합니다.</value>
+    <value>Danke für Ihr Feedback!</value>
   </data>
   <data name="Information_VisitWebClient" xml:space="preserve">
-    <value>웹 기반 클라이언트 방문</value>
+    <value>Besuchen Sie den webbasierten Client.</value>
   </data>
   <data name="Information_WantMoreQuestionLine1" xml:space="preserve">
-    <value>다양한 무료 혜택을 받아 보시겠습니까?</value>
+    <value>Möchten Sie weitere Funktionen kostenlos nutzen?</value>
   </data>
   <data name="Information_WantMoreQuestionLine2" xml:space="preserve">
-    <value>더 많은 웹앱, 모바일 앱, 논리 앱 및 API 앱을 만드세요. 30일 무료 평가판을 신청하여 모든 유형의 앱을 10개까지 무료로 만드세요.</value>
+    <value>Erstellen Sie weitere Web-, mobile, Logik- und API-Apps. Registrieren Sie sich für den Zeitraum von 30 Tagen für eine kostenlose Testversion, und erstellen Sie kostenlos bis zu 10 Apps eines beliebigen Typs.</value>
   </data>
   <data name="Information_WebApp" xml:space="preserve">
-    <value>웹앱</value>
+    <value>Web-App</value>
   </data>
   <data name="Information_WebClient" xml:space="preserve">
-    <value>웹 포털</value>
+    <value>Webportal</value>
   </data>
   <data name="Information_Windows" xml:space="preserve">
-    <value>유니버설 Windows 8.1</value>
+    <value>Universal Windows 8.1</value>
   </data>
   <data name="Information_WorkWithLogicApps" xml:space="preserve">
-    <value>앱을 사용하려면 아래 Azure 포털 링크로 이동하여 논리 앱 리소스 블레이드를 확인하세요.</value>
+    <value>Wenn Sie mit Ihrer App arbeiten möchten, verwenden Sie den Link unten zum Azure-Portal. Dieser führt Sie zum Ressourcenblatt der Logik-App.</value>
   </data>
   <data name="Information_WorkWithYourApp" xml:space="preserve">
-    <value>{0} 사용 위치 </value>
+    <value>Mit Ihrer {0} arbeiten unter </value>
   </data>
   <data name="Information_XamarinAndroid" xml:space="preserve">
     <value>Xamarin Android</value>
@@ -331,171 +331,183 @@
     <value>Xamarin iOS</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value>로그아웃</value>
+    <value>Abmelden</value>
   </data>
   <data name="ManagementPortal" xml:space="preserve">
-    <value>관리 포털</value>
+    <value>Verwaltungsportal</value>
   </data>
   <data name="Marketplace" xml:space="preserve">
-    <value>마켓플레이스</value>
+    <value>Marketplace</value>
   </data>
   <data name="MicrosoftAzure" xml:space="preserve">
     <value>Microsoft Azure</value>
   </data>
   <data name="Mooncake" xml:space="preserve">
-    <value>중국의 Microsoft Azure</value>
+    <value>Microsoft Azure in China</value>
   </data>
   <data name="MyAccount" xml:space="preserve">
-    <value>내 계정</value>
+    <value>Mein Konto</value>
   </data>
   <data name="Newsletter" xml:space="preserve">
-    <value>뉴스레터</value>
+    <value>Newsletter</value>
   </data>
   <data name="Portal" xml:space="preserve">
-    <value>포털</value>
+    <value>Portal</value>
   </data>
   <data name="PreviewFeatures" xml:space="preserve">
-    <value>미리 보기 기능</value>
+    <value>Featurevorschau</value>
   </data>
   <data name="Pricing" xml:space="preserve">
-    <value>가격</value>
+    <value>Preise</value>
   </data>
   <data name="Privacy" xml:space="preserve">
-    <value>개인 정보</value>
+    <value>Datenschutz</value>
   </data>
   <data name="PrivacyCookies" xml:space="preserve">
-    <value>개인 정보 및 쿠키</value>
+    <value>Datenschutz und Cookies</value>
   </data>
   <data name="Profile" xml:space="preserve">
-    <value>프로필</value>
+    <value>Profil</value>
   </data>
   <data name="Regions" xml:space="preserve">
-    <value>지역</value>
+    <value>Regionen</value>
   </data>
   <data name="Rss" xml:space="preserve">
     <value>RSS</value>
   </data>
   <data name="Security" xml:space="preserve">
-    <value>보안</value>
+    <value>Sicherheit</value>
   </data>
   <data name="ServiceDashboard" xml:space="preserve">
-    <value>서비스 대시보드</value>
+    <value>Servicedashboard</value>
   </data>
   <data name="Services" xml:space="preserve">
-    <value>서비스</value>
+    <value>Dienste</value>
   </data>
   <data name="ServiceUpdates" xml:space="preserve">
-    <value>서비스 업데이트</value>
+    <value>Service Updates</value>
   </data>
   <data name="Subscriptions" xml:space="preserve">
-    <value>구독</value>
+    <value>Abonnements</value>
   </data>
   <data name="Support" xml:space="preserve">
-    <value>지원</value>
+    <value>Support</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Azure 앱 서비스 사용</value>
+    <value>Azure App Service testen</value>
   </data>
   <data name="Trademarks" xml:space="preserve">
-    <value>상표</value>
+    <value>Marken</value>
   </data>
   <data name="TrustCenter" xml:space="preserve">
-    <value>보안 센터</value>
+    <value>Trust Center</value>
   </data>
   <data name="Twitter" xml:space="preserve">
     <value>Twitter</value>
   </data>
   <data name="Information_LogicAppDescription" xml:space="preserve">
-    <value>Azure 논리 앱을 사용하여 개발자는 트리거에서 시작하여 일련의 단계를 실행하는 워크플로를 설계할 수 있습니다. 각 단계에서는 인증은 물론 검사점 설정, 지속 실행 같은 모범 사례를 안전하게 처리하면서 앱 서비스 API 앱을 호출합니다.</value>
+    <value>Azure-Logik-Apps ermöglichen Entwicklern das Entwerfen von Workflows, die durch einen Trigger ausgelöst werden und dann eine Reihe von Schritten ausführen. Jeder dieser Schritte ruft eine App Service-API-App auf. Dabei wird die Authentifizierung sicher ausgeführt, und es werden bewährte Methoden wie z. B. Prüfpunktausführung und permanente Ausführung angewendet.</value>
   </data>
   <data name="Information_LogicAppStep1" xml:space="preserve">
-    <value>1. 요약 렌즈를 확인하여 최종 실행 시간 및 실행 성공 여부 등의 정보를 살펴봅니다.</value>
+    <value>1. Untersuchen Sie den Zusammenfassungsbereich. Er enthält Informationen zum Zeitpunkt der letzten Ausführung und deren Erfolgsstatus.</value>
   </data>
   <data name="Information_LogicAppStep2" xml:space="preserve">
-    <value>2. 요약 렌즈에서 같은 부분을 클릭하여 논리 앱 정의를 열고 해당 정의를 확인합니다. ping이 실패하면 언제든지 논리 앱을 확장하여 트윗을 보낼 수 있습니다.</value>
+    <value>2. Öffnen Sie die Definition der Logik-App, indem Sie auf die gleiche Stelle im Zusammenfassungsbereich klicken und die Definition untersuchen. Sie können versuchen, die Logik-App so zu erweitern, dass bei jedem Ping-Fehler ein Tweet gesendet wird.</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
-    <value>이 논리 앱 템플릿은 되풀이 일정에 따라 웹 사이트를 ping합니다. ping 결과에 따라 확장하여 조치를 취할 수 있습니다.</value>
+    <value>Diese Logik-App-Vorlage führt Ping für eine Website gemäß einer Zeitplanserie aus. Sie können sie so erweitern, dass abhängig vom Ergebnis des Ping-Vorgangs eine Aktion ausgeführt wird.</value>
   </data>
   <data name="Action_Dismiss" xml:space="preserve">
-    <value>해제</value>
+    <value>Schließen</value>
   </data>
   <data name="Information_AppHasExpired" xml:space="preserve">
-    <value>{0}이(가) 만료되었습니다. 다른 앱 서비스 앱을 만들거나 30일 무료 평가판 계정을 신청할 수 있습니다.</value>
+    <value>Ihre {0} ist abgelaufen. Sie können versuchen, eine neue App Service-App zu erstellen, oder registrieren Sie sich für den Zeitraum von 30 Tagen für ein kostenloses Testkonto.</value>
   </data>
   <data name="Information_Prerequisite" xml:space="preserve">
-    <value>필수 구성 요소</value>
+    <value>Voraussetzung</value>
   </data>
   <data name="Information_WelcomeFeedback" xml:space="preserve">
-    <value>피드백이 있으시면 언제든지 보내주세요.</value>
+    <value>Wir freuen uns über Ihr Feedback!</value>
   </data>
   <data name="Action_Create" xml:space="preserve">
-    <value>만들기</value>
+    <value>Erstellen</value>
   </data>
   <data name="Action_GenericWorkWithYourApp" xml:space="preserve">
-    <value>앱 사용</value>
+    <value>Mit Ihrer App arbeiten</value>
   </data>
   <data name="Information_YouCantHaveMoreThanOne" xml:space="preserve">
-    <value>한 번에 2개 이상의 무료 리소스를 사용할 수 없습니다.</value>
+    <value>Sie können nur eine kostenlose Ressource gleichzeitig verwenden.</value>
   </data>
   <data name="Next" xml:space="preserve">
-    <value>다음</value>
+    <value>Weiter</value>
   </data>
   <data name="Previous" xml:space="preserve">
-    <value>이전</value>
+    <value>Zurück</value>
   </data>
   <data name="Information_ApiAppDescription" xml:space="preserve">
-    <value>Azure API 앱 무료 체험은 아직 제공되지 않지만 모든 유형의 앱을 10개까지 무료로 만들 수 있는 30일 무료 평가판을 신청하여 API 앱을 계속 만들 수 있습니다.</value>
+    <value>Die Azure-API-App-Testbenutzeroberfläche ist noch nicht verfügbar. Sie können dennoch API-Apps erstellen, indem Sie sich für einen kostenlosen Testzeitraum von 30 Tagen registrieren. Dies ermöglicht das kostenlose Erstellen von bis zu 10 Apps eines beliebigen Typs.</value>
   </data>
   <data name="Information_MobileAppDescription" xml:space="preserve">
-    <value>Azure 모바일 앱에서는 iOS, Android 또는 Windows 앱에 로그인, 푸시 및 데이터 동기화를 손쉽게 추가하여 앱을 전역으로 확장하고 엔터프라이즈 시스템 및 온-프레미스 리소스에 앱을 연결할 수 있습니다.</value>
+    <value>Mit Azure Mobile Apps ist es ganz einfach, Ihrer iOS-, Android- oder Windows-App Anmelde-, Push- und Datensynchronisierungsfunktionen hinzuzufügen, die App global zu skalieren und Ihre App mit Unternehmenssystemen und lokalen Ressourcen zu verbinden.</value>
   </data>
   <data name="Information_WebAppDescription" xml:space="preserve">
-    <value>Azure 웹앱을 통해 개발자는 인프라 관리에 대한 걱정 없이 다양한 언어로 작성되며 여러 서비스와 통합된 엔터프라이즈급의 웹 응용 프로그램을 간편하게 배포하고 확장할 수 있습니다.</value>
+    <value>Azure Web Apps ermöglicht Entwicklern das einfache Bereitstellen und Skalieren von Unternehmensanwendungen, die in einer Vielzahl von Sprachen geschrieben und in vielfältige Dienste integriert werden können, ohne sich Gedanken über die Infrastrukturverwaltung machen zu müssen.</value>
   </data>
   <data name="Information_LogicAppStep3" xml:space="preserve">
-    <value>3. 블레이드 맨 위에 있는 지금 실행 명령을 클릭하여 논리 앱을 다시 실행합니다.</value>
+    <value>3. Führen Sie die Logik-App erneut aus, indem Sie oben auf dem Blatt auf den Befehl "Jetzt ausführen" klicken.</value>
   </data>
   <data name="Information_LogicAppStep4" xml:space="preserve">
-    <value>4. 논리 앱을 사용하는 방법에 대한 자세한 내용을 보려면 설명서에 대한 포인터를 제공하는 빠른 시작을 클릭합니다.</value>
+    <value>4. Weitere Informationen zur Verwendung von Logik-Apps erhalten Sie, indem Sie auf "Schnellstart" klicken und den Links zur Dokumentation folgen.</value>
   </data>
   <data name="Information_LogicAppStepsIntro" xml:space="preserve">
-    <value>논리 앱 리소스 블레이드에서 수행할 수 있는 작업은 다음과 같습니다.</value>
+    <value>Auf dem Logik-App-Ressourcenblatt können Sie Folgendes versuchen:</value>
   </data>
   <data name="Information_XamarinBrandingLine1" xml:space="preserve">
-    <value>Xamarin과 Azure 앱 서비스를 통해 모바일로 전환</value>
+    <value>Mobilität durch Xamarin und Azure App Service</value>
   </data>
   <data name="Information_XamarinBrandingLine2" xml:space="preserve">
-    <value>어떤 장치에서든 빠른 인증과 동기화, 푸시가 가능합니다. 무료로 시작하고 앱이 늘어남에 따라 확장할 수 있습니다.</value>
+    <value>Authentifizierung, Synchronisierung und Push für alle Geräte innerhalb von Sekunden. Starten Sie kostenlos, und skalieren Sie, wenn Ihre App wächst.</value>
   </data>
   <data name="Information_ExtendResourceLifeTimeText" xml:space="preserve">
-    <value>시간이 더 필요하십니까? 평가판을 24시간 연장하려면 여기를 클릭하세요.</value>
+    <value>Sie benötigen mehr Zeit? Klicken Sie hier, damit Ihnen Ihre Testversion 24 Stunden lang zur Verfügung steht.</value>
   </data>
   <data name="Information_Android" xml:space="preserve">
     <value>Android</value>
   </data>
   <data name="Information_DownloadAndroidClient" xml:space="preserve">
-    <value>Android 클라이언트 앱 다운로드</value>
+    <value>Android-Client-App herunterladen</value>
   </data>
   <data name="Information_DownloadWUniversalWindowsPlatformClient" xml:space="preserve">
-    <value>UWP(유니버설 Windows 플랫폼) 클라이언트 다운로드</value>
+    <value>UWP-Client (Universelle Windows-Plattform) herunterladen</value>
   </data>
   <data name="Information_DownloadXamarinFormsClient" xml:space="preserve">
-    <value>Xamarin.Forms 클라이언트 앱 다운로드</value>
+    <value>Xamarin.Forms-Client-App herunterladen</value>
   </data>
   <data name="Information_UniversalWindowsPlatform" xml:space="preserve">
-    <value>UWP(유니버설 Windows 플랫폼)</value>
+    <value>Universelle Windows-Plattform (UWP)</value>
   </data>
   <data name="Information_XamarinForms" xml:space="preserve">
     <value>Xamarin.Forms</value>
   </data>
   <data name="Information_AzurePlatformBrandingLine1" xml:space="preserve">
-    <value>Node.js 앱을 얼마나 빨리 만들 수 있는지 확인해보세요.</value>
+    <value>So schnell können Sie eine Node.js-App erstellen</value>
   </data>
   <data name="Information_AzurePlatformBrandingLine2" xml:space="preserve">
-    <value>Azure 앱 서비스는 모든 플랫폼 및 장치용 웹앱과  모바일 앱을 빠르고 쉽게 빌드하는 데 필요한 모든 사항을 통합하는 유일한 클라우드 서비스입니다. 어디서든 데이터를 끌어오고 거의 모든 것을 빌드해보세요. 샌드박스에서 약 1시간 동안 약정 없이 무료로 사용해보세요.</value>
+    <value>Azure App Service ist der einzige Clouddienst, in den alle Funktionen integriert sind, die Sie zum schnellen und einfachen Erstellen von Web- und mobilen Apps für beliebige Plattformen oder Geräte brauchen. Beziehen Sie Daten aus allen erdenklichen Quellen, und lassen Sie Ihrer Kreativität freien Lauf. Probieren Sie Ihre Apps im Sandkasten für bis zu eine Stunde kostenlos und unverbindlich aus.</value>
   </data>
   <data name="Information_InstallAndroidStudio" xml:space="preserve">
-    <value>Android Studio 다운로드</value>
+    <value>Android Studio herunterladen</value>
+  </data>
+  <data name="Templates_AzureDevOpsDescription" xml:space="preserve">
+    <value>Mit dieser Vorlage wird eine Azure Jenkins-CI erstellt.</value>
+  </data>
+  <data name="Information_FunctionApp" xml:space="preserve">
+    <value>Funktions-App</value>
+  </data>
+  <data name="Information_FunctionAppDescription" xml:space="preserve">
+    <value>Azure Functions ist eine serverlose, ereignisgesteuerte Oberfläche, die die vorhandene Azure App Service-Plattform erweitert. Diese Nanodienste können bedarfsgemäß skaliert werden, und Sie bezahlen nur für die in Anspruch genommenen Ressourcen.</value>
+  </data>
+  <data name="TryFunctions" xml:space="preserve">
+    <value>Functions testen</value>
   </data>
 </root>

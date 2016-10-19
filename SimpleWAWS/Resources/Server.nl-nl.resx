@@ -118,51 +118,54 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Deployment_DeploymentInProgress" xml:space="preserve">
-    <value>Distribution pågår.</value>
+    <value>De implementatie wordt uitgevoerd.</value>
   </data>
   <data name="Deployment_GitDeploymentInProgress" xml:space="preserve">
-    <value>Git-distribution pågår.</value>
+    <value>De Git-implementatie wordt uitgevoerd.</value>
   </data>
   <data name="Error_GeneralErrorMessage" xml:space="preserve">
-    <value>Det har uppstått ett fel. Försök igen senare.</value>
+    <value>Er is een fout opgetreden. Probeer het later opnieuw.</value>
   </data>
   <data name="Error_GettingPublishingProfileStream" xml:space="preserve">
-    <value>Det gick inte att hämta publiceringsprofilen. Försök igen senare.</value>
+    <value>Kan het publicatieprofiel niet ophalen. Probeer het later opnieuw.</value>
   </data>
   <data name="Error_InvalidAppServiceType" xml:space="preserve">
-    <value>App Service måste vara av typen "Mobil" för att det ska gå att hämta mobila klienter.</value>
+    <value>De App Service moet van het type Mobiel zijn als u mobiele clients wilt downloaden.</value>
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
-    <value>Github-repo-URI är antingen ogiltig eller från en betrodd organisation.</value>
+    <value>De Github-repo-URI is ongeldig of afkomstig van een vertrouwde organisatie.</value>
   </data>
   <data name="Error_InvalidUserIdentity" xml:space="preserve">
-    <value>Ogiltig användare.</value>
+    <value>Ongeldige gebruiker.</value>
   </data>
   <data name="Error_MoreThanOneFreeResource" xml:space="preserve">
-    <value>Du kan inte ha mer än 1 fri resurs åt gången.</value>
+    <value>U mag maar één gratis resource tegelijk gebruiken.</value>
   </data>
   <data name="Error_NoFreeResourcesAvailable" xml:space="preserve">
-    <value>Det finns inga fria resurser tillgängliga för tillfället. Försök igen senare.</value>
+    <value>Er zijn momenteel geen gratis resources beschikbaar. Probeer het later opnieuw.</value>
   </data>
   <data name="Error_OrgIdNotSupported" xml:space="preserve">
-    <value>Organisationskonton stöds tyvärr inte. Använd ett Microsoft-konto.</value>
+    <value>Organisatieaccounts worden niet ondersteund. Gebruik een Microsoft-account.</value>
   </data>
   <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
-    <value>Resursens förfallotid har redan förlängts. Du kan bara förlänga förfallotiden för en resurs en gång.</value>
+    <value>De vervaltijd van de resource is al eerder verlengd. U kunt de vervaltijd slechts één keer verlengen voor een resource.</value>
   </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
-    <value>Plattformen stöds inte.</value>
+    <value>Niet-ondersteund platform.</value>
   </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
-    <value>En mobil instrumentpanelsapp för kabelföretagstekniker, eller vilka andra fältarbetare som helst, finns nu tillgänglig för Xamarin Forms. Kompletta exempel finns på &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
+    <value>Een mobiele dashboard-app voor een technicus van een kabelbedrijf of andere mobiele werknemers beschikbaar voor Xamarin Forms. Het volledige voorbeeld is beschikbaar op &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
+  </data>
+  <data name="Templates_JenkinsDescription" xml:space="preserve">
+    <value>Met deze sjabloon maakt u een Azure Jenkins-oplossing voor continue integratie</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
-    <value>Den här logiska appmallen pingar en webbplats enligt ett regelbundet schema.  Du kan utvidga den så att den vidtar åtgärder beroende på pingets resultat.</value>
+    <value>Dit sjabloon voor logische apps pingt een website volgens een vaste planning. U kunt ook instellen dat er, afhankelijk van het resultaat van het pingen, actie wordt ondernomen.</value>
   </data>
   <data name="Templates_TodoListDescription" xml:space="preserve">
-    <value>Detta är en enkel att göra-app som finns tillgänglig för iOS, Android, Xamarin och HTML/JS.</value>
+    <value>Dit een eenvoudige app voor takenlijstjes, beschikbaar voor iOS, Android, Xamarin en HTML/JS.</value>
   </data>
   <data name="Templates_XamarinCrmDescription" xml:space="preserve">
-    <value>En mobil CRM-instrumentpanelsapp för säljare finns nu tillgänglig för Xamarin Forms. Ett komplett exempel finns på &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>
+    <value>Een CRM-app met een mobiele verkoopdashboard, beschikbaar voor Xamarin Forms. Het volledige voorbeeld is beschikbaar op &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>
   </data>
 </root>

@@ -156,6 +156,9 @@
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
     <value>Um aplicativo para painel móvel para técnico de empresa por cabo ou qualquer outra força de trabalho móvel, disponível para Xamarin Forms. Amostra completa em &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
   </data>
+  <data name="Templates_JenkinsDescription" xml:space="preserve">
+    <value>Este modelo criará um Jenkins CI do Azure</value>
+  </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>Este modelo de Aplicativo Lógico executará ping em um site em um agendamento recorrente. Você pode estendê-lo para que faça uma ação dependendo do resultado do ping.</value>
   </data>

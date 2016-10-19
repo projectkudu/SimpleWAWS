@@ -130,7 +130,7 @@
     <value>无法检索发布配置文件。请稍后重试。</value>
   </data>
   <data name="Error_InvalidAppServiceType" xml:space="preserve">
-    <value>App Service 的类型必须是 'Mobile' 才能下载移动客户端。</value>
+    <value>应用服务的类型必须是 'Mobile' 才能下载移动客户端。</value>
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
     <value>GitHub 存储库 URI 无效或来自不受信任的组织。</value>
@@ -155,6 +155,9 @@
   </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
     <value>一款用于电缆公司技术人员或任何其他移动工作人员的移动仪表板应用，可用于 Xamarin Forms。完整示例位于 &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;。target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
+  </data>
+  <data name="Templates_JenkinsDescription" xml:space="preserve">
+    <value>此模板将创建 Azure Jenkins CI</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>此逻辑应用模板将定期 Ping 网站。你可以扩展此模板，以便根据 Ping 操作的结果执行相应操作。</value>

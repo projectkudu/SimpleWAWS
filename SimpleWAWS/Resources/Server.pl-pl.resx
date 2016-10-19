@@ -118,51 +118,54 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Deployment_DeploymentInProgress" xml:space="preserve">
-    <value>배포를 진행 중입니다.</value>
+    <value>Wdrażanie jest w toku.</value>
   </data>
   <data name="Deployment_GitDeploymentInProgress" xml:space="preserve">
-    <value>Git 배포를 진행 중입니다.</value>
+    <value>Wdrażanie Git jest w toku.</value>
   </data>
   <data name="Error_GeneralErrorMessage" xml:space="preserve">
-    <value>오류가 발생했습니다. 나중에 다시 시도하세요.</value>
+    <value>Wystąpił błąd. Spróbuj ponownie później.</value>
   </data>
   <data name="Error_GettingPublishingProfileStream" xml:space="preserve">
-    <value>게시 프로필을 검색할 수 없습니다. 나중에 다시 시도하세요.</value>
+    <value>Nie można pobrać profilu publikowania. Spróbuj ponownie później.</value>
   </data>
   <data name="Error_InvalidAppServiceType" xml:space="preserve">
-    <value>모바일 클라이언트를 다운로드하려면 앱 서비스 유형이 '모바일'이어야 합니다.</value>
+    <value>Usługa App Service musi być typu mobilnego, aby można było pobierać klientów mobilnych.</value>
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
-    <value>Github 리포지토리 URI가 신뢰할 수 있는 조직의 URI가 아닙니다.</value>
+    <value>Identyfikator URI repozytorium Github jest nieprawidłowy lub pochodzi z niezaufanej organizacji.</value>
   </data>
   <data name="Error_InvalidUserIdentity" xml:space="preserve">
-    <value>잘못된 사용자입니다.</value>
+    <value>Nieprawidłowy użytkownik.</value>
   </data>
   <data name="Error_MoreThanOneFreeResource" xml:space="preserve">
-    <value>한 번에 2개 이상의 무료 리소스를 사용할 수 없습니다.</value>
+    <value>Nie możesz mieć więcej niż jednego bezpłatnego zasobu naraz.</value>
   </data>
   <data name="Error_NoFreeResourcesAvailable" xml:space="preserve">
-    <value>현재 무료 리소스를 사용할 수 없습니다. 나중에 다시 시도하세요.</value>
+    <value>Obecnie brak jest dostępnych bezpłatnych zasobów. Spróbuj ponownie później.</value>
   </data>
   <data name="Error_OrgIdNotSupported" xml:space="preserve">
-    <value>죄송합니다. 조직 계정이 지원되지 않습니다. Microsoft 계정을 사용하세요.</value>
+    <value>Konta organizacyjne nie są obsługiwane. Użyj konta Microsoft.</value>
   </data>
   <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
-    <value>리소스 만료 시간을 이전에 이미 연장했습니다. 리소스에 대한 만료 시간은 한 번만 연장할 수 있습니다.</value>
+    <value>Czas wygaśnięcia zasobu był już wydłużany wcześniej. Dla każdego zasobu czas wygaśnięcia można wydłużyć tylko raz.</value>
   </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
-    <value>지원되지 않는 플랫폼입니다.</value>
+    <value>Nieobsługiwana platforma.</value>
   </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
-    <value>Xamarin Forms에 사용할 수 있는, 케이블 회사 기술자나 다른 모든 모바일 작업자용 모바일 대시보드 앱입니다. 전체 샘플은 &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;를 참조하세요.</value>
+    <value>Aplikacja mobilnego pulpitu nawigacyjnego dla techników w firmie dostarczającej telewizję kablową i dla wszystkich innych pracowników pracujących w terenie, dostępna dla platformy Xamarin Forms. Pełny przykład można znaleźć pod adresem &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
+  </data>
+  <data name="Templates_JenkinsDescription" xml:space="preserve">
+    <value>Za pomocą tego szablonu zostanie utworzone rozwiązanie ciągłej integracji (CI) Azure Jenkins</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
-    <value>이 논리 앱 템플릿은 되풀이 일정에 따라 웹 사이트를 ping합니다. ping 결과에 따라 확장하여 조치를 취할 수 있습니다.</value>
+    <value>Szablon aplikacji logiki będzie cyklicznie badać witrynę internetową za pomocą polecenia ping. Możesz go tak rozszerzyć, aby podejmować działanie na podstawie wyniku polecenia ping.</value>
   </data>
   <data name="Templates_TodoListDescription" xml:space="preserve">
-    <value>iOS, Android, Xamarin 및 HTML/JS에 사용할 수 있는 간단한 Todo 목록 앱입니다.</value>
+    <value>To jest prosta aplikacja z listą rzeczy do zrobienia, dostępna dla systemów iOS i Android oraz platform Xamarin i HTML/JS.</value>
   </data>
   <data name="Templates_XamarinCrmDescription" xml:space="preserve">
-    <value>Xamarin Forms에 사용할 수 있는 모바일 판매 대시보드 CRM 앱입니다. 전체 샘플은 &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;을 참조하세요.</value>
+    <value>Aplikacja CRM mobilnego pulpitu nawigacyjnego sprzedaży, dostępna dla platformy Xamarin Forms. Pełny przykład można znaleźć pod adresem &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>
   </data>
 </root>

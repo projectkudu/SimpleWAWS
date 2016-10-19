@@ -118,51 +118,54 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Deployment_DeploymentInProgress" xml:space="preserve">
-    <value>Die Bereitstellung wird ausgeführt.</value>
+    <value>Déploiement en cours.</value>
   </data>
   <data name="Deployment_GitDeploymentInProgress" xml:space="preserve">
-    <value>Die Git-Bereitstellung wird ausgeführt.</value>
+    <value>Déploiement Git en cours.</value>
   </data>
   <data name="Error_GeneralErrorMessage" xml:space="preserve">
-    <value>Fehler. Bitte versuchen Sie es später erneut.</value>
+    <value>Une erreur s'est produite. Réessayez plus tard.</value>
   </data>
   <data name="Error_GettingPublishingProfileStream" xml:space="preserve">
-    <value>Das Veröffentlichungsprofil kann nicht abgerufen werden. Bitte versuchen Sie es später erneut.</value>
+    <value>Impossible de récupérer le profil de publication. Réessayez plus tard.</value>
   </data>
   <data name="Error_InvalidAppServiceType" xml:space="preserve">
-    <value>Der App Service muss vom Typ "Mobil" sein, um mobile Clients herunterzuladen.</value>
+    <value>Le service App Service doit être du type « Mobile » pour télécharger des clients mobiles.</value>
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
-    <value>Der GitHub-Repository-URI ist ungültig oder stammt von einer vertrauenswürdigen Organisation.</value>
+    <value>L'URI du référentiel Github n'est pas valide ou ne provient pas d'une organisation approuvée.</value>
   </data>
   <data name="Error_InvalidUserIdentity" xml:space="preserve">
-    <value>Ungültiger Benutzer.</value>
+    <value>Utilisateur non valide.</value>
   </data>
   <data name="Error_MoreThanOneFreeResource" xml:space="preserve">
-    <value>Sie können nur eine kostenlose Ressource gleichzeitig verwenden.</value>
+    <value>Vous ne pouvez pas avoir plusieurs ressources gratuites en même temps.</value>
   </data>
   <data name="Error_NoFreeResourcesAvailable" xml:space="preserve">
-    <value>Zurzeit sind keine kostenlosen Ressourcen verfügbar. Bitte versuchen Sie es später erneut.</value>
+    <value>Aucune ressource gratuite n'est disponible actuellement. Réessayez plus tard.</value>
   </data>
   <data name="Error_OrgIdNotSupported" xml:space="preserve">
-    <value>Leider werden Organisationskonten nicht unterstützt. Bitte verwenden Sie ein Microsoft-Konto.</value>
+    <value>Désolé, les comptes professionnels ne sont pas pris en charge. Utilisez un compte Microsoft.</value>
   </data>
   <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
-    <value>Die Ressourcenablaufzeit wurde bereits verlängert. Sie können die Ablaufzeit für eine Ressource nur ein Mal verlängern.</value>
+    <value>L'heure d'expiration de la ressource a déjà été prolongée. Vous ne pouvez prolonger l'heure d'expiration d'une ressource qu'une seule fois.</value>
   </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
-    <value>Nicht unterstützte Plattform.</value>
+    <value>Plateforme non prise en charge.</value>
   </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
-    <value>Eine mobile Dashboard-App für Techniker eines Kabelnetzbetreibers oder andere mobile Mitarbeiter, die für Xamarin Forms verfügbar ist. Das vollständige Codebeispiel finden Sie unter "&lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;".</value>
+    <value>Application mobile de tableau de bord pour technicien d'entreprise de câblage ou tout autre travailleur itinérant, disponible pour Xamarin Forms. Exemple complet sur &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
+  </data>
+  <data name="Templates_JenkinsDescription" xml:space="preserve">
+    <value>Ce modèle crée une CI Azure Jenkins</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
-    <value>Diese Logik-App-Vorlage führt Ping für eine Website gemäß einer Zeitplanserie aus. Sie können sie so erweitern, dass abhängig vom Ergebnis des Ping-Vorgangs eine Aktion ausgeführt wird.</value>
+    <value>Le modèle d'application logique effectue un test Ping avec un site web selon une planification récurrente. Vous pouvez l'étendre de façon à effectuer une action en fonction du résultat du test Ping.</value>
   </data>
   <data name="Templates_TodoListDescription" xml:space="preserve">
-    <value>Dies ist eine einfache Aufgabenlisten-App für iOS, Android, Xamarin und HTML/JS.</value>
+    <value>Il s'agit d'une application de listes de tâches simple, disponible sur iOS, Android, Xamarin et HTML/JS.</value>
   </data>
   <data name="Templates_XamarinCrmDescription" xml:space="preserve">
-    <value>Eine mobile Vertriebsdashboard-CRM-App, die für Xamarin Forms verfügbar ist. Das vollständige Codebeispiel finden Sie unter "&lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;".</value>
+    <value>Application mobile CRM de tableau de bord pour les ventes, disponible pour Xamarin Forms. Exemple complet sur &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>
   </data>
 </root>

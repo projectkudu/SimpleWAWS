@@ -118,51 +118,54 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Deployment_DeploymentInProgress" xml:space="preserve">
-    <value>Wdrażanie jest w toku.</value>
+    <value>Telepítés folyamatban.</value>
   </data>
   <data name="Deployment_GitDeploymentInProgress" xml:space="preserve">
-    <value>Wdrażanie Git jest w toku.</value>
+    <value>GIT-telepítés folyamatban.</value>
   </data>
   <data name="Error_GeneralErrorMessage" xml:space="preserve">
-    <value>Wystąpił błąd. Spróbuj ponownie później.</value>
+    <value>Hiba történt. Próbálkozzon újra később.</value>
   </data>
   <data name="Error_GettingPublishingProfileStream" xml:space="preserve">
-    <value>Nie można pobrać profilu publikowania. Spróbuj ponownie później.</value>
+    <value>A közzétételi profil nem kérdezhető le. Próbálkozzon újra később.</value>
   </data>
   <data name="Error_InvalidAppServiceType" xml:space="preserve">
-    <value>Usługa App Service musi być typu mobilnego, aby można było pobierać klientów mobilnych.</value>
+    <value>A mobilügyfelek akkor tölthetők le, ha az App Service típusa Mobil.</value>
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
-    <value>Identyfikator URI repozytorium Github jest nieprawidłowy lub pochodzi z niezaufanej organizacji.</value>
+    <value>A GitHub-tárház URI azonosítója érvénytelen vagy nem megbízható szervezettől származik.</value>
   </data>
   <data name="Error_InvalidUserIdentity" xml:space="preserve">
-    <value>Nieprawidłowy użytkownik.</value>
+    <value>Érvénytelen felhasználó.</value>
   </data>
   <data name="Error_MoreThanOneFreeResource" xml:space="preserve">
-    <value>Nie możesz mieć więcej niż jednego bezpłatnego zasobu naraz.</value>
+    <value>Egyszerre csak 1 ingyenes erőforrással rendelkezhet.</value>
   </data>
   <data name="Error_NoFreeResourcesAvailable" xml:space="preserve">
-    <value>Obecnie brak jest dostępnych bezpłatnych zasobów. Spróbuj ponownie później.</value>
+    <value>Jelenleg nincsenek elérhető ingyenes erőforrások. Próbálkozzon újra később.</value>
   </data>
   <data name="Error_OrgIdNotSupported" xml:space="preserve">
-    <value>Konta organizacyjne nie są obsługiwane. Użyj konta Microsoft.</value>
+    <value>A munkahelyi és iskolai fiókok nem támogatottak. Használjon Microsoft-fiókot.</value>
   </data>
   <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
-    <value>Czas wygaśnięcia zasobu był już wydłużany wcześniej. Dla każdego zasobu czas wygaśnięcia można wydłużyć tylko raz.</value>
+    <value>Már korábban ki lett terjesztve az erőforrás lejárati ideje. Az erőforrások lejárati idejét csak egyszer lehet kiterjeszteni.</value>
   </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
-    <value>Nieobsługiwana platforma.</value>
+    <value>Nem támogatott platform.</value>
   </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
-    <value>Aplikacja mobilnego pulpitu nawigacyjnego dla techników w firmie dostarczającej telewizję kablową i dla wszystkich innych pracowników pracujących w terenie, dostępna dla platformy Xamarin Forms. Pełny przykład można znaleźć pod adresem &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
+    <value>Egy mobil irányítópult-alkalmazás egy kábeltelevíziós társaság technikusai vagy bármilyen más mobil dolgozók számára, mely elérhető a Xamarin Forms eszközkészlethez. A teljes minta a &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt; címen érhető el.</value>
+  </data>
+  <data name="Templates_JenkinsDescription" xml:space="preserve">
+    <value>Ez a sablon egy Azure Jenkins CI-t hoz létre</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
-    <value>Szablon aplikacji logiki będzie cyklicznie badać witrynę internetową za pomocą polecenia ping. Możesz go tak rozszerzyć, aby podejmować działanie na podstawie wyniku polecenia ping.</value>
+    <value>A Logic App-sablon ismétlődő ütemezéssel pingel egy webhelyet. Kiterjesztheti úgy, hogy a pingelés eredményétől függően végezzen el műveleteket.</value>
   </data>
   <data name="Templates_TodoListDescription" xml:space="preserve">
-    <value>To jest prosta aplikacja z listą rzeczy do zrobienia, dostępna dla systemów iOS i Android oraz platform Xamarin i HTML/JS.</value>
+    <value>Ez egy egyszerű teendőlistát megvalósító alkalmazás iOS, Android, Xamarin és HTML/JS rendszerekhez.</value>
   </data>
   <data name="Templates_XamarinCrmDescription" xml:space="preserve">
-    <value>Aplikacja CRM mobilnego pulpitu nawigacyjnego sprzedaży, dostępna dla platformy Xamarin Forms. Pełny przykład można znaleźć pod adresem &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>
+    <value>Egy mobil értékesítési irányítópultot megvalósító CRM-alkalmazás, mely elérhető a Xamarin Forms eszközkészlethez. A teljes minta a &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt; címen érhető el.</value>
   </data>
 </root>

@@ -148,7 +148,7 @@
     <value>下載並執行您的行動用戶端應用程式</value>
   </data>
   <data name="Action_Monaco" xml:space="preserve">
-    <value>使用 Visual Studio Online "Monaco" 編輯</value>
+    <value>線上編輯您的程式碼</value>
   </data>
   <data name="Action_ReportAnIssue" xml:space="preserve">
     <value>回報問題</value>
@@ -271,7 +271,7 @@
     <value>安裝 Visual Studio Professional 2015 (Update 2)</value>
   </data>
   <data name="Information_InstallXamarinStudio" xml:space="preserve">
-    <value>安裝適用於 Windows 或 OS X 的 Xamarin Studio</value>
+    <value>安裝適用於 OS X 的 Xamarin Studio</value>
   </data>
   <data name="Information_InstallXcode" xml:space="preserve">
     <value>安裝 Xcode (4.4 版以上)</value>
@@ -497,5 +497,17 @@
   </data>
   <data name="Information_InstallAndroidStudio" xml:space="preserve">
     <value>下載 Android Studio</value>
+  </data>
+  <data name="Templates_AzureDevOpsDescription" xml:space="preserve">
+    <value>此範本會建立 Azure Jenkins CI</value>
+  </data>
+  <data name="Information_FunctionApp" xml:space="preserve">
+    <value>函數應用程式</value>
+  </data>
+  <data name="Information_FunctionAppDescription" xml:space="preserve">
+    <value>Azure Functions 這項無伺服器事件驅動的體驗可延伸現有的 Azure App Service 平台。這些 nano 服務可以視需求調整規模，且您僅需支付所使用資源的費用。</value>
+  </data>
+  <data name="TryFunctions" xml:space="preserve">
+    <value>試試 Functions</value>
   </data>
 </root>

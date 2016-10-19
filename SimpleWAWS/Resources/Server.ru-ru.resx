@@ -118,51 +118,54 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Deployment_DeploymentInProgress" xml:space="preserve">
-    <value>Déploiement en cours.</value>
+    <value>Выполняется развертывание.</value>
   </data>
   <data name="Deployment_GitDeploymentInProgress" xml:space="preserve">
-    <value>Déploiement Git en cours.</value>
+    <value>Выполняется развертывание GIT.</value>
   </data>
   <data name="Error_GeneralErrorMessage" xml:space="preserve">
-    <value>Une erreur s'est produite. Réessayez plus tard.</value>
+    <value>Произошла ошибка. Повторите попытку позже.</value>
   </data>
   <data name="Error_GettingPublishingProfileStream" xml:space="preserve">
-    <value>Impossible de récupérer le profil de publication. Réessayez plus tard.</value>
+    <value>Не удалось извлечь профиль публикации. Повторите попытку позже.</value>
   </data>
   <data name="Error_InvalidAppServiceType" xml:space="preserve">
-    <value>Le service App Service doit être du type « Mobile » pour télécharger des clients mobiles.</value>
+    <value>Для скачивания мобильных клиентов служба приложений должна иметь тип "Мобильная".</value>
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
-    <value>L'URI du référentiel Github n'est pas valide ou ne provient pas d'une organisation approuvée.</value>
+    <value>URI репозитория GitHub недопустим или получен от доверенной организации.</value>
   </data>
   <data name="Error_InvalidUserIdentity" xml:space="preserve">
-    <value>Utilisateur non valide.</value>
+    <value>Недопустимый пользователь</value>
   </data>
   <data name="Error_MoreThanOneFreeResource" xml:space="preserve">
-    <value>Vous ne pouvez pas avoir plusieurs ressources gratuites en même temps.</value>
+    <value>У вас не может быть несколько бесплатных ресурсов одновременно.</value>
   </data>
   <data name="Error_NoFreeResourcesAvailable" xml:space="preserve">
-    <value>Aucune ressource gratuite n'est disponible actuellement. Réessayez plus tard.</value>
+    <value>Сейчас нет доступных ресурсов. Повторите попытку позже.</value>
   </data>
   <data name="Error_OrgIdNotSupported" xml:space="preserve">
-    <value>Désolé, les comptes professionnels ne sont pas pris en charge. Utilisez un compte Microsoft.</value>
+    <value>Учетные записи организации не поддерживаются. Используйте учетную запись Майкрософт.</value>
   </data>
   <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
-    <value>L'heure d'expiration de la ressource a déjà été prolongée. Vous ne pouvez prolonger l'heure d'expiration d'une ressource qu'une seule fois.</value>
+    <value>Срок действия ресурса уже был продлен ранее, а это можно сделать только раз.</value>
   </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
-    <value>Plateforme non prise en charge.</value>
+    <value>Неподдерживаемая платформа</value>
   </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
-    <value>Application mobile de tableau de bord pour technicien d'entreprise de câblage ou tout autre travailleur itinérant, disponible pour Xamarin Forms. Exemple complet sur &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
+    <value>Приложение с мобильной панелью мониторинга для техника кабельной компании или любого другого мобильного сотрудника доступно для форм Xamarin Forms. Полный пример см. на странице &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
+  </data>
+  <data name="Templates_JenkinsDescription" xml:space="preserve">
+    <value>На основе этого шаблона создается Azure Jenkins CI</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
-    <value>Le modèle d'application logique effectue un test Ping avec un site web selon une planification récurrente. Vous pouvez l'étendre de façon à effectuer une action en fonction du résultat du test Ping.</value>
+    <value>Шаблон приложения логики будет проверять связь с веб-сайтом по регулярному расписанию. Вы можете расширить его, чтобы предпринять действия в зависимости от результата проверки связи.</value>
   </data>
   <data name="Templates_TodoListDescription" xml:space="preserve">
-    <value>Il s'agit d'une application de listes de tâches simple, disponible sur iOS, Android, Xamarin et HTML/JS.</value>
+    <value>Это простое приложение со списком дел, доступное для iOS, Android, Xamarin и HTML/JS.</value>
   </data>
   <data name="Templates_XamarinCrmDescription" xml:space="preserve">
-    <value>Application mobile CRM de tableau de bord pour les ventes, disponible pour Xamarin Forms. Exemple complet sur &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>
+    <value>Мобильное CRM-приложение с панелью мониторинга продаж, доступное для форм Xamarin Forms. Полный пример см. на странице &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>
   </data>
 </root>

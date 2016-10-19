@@ -529,55 +529,53 @@
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\client.cs.resx" />
-    <EmbeddedResource Include="Resources\client.de.resx" />
+    <EmbeddedResource Include="Resources\client.cs-cz.resx" />
+    <EmbeddedResource Include="Resources\client.de-de.resx" />
     <EmbeddedResource Include="Resources\client.en-us.resx" />
-    <EmbeddedResource Include="Resources\client.es.resx" />
-    <EmbeddedResource Include="Resources\client.fr.resx" />
-    <EmbeddedResource Include="Resources\client.hu.resx" />
-    <EmbeddedResource Include="Resources\client.it.resx" />
-    <EmbeddedResource Include="Resources\client.ja.resx" />
-    <EmbeddedResource Include="Resources\client.ko.resx" />
-    <EmbeddedResource Include="Resources\client.nl.resx" />
-    <EmbeddedResource Include="Resources\client.pl.resx" />
+    <EmbeddedResource Include="Resources\client.es-es.resx" />
+    <EmbeddedResource Include="Resources\client.fr-fr.resx" />
+    <EmbeddedResource Include="Resources\client.hu-hu.resx" />
+    <EmbeddedResource Include="Resources\client.it-it.resx" />
+    <EmbeddedResource Include="Resources\client.ja-jp.resx" />
+    <EmbeddedResource Include="Resources\client.ko-kr.resx" />
+    <EmbeddedResource Include="Resources\client.nl-nl.resx" />
+    <EmbeddedResource Include="Resources\client.pl-pl.resx" />
     <EmbeddedResource Include="Resources\client.pt-br.resx" />
-    <EmbeddedResource Include="Resources\client.pt.resx" />
+    <EmbeddedResource Include="Resources\client.pt-pt.resx" />
+    <EmbeddedResource Include="Resources\client.qps-ploc.resx" />
     <EmbeddedResource Include="Resources\Client.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Client1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\client.ru.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\client.sv.resx" />
-    <EmbeddedResource Include="Resources\client.tr.resx" />
+    <EmbeddedResource Include="Resources\client.ru-ru.resx" />
+    <EmbeddedResource Include="Resources\client.sv-se.resx" />
+    <EmbeddedResource Include="Resources\client.tr-tr.resx" />
     <EmbeddedResource Include="Resources\client.zh-cn.resx" />
     <EmbeddedResource Include="Resources\client.zh-tw.resx" />
-    <EmbeddedResource Include="Resources\client.zh.resx" />
-    <EmbeddedResource Include="Resources\Server.cs.resx" />
-    <EmbeddedResource Include="Resources\Server.de.resx" />
+    <EmbeddedResource Include="Resources\Server.cs-cz.resx" />
+    <EmbeddedResource Include="Resources\Server.de-de.resx" />
     <EmbeddedResource Include="Resources\Server.en-us.resx" />
-    <EmbeddedResource Include="Resources\Server.es.resx" />
-    <EmbeddedResource Include="Resources\Server.fr.resx" />
-    <EmbeddedResource Include="Resources\Server.hu.resx" />
-    <EmbeddedResource Include="Resources\Server.it.resx" />
-    <EmbeddedResource Include="Resources\Server.ja.resx" />
-    <EmbeddedResource Include="Resources\Server.ko.resx" />
-    <EmbeddedResource Include="Resources\Server.nl.resx" />
-    <EmbeddedResource Include="Resources\Server.pl.resx" />
+    <EmbeddedResource Include="Resources\Server.es-es.resx" />
+    <EmbeddedResource Include="Resources\Server.fr-fr.resx" />
+    <EmbeddedResource Include="Resources\Server.hu-hu.resx" />
+    <EmbeddedResource Include="Resources\Server.it-it.resx" />
+    <EmbeddedResource Include="Resources\Server.ja-jp.resx" />
+    <EmbeddedResource Include="Resources\Server.ko-kr.resx" />
+    <EmbeddedResource Include="Resources\Server.nl-nl.resx" />
+    <EmbeddedResource Include="Resources\Server.pl-pl.resx" />
     <EmbeddedResource Include="Resources\Server.pt-br.resx" />
-    <EmbeddedResource Include="Resources\Server.pt.resx" />
+    <EmbeddedResource Include="Resources\Server.pt-pt.resx" />
+    <EmbeddedResource Include="Resources\Server.qps-ploc.resx" />
     <EmbeddedResource Include="Resources\Server.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Server.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Server.ru.resx" />
-    <EmbeddedResource Include="Resources\Server.sv.resx" />
-    <EmbeddedResource Include="Resources\Server.tr.resx" />
+    <EmbeddedResource Include="Resources\Server.ru-ru.resx" />
+    <EmbeddedResource Include="Resources\Server.sv-se.resx" />
+    <EmbeddedResource Include="Resources\Server.tr-tr.resx" />
     <EmbeddedResource Include="Resources\Server.zh-cn.resx" />
     <EmbeddedResource Include="Resources\Server.zh-tw.resx" />
-    <EmbeddedResource Include="Resources\Server.zh.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -118,51 +118,54 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Deployment_DeploymentInProgress" xml:space="preserve">
-    <value>Probíhá nasazení.</value>
+    <value>Distribuzione in corso.</value>
   </data>
   <data name="Deployment_GitDeploymentInProgress" xml:space="preserve">
-    <value>Probíhá nasazení z Gitu.</value>
+    <value>La distribuzione Git è in corso.</value>
   </data>
   <data name="Error_GeneralErrorMessage" xml:space="preserve">
-    <value>Došlo k chybě. Zkuste to prosím znovu později.</value>
+    <value>Si è verificato un errore. Riprovare più tardi.</value>
   </data>
   <data name="Error_GettingPublishingProfileStream" xml:space="preserve">
-    <value>Nepodařilo se načíst publikační profil. Zkuste to prosím znovu později.</value>
+    <value>Non è possibile recuperare il profilo di pubblicazione. Riprovare più tardi.</value>
   </data>
   <data name="Error_InvalidAppServiceType" xml:space="preserve">
-    <value>Při stahování mobilních klientů musí být aplikační služba nastavená na typ „Mobilní“.</value>
+    <value>Per poter scaricare i client per dispositivi mobili, il servizio app deve essere di tipo 'Dispositivi mobili'.</value>
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
-    <value>Identifikátor URI úložiště GitHub je buď neplatný, nebo označuje nedůvěryhodnou organizaci.</value>
+    <value>L'URI del repository di GitHub non è valido o non proviene da un'organizzazione attendibile.</value>
   </data>
   <data name="Error_InvalidUserIdentity" xml:space="preserve">
-    <value>Uživatel je neplatný.</value>
+    <value>L'utente non è valido.</value>
   </data>
   <data name="Error_MoreThanOneFreeResource" xml:space="preserve">
-    <value>Vždycky můžete mít jenom jeden volný prostředek.</value>
+    <value>Non è possibile usare più di una risorsa gratuita alla volta.</value>
   </data>
   <data name="Error_NoFreeResourcesAvailable" xml:space="preserve">
-    <value>V současnosti nejsou dostupné žádné volné prostředky. Zkuste to prosím znovu později.</value>
+    <value>Non sono disponibili risorse gratuite in questo momento. Riprovare più tardi.</value>
   </data>
   <data name="Error_OrgIdNotSupported" xml:space="preserve">
-    <value>Je nám líto, ale účty organizace nejsou podporované. Použijte prosím účet Microsoft.</value>
+    <value>Gli account aziendali non sono supportati. Usare un account Microsoft.</value>
   </data>
   <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
-    <value>Doba konce platnosti pro prostředek už byla prodloužena. Tuto dobu je možné prodloužit pro prostředek jenom jednou.</value>
+    <value>La scadenza della risorsa è già stata estesa in precedenza. La scadenza può essere estesa una sola volta per ciascuna risorsa.</value>
   </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
-    <value>Platforma není podporovaná.</value>
+    <value>La piattaforma non è supportata.</value>
   </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
-    <value>Mobilní aplikace řídicího panelu pro technického pracovníka kabelové společnosti nebo jakéhokoliv jiného mobilního pracovníka dostupná pro formuláře Xamarin. Úplnou ukázku najdete na adrese &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
+    <value>Un'app dashboard per dispositivi mobili progettata per gli addetti all'installazione di cavi o per altri tecnici che operano fuori sede, disponibile per Xamarin Forms. Per un esempio completo, consultare il sito Web all'indirizzo &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
+  </data>
+  <data name="Templates_JenkinsDescription" xml:space="preserve">
+    <value>Questo modello crea una soluzione di integrazione continua Jenkins di Azure</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
-    <value>Tato šablona aplikace logiky pravidelně odesílá příkaz ping na web. Můžete ji rozšířit, aby na základě výsledku příkazu ping udělala nějakou akci.</value>
+    <value>Il modello di app per la logica eseguirà il ping di un sito Web in base a una pianificazione ricorrente. È possibile estenderlo in modo che esegua un'azione a seconda del risultato dell'operazione di ping.</value>
   </data>
   <data name="Templates_TodoListDescription" xml:space="preserve">
-    <value>Toto je aplikace seznamu úkolů dostupná pro iOS, Android, Xamarin a HTML/JS.</value>
+    <value>Una semplice app di elenco attività, disponibile per iOS, Android, Xamarin e HTML/JS.</value>
   </data>
   <data name="Templates_XamarinCrmDescription" xml:space="preserve">
-    <value>Mobilní aplikace řídicího panelu prodeje CRM dostupná pro formuláře Xamarin. Úplnou ukázku najdete na adrese &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>
+    <value>Un'app CRM dashboard per dispositivi mobili dedicata alle vendite, disponibile per Xamarin Forms. Per un esempio completo, consultare il sito Web all'indirizzo &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>
   </data>
 </root>

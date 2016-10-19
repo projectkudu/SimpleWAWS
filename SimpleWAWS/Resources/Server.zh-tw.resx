@@ -156,6 +156,9 @@
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
     <value>專為有線電視公司技術人員或任何其他行動工作力所設計的行動儀表板應用程式，其適用於 Xamarin 格式。如需完整範例，請移至 &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;。</value>
   </data>
+  <data name="Templates_JenkinsDescription" xml:space="preserve">
+    <value>此範本會建立 Azure Jenkins CI</value>
+  </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>此邏輯應用程式範本會依照排程定期 Ping 網站。您可以擴充其功能，依據 Ping 的結果採取動作。</value>
   </data>
