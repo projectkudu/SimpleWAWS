@@ -103,21 +103,6 @@ namespace SimpleWAWS.Code.CsmExtensions
         }
 
         //Shallow load
-        public static async Task<ResourceGroup> LoadGateways(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> gateways = null)
-        {
-            if (gateways == null)
-            {
-                var csmGatewaysResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.Gateways.Bind(resourceGroup));
-                await csmGatewaysResponse.EnsureSuccessStatusCodeWithFullError();
-                gateways = (await csmGatewaysResponse.Content.ReadAsAsync<CsmArrayWrapper<object>>()).value;
-            }
-
-            resourceGroup.Gateways = gateways.Select(g => new Gateway(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, g.name));
-
-            return resourceGroup;
-        }
-
-        //Shallow load
         public static async Task<ResourceGroup> LoadServerFarms(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> serverFarms = null)
         {
             if (serverFarms == null)
@@ -381,38 +366,6 @@ namespace SimpleWAWS.Code.CsmExtensions
                 csmResourceGroup.tags != null && !csmResourceGroup.tags.ContainsKey("Bad") 
                 && csmResourceGroup.tags.ContainsKey(Constants.SubscriptionType)
                 && string.Equals(csmResourceGroup.tags[Constants.SubscriptionType], SubscriptionType.Jenkins.ToString(),StringComparison.OrdinalIgnoreCase);
-        }
-
-        public static async Task InitApiApps(this ResourceGroup resourceGroup)
-        {
-            if (!resourceGroup.Tags.ContainsKey(Constants.CommonApiAppsDeployed) ||
-                !resourceGroup.Tags[Constants.CommonApiAppsDeployed].Equals(Constants.CommonApiAppsDeployedVersion))
-            {
-                var csmTemplateString = string.Empty;
-
-                using (var reader = new StreamReader(SimpleSettings.CommonApiAppsCsmTemplatePath))
-                {
-                    csmTemplateString = await reader.ReadToEndAsync();
-                }
-
-                var gatewayName = resourceGroup.Gateways.Count() != 0
-                    ? resourceGroup.Gateways.Select(s => s.GatewayName).First()
-                    : Guid.NewGuid().ToString().Replace("-", "");
-                csmTemplateString = csmTemplateString.Replace("{{gatewayName}}", gatewayName);
-
-                var deployment = new CsmDeployment
-                {
-                    DeploymentName = resourceGroup.ResourceUniqueId,
-                    SubscriptionId = resourceGroup.SubscriptionId,
-                    ResourceGroupName = resourceGroup.ResourceGroupName,
-                    CsmTemplate = JsonConvert.DeserializeObject<JToken>(csmTemplateString),
-                };
-
-                await RetryHelper.Retry(() => deployment.Deploy(block: true, subscriptionType: resourceGroup.SubscriptionType), 3);
-                resourceGroup.Tags[Constants.CommonApiAppsDeployed] = Constants.CommonApiAppsDeployedVersion;
-                await resourceGroup.Update();
-                await resourceGroup.Load();
-            }
         }
 
         private static async Task InitFunctionsContainer(ResourceGroup resourceGroup)

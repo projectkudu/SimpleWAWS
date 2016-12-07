@@ -325,50 +325,9 @@ namespace SimpleWAWS.Code
         }
 
         // ARM
-        public async Task<ResourceGroup> ActivateApiApp(ApiTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
+        public async Task<ResourceGroup> ActivateApiApp(WebsiteTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
-            return await ActivateResourceGroup(userIdentity, AppService.Api, DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
-            {
-
-                SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
-                    userIdentity, template, resourceGroup.CsmId);
-                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}; {6}",
-                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
-                            "Api", template.ApiTemplateName, resourceGroup.ResourceUniqueId, AppService.Api.ToString(), anonymousUserName);
-                //SimpleTrace.UserCreatedApiApp()
-
-                var apiApp = new ApiApp(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, Guid.NewGuid().ToString().Replace("-", ""))
-                {
-                    MicroserviceId = template.ApiTemplateName,
-                    Location = resourceGroup.GeoRegion
-                };
-
-                var csmTemplate = await apiApp.GenerateCsmTemplate();
-
-                var templateWrapper = new CsmTemplateWrapper
-                {
-                    properties = new CsmTemplateProperties
-                    {
-                        mode = "Incremental",
-                        parameters = apiApp.GenerateTemplateParameters(),
-                        template = csmTemplate
-                    }
-                };
-
-                await inProgressOperation.CreateDeployment(templateWrapper, block: true, subscriptionType: resourceGroup.SubscriptionType);
-
-                // We don't need the original site that we create for Web or Mobile apps, delete it or it'll show up in ibiza
-                await resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).Select(s => s.Delete()).IgnoreFailures().WhenAll();
-
-                // After a deployment, we have no idea what changes happened in the resource group, we should reload it.
-                await resourceGroup.Load();
-
-                var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email);
-                var publicAccessTask = resourceGroup.ApiApps.Select(a => a.SetAccessLevel("PublicAnonymous"));
-                resourceGroup.IsRbacEnabled = await rbacTask;
-                await publicAccessTask.WhenAll();
-                return resourceGroup;
-            });
+            return await ActivateWebApp(template, userIdentity, anonymousUserName, AppService.Api);
         }
 
         // ARM
