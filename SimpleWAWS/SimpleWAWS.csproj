@@ -280,7 +280,6 @@
     <Compile Include="Models\CsmModels\CsmApiApp.cs" />
     <Compile Include="Models\CsmModels\CsmArrayWrapper.cs" />
     <Compile Include="Models\CsmModels\CsmDeployment.cs" />
-    <Compile Include="Models\CsmModels\CsmGateway.cs" />
     <Compile Include="Models\CsmModels\CsmJenkinsResource.cs" />
     <Compile Include="Models\CsmModels\CsmLogicApp.cs" />
     <Compile Include="Models\CsmModels\CsmNameValuePair.cs" />
@@ -302,7 +301,6 @@
     <Compile Include="Models\Experiment.cs" />
     <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\FunctionTemplate.cs" />
-    <Compile Include="Models\Gateway.cs" />
     <Compile Include="Models\JenkinsResource.cs" />
     <Compile Include="Models\LogicApp.cs" />
     <Compile Include="Models\JenkinsTemplate.cs" />
@@ -318,7 +316,6 @@
     </Compile>
     <Compile Include="Code\AnalyticsEvents.cs" />
     <Compile Include="Code\AzureSearchHelper.cs" />
-    <Compile Include="Code\CsmExtensions\CsmApiAppExtensions.cs" />
     <Compile Include="Code\CsmExtensions\CsmDeploymentExtensions.cs" />
     <Compile Include="Code\ExperimentEnricher.cs" />
     <Compile Include="Code\ExperimentManager.cs" />
@@ -402,8 +399,8 @@
     <Content Include="Content\images\Logins\vk.png" />
     <Content Include="Content\images\mobile-clients.png" />
     <Content Include="Content\images\MobileApp2.png" />
-    <Content Include="Content\images\packages\ApiContactsList.png" />
-    <Content Include="Content\images\packages\ApiTodoList.png" />
+    <Content Include="Content\images\packages\Api Contacts List.png" />
+    <Content Include="Content\images\packages\Api Todo List.png" />
     <Content Include="Content\images\packages\ASP.NET + Azure Search Site.png" />
     <Content Include="Content\images\packages\ASP.NET Empty Site.png" />
     <Content Include="Content\images\packages\ASP.NET Starter Site.png" />
@@ -452,7 +449,6 @@
     <Content Include="App_Data\applicationHost.xdt">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="CSMTemplates\commonApiApps.json" />
     <Content Include="CSMTemplates\PingSite.json" />
     <Content Include="Default.cshtml" />
     <Content Include="refs\ARMClient.Library.dll" />

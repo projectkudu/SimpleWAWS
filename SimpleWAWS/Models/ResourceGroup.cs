@@ -96,15 +96,9 @@ namespace SimpleWAWS.Models
         public IEnumerable<Site> Sites { get; set; }
 
         [JsonIgnore]
-        public IEnumerable<ApiApp> ApiApps { get; set; }
-
-        [JsonIgnore]
         public IEnumerable<LogicApp> LogicApps { get; set; }
         [JsonIgnore]
         public JenkinsResource JenkinsResources { get; set; }
-
-        [JsonIgnore]
-        public IEnumerable<Gateway> Gateways { get; set; }
 
         [JsonIgnore]
         public IEnumerable<ServerFarm> ServerFarms { get; set; }
@@ -171,21 +165,21 @@ namespace SimpleWAWS.Models
                 switch (AppService)
                 {
                     case Models.AppService.Web:
-                        siteToUseForUi = Sites.Where(s => s.IsSimpleWAWSOriginalSite).First();
+                        siteToUseForUi = Sites.First(s => s.IsSimpleWAWSOriginalSite);
                         ibizaUrl = siteToUseForUi.IbizaUrl;
                         break;
                     case Models.AppService.Mobile:
-                        siteToUseForUi = Sites.Where(s => s.IsSimpleWAWSOriginalSite).First();
+                        siteToUseForUi = Sites.First(s => s.IsSimpleWAWSOriginalSite);
                         break;
                     case Models.AppService.Api:
-                        siteToUseForUi = Sites.First(s => s.SiteName.StartsWith("TrySample", StringComparison.OrdinalIgnoreCase));
-                        ibizaUrl = ApiApps.First().IbizaUrl;
+                        siteToUseForUi = Sites.First(s => s.IsSimpleWAWSOriginalSite);
+                        ibizaUrl = siteToUseForUi.IbizaUrl;
                         break;
                     case Models.AppService.Logic:
                         ibizaUrl = LogicApps.First().IbizaUrl;
                         break;
                     case Models.AppService.Function:
-                        csmId = Sites.Where(s => s.IsFunctionsContainer).First().CsmId;
+                        csmId = Sites.First(s => s.IsFunctionsContainer).CsmId;
                         break;
                     case Models.AppService.Jenkins:
                         ibizaUrl = JenkinsResources?.IbizaUrl;
@@ -257,8 +251,6 @@ namespace SimpleWAWS.Models
             : base(subsciptionId, resourceGroupName)
         {
             this.Sites = Enumerable.Empty<Site>();
-            this.ApiApps = Enumerable.Empty<ApiApp>();
-            this.Gateways = Enumerable.Empty<Gateway>();
             this.ServerFarms = Enumerable.Empty<ServerFarm>();
             this.LogicApps = Enumerable.Empty<LogicApp>();
             this.StorageAccounts = Enumerable.Empty<StorageAccount>();

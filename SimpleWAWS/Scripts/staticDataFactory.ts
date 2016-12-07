@@ -49,61 +49,45 @@ angular.module("tryApp")
                 }],
                 templates: [],
                 description: Resources.Information_MobileAppDescription
-                }, {
-                    name: "FunctionApp",
-                    sprite: "sprite-FunctionApp",
-                    title: Resources.Information_FunctionApp,
-                    steps: [{
+                },
+                {
+                name: "FunctionApp",
+                sprite: "sprite-FunctionApp",
+                title: Resources.Information_FunctionApp,
+                steps: [{
                         id: 1,
                         title: Resources.Action_SelectAppType,
                         sref: "home"
-                    }],
-                    templates: [],
-                    description: Resources.Information_FunctionAppDescription
-                }, {
+                }],
+                templates: [],
+                description: Resources.Information_FunctionAppDescription
+                },
+                {
                 name: "Api",
                 sprite: "sprite-ApiApp",
                 title: Resources.Information_APIApp,
                 steps: [{
                     id: 1,
-                    title: Resources.Action_SelectAppType,
+                    title: "Select app type",
                     sref: "home"
                 }, {
-                    id: 2,
-                    title: Resources.Information_ComingSoon,
-                    sref: "home.apiapp.comingsoon"
-                }],
-                //steps: [{
-                //    id: 1,
-                //    title: "Select app type",
-                //    sref: "home",
-                //}, {
-                //        id: 2,
-                //        title: "Select template",
-                //        sref: "home.apiapp.templates",
-                //        nextClass: "wa-button-primary",
-                //        nextText: "Create"
-                //    }, {
-                //        id: 3,
-                //        title: "Work with your app",
-                //        sref: "home.apiapp.work",
-                //        confirmDelete: true
-                //    }],
+                        id: 2,
+                        title: "Select template",
+                        sref: "home.apiapp.templates",
+                        nextClass: "wa-button-primary",
+                        nextText: "Create"
+                    }, {
+                        id: 3,
+                        title: "Work with your app",
+                        sref: "home.apiapp.work",
+                        confirmDelete: true
+                    }],
                 templates: [],
                 description: Resources.Information_ApiAppDescription
             }, {
                 name: "Logic",
                 sprite: "sprite-LogicApp",
                 title: Resources.Information_LogicApp,
-                //steps: [{
-                //    id: 1,
-                //    title: Resources.Action_SelectAppType,
-                //    sref: "home"
-                //}, {
-                //    id: 2,
-                //    title: Resources.Information_ComingSoon,
-                //    sref: "home.logicapp.comingsoon"
-                //}],
                 steps: [{
                     id: 1,
                     title: Resources.Action_SelectAppType,

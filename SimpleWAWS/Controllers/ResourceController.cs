@@ -205,15 +205,7 @@ namespace SimpleWAWS.Controllers
                         resourceGroup = await resourceManager.ActivateMobileApp(template as WebsiteTemplate, identity, anonymousUserName);
                         break;
                     case AppService.Api:
-                        if (identity.Issuer == "OrgId")
-                        {
-                            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_OrgIdNotSupported);
-                        }
-                        else if (identity.Issuer != "MSA")
-                        {
-                            return SecurityManager.RedirectToAAD(template.CreateQueryString());
-                        }
-                        resourceGroup = await resourceManager.ActivateApiApp(template as ApiTemplate, identity, anonymousUserName);
+                        resourceGroup = await resourceManager.ActivateApiApp(template as WebsiteTemplate, identity, anonymousUserName);
                         break;
                     case AppService.Logic:
                         if (identity.Issuer == "OrgId")

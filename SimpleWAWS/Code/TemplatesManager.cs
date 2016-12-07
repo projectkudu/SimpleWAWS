@@ -51,34 +51,12 @@ namespace SimpleWAWS.Models
                         {
                             Name = Path.GetFileNameWithoutExtension(template),
                             FileName = Path.GetFileName(template),
-                            Language = language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) ? null : language,
+                            Language = (language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) || language.Equals("Api", StringComparison.OrdinalIgnoreCase))? null : language,
                             SpriteName = string.Format(CultureInfo.InvariantCulture, "{0} {1}", iconCssClass, cssClass),
-                            AppService =  language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) ? AppService.Mobile : AppService.Web
+                            AppService =  language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) ? AppService.Mobile : language.Equals("Api", StringComparison.OrdinalIgnoreCase)? AppService.Api : AppService.Web
                         });
                     }
                 }
-                list.Add(new ApiTemplate
-                    {
-                        ApiTemplateName = "TrySamplesTodoList",
-                        Name = "Todo List",
-                        SpriteName = "sprite-TodoList TodoList",
-                        AppService = AppService.Api
-                    });
-                list.Add(new ApiTemplate
-                    {
-                        ApiTemplateName = "TrySamplesContactList",
-                        Name = "Contact List",
-                        SpriteName = "sprite-TodoList TodoList",
-                        AppService = AppService.Api
-                    });
-                list.Add(new LogicTemplate
-                    {
-                        Name = "Ping Site",
-                        SpriteName = "sprite-PingSite PingSite",
-                        AppService = AppService.Logic,
-                        CsmTemplateFilePath = HostingEnvironment.MapPath("~/CSMTemplates/PingSite.json"),
-                        Description = Resources.Server.Templates_PingSiteDescription
-                    });
                 list.Add(new JenkinsTemplate
                 {
                     Name = "Jenkins CI",
@@ -104,7 +82,7 @@ namespace SimpleWAWS.Models
     {
         public static string GetFullPath(this WebsiteTemplate value)
         {
-            var language = value.Language ?? "Mobile";
+            var language = value.Language ?? ((value.AppService==AppService.Api) ? "Api" : "Mobile");
             return Path.Combine(TemplatesManager.TemplatesFolder, language, value.FileName);
         }
     }
