@@ -249,12 +249,6 @@
   <data name="Information_DownloadXamariniOSClient" xml:space="preserve">
     <value>Download the Xamarin iOS client app</value>
   </data>
-  <data name="Information_ExperienceComingSoon" xml:space="preserve">
-    <value>The Azure {0} trial experience is not here yet, but you can still create {0}s by signing up for a free 30-day trial which enables the creation of up to 10 apps of any type for free</value>
-  </data>
-  <data name="Information_ExperienceNotHereYet" xml:space="preserve">
-    <value>The {0} experience is not here yet.</value>
-  </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
     <value>Your free {0} will expire in:</value>
   </data>
@@ -445,7 +439,7 @@
     <value>Previous</value>
   </data>
   <data name="Information_ApiAppDescription" xml:space="preserve">
-    <value>The Azure API App trial experience is not here yet, but you can still create API Apps by signing up for a free 30-day trial which enables the creation of up to 10 apps of any type for free.</value>
+    <value>Azure API Apps make it easy to build, host, and consume APIs written in a variety of languages. Leverage turnkey API security, connectivity to On-premises resources, and Swagger definition support.</value>
   </data>
   <data name="Information_MobileAppDescription" xml:space="preserve">
     <value>Azure Mobile Apps make it easy to add login, push, and data sync to your iOS, Android, or Windows app, to scale globally, and to connect your app to enterprise systems and on-premises resources.</value>

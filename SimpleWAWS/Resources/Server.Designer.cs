@@ -169,6 +169,15 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Azure API Apps make it easy to build, host, and consume APIs written in a variety of languages. Leverage turnkey API security, connectivity to On-premises resources, and Swagger definition support..
+        /// </summary>
+        internal static string Templates_APIAppDescription {
+            get {
+                return ResourceManager.GetString("Templates_APIAppDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A mobile dashboard app for a cable company technician, or any other mobile workforce, available for Xamarin Forms. Full sample at &lt;a href=&quot;https://github.com/azure/fieldengineer/&quot; target=&quot;_blank&quot;&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;..
         /// </summary>
         internal static string Templates_FieldEngineerDescription {

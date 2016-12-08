@@ -153,6 +153,9 @@
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>Unsupported platform.</value>
   </data>
+  <data name="Templates_APIAppDescription" xml:space="preserve">
+    <value>Azure API Apps make it easy to build, host, and consume APIs written in a variety of languages. Leverage turnkey API security, connectivity to On-premises resources, and Swagger definition support.</value>
+  </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
     <value>A mobile dashboard app for a cable company technician, or any other mobile workforce, available for Xamarin Forms. Full sample at &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
   </data>

@@ -17,6 +17,10 @@ namespace SimpleWAWS.Controllers
             var list = TemplatesManager.GetTemplates().ToList();
             list.ForEach(t =>
             {
+                if (t.AppService == AppService.Api)
+                {
+                    t.Description = Resources.Server.Templates_APIAppDescription;
+                }
                 if (t.AppService == AppService.Logic)
                 {
                     t.Description = Resources.Server.Templates_PingSiteDescription;

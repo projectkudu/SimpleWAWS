@@ -40,9 +40,6 @@ angular.module("tryApp")
         }, {
             name: "home.apiapp.work",
             templateUrl: "/templates/work.cshtml",
-        }, {
-            name: "home.apiapp.comingsoon",
-            templateUrl: "/templates/comingsoon.cshtml",
         }];
 
         var logicApps: ng.ui.IState[] = [{
@@ -54,9 +51,6 @@ angular.module("tryApp")
         }, {
             name: "home.logicapp.work",
             templateUrl: "/templates/work.cshtml",
-        }, {
-            name: "home.logicapp.comingsoon",
-            templateUrl: "/templates/comingsoon.cshtml",
         }];
 
         $stateProvider.state(homeState);

@@ -472,7 +472,6 @@
     <Content Include="Content\fonts\segoe-ui\semibold\latest.woff" />
     <Content Include="Scripts\site.js" />
     <Content Include="templates\clients.cshtml" />
-    <Content Include="templates\comingsoon.cshtml" />
     <Content Include="templates\empty-shell.cshtml" />
     <Content Include="templates\templates.cshtml" />
     <Content Include="templates\steps.cshtml" />

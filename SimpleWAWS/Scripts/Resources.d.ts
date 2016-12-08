@@ -13,7 +13,6 @@
     export var Action_SelectAppType: string;
     export var Action_SelectTemplate: string;
     export var Action_GenericWorkWithYourApp: string;
-    export var Information_ComingSoon: string;
     export var Information_DownloadClient: string;
     export var Information_SelectTemplate: string;
     export var Information_LogicAppDescription: string;

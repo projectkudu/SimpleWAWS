@@ -8,10 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SimpleWAWS.Resources {
+namespace SimpleWAWS.Resources
+{
     using System;
-    
-    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,571 +21,675 @@ namespace SimpleWAWS.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Client {
-        
+    public class Client
+    {
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Client() {
+        internal Client()
+        {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
-            get {
-                if (object.ReferenceEquals(resourceMan, null)) {
+        public static global::System.Resources.ResourceManager ResourceManager
+        {
+            get
+            {
+                if (object.ReferenceEquals(resourceMan, null))
+                {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SimpleWAWS.Resources.Client", typeof(Client).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
-            get {
+        public static global::System.Globalization.CultureInfo Culture
+        {
+            get
+            {
                 return resourceCulture;
             }
-            set {
+            set
+            {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Allow Microsoft to contact me regarding this feedback..
         /// </summary>
-        public static string Action_AllowContact {
-            get {
+        public static string Action_AllowContact
+        {
+            get
+            {
                 return ResourceManager.GetString("Action_AllowContact", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        public static string Action_Cancel {
-            get {
+        public static string Action_Cancel
+        {
+            get
+            {
                 return ResourceManager.GetString("Action_Cancel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create.
         /// </summary>
-        public static string Action_Create {
-            get {
+        public static string Action_Create
+        {
+            get
+            {
                 return ResourceManager.GetString("Action_Create", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create your Azure App Service app.
         /// </summary>
-        public static string Action_CreateAppServiceApp {
-            get {
+        public static string Action_CreateAppServiceApp
+        {
+            get
+            {
                 return ResourceManager.GetString("Action_CreateAppServiceApp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
-        public static string Action_Delete {
-            get {
+        public static string Action_Delete
+        {
+            get
+            {
                 return ResourceManager.GetString("Action_Delete", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Dismiss.
         /// </summary>
-        public static string Action_Dismiss {
-            get {
+        public static string Action_Dismiss
+        {
+            get
+            {
                 return ResourceManager.GetString("Action_Dismiss", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Download {0} content.
         /// </summary>
-        public static string Action_DownloadAppContent {
-            get {
+        public static string Action_DownloadAppContent
+        {
+            get
+            {
                 return ResourceManager.GetString("Action_DownloadAppContent", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Download publishing profile.
         /// </summary>
-        public static string Action_DownloadPublishingProfile {
-            get {
+        public static string Action_DownloadPublishingProfile
+        {
+            get
+            {
                 return ResourceManager.GetString("Action_DownloadPublishingProfile", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Work with your app.
         /// </summary>
-        public static string Action_GenericWorkWithYourApp {
-            get {
+        public static string Action_GenericWorkWithYourApp
+        {
+            get
+            {
                 return ResourceManager.GetString("Action_GenericWorkWithYourApp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Clone or push with git.
         /// </summary>
-        public static string Action_GitClone {
-            get {
+        public static string Action_GitClone
+        {
+            get
+            {
                 return ResourceManager.GetString("Action_GitClone", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Go to existing app.
         /// </summary>
-        public static string Action_GoToExistingApp {
-            get {
+        public static string Action_GoToExistingApp
+        {
+            get
+            {
                 return ResourceManager.GetString("Action_GoToExistingApp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Manage in Azure Portal.
         /// </summary>
-        public static string Action_ManageInAzurePortal {
-            get {
+        public static string Action_ManageInAzurePortal
+        {
+            get
+            {
                 return ResourceManager.GetString("Action_ManageInAzurePortal", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Download and run your mobile client app.
         /// </summary>
-        public static string Action_MobileClients {
-            get {
+        public static string Action_MobileClients
+        {
+            get
+            {
                 return ResourceManager.GetString("Action_MobileClients", resourceCulture);
             }
         }
-        
+
         /// <summary>
-        ///   Looks up a localized string similar to Edit with Visual Studio Online &quot;Monaco&quot;.
+        ///   Looks up a localized string similar to Edit your code online.
         /// </summary>
-        public static string Action_Monaco {
-            get {
+        public static string Action_Monaco
+        {
+            get
+            {
                 return ResourceManager.GetString("Action_Monaco", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Report an issue.
         /// </summary>
-        public static string Action_ReportAnIssue {
-            get {
+        public static string Action_ReportAnIssue
+        {
+            get
+            {
                 return ResourceManager.GetString("Action_ReportAnIssue", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Select app type.
         /// </summary>
-        public static string Action_SelectAppType {
-            get {
+        public static string Action_SelectAppType
+        {
+            get
+            {
                 return ResourceManager.GetString("Action_SelectAppType", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Select a template and create your {0}.
         /// </summary>
-        public static string Action_SelectTemplate {
-            get {
+        public static string Action_SelectTemplate
+        {
+            get
+            {
                 return ResourceManager.GetString("Action_SelectTemplate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Share a comment.
         /// </summary>
-        public static string Action_ShareAComment {
-            get {
+        public static string Action_ShareAComment
+        {
+            get
+            {
                 return ResourceManager.GetString("Action_ShareAComment", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Submit.
         /// </summary>
-        public static string Action_Submit {
-            get {
+        public static string Action_Submit
+        {
+            get
+            {
                 return ResourceManager.GetString("Action_Submit", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Yes.
         /// </summary>
-        public static string Action_Yes {
-            get {
+        public static string Action_Yes
+        {
+            get
+            {
                 return ResourceManager.GetString("Action_Yes", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Blog.
         /// </summary>
-        public static string Blog {
-            get {
+        public static string Blog
+        {
+            get
+            {
                 return ResourceManager.GetString("Blog", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Calculator.
         /// </summary>
-        public static string Calculator {
-            get {
+        public static string Calculator
+        {
+            get
+            {
                 return ResourceManager.GetString("Calculator", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Case Studies.
         /// </summary>
-        public static string CaseStudies {
-            get {
+        public static string CaseStudies
+        {
+            get
+            {
                 return ResourceManager.GetString("CaseStudies", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Community.
         /// </summary>
-        public static string Community {
-            get {
+        public static string Community
+        {
+            get
+            {
                 return ResourceManager.GetString("Community", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Compliance.
         /// </summary>
-        public static string Compliance {
-            get {
+        public static string Compliance
+        {
+            get
+            {
                 return ResourceManager.GetString("Compliance", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Contact Us.
         /// </summary>
-        public static string ContactUs {
-            get {
+        public static string ContactUs
+        {
+            get
+            {
                 return ResourceManager.GetString("ContactUs", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Documentation.
         /// </summary>
-        public static string Documentation {
-            get {
+        public static string Documentation
+        {
+            get
+            {
                 return ResourceManager.GetString("Documentation", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Downloads.
         /// </summary>
-        public static string Downloads {
-            get {
+        public static string Downloads
+        {
+            get
+            {
                 return ResourceManager.GetString("Downloads", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to There was an error submitting your feedback. Please try again later..
         /// </summary>
-        public static string Error_SubmittingFeedback {
-            get {
+        public static string Error_SubmittingFeedback
+        {
+            get
+            {
                 return ResourceManager.GetString("Error_SubmittingFeedback", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Events.
         /// </summary>
-        public static string Events {
-            get {
+        public static string Events
+        {
+            get
+            {
                 return ResourceManager.GetString("Events", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Facebook.
         /// </summary>
-        public static string Facebook {
-            get {
+        public static string Facebook
+        {
+            get
+            {
                 return ResourceManager.GetString("Facebook", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Features.
         /// </summary>
-        public static string Features {
-            get {
+        public static string Features
+        {
+            get
+            {
                 return ResourceManager.GetString("Features", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Feedback.
         /// </summary>
-        public static string Feedback {
-            get {
+        public static string Feedback
+        {
+            get
+            {
                 return ResourceManager.GetString("Feedback", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Forums.
         /// </summary>
-        public static string Forums {
-            get {
+        public static string Forums
+        {
+            get
+            {
                 return ResourceManager.GetString("Forums", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Free Account.
         /// </summary>
-        public static string FreeAccount {
-            get {
+        public static string FreeAccount
+        {
+            get
+            {
                 return ResourceManager.GetString("FreeAccount", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Go Social.
         /// </summary>
-        public static string GoSocial {
-            get {
+        public static string GoSocial
+        {
+            get
+            {
                 return ResourceManager.GetString("GoSocial", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Android.
         /// </summary>
-        public static string Information_Android {
-            get {
+        public static string Information_Android
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_Android", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to API App.
         /// </summary>
-        public static string Information_APIApp {
-            get {
+        public static string Information_APIApp
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_APIApp", resourceCulture);
             }
         }
-        
+
         /// <summary>
-        ///   Looks up a localized string similar to The Azure API App trial experience is not here yet, but you can still create API Apps by signing up for a free 30-day trial which enables the creation of up to 10 apps of any type for free..
+        ///   Looks up a localized string similar to Azure API Apps make it easy to build, host, and consume APIs written in a variety of languages. Leverage turnkey API security, connectivity to On-premises resources, and Swagger definition support..
         /// </summary>
-        public static string Information_ApiAppDescription {
-            get {
+        public static string Information_ApiAppDescription
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_ApiAppDescription", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to You already have an App Service created. Do you want to delete it and create a new one?.
         /// </summary>
-        public static string Information_AppAlreadyExists {
-            get {
+        public static string Information_AppAlreadyExists
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_AppAlreadyExists", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your {0} has been created!.
         /// </summary>
-        public static string Information_AppHasBeenCreated {
-            get {
+        public static string Information_AppHasBeenCreated
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_AppHasBeenCreated", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your {0} has expired. You can try creating another app service app or signup for a free 30-day trial account..
         /// </summary>
-        public static string Information_AppHasExpired {
-            get {
+        public static string Information_AppHasExpired
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_AppHasExpired", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Host 10 ASP.NET websites for free with Azure App Service.
         /// </summary>
-        public static string Information_AspNetBrandingLine1 {
-            get {
+        public static string Information_AspNetBrandingLine1
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_AspNetBrandingLine1", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Secure, reliable, and business-ready in seconds. Start for free and scale as your traffic grows..
         /// </summary>
-        public static string Information_AspNetBrandingLine2 {
-            get {
+        public static string Information_AspNetBrandingLine2
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_AspNetBrandingLine2", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to See how quickly you can create a Node.js app.
         /// </summary>
-        public static string Information_AzurePlatformBrandingLine1 {
-            get {
+        public static string Information_AzurePlatformBrandingLine1
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_AzurePlatformBrandingLine1", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Azure App Service is the only cloud service that integrates everything you need to quickly and easily build web and mobile apps for any platform or device.  Pull data from anywhere and build virtually anything.  Play in the sandbox for up to an hour free of charge and commitment..
         /// </summary>
-        public static string Information_AzurePlatformBrandingLine2 {
-            get {
+        public static string Information_AzurePlatformBrandingLine2
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_AzurePlatformBrandingLine2", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Coming soon.
         /// </summary>
-        public static string Information_ComingSoon {
-            get {
+        public static string Information_ComingSoon
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_ComingSoon", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Download the Android client app.
         /// </summary>
-        public static string Information_DownloadAndroidClient {
-            get {
+        public static string Information_DownloadAndroidClient
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_DownloadAndroidClient", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Download client.
         /// </summary>
-        public static string Information_DownloadClient {
-            get {
+        public static string Information_DownloadClient
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_DownloadClient", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Download the iOS client app.
         /// </summary>
-        public static string Information_DownloadiOSClient {
-            get {
+        public static string Information_DownloadiOSClient
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_DownloadiOSClient", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Download the Windows client app.
         /// </summary>
-        public static string Information_DownloadWindowsClient {
-            get {
+        public static string Information_DownloadWindowsClient
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_DownloadWindowsClient", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Download the Universal Windows Platform (UWP) client.
         /// </summary>
-        public static string Information_DownloadWUniversalWindowsPlatformClient {
-            get {
+        public static string Information_DownloadWUniversalWindowsPlatformClient
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_DownloadWUniversalWindowsPlatformClient", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Download the Xamarin Android client app.
         /// </summary>
-        public static string Information_DownloadXamarinAndroidClient {
-            get {
+        public static string Information_DownloadXamarinAndroidClient
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_DownloadXamarinAndroidClient", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Download the Xamarin.Forms client app.
         /// </summary>
-        public static string Information_DownloadXamarinFormsClient {
-            get {
+        public static string Information_DownloadXamarinFormsClient
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_DownloadXamarinFormsClient", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Download the Xamarin iOS client app.
         /// </summary>
-        public static string Information_DownloadXamariniOSClient {
-            get {
+        public static string Information_DownloadXamariniOSClient
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_DownloadXamariniOSClient", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The Azure {0} trial experience is not here yet, but you can still create {0}s by signing up for a free 30-day trial which enables the creation of up to 10 apps of any type for free.
-        /// </summary>
-        public static string Information_ExperienceComingSoon {
-            get {
-                return ResourceManager.GetString("Information_ExperienceComingSoon", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The {0} experience is not here yet..
-        /// </summary>
-        public static string Information_ExperienceNotHereYet {
-            get {
-                return ResourceManager.GetString("Information_ExperienceNotHereYet", resourceCulture);
-            }
-        }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your free {0} will expire in:.
         /// </summary>
-        public static string Information_ExpireMessage {
-            get {
+        public static string Information_ExpireMessage
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_ExpireMessage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Need more time? Click here to extend your trial to 24 hours..
         /// </summary>
-        public static string Information_ExtendResourceLifeTimeText {
-            get {
+        public static string Information_ExtendResourceLifeTimeText
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_ExtendResourceLifeTimeText", resourceCulture);
             }
         }
@@ -616,621 +719,748 @@ namespace SimpleWAWS.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Azure App Service is a cloud app service that integrates everything you need to quickly and easily build web and mobile apps for any platform or device..
         /// </summary>
-        public static string Information_GenericBrandingLine1 {
-            get {
+        public static string Information_GenericBrandingLine1
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_GenericBrandingLine1", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Be our guest for up to an hour of Azure App Service experience with no Azure subscription, free of charge and commitment. Stay longer for the full Azure App Service experience with an Azure free trial subscription..
         /// </summary>
-        public static string Information_GenericBrandingLine2 {
-            get {
+        public static string Information_GenericBrandingLine2
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_GenericBrandingLine2", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Going back will delete the current app.
         /// </summary>
-        public static string Information_GoingBackWillDeleteApp {
-            get {
+        public static string Information_GoingBackWillDeleteApp
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_GoingBackWillDeleteApp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Download Android Studio.
         /// </summary>
-        public static string Information_InstallAndroidStudio {
-            get {
+        public static string Information_InstallAndroidStudio
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_InstallAndroidStudio", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Install Visual Studio Professional 2015 (Update 2).
         /// </summary>
-        public static string Information_InstallVisualStudio {
-            get {
+        public static string Information_InstallVisualStudio
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_InstallVisualStudio", resourceCulture);
             }
         }
-        
+
         /// <summary>
-        ///   Looks up a localized string similar to Install Xamarin Studio for Windows or OS X.
+        ///   Looks up a localized string similar to Install Xamarin Studio for OS X.
         /// </summary>
-        public static string Information_InstallXamarinStudio {
-            get {
+        public static string Information_InstallXamarinStudio
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_InstallXamarinStudio", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Install Xcode (v4.4+).
         /// </summary>
-        public static string Information_InstallXcode {
-            get {
+        public static string Information_InstallXcode
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_InstallXcode", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Logic App.
         /// </summary>
-        public static string Information_LogicApp {
-            get {
+        public static string Information_LogicApp
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_LogicApp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Azure Logic Apps allow developers to design workflows that start from a trigger and then execute a series of steps, each invoking an App Service API App whilst securely taking care of authentication and best practices like checkpointing and durable execution..
         /// </summary>
-        public static string Information_LogicAppDescription {
-            get {
+        public static string Information_LogicAppDescription
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_LogicAppDescription", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 1. Look at the Summary lens where you will find out information like when it last ran and if it was successful.
         /// </summary>
-        public static string Information_LogicAppStep1 {
-            get {
+        public static string Information_LogicAppStep1
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_LogicAppStep1", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 2. Open the Logic App definition by clicking on the same part in the Summary lens and look at the definition. You can try to extend the Logic App to send a tweet anytime a ping fails..
         /// </summary>
-        public static string Information_LogicAppStep2 {
-            get {
+        public static string Information_LogicAppStep2
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_LogicAppStep2", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 3. Run the Logic App again by clicking on the Run Now command at the top of the blade..
         /// </summary>
-        public static string Information_LogicAppStep3 {
-            get {
+        public static string Information_LogicAppStep3
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_LogicAppStep3", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 4. To find out more about how to use Logic Apps click on Quick Start that will provide pointers to documentation..
         /// </summary>
-        public static string Information_LogicAppStep4 {
-            get {
+        public static string Information_LogicAppStep4
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_LogicAppStep4", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to From the Logic App resource blade you can try the following:.
         /// </summary>
-        public static string Information_LogicAppStepsIntro {
-            get {
+        public static string Information_LogicAppStepsIntro
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_LogicAppStepsIntro", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Login first to create an app.
         /// </summary>
-        public static string Information_LoginFirst {
-            get {
+        public static string Information_LoginFirst
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_LoginFirst", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Mobile App.
         /// </summary>
-        public static string Information_MobileApp {
-            get {
+        public static string Information_MobileApp
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_MobileApp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Azure Mobile Apps make it easy to add login, push, and data sync to your iOS, Android, or Windows app, to scale globally, and to connect your app to enterprise systems and on-premises resources..
         /// </summary>
-        public static string Information_MobileAppDescription {
-            get {
+        public static string Information_MobileAppDescription
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_MobileAppDescription", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Native iOS.
         /// </summary>
-        public static string Information_NativeiOS {
-            get {
+        public static string Information_NativeiOS
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_NativeiOS", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Prerequisite.
         /// </summary>
-        public static string Information_Prerequisite {
-            get {
+        public static string Information_Prerequisite
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_Prerequisite", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Select app type.
         /// </summary>
-        public static string Information_SelectAppType {
-            get {
+        public static string Information_SelectAppType
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_SelectAppType", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Select template.
         /// </summary>
-        public static string Information_SelectTemplate {
-            get {
+        public static string Information_SelectTemplate
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_SelectTemplate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Submitting feedback....
         /// </summary>
-        public static string Information_SubmittingFeedback {
-            get {
+        public static string Information_SubmittingFeedback
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_SubmittingFeedback", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Thanks for the feedback!.
         /// </summary>
-        public static string Information_ThanksForFeedback {
-            get {
+        public static string Information_ThanksForFeedback
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_ThanksForFeedback", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Universal Windows Platform (UWP).
         /// </summary>
-        public static string Information_UniversalWindowsPlatform {
-            get {
+        public static string Information_UniversalWindowsPlatform
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_UniversalWindowsPlatform", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Visit the web based client.
         /// </summary>
-        public static string Information_VisitWebClient {
-            get {
+        public static string Information_VisitWebClient
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_VisitWebClient", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Would you like to get more for free?.
         /// </summary>
-        public static string Information_WantMoreQuestionLine1 {
-            get {
+        public static string Information_WantMoreQuestionLine1
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_WantMoreQuestionLine1", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create more web, mobile, logic and API apps. Sign up for a free 30-day trial and create up to 10 apps of any type for free..
         /// </summary>
-        public static string Information_WantMoreQuestionLine2 {
-            get {
+        public static string Information_WantMoreQuestionLine2
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_WantMoreQuestionLine2", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Web App.
         /// </summary>
-        public static string Information_WebApp {
-            get {
+        public static string Information_WebApp
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_WebApp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Azure Web Apps enable developers to easily deploy and scale enterprise grade web applications written in a variety of languages and integrated with a multitude of services without ever worrying about infrastructure management..
         /// </summary>
-        public static string Information_WebAppDescription {
-            get {
+        public static string Information_WebAppDescription
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_WebAppDescription", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Web Portal.
         /// </summary>
-        public static string Information_WebClient {
-            get {
+        public static string Information_WebClient
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_WebClient", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We welcome your feedback!.
         /// </summary>
-        public static string Information_WelcomeFeedback {
-            get {
+        public static string Information_WelcomeFeedback
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_WelcomeFeedback", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Universal Windows 8.1.
         /// </summary>
-        public static string Information_Windows {
-            get {
+        public static string Information_Windows
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_Windows", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to To work with your app go to the Azure Portal link below which will take you to the Logic App resource blade..
         /// </summary>
-        public static string Information_WorkWithLogicApps {
-            get {
+        public static string Information_WorkWithLogicApps
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_WorkWithLogicApps", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Work with your {0} at .
         /// </summary>
-        public static string Information_WorkWithYourApp {
-            get {
+        public static string Information_WorkWithYourApp
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_WorkWithYourApp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Xamarin Android.
         /// </summary>
-        public static string Information_XamarinAndroid {
-            get {
+        public static string Information_XamarinAndroid
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_XamarinAndroid", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Go Mobile with Xamarin and Azure App Service.
         /// </summary>
-        public static string Information_XamarinBrandingLine1 {
-            get {
+        public static string Information_XamarinBrandingLine1
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_XamarinBrandingLine1", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Auth, Sync, and Push in seconds for any device. Start for free and scale as your app grows..
         /// </summary>
-        public static string Information_XamarinBrandingLine2 {
-            get {
+        public static string Information_XamarinBrandingLine2
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_XamarinBrandingLine2", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Xamarin.Forms.
         /// </summary>
-        public static string Information_XamarinForms {
-            get {
+        public static string Information_XamarinForms
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_XamarinForms", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Xamarin iOS.
         /// </summary>
-        public static string Information_XamariniOS {
-            get {
+        public static string Information_XamariniOS
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_XamariniOS", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to You can&apos;t have more than 1 free resource at a time.
         /// </summary>
-        public static string Information_YouCantHaveMoreThanOne {
-            get {
+        public static string Information_YouCantHaveMoreThanOne
+        {
+            get
+            {
                 return ResourceManager.GetString("Information_YouCantHaveMoreThanOne", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Logout.
         /// </summary>
-        public static string Logout {
-            get {
+        public static string Logout
+        {
+            get
+            {
                 return ResourceManager.GetString("Logout", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Management Portal.
         /// </summary>
-        public static string ManagementPortal {
-            get {
+        public static string ManagementPortal
+        {
+            get
+            {
                 return ResourceManager.GetString("ManagementPortal", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Marketplace.
         /// </summary>
-        public static string Marketplace {
-            get {
+        public static string Marketplace
+        {
+            get
+            {
                 return ResourceManager.GetString("Marketplace", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Microsoft Azure.
         /// </summary>
-        public static string MicrosoftAzure {
-            get {
+        public static string MicrosoftAzure
+        {
+            get
+            {
                 return ResourceManager.GetString("MicrosoftAzure", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Microsoft Azure in China.
         /// </summary>
-        public static string Mooncake {
-            get {
+        public static string Mooncake
+        {
+            get
+            {
                 return ResourceManager.GetString("Mooncake", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to My Account.
         /// </summary>
-        public static string MyAccount {
-            get {
+        public static string MyAccount
+        {
+            get
+            {
                 return ResourceManager.GetString("MyAccount", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Newsletter.
         /// </summary>
-        public static string Newsletter {
-            get {
+        public static string Newsletter
+        {
+            get
+            {
                 return ResourceManager.GetString("Newsletter", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Next.
         /// </summary>
-        public static string Next {
-            get {
+        public static string Next
+        {
+            get
+            {
                 return ResourceManager.GetString("Next", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Portal.
         /// </summary>
-        public static string Portal {
-            get {
+        public static string Portal
+        {
+            get
+            {
                 return ResourceManager.GetString("Portal", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Preview Features.
         /// </summary>
-        public static string PreviewFeatures {
-            get {
+        public static string PreviewFeatures
+        {
+            get
+            {
                 return ResourceManager.GetString("PreviewFeatures", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Previous.
         /// </summary>
-        public static string Previous {
-            get {
+        public static string Previous
+        {
+            get
+            {
                 return ResourceManager.GetString("Previous", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Pricing.
         /// </summary>
-        public static string Pricing {
-            get {
+        public static string Pricing
+        {
+            get
+            {
                 return ResourceManager.GetString("Pricing", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Privacy.
         /// </summary>
-        public static string Privacy {
-            get {
+        public static string Privacy
+        {
+            get
+            {
                 return ResourceManager.GetString("Privacy", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Privacy and Cookies.
         /// </summary>
-        public static string PrivacyCookies {
-            get {
+        public static string PrivacyCookies
+        {
+            get
+            {
                 return ResourceManager.GetString("PrivacyCookies", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Profile.
         /// </summary>
-        public static string Profile {
-            get {
+        public static string Profile
+        {
+            get
+            {
                 return ResourceManager.GetString("Profile", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Regions.
         /// </summary>
-        public static string Regions {
-            get {
+        public static string Regions
+        {
+            get
+            {
                 return ResourceManager.GetString("Regions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Rss.
         /// </summary>
-        public static string Rss {
-            get {
+        public static string Rss
+        {
+            get
+            {
                 return ResourceManager.GetString("Rss", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Security.
         /// </summary>
-        public static string Security {
-            get {
+        public static string Security
+        {
+            get
+            {
                 return ResourceManager.GetString("Security", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Service Dashboard.
         /// </summary>
-        public static string ServiceDashboard {
-            get {
+        public static string ServiceDashboard
+        {
+            get
+            {
                 return ResourceManager.GetString("ServiceDashboard", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Services.
         /// </summary>
-        public static string Services {
-            get {
+        public static string Services
+        {
+            get
+            {
                 return ResourceManager.GetString("Services", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Service Updates.
         /// </summary>
-        public static string ServiceUpdates {
-            get {
+        public static string ServiceUpdates
+        {
+            get
+            {
                 return ResourceManager.GetString("ServiceUpdates", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Subscriptions.
         /// </summary>
-        public static string Subscriptions {
-            get {
+        public static string Subscriptions
+        {
+            get
+            {
                 return ResourceManager.GetString("Subscriptions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Support.
         /// </summary>
-        public static string Support {
-            get {
+        public static string Support
+        {
+            get
+            {
                 return ResourceManager.GetString("Support", resourceCulture);
             }
         }
-        
+
         /// <summary>
-        ///   Looks up a localized string similar to This DevOps template will create an Azure Jenkins CI.
+        ///   Looks up a localized string similar to This template will create an Azure Jenkins CI.
         /// </summary>
-        public static string Templates_AzureDevOpsDescription {
-            get {
+        public static string Templates_AzureDevOpsDescription
+        {
+            get
+            {
                 return ResourceManager.GetString("Templates_AzureDevOpsDescription", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to This Logic App template will ping a website on a recurring schedule.  You can extend it to take an action depending on the result of the ping..
         /// </summary>
-        public static string Templates_PingSiteDescription {
-            get {
+        public static string Templates_PingSiteDescription
+        {
+            get
+            {
                 return ResourceManager.GetString("Templates_PingSiteDescription", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Try Azure App Service.
         /// </summary>
-        public static string Title {
-            get {
+        public static string Title
+        {
+            get
+            {
                 return ResourceManager.GetString("Title", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Trademarks.
         /// </summary>
-        public static string Trademarks {
-            get {
+        public static string Trademarks
+        {
+            get
+            {
                 return ResourceManager.GetString("Trademarks", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Trust Center.
         /// </summary>
-        public static string TrustCenter {
-            get {
+        public static string TrustCenter
+        {
+            get
+            {
                 return ResourceManager.GetString("TrustCenter", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Twitter.
-        /// </summary>
-        public static string Twitter {
-            get {
-                return ResourceManager.GetString("Twitter", resourceCulture);
             }
         }
 
@@ -1245,5 +1475,15 @@ namespace SimpleWAWS.Resources {
             }
         }
 
+        /// <summary>
+        ///   Looks up a localized string similar to Twitter.
+        /// </summary>
+        public static string Twitter
+        {
+            get
+            {
+                return ResourceManager.GetString("Twitter", resourceCulture);
+            }
+        }
     }
 }
