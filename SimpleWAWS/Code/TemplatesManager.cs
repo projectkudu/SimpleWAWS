@@ -57,6 +57,14 @@ namespace SimpleWAWS.Models
                         });
                     }
                 }
+                list.Add(new LogicTemplate
+                {
+                    Name = "Ping Site",
+                    SpriteName = "sprite-PingSite PingSite",
+                    AppService = AppService.Logic,
+                    CsmTemplateFilePath = HostingEnvironment.MapPath("~/CSMTemplates/PingSite.json"),
+                    Description = Resources.Server.Templates_PingSiteDescription
+                });
                 list.Add(new JenkinsTemplate
                 {
                     Name = "Jenkins CI",
