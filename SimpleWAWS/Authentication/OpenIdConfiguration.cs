@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IdentityModel.Tokens;
 using System.IO;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Web.Configuration;
 using Newtonsoft.Json;
 
 namespace SimpleWAWS.Authentication

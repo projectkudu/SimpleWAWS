@@ -1,12 +1,7 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using SimpleWAWS.Code;
-using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Globalization;
-using System.Linq;
-using System.Web;
 
 namespace SimpleWAWS.Models
 {

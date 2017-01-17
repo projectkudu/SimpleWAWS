@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Web;
 using System.Web.Hosting;
 
 namespace SimpleWAWS.Code
@@ -55,6 +51,9 @@ namespace SimpleWAWS.Code
         public static string JenkinsGeoRegions { get { return config(); } }
         public static int JenkinsResourceGroupsPerRegion { get { return Int32.Parse(config()); } }
         public static string AppInsightsInstrumentationKey { get { return config(); } }
+
+        public static string GraphUserName { get { return config(); } }
+        public static string GraphPassword { get { return config(); } }
 
     }
 }   

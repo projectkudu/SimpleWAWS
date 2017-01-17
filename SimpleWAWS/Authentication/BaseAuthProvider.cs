@@ -1,14 +1,9 @@
 ﻿using SimpleWAWS.Models;
 using SimpleWAWS.Trace;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
 using System.Net;
 using System.Security.Principal;
-using System.Threading;
 using System.Web;
 
 namespace SimpleWAWS.Authentication
@@ -68,7 +63,7 @@ namespace SimpleWAWS.Authentication
         {
             var identity = user.Identity as TryWebsitesIdentity;
             SimpleTrace.Analytics.Information(AnalyticsEvents.UserLoggedIn, identity);
-            SimpleTrace.TraceInformation("{0}; {1}; {2}", AnalyticsEvents.OldUserLoggedIn, identity.Email, identity.Issuer);
+            SimpleTrace.TraceInformation("{0}; {1}; {2}", AnalyticsEvents.OldUserLoggedIn, identity?.Email, identity?.Issuer);
             try
             {
                 var anonymousUser = HttpContext.Current.Request.Cookies[AuthConstants.AnonymousUser];

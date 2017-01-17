@@ -1,9 +1,5 @@
-﻿using SimpleWAWS.Models;
-using SimpleWAWS.Trace;
+﻿using SimpleWAWS.Trace;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
 using System.IdentityModel.Selectors;
 using System.IdentityModel.Tokens;
 using System.Linq;

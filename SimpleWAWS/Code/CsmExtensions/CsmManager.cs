@@ -5,16 +5,11 @@ using SimpleWAWS.Models.CsmModels;
 using SimpleWAWS.Trace;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Services.Protocols;
 
 namespace SimpleWAWS.Code.CsmExtensions
 {
@@ -32,10 +27,10 @@ namespace SimpleWAWS.Code.CsmExtensions
         static CsmManager()
         {
             csmClient = new AzureClient(retryCount: 3);
-            csmClient.ConfigureUpnLogin(SimpleSettings.TryUserName, SimpleSettings.TryPassword);
+            csmClient.ConfigureSpnLogin(SimpleSettings.TryTenantId, SimpleSettings.TryUserName, SimpleSettings.TryPassword);
 
             graphClient = new AzureClient(retryCount: 3);
-            graphClient.ConfigureUpnLogin(SimpleSettings.TryUserName, SimpleSettings.TryPassword);
+            graphClient.ConfigureUpnLogin(SimpleSettings.GraphUserName, SimpleSettings.GraphPassword);
 
             jenkinsClient = new AzureClient(retryCount: 3);
             jenkinsClient.ConfigureSpnLogin(SimpleSettings.JenkinsTenant, SimpleSettings.JenkinsServicePrincipal , SimpleSettings.JenkinsServicePrincipalKey);
@@ -73,7 +68,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             {
                 var users = await SearchGraph(rbacUser);
 
-                if (users.value.Count() == 0)
+                if (!users.value.Any())
                 {
                     var invitation = new
                     {

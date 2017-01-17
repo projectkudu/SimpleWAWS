@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using System.Web;
+﻿using System.Web;
 using System.Collections.Generic;
 using System;
 using System.Net;
@@ -165,7 +164,7 @@ namespace SimpleWAWS.Authentication
                     var user = Guid.NewGuid().ToString();
                     context.Response.Cookies.Add(new HttpCookie(AuthConstants.AnonymousUser, Uri.EscapeDataString(user.Encrypt(AuthConstants.EncryptionReason))) { Path = "/", Expires = DateTime.UtcNow.AddDays(2) });
                 }
-                else if (userCookie != null)
+                else
                 {
                     var user = Uri.UnescapeDataString(userCookie.Value).Decrypt(AuthConstants.EncryptionReason);
                     context.User = new TryWebsitesPrincipal(new TryWebsitesIdentity(user, null, "Anonymous"));

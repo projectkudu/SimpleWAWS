@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Configuration;
-using System.Diagnostics;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Routing;
 using SimpleWAWS.Authentication;
-using SimpleWAWS.Models;
 using System.Web;
 using SimpleWAWS.Trace;
 using SimpleWAWS.Code;
@@ -14,12 +11,8 @@ using Destructurama;
 using Serilog.Filters;
 using Serilog.Sinks.Email;
 using System.Net;
-using System.Globalization;
-using System.Threading;
 using System.Linq;
-using System.Security.Principal;
 using System.Web.Http.ExceptionHandling;
-using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 
 namespace SimpleWAWS
@@ -49,6 +42,7 @@ namespace SimpleWAWS
                     .Enrich.With(new ExperimentEnricher())
                     .Enrich.With(new UserNameEnricher())
                     .Destructure.JsonNetTypes()
+                    .WriteTo.ApplicationInsightsEvents(AppInsights.TelemetryClient)
                     .CreateLogger();
 
                 SimpleTrace.Analytics = analyticsLogger;
@@ -59,6 +53,7 @@ namespace SimpleWAWS
                     .Enrich.With(new ExperimentEnricher())
                     .Enrich.With(new UserNameEnricher())
                     .WriteTo.File(@"D:\home\site\log.log")
+                    .WriteTo.ApplicationInsightsTraces(AppInsights.TelemetryClient)
                     .WriteTo.Logger(lc => lc
                         .Filter.ByIncludingOnly(Matching.WithProperty<int>("Count", p => p % 10 == 0))
                         .WriteTo.Email(new EmailConnectionInfo
@@ -197,6 +192,19 @@ namespace SimpleWAWS
                     AppInsights.TelemetryClient.TrackException(ex);
                 }
             }
+        }
+        //https://github.com/serilog/serilog-sinks-applicationinsights
+        protected void Application_Shutdown(object sender, EventArgs e)
+        {
+
+            AppInsights.TelemetryClient.Flush();
+
+            // The AI Documentation mentions that calling .Flush() *can* be asynchronous and non-blocking so
+            // depending on the underlying Channel to AI you might want to wait some time
+            // specific to your application and its connectivity constraints for the flush to finish.
+
+            System.Threading.Thread.Sleep(1000);
+
         }
     }
 }
