@@ -54,6 +54,7 @@ namespace SimpleWAWS.Authentication
             _authProviders.Add("Twitter", new TwitterAuthProvider());
             _authProviders.Add("Google", new GoogleAuthProvider());
             _authProviders.Add("Vk", new VkAuthProvider());
+            _authProviders.Add("GitHub", new GitHubAuthProvider());
             _openIdAuthProviders = _authProviders
                     .Where(e => e.Value is BaseOpenIdConnectAuthProvider)
                     .Select(s => s.Value)

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using SimpleWAWS.Code.CsmExtensions;
 using SimpleWAWS.Trace;
 using Serilog;
-
 namespace SimpleWAWS.Console
 {
     static class Program
@@ -14,7 +13,7 @@ namespace SimpleWAWS.Console
         static void Main(string[] args)
         {
             var log = new LoggerConfiguration()
-                .WriteTo.ColoredConsole()
+                .WriteTo.Console()
                 .CreateLogger();
             SimpleTrace.Diagnostics = log;
             SimpleTrace.Analytics = log;

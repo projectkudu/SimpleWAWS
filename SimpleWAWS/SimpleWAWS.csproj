@@ -259,6 +259,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authentication\GitHubAuthProvider.cs" />
     <Compile Include="Code\AppInsights.cs" />
     <Compile Include="Models\ApiApp.cs" />
     <Compile Include="Models\ApiTemplate.cs" />
@@ -402,6 +403,7 @@
     <Content Include="Content\images\largeVS.jpg" />
     <Content Include="Content\images\LogicApp2.png" />
     <Content Include="Content\images\Logins\facebook.png" />
+    <Content Include="Content\images\Logins\github.png" />
     <Content Include="Content\images\Logins\google.png" />
     <Content Include="Content\images\Logins\microsoft-logo.png" />
     <Content Include="Content\images\Logins\vk.png" />
