@@ -53,7 +53,7 @@ namespace SimpleWAWS.Authentication
 
         private IPrincipal GetUserFromGraph(string code, HttpContextBase context)
         {
-            var githubAccessTokenResponse = AuthUtilities.GetContentFromUrl(GetGraphUrl(code, context), "POST", jsonAccept:true);
+            var githubAccessTokenResponse = AuthUtilities.GetContentFromGitHubUrl(GetGraphUrl(code, context), "POST", jsonAccept:true);
 
             var githubAccessToken = JsonConvert.DeserializeObject<GitHubAccessTokenResponse>(githubAccessTokenResponse);
 
@@ -62,9 +62,13 @@ namespace SimpleWAWS.Authentication
                 return null;
             }
             //Now get user's emailid
-            var githubUserEmailsResponse = AuthUtilities.GetContentFromUrl(GetGitHubUserUrl(), addGitHubHeaders: true, AuthorizationHeader: GetGitHubAuthHeader(githubAccessToken.AccessToken));
+            var githubUserEmailsResponse = AuthUtilities.GetContentFromGitHubUrl(GetGitHubUserUrl(), addGitHubHeaders: true, AuthorizationHeader: GetGitHubAuthHeader(githubAccessToken.AccessToken));
             var githubUserEmails = JsonConvert.DeserializeObject<IList<GitHubUserEmailResponse>>(githubUserEmailsResponse);
             var primaryEmail = githubUserEmails.FirstOrDefault(em => em.Primary && em.Verified);
+            if (primaryEmail == null)
+            {
+                return null;
+            }
             return new TryWebsitesPrincipal(new TryWebsitesIdentity(primaryEmail.Email, primaryEmail.Email, "GitHub"));
         }
 
