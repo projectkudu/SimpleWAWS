@@ -52,6 +52,7 @@ interface IAppControllerScope extends ng.IScope {
     running: boolean;
     resource: any;
     loginOptions: boolean;
+    showGitHub: boolean;
     handleLoginClick(method: string);
     mobileClients: any[];
     selectedMobileClient: any;

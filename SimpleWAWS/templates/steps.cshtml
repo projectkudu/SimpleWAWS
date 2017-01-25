@@ -87,6 +87,7 @@
                     <div class="login-option"><a href="#" ng-click="handleLoginClick('aad')" class="create-site-action wa-button microsoft-login">Microsoft Account</a></div>
                     <div class="login-option"><a class="create-site-action" ng-click="handleLoginClick('google')" href="#"><div class="google-login sprite-google"></div></a></div>
                     <div class="login-option"><a class="create-site-action" ng-click="handleLoginClick('facebook')" href="#"><div class="facebook-login"></div></a></div>
+                    <div ng-if="showGitHub" class="login-option"><a class="create-site-action" ng-click="handleLoginClick('github')" href="#"><div class="github-login"></div></a></div>
                     <div ng-if="currentCulture == 'ru'" class="login-option"><a class="create-site-action" ng-click="handleLoginClick('vk')" href="#"><div class="vk-login"></div></a></div>
                 </div>
             </div>

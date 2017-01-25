@@ -11,7 +11,6 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
     $scope.appServices = staticDataFactory.getAppServices($rootScope.sourceVariation);
 
     $scope.mobileClients = staticDataFactory.getMobileClients("Todo List");
-
     var _globalDelayBindTracker = 0;
     function delayBind(f: Function) {
         var localDelayBindTracker = ++_globalDelayBindTracker;
@@ -357,6 +356,7 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
         $scope.running = true;
         $rootScope.createAppType($scope.currentAppService.name);
         pullForStatus = true;
+        $scope.showGitHub = ($location.url().indexOf('github') > -1);
         var promise = $http({
             url: "api/resource"
             + "?appServiceName=" + encodeURIComponent($scope.currentAppService.name)

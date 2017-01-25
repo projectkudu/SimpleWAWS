@@ -1,13 +1,8 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using SimpleWAWS.Code;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Configuration;
-using SimpleWAWS.Models.CsmModels;
-using Newtonsoft.Json.Linq;
 using System.Globalization;
 
 namespace SimpleWAWS.Models

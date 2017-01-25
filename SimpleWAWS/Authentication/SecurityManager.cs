@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using System.Web;
+﻿using System.Web;
 using System.Collections.Generic;
 using System;
 using System.Net;
@@ -55,6 +54,7 @@ namespace SimpleWAWS.Authentication
             _authProviders.Add("Twitter", new TwitterAuthProvider());
             _authProviders.Add("Google", new GoogleAuthProvider());
             _authProviders.Add("Vk", new VkAuthProvider());
+            _authProviders.Add("GitHub", new GitHubAuthProvider());
             _openIdAuthProviders = _authProviders
                     .Where(e => e.Value is BaseOpenIdConnectAuthProvider)
                     .Select(s => s.Value)
@@ -165,7 +165,7 @@ namespace SimpleWAWS.Authentication
                     var user = Guid.NewGuid().ToString();
                     context.Response.Cookies.Add(new HttpCookie(AuthConstants.AnonymousUser, Uri.EscapeDataString(user.Encrypt(AuthConstants.EncryptionReason))) { Path = "/", Expires = DateTime.UtcNow.AddDays(2) });
                 }
-                else if (userCookie != null)
+                else
                 {
                     var user = Uri.UnescapeDataString(userCookie.Value).Decrypt(AuthConstants.EncryptionReason);
                     context.User = new TryWebsitesPrincipal(new TryWebsitesIdentity(user, null, "Anonymous"));

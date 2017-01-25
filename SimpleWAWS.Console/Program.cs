@@ -1,17 +1,11 @@
 ﻿using SimpleWAWS.Models;
 using SimpleWAWS.Code;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 using SimpleWAWS.Code.CsmExtensions;
 using SimpleWAWS.Trace;
 using Serilog;
-
 namespace SimpleWAWS.Console
 {
     static class Program
@@ -19,7 +13,7 @@ namespace SimpleWAWS.Console
         static void Main(string[] args)
         {
             var log = new LoggerConfiguration()
-                .WriteTo.ColoredConsole()
+                .WriteTo.Console()
                 .CreateLogger();
             SimpleTrace.Diagnostics = log;
             SimpleTrace.Analytics = log;

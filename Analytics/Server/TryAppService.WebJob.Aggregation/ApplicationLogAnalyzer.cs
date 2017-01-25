@@ -4,8 +4,6 @@ using System.Data.Entity.Migrations;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TryAppService.Data.DataAccess;
 using TryAppService.Data.Models;
 

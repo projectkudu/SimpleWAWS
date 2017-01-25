@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
+﻿using System.Configuration;
 using System.Runtime.CompilerServices;
-using System.Web;
 
 namespace SimpleWAWS.Authentication
 {
@@ -26,5 +22,7 @@ namespace SimpleWAWS.Authentication
         public static string AdminUserId { get { return config(); } }
         public static string VkClientSecret { get { return config(); } }
         public static string VkClientId { get { return config(); } }
+        public static string GitHubClientSecret { get { return config(); } }
+        public static string GitHubClientId { get { return config(); } }
     }
 }

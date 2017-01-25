@@ -1,14 +1,9 @@
 ﻿using SimpleWAWS.Models;
 using SimpleWAWS.Trace;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
 using System.Net;
 using System.Security.Principal;
-using System.Threading;
 using System.Web;
 
 namespace SimpleWAWS.Authentication

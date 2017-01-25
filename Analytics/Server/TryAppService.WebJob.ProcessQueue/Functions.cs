@@ -1,12 +1,8 @@
 ﻿using Microsoft.Azure.WebJobs;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TryAppService.Data.DataAccess;
 using TryAppService.Data.Models;
 
