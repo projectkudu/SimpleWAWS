@@ -51,7 +51,7 @@ namespace SimpleWAWS.CleanAAD
                 {
                     foreach (var user in usersToDelete)
                     {
-                        Console.WriteLine(user.displayName);
+                        Console.WriteLine(user.objectId);
                         tasks.Add(GraphClient.Users[user.objectId].DeleteAsync());
 
                         if (tasks.Count >= 50)
