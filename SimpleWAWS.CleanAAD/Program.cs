@@ -33,7 +33,7 @@ namespace SimpleWAWS.CleanAAD
         {
             dynamic GraphClient;
             GraphClient = await ARMLib.GetDynamicClient(apiVersion: "1.42-previewInternal", url: string.Format("{0}/{1}", "https://graph.windows.net", SimpleSettings.TryTenantId))
-                                .ConfigureLogin(LoginType.Upn, SimpleSettings.TryUserName, SimpleSettings.TryPassword);
+                                .ConfigureLogin(LoginType.Upn, SimpleSettings.GraphUserName, SimpleSettings.GraphPassword);
             var tasks = new List<Task>();
             while (true)
             {
@@ -51,7 +51,7 @@ namespace SimpleWAWS.CleanAAD
                 {
                     foreach (var user in usersToDelete)
                     {
-                        Console.WriteLine(user.displayName);
+                        Console.WriteLine(user.objectId);
                         tasks.Add(GraphClient.Users[user.objectId].DeleteAsync());
 
                         if (tasks.Count >= 50)
