@@ -41,7 +41,7 @@ namespace SimpleWAWS.Authentication
                 return TokenResults.DoesntExist;
             }
 
-            var user = GetUserFromGraph(code);
+            var user = GetUserFromGraph(code, context);
 
             if (user == null)
             {
@@ -51,15 +51,28 @@ namespace SimpleWAWS.Authentication
             return TokenResults.ExistsAndCorrect;
         }
 
-        private IPrincipal GetUserFromGraph(string accessToken)
+        private IPrincipal GetUserFromGraph(string code, HttpContextBase context)
         {
-            //treat the provided github code as the access_token
-            if (string.IsNullOrEmpty(accessToken))
+            bool acomAuthRequest = context.Request.QueryString["referer"] == "acom";
+            var githubAccessToken = new GitHubAccessTokenResponse();
+                
+            if (!acomAuthRequest)
             {
-                return null;
+                // treat code a regular code
+                var githubAccessTokenResponse = AuthUtilities.GetContentFromGitHubUrl(GetGraphUrl(code, context), "POST",
+                    jsonAccept: true);
+
+                    githubAccessToken =
+                    JsonConvert.DeserializeObject<GitHubAccessTokenResponse>(githubAccessTokenResponse);
+
+                if (string.IsNullOrEmpty(githubAccessToken.AccessToken))
+                {
+                    return null;
+                }
             }
+
             //Now get user's emailid
-            var githubUserEmailsResponse = AuthUtilities.GetContentFromGitHubUrl(GetGitHubUserUrl(), addGitHubHeaders: true, AuthorizationHeader: GetGitHubAuthHeader(accessToken));
+            var githubUserEmailsResponse = AuthUtilities.GetContentFromGitHubUrl(GetGitHubUserUrl(), addGitHubHeaders: true, AuthorizationHeader: GetGitHubAuthHeader(acomAuthRequest? code: githubAccessToken.AccessToken));
             var githubUserEmails = JsonConvert.DeserializeObject<IList<GitHubUserEmailResponse>>(githubUserEmailsResponse);
             var primaryEmail = githubUserEmails.FirstOrDefault(em => em.Primary && em.Verified);
             if (primaryEmail == null)
@@ -79,7 +92,28 @@ namespace SimpleWAWS.Authentication
             return "https://api.github.com/user/emails";
         }
 
+        private string GetGraphUrl(string code, HttpContextBase context)
+        {
+            var builder = new StringBuilder();
+            builder.Append("https://github.com/login/oauth/access_token");
+            builder.AppendFormat("?client_id={0}", AuthSettings.GitHubClientId);
+            builder.AppendFormat("&client_secret={0}", AuthSettings.GitHubClientSecret);
+            builder.AppendFormat("&code={0}", code);
+            builder.AppendFormat("&redirect_uri={0}", WebUtility.UrlEncode(string.Format(CultureInfo.InvariantCulture, "https://{0}/", context.Request.Headers["HOST"], context.Request.Url.Query)));
+            return builder.ToString();
+        }
 
+        private class GitHubAccessTokenResponse
+        {
+            [JsonProperty("access_token")]
+            public string AccessToken { get; set; }
+
+            [JsonProperty("scope")]
+            public string Scope { get; set; }
+
+            [JsonProperty("token_type")]
+            public string TokenType { get; set; }
+        }
         private class GitHubUserEmailResponse
         {
             [JsonProperty("email")]
