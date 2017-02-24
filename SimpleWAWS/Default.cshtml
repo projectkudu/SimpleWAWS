@@ -1,7 +1,8 @@
 ﻿@using SimpleWAWS.Resources
 @using System.Globalization
 @{
-    if (Request.QueryString["showUI"] == "true")
+    //add check for state to allow local functions to go against prod tryappservices
+    if (string.IsNullOrWhiteSpace(Request.QueryString["state"]))
     {
         Response.Redirect("https://azure.microsoft.com/try/app-service/");
     }

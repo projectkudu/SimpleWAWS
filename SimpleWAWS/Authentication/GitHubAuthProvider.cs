@@ -53,16 +53,26 @@ namespace SimpleWAWS.Authentication
 
         private IPrincipal GetUserFromGraph(string code, HttpContextBase context)
         {
-            var githubAccessTokenResponse = AuthUtilities.GetContentFromGitHubUrl(GetGraphUrl(code, context), "POST", jsonAccept:true);
-
-            var githubAccessToken = JsonConvert.DeserializeObject<GitHubAccessTokenResponse>(githubAccessTokenResponse);
-
-            if (string.IsNullOrEmpty(githubAccessToken.AccessToken))
+            bool acomAuthRequest = context.Request.QueryString["referer"] == "acom";
+            var githubAccessToken = new GitHubAccessTokenResponse();
+                
+            if (!acomAuthRequest)
             {
-                return null;
+                // treat code a regular code
+                var githubAccessTokenResponse = AuthUtilities.GetContentFromGitHubUrl(GetGraphUrl(code, context), "POST",
+                    jsonAccept: true);
+
+                    githubAccessToken =
+                    JsonConvert.DeserializeObject<GitHubAccessTokenResponse>(githubAccessTokenResponse);
+
+                if (string.IsNullOrEmpty(githubAccessToken.AccessToken))
+                {
+                    return null;
+                }
             }
+
             //Now get user's emailid
-            var githubUserEmailsResponse = AuthUtilities.GetContentFromGitHubUrl(GetGitHubUserUrl(), addGitHubHeaders: true, AuthorizationHeader: GetGitHubAuthHeader(githubAccessToken.AccessToken));
+            var githubUserEmailsResponse = AuthUtilities.GetContentFromGitHubUrl(GetGitHubUserUrl(), addGitHubHeaders: true, AuthorizationHeader: GetGitHubAuthHeader(acomAuthRequest? code: githubAccessToken.AccessToken));
             var githubUserEmails = JsonConvert.DeserializeObject<IList<GitHubUserEmailResponse>>(githubUserEmailsResponse);
             var primaryEmail = githubUserEmails.FirstOrDefault(em => em.Primary && em.Verified);
             if (primaryEmail == null)
