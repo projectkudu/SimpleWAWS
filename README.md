@@ -61,8 +61,9 @@ You don't have to create all the different Apps. You can only create the ones yo
 # fix any conflicts
 > git push origin dev
 
-This will get merged into master at a later date. 
 ```
+This will get merged into master after validations in -next. 
+
 ### Other settings for other features
 1. `TryTenantId` used for RBAC scenarios
 2. `TryTenantName` used for RBAC scenarios
