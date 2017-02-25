@@ -181,6 +181,8 @@ namespace SimpleWAWS.Models
                         break;
                 }
                 var templateName = Tags.ContainsKey(Constants.TemplateName) ? Tags[Constants.TemplateName] : string.Empty;
+                if (String.Equals(templateName, string.Empty) && AppService == AppService.Logic)
+                    templateName = "Ping Site";
 
                 return (siteToUseForUi == null|| (AppService ==AppService.Jenkins))
                 ? new UIResource
