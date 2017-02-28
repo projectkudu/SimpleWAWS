@@ -88,7 +88,8 @@ namespace SimpleWAWS
             };
 
             //Templates Routes
-            RouteTable.Routes.MapHttpRoute("templates", "api/templates", new { controller = "Templates", action = "Get", authenticated = false });
+            RouteTable.Routes.MapHttpRoute("templates", "api/templates", new { controller = "Templates", action = "Get", authenticated = false }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("arm-template", "api/armtemplate/{templateName}", new { controller = "Templates", action = "GetARMTemplate", authenticated = false }, new { verb = new HttpMethodConstraint("GET") });
 
             //Telemetry Routes
             RouteTable.Routes.MapHttpRoute("post-telemetry-event", "api/telemetry/{telemetryEvent}", new { controller = "Telemetry", action = "LogEvent", authenticated = false}, new { verb = new HttpMethodConstraint("POST") });
