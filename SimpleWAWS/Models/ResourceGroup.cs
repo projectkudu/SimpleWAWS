@@ -38,14 +38,14 @@ namespace SimpleWAWS.Models
             get { return Tags.ContainsKey(Constants.UserId) ? Tags[Constants.UserId] : null; }
         }
 
-        public DateTime StartTime 
+        public DateTime StartTime
         {
             get { return DateTime.Parse(Tags[Constants.StartTime], CultureInfo.InvariantCulture); }
         }
 
         public TimeSpan LifeTime
         {
-            get{ return TimeSpan.FromMinutes(int.Parse(Tags[Constants.LifeTimeInMinutes])); }
+            get { return TimeSpan.FromMinutes(int.Parse(Tags[Constants.LifeTimeInMinutes])); }
         }
 
         public static readonly TimeSpan DefaultUsageTimeSpan = TimeSpan.FromMinutes(int.Parse(SimpleSettings.SiteExpiryMinutes, CultureInfo.InvariantCulture));
@@ -71,12 +71,12 @@ namespace SimpleWAWS.Models
             }
         }
 
-        public string ResourceUniqueId 
+        public string ResourceUniqueId
         {
             get { return ResourceGroupName.Split('_').LastOrDefault(); }
         }
 
-        public AppService AppService 
+        public AppService AppService
         {
             get
             {
@@ -101,7 +101,7 @@ namespace SimpleWAWS.Models
         [JsonIgnore]
         public IEnumerable<StorageAccount> StorageAccounts { get; set; }
 
-        public string GeoRegion 
+        public string GeoRegion
         {
             get { return Tags[Constants.GeoRegion]; }
         }
@@ -124,13 +124,13 @@ namespace SimpleWAWS.Models
         }
         public string JenkinsUri
         {
-            get { return JenkinsUrlPopulated ? Tags[Constants.JenkinsUri]:String.Empty; }
+            get { return JenkinsUrlPopulated ? Tags[Constants.JenkinsUri] : String.Empty; }
         }
         public string JenkinsDnsUri
         {
             get
             {
-                return Tags.ContainsKey(Constants.JenkinsDnsUri)?Tags[Constants.JenkinsDnsUri]:String.Empty; 
+                return Tags.ContainsKey(Constants.JenkinsDnsUri) ? Tags[Constants.JenkinsDnsUri] : String.Empty;
             }
         }
         public bool JenkinsUrlPopulated
@@ -181,10 +181,11 @@ namespace SimpleWAWS.Models
                         break;
                 }
                 var templateName = Tags.ContainsKey(Constants.TemplateName) ? Tags[Constants.TemplateName] : string.Empty;
-                if (String.Equals(templateName, string.Empty) && AppService == AppService.Logic)
-                    templateName = "Ping Site";
-
-                return (siteToUseForUi == null|| (AppService ==AppService.Jenkins))
+                if (string.IsNullOrEmpty(templateName) && AppService == AppService.Logic)
+                {
+                    templateName = TemplatesManager.GetTemplates().FirstOrDefault((template) => template.AppService == AppService.Logic).Name;
+                }
+                return (siteToUseForUi == null || (AppService == AppService.Jenkins))
                 ? new UIResource
                 {
                     IbizaUrl = ibizaUrl,
@@ -195,7 +196,7 @@ namespace SimpleWAWS.Models
                     TimeLeftInSeconds = (int)TimeLeft.TotalSeconds,
                     CsmId = csmId,
                     Url = JenkinsUri,
-                    JenkinsDnsUrl= JenkinsDnsUri,
+                    JenkinsDnsUrl = JenkinsDnsUri,
                     JenkinsUrlPopulated = JenkinsUrlPopulated
                 }
                 : new UIResource
@@ -221,7 +222,7 @@ namespace SimpleWAWS.Models
             get
             {
                 var templateName = Tags.ContainsKey(Constants.TemplateName) ? Tags[Constants.TemplateName] : string.Empty;
-                var userName= Tags.ContainsKey(Constants.UserId) ? Tags[Constants.UserId] : string.Empty;
+                var userName = Tags.ContainsKey(Constants.UserId) ? Tags[Constants.UserId] : string.Empty;
                 var appService = AppService.Function;
                 var siteToUseForUi = Sites.First(s => s.IsFunctionsContainer);
 
