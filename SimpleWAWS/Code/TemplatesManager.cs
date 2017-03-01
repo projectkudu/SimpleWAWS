@@ -46,7 +46,7 @@ namespace SimpleWAWS.Models
                     foreach (var template in Directory.GetFiles(languagePath))
                     {
                         var iconUri = Path.Combine(ImagesFolder, string.Format(CultureInfo.InvariantCulture, "{0}.png", Path.GetFileNameWithoutExtension(template)));
-                        var cssClass = getShortName(Path.GetFileNameWithoutExtension(template));
+                        var cssClass = GetShortName(Path.GetFileNameWithoutExtension(template));
                         var iconCssClass = File.Exists(iconUri) ? string.Format(CultureInfo.InvariantCulture, "sprite-{0}", cssClass) : "sprite-Large";
                         var language = Path.GetFileName(languagePath);
                         list.Add(new WebsiteTemplate
@@ -87,7 +87,7 @@ namespace SimpleWAWS.Models
             }
         }
 
-        private static object getShortName(string templateName)
+        private static string GetShortName(string templateName)
         {
             return templateName.Replace(" ", "").Replace(".", "").Replace("+", "");
         }
@@ -107,7 +107,7 @@ namespace SimpleWAWS.Models
         }
         private static void updateParameters(dynamic temp, BaseTemplate template)
         {
-            var shortName = getShortName(template.Name);
+            var shortName = GetShortName(template.Name);
             temp.parameters.appServiceName.defaultValue = string.Concat(Server.ARMTemplate_MyPrefix, "-", shortName, Server.ARMTemplate_AppPostfix, "-", Guid.NewGuid().ToString().Split('-')[0]);
             temp.parameters.msdeployPackageUrl.defaultValue = template.MSDeployPackageUrl;
         }
