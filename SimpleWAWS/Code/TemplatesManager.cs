@@ -96,6 +96,7 @@ namespace SimpleWAWS.Models
         {
             return _templatesList;
         }
+
         public static JObject GetARMTemplate(BaseTemplate template)
         {
             var armTemplate = JObject.FromObject(_baseARMTemplate);
