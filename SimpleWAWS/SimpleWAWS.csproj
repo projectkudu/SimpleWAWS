@@ -422,7 +422,7 @@
     <Content Include="Content\images\packages\django.png" />
     <Content Include="Content\images\packages\DownloadPublishing.png" />
     <Content Include="Content\images\packages\DownloadSite.png" />
-    <Content Include="Content\images\packages\ExpressJs.png" />
+    <Content Include="Content\images\packages\Express.png" />
     <Content Include="Content\images\packages\Field Engineer.png" />
     <Content Include="Content\images\packages\Flask.png" />
     <Content Include="Content\images\packages\Ghost Blog.png" />

@@ -30,6 +30,39 @@ You don't have to create all the different Apps. You can only create the ones yo
 
 ### Settings for testing RBAC
 *RBAC doesn't work if ran locally*
+## Code and branches
+
+#### Branches
+**master**: (https://tryappservice.azure.com)
+> This is connected to production. After all scenarios are validated on next deploy to production and merge into master
+
+**dev**: (https://tryappservice-next.azure.com)
+> This is the next environment. This is never swapped, instead changes from dev get merged into master.
+
+#### Development workflow
+
+``` bash
+# make sure you're working on the dev branch
+> git checkout dev
+
+# create your own personal branch based on dev
+> git checkout -b ahmels-work
+
+# make all your changes in your branch
+# commit and push these changes to github
+> git push origin ahmels-work -u
+
+# open a pull request.
+# once everything is good, merge, rebase and push
+> git checkout dev
+> git merge ahmels-work
+> git pull --rebase
+
+# fix any conflicts
+> git push origin dev
+
+```
+This will get merged into master after validations in -next. 
 
 ### Other settings for other features
 1. `TryTenantId` used for RBAC scenarios
