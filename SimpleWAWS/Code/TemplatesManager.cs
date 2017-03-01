@@ -109,7 +109,7 @@ namespace SimpleWAWS.Models
         private static void updateParameters(dynamic temp, BaseTemplate template)
         {
             var shortName = GetShortName(template.Name);
-            temp.parameters.appServiceName.defaultValue = string.Concat(Server.ARMTemplate_MyPrefix, "-", shortName, Server.ARMTemplate_AppPostfix, "-", Guid.NewGuid().ToString().Split('-')[0]);
+            temp.parameters.appServiceName.defaultValue = $"{Server.ARMTemplate_MyPrefix}-{shortName}{Server.ARMTemplate_AppPostfix}-{Guid.NewGuid().ToString().Split('-')[0]}");
             temp.parameters.msdeployPackageUrl.defaultValue = template.MSDeployPackageUrl;
         }
 
