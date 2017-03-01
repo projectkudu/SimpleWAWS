@@ -56,7 +56,7 @@ namespace SimpleWAWS.Models
                             Language = (language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) || language.Equals("Api", StringComparison.OrdinalIgnoreCase)) ? null : language,
                             SpriteName = string.Format(CultureInfo.InvariantCulture, "{0} {1}", iconCssClass, cssClass),
                             AppService = language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) ? AppService.Mobile : language.Equals("Api", StringComparison.OrdinalIgnoreCase) ? AppService.Api : AppService.Web,
-                            MSDeployPackageUrl = $"{SimpleSettings.ZippedRepoUrl}/{Path.GetFileName(Path.GetDirectoryName(template))}/{Path.GetFileName(template)}"
+                            MSDeployPackageUrl = $"{SimpleSettings.ZippedRepoUrl}/{Uri.EscapeDataString(Path.GetFileName(Path.GetDirectoryName(template)))}/{Uri.EscapeDataString(Path.GetFileName(template))}"
                         });
                     }
                 }
