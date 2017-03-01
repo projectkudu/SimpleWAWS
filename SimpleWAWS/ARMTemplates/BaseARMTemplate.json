@@ -4,16 +4,15 @@
   "parameters": {
     "msdeployPackageUrl": {
       "type": "string",
-      "defaultValue": "{{https://github.com/fashaikh/appservice-zipped-templates/raw/master/PHP/WordPress.zip}}"
+      "defaultValue": "https://tryappservicetemplates.blob.core.windows.net/zipped/PHP/WordPress.zip"
     },
     "appServiceName": {
       "type": "string",
-      "defaultValue": "{{}}}",
+      "defaultValue": "MyAppService",
       "metadata": {
         "description": "The name of your App Service"
       }
     }
-
   },
   "variables": {
     "appServiceName": "[toLower(parameters('appServiceName'))]",
@@ -46,10 +45,6 @@
             {
               "name": "WEBSITE_NODE_DEFAULT_VERSION",
               "value": "6.5.0"
-            },
-            {
-              "Name": "SCM_SITEEXTENSIONS_FEED_URL",
-              "Value": "http://www.siteextensions.net/api/v2/"
             }
           ]
         }

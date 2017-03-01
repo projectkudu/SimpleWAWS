@@ -183,7 +183,7 @@ namespace SimpleWAWS.Models
                 var templateName = Tags.ContainsKey(Constants.TemplateName) ? Tags[Constants.TemplateName] : string.Empty;
                 if (string.IsNullOrEmpty(templateName) && AppService == AppService.Logic)
                 {
-                    templateName = TemplatesManager.GetTemplates().FirstOrDefault((template) => template.AppService == AppService.Logic).Name;
+                    templateName = TemplatesManager.GetTemplates().FirstOrDefault((template) => template.AppService == AppService.Logic)?.Name;
                 }
                 return (siteToUseForUi == null || (AppService == AppService.Jenkins))
                 ? new UIResource

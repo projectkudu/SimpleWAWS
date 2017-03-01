@@ -76,6 +76,7 @@ namespace SimpleWAWS.Models
                     CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/JenkinsResource.json"),
                     Description = Resources.Server.Templates_JenkinsDescription
                 });
+                //Use JObject.Parse to quickly build up the armtemplate object used for LRS
                 _baseARMTemplate = JObject.Parse( File.ReadAllText(HostingEnvironment.MapPath("~/ARMTemplates/BaseARMTemplate.json")));
                 //TODO: Implement a FileSystemWatcher for changes in the directory
             }
@@ -97,20 +98,23 @@ namespace SimpleWAWS.Models
 
         public static JObject GetARMTemplate(BaseTemplate template)
         {
+            //Using JObject.FromObject to deep clone the base ARM template for modifications 
+            //based on the requested website. Its needed since we dont want to make changes 
+            //to the main _baseARMTemplate. This is also thread safe.
             var armTemplate = JObject.FromObject(_baseARMTemplate);
-            updateParameters( armTemplate, template as WebsiteTemplate);
-            updateAppSettings(armTemplate, template as WebsiteTemplate);
-            updateConfig(armTemplate, template as WebsiteTemplate);
+            UpdateParameters(armTemplate, template as WebsiteTemplate);
+            UpdateAppSettings(armTemplate, template as WebsiteTemplate);
+            UpdateConfig(armTemplate, template as WebsiteTemplate);
             return armTemplate;
         }
-        private static void updateParameters(dynamic temp, WebsiteTemplate template)
+        private static void UpdateParameters(dynamic temp, WebsiteTemplate template)
         {
             var shortName = GetShortName(template.Name);
             temp.parameters.appServiceName.defaultValue = $"{Server.ARMTemplate_MyPrefix}-{shortName}{Server.ARMTemplate_AppPostfix}-{Guid.NewGuid().ToString().Split('-')[0]}";
             temp.parameters.msdeployPackageUrl.defaultValue = template.MSDeployPackageUrl;
         }
 
-        private static void updateConfig(dynamic armTemplate, WebsiteTemplate template)
+        private static void UpdateConfig(dynamic armTemplate, WebsiteTemplate template)
         {
             if (template.GithubRepo == null)
             {
@@ -128,13 +132,13 @@ namespace SimpleWAWS.Models
             }
         }
 
-        private static void updateAppSettings(dynamic armTemplate, WebsiteTemplate template)
+        private static void UpdateAppSettings(dynamic armTemplate, WebsiteTemplate template)
         {
-            if (((template.Language != null) && template.Language.Equals("NodeJs", StringComparison.OrdinalIgnoreCase)) || template.Name.Equals("ExpressJs", StringComparison.OrdinalIgnoreCase) || template.Name.Equals("Express", StringComparison.OrdinalIgnoreCase))
+            if (((template.Language != null) && template.Language.Equals("NodeJs", StringComparison.OrdinalIgnoreCase))|| template.Name.Equals("Express", StringComparison.OrdinalIgnoreCase))
             {
                 armTemplate.resources[1].properties.siteConfig.appSettings.Add(new JObject {
                 { "name","WEBSITE_NODE_DEFAULT_VERSION" },
-                { "value","5.8.0" },
+                { "value","6.5.0" },
               });
             }
         }

@@ -25,6 +25,7 @@ namespace SimpleWAWS.Models
         {
             return string.Concat("appServiceName=", AppService.ToString(), "&name=", Name, "&autoCreate=true");
         }
+
         [JsonProperty(PropertyName = "msdeployPackageUrl")]
         public string MSDeployPackageUrl { get; set; }
     }
