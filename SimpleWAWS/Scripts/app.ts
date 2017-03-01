@@ -215,7 +215,7 @@ function appController($scope: IAppControllerScope, $http: ng.IHttpService, $tim
                         .filter(a => a.name === "Web")
                         .forEach(a => {
                             a.templates = a.templates.filter(t => (t.language === "PHP" || t.language === "NodeJs") &&
-                                (t.name === "ExpressJs" || t.name === "Ghost Blog" || t.name === "PHP Starter Site" || t.name === "WonderCMS"))
+                                (t.name === "ExpressJs" || t.name === "Ghost Blog" || t.name === "WonderCMS"))
                         });
                 }
                 //TODO: better way to choose default language

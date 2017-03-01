@@ -186,22 +186,6 @@ namespace SimpleWAWS.Code.CsmExtensions
             }
         }
 
-        public static async Task EnableZRay(this Site site, string location)
-        {
-            var response = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.ZRayForSite.Bind(site), new
-            {
-                location = location,
-                plan = new
-                {
-                    name = "free",
-                    publisher = "zend-technologies",
-                    product = "z-ray"
-                },
-                properties = new { }
-            });
-            await response.EnsureSuccessStatusCodeWithFullError();
-        }
-
         private static async Task CreateHostJson(Site site)
         {
             var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);

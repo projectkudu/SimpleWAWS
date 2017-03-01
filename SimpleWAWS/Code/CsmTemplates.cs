@@ -8,7 +8,6 @@ namespace SimpleWAWS.Code
         private const string websitesApiVersion = "2014-06-01";
         private const string functionsApiVersion = "2015-08-01";
         private const string newWebsitesApiVersion = "2015-02-01";
-        private const string zRayApiVersion = "2015-04-01";
         private const string appServiceApiVersion = "2015-03-01-preview";
         private const string logicAppsApiVersion = "2015-02-01-preview";
         private const string jenkinsResourceApiVersion = "2016-03-30";

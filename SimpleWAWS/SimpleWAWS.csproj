@@ -441,7 +441,6 @@
     <Content Include="Content\images\packages\Personal Site.png" />
     <Content Include="Content\images\packages\Photo Gallery.png" />
     <Content Include="Content\images\packages\PHP Empty Site.png" />
-    <Content Include="Content\images\packages\PHP Starter Site.png" />
     <Content Include="Content\images\packages\Todo List.png" />
     <Content Include="Content\images\packages\TypeScript.png" />
     <Content Include="Content\images\packages\VSO.png" />
