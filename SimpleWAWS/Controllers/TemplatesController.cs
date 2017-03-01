@@ -45,7 +45,7 @@ namespace SimpleWAWS.Controllers
         }
         public HttpResponseMessage GetARMTemplate(string templateName)
         {
-            var list = TemplatesManager.GetTemplates().ToList();
+            var list = TemplatesManager.GetTemplates();
             var template = list.FirstOrDefault((temp) => string.Equals(temp.Name, templateName,StringComparison.OrdinalIgnoreCase ));
             if (template != null)
             {
