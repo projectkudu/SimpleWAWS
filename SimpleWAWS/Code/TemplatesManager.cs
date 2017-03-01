@@ -103,7 +103,6 @@ namespace SimpleWAWS.Models
             //to the main _baseARMTemplate. This is also thread safe.
             var armTemplate = JObject.FromObject(_baseARMTemplate);
             UpdateParameters(armTemplate, template as WebsiteTemplate);
-            UpdateAppSettings(armTemplate, template as WebsiteTemplate);
             UpdateConfig(armTemplate, template as WebsiteTemplate);
             return armTemplate;
         }
@@ -134,13 +133,6 @@ namespace SimpleWAWS.Models
 
         private static void UpdateAppSettings(dynamic armTemplate, WebsiteTemplate template)
         {
-            if (((template.Language != null) && template.Language.Equals("NodeJs", StringComparison.OrdinalIgnoreCase))|| template.Name.Equals("Express", StringComparison.OrdinalIgnoreCase))
-            {
-                armTemplate.resources[1].properties.siteConfig.appSettings.Add(new JObject {
-                { "name","WEBSITE_NODE_DEFAULT_VERSION" },
-                { "value","6.5.0" },
-              });
-            }
         }
     }
     public static class TemplatesExtensions
