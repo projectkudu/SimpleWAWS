@@ -76,9 +76,7 @@ namespace SimpleWAWS.Models
                     CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/JenkinsResource.json"),
                     Description = Resources.Server.Templates_JenkinsDescription
                 });
-                _baseARMTemplate = JObject.Parse( File.ReadAllText(HostingEnvironment.MapPath("~/ARMTemplates/BaseARMTemplate.json"),  System.Text.Encoding.ASCII)
-                    .Replace(Environment.NewLine, String.Empty)
-                    .Replace(@"\", String.Empty));
+                _baseARMTemplate = JObject.Parse( File.ReadAllText(HostingEnvironment.MapPath("~/ARMTemplates/BaseARMTemplate.json")));
                 //TODO: Implement a FileSystemWatcher for changes in the directory
             }
             catch (Exception)
@@ -109,7 +107,7 @@ namespace SimpleWAWS.Models
         private static void updateParameters(dynamic temp, BaseTemplate template)
         {
             var shortName = GetShortName(template.Name);
-            temp.parameters.appServiceName.defaultValue = $"{Server.ARMTemplate_MyPrefix}-{shortName}{Server.ARMTemplate_AppPostfix}-{Guid.NewGuid().ToString().Split('-')[0]}");
+            temp.parameters.appServiceName.defaultValue = $"{Server.ARMTemplate_MyPrefix}-{shortName}{Server.ARMTemplate_AppPostfix}-{Guid.NewGuid().ToString().Split('-')[0]}";
             temp.parameters.msdeployPackageUrl.defaultValue = template.MSDeployPackageUrl;
         }
 
