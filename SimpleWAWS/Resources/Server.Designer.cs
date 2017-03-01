@@ -61,6 +61,24 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to App.
+        /// </summary>
+        internal static string ARMTemplate_AppPostfix {
+            get {
+                return ResourceManager.GetString("ARMTemplate_AppPostfix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My.
+        /// </summary>
+        internal static string ARMTemplate_MyPrefix {
+            get {
+                return ResourceManager.GetString("ARMTemplate_MyPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deployment in progress..
         /// </summary>
         internal static string Deployment_DeploymentInProgress {

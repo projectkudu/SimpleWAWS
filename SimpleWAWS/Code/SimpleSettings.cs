@@ -54,6 +54,6 @@ namespace SimpleWAWS.Code
 
         public static string GraphUserName { get { return config(); } }
         public static string GraphPassword { get { return config(); } }
-
+        public static string ZippedRepoUrl { get { return config(); } }
     }
 }   

@@ -5,7 +5,8 @@ using System.Linq;
 using System.Web.Hosting;
 using System.Globalization;
 using Newtonsoft.Json.Linq;
-
+using SimpleWAWS.Code;
+using SimpleWAWS.Resources;
 namespace SimpleWAWS.Models
 {
     public static class TemplatesManager
@@ -55,7 +56,7 @@ namespace SimpleWAWS.Models
                             Language = (language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) || language.Equals("Api", StringComparison.OrdinalIgnoreCase)) ? null : language,
                             SpriteName = string.Format(CultureInfo.InvariantCulture, "{0} {1}", iconCssClass, cssClass),
                             AppService = language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) ? AppService.Mobile : language.Equals("Api", StringComparison.OrdinalIgnoreCase) ? AppService.Api : AppService.Web,
-                            MSDeployPackageUrl = $"https://github.com/fashaikh/appservice-zipped-templates/raw/master/{Path.GetDirectoryName(template)}/{Path.GetFileName(template)}"
+                            MSDeployPackageUrl = $"{SimpleSettings.ZippedRepoUrl}/{Path.GetFileName(Path.GetDirectoryName(template))}/{Path.GetFileName(template)}"
                         });
                     }
                 }
@@ -65,8 +66,7 @@ namespace SimpleWAWS.Models
                     SpriteName = "sprite-PingSite PingSite",
                     AppService = AppService.Logic,
                     CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/PingSite.json"),
-                    Description = Resources.Server.Templates_PingSiteDescription,
-                    MSDeployPackageUrl = $"https://github.com/fashaikh/appservice-zipped-templates/raw/master/Logic/Ping%20Site.zip"
+                    Description = Resources.Server.Templates_PingSiteDescription
                 });
                 list.Add(new JenkinsTemplate
                 {
@@ -76,12 +76,12 @@ namespace SimpleWAWS.Models
                     CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/JenkinsResource.json"),
                     Description = Resources.Server.Templates_JenkinsDescription
                 });
-                _baseARMTemplate = JObject.Parse(File.ReadAllText(HostingEnvironment.MapPath("~/ARMTemplates/BaseARMTemplate.json"),  System.Text.Encoding.ASCII)
+                _baseARMTemplate = JObject.Parse( File.ReadAllText(HostingEnvironment.MapPath("~/ARMTemplates/BaseARMTemplate.json"),  System.Text.Encoding.ASCII)
                     .Replace(Environment.NewLine, String.Empty)
                     .Replace(@"\", String.Empty));
                 //TODO: Implement a FileSystemWatcher for changes in the directory
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _templatesList = Enumerable.Empty<BaseTemplate>();
             }
@@ -89,7 +89,7 @@ namespace SimpleWAWS.Models
 
         private static object getShortName(string templateName)
         {
-            return templateName.Replace(" ", "").Replace("#", "Sharp").Replace(".", "").Replace("+", "");
+            return templateName.Replace(" ", "").Replace(".", "").Replace("+", "");
         }
 
         public static IEnumerable<BaseTemplate> GetTemplates()
@@ -98,26 +98,26 @@ namespace SimpleWAWS.Models
         }
         public static JObject GetARMTemplate(BaseTemplate template)
         {
-            var armTemplate = _baseARMTemplate;
-            updateParameters(ref armTemplate, template);
-            //TODO: Add mroe specific app settings as needed.
-            updateAppSettings(ref armTemplate, template);
-            updateConfig(ref armTemplate, template);
+            var armTemplate = JObject.FromObject(_baseARMTemplate);
+            updateParameters( armTemplate, template);
+            //TODO: Add more specific app settings as needed.
+            updateAppSettings(armTemplate, template);
+            updateConfig(armTemplate, template);
             return armTemplate;
         }
-        private static void updateParameters(ref dynamic temp, BaseTemplate template)
+        private static void updateParameters(dynamic temp, BaseTemplate template)
         {
             var shortName = getShortName(template.Name);
-            temp.parameters.appServiceName.defaultValue = string.Concat("My-", shortName, "App-", Guid.NewGuid().ToString().Split('-')[0]);
+            temp.parameters.appServiceName.defaultValue = string.Concat(Server.ARMTemplate_MyPrefix, "-", shortName, Server.ARMTemplate_AppPostfix, "-", Guid.NewGuid().ToString().Split('-')[0]);
             temp.parameters.msdeployPackageUrl.defaultValue = template.MSDeployPackageUrl;
         }
 
-        private static void updateConfig(ref dynamic temp, BaseTemplate template)
+        private static void updateConfig(dynamic temp, BaseTemplate template)
         {
             temp.resources[1].resources[0].properties.templateName = template.Name ;
         }
 
-        private static void updateAppSettings(ref dynamic temp, BaseTemplate template)
+        private static void updateAppSettings(dynamic temp, BaseTemplate template)
         {
             temp.resources[1].properties.siteConfig.appSettings.Add(new JObject {
                 { "name","foo"+ template.Name },
