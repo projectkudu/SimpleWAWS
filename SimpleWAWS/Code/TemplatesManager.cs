@@ -98,30 +98,45 @@ namespace SimpleWAWS.Models
         public static JObject GetARMTemplate(BaseTemplate template)
         {
             var armTemplate = JObject.FromObject(_baseARMTemplate);
-            updateParameters( armTemplate, template);
-            //TODO: Add more specific app settings as needed.
-            updateAppSettings(armTemplate, template);
-            updateConfig(armTemplate, template);
+            updateParameters( armTemplate, template as WebsiteTemplate);
+            updateAppSettings(armTemplate, template as WebsiteTemplate);
+            updateConfig(armTemplate, template as WebsiteTemplate);
             return armTemplate;
         }
-        private static void updateParameters(dynamic temp, BaseTemplate template)
+        private static void updateParameters(dynamic temp, WebsiteTemplate template)
         {
             var shortName = GetShortName(template.Name);
             temp.parameters.appServiceName.defaultValue = $"{Server.ARMTemplate_MyPrefix}-{shortName}{Server.ARMTemplate_AppPostfix}-{Guid.NewGuid().ToString().Split('-')[0]}";
             temp.parameters.msdeployPackageUrl.defaultValue = template.MSDeployPackageUrl;
         }
 
-        private static void updateConfig(dynamic temp, BaseTemplate template)
+        private static void updateConfig(dynamic armTemplate, WebsiteTemplate template)
         {
-            temp.resources[1].resources[0].properties.templateName = template.Name ;
+            if (template.GithubRepo == null)
+            {
+                if (template.Name.Equals("WordPress", StringComparison.OrdinalIgnoreCase))
+                {
+                    armTemplate.resources[1].resources[0].properties.scmType = "LocalGit";
+                    armTemplate.resources[1].resources[0].properties.httpLoggingEnabled = true;
+                    armTemplate.resources[1].resources[0].properties.localMySqlEnabled = true;
+                }
+                else
+                {
+                    armTemplate.resources[1].resources[0].properties.scmType = "LocalGit";
+                    armTemplate.resources[1].resources[0].properties.httpLoggingEnabled = true;
+                }
+            }
         }
 
-        private static void updateAppSettings(dynamic temp, BaseTemplate template)
+        private static void updateAppSettings(dynamic armTemplate, WebsiteTemplate template)
         {
-            temp.resources[1].properties.siteConfig.appSettings.Add(new JObject {
-                { "name","foo"+ template.Name },
-                { "value","bar" },
+            if (((template.Language != null) && template.Language.Equals("NodeJs", StringComparison.OrdinalIgnoreCase)) || template.Name.Equals("ExpressJs", StringComparison.OrdinalIgnoreCase) || template.Name.Equals("Express", StringComparison.OrdinalIgnoreCase))
+            {
+                armTemplate.resources[1].properties.siteConfig.appSettings.Add(new JObject {
+                { "name","WEBSITE_NODE_DEFAULT_VERSION" },
+                { "value","5.8.0" },
               });
+            }
         }
     }
     public static class TemplatesExtensions
