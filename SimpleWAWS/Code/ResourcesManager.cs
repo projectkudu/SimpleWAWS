@@ -284,6 +284,7 @@ namespace SimpleWAWS.Code
 
                     resourceGroup.IsRbacEnabled = await rbacTask;
                     Util.FireAndForget(site.HostName);
+                    Util.FireAndForget(site.MonacoUrl);
                     return resourceGroup;
                 });
         }
