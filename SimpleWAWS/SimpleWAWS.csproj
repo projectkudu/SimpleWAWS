@@ -425,7 +425,6 @@
     <Content Include="Content\images\packages\Express.png" />
     <Content Include="Content\images\packages\Field Engineer.png" />
     <Content Include="Content\images\packages\Flask.png" />
-    <Content Include="Content\images\packages\Ghost Blog.png" />
     <Content Include="Content\images\git.png" />
     <Content Include="Content\images\packages\git.png" />
     <Content Include="Content\images\packages\Go Sample App.png" />
