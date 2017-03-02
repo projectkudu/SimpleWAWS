@@ -44,7 +44,6 @@ namespace SimpleWAWS.Code
         public static readonly ArmUriTemplate SitePublishingCredentials = new ArmUriTemplate(Site.TemplateUrl + "/config/PublishingCredentials/list", websitesApiVersion);
         public static readonly ArmUriTemplate SitePublishingProfile = new ArmUriTemplate(Site.TemplateUrl + "/publishxml", websitesApiVersion);
         public static readonly ArmUriTemplate SiteDeployments = new ArmUriTemplate(Site.TemplateUrl + "/deployments", newWebsitesApiVersion);
-        public static readonly ArmUriTemplate ZRayForSite = new ArmUriTemplate(Site.TemplateUrl + "/premieraddons/MyZray", zRayApiVersion);
 
         public static readonly ArmUriTemplate ApiApps = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.AppService/apiapps", appServiceApiVersion);
         public static readonly ArmUriTemplate ApiApp = new ArmUriTemplate(ApiApps.TemplateUrl + "/{apiAppName}", appServiceApiVersion);
