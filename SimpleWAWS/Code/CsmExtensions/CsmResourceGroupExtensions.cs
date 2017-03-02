@@ -405,8 +405,6 @@ namespace SimpleWAWS.Code.CsmExtensions
             {
                 site.AppSettings["FUNCTIONS_EXTENSION_VERSION"] = SimpleSettings.FunctionsExtensionVersion;
             }
-            site.AppSettings["MONACO_EXTENSION_VERSION"] = SimpleSettings.MonacoExtensionVersion;
-            site.AppSettings["AZUREJOBS_EXTENSION_VERSION"] = SimpleSettings.AzureJobsExtensionVersion;
             site.AppSettings["WEBSITE_NODE_DEFAULT_VERSION"] = SimpleSettings.WebsiteNodeDefautlVersion;
             await UpdateAppSettings(site);
         }

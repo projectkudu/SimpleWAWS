@@ -251,7 +251,6 @@ namespace SimpleWAWS.Code
                     resourceGroup.Tags[Constants.TemplateName] = template.Name;
                     site.AppSettings["LAST_MODIFIED_TIME_UTC"] = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
                     site.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = SimpleSettings.SiteExpiryMinutes;
-                    site.AppSettings["MONACO_EXTENSION_VERSION"] = SimpleSettings.MonacoExtensionVersion;
                     site.AppSettings["WEBSITE_TRY_MODE"] = "1";
 
                     if (site.AppSettings.ContainsKey("FUNCTIONS_EXTENSION_VERSION"))
