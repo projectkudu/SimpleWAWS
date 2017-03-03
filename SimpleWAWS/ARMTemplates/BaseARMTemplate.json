@@ -1,0 +1,98 @@
+﻿{
+  "$schema": "http://schemas.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "msdeployPackageUrl": {
+      "type": "string",
+      "defaultValue": "https://tryappservicetemplates.blob.core.windows.net/zipped/PHP/WordPress.zip"
+    },
+    "appServiceName": {
+      "type": "string",
+      "defaultValue": "MyAppService",
+      "metadata": {
+        "description": "The name of your App Service"
+      }
+    }
+  },
+  "variables": {
+    "appServiceName": "[toLower(parameters('appServiceName'))]",
+    "hostingPlanName": "[toLower( concat(variables('appServiceName'), '-freeplan' ))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2015-08-01",
+      "name": "[variables('hostingPlanName')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "name": "[variables('hostingPlanName')]",
+        "computeMode": "Free",
+        "sku": "Free"
+      }
+    },
+    {
+      "apiVersion": "2015-08-01",
+      "type": "Microsoft.Web/sites",
+      "name": "[variables('appServiceName')]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms/', variables('hostingPlanName'))]"
+      ],
+      "properties": {
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms/', variables('hostingPlanName'))]",
+        "siteConfig": {
+          "appSettings": [
+            {
+              "name": "WEBSITE_NODE_DEFAULT_VERSION",
+              "value": "6.9.4"
+            }
+          ]
+        }
+      },
+      "resources": [
+        {
+          "apiVersion": "2015-08-01",
+          "name": "web",
+          "type": "config",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites/', toLower(variables('appServiceName')))]",
+            "[resourceId('Microsoft.Web/Sites/Extensions/', toLower(variables('appServiceName')), 'MSDeploy')]"
+          ],
+          "tags": {
+            "displayName": "WebAppConfig"
+          },
+          "properties": {
+            "phpVersion": "5.6",
+            "netFrameworkVersion": "v4.6",
+            "use32BitWorkerProcess": false,
+            "webSocketsEnabled": true,
+            "alwaysOn": false
+          }
+        },
+        {
+          "apiVersion": "2015-08-01",
+          "type": "extensions",
+          "name": "MSDeploy",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites/', toLower(variables('appServiceName')))]"
+          ],
+          "properties": {
+            "packageUri": "[parameters('msdeployPackageUrl')]"
+          }
+        },
+        {
+          "apiVersion": "2015-08-01",
+          "name": "metadata",
+          "type": "config",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites/', toLower(variables('appServiceName')))]",
+            "[resourceId('Microsoft.Web/Sites/Extensions/', toLower(variables('appServiceName')), 'MSDeploy')]"
+          ],
+          "properties": {
+            "synctriggersstatus": "[listsyncfunctiontriggerstatus(resourceId('Microsoft.Web/sites/', toLower(variables('appServiceName'))), '2015-08-01').status]"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -422,10 +422,9 @@
     <Content Include="Content\images\packages\django.png" />
     <Content Include="Content\images\packages\DownloadPublishing.png" />
     <Content Include="Content\images\packages\DownloadSite.png" />
-    <Content Include="Content\images\packages\ExpressJs.png" />
+    <Content Include="Content\images\packages\Express.png" />
     <Content Include="Content\images\packages\Field Engineer.png" />
     <Content Include="Content\images\packages\Flask.png" />
-    <Content Include="Content\images\packages\Ghost Blog.png" />
     <Content Include="Content\images\git.png" />
     <Content Include="Content\images\packages\git.png" />
     <Content Include="Content\images\packages\Go Sample App.png" />
@@ -441,7 +440,6 @@
     <Content Include="Content\images\packages\Personal Site.png" />
     <Content Include="Content\images\packages\Photo Gallery.png" />
     <Content Include="Content\images\packages\PHP Empty Site.png" />
-    <Content Include="Content\images\packages\PHP Starter Site.png" />
     <Content Include="Content\images\packages\Todo List.png" />
     <Content Include="Content\images\packages\TypeScript.png" />
     <Content Include="Content\images\packages\VSO.png" />
@@ -459,7 +457,7 @@
     <Content Include="App_Data\applicationHost.xdt">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="CSMTemplates\PingSite.json" />
+    <Content Include="ARMTemplates\PingSite.json" />
     <Content Include="Default.cshtml" />
     <Content Include="refs\ARMClient.Library.dll" />
     <Content Include="Scripts\ai.0.22.19-build00125.js" />
@@ -506,10 +504,11 @@
     </Content>
     <Content Include="Login.cshtml" />
     <Content Include="Logout.cshtml" />
-    <Content Include="CSMTemplates\JenkinsResource.json" />
+    <Content Include="ARMTemplates\JenkinsResource.json" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="ARMTemplates\BaseARMTemplate.json" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
@@ -620,7 +619,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>20889</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44302/</IISUrl>
+          <IISUrl>https://localhost:44303/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

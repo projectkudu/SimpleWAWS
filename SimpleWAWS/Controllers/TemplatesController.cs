@@ -2,6 +2,10 @@
 using System.Linq;
 using System.Web.Http;
 using SimpleWAWS.Models;
+using System.Net.Http;
+using System.Net;
+using System;
+using System.Net.Http.Headers;
 
 namespace SimpleWAWS.Controllers
 {
@@ -38,6 +42,20 @@ namespace SimpleWAWS.Controllers
             });
             list.Add(WebsiteTemplate.EmptySiteTemplate);
             return list;
+        }
+        public HttpResponseMessage GetARMTemplate(string templateName)
+        {
+            var list = TemplatesManager.GetTemplates();
+            var template = list.FirstOrDefault((temp) => string.Equals(temp.Name, templateName,StringComparison.OrdinalIgnoreCase ));
+            if (template != null)
+            {
+                var armTemplateJson = TemplatesManager.GetARMTemplate(template);
+                return Request.CreateResponse(HttpStatusCode.OK, armTemplateJson, new MediaTypeHeaderValue("application/json"));
+            }
+            else
+            {
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            }
         }
     }
 }
