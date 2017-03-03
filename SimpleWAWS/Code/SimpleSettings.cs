@@ -39,7 +39,7 @@ namespace SimpleWAWS.Code
         public static string CommonApiAppsCsmTemplatePath { get; } = HostingEnvironment.MapPath("~/CSMTemplates/commonApiApps.json") ?? CommonApiAppsCsmTemplatePathLocal;
         public static string ElasticSearchUri = "http://10.0.0.4:9200";
         public static string FunctionsExtensionVersion { get { return config("latest"); } }
-        public static string WebsiteNodeDefautlVersion { get { return config("6.4.0"); } }
+        public static string WebsiteNodeDefautlVersion { get { return config("6.9.4"); } }
         public static string JenkinsTenant { get { return config(); } }
         public static string JenkinsServicePrincipal { get { return config(); } }
         public static string JenkinsServicePrincipalKey { get { return config(); } }
