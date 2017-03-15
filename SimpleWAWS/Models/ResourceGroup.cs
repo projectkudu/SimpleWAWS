@@ -144,12 +144,19 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return !string.IsNullOrEmpty(ResourceGroupName) && ResourceGroupName.StartsWith(Constants.TryResourceGroupPrefix, StringComparison.InvariantCulture)
+                return IsSimpleWAWSResourceName
                  && Tags != null && !Tags.ContainsKey("Bad")
                 && Tags.ContainsKey("FunctionsContainerDeployed");
             }
         }
-
+        public bool IsSimpleWAWSResourceName
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(ResourceGroupName) && ResourceGroupName.StartsWith(Constants.TryResourceGroupPrefix, StringComparison.InvariantCulture)
+;
+            }
+        }
         public UIResource UIResource
         {
             get

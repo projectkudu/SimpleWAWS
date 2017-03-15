@@ -22,18 +22,20 @@ namespace SimpleWAWS.Code.CsmExtensions
                 if (deleteBadResourceGroups)
                 {
                     var deleteBadResourceGroupsTasks = csmResourceGroups.value
-                        .Where(r => r.tags != null
-                                    && ((r.tags.ContainsKey("Bad") || 
-                                    (subscription.Type==SubscriptionType.AppService?!r.tags.ContainsKey("FunctionsContainerDeployed"): !r.tags.ContainsKey(Constants.SubscriptionType)))
-                                    && (!r.tags.ContainsKey("UserId"))
+                        //Some orphaned resourcegroups can have no tags. Okay to clean once in a while since they dont have any sites either
+                        .Where(r => ((r.tags == null && IsSimpleWawsResourceName(r)) 
+                                    || 
+                                        (r.tags != null && ((r.tags.ContainsKey("Bad") 
+                                        || 
+                                        (subscription.Type==SubscriptionType.AppService?!r.tags.ContainsKey("FunctionsContainerDeployed"): !r.tags.ContainsKey(Constants.SubscriptionType)))
+                                        && (!r.tags.ContainsKey("UserId"))
+                                    )) 
                                     && r.properties.provisioningState != "Deleting"))
                         .Select(async r => await Delete(await Load(new ResourceGroup(subscription.SubscriptionId, r.name), r, loadSubResources: false), block: false));
               
                     await deleteBadResourceGroupsTasks.IgnoreFailures().WhenAll();
 
-                    //reload after deleting the bad subs
-                    //TODO: Ensure a background task always takes care of this  
-                    csmResourceGroups = await subscription.LoadResourceGroupsForSubscription();
+                csmResourceGroups = await subscription.LoadResourceGroupsForSubscription();
                 }
                 var csmSubscriptionResourcesReponse = await GetClient(subscription.Type).HttpInvoke(HttpMethod.Get, ArmUriTemplates.SubscriptionResources.Bind(subscription));
 

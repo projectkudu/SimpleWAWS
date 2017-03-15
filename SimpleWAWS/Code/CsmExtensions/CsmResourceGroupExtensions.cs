@@ -348,16 +348,20 @@ namespace SimpleWAWS.Code.CsmExtensions
         }
         private static bool IsSimpleWaws(CsmWrapper<CsmResourceGroup> csmResourceGroup)
         {
-            return !string.IsNullOrEmpty(csmResourceGroup.name) &&
-                csmResourceGroup.name.StartsWith(Constants.TryResourceGroupPrefix, StringComparison.OrdinalIgnoreCase) &&
+            return IsSimpleWawsResourceName(csmResourceGroup) &&
                 csmResourceGroup.properties.provisioningState == "Succeeded" &&
                 csmResourceGroup.tags != null && !csmResourceGroup.tags.ContainsKey("Bad")
                 && csmResourceGroup.tags.ContainsKey("FunctionsContainerDeployed");
         }
-        private static bool IsJenkinsResource(CsmWrapper<CsmResourceGroup> csmResourceGroup)
+        private static bool IsSimpleWawsResourceName(CsmWrapper<CsmResourceGroup> csmResourceGroup)
         {
             return !string.IsNullOrEmpty(csmResourceGroup.name) &&
-                csmResourceGroup.name.StartsWith(Constants.TryResourceGroupPrefix, StringComparison.OrdinalIgnoreCase) &&
+                csmResourceGroup.name.StartsWith(Constants.TryResourceGroupPrefix, StringComparison.OrdinalIgnoreCase) ;
+        }
+
+        private static bool IsJenkinsResource(CsmWrapper<CsmResourceGroup> csmResourceGroup)
+        {
+            return IsSimpleWawsResourceName(csmResourceGroup) && &&
                 csmResourceGroup.properties.provisioningState == "Succeeded" &&
                 csmResourceGroup.tags != null && !csmResourceGroup.tags.ContainsKey("Bad") 
                 && csmResourceGroup.tags.ContainsKey(Constants.SubscriptionType)
