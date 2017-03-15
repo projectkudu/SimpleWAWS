@@ -57,6 +57,18 @@ namespace SimpleWAWS.Code
             }
         }
 
+        public void DeleteDuplicateResourceGroup(ResourceGroup resourceGroup)
+        {
+            AddOperation(new BackgroundOperation<ResourceGroup>
+            {
+                Description = $"Permanently delete Duplicate ResourceGroup {resourceGroup.ResourceGroupName}",
+                Type = OperationType.ResourceGroupDelete,
+                Task = resourceGroup.Delete(block: false),
+                RetryAction = () => DeleteDuplicateResourceGroup(resourceGroup)
+            });
+
+        }
+
         private async Task<ResourceGroup> LogActiveUsageStatistics(ResourceGroup resourceGroup)
         {
             if (resourceGroup.SubscriptionType == SubscriptionType.AppService)
@@ -155,6 +167,25 @@ namespace SimpleWAWS.Code
                     break;
 
                 case OperationType.ResourceGroupDelete:
+                    var rgToRemove = resourceGroupTask.Task.Result;
+                        DeleteResourceGroupOperation(rgToRemove);
+
+                    // Now Remove from Free queues if it is present there
+                    ResourceGroup tempRg;
+                    while (FreeResourceGroups.TryDequeue(out tempRg)){
+                        if (tempRg.CsmId != rgToRemove.CsmId)
+                        {
+                            FreeResourceGroups.Enqueue(tempRg);
+                        }
+                    }
+                    while (FreeJenkinsResourceGroups.TryDequeue(out tempRg))
+                    {
+                        if (tempRg.CsmId != rgToRemove.CsmId)
+                        {
+                            FreeJenkinsResourceGroups.Enqueue(tempRg);
+                        }
+                    }
+                    break;
                 default:
                     break;
             }
@@ -187,11 +218,27 @@ namespace SimpleWAWS.Code
         {
             var resources = this.ResourceGroupsInUse
                 .Select(e => e.Value)
-                .Where(rg => (int)rg.TimeLeft.TotalSeconds == 0);
+                .Where(rg => (int)rg.TimeLeft.TotalSeconds == 0)
+                .Union(this.ResourceGroupsInUse
+                .Select(e => e.Value)
+                .Where(rg => (int)rg.TimeLeft.TotalSeconds == 0));
 
             foreach (var resource in resources)
                 DeleteResourceGroup(resource);
-            //TODO:Add a way replenish leaking resourcegroups
+
+            // delete duplicate/leaking resource groups
+            var duplicateResourceGroups = this.FreeResourceGroups
+            .Where(rg => (rg.IsSimpleWAWSResourceName))
+            .GroupBy(s => s.GeoRegion)
+            .SelectMany(g => g.Skip(1))
+            .Union(
+             this.FreeJenkinsResourceGroups
+            .Where(rg => (rg.IsSimpleWAWSResourceName))
+            .GroupBy(s => s.GeoRegion)
+            .SelectMany(g => g.Skip(SimpleSettings.JenkinsResourceGroupsPerRegion)));
+
+            foreach (var resource in duplicateResourceGroups)
+                DeleteDuplicateResourceGroup(resource);
 
         }
 
