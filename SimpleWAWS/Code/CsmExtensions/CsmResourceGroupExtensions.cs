@@ -361,7 +361,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         private static bool IsJenkinsResource(CsmWrapper<CsmResourceGroup> csmResourceGroup)
         {
-            return IsSimpleWawsResourceName(csmResourceGroup) && &&
+            return IsSimpleWawsResourceName(csmResourceGroup) &&
                 csmResourceGroup.properties.provisioningState == "Succeeded" &&
                 csmResourceGroup.tags != null && !csmResourceGroup.tags.ContainsKey("Bad") 
                 && csmResourceGroup.tags.ContainsKey(Constants.SubscriptionType)
