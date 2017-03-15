@@ -80,14 +80,14 @@ namespace SimpleWAWS.Code
                             : s.IsFunctionsContainer);
                     if (site == null) throw new ArgumentNullException(nameof(site));
                     var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-                        var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
-                        
-                        using (var httpContentStream = await zipManager.GetZipFileStreamAsync("LogFiles/http/RawLogs"))
-                        {
-                            await StorageHelper.UploadBlob(resourceGroup.ResourceUniqueId, httpContentStream);
-                        }
-                        await StorageHelper.AddQueueMessage(new { BlobName = resourceGroup.ResourceUniqueId });
-                        SimpleTrace.TraceInformation("{0}; {1}", AnalyticsEvents.SiteIISLogsName, resourceGroup.ResourceUniqueId);
+                    var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
+
+                    using (var httpContentStream = await zipManager.GetZipFileStreamAsync("LogFiles/http/RawLogs"))
+                    {
+                        await StorageHelper.UploadBlob(resourceGroup.ResourceUniqueId, httpContentStream);
+                    }
+                    await StorageHelper.AddQueueMessage(new { BlobName = resourceGroup.ResourceUniqueId });
+                    SimpleTrace.TraceInformation("{0}; {1}", AnalyticsEvents.SiteIISLogsName, resourceGroup.ResourceUniqueId);
                 }
                 catch (Exception e)
                 {
@@ -168,22 +168,33 @@ namespace SimpleWAWS.Code
 
                 case OperationType.ResourceGroupDelete:
                     var rgToRemove = resourceGroupTask.Task.Result;
-                        DeleteResourceGroupOperation(rgToRemove);
+                    DeleteResourceGroupOperation(rgToRemove);
 
                     // Now Remove from Free queues if it is present there
                     ResourceGroup tempRg;
-                    while (FreeResourceGroups.TryDequeue(out tempRg)){
-                        if (tempRg.CsmId != rgToRemove.CsmId)
-                        {
-                            FreeResourceGroups.Enqueue(tempRg);
-                        }
-                    }
-                    while (FreeJenkinsResourceGroups.TryDequeue(out tempRg))
+                    switch (rgToRemove.SubscriptionType)
                     {
-                        if (tempRg.CsmId != rgToRemove.CsmId)
-                        {
-                            FreeJenkinsResourceGroups.Enqueue(tempRg);
-                        }
+                        case SubscriptionType.AppService:
+                            while (FreeResourceGroups.TryDequeue(out tempRg))
+                            {
+                                if (tempRg.CsmId != rgToRemove.CsmId)
+                                {
+                                    FreeResourceGroups.Enqueue(tempRg);
+                                }
+                            }
+                            break;
+
+                        case SubscriptionType.Jenkins:
+                            while (FreeJenkinsResourceGroups.TryDequeue(out tempRg))
+                            {
+                                if (tempRg.CsmId != rgToRemove.CsmId)
+                                {
+                                    FreeJenkinsResourceGroups.Enqueue(tempRg);
+                                }
+                            }
+                            break;
+                        default:
+                            break;
                     }
                     break;
                 default:
@@ -268,14 +279,14 @@ namespace SimpleWAWS.Code
         {
             AppInsights.TelemetryClient.TrackEvent("StartLoggingQueueStats", null);
             var freeSitesCount = FreeResourceGroups.Count(sub => sub.SubscriptionType == SubscriptionType.AppService);
-            var inUseSites      = ResourceGroupsInUse.Select(s => s.Value).Where(sub => sub.SubscriptionType == SubscriptionType.AppService);
+            var inUseSites = ResourceGroupsInUse.Select(s => s.Value).Where(sub => sub.SubscriptionType == SubscriptionType.AppService);
             var resourceGroups = inUseSites as IList<ResourceGroup> ?? inUseSites.ToList();
             var inUseSitesCount = resourceGroups.Count();
-            var inUseFunctionsCount = resourceGroups.Count(res => res.AppService== AppService.Function);
+            var inUseFunctionsCount = resourceGroups.Count(res => res.AppService == AppService.Function);
             var inUseWebsitesCount = resourceGroups.Count(res => res.AppService == AppService.Web);
             var inUseMobileCount = resourceGroups.Count(res => res.AppService == AppService.Mobile);
             var inUseLogicAppCount = resourceGroups.Count(res => res.AppService == AppService.Logic);
-//            var inUseApiAppCount = resourceGroups.Count(res => res.AppService == AppService.Api);
+            //            var inUseApiAppCount = resourceGroups.Count(res => res.AppService == AppService.Api);
             var inProgress = ResourceGroupsInProgress.Select(s => s.Value).Count();
             var backgroundOperations = BackgroundInternalOperations.Select(s => s.Value).Count();
             var freeJenkinsResources = FreeJenkinsResourceGroups.Count(sub => sub.SubscriptionType == SubscriptionType.Jenkins);
@@ -287,7 +298,7 @@ namespace SimpleWAWS.Code
             AppInsights.TelemetryClient.TrackMetric("inUseWebsitesCount", inUseWebsitesCount);
             AppInsights.TelemetryClient.TrackMetric("inUseMobileCount", inUseMobileCount);
             AppInsights.TelemetryClient.TrackMetric("inUseLogicAppCount", inUseLogicAppCount);
-//            AppInsights.TelemetryClient.TrackMetric("inUseApiAppCount", inUseApiAppCount);
+            //            AppInsights.TelemetryClient.TrackMetric("inUseApiAppCount", inUseApiAppCount);
             AppInsights.TelemetryClient.TrackMetric("inUseSites", inUseSitesCount);
 
             AppInsights.TelemetryClient.TrackMetric("inProgressOperations", inProgress);
