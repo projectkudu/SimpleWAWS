@@ -167,7 +167,24 @@ namespace SimpleWAWS.Code
                     break;
 
                 case OperationType.ResourceGroupDelete:
-                        DeleteResourceGroupOperation(resourceGroupTask.Task.Result);
+                    var rgToRemove = resourceGroupTask.Task.Result;
+                        DeleteResourceGroupOperation(rgToRemove);
+
+                    // Now Remove from Free queues if it is present there
+                    ResourceGroup tempRg;
+                    while (FreeResourceGroups.TryDequeue(out tempRg)){
+                        if (tempRg.CsmId != rgToRemove.CsmId)
+                        {
+                            FreeResourceGroups.Enqueue(tempRg);
+                        }
+                    }
+                    while (FreeJenkinsResourceGroups.TryDequeue(out tempRg))
+                    {
+                        if (tempRg.CsmId != rgToRemove.CsmId)
+                        {
+                            FreeJenkinsResourceGroups.Enqueue(tempRg);
+                        }
+                    }
                     break;
                 default:
                     break;
