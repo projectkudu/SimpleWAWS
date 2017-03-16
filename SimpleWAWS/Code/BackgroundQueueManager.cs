@@ -167,7 +167,7 @@ namespace SimpleWAWS.Code
                     break;
 
                 case OperationType.ResourceGroupDelete:
-                    var rgToRemove = (ResourceGroup)resourceGroupTask.RetryAction.Target;
+                    var rgToRemove = resourceGroupTask.Task.Result;
                     DeleteResourceGroupOperation(rgToRemove);
 
                     // Now Remove from Free queues if it is present there
