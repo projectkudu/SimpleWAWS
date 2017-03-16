@@ -167,7 +167,7 @@ namespace SimpleWAWS.Code
                     break;
 
                 case OperationType.ResourceGroupDelete:
-                    var rgToRemove = resourceGroupTask.Task.Result;
+                    var rgToRemove = (ResourceGroup)resourceGroupTask.RetryAction.Target;
                     DeleteResourceGroupOperation(rgToRemove);
 
                     // Now Remove from Free queues if it is present there
@@ -229,10 +229,7 @@ namespace SimpleWAWS.Code
         {
             var resources = this.ResourceGroupsInUse
                 .Select(e => e.Value)
-                .Where(rg => (int)rg.TimeLeft.TotalSeconds == 0)
-                .Union(this.ResourceGroupsInUse
-                .Select(e => e.Value)
-                .Where(rg => (int)rg.TimeLeft.TotalSeconds == 0));
+                .Where(rg => (int)rg.TimeLeft.TotalSeconds == 0);
 
             foreach (var resource in resources)
                 DeleteResourceGroup(resource);
