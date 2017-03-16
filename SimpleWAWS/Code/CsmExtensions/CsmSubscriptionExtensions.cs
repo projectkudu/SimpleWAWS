@@ -80,7 +80,13 @@ namespace SimpleWAWS.Code.CsmExtensions
                     .Select( async r => await Load(new ResourceGroup(subscription.SubscriptionId, r.ResourceGroup.name),r.ResourceGroup, r.Resources))
                     .IgnoreAndFilterFailures();
 
-                return subscription;
+            if (deleteBadResourceGroups)
+            {
+                var deleteDuplicateResourceGroupsTasks = goodResourceGroups.Where(p => !subscription.ResourceGroups.Any(p2 => p2.CsmId == p.ResourceGroup.id))
+                    .Select(async r => await Delete(await Load(new ResourceGroup(subscription.SubscriptionId, r.ResourceGroup.name), r.ResourceGroup, loadSubResources: false), block: false));
+                await deleteDuplicateResourceGroupsTasks.IgnoreFailures().WhenAll();
+            }
+            return subscription;
 
         }
 
