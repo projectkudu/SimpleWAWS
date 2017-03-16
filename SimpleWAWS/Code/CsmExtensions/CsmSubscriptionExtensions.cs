@@ -1,6 +1,7 @@
 ﻿using SimpleWAWS.Models;
 using SimpleWAWS.Models.CsmModels;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
@@ -10,6 +11,29 @@ namespace SimpleWAWS.Code.CsmExtensions
 {
     public static partial class CsmManager
     {
+        public static async Task<IEnumerable<string>> GetSubscriptions()
+        {
+            // Load all subscriptions
+            var csmSubscriptions = await CsmManager.GetSubscriptionNamesToIdMap();
+            return (SimpleSettings.Subscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Union(SimpleSettings.JenkinsSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)))
+                //It can be either a displayName or a subscriptionId
+                //For Jenkins it needs to be subscriptionId
+                .Select(s => s.Trim())
+                .Where(n =>
+                {
+                    Guid temp;
+                    return csmSubscriptions.ContainsKey(n) || Guid.TryParse(n, out temp);
+                })
+                .Select(sn =>
+                {
+                    Guid temp;
+                    if (Guid.TryParse(sn, out temp)) return sn;
+                    else return csmSubscriptions[sn];
+                });
+
+        }
+
         public static async Task<Subscription> Load(this Subscription subscription, bool deleteBadResourceGroups = true)
         {
             Validate.ValidateCsmSubscription(subscription);
@@ -28,7 +52,6 @@ namespace SimpleWAWS.Code.CsmExtensions
                                         (r.tags != null && ((r.tags.ContainsKey("Bad") 
                                         || 
                                         (subscription.Type==SubscriptionType.AppService?!r.tags.ContainsKey("FunctionsContainerDeployed"): !r.tags.ContainsKey(Constants.SubscriptionType)))
-                                        && (!r.tags.ContainsKey("UserId"))
                                     )) 
                                     && r.properties.provisioningState != "Deleting"))
                         .Select(async r => await Delete(await Load(new ResourceGroup(subscription.SubscriptionId, r.name), r, loadSubResources: false), block: false));
@@ -60,7 +83,6 @@ namespace SimpleWAWS.Code.CsmExtensions
                 return subscription;
 
         }
-
 
         private static  async Task<CsmArrayWrapper<CsmResourceGroup>> LoadResourceGroupsForSubscription(this Subscription subscription)
         {

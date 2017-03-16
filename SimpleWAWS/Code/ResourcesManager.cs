@@ -57,24 +57,7 @@ namespace SimpleWAWS.Code
         // ARM
         private async Task LoadAzureResources()
         {
-            // Load all subscriptions
-            var csmSubscriptions = await CsmManager.GetSubscriptionNamesToIdMap();
-            var subscriptions = (SimpleSettings.Subscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                .Union(SimpleSettings.JenkinsSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)))
-                //It can be either a displayName or a subscriptionId
-                //For Jenkins it needs to be subscriptionId
-                .Select(s => s.Trim())
-                .Where(n =>
-                {
-                    Guid temp;
-                    return csmSubscriptions.ContainsKey(n) || Guid.TryParse(n, out temp);
-                })
-                .Select(sn =>
-                {
-                    Guid temp;
-                    if (Guid.TryParse(sn, out temp)) return sn;
-                    else return csmSubscriptions[sn];
-                });
+            var subscriptions = await CsmManager.GetSubscriptions();
             HostingEnvironment.QueueBackgroundWorkItem(_ =>
             {
                 foreach (var subscription in subscriptions)
