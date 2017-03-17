@@ -32,18 +32,15 @@ namespace SimpleWAWS.Code
         {
             if (_maintainResourceGroupTimer == null)
             {
-                _maintainResourceGroupTimer = new Timer(OnMaintainResourceGroupTimerElapsed);
-                _maintainResourceGroupTimer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(SimpleSettings.MaintainResourceGroupsMinutes * 60 * 1000));
+                _maintainResourceGroupTimer = new Timer(OnMaintainResourceGroupTimerElapsed, null, TimeSpan.FromMinutes(1), TimeSpan.FromMilliseconds(SimpleSettings.MaintainResourceGroupsMinutes * 60 * 1000));
             }
             if (_logQueueStatsTimer == null)
             {
-                _logQueueStatsTimer = new Timer(OnLogQueueStatsTimerElapsed);
-                _logQueueStatsTimer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(SimpleSettings.LoqQueueStatsMinutes * 60 * 1000));
+                _logQueueStatsTimer = new Timer(OnLogQueueStatsTimerElapsed, null, TimeSpan.FromMinutes(1), TimeSpan.FromMilliseconds(SimpleSettings.LoqQueueStatsMinutes * 60 * 1000));
             }
             if (_cleanupSubscriptionsTimer == null)
             {
-                _cleanupSubscriptionsTimer = new Timer(OnCleanupSubscriptionsTimerElapsed);
-                _cleanupSubscriptionsTimer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(SimpleSettings.CleanupSubscriptionMinutes * 60 * 1000));
+                _cleanupSubscriptionsTimer = new Timer(OnCleanupSubscriptionsTimerElapsed, null, TimeSpan.FromMinutes(1), TimeSpan.FromMilliseconds(SimpleSettings.CleanupSubscriptionMinutes * 60 * 1000));
             }
         }
 
@@ -274,7 +271,7 @@ namespace SimpleWAWS.Code
             var inUseWebsitesCount = resourceGroups.Count(res => res.AppService == AppService.Web);
             var inUseMobileCount = resourceGroups.Count(res => res.AppService == AppService.Mobile);
             var inUseLogicAppCount = resourceGroups.Count(res => res.AppService == AppService.Logic);
-            //            var inUseApiAppCount = resourceGroups.Count(res => res.AppService == AppService.Api);
+            var inUseApiAppCount = resourceGroups.Count(res => res.AppService == AppService.Api);
             var inProgress = ResourceGroupsInProgress.Select(s => s.Value).Count();
             var backgroundOperations = BackgroundInternalOperations.Select(s => s.Value).Count();
             var freeJenkinsResources = FreeJenkinsResourceGroups.Count(sub => sub.SubscriptionType == SubscriptionType.Jenkins);
@@ -286,7 +283,7 @@ namespace SimpleWAWS.Code
             AppInsights.TelemetryClient.TrackMetric("inUseWebsitesCount", inUseWebsitesCount);
             AppInsights.TelemetryClient.TrackMetric("inUseMobileCount", inUseMobileCount);
             AppInsights.TelemetryClient.TrackMetric("inUseLogicAppCount", inUseLogicAppCount);
-            //            AppInsights.TelemetryClient.TrackMetric("inUseApiAppCount", inUseApiAppCount);
+            AppInsights.TelemetryClient.TrackMetric("inUseApiAppCount", inUseApiAppCount);
             AppInsights.TelemetryClient.TrackMetric("inUseSites", inUseSitesCount);
 
             AppInsights.TelemetryClient.TrackMetric("inProgressOperations", inProgress);
