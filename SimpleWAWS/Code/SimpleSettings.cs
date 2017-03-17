@@ -53,5 +53,8 @@ namespace SimpleWAWS.Code
         public static string GraphUserName { get { return config(); } }
         public static string GraphPassword { get { return config(); } }
         public static string ZippedRepoUrl { get { return config(); } }
+        public static int CleanupSubscriptionMinutes { get { return Int32.Parse(config("60")); } }
+        public static int LoqQueueStatsMinutes { get { return Int32.Parse(config("5")); } }
+        public static int MaintainResourceGroupsMinutes { get { return Int32.Parse(config("1")); } }
     }
 }   

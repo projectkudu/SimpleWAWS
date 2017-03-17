@@ -23,7 +23,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         private const string _contributorRold = "b24988ac-6180-42a0-ab88-20f7382dd24c";
 
         private static readonly AsyncLock _rbacLock = new AsyncLock();
-
+        private static IEnumerable<string> _subscriptions;
         static CsmManager()
         {
             csmClient = new AzureClient(retryCount: 3);
@@ -36,6 +36,31 @@ namespace SimpleWAWS.Code.CsmExtensions
             jenkinsClient.ConfigureSpnLogin(SimpleSettings.JenkinsTenant, SimpleSettings.JenkinsServicePrincipal , SimpleSettings.JenkinsServicePrincipalKey);
         }
 
+        public static async Task<IEnumerable<string>> GetSubscriptions()
+        {
+            if (_subscriptions == null)
+            {
+                // Load all subscriptions
+                var csmSubscriptions = await CsmManager.GetSubscriptionNamesToIdMap();
+                _subscriptions = (SimpleSettings.Subscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Union(SimpleSettings.JenkinsSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)))
+                    //It can be either a displayName or a subscriptionId
+                    //For Jenkins it needs to be subscriptionId
+                    .Select(s => s.Trim())
+                    .Where(n =>
+                    {
+                        Guid temp;
+                        return csmSubscriptions.ContainsKey(n) || Guid.TryParse(n, out temp);
+                    })
+                    .Select(sn =>
+                    {
+                        Guid temp;
+                        if (Guid.TryParse(sn, out temp)) return sn;
+                        else return csmSubscriptions[sn];
+                    });
+            }
+            return _subscriptions;
+        }
         static AzureClient GetClient(SubscriptionType subscriptionType)
         {
             switch (subscriptionType)

@@ -45,7 +45,7 @@ namespace SimpleWAWS.Models
 
         public TimeSpan LifeTime
         {
-            get { return TimeSpan.FromMinutes(int.Parse(Tags[Constants.LifeTimeInMinutes])); }
+            get { return TimeSpan.FromMinutes(int.Parse(Tags.ContainsKey(Constants.UserId) ? Tags[Constants.LifeTimeInMinutes] : "0" )); }
         }
 
         public static readonly TimeSpan DefaultUsageTimeSpan = TimeSpan.FromMinutes(int.Parse(SimpleSettings.SiteExpiryMinutes, CultureInfo.InvariantCulture));

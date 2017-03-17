@@ -21,18 +21,29 @@ namespace SimpleWAWS.Code
         public readonly ConcurrentDictionary<string, InProgressOperation> ResourceGroupsInProgress = new ConcurrentDictionary<string, InProgressOperation>();
         public readonly ConcurrentDictionary<string, ResourceGroup> ResourceGroupsInUse = new ConcurrentDictionary<string, ResourceGroup>();
         public readonly ConcurrentDictionary<Guid, BackgroundOperation> BackgroundInternalOperations = new ConcurrentDictionary<Guid, BackgroundOperation>();
-        private Timer _timer;
+        private Timer _maintainResourceGroupTimer;
+        private Timer _logQueueStatsTimer;
+        private Timer _cleanupSubscriptionsTimer;
         private readonly JobHost _jobHost = new JobHost();
-        private int _logCounter = 0;
         private static int _maintainResourceGroupListErrorCount = 0;
         private static Random rand = new Random();
 
         public BackgroundQueueManager()
         {
-            if (_timer == null)
+            if (_maintainResourceGroupTimer == null)
             {
-                _timer = new Timer(OnTimerElapsed);
-                _timer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(60 * 1000));
+                _maintainResourceGroupTimer = new Timer(OnMaintainResourceGroupTimerElapsed);
+                _maintainResourceGroupTimer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(SimpleSettings.MaintainResourceGroupsMinutes * 60 * 1000));
+            }
+            if (_logQueueStatsTimer == null)
+            {
+                _logQueueStatsTimer = new Timer(OnLogQueueStatsTimerElapsed);
+                _logQueueStatsTimer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(SimpleSettings.LoqQueueStatsMinutes * 60 * 1000));
+            }
+            if (_cleanupSubscriptionsTimer == null)
+            {
+                _cleanupSubscriptionsTimer = new Timer(OnCleanupSubscriptionsTimerElapsed);
+                _cleanupSubscriptionsTimer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(SimpleSettings.CleanupSubscriptionMinutes * 60 * 1000));
             }
         }
 
@@ -55,18 +66,6 @@ namespace SimpleWAWS.Code
             {
                 LogUsageStatistics(resourceGroup);
             }
-        }
-
-        public void DeleteDuplicateResourceGroup(ResourceGroup resourceGroup)
-        {
-            AddOperation(new BackgroundOperation<ResourceGroup>
-            {
-                Description = $"Permanently delete Duplicate ResourceGroup {resourceGroup.ResourceGroupName}",
-                Type = OperationType.ResourceGroupDelete,
-                Task = resourceGroup.Delete(block: false),
-                RetryAction = () => DeleteDuplicateResourceGroup(resourceGroup)
-            });
-
         }
 
         private async Task<ResourceGroup> LogActiveUsageStatistics(ResourceGroup resourceGroup)
@@ -167,65 +166,61 @@ namespace SimpleWAWS.Code
                     break;
 
                 case OperationType.ResourceGroupDelete:
-                    var rgToRemove = resourceGroupTask.Task.Result;
-                    DeleteResourceGroupOperation(rgToRemove);
-
-                    // Now Remove from Free queues if it is present there
-                    ResourceGroup tempRg;
-                    switch (rgToRemove.SubscriptionType)
-                    {
-                        case SubscriptionType.AppService:
-                            while (FreeResourceGroups.TryDequeue(out tempRg))
-                            {
-                                if (tempRg.CsmId != rgToRemove.CsmId)
-                                {
-                                    FreeResourceGroups.Enqueue(tempRg);
-                                }
-                            }
-                            break;
-
-                        case SubscriptionType.Jenkins:
-                            while (FreeJenkinsResourceGroups.TryDequeue(out tempRg))
-                            {
-                                if (tempRg.CsmId != rgToRemove.CsmId)
-                                {
-                                    FreeJenkinsResourceGroups.Enqueue(tempRg);
-                                }
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
                 default:
                     break;
             }
-
         }
 
-        private void OnTimerElapsed(object state)
+        private void OnMaintainResourceGroupTimerElapsed(object state)
         {
             try
             {
                 _jobHost.DoWork(() =>
                 {
                     MaintainResourceGroupLists();
-                    _logCounter++;
-                    if (_logCounter % 5 == 0)
+                });
+            }
+            catch (Exception e)
+            {
+                SimpleTrace.Diagnostics.Fatal(e, "MaintainResourceGroupLists error, Count {Count}", Interlocked.Increment(ref _maintainResourceGroupListErrorCount));
+            }
+
+        }
+
+        private void OnLogQueueStatsTimerElapsed(object state)
+        {
+            try
+            {
+                _jobHost.DoWork(() =>
+                {
+                    LogQueueStatistics();
+                });
+            }
+            catch (Exception e)
+            {
+                SimpleTrace.Diagnostics.Fatal(e, "LogQueueStatistics error, Count {Count}", Interlocked.Increment(ref _maintainResourceGroupListErrorCount));
+            }
+        }
+
+        private void OnCleanupSubscriptionsTimerElapsed(object state)
+        {
+            try
+            {
+                _jobHost.DoWork(async () =>
+                {
+                    foreach (var subcription in await CsmManager.GetSubscriptions())
                     {
-                        //log only every 5 minutes
-                        LogQueueStatistics();
-                        _logCounter = 0;
+                        SubscriptionCleanup(new Subscription(subcription));
                     }
                 });
             }
             catch (Exception e)
             {
-                SimpleTrace.Diagnostics.Fatal(e, "MainTainResourceGroupLists error, Count {Count}", Interlocked.Increment(ref _maintainResourceGroupListErrorCount));
+                SimpleTrace.Diagnostics.Fatal(e, "CleanupSubscriptions error, Count {Count}", Interlocked.Increment(ref _maintainResourceGroupListErrorCount));
             }
-        }
 
-        private void MaintainResourceGroupLists()
+        }
+    private void MaintainResourceGroupLists()
         {
             var resources = this.ResourceGroupsInUse
                 .Select(e => e.Value)
@@ -234,22 +229,18 @@ namespace SimpleWAWS.Code
             foreach (var resource in resources)
                 DeleteResourceGroup(resource);
 
-            // delete duplicate/leaking resource groups
-            var duplicateResourceGroups = this.FreeResourceGroups
-            .Where(rg => (rg.IsSimpleWAWSResourceName))
-            .GroupBy(s => s.GeoRegion)
-            .SelectMany(g => g.Skip(1))
-            .Union(
-             this.FreeJenkinsResourceGroups
-            .Where(rg => (rg.IsSimpleWAWSResourceName))
-            .GroupBy(s => s.GeoRegion)
-            .SelectMany(g => g.Skip(SimpleSettings.JenkinsResourceGroupsPerRegion)));
-
-            foreach (var resource in duplicateResourceGroups)
-                DeleteDuplicateResourceGroup(resource);
-
         }
 
+        private void SubscriptionCleanup(Subscription subscription)
+        {
+            AddOperation(new BackgroundOperation<Subscription>
+            {
+                Description = $"Cleaning subscriptions",
+                Type = OperationType.SubscriptionCleanup,
+                Task = CsmManager.SubscriptionCleanup(subscription),
+                RetryAction = () => SubscriptionCleanup(subscription)
+            });
+        }
         private void LogUsageStatistics(ResourceGroup resourceGroup)
         {
             AddOperation(new BackgroundOperation<ResourceGroup>

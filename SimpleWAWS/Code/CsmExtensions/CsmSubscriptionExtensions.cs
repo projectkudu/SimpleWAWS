@@ -11,54 +11,36 @@ namespace SimpleWAWS.Code.CsmExtensions
 {
     public static partial class CsmManager
     {
-        public static async Task<IEnumerable<string>> GetSubscriptions()
-        {
-            // Load all subscriptions
-            var csmSubscriptions = await CsmManager.GetSubscriptionNamesToIdMap();
-            return (SimpleSettings.Subscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                .Union(SimpleSettings.JenkinsSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)))
-                //It can be either a displayName or a subscriptionId
-                //For Jenkins it needs to be subscriptionId
-                .Select(s => s.Trim())
-                .Where(n =>
-                {
-                    Guid temp;
-                    return csmSubscriptions.ContainsKey(n) || Guid.TryParse(n, out temp);
-                })
-                .Select(sn =>
-                {
-                    Guid temp;
-                    if (Guid.TryParse(sn, out temp)) return sn;
-                    else return csmSubscriptions[sn];
-                });
+        
+        public static async Task<Subscription> SubscriptionCleanup(this Subscription subscription) {
+            return await Load(subscription, deleteBadResourceGroups: true, cleanupSubscriptionOnly: true);
 
         }
-
-        public static async Task<Subscription> Load(this Subscription subscription, bool deleteBadResourceGroups = true)
+        public static async Task<Subscription> Load(this Subscription subscription, bool deleteBadResourceGroups = true, bool cleanupSubscriptionOnly = false)
         {
             Validate.ValidateCsmSubscription(subscription);
-                //Make sure to register for AppServices RP at least once for each sub
+            //Make sure to register for AppServices RP at least once for each sub
+            if (!cleanupSubscriptionOnly)
+            {
                 await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.WebsitesRegister.Bind(subscription));
                 await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.AppServiceRegister.Bind(subscription));
                 await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.StorageRegister.Bind(subscription));
+            }
 
                 var csmResourceGroups = await subscription.LoadResourceGroupsForSubscription();
-                if (deleteBadResourceGroups)
+                if (deleteBadResourceGroups && !cleanupSubscriptionOnly)
                 {
                     var deleteBadResourceGroupsTasks = csmResourceGroups.value
                         //Some orphaned resourcegroups can have no tags. Okay to clean once in a while since they dont have any sites either
-                        .Where(r => ((r.tags == null && IsSimpleWawsResourceName(r)) 
-                                    || 
-                                        (r.tags != null && ((r.tags.ContainsKey("Bad") 
-                                        || 
-                                        (subscription.Type==SubscriptionType.AppService?!r.tags.ContainsKey("FunctionsContainerDeployed"): !r.tags.ContainsKey(Constants.SubscriptionType)))
-                                    )) 
-                                    && r.properties.provisioningState != "Deleting"))
+                        .Where(r =>   ((r.tags == null && IsSimpleWawsResourceName(r)) 
+                                    || (r.tags != null && ((r.tags.ContainsKey("Bad") ||
+                                       (subscription.Type == SubscriptionType.AppService ? !r.tags.ContainsKey("FunctionsContainerDeployed") : !r.tags.ContainsKey(Constants.SubscriptionType))))) 
+                                    &&  r.properties.provisioningState != "Deleting"))
                         .Select(async r => await Delete(await Load(new ResourceGroup(subscription.SubscriptionId, r.name), r, loadSubResources: false), block: false));
               
                     await deleteBadResourceGroupsTasks.IgnoreFailures().WhenAll();
 
-                csmResourceGroups = await subscription.LoadResourceGroupsForSubscription();
+                    csmResourceGroups = await subscription.LoadResourceGroupsForSubscription();
                 }
                 var csmSubscriptionResourcesReponse = await GetClient(subscription.Type).HttpInvoke(HttpMethod.Get, ArmUriTemplates.SubscriptionResources.Bind(subscription));
 
@@ -76,7 +58,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                                     resource => resource.id.IndexOf(r.id, StringComparison.OrdinalIgnoreCase) != -1)
                     });
 
-                subscription.ResourceGroups = await goodResourceGroups
+                    subscription.ResourceGroups = await goodResourceGroups
                     .Select( async r => await Load(new ResourceGroup(subscription.SubscriptionId, r.ResourceGroup.name),r.ResourceGroup, r.Resources))
                     .IgnoreAndFilterFailures();
 
