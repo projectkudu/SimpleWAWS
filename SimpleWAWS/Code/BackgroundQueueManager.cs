@@ -32,15 +32,15 @@ namespace SimpleWAWS.Code
         {
             if (_maintainResourceGroupTimer == null)
             {
-                _maintainResourceGroupTimer = new Timer(OnMaintainResourceGroupTimerElapsed, null, TimeSpan.FromMinutes(1), TimeSpan.FromMilliseconds(SimpleSettings.MaintainResourceGroupsMinutes * 60 * 1000));
+                _maintainResourceGroupTimer = new Timer(OnMaintainResourceGroupTimerElapsed, null, TimeSpan.FromMinutes(SimpleSettings.MaintainResourceGroupsMinutes), TimeSpan.FromMinutes(SimpleSettings.MaintainResourceGroupsMinutes));
             }
             if (_logQueueStatsTimer == null)
             {
-                _logQueueStatsTimer = new Timer(OnLogQueueStatsTimerElapsed, null, TimeSpan.FromMinutes(1), TimeSpan.FromMilliseconds(SimpleSettings.LoqQueueStatsMinutes * 60 * 1000));
+                _logQueueStatsTimer = new Timer(OnLogQueueStatsTimerElapsed, null, TimeSpan.FromMinutes(SimpleSettings.LoqQueueStatsMinutes), TimeSpan.FromMinutes(SimpleSettings.LoqQueueStatsMinutes));
             }
             if (_cleanupSubscriptionsTimer == null)
             {
-                _cleanupSubscriptionsTimer = new Timer(OnCleanupSubscriptionsTimerElapsed, null, TimeSpan.FromMinutes(1), TimeSpan.FromMilliseconds(SimpleSettings.CleanupSubscriptionMinutes * 60 * 1000));
+                _cleanupSubscriptionsTimer = new Timer(OnCleanupSubscriptionsTimerElapsed, null, TimeSpan.FromMinutes(SimpleSettings.CleanupSubscriptionMinutes), TimeSpan.FromMinutes(SimpleSettings.CleanupSubscriptionMinutes));
             }
         }
 
