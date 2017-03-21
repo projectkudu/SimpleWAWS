@@ -178,7 +178,7 @@ namespace SimpleWAWS.Models
                         ibizaUrl = siteToUseForUi.IbizaUrl;
                         break;
                     case Models.AppService.Logic:
-                        ibizaUrl = LogicApps.First().IbizaUrl;
+                        ibizaUrl = LogicApps.First()?.IbizaUrl;
                         break;
                     case Models.AppService.Function:
                         csmId = Sites.First(s => s.IsFunctionsContainer).CsmId;

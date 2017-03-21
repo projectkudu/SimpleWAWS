@@ -51,7 +51,9 @@ namespace SimpleWAWS.Code
             {
                 Description = $"Loading subscription {subscriptionId}",
                 Type = OperationType.SubscriptionLoad,
-                Task = subscription.Load(),
+                //Moving bad resourcegroup deletion to background thread. No need to wait on this 
+                //during app startup
+                Task = subscription.Load(deleteBadResourceGroups : false),
                 RetryAction = () => LoadSubscription(subscriptionId)
             });
         }
@@ -172,9 +174,9 @@ namespace SimpleWAWS.Code
         {
             try
             {
-                _jobHost.DoWork(() =>
+                _jobHost.DoWork(async () =>
                 {
-                    MaintainResourceGroupLists();
+                    await MaintainResourceGroupLists();
                 });
             }
             catch (Exception e)
@@ -205,9 +207,14 @@ namespace SimpleWAWS.Code
             {
                 _jobHost.DoWork(async () =>
                 {
-                    foreach (var subcription in await CsmManager.GetSubscriptions())
+                    if (!this.BackgroundInternalOperations.Any((a) => a.Value.Type == OperationType.SubscriptionLoad))
                     {
-                        SubscriptionCleanup(new Subscription(subcription));
+                        foreach (var subcription in await CsmManager.GetSubscriptions())
+                        {
+                            {
+                                SubscriptionCleanup(new Subscription(subcription));
+                            }
+                        }
                     }
                 });
             }
@@ -217,14 +224,36 @@ namespace SimpleWAWS.Code
             }
 
         }
-    private void MaintainResourceGroupLists()
+        private async Task MaintainResourceGroupLists()
         {
             var resources = this.ResourceGroupsInUse
                 .Select(e => e.Value)
                 .Where(rg => (int)rg.TimeLeft.TotalSeconds == 0);
 
             foreach (var resource in resources)
+            {
                 DeleteResourceGroup(resource);
+            }
+
+            //Delete any duplicate resourcegroups in same subscription loaded in the same region
+            //or create any missing resourcegroups in a region
+            IList<Tuple<string,MakeSubscriptionFreeTrialResult>> subscriptionStates = new List<Tuple<string, MakeSubscriptionFreeTrialResult>>();
+            foreach (var subscription in await CsmManager.GetSubscriptions())
+            {
+                var trialsubresult = new Subscription(subscription).MakeTrialSubscription();
+                subscriptionStates.Add(new Tuple<string, MakeSubscriptionFreeTrialResult>(subscription, trialsubresult));
+            }
+            foreach (var state in subscriptionStates)
+            {
+                foreach (var georegion in state.Item2.ToCreateInRegions)
+                {
+                    CreateResourceGroupOperation(state.Item1, georegion);
+                }
+                foreach (var georegion in state.Item2.ToDelete)
+                {
+                    DeleteResourceGroupOperation(georegion);
+                }
+            }
 
         }
 

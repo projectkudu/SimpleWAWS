@@ -50,7 +50,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                     await csmSubscriptionResourcesReponse.Content.ReadAsAsync<CsmArrayWrapper<object>>();
 
                 var goodResourceGroups = csmResourceGroups.value
-                    .Where(r => subscription.Type==SubscriptionType.AppService?IsSimpleWaws(r): IsJenkinsResource(r))
+                    .Where(r => subscription.Type == SubscriptionType.AppService?IsSimpleWaws(r) : IsJenkinsResource(r))
                     .Select(r => new
                     {
                         ResourceGroup = r,
