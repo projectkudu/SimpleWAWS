@@ -31,9 +31,9 @@ namespace SimpleWAWS.Code.CsmExtensions
                         //Some orphaned resourcegroups can have no tags. Okay to clean once in a while since they dont have any sites either
                         .Where(r =>   ((r.tags == null && IsSimpleWawsResourceName(r)) 
                                     || (r.tags != null && ((r.tags.ContainsKey("Bad") ||
-                                       (subscription.Type == SubscriptionType.AppService ? !r.tags.ContainsKey("FunctionsContainerDeployed") : !r.tags.ContainsKey(Constants.SubscriptionType)))
+                                       (subscription.Type==SubscriptionType.AppService?!r.tags.ContainsKey("FunctionsContainerDeployed"):!r.tags.ContainsKey(Constants.SubscriptionType)))
                                         )) 
-                                        && r.properties.provisioningState != "Deleting"))
+                                        && r.properties.provisioningState != "Deleting")) 
                         .Select(async r => await Delete(await Load(new ResourceGroup(subscription.SubscriptionId, r.name), r, loadSubResources: false), block: false));
               
                     await deleteBadResourceGroupsTasks.IgnoreFailures().WhenAll();
