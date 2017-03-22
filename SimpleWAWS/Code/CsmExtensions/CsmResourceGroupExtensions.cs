@@ -235,6 +235,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             var region = resourceGroup.GeoRegion;
             var subscriptionId = resourceGroup.SubscriptionId;
             await Delete(resourceGroup, block: blockDelete);
+            //TODO: add a check here to only create resourcegroup if the quota per sub/region is not met.
             return await PutInDesiredState(await CreateResourceGroup(subscriptionId, region));
         }
 
@@ -357,6 +358,22 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             return !string.IsNullOrEmpty(csmResourceGroup.name) &&
                 csmResourceGroup.name.StartsWith(Constants.TryResourceGroupPrefix, StringComparison.OrdinalIgnoreCase) ;
+        }
+
+        private static bool IsSimpleWawsResourceActive(CsmWrapper<CsmResourceGroup> csmResourceGroup)
+        {
+            try
+            {
+                return IsSimpleWawsResourceName(csmResourceGroup) &&
+                    csmResourceGroup.tags.ContainsKey(Constants.UserId)
+                    && csmResourceGroup.tags.ContainsKey(Constants.StartTime)
+                    && csmResourceGroup.tags.ContainsKey(Constants.LifeTimeInMinutes)
+                    && DateTime.UtcNow > DateTime.Parse(csmResourceGroup.tags[Constants.StartTime]).AddMinutes(Int32.Parse(csmResourceGroup.tags[Constants.LifeTimeInMinutes]));
+            }
+            catch {
+                //Assume resoourcegroup is in a bad state.
+                return false;
+            }
         }
 
         private static bool IsJenkinsResource(CsmWrapper<CsmResourceGroup> csmResourceGroup)

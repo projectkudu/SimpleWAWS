@@ -240,7 +240,8 @@ namespace SimpleWAWS.Code
             IList<Tuple<string,MakeSubscriptionFreeTrialResult>> subscriptionStates = new List<Tuple<string, MakeSubscriptionFreeTrialResult>>();
             foreach (var subscription in await CsmManager.GetSubscriptions())
             {
-                var trialsubresult = new Subscription(subscription).MakeTrialSubscription();
+                var sub = await new Subscription(subscription).Load(deleteBadResourceGroups: false);
+                var trialsubresult = sub.MakeTrialSubscription();
                 subscriptionStates.Add(new Tuple<string, MakeSubscriptionFreeTrialResult>(subscription, trialsubresult));
             }
             foreach (var state in subscriptionStates)
@@ -357,7 +358,7 @@ namespace SimpleWAWS.Code
 
         private void AddOperation<T>(BackgroundOperation<T> operation)
         {
-            if (BackgroundInternalOperations.Count > 70)
+            if (BackgroundInternalOperations.Count > SimpleSettings.BackGroundQueueSize)
             {
                 Task.Run(async () =>
                 {

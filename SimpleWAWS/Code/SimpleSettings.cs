@@ -55,6 +55,7 @@ namespace SimpleWAWS.Code
         public static string ZippedRepoUrl { get { return config(); } }
         public static int CleanupSubscriptionMinutes { get { return Int32.Parse(config("77")); } }
         public static int LoqQueueStatsMinutes { get { return Int32.Parse(config("5")); } }
-        public static int MaintainResourceGroupsMinutes { get { return Int32.Parse(config("30")); } }
+        public static int MaintainResourceGroupsMinutes { get { return Int32.Parse(config("31")); } }
+        public static int BackGroundQueueSize{ get { return Int32.Parse(config("50")); } }
     }
 }   

@@ -13,22 +13,19 @@ namespace SimpleWAWS.Code.CsmExtensions
     {
         
         public static async Task<Subscription> SubscriptionCleanup(this Subscription subscription) {
-            return await Load(subscription, deleteBadResourceGroups: true, cleanupSubscriptionOnly: true);
+            return await Load(subscription, deleteBadResourceGroups: true);
 
         }
-        public static async Task<Subscription> Load(this Subscription subscription, bool deleteBadResourceGroups = true, bool cleanupSubscriptionOnly = false)
+        public static async Task<Subscription> Load(this Subscription subscription, bool deleteBadResourceGroups = true)
         {
             Validate.ValidateCsmSubscription(subscription);
-            //Make sure to register for AppServices RP at least once for each sub
-            if (!cleanupSubscriptionOnly)
-            {
+            //Make sure to register for AppServices RP at least once for each 
                 await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.WebsitesRegister.Bind(subscription));
                 await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.AppServiceRegister.Bind(subscription));
                 await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.StorageRegister.Bind(subscription));
-            }
 
                 var csmResourceGroups = await subscription.LoadResourceGroupsForSubscription();
-                if (deleteBadResourceGroups && !cleanupSubscriptionOnly)
+                if (deleteBadResourceGroups)
                 {
                     var deleteBadResourceGroupsTasks = csmResourceGroups.value
                         //Some orphaned resourcegroups can have no tags. Okay to clean once in a while since they dont have any sites either
@@ -64,9 +61,11 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             if (deleteBadResourceGroups)
             {
-                var deleteDuplicateResourceGroupsTasks = goodResourceGroups.Where(p => !subscription.ResourceGroups.Any(p2 => p2.CsmId == p.ResourceGroup.id))
-                    .Select(async r => await Delete(await Load(new ResourceGroup(subscription.SubscriptionId, r.ResourceGroup.name), r.ResourceGroup, loadSubResources: false), block: false));
+                var deleteDuplicateResourceGroupsTasks = csmResourceGroups.value.Where(p => !subscription.ResourceGroups.Any(p2 => p2.CsmId == p.id)
+                    && !IsSimpleWawsResourceActive(p))
+                    .Select(async r => await Delete(await Load(new ResourceGroup(subscription.SubscriptionId, r.name), r, loadSubResources: false), block: false));
                 await deleteDuplicateResourceGroupsTasks.IgnoreFailures().WhenAll();
+
             }
             return subscription;
 
