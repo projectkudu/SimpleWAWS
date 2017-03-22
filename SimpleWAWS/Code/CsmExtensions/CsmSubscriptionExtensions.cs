@@ -33,7 +33,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                                     || (r.tags != null && ((r.tags.ContainsKey("Bad") ||
                                        (subscription.Type==SubscriptionType.AppService?!r.tags.ContainsKey("FunctionsContainerDeployed"):!r.tags.ContainsKey(Constants.SubscriptionType)))
                                         )) 
-                                        && r.properties.provisioningState != "Deleting")) 
+                                    && r.properties.provisioningState != "Deleting")) 
                         .Select(async r => await Delete(await Load(new ResourceGroup(subscription.SubscriptionId, r.name), r, loadSubResources: false), block: false));
               
                     await deleteBadResourceGroupsTasks.IgnoreFailures().WhenAll();
