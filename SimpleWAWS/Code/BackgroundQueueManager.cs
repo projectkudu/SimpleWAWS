@@ -274,7 +274,7 @@ namespace SimpleWAWS.Code
             } 
         }
 
-        private void RemoveFromFreeJenkinsQueue(ResourceGroup resourceGroup)
+        private void RemoveFromFreeAppServiceQueue(ResourceGroup resourceGroup)
         {
             var dequeueCount = this.FreeResourceGroups.Count;
             ResourceGroup temp;
@@ -291,7 +291,7 @@ namespace SimpleWAWS.Code
             }
         }
 
-        private void RemoveFromFreeAppServiceQueue(ResourceGroup resourceGroup)
+        private void RemoveFromFreeJenkinsQueue(ResourceGroup resourceGroup)
         {
             var dequeueCount = this.FreeJenkinsResourceGroups.Count;
             ResourceGroup temp;
