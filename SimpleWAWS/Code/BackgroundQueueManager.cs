@@ -250,12 +250,62 @@ namespace SimpleWAWS.Code
                 {
                     CreateResourceGroupOperation(state.Item1, georegion);
                 }
-                foreach (var georegion in state.Item2.ToDelete)
+                foreach (var resourceGroup in state.Item2.ToDelete)
                 {
-                    DeleteResourceGroupOperation(georegion);
+                    RemoveFromFreeQueue(resourceGroup);
+                    DeleteResourceGroupOperation(resourceGroup);
                 }
             }
+        }
 
+        private void RemoveFromFreeQueue(ResourceGroup resourceGroup)
+        {
+            switch (resourceGroup.SubscriptionType)
+            {
+                case SubscriptionType.AppService:
+                    RemoveFromFreeAppServiceQueue(resourceGroup);
+                    break;
+                case SubscriptionType.Jenkins:
+                    RemoveFromFreeJenkinsQueue(resourceGroup);
+                    break;
+                default:
+                    SimpleTrace.Diagnostics.Warning($"Resourcegroup subscriptiontype cannot be determined {resourceGroup.ResourceGroupName}");
+                    break;
+            } 
+        }
+
+        private void RemoveFromFreeJenkinsQueue(ResourceGroup resourceGroup)
+        {
+            var dequeueCount = this.FreeResourceGroups.Count;
+            ResourceGroup temp;
+            while (dequeueCount-- >= 0 && (this.FreeResourceGroups.TryDequeue(out temp)))
+            {
+                if (string.Equals(temp.ResourceGroupName, resourceGroup.ResourceGroupName, StringComparison.OrdinalIgnoreCase))
+                {
+                    return;
+                }
+                else
+                {
+                    this.FreeResourceGroups.Enqueue(temp);
+                }
+            }
+        }
+
+        private void RemoveFromFreeAppServiceQueue(ResourceGroup resourceGroup)
+        {
+            var dequeueCount = this.FreeJenkinsResourceGroups.Count;
+            ResourceGroup temp;
+            while (dequeueCount-- >= 0 && (this.FreeJenkinsResourceGroups.TryDequeue(out temp)))
+            {
+                if (string.Equals(temp.ResourceGroupName, resourceGroup.ResourceGroupName, StringComparison.OrdinalIgnoreCase))
+                {
+                    return;
+                }
+                else
+                {
+                    this.FreeJenkinsResourceGroups.Enqueue(temp);
+                }
+            }
         }
 
         private void SubscriptionCleanup(Subscription subscription)

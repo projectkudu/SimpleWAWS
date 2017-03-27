@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using SimpleWAWS.Models;
 using SimpleWAWS.Models.CsmModels;
+using SimpleWAWS.Trace;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -370,8 +371,10 @@ namespace SimpleWAWS.Code.CsmExtensions
                     && csmResourceGroup.tags.ContainsKey(Constants.LifeTimeInMinutes)
                     && DateTime.UtcNow > DateTime.Parse(csmResourceGroup.tags[Constants.StartTime]).AddMinutes(Int32.Parse(csmResourceGroup.tags[Constants.LifeTimeInMinutes]));
             }
-            catch {
-                //Assume resoourcegroup is in a bad state.
+            catch (Exception ex)
+            {
+                //Assume resourcegroup is in a bad state.
+                SimpleTrace.Diagnostics.Fatal("ResourceGroup in bad state {@exception}", ex);
                 return false;
             }
         }

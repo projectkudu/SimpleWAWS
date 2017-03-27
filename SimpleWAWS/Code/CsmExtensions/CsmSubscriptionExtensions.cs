@@ -11,10 +11,10 @@ namespace SimpleWAWS.Code.CsmExtensions
 {
     public static partial class CsmManager
     {
-        
-        public static async Task<Subscription> SubscriptionCleanup(this Subscription subscription) {
-            return await Load(subscription, deleteBadResourceGroups: true);
 
+        public static async Task<Subscription> SubscriptionCleanup(this Subscription subscription)
+        {
+            return await Load(subscription, deleteBadResourceGroups: true);
         }
         public static async Task<Subscription> Load(this Subscription subscription, bool deleteBadResourceGroups = true)
         {
