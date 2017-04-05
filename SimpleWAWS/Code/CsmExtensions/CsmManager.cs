@@ -43,7 +43,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 // Load all subscriptions
                 var csmSubscriptions = await CsmManager.GetSubscriptionNamesToIdMap();
                 _subscriptions = (SimpleSettings.Subscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                    .Union(SimpleSettings.JenkinsSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)))
+                    .Concat(SimpleSettings.JenkinsSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)))
                     //It can be either a displayName or a subscriptionId
                     //For Jenkins it needs to be subscriptionId
                     .Select(s => s.Trim())
@@ -197,7 +197,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             await response.EnsureSuccessStatusCodeWithFullError();
 
             var jenkinsSubscriptions = await response.Content.ReadAsAsync<CsmSubscriptionsArray>();
-            return appServiceSubscriptions.value.Union(jenkinsSubscriptions.value).ToDictionary(k => k.displayName, v => v.subscriptionId);
+            return appServiceSubscriptions.value.Concat(jenkinsSubscriptions.value).ToDictionary(k => k.displayName, v => v.subscriptionId);
         }
 
         private static async Task<GraphArrayWrapper<GraphUser>> SearchGraph(RbacUser rbacUser)
