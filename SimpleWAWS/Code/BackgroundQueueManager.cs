@@ -17,11 +17,21 @@ namespace SimpleWAWS.Code
     {
 
         public readonly ConcurrentQueue<ResourceGroup> FreeResourceGroups = new ConcurrentQueue<ResourceGroup>();
+
+        public IEnumerable<ResourceGroup> LoadedResourceGroups
+        {
+            get
+            {
+                return FreeResourceGroups.ToList()
+                       .Concat(FreeJenkinsResourceGroups.ToList())   
+                       .Concat(ResourceGroupsInUse.Where(e => e.Value != null).Select(e => e.Value))
+                       .Concat(ResourceGroupsInProgress.Where(e => e.Value != null).Select(e => e.Value.ResourceGroup)); 
+            }
+        }
         public readonly ConcurrentQueue<ResourceGroup> FreeJenkinsResourceGroups = new ConcurrentQueue<ResourceGroup>();
         public readonly ConcurrentDictionary<string, InProgressOperation> ResourceGroupsInProgress = new ConcurrentDictionary<string, InProgressOperation>();
         public readonly ConcurrentDictionary<string, ResourceGroup> ResourceGroupsInUse = new ConcurrentDictionary<string, ResourceGroup>();
         public readonly ConcurrentDictionary<Guid, BackgroundOperation> BackgroundInternalOperations = new ConcurrentDictionary<Guid, BackgroundOperation>();
-        private Timer _maintainResourceGroupTimer;
         private Timer _logQueueStatsTimer;
         private Timer _cleanupSubscriptionsTimer;
         private readonly JobHost _jobHost = new JobHost();
@@ -30,10 +40,6 @@ namespace SimpleWAWS.Code
 
         public BackgroundQueueManager()
         {
-            if (_maintainResourceGroupTimer == null)
-            {
-                _maintainResourceGroupTimer = new Timer(OnMaintainResourceGroupTimerElapsed, null, TimeSpan.FromMinutes(SimpleSettings.MaintainResourceGroupsMinutes), TimeSpan.FromMinutes(SimpleSettings.MaintainResourceGroupsMinutes));
-            }
             if (_logQueueStatsTimer == null)
             {
                 _logQueueStatsTimer = new Timer(OnLogQueueStatsTimerElapsed, null, TimeSpan.FromMinutes(SimpleSettings.LoqQueueStatsMinutes), TimeSpan.FromMinutes(SimpleSettings.LoqQueueStatsMinutes));
@@ -170,22 +176,6 @@ namespace SimpleWAWS.Code
             }
         }
 
-        private void OnMaintainResourceGroupTimerElapsed(object state)
-        {
-            try
-            {
-                _jobHost.DoWork(async () =>
-                {
-                    await MaintainResourceGroupLists();
-                });
-            }
-            catch (Exception e)
-            {
-                SimpleTrace.Diagnostics.Fatal(e, "MaintainResourceGroupLists error, Count {Count}", Interlocked.Increment(ref _maintainResourceGroupListErrorCount));
-            }
-
-        }
-
         private void OnLogQueueStatsTimerElapsed(object state)
         {
             try
@@ -207,13 +197,43 @@ namespace SimpleWAWS.Code
             {
                 _jobHost.DoWork(async () =>
                 {
-                    if (!this.BackgroundInternalOperations.Any((a) => a.Value.Type == OperationType.SubscriptionLoad))
+                    var resources = this.ResourceGroupsInUse
+                    .Select(e => e.Value)
+                    .Where(rg => (int)rg.TimeLeft.TotalSeconds == 0);
+
+                    foreach (var resource in resources)
                     {
-                        foreach (var subcription in await CsmManager.GetSubscriptions())
+                        DeleteResourceGroup(resource);
+                    }
+
+                    //Delete any duplicate resourcegroups in same subscription loaded in the same region
+                    //or create any missing resourcegroups in a region
+                    IList<Tuple<string, MakeSubscriptionFreeTrialResult>> subscriptionStates = new List<Tuple<string, MakeSubscriptionFreeTrialResult>>();
+                    var susbscriptions = await CsmManager.GetSubscriptions();
+                    foreach (var subscription in susbscriptions)
+                    {
+                        var sub = new Subscription(subscription);
+                        sub.ResourceGroups = LoadedResourceGroups.Where(r => r.SubscriptionId == sub.SubscriptionId);
+                        var trialsubresult = sub.MakeTrialSubscription();
+                        subscriptionStates.Add(new Tuple<string, MakeSubscriptionFreeTrialResult>(subscription, trialsubresult));
+                    }
+                    foreach (var subscriptionState in subscriptionStates)
+                    {
+                        foreach (var georegion in subscriptionState.Item2.ToCreateInRegions)
                         {
-                            {
+                            CreateResourceGroupOperation(subscriptionState.Item1, georegion);
+                        }
+                        foreach (var resourceGroup in subscriptionState.Item2.ToDelete)
+                        {
+                            RemoveFromFreeQueue(resourceGroup);
+                            DeleteResourceGroupOperation(resourceGroup);
+                        }
+                    }
+                    if (this.BackgroundInternalOperations.All(a => a.Value.Type != OperationType.SubscriptionLoad))
+                    {
+                        foreach (var subcription in susbscriptions)
+                        {
                                 SubscriptionCleanup(new Subscription(subcription));
-                            }
                         }
                     }
                 });
@@ -223,39 +243,6 @@ namespace SimpleWAWS.Code
                 SimpleTrace.Diagnostics.Fatal(e, "CleanupSubscriptions error, Count {Count}", Interlocked.Increment(ref _maintainResourceGroupListErrorCount));
             }
 
-        }
-        private async Task MaintainResourceGroupLists()
-        {
-            var resources = this.ResourceGroupsInUse
-                .Select(e => e.Value)
-                .Where(rg => (int)rg.TimeLeft.TotalSeconds == 0);
-
-            foreach (var resource in resources)
-            {
-                DeleteResourceGroup(resource);
-            }
-
-            //Delete any duplicate resourcegroups in same subscription loaded in the same region
-            //or create any missing resourcegroups in a region
-            IList<Tuple<string,MakeSubscriptionFreeTrialResult>> subscriptionStates = new List<Tuple<string, MakeSubscriptionFreeTrialResult>>();
-            foreach (var subscription in await CsmManager.GetSubscriptions())
-            {
-                var sub = await new Subscription(subscription).Load(deleteBadResourceGroups: false);
-                var trialsubresult = sub.MakeTrialSubscription();
-                subscriptionStates.Add(new Tuple<string, MakeSubscriptionFreeTrialResult>(subscription, trialsubresult));
-            }
-            foreach (var state in subscriptionStates)
-            {
-                foreach (var georegion in state.Item2.ToCreateInRegions)
-                {
-                    CreateResourceGroupOperation(state.Item1, georegion);
-                }
-                foreach (var resourceGroup in state.Item2.ToDelete)
-                {
-                    RemoveFromFreeQueue(resourceGroup);
-                    DeleteResourceGroupOperation(resourceGroup);
-                }
-            }
         }
 
         private void RemoveFromFreeQueue(ResourceGroup resourceGroup)
@@ -276,34 +263,42 @@ namespace SimpleWAWS.Code
 
         private void RemoveFromFreeAppServiceQueue(ResourceGroup resourceGroup)
         {
-            var dequeueCount = this.FreeResourceGroups.Count;
-            ResourceGroup temp;
-            while (dequeueCount-- >= 0 && (this.FreeResourceGroups.TryDequeue(out temp)))
+            if (this.FreeResourceGroups.ToList().Any(r => string.Equals(r.CsmId, resourceGroup.CsmId, StringComparison.OrdinalIgnoreCase)))
             {
-                if (string.Equals(temp.ResourceGroupName, resourceGroup.ResourceGroupName, StringComparison.OrdinalIgnoreCase))
+                var dequeueCount = this.FreeResourceGroups.Count;
+                ResourceGroup temp;
+                while (dequeueCount-- >= 0 && (this.FreeResourceGroups.TryDequeue(out temp)))
                 {
-                    return;
-                }
-                else
-                {
-                    this.FreeResourceGroups.Enqueue(temp);
+                    if (string.Equals(temp.ResourceGroupName, resourceGroup.ResourceGroupName,
+                        StringComparison.OrdinalIgnoreCase))
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        this.FreeResourceGroups.Enqueue(temp);
+                    }
                 }
             }
         }
 
         private void RemoveFromFreeJenkinsQueue(ResourceGroup resourceGroup)
         {
-            var dequeueCount = this.FreeJenkinsResourceGroups.Count;
-            ResourceGroup temp;
-            while (dequeueCount-- >= 0 && (this.FreeJenkinsResourceGroups.TryDequeue(out temp)))
+            if (this.FreeJenkinsResourceGroups.ToList().Any(r => string.Equals(r.CsmId, resourceGroup.CsmId, StringComparison.OrdinalIgnoreCase)))
             {
-                if (string.Equals(temp.ResourceGroupName, resourceGroup.ResourceGroupName, StringComparison.OrdinalIgnoreCase))
+                var dequeueCount = this.FreeJenkinsResourceGroups.Count;
+                ResourceGroup temp;
+                while (dequeueCount-- >= 0 && (this.FreeJenkinsResourceGroups.TryDequeue(out temp)))
                 {
-                    return;
-                }
-                else
-                {
-                    this.FreeJenkinsResourceGroups.Enqueue(temp);
+                    if (string.Equals(temp.ResourceGroupName, resourceGroup.ResourceGroupName,
+                        StringComparison.OrdinalIgnoreCase))
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        this.FreeJenkinsResourceGroups.Enqueue(temp);
+                    }
                 }
             }
         }

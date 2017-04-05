@@ -476,6 +476,10 @@ namespace SimpleWAWS.Code
                 DeleteResourceGroup(resourceGroup);
             }
         }
+        public IEnumerable<ResourceGroup> GetAllLoadedResourceGroups()
+        {
+            return _backgroundQueueManager.LoadedResourceGroups;
+        }
 
         public IReadOnlyCollection<ResourceGroup> GetAllFreeResourceGroups()
         {
