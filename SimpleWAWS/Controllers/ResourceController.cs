@@ -76,25 +76,33 @@ namespace SimpleWAWS.Controllers
                 var backgroundOperations = resourceManager.GetAllBackgroundOperations();
                 var freeJenkinsResources = resourceManager.GetAllFreeJenkinsResourceGroups();
                 var inUseJenkinsResources = resourceManager.GetAllInUseResourceGroups().Where(sub => sub.SubscriptionType == SubscriptionType.Jenkins);
+                var freeLinuxResources = resourceManager.GetAllFreeLinuxResourceGroups();
+                var inUseLinuxResources = resourceManager.GetAllInUseResourceGroups().Where(sub => sub.SubscriptionType == SubscriptionType.Linux);
                 var freeSitesList = freeSites as IList<ResourceGroup> ?? freeSites.ToList();
                 var inUseJenkinsResourcesList = inUseJenkinsResources as IList<ResourceGroup> ?? inUseJenkinsResources.ToList();
+                var inUseLinuxResourcesList = inUseLinuxResources as IList<ResourceGroup> ?? inUseLinuxResources.ToList();
+
                 return Request.CreateResponse(HttpStatusCode.OK,
                     new
                     {
                         freeSiteCount = freeSitesList.Count(),
                         freeJenkinsResourceCount = freeJenkinsResources.Count(),
+                        freeLinuxResourceCount = freeLinuxResources.Count(),
                         inUseSitesCount = inUseSitesCount,
                         inUseFunctionsCount = inUseFunctionsCount,
                         inUseWebsitesCount= inUseWebsitesCount,
                         inUseMobileCount= inUseMobileCount,
                         inUseLogicAppCount =inUseLogicAppCount,
                         inUseJenkinsResourceCount = inUseJenkinsResourcesList.Count(),
+                        inUseLinuxResourceCount = inUseLinuxResourcesList.Count(),
                         inProgressSitesCount = inProgress.Count(),
                         backgroundOperationsCount = backgroundOperations.Count(),
                         inUseSites = inUseSitesList,
                         inUseJenkinsResources = inUseJenkinsResourcesList,
+                        inUseLinuxResources = inUseLinuxResourcesList,
                         freeSites = showFreeResources ? freeSitesList : null,
                         freeJenkinsResources = showFreeResources ? freeJenkinsResources : null,
+                        freeLinuxResources = showFreeResources ? freeLinuxResources : null,
                         inProgress = inProgress,
                         backgroundOperations = backgroundOperations
 

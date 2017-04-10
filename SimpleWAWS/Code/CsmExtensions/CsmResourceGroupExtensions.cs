@@ -39,8 +39,6 @@ namespace SimpleWAWS.Code.CsmExtensions
                 resources = (await csmResourceGroupResourcesResponse.Content.ReadAsAsync<CsmArrayWrapper<object>>()).value;
             }
 
-
-
             if (loadSubResources)
             {
                 if (resourceGroup.SubscriptionType == SubscriptionType.AppService)
@@ -50,7 +48,11 @@ namespace SimpleWAWS.Code.CsmExtensions
                                    LoadServerFarms(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/serverFarms", StringComparison.OrdinalIgnoreCase))),
                                    LoadStorageAccounts(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Storage/storageAccounts", StringComparison.OrdinalIgnoreCase))));
                 }
-                else
+                else if (resourceGroup.SubscriptionType == SubscriptionType.Linux)
+                {
+                    await Task.WhenAll(LoadLinuxResources(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/sites", StringComparison.OrdinalIgnoreCase))));
+                }
+                else 
                 {
                     await Task.WhenAll(LoadJenkinsResources(resourceGroup));
                 }
@@ -69,7 +71,6 @@ namespace SimpleWAWS.Code.CsmExtensions
             resourceGroup.Sites = await csmSites.value.Select(async cs => await Load(new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, cs.name, cs.kind), cs)).WhenAll();
             return resourceGroup;
         }
-
 
         //Shallow load
         public static async Task<ResourceGroup> LoadLogicApps(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> logicApps = null)
@@ -99,6 +100,10 @@ namespace SimpleWAWS.Code.CsmExtensions
             return resourceGroup;
         }
 
+        public static async Task<ResourceGroup> LoadLinuxResources(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> sites = null)
+        {
+            return await LoadSites(resourceGroup,sites);
+        }
         //Shallow load
         public static async Task<ResourceGroup> LoadServerFarms(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> serverFarms = null)
         {
@@ -228,6 +233,21 @@ namespace SimpleWAWS.Code.CsmExtensions
 
                 await InitFunctionsContainer(resourceGroup);
             }
+            if (resourceGroup.SubscriptionType == SubscriptionType.Linux)
+            {
+                // If the resourceGroup is assigned, don't mess with it
+                if (!string.IsNullOrEmpty(resourceGroup.UserId)) return resourceGroup;
+
+                var createdSites = new List<Task<Site>>();
+
+                if (!resourceGroup.Sites.Any(s => s.IsSimpleWAWSOriginalSite))
+                {
+                    createdSites.Add(CreateLinuxSite(resourceGroup, SiteNameGenerator.GenerateName));
+                }
+
+                resourceGroup.Sites = resourceGroup.Sites.Concat(await createdSites.WhenAll());
+
+            }
             return resourceGroup;
         }
 
@@ -248,6 +268,9 @@ namespace SimpleWAWS.Code.CsmExtensions
             {
                 case AppService.Jenkins:
                     resourceGroup.Tags[Constants.LifeTimeInMinutes] = ResourceGroup.JenkinsUsageTimeSpan.TotalMinutes.ToString();
+                    break;
+                case AppService.Linux:
+                    resourceGroup.Tags[Constants.LifeTimeInMinutes] = ResourceGroup.LinuxUsageTimeSpan.TotalMinutes.ToString();
                     break;
                 default:
                     resourceGroup.Tags[Constants.LifeTimeInMinutes] = ResourceGroup.DefaultUsageTimeSpan.TotalMinutes.ToString();
@@ -323,6 +346,27 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             return await Load(site, csmSite);
         }
+
+        private static async Task<Site> CreateLinuxSite(ResourceGroup resourceGroup, Func<string> nameGenerator, string siteKind = null)
+        {
+            var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, nameGenerator(), siteKind);
+            var csmTemplateString = string.Empty;
+            var template = TemplatesManager.GetTemplates().FirstOrDefault(t => t.Name == "Linux") as LinuxTemplate;
+
+            using (var reader = new StreamReader(template.CsmTemplateFilePath))
+            {
+                csmTemplateString = await reader.ReadToEndAsync();
+            }
+
+            csmTemplateString = csmTemplateString
+                                .Replace("{{siteName}}", site.SiteName)
+                                .Replace("{{aspName}}", site.SiteName + "-plan")
+                                .Replace("{{vmLocation}}", resourceGroup.GeoRegion);
+            var inProgressOperation = new InProgressOperation(resourceGroup, DeploymentType.CsmDeploy);
+            var response = await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true, subscriptionType: resourceGroup.SubscriptionType);
+            return await Load(site, null);
+        }
+
         private static async Task<Site> CreateFunctionApp(ResourceGroup resourceGroup, Func<string> nameGenerator, string siteKind = null)
         {
             var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, nameGenerator(), siteKind);
@@ -386,6 +430,14 @@ namespace SimpleWAWS.Code.CsmExtensions
                 csmResourceGroup.tags != null && !csmResourceGroup.tags.ContainsKey("Bad") 
                 && csmResourceGroup.tags.ContainsKey(Constants.SubscriptionType)
                 && string.Equals(csmResourceGroup.tags[Constants.SubscriptionType], SubscriptionType.Jenkins.ToString(),StringComparison.OrdinalIgnoreCase);
+        }
+        private static bool IsLinuxResource(CsmWrapper<CsmResourceGroup> csmResourceGroup)
+        {
+            return IsSimpleWawsResourceName(csmResourceGroup) &&
+                csmResourceGroup.properties.provisioningState == "Succeeded" &&
+                csmResourceGroup.tags != null && !csmResourceGroup.tags.ContainsKey("Bad")
+                && csmResourceGroup.tags.ContainsKey(Constants.SubscriptionType)
+                && string.Equals(csmResourceGroup.tags[Constants.SubscriptionType], SubscriptionType.Linux.ToString(), StringComparison.OrdinalIgnoreCase);
         }
 
         private static async Task InitFunctionsContainer(ResourceGroup resourceGroup)

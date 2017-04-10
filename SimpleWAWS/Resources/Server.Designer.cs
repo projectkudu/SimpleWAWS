@@ -214,6 +214,15 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This template will create a Linux WebApp.
+        /// </summary>
+        internal static string Templates_LinuxDescription {
+            get {
+                return ResourceManager.GetString("Templates_LinuxDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This Logic App template will ping a website on a recurring schedule.  You can extend it to take an action depending on the result of the ping..
         /// </summary>
         internal static string Templates_PingSiteDescription {

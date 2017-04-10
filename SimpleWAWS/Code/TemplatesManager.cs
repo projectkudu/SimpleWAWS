@@ -68,6 +68,7 @@ namespace SimpleWAWS.Models
                     CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/PingSite.json"),
                     Description = Resources.Server.Templates_PingSiteDescription
                 });
+                if (File.Exists(HostingEnvironment.MapPath("~/ARMTemplates/JenkinsResource.json")))
                 list.Add(new JenkinsTemplate
                 {
                     Name = "Jenkins CI",
@@ -76,6 +77,15 @@ namespace SimpleWAWS.Models
                     CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/JenkinsResource.json"),
                     Description = Resources.Server.Templates_JenkinsDescription
                 });
+                if (File.Exists(HostingEnvironment.MapPath("~/ARMTemplates/LinuxResource.json")))
+                list.Add(new LinuxTemplate
+                {
+                    Name = "Linux",
+                    SpriteName = "sprite-LinuxAppService LinuxAppService",
+                    AppService = AppService.Linux,
+                    CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/LinuxResource.json"),
+                    Description = Resources.Server.Templates_LinuxDescription
+                });                
                 //Use JObject.Parse to quickly build up the armtemplate object used for LRS
                 _baseARMTemplate = JObject.Parse( File.ReadAllText(HostingEnvironment.MapPath("~/ARMTemplates/BaseARMTemplate.json")));
                 //TODO: Implement a FileSystemWatcher for changes in the directory

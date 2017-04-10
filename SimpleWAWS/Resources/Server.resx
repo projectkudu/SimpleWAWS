@@ -168,6 +168,9 @@
   <data name="Templates_JenkinsDescription" xml:space="preserve">
     <value>This template will create an Azure Jenkins CI</value>
   </data>
+  <data name="Templates_LinuxDescription" xml:space="preserve">
+    <value>This template will create a Linux WebApp</value>
+  </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>This Logic App template will ping a website on a recurring schedule.  You can extend it to take an action depending on the result of the ping.</value>
   </data>

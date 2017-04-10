@@ -10,7 +10,6 @@ namespace SimpleWAWS.Models
     public class ResourceGroup : BaseResource
     {
         private const string _csmIdTemplate = "/subscriptions/{0}/resourceGroups/{1}";
-        private SubscriptionType _subscriptionType = SubscriptionType.AppService;
 
         public override string CsmId
         {
@@ -28,8 +27,10 @@ namespace SimpleWAWS.Models
                     (SimpleSettings.JenkinsSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                         .Contains(SubscriptionId))
                         ? SubscriptionType.Jenkins
-                        : SubscriptionType.AppService;
-
+                        : SimpleSettings.LinuxSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                            .Contains(SubscriptionId)
+                            ? SubscriptionType.Linux
+                            : SubscriptionType.AppService;
             }
         }
 
@@ -51,7 +52,7 @@ namespace SimpleWAWS.Models
         public static readonly TimeSpan DefaultUsageTimeSpan = TimeSpan.FromMinutes(int.Parse(SimpleSettings.SiteExpiryMinutes, CultureInfo.InvariantCulture));
         public static readonly TimeSpan ExtendedUsageTimeSpan = TimeSpan.FromHours(int.Parse(SimpleSettings.ExtendedResourceExpireHours, CultureInfo.InvariantCulture));
         public static readonly TimeSpan JenkinsUsageTimeSpan = TimeSpan.FromMinutes(int.Parse(SimpleSettings.JenkinsExpiryMinutes, CultureInfo.InvariantCulture));
-
+        public static readonly TimeSpan LinuxUsageTimeSpan = TimeSpan.FromMinutes(int.Parse(SimpleSettings.LinuxExpiryMinutes, CultureInfo.InvariantCulture));
         public TimeSpan TimeLeft
         {
             get
@@ -94,6 +95,8 @@ namespace SimpleWAWS.Models
         public IEnumerable<LogicApp> LogicApps { get; set; }
         [JsonIgnore]
         public JenkinsResource JenkinsResources { get; set; }
+        [JsonIgnore]
+        public LinuxResource LinuxResources { get; set; }
 
         [JsonIgnore]
         public IEnumerable<ServerFarm> ServerFarms { get; set; }

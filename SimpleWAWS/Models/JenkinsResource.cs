@@ -39,7 +39,7 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return string.Concat("https://portal.azure.com/", SimpleSettings.TryTenantName, "#resource", CsmId);
+                return string.Concat("https://portal.azure.com/", SimpleSettings.JenkinsTenant, "#resource", CsmId);
             }
         }
     }

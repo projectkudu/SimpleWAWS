@@ -290,6 +290,7 @@
     <Compile Include="Models\CsmModels\CsmArrayWrapper.cs" />
     <Compile Include="Models\CsmModels\CsmDeployment.cs" />
     <Compile Include="Models\CsmModels\CsmJenkinsResource.cs" />
+    <Compile Include="Models\CsmModels\CsmLinuxResource.cs" />
     <Compile Include="Models\CsmModels\CsmLogicApp.cs" />
     <Compile Include="Models\CsmModels\CsmNameValuePair.cs" />
     <Compile Include="Models\CsmModels\CsmResourceGroup.cs" />
@@ -310,6 +311,8 @@
     <Compile Include="Models\Experiment.cs" />
     <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\FunctionTemplate.cs" />
+    <Compile Include="Models\LinuxTemplate.cs" />
+    <Compile Include="Models\LinuxResource.cs" />
     <Compile Include="Models\JenkinsResource.cs" />
     <Compile Include="Models\LogicApp.cs" />
     <Compile Include="Models\JenkinsTemplate.cs" />
@@ -505,6 +508,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="ARMTemplates\BaseARMTemplate.json" />
+    <Content Include="ARMTemplates\LinuxResource.json" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>

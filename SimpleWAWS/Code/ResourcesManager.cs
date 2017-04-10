@@ -95,6 +95,10 @@ namespace SimpleWAWS.Code
                 {
                     resourceGroupFound = _backgroundQueueManager.FreeJenkinsResourceGroups.TryDequeue(out resourceGroup);
                 }
+                else if ((appService == AppService.Linux))
+                {
+                    resourceGroupFound = _backgroundQueueManager.FreeLinuxResourceGroups.TryDequeue(out resourceGroup);
+                }
                 else
                 {
                     resourceGroupFound = _backgroundQueueManager.FreeResourceGroups.TryDequeue(out resourceGroup);
@@ -356,7 +360,7 @@ namespace SimpleWAWS.Code
                     csmTemplateString = await reader.ReadToEndAsync();
                 }
 
-                var hostName = SiteNameGenerator.GenerateJenksinsDnsName();
+                var hostName = SiteNameGenerator.GenerateJenkinsDnsName();
                 csmTemplateString = csmTemplateString
                                     .Replace("{{jenkinsPassword}}", SimpleSettings.JenkinsVMPassword)
                                     .Replace("{{jenkinsDnsNameForPublicIP}}", hostName)
@@ -374,7 +378,30 @@ namespace SimpleWAWS.Code
                 return resourceGroup;
             });
         }
+        public async Task<ResourceGroup> ActivateLinuxResource(LinuxTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
+        {
+            return await ActivateResourceGroup(userIdentity, AppService.Jenkins, DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
+            {
 
+                SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
+                    userIdentity.Name, template, resourceGroup);
+                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}; {6}",
+                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
+                            "Jenkins", template.Name, resourceGroup.ResourceUniqueId, AppService.Linux.ToString(), anonymousUserName);
+                SimpleTrace.UserCreatedApp(userIdentity, template, resourceGroup, AppService.Linux);
+
+
+                // After a deployment, fetch the Ip address. if the vm is up
+                // we should reload it.
+                await resourceGroup.Load();
+                Util.FireAndForget($"https://{resourceGroup.Sites.FirstOrDefault().HostName}.azurewebsites.net");
+                Util.FireAndForget($"https://{resourceGroup.Sites.FirstOrDefault().HostName}.scm.azurewebsites.net");
+
+                var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email);
+                resourceGroup.IsRbacEnabled = await rbacTask;
+                return resourceGroup;
+            });
+        }
         // ARM
         public async Task<ResourceGroup> ActivateFunctionApp(FunctionTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
@@ -489,7 +516,10 @@ namespace SimpleWAWS.Code
         {
             return _backgroundQueueManager.FreeJenkinsResourceGroups.ToList();
         }
-
+        public IReadOnlyCollection<ResourceGroup> GetAllFreeLinuxResourceGroups()
+        {
+            return _backgroundQueueManager.FreeLinuxResourceGroups.ToList();
+        }
         // ARM
         public IReadOnlyCollection<ResourceGroup> GetAllInUseResourceGroups()
         {

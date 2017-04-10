@@ -1,0 +1,61 @@
+{
+  "properties": {
+    "mode": "Incremental",
+    "parameters": {
+      "siteName": {
+        "value": "{{siteName}}"
+      },
+      "aspName": {
+        "value": "{{aspName}}"
+      }
+    },
+    "template": {
+      "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "siteName": { "type": "string" },
+        "aspName": { "type": "string" }
+      },
+      "resources": [
+        {
+          "apiVersion": "2015-05-01",
+          "name": "[parameters('aspName')]",
+          "type": "Microsoft.Web/serverfarms",
+          "location": "[resourceGroup().location]",
+          "tags": null,
+          "properties": {
+            "maximumNumberOfWorkers": 1,
+            "geoRegion": "[resourceGroup().location]",
+            "reserved": true,
+            "planName": "VirtualDedicatedPlan"
+          },
+          "reserved": true,
+          "sku": {
+            "name": "B1",
+            "tier": "Basic",
+            "size": "B1",
+            "family": "B",
+            "capacity": 1
+          }
+        },
+        {
+          "apiVersion": "2015-05-01",
+          "name": "[parameters('siteName')]",
+          "type": "Microsoft.Web/sites",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [ "[parameters('aspName')]" ],
+          "properties": {
+            "serverFarmId": "[parameters('aspName')]",
+            "siteConfig": {
+              "properties": {
+                "numberOfWorkers": "1",
+                "phpVersion": "7.0"
+              }
+            },
+            "maxNumberOfWorkers": "1"
+          }
+        }
+      ]
+    }
+  }
+}
