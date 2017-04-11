@@ -33,7 +33,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                     //Some orphaned resourcegroups can have no tags. Okay to clean once in a while since they dont have any sites either
                     .Where(r =>   ((r.tags == null && IsSimpleWawsResourceName(r)) 
                                 || (r.tags != null && ((r.tags.ContainsKey("Bad") ||
-                                    (subscription.Type==SubscriptionType.AppService?!r.tags.ContainsKey("FunctionsContainerDeployed"):!r.tags.ContainsKey(Constants.SubscriptionType)))
+                                    (subscription.Type==SubscriptionType.AppService ? !r.tags.ContainsKey(Constants.FunctionsContainerDeployed) : !r.tags.ContainsKey(Constants.LinuxAppDeployed)))
                                   )) 
                                 && r.properties.provisioningState != "Deleting"))
                     .Where(p => !resourceManager.GetAllLoadedResourceGroups().Any(p2 => string.Equals(p.id, p2.CsmId, StringComparison.OrdinalIgnoreCase))) 
@@ -51,7 +51,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 await csmSubscriptionResourcesReponse.Content.ReadAsAsync<CsmArrayWrapper<object>>();
 
             var goodResourceGroups = csmResourceGroups.value
-                .Where(r => subscription.Type == SubscriptionType.AppService?IsSimpleWaws(r) : IsJenkinsResource(r))
+                .Where(r => subscription.Type == SubscriptionType.AppService?IsSimpleWaws(r) : IsLinuxResource(r))
                 .Select(r => new
                 {
                     ResourceGroup = r,

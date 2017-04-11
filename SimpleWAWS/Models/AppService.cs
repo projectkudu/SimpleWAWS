@@ -7,7 +7,6 @@
         Api,
         Logic,
         Function,
-        Jenkins,
         Linux
     }
 }

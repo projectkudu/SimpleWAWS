@@ -165,9 +165,6 @@
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
     <value>A mobile dashboard app for a cable company technician, or any other mobile workforce, available for Xamarin Forms. Full sample at &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
   </data>
-  <data name="Templates_JenkinsDescription" xml:space="preserve">
-    <value>This template will create an Azure Jenkins CI</value>
-  </data>
   <data name="Templates_LinuxDescription" xml:space="preserve">
     <value>This template will create a Linux WebApp</value>
   </data>

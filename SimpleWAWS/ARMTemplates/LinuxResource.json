@@ -1,6 +1,6 @@
 {
   "properties": {
-    "mode": "Incremental",
+    "mode": "Complete",
     "parameters": {
       "siteName": {
         "value": "{{siteName}}"
@@ -22,14 +22,12 @@
           "name": "[parameters('aspName')]",
           "type": "Microsoft.Web/serverfarms",
           "location": "[resourceGroup().location]",
-          "tags": null,
           "properties": {
             "maximumNumberOfWorkers": 1,
             "geoRegion": "[resourceGroup().location]",
             "reserved": true,
             "planName": "VirtualDedicatedPlan"
           },
-          "reserved": true,
           "sku": {
             "name": "B1",
             "tier": "Basic",

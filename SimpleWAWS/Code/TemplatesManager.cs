@@ -68,15 +68,6 @@ namespace SimpleWAWS.Models
                     CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/PingSite.json"),
                     Description = Resources.Server.Templates_PingSiteDescription
                 });
-                if (File.Exists(HostingEnvironment.MapPath("~/ARMTemplates/JenkinsResource.json")))
-                list.Add(new JenkinsTemplate
-                {
-                    Name = "Jenkins CI",
-                    SpriteName = "sprite-PingSite PingSite",
-                    AppService = AppService.Jenkins,
-                    CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/JenkinsResource.json"),
-                    Description = Resources.Server.Templates_JenkinsDescription
-                });
                 if (File.Exists(HostingEnvironment.MapPath("~/ARMTemplates/LinuxResource.json")))
                 list.Add(new LinuxTemplate
                 {

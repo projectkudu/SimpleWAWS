@@ -23,14 +23,10 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return
-                    (SimpleSettings.JenkinsSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                        .Contains(SubscriptionId))
-                        ? SubscriptionType.Jenkins
-                        : SimpleSettings.LinuxSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                            .Contains(SubscriptionId)
-                            ? SubscriptionType.Linux
-                            : SubscriptionType.AppService;
+                return SimpleSettings.LinuxSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                       .Contains(SubscriptionId)
+                       ? SubscriptionType.Linux
+                       : SubscriptionType.AppService;
             }
         }
 
@@ -51,7 +47,6 @@ namespace SimpleWAWS.Models
 
         public static readonly TimeSpan DefaultUsageTimeSpan = TimeSpan.FromMinutes(int.Parse(SimpleSettings.SiteExpiryMinutes, CultureInfo.InvariantCulture));
         public static readonly TimeSpan ExtendedUsageTimeSpan = TimeSpan.FromHours(int.Parse(SimpleSettings.ExtendedResourceExpireHours, CultureInfo.InvariantCulture));
-        public static readonly TimeSpan JenkinsUsageTimeSpan = TimeSpan.FromMinutes(int.Parse(SimpleSettings.JenkinsExpiryMinutes, CultureInfo.InvariantCulture));
         public static readonly TimeSpan LinuxUsageTimeSpan = TimeSpan.FromMinutes(int.Parse(SimpleSettings.LinuxExpiryMinutes, CultureInfo.InvariantCulture));
         public TimeSpan TimeLeft
         {
@@ -93,8 +88,7 @@ namespace SimpleWAWS.Models
 
         [JsonIgnore]
         public IEnumerable<LogicApp> LogicApps { get; set; }
-        [JsonIgnore]
-        public JenkinsResource JenkinsResources { get; set; }
+
         [JsonIgnore]
         public LinuxResource LinuxResources { get; set; }
 
@@ -124,21 +118,6 @@ namespace SimpleWAWS.Models
                        bool.TryParse(Tags[Constants.IsExtended], out value) &&
                        value;
             }
-        }
-        public string JenkinsUri
-        {
-            get { return JenkinsUrlPopulated ? Tags[Constants.JenkinsUri] : String.Empty; }
-        }
-        public string JenkinsDnsUri
-        {
-            get
-            {
-                return Tags.ContainsKey(Constants.JenkinsDnsUri) ? Tags[Constants.JenkinsDnsUri] : String.Empty;
-            }
-        }
-        public bool JenkinsUrlPopulated
-        {
-            get { return Tags.ContainsKey(Constants.JenkinsUri); }
         }
 
         public Dictionary<string, string> Tags { get; set; }
@@ -186,8 +165,9 @@ namespace SimpleWAWS.Models
                     case Models.AppService.Function:
                         csmId = Sites.First(s => s.IsFunctionsContainer).CsmId;
                         break;
-                    case Models.AppService.Jenkins:
-                        ibizaUrl = JenkinsResources?.IbizaUrl;
+                    case Models.AppService.Linux:
+                        siteToUseForUi = Sites.First(s => s.IsSimpleWAWSOriginalSite);
+                        ibizaUrl = siteToUseForUi.IbizaUrl;
                         break;
                 }
                 var templateName = Tags.ContainsKey(Constants.TemplateName) ? Tags[Constants.TemplateName] : string.Empty;
@@ -195,21 +175,7 @@ namespace SimpleWAWS.Models
                 {
                     templateName = TemplatesManager.GetTemplates().FirstOrDefault((template) => template.AppService == AppService.Logic)?.Name;
                 }
-                return (siteToUseForUi == null || (AppService == AppService.Jenkins))
-                ? new UIResource
-                {
-                    IbizaUrl = ibizaUrl,
-                    IsRbacEnabled = IsRbacEnabled,
-                    AppService = AppService,
-                    TemplateName = templateName,
-                    IsExtended = IsExtended,
-                    TimeLeftInSeconds = (int)TimeLeft.TotalSeconds,
-                    CsmId = csmId,
-                    Url = JenkinsUri,
-                    JenkinsDnsUrl = JenkinsDnsUri,
-                    JenkinsUrlPopulated = JenkinsUrlPopulated
-                }
-                : new UIResource
+                return new UIResource
                 {
                     Url = siteToUseForUi.Url,
                     MobileWebClient = AppService == Models.AppService.Mobile ? siteToUseForUi.GetMobileUrl(templateName) : null,

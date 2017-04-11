@@ -23,14 +23,12 @@ namespace SimpleWAWS.Code
             get
             {
                 return FreeResourceGroups.ToList()
-                       .Concat(FreeJenkinsResourceGroups.ToList())
                        .Concat(FreeLinuxResourceGroups.ToList())
                        .Concat(ResourceGroupsInUse.Where(e => e.Value != null).Select(e => e.Value))
                        .Concat(ResourceGroupsInProgress.Where(e => e.Value != null).Select(e => e.Value.ResourceGroup)); 
             }
         }
         public readonly ConcurrentQueue<ResourceGroup> FreeLinuxResourceGroups = new ConcurrentQueue<ResourceGroup>();
-        public readonly ConcurrentQueue<ResourceGroup> FreeJenkinsResourceGroups = new ConcurrentQueue<ResourceGroup>();
         public readonly ConcurrentDictionary<string, InProgressOperation> ResourceGroupsInProgress = new ConcurrentDictionary<string, InProgressOperation>();
         public readonly ConcurrentDictionary<string, ResourceGroup> ResourceGroupsInUse = new ConcurrentDictionary<string, ResourceGroup>();
         public readonly ConcurrentDictionary<Guid, BackgroundOperation> BackgroundInternalOperations = new ConcurrentDictionary<Guid, BackgroundOperation>();
@@ -157,13 +155,9 @@ namespace SimpleWAWS.Code
                         {
                             FreeResourceGroups.Enqueue(readyToAddRg);
                         }
-                        else if (readyToAddRg.SubscriptionType == SubscriptionType.Linux)
+                        else
                         {
                             FreeLinuxResourceGroups.Enqueue(readyToAddRg);
-                        }
-                        else 
-                        {
-                            FreeJenkinsResourceGroups.Enqueue(readyToAddRg);
                         }
                     }
                     break;
@@ -215,8 +209,8 @@ namespace SimpleWAWS.Code
                     //Delete any duplicate resourcegroups in same subscription loaded in the same region
                     //or create any missing resourcegroups in a region
                     IList<Tuple<string, MakeSubscriptionFreeTrialResult>> subscriptionStates = new List<Tuple<string, MakeSubscriptionFreeTrialResult>>();
-                    var susbscriptions = await CsmManager.GetSubscriptions();
-                    foreach (var subscription in susbscriptions)
+                    var subscriptions = await CsmManager.GetSubscriptions();
+                    foreach (var subscription in subscriptions)
                     {
                         var sub = new Subscription(subscription);
                         sub.ResourceGroups = LoadedResourceGroups.Where(r => r.SubscriptionId == sub.SubscriptionId);
@@ -225,9 +219,9 @@ namespace SimpleWAWS.Code
                     }
                     foreach (var subscriptionState in subscriptionStates)
                     {
-                        foreach (var georegion in subscriptionState.Item2.ToCreateInRegions)
+                        foreach (var geoRegion in subscriptionState.Item2.ToCreateInRegions)
                         {
-                            CreateResourceGroupOperation(subscriptionState.Item1, georegion);
+                            CreateResourceGroupOperation(subscriptionState.Item1, geoRegion);
                         }
                         foreach (var resourceGroup in subscriptionState.Item2.ToDelete)
                         {
@@ -237,9 +231,9 @@ namespace SimpleWAWS.Code
                     }
                     if (this.BackgroundInternalOperations.All(a => a.Value.Type != OperationType.SubscriptionLoad))
                     {
-                        foreach (var subcription in susbscriptions)
+                        foreach (var subcription in subscriptions)
                         {
-                                SubscriptionCleanup(new Subscription(subcription));
+                            SubscriptionCleanup(new Subscription(subcription));
                         }
                     }
                 });
@@ -257,9 +251,6 @@ namespace SimpleWAWS.Code
             {
                 case SubscriptionType.AppService:
                     RemoveFromFreeAppServiceQueue(resourceGroup);
-                    break;
-                case SubscriptionType.Jenkins:
-                    RemoveFromFreeJenkinsQueue(resourceGroup);
                     break;
                 case SubscriptionType.Linux:
                     RemoveFromFreeLinuxQueue(resourceGroup);
@@ -286,27 +277,6 @@ namespace SimpleWAWS.Code
                     else
                     {
                         this.FreeResourceGroups.Enqueue(temp);
-                    }
-                }
-            }
-        }
-
-        private void RemoveFromFreeJenkinsQueue(ResourceGroup resourceGroup)
-        {
-            if (this.FreeJenkinsResourceGroups.ToList().Any(r => string.Equals(r.CsmId, resourceGroup.CsmId, StringComparison.OrdinalIgnoreCase)))
-            {
-                var dequeueCount = this.FreeJenkinsResourceGroups.Count;
-                ResourceGroup temp;
-                while (dequeueCount-- >= 0 && (this.FreeJenkinsResourceGroups.TryDequeue(out temp)))
-                {
-                    if (string.Equals(temp.ResourceGroupName, resourceGroup.ResourceGroupName,
-                        StringComparison.OrdinalIgnoreCase))
-                    {
-                        return;
-                    }
-                    else
-                    {
-                        this.FreeJenkinsResourceGroups.Enqueue(temp);
                     }
                 }
             }
@@ -377,9 +347,7 @@ namespace SimpleWAWS.Code
             var inUseApiAppCount = resourceGroups.Count(res => res.AppService == AppService.Api);
             var inProgress = ResourceGroupsInProgress.Select(s => s.Value).Count();
             var backgroundOperations = BackgroundInternalOperations.Select(s => s.Value).Count();
-            var freeJenkinsResources = FreeJenkinsResourceGroups.Count(sub => sub.SubscriptionType == SubscriptionType.Jenkins);
-            var inUseJenkinsResources = ResourceGroupsInUse.Select(s => s.Value).Count(sub => sub.SubscriptionType == SubscriptionType.Jenkins);
-            var freeLinuxResources = FreeJenkinsResourceGroups.Count(sub => sub.SubscriptionType == SubscriptionType.Linux);
+            var freeLinuxResources = FreeLinuxResourceGroups.Count(sub => sub.SubscriptionType == SubscriptionType.Linux);
             var inUseLinuxResources = ResourceGroupsInUse.Select(s => s.Value).Count(sub => sub.SubscriptionType == SubscriptionType.Linux);
 
             AppInsights.TelemetryClient.TrackMetric("freeSites", freeSitesCount);
@@ -393,8 +361,6 @@ namespace SimpleWAWS.Code
 
             AppInsights.TelemetryClient.TrackMetric("inProgressOperations", inProgress);
             AppInsights.TelemetryClient.TrackMetric("backgroundOperations", backgroundOperations);
-            AppInsights.TelemetryClient.TrackMetric("freeJenkinsResources", freeJenkinsResources);
-            AppInsights.TelemetryClient.TrackMetric("inUseJenkinsResources", inUseJenkinsResources);
             AppInsights.TelemetryClient.TrackMetric("freeLinuxResources", freeLinuxResources);
             AppInsights.TelemetryClient.TrackMetric("inUseLinuxResources", inUseLinuxResources);
         }

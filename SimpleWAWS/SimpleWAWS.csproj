@@ -289,7 +289,6 @@
     <Compile Include="Models\CsmModels\CsmApiApp.cs" />
     <Compile Include="Models\CsmModels\CsmArrayWrapper.cs" />
     <Compile Include="Models\CsmModels\CsmDeployment.cs" />
-    <Compile Include="Models\CsmModels\CsmJenkinsResource.cs" />
     <Compile Include="Models\CsmModels\CsmLinuxResource.cs" />
     <Compile Include="Models\CsmModels\CsmLogicApp.cs" />
     <Compile Include="Models\CsmModels\CsmNameValuePair.cs" />
@@ -313,9 +312,7 @@
     <Compile Include="Models\FunctionTemplate.cs" />
     <Compile Include="Models\LinuxTemplate.cs" />
     <Compile Include="Models\LinuxResource.cs" />
-    <Compile Include="Models\JenkinsResource.cs" />
     <Compile Include="Models\LogicApp.cs" />
-    <Compile Include="Models\JenkinsTemplate.cs" />
     <Compile Include="Models\LogicTemplate.cs" />
     <Compile Include="Models\MakeSubscriptionFreeTrialResult.cs" />
     <Compile Include="Models\MobileTemplate.cs" />
@@ -503,7 +500,6 @@
     </Content>
     <Content Include="Login.cshtml" />
     <Content Include="Logout.cshtml" />
-    <Content Include="ARMTemplates\JenkinsResource.json" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -552,7 +548,9 @@
     <EmbeddedResource Include="Resources\client.sv-se.resx" />
     <EmbeddedResource Include="Resources\client.tr-tr.resx" />
     <EmbeddedResource Include="Resources\client.zh-cn.resx" />
-    <EmbeddedResource Include="Resources\client.zh-tw.resx" />
+    <EmbeddedResource Include="Resources\client.zh-tw.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Server.cs-cz.resx" />
     <EmbeddedResource Include="Resources\Server.de-de.resx" />
     <EmbeddedResource Include="Resources\Server.en-us.resx" />
@@ -575,7 +573,9 @@
     <EmbeddedResource Include="Resources\Server.sv-se.resx" />
     <EmbeddedResource Include="Resources\Server.tr-tr.resx" />
     <EmbeddedResource Include="Resources\Server.zh-cn.resx" />
-    <EmbeddedResource Include="Resources\Server.zh-tw.resx" />
+    <EmbeddedResource Include="Resources\Server.zh-tw.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

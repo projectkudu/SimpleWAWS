@@ -8,7 +8,6 @@ namespace SimpleWAWS.Models
     public enum SubscriptionType
     {
         AppService,
-        Jenkins,
         Linux
     }
 
@@ -20,14 +19,10 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return
-                    (SimpleSettings.JenkinsSubscriptions.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries)
-                        .Contains(SubscriptionId))
-                        ? SubscriptionType.Jenkins
-                        : SimpleSettings.LinuxSubscriptions.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries)
-                            .Contains(SubscriptionId)
-                            ? SubscriptionType.Linux
-                            : SubscriptionType.AppService;
+                return SimpleSettings.LinuxSubscriptions.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries)
+                       .Contains(SubscriptionId)
+                       ? SubscriptionType.Linux
+                       : SubscriptionType.AppService;
             }
         }
 
@@ -48,8 +43,6 @@ namespace SimpleWAWS.Models
                         return SimpleSettings.GeoRegions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(r => r.Trim());
                     case SubscriptionType.Linux:
                         return SimpleSettings.LinuxGeoRegions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(r => r.Trim());
-                    case SubscriptionType.Jenkins:
-                        return SimpleSettings.JenkinsGeoRegions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(r => r.Trim());
                     default:
                         return null;
                 };
@@ -66,8 +59,6 @@ namespace SimpleWAWS.Models
                         return 1;
                     case SubscriptionType.Linux:
                         return SimpleSettings.LinuxResourceGroupsPerRegion;
-                    case SubscriptionType.Jenkins:
-                        return SimpleSettings.JenkinsResourceGroupsPerRegion;
                     default:
                         return 0;
                 };

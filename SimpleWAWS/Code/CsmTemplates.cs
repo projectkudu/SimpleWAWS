@@ -10,7 +10,6 @@ namespace SimpleWAWS.Code
         private const string newWebsitesApiVersion = "2015-02-01";
         private const string appServiceApiVersion = "2015-03-01-preview";
         private const string logicAppsApiVersion = "2015-02-01-preview";
-        private const string jenkinsResourceApiVersion = "2016-03-30";
         private const string linuxResourceApiVersion = "2015-08-01";
         private const string graphApiVersion = "1.42-previewInternal";
         private const string storageApiVersion = "2015-05-01-preview";
@@ -68,8 +67,6 @@ namespace SimpleWAWS.Code
         public static readonly ArmUriTemplate StorageAccounts = new ArmUriTemplate(ResourceGroup.TemplateUrl+ "/providers/Microsoft.Storage/storageAccounts", storageApiVersion);
         public static readonly ArmUriTemplate StorageAccount = new ArmUriTemplate(StorageAccounts.TemplateUrl + "/{storageAccountName}", storageApiVersion);
         public static readonly ArmUriTemplate StorageListKeys = new ArmUriTemplate(StorageAccount.TemplateUrl + "/listKeys", storageApiVersion);
-
-        public static readonly ArmUriTemplate JenkinsResource = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Network/publicIPAddresses/{jenkinsDnsUri}", jenkinsResourceApiVersion);
 
         public static readonly ArmUriTemplate LinuxResource = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Web/sites/{siteName}", linuxResourceApiVersion);
     }

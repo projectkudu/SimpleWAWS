@@ -10,10 +10,5 @@ namespace SimpleWAWS.Models
             //first 4 parts of a guid
             return string.Format(CultureInfo.InvariantCulture, "{0}-0ee0-4-231-b9ee", Guid.NewGuid().ToString().Substring(0, 8));
         }
-        public static string GenerateJenkinsDnsName()
-        {
-            //first 4 parts of a guid
-            return string.Format(CultureInfo.InvariantCulture, "a{0}-0ee0-4-231-b9ee", Guid.NewGuid().ToString().Substring(0, 7));
-        }
     }
 }

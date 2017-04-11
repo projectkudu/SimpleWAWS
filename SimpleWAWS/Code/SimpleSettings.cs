@@ -40,14 +40,6 @@ namespace SimpleWAWS.Code
         public static string ElasticSearchUri = "http://10.0.0.4:9200";
         public static string FunctionsExtensionVersion { get { return config("latest"); } }
         public static string WebsiteNodeDefautlVersion { get { return config("6.9.4"); } }
-        public static string JenkinsTenant { get { return config(); } }
-        public static string JenkinsServicePrincipal { get { return config(); } }
-        public static string JenkinsServicePrincipalKey { get { return config(); } }
-        public static string JenkinsVMPassword { get { return config(); } }
-        public static string JenkinsExpiryMinutes { get { return config(); } }
-        public static string JenkinsSubscriptions { get { return config(); } }
-        public static string JenkinsGeoRegions { get { return config(); } }
-        public static int JenkinsResourceGroupsPerRegion { get { return Int32.Parse(config()); } }
         public static string AppInsightsInstrumentationKey { get { return config(); } }
 
         public static string GraphUserName { get { return config(); } }
@@ -62,7 +54,7 @@ namespace SimpleWAWS.Code
         public static string LinuxExpiryMinutes { get { return config("30"); } }
         public static string LinuxSubscriptions { get { return config("594c2e22-3815-4a51-aa53-2fe0a3b5c1dc,0d8bca30-4765-42e9-b9c6-4f4278c380b2,18387d60-d7f0-4641-8611-a4c0447d7f85,20fa64d9-5434-4861-bfbc-36512109e1bb,ec284601-1580-4324-92bc-af5dd0af904e"); } }
         public static string LinuxGeoRegions { get { return config("West US,West Europe,Southeast Asia"); } }
-        public static int LinuxResourceGroupsPerRegion { get { return Int32.Parse(config("5")); } }
+        public static int LinuxResourceGroupsPerRegion { get { return Int32.Parse(config("10")); } }
 
     }
 }   
