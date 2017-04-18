@@ -45,7 +45,7 @@ namespace SimpleWAWS.Models
 
         public TimeSpan LifeTime
         {
-            get { return TimeSpan.FromMinutes(int.Parse(Tags[Constants.LifeTimeInMinutes])); }
+            get { return TimeSpan.FromMinutes(int.Parse(Tags.ContainsKey(Constants.UserId) ? Tags[Constants.LifeTimeInMinutes] : "0" )); }
         }
 
         public static readonly TimeSpan DefaultUsageTimeSpan = TimeSpan.FromMinutes(int.Parse(SimpleSettings.SiteExpiryMinutes, CultureInfo.InvariantCulture));
@@ -144,12 +144,19 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return !string.IsNullOrEmpty(ResourceGroupName) && ResourceGroupName.StartsWith(Constants.TryResourceGroupPrefix, StringComparison.InvariantCulture)
+                return IsSimpleWAWSResourceName
                  && Tags != null && !Tags.ContainsKey("Bad")
                 && Tags.ContainsKey("FunctionsContainerDeployed");
             }
         }
-
+        public bool IsSimpleWAWSResourceName
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(ResourceGroupName) && ResourceGroupName.StartsWith(Constants.TryResourceGroupPrefix, StringComparison.InvariantCulture)
+;
+            }
+        }
         public UIResource UIResource
         {
             get
@@ -171,7 +178,7 @@ namespace SimpleWAWS.Models
                         ibizaUrl = siteToUseForUi.IbizaUrl;
                         break;
                     case Models.AppService.Logic:
-                        ibizaUrl = LogicApps.First().IbizaUrl;
+                        ibizaUrl = LogicApps.Any()?LogicApps.First().IbizaUrl : null;
                         break;
                     case Models.AppService.Function:
                         csmId = Sites.First(s => s.IsFunctionsContainer).CsmId;

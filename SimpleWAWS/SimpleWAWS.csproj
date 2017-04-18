@@ -318,11 +318,6 @@
     <Compile Include="Models\MobileTemplate.cs" />
     <Compile Include="Models\RbacUser.cs" />
     <Compile Include="Models\ResourceGroup.cs" />
-    <Compile Include="Resources\Client.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Client.resx</DependentUpon>
-    </Compile>
     <Compile Include="Code\AnalyticsEvents.cs" />
     <Compile Include="Code\AzureSearchHelper.cs" />
     <Compile Include="Code\CsmExtensions\CsmDeploymentExtensions.cs" />
@@ -331,6 +326,7 @@
     <Compile Include="Code\RetryHelper.cs" />
     <Compile Include="Code\SimpleSettings.cs" />
     <Compile Include="Code\UserNameEnricher.cs" />
+    <Compile Include="Resources\Client.Designer.cs" />
     <Compile Include="Resources\Server.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -547,11 +543,7 @@
     <EmbeddedResource Include="Resources\client.pt-br.resx" />
     <EmbeddedResource Include="Resources\client.pt-pt.resx" />
     <EmbeddedResource Include="Resources\client.qps-ploc.resx" />
-    <EmbeddedResource Include="Resources\Client.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <SubType>Designer</SubType>
-      <LastGenOutput>Client1.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Client.resx" />
     <EmbeddedResource Include="Resources\client.ru-ru.resx" />
     <EmbeddedResource Include="Resources\client.sv-se.resx" />
     <EmbeddedResource Include="Resources\client.tr-tr.resx" />

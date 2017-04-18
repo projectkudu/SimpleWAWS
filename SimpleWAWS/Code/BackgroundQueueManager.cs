@@ -17,22 +17,36 @@ namespace SimpleWAWS.Code
     {
 
         public readonly ConcurrentQueue<ResourceGroup> FreeResourceGroups = new ConcurrentQueue<ResourceGroup>();
+
+        public IEnumerable<ResourceGroup> LoadedResourceGroups
+        {
+            get
+            {
+                return FreeResourceGroups.ToList()
+                       .Concat(FreeJenkinsResourceGroups.ToList())   
+                       .Concat(ResourceGroupsInUse.Where(e => e.Value != null).Select(e => e.Value))
+                       .Concat(ResourceGroupsInProgress.Where(e => e.Value != null).Select(e => e.Value.ResourceGroup)); 
+            }
+        }
         public readonly ConcurrentQueue<ResourceGroup> FreeJenkinsResourceGroups = new ConcurrentQueue<ResourceGroup>();
         public readonly ConcurrentDictionary<string, InProgressOperation> ResourceGroupsInProgress = new ConcurrentDictionary<string, InProgressOperation>();
         public readonly ConcurrentDictionary<string, ResourceGroup> ResourceGroupsInUse = new ConcurrentDictionary<string, ResourceGroup>();
         public readonly ConcurrentDictionary<Guid, BackgroundOperation> BackgroundInternalOperations = new ConcurrentDictionary<Guid, BackgroundOperation>();
-        private Timer _timer;
+        private Timer _logQueueStatsTimer;
+        private Timer _cleanupSubscriptionsTimer;
         private readonly JobHost _jobHost = new JobHost();
-        private int _logCounter = 0;
         private static int _maintainResourceGroupListErrorCount = 0;
         private static Random rand = new Random();
 
         public BackgroundQueueManager()
         {
-            if (_timer == null)
+            if (_logQueueStatsTimer == null)
             {
-                _timer = new Timer(OnTimerElapsed);
-                _timer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(60 * 1000));
+                _logQueueStatsTimer = new Timer(OnLogQueueStatsTimerElapsed, null, TimeSpan.FromMinutes(SimpleSettings.LoqQueueStatsMinutes), TimeSpan.FromMinutes(SimpleSettings.LoqQueueStatsMinutes));
+            }
+            if (_cleanupSubscriptionsTimer == null)
+            {
+                _cleanupSubscriptionsTimer = new Timer(OnCleanupSubscriptionsTimerElapsed, null, TimeSpan.FromMinutes(SimpleSettings.CleanupSubscriptionMinutes), TimeSpan.FromMinutes(SimpleSettings.CleanupSubscriptionMinutes));
             }
         }
 
@@ -43,7 +57,9 @@ namespace SimpleWAWS.Code
             {
                 Description = $"Loading subscription {subscriptionId}",
                 Type = OperationType.SubscriptionLoad,
-                Task = subscription.Load(),
+                //Moving bad resourcegroup deletion to background thread. No need to wait on this 
+                //during app startup
+                Task = subscription.Load(deleteBadResourceGroups : false),
                 RetryAction = () => LoadSubscription(subscriptionId)
             });
         }
@@ -68,14 +84,14 @@ namespace SimpleWAWS.Code
                             : s.IsFunctionsContainer);
                     if (site == null) throw new ArgumentNullException(nameof(site));
                     var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-                        var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
-                        
-                        using (var httpContentStream = await zipManager.GetZipFileStreamAsync("LogFiles/http/RawLogs"))
-                        {
-                            await StorageHelper.UploadBlob(resourceGroup.ResourceUniqueId, httpContentStream);
-                        }
-                        await StorageHelper.AddQueueMessage(new { BlobName = resourceGroup.ResourceUniqueId });
-                        SimpleTrace.TraceInformation("{0}; {1}", AnalyticsEvents.SiteIISLogsName, resourceGroup.ResourceUniqueId);
+                    var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
+
+                    using (var httpContentStream = await zipManager.GetZipFileStreamAsync("LogFiles/http/RawLogs"))
+                    {
+                        await StorageHelper.UploadBlob(resourceGroup.ResourceUniqueId, httpContentStream);
+                    }
+                    await StorageHelper.AddQueueMessage(new { BlobName = resourceGroup.ResourceUniqueId });
+                    SimpleTrace.TraceInformation("{0}; {1}", AnalyticsEvents.SiteIISLogsName, resourceGroup.ResourceUniqueId);
                 }
                 catch (Exception e)
                 {
@@ -158,43 +174,145 @@ namespace SimpleWAWS.Code
                 default:
                     break;
             }
-
         }
 
-        private void OnTimerElapsed(object state)
+        private void OnLogQueueStatsTimerElapsed(object state)
         {
             try
             {
                 _jobHost.DoWork(() =>
                 {
-                    MaintainResourceGroupLists();
-                    _logCounter++;
-                    if (_logCounter % 5 == 0)
+                    LogQueueStatistics();
+                });
+            }
+            catch (Exception e)
+            {
+                SimpleTrace.Diagnostics.Fatal(e, "LogQueueStatistics error, Count {Count}", Interlocked.Increment(ref _maintainResourceGroupListErrorCount));
+            }
+        }
+
+        private void OnCleanupSubscriptionsTimerElapsed(object state)
+        {
+            try
+            {
+                _jobHost.DoWork(async () =>
+                {
+                    var resources = this.ResourceGroupsInUse
+                    .Select(e => e.Value)
+                    .Where(rg => (int)rg.TimeLeft.TotalSeconds == 0);
+
+                    foreach (var resource in resources)
                     {
-                        //log only every 5 minutes
-                        LogQueueStatistics();
-                        _logCounter = 0;
+                        DeleteResourceGroup(resource);
+                    }
+
+                    //Delete any duplicate resourcegroups in same subscription loaded in the same region
+                    //or create any missing resourcegroups in a region
+                    IList<Tuple<string, MakeSubscriptionFreeTrialResult>> subscriptionStates = new List<Tuple<string, MakeSubscriptionFreeTrialResult>>();
+                    var susbscriptions = await CsmManager.GetSubscriptions();
+                    foreach (var subscription in susbscriptions)
+                    {
+                        var sub = new Subscription(subscription);
+                        sub.ResourceGroups = LoadedResourceGroups.Where(r => r.SubscriptionId == sub.SubscriptionId);
+                        var trialsubresult = sub.MakeTrialSubscription();
+                        subscriptionStates.Add(new Tuple<string, MakeSubscriptionFreeTrialResult>(subscription, trialsubresult));
+                    }
+                    foreach (var subscriptionState in subscriptionStates)
+                    {
+                        foreach (var georegion in subscriptionState.Item2.ToCreateInRegions)
+                        {
+                            CreateResourceGroupOperation(subscriptionState.Item1, georegion);
+                        }
+                        foreach (var resourceGroup in subscriptionState.Item2.ToDelete)
+                        {
+                            RemoveFromFreeQueue(resourceGroup);
+                            DeleteResourceGroupOperation(resourceGroup);
+                        }
+                    }
+                    if (this.BackgroundInternalOperations.All(a => a.Value.Type != OperationType.SubscriptionLoad))
+                    {
+                        foreach (var subcription in susbscriptions)
+                        {
+                                SubscriptionCleanup(new Subscription(subcription));
+                        }
                     }
                 });
             }
             catch (Exception e)
             {
-                SimpleTrace.Diagnostics.Fatal(e, "MainTainResourceGroupLists error, Count {Count}", Interlocked.Increment(ref _maintainResourceGroupListErrorCount));
+                SimpleTrace.Diagnostics.Fatal(e, "CleanupSubscriptions error, Count {Count}", Interlocked.Increment(ref _maintainResourceGroupListErrorCount));
+            }
+
+        }
+
+        private void RemoveFromFreeQueue(ResourceGroup resourceGroup)
+        {
+            switch (resourceGroup.SubscriptionType)
+            {
+                case SubscriptionType.AppService:
+                    RemoveFromFreeAppServiceQueue(resourceGroup);
+                    break;
+                case SubscriptionType.Jenkins:
+                    RemoveFromFreeJenkinsQueue(resourceGroup);
+                    break;
+                default:
+                    SimpleTrace.Diagnostics.Warning($"Resourcegroup subscriptiontype cannot be determined {resourceGroup.ResourceGroupName}");
+                    break;
+            } 
+        }
+
+        private void RemoveFromFreeAppServiceQueue(ResourceGroup resourceGroup)
+        {
+            if (this.FreeResourceGroups.ToList().Any(r => string.Equals(r.CsmId, resourceGroup.CsmId, StringComparison.OrdinalIgnoreCase)))
+            {
+                var dequeueCount = this.FreeResourceGroups.Count;
+                ResourceGroup temp;
+                while (dequeueCount-- >= 0 && (this.FreeResourceGroups.TryDequeue(out temp)))
+                {
+                    if (string.Equals(temp.ResourceGroupName, resourceGroup.ResourceGroupName,
+                        StringComparison.OrdinalIgnoreCase))
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        this.FreeResourceGroups.Enqueue(temp);
+                    }
+                }
             }
         }
 
-        private void MaintainResourceGroupLists()
+        private void RemoveFromFreeJenkinsQueue(ResourceGroup resourceGroup)
         {
-            var resources = this.ResourceGroupsInUse
-                .Select(e => e.Value)
-                .Where(rg => (int)rg.TimeLeft.TotalSeconds == 0);
-
-            foreach (var resource in resources)
-                DeleteResourceGroup(resource);
-            //TODO:Add a way replenish leaking resourcegroups
-
+            if (this.FreeJenkinsResourceGroups.ToList().Any(r => string.Equals(r.CsmId, resourceGroup.CsmId, StringComparison.OrdinalIgnoreCase)))
+            {
+                var dequeueCount = this.FreeJenkinsResourceGroups.Count;
+                ResourceGroup temp;
+                while (dequeueCount-- >= 0 && (this.FreeJenkinsResourceGroups.TryDequeue(out temp)))
+                {
+                    if (string.Equals(temp.ResourceGroupName, resourceGroup.ResourceGroupName,
+                        StringComparison.OrdinalIgnoreCase))
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        this.FreeJenkinsResourceGroups.Enqueue(temp);
+                    }
+                }
+            }
         }
 
+        private void SubscriptionCleanup(Subscription subscription)
+        {
+            AddOperation(new BackgroundOperation<Subscription>
+            {
+                Description = $"Cleaning subscriptions",
+                Type = OperationType.SubscriptionCleanup,
+                Task = CsmManager.SubscriptionCleanup(subscription),
+                RetryAction = () => SubscriptionCleanup(subscription)
+            });
+        }
         private void LogUsageStatistics(ResourceGroup resourceGroup)
         {
             AddOperation(new BackgroundOperation<ResourceGroup>
@@ -221,14 +339,14 @@ namespace SimpleWAWS.Code
         {
             AppInsights.TelemetryClient.TrackEvent("StartLoggingQueueStats", null);
             var freeSitesCount = FreeResourceGroups.Count(sub => sub.SubscriptionType == SubscriptionType.AppService);
-            var inUseSites      = ResourceGroupsInUse.Select(s => s.Value).Where(sub => sub.SubscriptionType == SubscriptionType.AppService);
+            var inUseSites = ResourceGroupsInUse.Select(s => s.Value).Where(sub => sub.SubscriptionType == SubscriptionType.AppService);
             var resourceGroups = inUseSites as IList<ResourceGroup> ?? inUseSites.ToList();
             var inUseSitesCount = resourceGroups.Count();
-            var inUseFunctionsCount = resourceGroups.Count(res => res.AppService== AppService.Function);
+            var inUseFunctionsCount = resourceGroups.Count(res => res.AppService == AppService.Function);
             var inUseWebsitesCount = resourceGroups.Count(res => res.AppService == AppService.Web);
             var inUseMobileCount = resourceGroups.Count(res => res.AppService == AppService.Mobile);
             var inUseLogicAppCount = resourceGroups.Count(res => res.AppService == AppService.Logic);
-//            var inUseApiAppCount = resourceGroups.Count(res => res.AppService == AppService.Api);
+            var inUseApiAppCount = resourceGroups.Count(res => res.AppService == AppService.Api);
             var inProgress = ResourceGroupsInProgress.Select(s => s.Value).Count();
             var backgroundOperations = BackgroundInternalOperations.Select(s => s.Value).Count();
             var freeJenkinsResources = FreeJenkinsResourceGroups.Count(sub => sub.SubscriptionType == SubscriptionType.Jenkins);
@@ -240,7 +358,7 @@ namespace SimpleWAWS.Code
             AppInsights.TelemetryClient.TrackMetric("inUseWebsitesCount", inUseWebsitesCount);
             AppInsights.TelemetryClient.TrackMetric("inUseMobileCount", inUseMobileCount);
             AppInsights.TelemetryClient.TrackMetric("inUseLogicAppCount", inUseLogicAppCount);
-//            AppInsights.TelemetryClient.TrackMetric("inUseApiAppCount", inUseApiAppCount);
+            AppInsights.TelemetryClient.TrackMetric("inUseApiAppCount", inUseApiAppCount);
             AppInsights.TelemetryClient.TrackMetric("inUseSites", inUseSitesCount);
 
             AppInsights.TelemetryClient.TrackMetric("inProgressOperations", inProgress);
@@ -285,7 +403,7 @@ namespace SimpleWAWS.Code
 
         private void AddOperation<T>(BackgroundOperation<T> operation)
         {
-            if (BackgroundInternalOperations.Count > 70)
+            if (BackgroundInternalOperations.Count > SimpleSettings.BackGroundQueueSize)
             {
                 Task.Run(async () =>
                 {

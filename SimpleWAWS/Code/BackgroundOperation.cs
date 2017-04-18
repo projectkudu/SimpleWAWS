@@ -40,6 +40,7 @@ namespace SimpleWAWS.Code
         ResourceGroupDeleteThenCreate,
         ResourceGroupCreate,
         ResourceGroupPutInDesiredState,
-        LogUsageStatistics
+        LogUsageStatistics,
+        SubscriptionCleanup
     }
 }

@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using SimpleWAWS.Models;
 using SimpleWAWS.Models.CsmModels;
+using SimpleWAWS.Trace;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -235,6 +236,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             var region = resourceGroup.GeoRegion;
             var subscriptionId = resourceGroup.SubscriptionId;
             await Delete(resourceGroup, block: blockDelete);
+            //TODO: add a check here to only create resourcegroup if the quota per sub/region is not met.
             return await PutInDesiredState(await CreateResourceGroup(subscriptionId, region));
         }
 
@@ -348,16 +350,38 @@ namespace SimpleWAWS.Code.CsmExtensions
         }
         private static bool IsSimpleWaws(CsmWrapper<CsmResourceGroup> csmResourceGroup)
         {
-            return !string.IsNullOrEmpty(csmResourceGroup.name) &&
-                csmResourceGroup.name.StartsWith(Constants.TryResourceGroupPrefix, StringComparison.OrdinalIgnoreCase) &&
+            return IsSimpleWawsResourceName(csmResourceGroup) &&
                 csmResourceGroup.properties.provisioningState == "Succeeded" &&
                 csmResourceGroup.tags != null && !csmResourceGroup.tags.ContainsKey("Bad")
                 && csmResourceGroup.tags.ContainsKey("FunctionsContainerDeployed");
         }
-        private static bool IsJenkinsResource(CsmWrapper<CsmResourceGroup> csmResourceGroup)
+        private static bool IsSimpleWawsResourceName(CsmWrapper<CsmResourceGroup> csmResourceGroup)
         {
             return !string.IsNullOrEmpty(csmResourceGroup.name) &&
-                csmResourceGroup.name.StartsWith(Constants.TryResourceGroupPrefix, StringComparison.OrdinalIgnoreCase) &&
+                csmResourceGroup.name.StartsWith(Constants.TryResourceGroupPrefix, StringComparison.OrdinalIgnoreCase) ;
+        }
+
+        private static bool IsSimpleWawsResourceActive(CsmWrapper<CsmResourceGroup> csmResourceGroup)
+        {
+            try
+            {
+                return IsSimpleWawsResourceName(csmResourceGroup) &&
+                    csmResourceGroup.tags.ContainsKey(Constants.UserId)
+                    && csmResourceGroup.tags.ContainsKey(Constants.StartTime)
+                    && csmResourceGroup.tags.ContainsKey(Constants.LifeTimeInMinutes)
+                    && DateTime.UtcNow > DateTime.Parse(csmResourceGroup.tags[Constants.StartTime]).AddMinutes(Int32.Parse(csmResourceGroup.tags[Constants.LifeTimeInMinutes]));
+            }
+            catch (Exception ex)
+            {
+                //Assume resourcegroup is in a bad state.
+                SimpleTrace.Diagnostics.Fatal("ResourceGroup in bad state {@exception}", ex);
+                return false;
+            }
+        }
+
+        private static bool IsJenkinsResource(CsmWrapper<CsmResourceGroup> csmResourceGroup)
+        {
+            return IsSimpleWawsResourceName(csmResourceGroup) &&
                 csmResourceGroup.properties.provisioningState == "Succeeded" &&
                 csmResourceGroup.tags != null && !csmResourceGroup.tags.ContainsKey("Bad") 
                 && csmResourceGroup.tags.ContainsKey(Constants.SubscriptionType)
