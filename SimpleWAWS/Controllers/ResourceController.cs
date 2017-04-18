@@ -163,6 +163,17 @@ namespace SimpleWAWS.Controllers
             {
                 template = FunctionTemplate.DefaultFunctionTemplate(template.Name);
             }
+            else if (template.AppService.Equals(AppService.Linux))
+            {
+                var linuxtemplate = LinuxTemplate.GetLinuxTemplate(template.Name);
+                template = new LinuxTemplate
+                {
+                    AppService = linuxtemplate.AppService,
+                    Name = linuxtemplate.Name,
+                    CsmTemplateFilePath = linuxtemplate.CsmTemplateFilePath,
+                    Description = linuxtemplate.Description
+                };
+            }
             else if (template.Name != null && !template.Name.Equals("Github Repo") && !template.AppService.Equals(AppService.Function))
             {
                 template = TemplatesManager.GetTemplates()
@@ -223,6 +234,14 @@ namespace SimpleWAWS.Controllers
                         resourceGroup = await resourceManager.ActivateFunctionApp(template as FunctionTemplate, identity, anonymousUserName);
                         break;
                     case AppService.Linux:
+                        if (identity.Issuer == "OrgId")
+                        {
+                            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_OrgIdNotSupported);
+                        }
+                        else if (identity.Issuer != "MSA")
+                        {
+                            return SecurityManager.RedirectToAAD(template.CreateQueryString());
+                        }
                         resourceGroup = await resourceManager.ActivateLinuxResource(template as LinuxTemplate, identity, anonymousUserName);
                         break;
                 }

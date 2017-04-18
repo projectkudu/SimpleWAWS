@@ -106,7 +106,29 @@ angular.module("tryApp")
                 }],
                 templates: [],
                 description: Resources.Information_LogicAppDescription
-            }].filter((e) => { // HACK: This is a hack to filter App Type Selection for bdc campaign
+                }, {
+                    name: "Linux",
+                    sprite: "sprite-LinuxApp",
+                    title: "Linux App",
+                    steps: [{
+                        id: 1,
+                        title: Resources.Action_SelectAppType,
+                        sref: "home"
+                    }, {
+                            id: 2,
+                            title: Resources.Information_SelectTemplate,
+                            sref: "home.linuxapp.templates",
+                            nextClass: "wa-button-primary",
+                            nextText: Resources.Action_Create
+                        }, {
+                            id: 3,
+                            title: Resources.Action_GenericWorkWithYourApp,
+                            sref: "home.linuxapp.work",
+                            confirmDelete: true
+                        }],
+                    templates: [],
+                    description: "Linux App"
+                }].filter((e) => { // HACK: This is a hack to filter App Type Selection for bdc campaign
                     if (sv && sv === "bdc") {
                         return e.name === "Web" || e.name === "Mobile";
                     } else {

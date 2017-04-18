@@ -75,8 +75,6 @@ namespace SimpleWAWS.Code
 
         private async Task<ResourceGroup> LogActiveUsageStatistics(ResourceGroup resourceGroup)
         {
-            if (resourceGroup.SubscriptionType == SubscriptionType.AppService)
-            {
                 try
                 {
                     var site = resourceGroup.Sites.FirstOrDefault(s => resourceGroup.SubscriptionType == SubscriptionType.AppService
@@ -100,7 +98,6 @@ namespace SimpleWAWS.Code
                         SimpleTrace.Diagnostics.Error(e, "Error logging active usage numbers");
                     }
                 }
-            }
             return resourceGroup;
         }
 
