@@ -216,19 +216,22 @@ namespace SimpleWAWS.Code.CsmExtensions
 
                 await InitFunctionsContainer(resourceGroup);
             }
-            if (resourceGroup.SubscriptionType == SubscriptionType.Linux)
+            else if (resourceGroup.SubscriptionType == SubscriptionType.Linux)
             {
                 // If the resourceGroup is assigned, don't mess with it
-                if (!string.IsNullOrEmpty(resourceGroup.UserId)) return resourceGroup;
+                if (!string.IsNullOrEmpty(resourceGroup.UserId))
+                {
+                    return resourceGroup;
+                }
 
-                var createdSites = new List<Task<Site>>();
+                var linuxSite = new Task<Site>(null);
 
                 if (!resourceGroup.Sites.Any(s => s.IsSimpleWAWSOriginalSite))
                 {
-                    createdSites.Add(CreateLinuxSite(resourceGroup, SiteNameGenerator.GenerateName));
+                    linuxSite = CreateLinuxSite(resourceGroup, SiteNameGenerator.GenerateName);
                 }
 
-                resourceGroup.Sites = resourceGroup.Sites.Concat(await createdSites.WhenAll());
+                resourceGroup.Sites = resourceGroup.Sites.Concat(await Task.WhenAll(linuxSite));
 
             }
             return resourceGroup;

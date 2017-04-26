@@ -289,7 +289,6 @@
     <Compile Include="Models\CsmModels\CsmApiApp.cs" />
     <Compile Include="Models\CsmModels\CsmArrayWrapper.cs" />
     <Compile Include="Models\CsmModels\CsmDeployment.cs" />
-    <Compile Include="Models\CsmModels\CsmLinuxResource.cs" />
     <Compile Include="Models\CsmModels\CsmLogicApp.cs" />
     <Compile Include="Models\CsmModels\CsmNameValuePair.cs" />
     <Compile Include="Models\CsmModels\CsmResourceGroup.cs" />

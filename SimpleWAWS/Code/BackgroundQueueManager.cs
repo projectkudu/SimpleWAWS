@@ -226,13 +226,7 @@ namespace SimpleWAWS.Code
                             DeleteResourceGroupOperation(resourceGroup);
                         }
                     }
-                    if (this.BackgroundInternalOperations.All(a => a.Value.Type != OperationType.SubscriptionLoad))
-                    {
-                        foreach (var subcription in subscriptions)
-                        {
-                            SubscriptionCleanup(new Subscription(subcription));
-                        }
-                    }
+                    //TODO: Figure out another option for Cleaning up subscriptions
                 });
             }
             catch (Exception e)

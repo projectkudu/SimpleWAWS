@@ -46,7 +46,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 _subscriptions = (SimpleSettings.Subscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                     .Concat(SimpleSettings.LinuxSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)))
                     //It can be either a displayName or a subscriptionId
-                    //For Linuxit needs to be subscriptionId
+                    //For Linux it needs to be subscriptionId
                     .Select(s => s.Trim())
                     .Where(n =>
                     {
