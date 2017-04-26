@@ -71,7 +71,7 @@ namespace SimpleWAWS.Models
                 if (File.Exists(HostingEnvironment.MapPath("~/ARMTemplates/LinuxResource.json")))
                 list.Add(new LinuxTemplate
                 {
-                    Name = "Linux",
+                    Name = "Linux Web App",
                     SpriteName = "sprite-LinuxAppService LinuxAppService",
                     AppService = AppService.Linux,
                     CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/LinuxResource.json"),

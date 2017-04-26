@@ -107,9 +107,9 @@ angular.module("tryApp")
                 templates: [],
                 description: Resources.Information_LogicAppDescription
                 }, {
-                    name: "Linux",
+                    name: "Linux Web App",
                     sprite: "sprite-LinuxApp",
-                    title: "Linux App",
+                    title: "Linux Web App",
                     steps: [{
                         id: 1,
                         title: Resources.Action_SelectAppType,
@@ -127,7 +127,7 @@ angular.module("tryApp")
                             confirmDelete: true
                         }],
                     templates: [],
-                    description: "Linux App"
+                    description: Resources.Information_LinuxAppDescription
                 }].filter((e) => { // HACK: This is a hack to filter App Type Selection for bdc campaign
                     if (sv && sv === "bdc") {
                         return e.name === "Web" || e.name === "Mobile";
