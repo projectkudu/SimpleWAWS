@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Routing;
@@ -46,13 +47,16 @@ namespace SimpleWAWS
                     .CreateLogger();
 
                 SimpleTrace.Analytics = analyticsLogger;
-
+                if (File.Exists(string.Format(SimpleSettings.LogFileLocation,"log")))
+                {
+                    File.Move(string.Format(SimpleSettings.LogFileLocation, "log"), string.Format(SimpleSettings.LogFileLocation, Guid.NewGuid()));
+                }
                 //Diagnostics Logger
                 var diagnosticsLogger = new LoggerConfiguration()
                     .MinimumLevel.Verbose()
                     .Enrich.With(new ExperimentEnricher())
                     .Enrich.With(new UserNameEnricher())
-                    .WriteTo.File(@"D:\home\site\log.log")
+                    .WriteTo.File(string.Format(SimpleSettings.LogFileLocation, "log"))
                     .WriteTo.ApplicationInsightsTraces(AppInsights.TelemetryClient)
                     .WriteTo.Logger(lc => lc
                         .Filter.ByIncludingOnly(Matching.WithProperty<int>("Count", p => p % 10 == 0))
