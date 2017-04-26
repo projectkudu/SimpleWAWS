@@ -54,7 +54,6 @@ namespace SimpleWAWS.Code
         public static string LinuxSubscriptions { get { return config(); } }
         public static string LinuxGeoRegions { get { return config("West US,Southeast Asia"); } }
         public static int LinuxResourceGroupsPerRegion { get { return Int32.Parse(config("1")); } }
-        public static string LogFileLocation {get { return config(@"D:\home\site\{0}.log"); } }
         }
 
 }
