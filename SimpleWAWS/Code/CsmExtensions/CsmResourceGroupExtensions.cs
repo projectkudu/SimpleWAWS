@@ -224,14 +224,10 @@ namespace SimpleWAWS.Code.CsmExtensions
                     return resourceGroup;
                 }
 
-                var linuxSite = new Task<Site>(null);
-
                 if (!resourceGroup.Sites.Any(s => s.IsSimpleWAWSOriginalSite))
                 {
-                    linuxSite = CreateLinuxSite(resourceGroup, SiteNameGenerator.GenerateName);
+                        resourceGroup.Sites = new List<Site> {(await CreateLinuxSite(resourceGroup, SiteNameGenerator.GenerateName))};
                 }
-
-                resourceGroup.Sites = resourceGroup.Sites.Concat(await Task.WhenAll(linuxSite));
 
             }
             return resourceGroup;

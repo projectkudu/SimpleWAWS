@@ -501,7 +501,7 @@
   <data name="TryFunctions" xml:space="preserve">
     <value>Try Functions</value>
   </data>
-  <data name="Information_LinuxAppDescription" xml:space="preserve">
+  <data name="Information_LinuxWebAppDescription" xml:space="preserve">
     <value>Azure Linux Web Apps enable developers to easily deploy and scale enterprise grade linux web applications written in a variety of languages and integrated with a multitude of services without ever worrying about infrastructure management.</value>
   </data>
 </root>

@@ -72,7 +72,7 @@ namespace SimpleWAWS.Models
                 list.Add(new LinuxTemplate
                 {
                     Name = "Linux Web App",
-                    SpriteName = "sprite-LinuxAppService LinuxAppService",
+                    SpriteName = "sprite-LinuxWebApp LinuxWebApp",
                     AppService = AppService.Linux,
                     CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/LinuxResource.json"),
                     Description = Resources.Server.Templates_LinuxDescription

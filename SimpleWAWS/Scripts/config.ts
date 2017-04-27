@@ -53,14 +53,14 @@ angular.module("tryApp")
             templateUrl: "/templates/work.cshtml",
         }];
 
-        var linuxApps: ng.ui.IState[] = [{
-            name: "home.linuxapp",
+        var linuxWebApps: ng.ui.IState[] = [{
+            name: "home.linuxwebapp",
             templateUrl: "templates/empty-shell.cshtml",
         }, {
-                name: "home.linuxapp.templates",
+                name: "home.linuxwebapp.templates",
                 templateUrl: "/templates/templates.cshtml",
             }, {
-                name: "home.linuxapp.work",
+                name: "home.linuxwebapp.work",
                 templateUrl: "/templates/work.cshtml",
             }];
 
@@ -69,7 +69,7 @@ angular.module("tryApp")
         mobileApps.forEach(s => $stateProvider.state(s));
         apiApps.forEach(s => $stateProvider.state(s));
         logicApps.forEach(s => $stateProvider.state(s));
-        linuxApps.forEach(s => $stateProvider.state(s));
+        linuxWebApps.forEach(s => $stateProvider.state(s));
         $locationProvider.html5Mode(true);
 
     }])

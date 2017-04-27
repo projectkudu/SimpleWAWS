@@ -107,8 +107,8 @@ angular.module("tryApp")
                 templates: [],
                 description: Resources.Information_LogicAppDescription
                 }, {
-                    name: "Linux Web App",
-                    sprite: "sprite-LinuxApp",
+                    name: "Linux",
+                    sprite: "sprite-LinuxWebApp",
                     title: "Linux Web App",
                     steps: [{
                         id: 1,
@@ -117,13 +117,13 @@ angular.module("tryApp")
                     }, {
                             id: 2,
                             title: Resources.Information_SelectTemplate,
-                            sref: "home.linuxapp.templates",
+                            sref: "home.linuxwebapp.templates",
                             nextClass: "wa-button-primary",
                             nextText: Resources.Action_Create
                         }, {
                             id: 3,
                             title: Resources.Action_GenericWorkWithYourApp,
-                            sref: "home.linuxapp.work",
+                            sref: "home.linuxwebapp.work",
                             confirmDelete: true
                         }],
                     templates: [],

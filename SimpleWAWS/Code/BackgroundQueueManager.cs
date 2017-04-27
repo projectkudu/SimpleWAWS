@@ -57,9 +57,7 @@ namespace SimpleWAWS.Code
             {
                 Description = $"Loading subscription {subscriptionId}",
                 Type = OperationType.SubscriptionLoad,
-                //Moving bad resourcegroup deletion to background thread. No need to wait on this 
-                //during app startup
-                Task = subscription.Load(deleteBadResourceGroups : false),
+                Task = subscription.Load(deleteBadResourceGroups : true),
                 RetryAction = () => LoadSubscription(subscriptionId)
             });
         }
