@@ -54,7 +54,8 @@ namespace SimpleWAWS.Code
         public static string LinuxSubscriptions { get { return config(); } }
         public static string LinuxGeoRegions { get { return config("West US,Southeast Asia"); } }
         public static int LinuxResourceGroupsPerRegion { get { return Int32.Parse(config("1")); } }
-        }
+        public static string WEBSITE_SLOT_NAME { get { return config(); } }
+    }
 
 }
    

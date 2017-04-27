@@ -30,5 +30,6 @@
         public const string DefaultServerFarmName = "Default1";
         public const string SubscriptionType = "SubscriptionType";
         public const string LinuxAppDeployed = "LinuxAppDeployed";
+        public const string NextSlotName = "next";
     }
 }
