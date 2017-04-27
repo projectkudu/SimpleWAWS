@@ -82,11 +82,14 @@ namespace SimpleWAWS.Authentication
             {
                 var authHeader = context.Request.Headers["Authorization"];
                 var token = string.Empty;
-                    if (authHeader != null &&  authHeader.IndexOf(AuthConstants.BearerHeader, StringComparison.OrdinalIgnoreCase) > -1)
+                if (authHeader != null &&
+                    authHeader.IndexOf(AuthConstants.BearerHeader, StringComparison.OrdinalIgnoreCase) > -1)
                     token = authHeader.Substring(AuthConstants.BearerHeader.Length).Trim();
 
                 var loginSessionCookie =
-                    Uri.UnescapeDataString(string.IsNullOrEmpty(token) ? context.Request.Cookies[AuthConstants.LoginSessionCookie].Value:token)
+                    Uri.UnescapeDataString(string.IsNullOrEmpty(token)
+                        ? context.Request.Cookies[AuthConstants.LoginSessionCookie].Value
+                        : token)
                         .Decrypt(AuthConstants.EncryptionReason);
                 var splited = loginSessionCookie.Split(';');
                 if (splited.Length == 2)
@@ -109,7 +112,7 @@ namespace SimpleWAWS.Authentication
                         var issuer = splited[2];
                         context.User = new TryWebsitesPrincipal(new TryWebsitesIdentity(email, puid, issuer));
                         return true;
-                    } 
+                    }
                 }
                 else
                 {
@@ -119,6 +122,10 @@ namespace SimpleWAWS.Authentication
             catch (NullReferenceException)
             {
                 // we need to authenticate
+            }
+            catch (FormatException)
+            {
+                // Swallow and authenticate. This has been noisy lately,with a bulk of them coming from a single bad session
             }
             catch (Exception e)
             {
