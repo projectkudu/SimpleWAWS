@@ -23,12 +23,12 @@ namespace SimpleWAWS.Code
             get
             {
                 return FreeResourceGroups.ToList()
-                       .Concat(FreeJenkinsResourceGroups.ToList())   
+                       .Concat(FreeLinuxResourceGroups.ToList())
                        .Concat(ResourceGroupsInUse.Where(e => e.Value != null).Select(e => e.Value))
                        .Concat(ResourceGroupsInProgress.Where(e => e.Value != null).Select(e => e.Value.ResourceGroup)); 
             }
         }
-        public readonly ConcurrentQueue<ResourceGroup> FreeJenkinsResourceGroups = new ConcurrentQueue<ResourceGroup>();
+        public readonly ConcurrentQueue<ResourceGroup> FreeLinuxResourceGroups = new ConcurrentQueue<ResourceGroup>();
         public readonly ConcurrentDictionary<string, InProgressOperation> ResourceGroupsInProgress = new ConcurrentDictionary<string, InProgressOperation>();
         public readonly ConcurrentDictionary<string, ResourceGroup> ResourceGroupsInUse = new ConcurrentDictionary<string, ResourceGroup>();
         public readonly ConcurrentDictionary<Guid, BackgroundOperation> BackgroundInternalOperations = new ConcurrentDictionary<Guid, BackgroundOperation>();
@@ -57,9 +57,7 @@ namespace SimpleWAWS.Code
             {
                 Description = $"Loading subscription {subscriptionId}",
                 Type = OperationType.SubscriptionLoad,
-                //Moving bad resourcegroup deletion to background thread. No need to wait on this 
-                //during app startup
-                Task = subscription.Load(deleteBadResourceGroups : false),
+                Task = subscription.Load(deleteBadResourceGroups : true),
                 RetryAction = () => LoadSubscription(subscriptionId)
             });
         }
@@ -75,8 +73,6 @@ namespace SimpleWAWS.Code
 
         private async Task<ResourceGroup> LogActiveUsageStatistics(ResourceGroup resourceGroup)
         {
-            if (resourceGroup.SubscriptionType == SubscriptionType.AppService)
-            {
                 try
                 {
                     var site = resourceGroup.Sites.FirstOrDefault(s => resourceGroup.SubscriptionType == SubscriptionType.AppService
@@ -100,7 +96,6 @@ namespace SimpleWAWS.Code
                         SimpleTrace.Diagnostics.Error(e, "Error logging active usage numbers");
                     }
                 }
-            }
             return resourceGroup;
         }
 
@@ -157,7 +152,7 @@ namespace SimpleWAWS.Code
                         }
                         else
                         {
-                            FreeJenkinsResourceGroups.Enqueue(readyToAddRg);
+                            FreeLinuxResourceGroups.Enqueue(readyToAddRg);
                         }
                     }
                     break;
@@ -209,8 +204,8 @@ namespace SimpleWAWS.Code
                     //Delete any duplicate resourcegroups in same subscription loaded in the same region
                     //or create any missing resourcegroups in a region
                     IList<Tuple<string, MakeSubscriptionFreeTrialResult>> subscriptionStates = new List<Tuple<string, MakeSubscriptionFreeTrialResult>>();
-                    var susbscriptions = await CsmManager.GetSubscriptions();
-                    foreach (var subscription in susbscriptions)
+                    var subscriptions = await CsmManager.GetSubscriptions();
+                    foreach (var subscription in subscriptions)
                     {
                         var sub = new Subscription(subscription);
                         sub.ResourceGroups = LoadedResourceGroups.Where(r => r.SubscriptionId == sub.SubscriptionId);
@@ -219,9 +214,9 @@ namespace SimpleWAWS.Code
                     }
                     foreach (var subscriptionState in subscriptionStates)
                     {
-                        foreach (var georegion in subscriptionState.Item2.ToCreateInRegions)
+                        foreach (var geoRegion in subscriptionState.Item2.ToCreateInRegions)
                         {
-                            CreateResourceGroupOperation(subscriptionState.Item1, georegion);
+                            CreateResourceGroupOperation(subscriptionState.Item1, geoRegion);
                         }
                         foreach (var resourceGroup in subscriptionState.Item2.ToDelete)
                         {
@@ -229,13 +224,7 @@ namespace SimpleWAWS.Code
                             DeleteResourceGroupOperation(resourceGroup);
                         }
                     }
-                    if (this.BackgroundInternalOperations.All(a => a.Value.Type != OperationType.SubscriptionLoad))
-                    {
-                        foreach (var subcription in susbscriptions)
-                        {
-                                SubscriptionCleanup(new Subscription(subcription));
-                        }
-                    }
+                    //TODO: Figure out another option for Cleaning up subscriptions
                 });
             }
             catch (Exception e)
@@ -252,8 +241,8 @@ namespace SimpleWAWS.Code
                 case SubscriptionType.AppService:
                     RemoveFromFreeAppServiceQueue(resourceGroup);
                     break;
-                case SubscriptionType.Jenkins:
-                    RemoveFromFreeJenkinsQueue(resourceGroup);
+                case SubscriptionType.Linux:
+                    RemoveFromFreeLinuxQueue(resourceGroup);
                     break;
                 default:
                     SimpleTrace.Diagnostics.Warning($"Resourcegroup subscriptiontype cannot be determined {resourceGroup.ResourceGroupName}");
@@ -281,14 +270,13 @@ namespace SimpleWAWS.Code
                 }
             }
         }
-
-        private void RemoveFromFreeJenkinsQueue(ResourceGroup resourceGroup)
+        private void RemoveFromFreeLinuxQueue(ResourceGroup resourceGroup)
         {
-            if (this.FreeJenkinsResourceGroups.ToList().Any(r => string.Equals(r.CsmId, resourceGroup.CsmId, StringComparison.OrdinalIgnoreCase)))
+            if (this.FreeLinuxResourceGroups.ToList().Any(r => string.Equals(r.CsmId, resourceGroup.CsmId, StringComparison.OrdinalIgnoreCase)))
             {
-                var dequeueCount = this.FreeJenkinsResourceGroups.Count;
+                var dequeueCount = this.FreeLinuxResourceGroups.Count;
                 ResourceGroup temp;
-                while (dequeueCount-- >= 0 && (this.FreeJenkinsResourceGroups.TryDequeue(out temp)))
+                while (dequeueCount-- >= 0 && (this.FreeLinuxResourceGroups.TryDequeue(out temp)))
                 {
                     if (string.Equals(temp.ResourceGroupName, resourceGroup.ResourceGroupName,
                         StringComparison.OrdinalIgnoreCase))
@@ -297,12 +285,11 @@ namespace SimpleWAWS.Code
                     }
                     else
                     {
-                        this.FreeJenkinsResourceGroups.Enqueue(temp);
+                        this.FreeLinuxResourceGroups.Enqueue(temp);
                     }
                 }
             }
         }
-
         private void SubscriptionCleanup(Subscription subscription)
         {
             AddOperation(new BackgroundOperation<Subscription>
@@ -349,8 +336,8 @@ namespace SimpleWAWS.Code
             var inUseApiAppCount = resourceGroups.Count(res => res.AppService == AppService.Api);
             var inProgress = ResourceGroupsInProgress.Select(s => s.Value).Count();
             var backgroundOperations = BackgroundInternalOperations.Select(s => s.Value).Count();
-            var freeJenkinsResources = FreeJenkinsResourceGroups.Count(sub => sub.SubscriptionType == SubscriptionType.Jenkins);
-            var inUseJenkinsResources = ResourceGroupsInUse.Select(s => s.Value).Count(sub => sub.SubscriptionType == SubscriptionType.Jenkins);
+            var freeLinuxResources = FreeLinuxResourceGroups.Count(sub => sub.SubscriptionType == SubscriptionType.Linux);
+            var inUseLinuxResources = ResourceGroupsInUse.Select(s => s.Value).Count(sub => sub.SubscriptionType == SubscriptionType.Linux);
 
             AppInsights.TelemetryClient.TrackMetric("freeSites", freeSitesCount);
             AppInsights.TelemetryClient.TrackMetric("inUseSites", inUseSitesCount);
@@ -363,9 +350,8 @@ namespace SimpleWAWS.Code
 
             AppInsights.TelemetryClient.TrackMetric("inProgressOperations", inProgress);
             AppInsights.TelemetryClient.TrackMetric("backgroundOperations", backgroundOperations);
-            AppInsights.TelemetryClient.TrackMetric("freeJenkinsResources", freeJenkinsResources);
-            AppInsights.TelemetryClient.TrackMetric("inUseJenkinsResources", inUseJenkinsResources);
-
+            AppInsights.TelemetryClient.TrackMetric("freeLinuxResources", freeLinuxResources);
+            AppInsights.TelemetryClient.TrackMetric("inUseLinuxResources", inUseLinuxResources);
         }
 
         private void DeleteResourceGroupOperation(ResourceGroup resourceGroup)

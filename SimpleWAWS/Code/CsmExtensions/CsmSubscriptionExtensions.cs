@@ -33,7 +33,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                     //Some orphaned resourcegroups can have no tags. Okay to clean once in a while since they dont have any sites either
                     .Where(r =>   ((r.tags == null && IsSimpleWawsResourceName(r)) 
                                 || (r.tags != null && ((r.tags.ContainsKey("Bad") ||
-                                    (subscription.Type==SubscriptionType.AppService?!r.tags.ContainsKey("FunctionsContainerDeployed"):!r.tags.ContainsKey(Constants.SubscriptionType)))
+                                    (subscription.Type==SubscriptionType.AppService ? !r.tags.ContainsKey(Constants.FunctionsContainerDeployed) : !r.tags.ContainsKey(Constants.LinuxAppDeployed)))
                                   )) 
                                 && r.properties.provisioningState != "Deleting"))
                     .Where(p => !resourceManager.GetAllLoadedResourceGroups().Any(p2 => string.Equals(p.id, p2.CsmId, StringComparison.OrdinalIgnoreCase))) 
@@ -51,7 +51,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 await csmSubscriptionResourcesReponse.Content.ReadAsAsync<CsmArrayWrapper<object>>();
 
             var goodResourceGroups = csmResourceGroups.value
-                .Where(r => subscription.Type == SubscriptionType.AppService?IsSimpleWaws(r) : IsJenkinsResource(r))
+                .Where(r => subscription.Type == SubscriptionType.AppService?IsSimpleWaws(r) : IsLinuxResource(r))
                 .Select(r => new
                 {
                     ResourceGroup = r,
@@ -74,7 +74,6 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             }
             return subscription;
-
         }
 
         private static  async Task<CsmArrayWrapper<CsmResourceGroup>> LoadResourceGroupsForSubscription(this Subscription subscription)
@@ -88,16 +87,13 @@ namespace SimpleWAWS.Code.CsmExtensions
         public static MakeSubscriptionFreeTrialResult MakeTrialSubscription(this Subscription subscription)
         {
             var result = new MakeSubscriptionFreeTrialResult();
-            var geoRegions = subscription.Type==SubscriptionType.AppService?
-                             SimpleSettings.GeoRegions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(r => r.Trim())
-                            :SimpleSettings.JenkinsGeoRegions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(r => r.Trim());
 
-            result.ToCreateInRegions = geoRegions
+            result.ToCreateInRegions = subscription.GeoRegions
                 .Where(g => !subscription.ResourceGroups
                            .Any(rg => rg.ResourceGroupName.StartsWith(string.Format(CultureInfo.InvariantCulture, "{0}_{1}", Constants.TryResourceGroupPrefix, g.Replace(" ", Constants.TryResourceGroupSeparator)), StringComparison.OrdinalIgnoreCase)))
                            .Concat(subscription.ResourceGroups
                                     .GroupBy(s => s.GeoRegion)
-                                    .Select(g => new { Region = g.Key, ResourceGroups = g.Select(r => r), RemainingCount = (subscription.Type == SubscriptionType.AppService ? 1 : SimpleSettings.JenkinsResourceGroupsPerRegion) - g.Count() })
+                                    .Select(g => new { Region = g.Key, ResourceGroups = g.Select(r => r), RemainingCount = (subscription.ResourceGroupsPerGeoRegion) - g.Count() })
                                     .Where(g => g.RemainingCount > 0)
                                     .Select(g => Enumerable.Repeat(g.Region,g.RemainingCount))
                                     .Select(i => i)
@@ -107,8 +103,8 @@ namespace SimpleWAWS.Code.CsmExtensions
             result.ToDelete = subscription.ResourceGroups
                 .GroupBy(s => s.GeoRegion)
                 .Select(g => new { Region = g.Key, ResourceGroups = g.Select(r => r), Count = g.Count() })
-                .Where(g => g.Count > (subscription.Type==SubscriptionType.AppService? 1: SimpleSettings.JenkinsResourceGroupsPerRegion))
-                .Select(g => g.ResourceGroups.Where(rg => string.IsNullOrEmpty(rg.UserId)).Skip((subscription.Type == SubscriptionType.AppService ? 1 : SimpleSettings.JenkinsResourceGroupsPerRegion)))
+                .Where(g => g.Count > subscription.ResourceGroupsPerGeoRegion)
+                .Select(g => g.ResourceGroups.Where(rg => string.IsNullOrEmpty(rg.UserId)).Skip((subscription.ResourceGroupsPerGeoRegion)))
                 .SelectMany(i => i);
 
             result.Ready = subscription.ResourceGroups.Where(rg => !result.ToDelete.Any(drg => drg.ResourceGroupName == rg.ResourceGroupName));

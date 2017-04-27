@@ -40,21 +40,21 @@ namespace SimpleWAWS.Code
         public static string ElasticSearchUri = "http://10.0.0.4:9200";
         public static string FunctionsExtensionVersion { get { return config("latest"); } }
         public static string WebsiteNodeDefautlVersion { get { return config("6.9.4"); } }
-        public static string JenkinsTenant { get { return config(); } }
-        public static string JenkinsServicePrincipal { get { return config(); } }
-        public static string JenkinsServicePrincipalKey { get { return config(); } }
-        public static string JenkinsVMPassword { get { return config(); } }
-        public static string JenkinsExpiryMinutes { get { return config(); } }
-        public static string JenkinsSubscriptions { get { return config(); } }
-        public static string JenkinsGeoRegions { get { return config(); } }
-        public static int JenkinsResourceGroupsPerRegion { get { return Int32.Parse(config()); } }
         public static string AppInsightsInstrumentationKey { get { return config(); } }
-
         public static string GraphUserName { get { return config(); } }
         public static string GraphPassword { get { return config(); } }
         public static string ZippedRepoUrl { get { return config(); } }
-        public static int CleanupSubscriptionMinutes { get { return Int32.Parse(config("63")); } }
+        public static int CleanupSubscriptionMinutes { get { return Int32.Parse(config("10")); } }
         public static int LoqQueueStatsMinutes { get { return Int32.Parse(config("5")); } }
         public static int BackGroundQueueSize{ get { return Int32.Parse(config("50")); } }
-    }
-}   
+        public static string LinuxTenant { get { return config(TryTenantId); } }
+        public static string LinuxServicePrincipal { get { return config(TryUserName); } }
+        public static string LinuxServicePrincipalKey { get { return config(TryPassword); } }
+        public static string LinuxExpiryMinutes { get { return config("30"); } }
+        public static string LinuxSubscriptions { get { return config(); } }
+        public static string LinuxGeoRegions { get { return config("West US,Southeast Asia"); } }
+        public static int LinuxResourceGroupsPerRegion { get { return Int32.Parse(config("1")); } }
+        }
+
+}
+   

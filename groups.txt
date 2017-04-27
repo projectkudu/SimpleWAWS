@@ -1,0 +1,680 @@
+
+GROUP INFORMATION
+-----------------
+
+Group Name                                                    Type             SID                                                Attributes                                                     
+============================================================= ================ ================================================== ===============================================================
+Everyone                                                      Well-known group S-1-1-0                                            Mandatory group, Enabled by default, Enabled group             
+BUILTIN\Administrators                                        Alias            S-1-5-32-544                                       Group used for deny only                                       
+BUILTIN\Hyper-V Administrators                                Alias            S-1-5-32-578                                       Mandatory group, Enabled by default, Enabled group             
+BUILTIN\Performance Log Users                                 Alias            S-1-5-32-559                                       Mandatory group, Enabled by default, Enabled group             
+BUILTIN\Users                                                 Alias            S-1-5-32-545                                       Mandatory group, Enabled by default, Enabled group             
+NT AUTHORITY\INTERACTIVE                                      Well-known group S-1-5-4                                            Mandatory group, Enabled by default, Enabled group             
+CONSOLE LOGON                                                 Well-known group S-1-2-1                                            Mandatory group, Enabled by default, Enabled group             
+NT AUTHORITY\Authenticated Users                              Well-known group S-1-5-11                                           Mandatory group, Enabled by default, Enabled group             
+NT AUTHORITY\This Organization                                Well-known group S-1-5-15                                           Mandatory group, Enabled by default, Enabled group             
+LOCAL                                                         Well-known group S-1-2-0                                            Mandatory group, Enabled by default, Enabled group             
+REDMOND\RCG-DE-READER-12841                                   Group            S-1-5-21-2127521184-1604012920-1887927527-8085685  Mandatory group, Enabled by default, Enabled group             
+REDMOND\RCG-Read Only-CG-14441                                Group            S-1-5-21-2127521184-1604012920-1887927527-9762032  Mandatory group, Enabled by default, Enabled group             
+REDMOND\RCG-SSADED-15438                                      Group            S-1-5-21-2127521184-1604012920-1887927527-10463113 Mandatory group, Enabled by default, Enabled group             
+REDMOND\RCG-WAUTIL-RO-12676                                   Group            S-1-5-21-2127521184-1604012920-1887927527-8014991  Mandatory group, Enabled by default, Enabled group             
+REDMOND\FTEredmond                                            Group            S-1-5-21-2127521184-1604012920-1887927527-211604   Mandatory group, Enabled by default, Enabled group             
+REDMOND\RCG-ANTARESCG-16818                                   Group            S-1-5-21-2127521184-1604012920-1887927527-11818469 Mandatory group, Enabled by default, Enabled group             
+REDMOND\RCG-SSTA-15096                                        Group            S-1-5-21-2127521184-1604012920-1887927527-10135901 Mandatory group, Enabled by default, Enabled group             
+REDMOND\Redmond_ras_smartcard                                 Group            S-1-5-21-2127521184-1604012920-1887927527-2411099  Mandatory group, Enabled by default, Enabled group             
+REDMOND\RCG-RRAS-19368                                        Group            S-1-5-21-2127521184-1604012920-1887927527-14490167 Mandatory group, Enabled by default, Enabled group             
+REDMOND\RCG-DELA-R-14645                                      Group            S-1-5-21-2127521184-1604012920-1887927527-9888972  Mandatory group, Enabled by default, Enabled group             
+REDMOND\Msit-vsmartcard-logon                                 Group            S-1-5-21-2127521184-1604012920-1887927527-8599054  Mandatory group, Enabled by default, Enabled group             
+REDMOND\Department 15058                                      Group            S-1-5-21-2127521184-1604012920-1887927527-550535   Mandatory group, Enabled by default, Enabled group             
+REDMOND\RCG-Read Write-CG-14779                               Group            S-1-5-21-2127521184-1604012920-1887927527-10022112 Mandatory group, Enabled by default, Enabled group             
+REDMOND\RCG-Read Only-CG-18604                                Group            S-1-5-21-2127521184-1604012920-1887927527-13872851 Mandatory group, Enabled by default, Enabled group             
+REDMOND\FTEredmond10                                          Group            S-1-5-21-2127521184-1604012920-1887927527-15218758 Mandatory group, Enabled by default, Enabled group             
+REDMOND\CMEDSL_AZUREBUILDS_MOD                                Group            S-1-5-21-2127521184-1604012920-1887927527-9828180  Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-MICROSOFTONLINE-GBOSS-PPP-READ                Group            S-1-5-21-2127521184-1604012920-1887927527-23373628 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-COMMERCIAL-OFFICE-READ                        Group            S-1-5-21-2127521184-1604012920-1887927527-23324383 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-CUSTOMERSERVICE-CSSRETAIL-READ                Group            S-1-5-21-2127521184-1604012920-1887927527-23373497 Mandatory group, Enabled by default, Enabled group             
+REDMOND\scottgu_org_fte                                       Group            S-1-5-21-2127521184-1604012920-1887927527-7869310  Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-COMMERCIAL-IDENTITYTHREATMGMT-READ            Group            S-1-5-21-2127521184-1604012920-1887927527-23340499 Mandatory group, Enabled by default, Enabled group             
+REDMOND\BAPIOrgEng                                            Group            S-1-5-21-2127521184-1604012920-1887927527-19973772 Mandatory group, Enabled by default, Enabled group             
+REDMOND\WINBLUE-RAZACL                                        Group            S-1-5-21-2127521184-1604012920-1887927527-10039124 Mandatory group, Enabled by default, Enabled group             
+REDMOND\FS_PKIPUBLIC_RW                                       Group            S-1-5-21-2127521184-1604012920-1887927527-8738107  Mandatory group, Enabled by default, Enabled group             
+REDMOND\PCWSRReadOnly                                         Group            S-1-5-21-2127521184-1604012920-1887927527-15198067 Mandatory group, Enabled by default, Enabled group             
+REDMOND\prodevp360                                            Group            S-1-5-21-2127521184-1604012920-1887927527-24781523 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-CUSTOMERSERVICE-CSSMPSD-READ                  Group            S-1-5-21-2127521184-1604012920-1887927527-23373499 Mandatory group, Enabled by default, Enabled group             
+REDMOND\OMSSharepoint                                         Group            S-1-5-21-2127521184-1604012920-1887927527-21200837 Mandatory group, Enabled by default, Enabled group             
+REDMOND\cefteww                                               Group            S-1-5-21-2127521184-1604012920-1887927527-12454316 Mandatory group, Enabled by default, Enabled group             
+REDMOND\osguni_rw                                             Group            S-1-5-21-2127521184-1604012920-1887927527-16131804 Mandatory group, Enabled by default, Enabled group             
+REDMOND\AzurePbMReaders                                       Group            S-1-5-21-2127521184-1604012920-1887927527-18177743 Mandatory group, Enabled by default, Enabled group             
+REDMOND\VsTelCertDev                                          Group            S-1-5-21-2127521184-1604012920-1887927527-21161799 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-REVOLUTION-R-ENTERPRISE-READ                  Group            S-1-5-21-2127521184-1604012920-1887927527-23373630 Mandatory group, Enabled by default, Enabled group             
+REDMOND\functionschallenge                                    Group            S-1-5-21-2127521184-1604012920-1887927527-24344280 Mandatory group, Enabled by default, Enabled group             
+REDMOND\EliteMembers4                                         Group            S-1-5-21-2127521184-1604012920-1887927527-15166830 Mandatory group, Enabled by default, Enabled group             
+REDMOND\GenevaUsageAnalytics                                  Group            S-1-5-21-2127521184-1604012920-1887927527-20975834 Mandatory group, Enabled by default, Enabled group             
+REDMOND\FS_RED-FSU_MSENG_RW                                   Group            S-1-5-21-2127521184-1604012920-1887927527-13935887 Mandatory group, Enabled by default, Enabled group             
+REDMOND\balam_org_fte                                         Group            S-1-5-21-2127521184-1604012920-1887927527-14584707 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PADOGFOOD                                             Group            S-1-5-21-2127521184-1604012920-1887927527-18203940 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-CUSTOMERSERVICE-CSSMSCOM-READ                 Group            S-1-5-21-2127521184-1604012920-1887927527-23373495 Mandatory group, Enabled by default, Enabled group             
+REDMOND\CONSUMER TOOLS SUPPORT DESK SECURITY GROUP            Group            S-1-5-21-2127521184-1604012920-1887927527-8707897  Mandatory group, Enabled by default, Enabled group             
+REDMOND\ANTARES KUSTO READERS                                 Group            S-1-5-21-2127521184-1604012920-1887927527-22234993 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-DEVELOPER-READ                                Group            S-1-5-21-2127521184-1604012920-1887927527-23373633 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-COMMERCIAL-AZURE-READ                         Group            S-1-5-21-2127521184-1604012920-1887927527-23324334 Mandatory group, Enabled by default, Enabled group             
+REDMOND\AppPlatLensExpUsers                                   Group            S-1-5-21-2127521184-1604012920-1887927527-16413250 Mandatory group, Enabled by default, Enabled group             
+REDMOND\msbombay                                              Group            S-1-5-21-2127521184-1604012920-1887927527-599206   Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-DYNAMICSPARATURE-READ                         Group            S-1-5-21-2127521184-1604012920-1887927527-23544442 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-COMMERCIAL-DATAPLATFORM(SQL)-READ             Group            S-1-5-21-2127521184-1604012920-1887927527-23324447 Mandatory group, Enabled by default, Enabled group             
+REDMOND\antr-aesreader                                        Group            S-1-5-21-2127521184-1604012920-1887927527-25960813 Mandatory group, Enabled by default, Enabled group             
+REDMOND\VSTF_AI-SUP_READERS                                   Group            S-1-5-21-2127521184-1604012920-1887927527-17827473 Mandatory group, Enabled by default, Enabled group             
+REDMOND\MIPOWERBIUSERS                                        Group            S-1-5-21-2127521184-1604012920-1887927527-19257099 Mandatory group, Enabled by default, Enabled group             
+REDMOND\AIPGUsers                                             Group            S-1-5-21-2127521184-1604012920-1887927527-10119432 Mandatory group, Enabled by default, Enabled group             
+REDMOND\msit-intune-users                                     Group            S-1-5-21-2127521184-1604012920-1887927527-14127239 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-COMMERCIAL-EXCHANGE-OUTLOOK-READ              Group            S-1-5-21-2127521184-1604012920-1887927527-23324450 Mandatory group, Enabled by default, Enabled group             
+REDMOND\CEG_ORG_FTE_REDMOND                                   Group            S-1-5-21-2127521184-1604012920-1887927527-13564859 Mandatory group, Enabled by default, Enabled group             
+REDMOND\NT_SIGN                                               Group            S-1-5-21-2127521184-1604012920-1887927527-388472   Mandatory group, Enabled by default, Enabled group             
+REDMOND\MODWEBREADONLY                                        Group            S-1-5-21-2127521184-1604012920-1887927527-15663843 Mandatory group, Enabled by default, Enabled group             
+REDMOND\OEM_DATA                                              Group            S-1-5-21-2127521184-1604012920-1887927527-3081500  Mandatory group, Enabled by default, Enabled group             
+REDMOND\iosEliteMembers                                       Group            S-1-5-21-2127521184-1604012920-1887927527-18644078 Mandatory group, Enabled by default, Enabled group             
+REDMOND\FS_ONRAMP_R                                           Group            S-1-5-21-2127521184-1604012920-1887927527-9388633  Mandatory group, Enabled by default, Enabled group             
+REDMOND\servicefabrictalk                                     Group            S-1-5-21-2127521184-1604012920-1887927527-20718268 Mandatory group, Enabled by default, Enabled group             
+REDMOND\AIUsers                                               Group            S-1-5-21-2127521184-1604012920-1887927527-8106163  Mandatory group, Enabled by default, Enabled group             
+REDMOND\NGT_REPORTING_READERS001                              Group            S-1-5-21-2127521184-1604012920-1887927527-18550285 Mandatory group, Enabled by default, Enabled group             
+REDMOND\antaressupportadmins                                  Group            S-1-5-21-2127521184-1604012920-1887927527-20866768 Mandatory group, Enabled by default, Enabled group             
+REDMOND\KASMDSPRODRO                                          Group            S-1-5-21-2127521184-1604012920-1887927527-15593369 Mandatory group, Enabled by default, Enabled group             
+REDMOND\CEMSITESTAKEHOLDER001                                 Group            S-1-5-21-2127521184-1604012920-1887927527-10253589 Mandatory group, Enabled by default, Enabled group             
+REDMOND\Forest Wide Domain Users_CORP                         Group            S-1-5-21-2127521184-1604012920-1887927527-4933277  Mandatory group, Enabled by default, Enabled group             
+REDMOND\ANTARESDIAGNOSTICS                                    Group            S-1-5-21-2127521184-1604012920-1887927527-21233333 Mandatory group, Enabled by default, Enabled group             
+REDMOND\cycfte                                                Group            S-1-5-21-2127521184-1604012920-1887927527-9948670  Mandatory group, Enabled by default, Enabled group             
+REDMOND\dcinforeaders                                         Group            S-1-5-21-2127521184-1604012920-1887927527-21947954 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-AZURE-COMMERCE-READ                           Group            S-1-5-21-2127521184-1604012920-1887927527-23544353 Mandatory group, Enabled by default, Enabled group             
+REDMOND\FS_RED-FSU_ESBDPUBRPTS_R                              Group            S-1-5-21-2127521184-1604012920-1887927527-16832920 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-CUSTOMERSERVICE-CSSMAST-READ                  Group            S-1-5-21-2127521184-1604012920-1887927527-23356397 Mandatory group, Enabled by default, Enabled group             
+REDMOND\VSOEngRptUsers                                        Group            S-1-5-21-2127521184-1604012920-1887927527-13419062 Mandatory group, Enabled by default, Enabled group             
+REDMOND\Corp Users                                            Group            S-1-5-21-2127521184-1604012920-1887927527-1421044  Mandatory group, Enabled by default, Enabled group             
+REDMOND\acomcontrib                                           Group            S-1-5-21-2127521184-1604012920-1887927527-26023180 Mandatory group, Enabled by default, Enabled group             
+REDMOND\antr-lp-admin                                         Group            S-1-5-21-2127521184-1604012920-1887927527-24164469 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-COMMERCIAL-O365-OFFICE-READ                   Group            S-1-5-21-2127521184-1604012920-1887927527-23399402 Mandatory group, Enabled by default, Enabled group             
+REDMOND\MSODS_PHX_DW_RO                                       Group            S-1-5-21-2127521184-1604012920-1887927527-8947276  Mandatory group, Enabled by default, Enabled group             
+REDMOND\LENSEXPLORER-REPORTS21-SEARCHER                       Group            S-1-5-21-2127521184-1604012920-1887927527-16769880 Mandatory group, Enabled by default, Enabled group             
+REDMOND\ISRMRPTOPEN                                           Group            S-1-5-21-2127521184-1604012920-1887927527-13104022 Mandatory group, Enabled by default, Enabled group             
+REDMOND\DOMINO DISTRIBUTED CACHE READERS                      Group            S-1-5-21-2127521184-1604012920-1887927527-14761941 Mandatory group, Enabled by default, Enabled group             
+REDMOND\bapiorgfteps                                          Group            S-1-5-21-2127521184-1604012920-1887927527-19973774 Mandatory group, Enabled by default, Enabled group             
+REDMOND\NGODBSC                                               Group            S-1-5-21-2127521184-1604012920-1887927527-17886663 Mandatory group, Enabled by default, Enabled group             
+REDMOND\MSElitePilot                                          Group            S-1-5-21-2127521184-1604012920-1887927527-20754852 Mandatory group, Enabled by default, Enabled group             
+REDMOND\sreoireaders                                          Group            S-1-5-21-2127521184-1604012920-1887927527-18420005 Mandatory group, Enabled by default, Enabled group             
+REDMOND\casdynreaders                                         Group            S-1-5-21-2127521184-1604012920-1887927527-20074220 Mandatory group, Enabled by default, Enabled group             
+REDMOND\b360users                                             Group            S-1-5-21-2127521184-1604012920-1887927527-23205078 Mandatory group, Enabled by default, Enabled group             
+REDMOND\CE_RW                                                 Group            S-1-5-21-2127521184-1604012920-1887927527-15185259 Mandatory group, Enabled by default, Enabled group             
+REDMOND\LENSEXPLORER-REPORTS21-DASHBOARDADMIN                 Group            S-1-5-21-2127521184-1604012920-1887927527-16769879 Mandatory group, Enabled by default, Enabled group             
+REDMOND\msskurdr                                              Group            S-1-5-21-2127521184-1604012920-1887927527-21375712 Mandatory group, Enabled by default, Enabled group             
+REDMOND\OFFICE2016USERS3                                      Group            S-1-5-21-2127521184-1604012920-1887927527-22006987 Mandatory group, Enabled by default, Enabled group             
+REDMOND\OFFICEOLK_SUPTICKETFEATURE                            Group            S-1-5-21-2127521184-1604012920-1887927527-21503632 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-COMMERCIAL-O365-DITAR-READ                    Group            S-1-5-21-2127521184-1604012920-1887927527-23399318 Mandatory group, Enabled by default, Enabled group             
+REDMOND\BAPIAppPlatFTE                                        Group            S-1-5-21-2127521184-1604012920-1887927527-19973686 Mandatory group, Enabled by default, Enabled group             
+REDMOND\VS CAMPAIGN INFO ACCESS                               Group            S-1-5-21-2127521184-1604012920-1887927527-22342081 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-CUSTOMERSERVICE-CSSSERVICES-READ              Group            S-1-5-21-2127521184-1604012920-1887927527-23356403 Mandatory group, Enabled by default, Enabled group             
+REDMOND\ANTARES LOCKBOX OPERATORS                             Group            S-1-5-21-2127521184-1604012920-1887927527-9489769  Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-PREMIER SCREENING SUPPORT-READ                Group            S-1-5-21-2127521184-1604012920-1887927527-25976361 Mandatory group, Enabled by default, Enabled group             
+REDMOND\WW SAB REPORTING                                      Group            S-1-5-21-2127521184-1604012920-1887927527-13974174 Mandatory group, Enabled by default, Enabled group             
+REDMOND\BAPIAppPlatEng                                        Group            S-1-5-21-2127521184-1604012920-1887927527-19973687 Mandatory group, Enabled by default, Enabled group             
+REDMOND\OSG-RAZACL                                            Group            S-1-5-21-2127521184-1604012920-1887927527-14352704 Mandatory group, Enabled by default, Enabled group             
+REDMOND\cpuse4                                                Group            S-1-5-21-2127521184-1604012920-1887927527-3665415  Mandatory group, Enabled by default, Enabled group             
+REDMOND\ELITE_TARGET1_USERS                                   Group            S-1-5-21-2127521184-1604012920-1887927527-15241616 Mandatory group, Enabled by default, Enabled group             
+REDMOND\RDFE MDS READ ONLY                                    Group            S-1-5-21-2127521184-1604012920-1887927527-15605510 Mandatory group, Enabled by default, Enabled group             
+REDMOND\MSITNGODBUser20                                       Group            S-1-5-21-2127521184-1604012920-1887927527-18629679 Mandatory group, Enabled by default, Enabled group             
+REDMOND\AppPlatWeb                                            Group            S-1-5-21-2127521184-1604012920-1887927527-14553410 Mandatory group, Enabled by default, Enabled group             
+REDMOND\mbd2read                                              Group            S-1-5-21-2127521184-1604012920-1887927527-12069678 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-REVOLUTION-R-ENTERPRISE-AUTH                  Group            S-1-5-21-2127521184-1604012920-1887927527-23373631 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-MISC-READ                                     Group            S-1-5-21-2127521184-1604012920-1887927527-23544466 Mandatory group, Enabled by default, Enabled group             
+REDMOND\ESIT BI All Microsoft Users                           Group            S-1-5-21-2127521184-1604012920-1887927527-8084865  Mandatory group, Enabled by default, Enabled group             
+REDMOND\WP_Sign                                               Group            S-1-5-21-2127521184-1604012920-1887927527-8170216  Mandatory group, Enabled by default, Enabled group             
+REDMOND\CMR_DB_ALL_MICROSOFT                                  Group            S-1-5-21-2127521184-1604012920-1887927527-23652482 Mandatory group, Enabled by default, Enabled group             
+REDMOND\AppPlatRed                                            Group            S-1-5-21-2127521184-1604012920-1887927527-14553392 Mandatory group, Enabled by default, Enabled group             
+REDMOND\ISRM-SPExt-Visitors                                   Group            S-1-5-21-2127521184-1604012920-1887927527-14779672 Mandatory group, Enabled by default, Enabled group             
+REDMOND\CLP PARTNERS BUILD ACCESS                             Group            S-1-5-21-2127521184-1604012920-1887927527-18996935 Mandatory group, Enabled by default, Enabled group             
+REDMOND\AppPlatFTE                                            Group            S-1-5-21-2127521184-1604012920-1887927527-14553347 Mandatory group, Enabled by default, Enabled group             
+REDMOND\KASMDSPRODAUDITRO                                     Group            S-1-5-21-2127521184-1604012920-1887927527-15593370 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-COMMERCIAL-O365-EXO-READ                      Group            S-1-5-21-2127521184-1604012920-1887927527-23399351 Mandatory group, Enabled by default, Enabled group             
+REDMOND\AZURE WEBSITES SUPPORT MDS TEST                       Group            S-1-5-21-2127521184-1604012920-1887927527-16029721 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-COMMERCIAL-WINDOWS-READ                       Group            S-1-5-21-2127521184-1604012920-1887927527-23356295 Mandatory group, Enabled by default, Enabled group             
+REDMOND\O16Scheduledtaskprod                                  Group            S-1-5-21-2127521184-1604012920-1887927527-20754575 Mandatory group, Enabled by default, Enabled group             
+REDMOND\belkauser                                             Group            S-1-5-21-2127521184-1604012920-1887927527-19290197 Mandatory group, Enabled by default, Enabled group             
+REDMOND\ISRM-EBCMTeam-Visit                                   Group            S-1-5-21-2127521184-1604012920-1887927527-14530215 Mandatory group, Enabled by default, Enabled group             
+REDMOND\github-users                                          Group            S-1-5-21-2127521184-1604012920-1887927527-16391845 Mandatory group, Enabled by default, Enabled group             
+REDMOND\bapiorgall                                            Group            S-1-5-21-2127521184-1604012920-1887927527-18600483 Mandatory group, Enabled by default, Enabled group             
+REDMOND\vs-oi-users                                           Group            S-1-5-21-2127521184-1604012920-1887927527-10147945 Mandatory group, Enabled by default, Enabled group             
+REDMOND\ProDevFTEPS                                           Group            S-1-5-21-2127521184-1604012920-1887927527-19973679 Mandatory group, Enabled by default, Enabled group             
+REDMOND\cefteus                                               Group            S-1-5-21-2127521184-1604012920-1887927527-12454317 Mandatory group, Enabled by default, Enabled group             
+REDMOND\IMECHECKERUSERS                                       Group            S-1-5-21-2127521184-1604012920-1887927527-10520943 Mandatory group, Enabled by default, Enabled group             
+REDMOND\CRMHOME_READ                                          Group            S-1-5-21-2127521184-1604012920-1887927527-20648152 Mandatory group, Enabled by default, Enabled group             
+REDMOND\WCMPREADERS                                           Group            S-1-5-21-2127521184-1604012920-1887927527-17201742 Mandatory group, Enabled by default, Enabled group             
+REDMOND\antdrrun                                              Group            S-1-5-21-2127521184-1604012920-1887927527-19423966 Mandatory group, Enabled by default, Enabled group             
+REDMOND\WWRCMSORU                                             Group            S-1-5-21-2127521184-1604012920-1887927527-25615021 Mandatory group, Enabled by default, Enabled group             
+REDMOND\BAPISHARING                                           Group            S-1-5-21-2127521184-1604012920-1887927527-20347430 Mandatory group, Enabled by default, Enabled group             
+REDMOND\SCRAMUSERS                                            Group            S-1-5-21-2127521184-1604012920-1887927527-9255630  Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-COMMERCIAL-O365-SFBO-READ                     Group            S-1-5-21-2127521184-1604012920-1887927527-23399372 Mandatory group, Enabled by default, Enabled group             
+REDMOND\CEG_SPO_RW_REDMOND_USERS                              Group            S-1-5-21-2127521184-1604012920-1887927527-13765742 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-COMMERCIAL-SYSTEM CENTER-READ                 Group            S-1-5-21-2127521184-1604012920-1887927527-23356006 Mandatory group, Enabled by default, Enabled group             
+REDMOND\OSG_SPO_RW_REDMOND_USERS                              Group            S-1-5-21-2127521184-1604012920-1887927527-14236149 Mandatory group, Enabled by default, Enabled group             
+REDMOND\salesbisdusers                                        Group            S-1-5-21-2127521184-1604012920-1887927527-17300801 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-ALLUSERS-AUTH                                 Group            S-1-5-21-2127521184-1604012920-1887927527-23340818 Mandatory group, Enabled by default, Enabled group             
+REDMOND\CE_RO                                                 Group            S-1-5-21-2127521184-1604012920-1887927527-15185260 Mandatory group, Enabled by default, Enabled group             
+REDMOND\AzureSITreaders                                       Group            S-1-5-21-2127521184-1604012920-1887927527-21232996 Mandatory group, Enabled by default, Enabled group             
+REDMOND\pcpsh_DPC_RO                                          Group            S-1-5-21-2127521184-1604012920-1887927527-7028230  Mandatory group, Enabled by default, Enabled group             
+REDMOND\cmrdbdsst                                             Group            S-1-5-21-2127521184-1604012920-1887927527-19154427 Mandatory group, Enabled by default, Enabled group             
+REDMOND\antr-funcchallenge                                    Group            S-1-5-21-2127521184-1604012920-1887927527-24039587 Mandatory group, Enabled by default, Enabled group             
+REDMOND\ONELIST_READERS                                       Group            S-1-5-21-2127521184-1604012920-1887927527-22066232 Mandatory group, Enabled by default, Enabled group             
+REDMOND\WPDM-SP-TEAM-READERS                                  Group            S-1-5-21-2127521184-1604012920-1887927527-14938796 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-COMMERCIAL-O365-SPO-READ                      Group            S-1-5-21-2127521184-1604012920-1887927527-23399368 Mandatory group, Enabled by default, Enabled group             
+REDMOND\bapiorgfte                                            Group            S-1-5-21-2127521184-1604012920-1887927527-18600484 Mandatory group, Enabled by default, Enabled group             
+REDMOND\CatalogUsers                                          Group            S-1-5-21-2127521184-1604012920-1887927527-7492442  Mandatory group, Enabled by default, Enabled group             
+REDMOND\ASIMOV-DATA-COMMONDIMENSIONACCESS                     Group            S-1-5-21-2127521184-1604012920-1887927527-19175197 Mandatory group, Enabled by default, Enabled group             
+REDMOND\skypeuni_rw                                           Group            S-1-5-21-2127521184-1604012920-1887927527-16131846 Mandatory group, Enabled by default, Enabled group             
+REDMOND\c360AppUsers                                          Group            S-1-5-21-2127521184-1604012920-1887927527-22387418 Mandatory group, Enabled by default, Enabled group             
+REDMOND\osguni_ro                                             Group            S-1-5-21-2127521184-1604012920-1887927527-16131805 Mandatory group, Enabled by default, Enabled group             
+REDMOND\FINANCE BI SG - US GOOGLE COMPETE USERS               Group            S-1-5-21-2127521184-1604012920-1887927527-13129468 Mandatory group, Enabled by default, Enabled group             
+REDMOND\MSOACTFS                                              Group            S-1-5-21-2127521184-1604012920-1887927527-7693631  Mandatory group, Enabled by default, Enabled group             
+REDMOND\Win8-Razacl                                           Group            S-1-5-21-2127521184-1604012920-1887927527-6127364  Mandatory group, Enabled by default, Enabled group             
+REDMOND\ORM SHAREPOINT VIEWERS                                Group            S-1-5-21-2127521184-1604012920-1887927527-14256427 Mandatory group, Enabled by default, Enabled group             
+REDMOND\DBS READERS                                           Group            S-1-5-21-2127521184-1604012920-1887927527-15663782 Mandatory group, Enabled by default, Enabled group             
+REDMOND\domdevsg                                              Group            S-1-5-21-2127521184-1604012920-1887927527-14535333 Mandatory group, Enabled by default, Enabled group             
+REDMOND\EliteMembers                                          Group            S-1-5-21-2127521184-1604012920-1887927527-14838881 Mandatory group, Enabled by default, Enabled group             
+REDMOND\OFFICE TELEMETRY USERS 2                              Group            S-1-5-21-2127521184-1604012920-1887927527-14243148 Mandatory group, Enabled by default, Enabled group             
+REDMOND\cpuse1                                                Group            S-1-5-21-2127521184-1604012920-1887927527-1454012  Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-COMMERCIAL-STORSIMPLE-READ                    Group            S-1-5-21-2127521184-1604012920-1887927527-23356000 Mandatory group, Enabled by default, Enabled group             
+REDMOND\mselitepios                                           Group            S-1-5-21-2127521184-1604012920-1887927527-21152430 Mandatory group, Enabled by default, Enabled group             
+REDMOND\EXLSTB                                                Group            S-1-5-21-2127521184-1604012920-1887927527-12429126 Mandatory group, Enabled by default, Enabled group             
+REDMOND\ov_contrib                                            Group            S-1-5-21-2127521184-1604012920-1887927527-13533460 Mandatory group, Enabled by default, Enabled group             
+REDMOND\FS_RED-FSU_FASTTRACK_R                                Group            S-1-5-21-2127521184-1604012920-1887927527-14671869 Mandatory group, Enabled by default, Enabled group             
+REDMOND\funcchallenge                                         Group            S-1-5-21-2127521184-1604012920-1887927527-24039623 Mandatory group, Enabled by default, Enabled group             
+REDMOND\winfabtalk                                            Group            S-1-5-21-2127521184-1604012920-1887927527-6538477  Mandatory group, Enabled by default, Enabled group             
+REDMOND\RAS_smartcard                                         Group            S-1-5-21-2127521184-1604012920-1887927527-572185   Mandatory group, Enabled by default, Enabled group             
+REDMOND\CEG_ORG_FTE_REDMOND_1                                 Group            S-1-5-21-2127521184-1604012920-1887927527-18503796 Mandatory group, Enabled by default, Enabled group             
+REDMOND\mcio-fis-consumers                                    Group            S-1-5-21-2127521184-1604012920-1887927527-19096573 Mandatory group, Enabled by default, Enabled group             
+REDMOND\OBITECR8                                              Group            S-1-5-21-2127521184-1604012920-1887927527-17839736 Mandatory group, Enabled by default, Enabled group             
+REDMOND\scottgu_org_fte6                                      Group            S-1-5-21-2127521184-1604012920-1887927527-24111750 Mandatory group, Enabled by default, Enabled group             
+REDMOND\TWC SSL SCANNER VIEWERS                               Group            S-1-5-21-2127521184-1604012920-1887927527-14731840 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-COMMERCIAL-UC-LYNC-SKYPEFB-READ               Group            S-1-5-21-2127521184-1604012920-1887927527-23356258 Mandatory group, Enabled by default, Enabled group             
+REDMOND\msit-win10-scvpn-users                                Group            S-1-5-21-2127521184-1604012920-1887927527-15841403 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-ALLUSERS-READ                                 Group            S-1-5-21-2127521184-1604012920-1887927527-23340817 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-COMMERCIAL - SHAREPOINT-READ                  Group            S-1-5-21-2127521184-1604012920-1887927527-23340977 Mandatory group, Enabled by default, Enabled group             
+REDMOND\MSNVIDRPTUSERS                                        Group            S-1-5-21-2127521184-1604012920-1887927527-7280356  Mandatory group, Enabled by default, Enabled group             
+REDMOND\antr-preprod                                          Group            S-1-5-21-2127521184-1604012920-1887927527-18495894 Mandatory group, Enabled by default, Enabled group             
+REDMOND\VSTelCosmosDevAcs                                     Group            S-1-5-21-2127521184-1604012920-1887927527-15597981 Mandatory group, Enabled by default, Enabled group             
+REDMOND\FS_MADMAN_R                                           Group            S-1-5-21-2127521184-1604012920-1887927527-8895212  Mandatory group, Enabled by default, Enabled group             
+REDMOND\WCMPCOMPETE                                           Group            S-1-5-21-2127521184-1604012920-1887927527-15949014 Mandatory group, Enabled by default, Enabled group             
+REDMOND\msitngodbusers                                        Group            S-1-5-21-2127521184-1604012920-1887927527-18251719 Mandatory group, Enabled by default, Enabled group             
+REDMOND\Corp_vSmartCard_Logon_Users1                          Group            S-1-5-21-2127521184-1604012920-1887927527-8783519  Mandatory group, Enabled by default, Enabled group             
+REDMOND\dxdatamartread                                        Group            S-1-5-21-2127521184-1604012920-1887927527-22333898 Mandatory group, Enabled by default, Enabled group             
+REDMOND\sqldsigpr                                             Group            S-1-5-21-2127521184-1604012920-1887927527-11805585 Mandatory group, Enabled by default, Enabled group             
+REDMOND\BAPIAppPlatFTEPS                                      Group            S-1-5-21-2127521184-1604012920-1887927527-19973689 Mandatory group, Enabled by default, Enabled group             
+REDMOND\McioPortalReadAllEGs                                  Group            S-1-5-21-2127521184-1604012920-1887927527-19136361 Mandatory group, Enabled by default, Enabled group             
+REDMOND\FS_RED-FSU_O365-LIMA_R                                Group            S-1-5-21-2127521184-1604012920-1887927527-13137982 Mandatory group, Enabled by default, Enabled group             
+REDMOND\cmrdbbapi                                             Group            S-1-5-21-2127521184-1604012920-1887927527-25019586 Mandatory group, Enabled by default, Enabled group             
+REDMOND\antr-wpt                                              Group            S-1-5-21-2127521184-1604012920-1887927527-6439660  Mandatory group, Enabled by default, Enabled group             
+REDMOND\AzureInsightsInt                                      Group            S-1-5-21-2127521184-1604012920-1887927527-23758090 Mandatory group, Enabled by default, Enabled group             
+REDMOND\AZURE COMPUTE INSIGHTS PORTAL ACCESS3                 Group            S-1-5-21-2127521184-1604012920-1887927527-16477848 Mandatory group, Enabled by default, Enabled group             
+REDMOND\SSLTESTING                                            Group            S-1-5-21-2127521184-1604012920-1887927527-10405300 Mandatory group, Enabled by default, Enabled group             
+REDMOND\deployadmins                                          Group            S-1-5-21-2127521184-1604012920-1887927527-20866771 Mandatory group, Enabled by default, Enabled group             
+REDMOND\VCROMirror                                            Group            S-1-5-21-2127521184-1604012920-1887927527-10504371 Mandatory group, Enabled by default, Enabled group             
+REDMOND\OffAuthdog                                            Group            S-1-5-21-2127521184-1604012920-1887927527-14870210 Mandatory group, Enabled by default, Enabled group             
+REDMOND\AZURE COMPUTE INSIGHTS PORTAL ACCESS                  Group            S-1-5-21-2127521184-1604012920-1887927527-15976400 Mandatory group, Enabled by default, Enabled group             
+REDMOND\OSG_TFS_RW_REDMOND                                    Group            S-1-5-21-2127521184-1604012920-1887927527-14502920 Mandatory group, Enabled by default, Enabled group             
+REDMOND\Corp_vSmartCard_Logon                                 Group            S-1-5-21-2127521184-1604012920-1887927527-8618630  Mandatory group, Enabled by default, Enabled group             
+REDMOND\VSTF_CEC_Contributors                                 Group            S-1-5-21-2127521184-1604012920-1887927527-7020013  Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-COMMERCIAL-O365-READ                          Group            S-1-5-21-2127521184-1604012920-1887927527-23399347 Mandatory group, Enabled by default, Enabled group             
+REDMOND\ProDevPSEng                                           Group            S-1-5-21-2127521184-1604012920-1887927527-19973682 Mandatory group, Enabled by default, Enabled group             
+REDMOND\antrptnot                                             Group            S-1-5-21-2127521184-1604012920-1887927527-16183354 Mandatory group, Enabled by default, Enabled group             
+REDMOND\msit-intune-users-AutoVpn                             Group            S-1-5-21-2127521184-1604012920-1887927527-14127240 Mandatory group, Enabled by default, Enabled group             
+REDMOND\fmazprodviewers                                       Group            S-1-5-21-2127521184-1604012920-1887927527-22861566 Mandatory group, Enabled by default, Enabled group             
+REDMOND\MODWEBPUBLISHER                                       Group            S-1-5-21-2127521184-1604012920-1887927527-15663794 Mandatory group, Enabled by default, Enabled group             
+REDMOND\cipemaildatareaders                                   Group            S-1-5-21-2127521184-1604012920-1887927527-22866754 Mandatory group, Enabled by default, Enabled group             
+REDMOND\sirus                                                 Group            S-1-5-21-2127521184-1604012920-1887927527-1699666  Mandatory group, Enabled by default, Enabled group             
+REDMOND\primepreview                                          Group            S-1-5-21-2127521184-1604012920-1887927527-14298779 Mandatory group, Enabled by default, Enabled group             
+REDMOND\winfabsecsite                                         Group            S-1-5-21-2127521184-1604012920-1887927527-10820548 Mandatory group, Enabled by default, Enabled group             
+REDMOND\cefteusAH                                             Group            S-1-5-21-2127521184-1604012920-1887927527-12759310 Mandatory group, Enabled by default, Enabled group             
+REDMOND\VsTelCertProd                                         Group            S-1-5-21-2127521184-1604012920-1887927527-21161659 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-HOTFIXESANDUPDATES(GETKB)-READ                Group            S-1-5-21-2127521184-1604012920-1887927527-23373626 Mandatory group, Enabled by default, Enabled group             
+REDMOND\WWISGA REPORTING USERS                                Group            S-1-5-21-2127521184-1604012920-1887927527-21400529 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-DYNAMICS-READ                                 Group            S-1-5-21-2127521184-1604012920-1887927527-23373623 Mandatory group, Enabled by default, Enabled group             
+REDMOND\CAR_SSRS_RPT                                          Group            S-1-5-21-2127521184-1604012920-1887927527-14838511 Mandatory group, Enabled by default, Enabled group             
+REDMOND\ProDevFTE                                             Group            S-1-5-21-2127521184-1604012920-1887927527-19973646 Mandatory group, Enabled by default, Enabled group             
+REDMOND\CEFabricReadOnly                                      Group            S-1-5-21-2127521184-1604012920-1887927527-19052715 Mandatory group, Enabled by default, Enabled group             
+REDMOND\AZURECATCRMSEARCHENGAGEMENTREADERS                    Group            S-1-5-21-2127521184-1604012920-1887927527-19384889 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-KMS-READ                                      Group            S-1-5-21-2127521184-1604012920-1887927527-23544447 Mandatory group, Enabled by default, Enabled group             
+REDMOND\KUSTOFLOW                                             Group            S-1-5-21-2127521184-1604012920-1887927527-23564830 Mandatory group, Enabled by default, Enabled group             
+REDMOND\antr-dev                                              Group            S-1-5-21-2127521184-1604012920-1887927527-7640037  Mandatory group, Enabled by default, Enabled group             
+REDMOND\ProDevEng                                             Group            S-1-5-21-2127521184-1604012920-1887927527-19973644 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-COMMERCIAL-CLOUDPLATFORMSYSTEM-READ           Group            S-1-5-21-2127521184-1604012920-1887927527-23324327 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-COMMERCIAL-SHAREDSERVICES-READ                Group            S-1-5-21-2127521184-1604012920-1887927527-23340502 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-CONSUMER-READ                                 Group            S-1-5-21-2127521184-1604012920-1887927527-23324395 Mandatory group, Enabled by default, Enabled group             
+REDMOND\SAWClientUsers                                        Group            S-1-5-21-2127521184-1604012920-1887927527-17175885 Mandatory group, Enabled by default, Enabled group             
+REDMOND\PORTICO-COMMERCIAL-WINDEVICESBUSINESS-READ            Group            S-1-5-21-2127521184-1604012920-1887927527-23356329 Mandatory group, Enabled by default, Enabled group             
+REDMOND\CloudMSBIAU                                           Group            S-1-5-21-2127521184-1604012920-1887927527-23060357 Mandatory group, Enabled by default, Enabled group             
+REDMOND\HRWebSVC_FTE_RO                                       Group            S-1-5-21-2127521184-1604012920-1887927527-1924178  Mandatory group, Enabled by default, Enabled group             
+FAREAST\FS_APJX-FSU_FASMJ_R                                   Group            S-1-5-21-2146773085-903363285-719344707-1726561    Mandatory group, Enabled by default, Enabled group             
+EUROPE\FS_TAL-VFS-01A_ZAHACONFIGS_RW                          Group            S-1-5-21-1721254763-462695806-1538882281-3735465   Mandatory group, Enabled by default, Enabled group             
+EUROPE\OMEX-OSI-RO                                            Group            S-1-5-21-1721254763-462695806-1538882281-3871084   Mandatory group, Enabled by default, Enabled group             
+NORTHAMERICA\PORTICO-DYNAMICSGP-READ                          Group            S-1-5-21-124525095-708259637-1543119021-1526452    Mandatory group, Enabled by default, Enabled group             
+NORTHAMERICA\PORTICO-DYNAMICSCRM-READ                         Group            S-1-5-21-124525095-708259637-1543119021-1526449    Mandatory group, Enabled by default, Enabled group             
+EUROPE\FS_MUC-VFS-01A_RFL_R                                   Group            S-1-5-21-1721254763-462695806-1538882281-3337214   Mandatory group, Enabled by default, Enabled group             
+NORTHAMERICA\PORTICO-DYNAMICSOTHER-READ                       Group            S-1-5-21-124525095-708259637-1543119021-1526453    Mandatory group, Enabled by default, Enabled group             
+NORTHAMERICA\FS_LCS-VFS-01A_RECORDINGS_R                      Group            S-1-5-21-124525095-708259637-1543119021-1419299    Mandatory group, Enabled by default, Enabled group             
+FAREAST\FS_WUX-VFS-01A_IT_R                                   Group            S-1-5-21-2146773085-903363285-719344707-1796244    Mandatory group, Enabled by default, Enabled group             
+NORTHAMERICA\sleepcoachdisc                                   Group            S-1-5-21-124525095-708259637-1543119021-1519309    Mandatory group, Enabled by default, Enabled group             
+FAREAST\FS_tpe-vfs-01a_tcsource_RW                            Group            S-1-5-21-2146773085-903363285-719344707-1253526    Mandatory group, Enabled by default, Enabled group             
+NORTHAMERICA\VSTF_ALL_SUBMITTERS                              Group            S-1-5-21-124525095-708259637-1543119021-1695711    Mandatory group, Enabled by default, Enabled group             
+FAREAST\FS_tpe-vfs-01a_Public_RW                              Group            S-1-5-21-2146773085-903363285-719344707-1260212    Mandatory group, Enabled by default, Enabled group             
+EUROPE\PORTICO-DYNAMICSNAV-READ                               Group            S-1-5-21-1721254763-462695806-1538882281-3914056   Mandatory group, Enabled by default, Enabled group             
+FAREAST\icomssg                                               Group            S-1-5-21-2146773085-903363285-719344707-2201402    Mandatory group, Enabled by default, Enabled group             
+NORTHAMERICA\kustoappsvcux                                    Group            S-1-5-21-124525095-708259637-1543119021-1583686    Mandatory group, Enabled by default, Enabled group             
+NORTHAMERICA\PORTICO-DYNAMICSAX-READ                          Group            S-1-5-21-124525095-708259637-1543119021-1526450    Mandatory group, Enabled by default, Enabled group             
+NORTHAMERICA\PORTICO-DYNAMICSSL-READ                          Group            S-1-5-21-124525095-708259637-1543119021-1526451    Mandatory group, Enabled by default, Enabled group             
+NORTHAMERICA\FS_MTL-VFS-01A_PGD_R                             Group            S-1-5-21-124525095-708259637-1543119021-1489786    Mandatory group, Enabled by default, Enabled group             
+EUROPE\MayflowerUsers                                         Group            S-1-5-21-1721254763-462695806-1538882281-3725819   Mandatory group, Enabled by default, Enabled group             
+NT AUTHORITY\Claims Valid                                     Well-known group S-1-5-21-0-0-0-497                                 Mandatory group, Enabled by default, Enabled group             
+Authentication authority asserted identity                    Well-known group S-1-18-1                                           Mandatory group, Enabled by default, Enabled group             
+REDMOND\XBOX_OSG_BUILDS_RO                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-14880158 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\CA FTE Users                                          Alias            S-1-5-21-2127521184-1604012920-1887927527-279132   Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RED_OfficeAutomationMachineAccess                     Alias            S-1-5-21-2127521184-1604012920-1887927527-2927357  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\IMML_SHOWCASE_USERS                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-18177794 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\CEG_SOURCE_RW_REDMOND                                 Alias            S-1-5-21-2127521184-1604012920-1887927527-14575741 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Office_Portal_O15_RW                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-6634504  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS15-USERS                          Alias            S-1-5-21-2127521184-1604012920-1887927527-16406718 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACMDS - MGX_FY11_CM                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-11503519 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS27-USERS                          Alias            S-1-5-21-2127521184-1604012920-1887927527-16897971 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SKYPE TOUCH BUILD ACCESS - RO - DOMAIN                Alias            S-1-5-21-2127521184-1604012920-1887927527-14983277 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\DDELEMENTARY USERS                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-18550411 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS20-SEARCHER                       Alias            S-1-5-21-2127521184-1604012920-1887927527-23758324 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\First Tier Domain Users                               Alias            S-1-5-21-2127521184-1604012920-1887927527-175772   Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\AZUREWATSONSTS1-TEST                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-16421903 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SQLInfra_Tools_Installs_RO                            Alias            S-1-5-21-2127521184-1604012920-1887927527-6127276  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RED_Office12OBTriage                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-2361615  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WSSCLSE_RSG_EU1                                       Alias            S-1-5-21-2127521184-1604012920-1887927527-14428437 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\MULTIVAC USERS                                        Alias            S-1-5-21-2127521184-1604012920-1887927527-13342685 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WIN_PS_ARCHIVE                                        Alias            S-1-5-21-2127521184-1604012920-1887927527-13143533 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SQLCL_ServicePlatform_RO                              Alias            S-1-5-21-2127521184-1604012920-1887927527-8330396  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\AZUREWATSONSTSMANUAL-TEST                             Alias            S-1-5-21-2127521184-1604012920-1887927527-16477846 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\AZUREBTSHAREREADER                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-22461481 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\MDSBVTRW                                              Alias            S-1-5-21-2127521184-1604012920-1887927527-12219931 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\BingTFSUsers                                          Alias            S-1-5-21-2127521184-1604012920-1887927527-7465927  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Redmond-WinPhone-WP8-Project-RW                       Alias            S-1-5-21-2127521184-1604012920-1887927527-6801451  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACMDS - MGX_FY10                                      Alias            S-1-5-21-2127521184-1604012920-1887927527-11503510 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACM _ FTE                                             Alias            S-1-5-21-2127521184-1604012920-1887927527-11573123 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\DFS_SAW_UserFolders_RW                                Alias            S-1-5-21-2127521184-1604012920-1887927527-14393979 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\AZURE-SECRETSTOREWARMPATHREADONLY                     Alias            S-1-5-21-2127521184-1604012920-1887927527-22277008 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS51-USERS                          Alias            S-1-5-21-2127521184-1604012920-1887927527-20203045 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACMDS-QILUSECURED3                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-17017774 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ESTS_FAULTPOINT_MODEL                                 Alias            S-1-5-21-2127521184-1604012920-1887927527-13372724 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SM_ATH_OFC_NV                                         Alias            S-1-5-21-2127521184-1604012920-1887927527-15582933 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\REDMOND-WP-BLUEBOX-USRSG                              Alias            S-1-5-21-2127521184-1604012920-1887927527-12362399 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\DEVDIV WORK ITEMS RW                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-10464936 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACMDS - THINKWEEK_FY12                                Alias            S-1-5-21-2127521184-1604012920-1887927527-11503498 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-LAB-USERS                                Alias            S-1-5-21-2127521184-1604012920-1887927527-16029694 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OSG_PS_RW                                             Alias            S-1-5-21-2127521184-1604012920-1887927527-13966268 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\TEKREADY-USER                                         Alias            S-1-5-21-2127521184-1604012920-1887927527-14611863 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SQLINFRA_DAADW_RO                                     Alias            S-1-5-21-2127521184-1604012920-1887927527-13443226 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\$CSL970-88TQF8EKV9TQ                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-7657356  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS13-USERS                          Alias            S-1-5-21-2127521184-1604012920-1887927527-16406658 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SWITOOLS_AP_RO                                        Alias            S-1-5-21-2127521184-1604012920-1887927527-17983266 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\msit_hrepki_exception_corp                            Alias            S-1-5-21-2127521184-1604012920-1887927527-25454718 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SM_ATH_OFC_PB                                         Alias            S-1-5-21-2127521184-1604012920-1887927527-15582905 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\TechfestSite_Viewers                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-6914254  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\BCDRMANAGER                                           Alias            S-1-5-21-2127521184-1604012920-1887927527-16991301 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WIN_BLUE_BUILDS                                       Alias            S-1-5-21-2127521184-1604012920-1887927527-10504088 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OFFICE_SPECS_O16_RO                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-9159928  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RED-BPG-RW                                            Alias            S-1-5-21-2127521184-1604012920-1887927527-771043   Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OFFICE_BUGS_O16_RW                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-9159781  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS24-USERS                          Alias            S-1-5-21-2127521184-1604012920-1887927527-16897968 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\2FA-Wave1                                             Alias            S-1-5-21-2127521184-1604012920-1887927527-16109070 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\IE TRAINING VIDEOS READ                               Alias            S-1-5-21-2127521184-1604012920-1887927527-11183468 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS5-DASHBOARDADMIN                  Alias            S-1-5-21-2127521184-1604012920-1887927527-16207732 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\HRW_SG_US_1010_ROLLUP_NEW                             Alias            S-1-5-21-2127521184-1604012920-1887927527-24977804 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\protodoc_sg                                           Alias            S-1-5-21-2127521184-1604012920-1887927527-2994625  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\DDTHRESHOLD_TS                                        Alias            S-1-5-21-2127521184-1604012920-1887927527-14558703 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SKYPE_WEBCLIENT                                       Alias            S-1-5-21-2127521184-1604012920-1887927527-14983487 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\REDMOND-WINPHONE-WPBLUE-BRONZE                        Alias            S-1-5-21-2127521184-1604012920-1887927527-10140599 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RED-ATLAS-ACCESS-L                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-6052088  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\FABRIC MDS READONLY                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-20424356 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\redmond-sql-departments                               Alias            S-1-5-21-2127521184-1604012920-1887927527-2783008  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Office_Source_O14_RO                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-6639913  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACMDS - MGX_FY11_ALL                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-11503524 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OFFICE APEX SOURCE RO                                 Alias            S-1-5-21-2127521184-1604012920-1887927527-11068745 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\REDMOND-WINPHONE-WPBLUE-SILVER                        Alias            S-1-5-21-2127521184-1604012920-1887927527-10140583 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACMDS-QILUSECURED-ASG-ENGINEERING                     Alias            S-1-5-21-2127521184-1604012920-1887927527-16059163 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Office_Bugs_O15_RO                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-6634506  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OfficeBBUser                                          Alias            S-1-5-21-2127521184-1604012920-1887927527-1700934  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ICM-BASICACCESS-RED                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-8913789  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ADBUILD-RTO-R                                         Alias            S-1-5-21-2127521184-1604012920-1887927527-12476142 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Office_Bugs_O15_RW                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-6634522  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OSG_TFS_RW_3                                          Alias            S-1-5-21-2127521184-1604012920-1887927527-14332593 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WIN_BLUE_ATLAS                                        Alias            S-1-5-21-2127521184-1604012920-1887927527-9785924  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\VS PERF SCORECARD USERS SG                            Alias            S-1-5-21-2127521184-1604012920-1887927527-11806265 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ADFS ECS Users                                        Alias            S-1-5-21-2127521184-1604012920-1887927527-2547081  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\XBOX_OSG_SP_O_RW                                      Alias            S-1-5-21-2127521184-1604012920-1887927527-14880119 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ICM-ADFS-POC                                          Alias            S-1-5-21-2127521184-1604012920-1887927527-8913610  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\AZURE-SOURCE-RO                                       Alias            S-1-5-21-2127521184-1604012920-1887927527-14395627 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Office_Portal_O14_RO                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-6639955  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-ONEDEPLOY-USERS                          Alias            S-1-5-21-2127521184-1604012920-1887927527-19127866 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RED_Office11OBTriage                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-2361614  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS5-SEARCHER                        Alias            S-1-5-21-2127521184-1604012920-1887927527-16207738 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WINDOWS AZURE MEDIA SERVICES MONITORING               Alias            S-1-5-21-2127521184-1604012920-1887927527-9842490  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\2FA-Wave1-GroupA                                      Alias            S-1-5-21-2127521184-1604012920-1887927527-16144255 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\$FSL970-5A6VN4HC0J9D                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-7657359  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\DFS_SAW_UserProfiles_RW                               Alias            S-1-5-21-2127521184-1604012920-1887927527-14393980 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WSC-Share                                             Alias            S-1-5-21-2127521184-1604012920-1887927527-7273522  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OFFICE_BUILD_RO_REDMOND                               Alias            S-1-5-21-2127521184-1604012920-1887927527-14310665 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WABT-REDDOG-R                                         Alias            S-1-5-21-2127521184-1604012920-1887927527-19905970 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Red_Office                                            Alias            S-1-5-21-2127521184-1604012920-1887927527-2015132  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\MSFT_ENGPERMS_FTE_REDMOND                             Alias            S-1-5-21-2127521184-1604012920-1887927527-14352777 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS6-USERS                           Alias            S-1-5-21-2127521184-1604012920-1887927527-16207863 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Office_Specs_O14_RW                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-6639894  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS2-USERS                           Alias            S-1-5-21-2127521184-1604012920-1887927527-15880961 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\XBOX_OSG_SD_RW                                        Alias            S-1-5-21-2127521184-1604012920-1887927527-14880082 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OSGDESIGN-RW                                          Alias            S-1-5-21-2127521184-1604012920-1887927527-13979072 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\DDRawDrop                                             Alias            S-1-5-21-2127521184-1604012920-1887927527-3237596  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENS-EXPLORER-DASHBOARD-ADMIN                         Alias            S-1-5-21-2127521184-1604012920-1887927527-15597909 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\O365_BUILD_RO_REDMOND                                 Alias            S-1-5-21-2127521184-1604012920-1887927527-18260780 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WASDRGMDSMONITORINGRO                                 Alias            S-1-5-21-2127521184-1604012920-1887927527-14354434 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\VSTF_SQLSERVER_SOURCECONTRIBUTORS                     Alias            S-1-5-21-2127521184-1604012920-1887927527-13372944 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RED_Office_GFT_RO                                     Alias            S-1-5-21-2127521184-1604012920-1887927527-1230889  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\DDWBLUEBUILD                                          Alias            S-1-5-21-2127521184-1604012920-1887927527-10131890 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS10-USERS                          Alias            S-1-5-21-2127521184-1604012920-1887927527-16207867 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\REDMOND-WINPHONE-WP7-SOURCE                           Alias            S-1-5-21-2127521184-1604012920-1887927527-10650652 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS10-DASHBOARDADMIN                 Alias            S-1-5-21-2127521184-1604012920-1887927527-16207737 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Office_Specs_O14_RO                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-6639940  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\DDWBLUEBUILD_TS                                       Alias            S-1-5-21-2127521184-1604012920-1887927527-10860681 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-SVCFABKPI-USERS                          Alias            S-1-5-21-2127521184-1604012920-1887927527-20203440 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\VSTF_Risk Mgmt Security_Readers                       Alias            S-1-5-21-2127521184-1604012920-1887927527-6260547  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\CSMDS_SERVICE_COMPONENT_RW                            Alias            S-1-5-21-2127521184-1604012920-1887927527-9578111  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\AZUREWATSONSTS-PRODUCTION                             Alias            S-1-5-21-2127521184-1604012920-1887927527-16081025 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OSG_HQ_SOC_SQLUSERS                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-15434756 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SWITOOLS_RO                                           Alias            S-1-5-21-2127521184-1604012920-1887927527-17543619 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS49-USERS                          Alias            S-1-5-21-2127521184-1604012920-1887927527-19587515 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\O365SCCPDOMAINUSERS                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-17175699 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\msit-autovpn-elite-users                              Alias            S-1-5-21-2127521184-1604012920-1887927527-21245999 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS51-SEARCHER                       Alias            S-1-5-21-2127521184-1604012920-1887927527-20203035 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WASDRGCASPRODMON                                      Alias            S-1-5-21-2127521184-1604012920-1887927527-14724091 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS14-DASHBOARDADMIN                 Alias            S-1-5-21-2127521184-1604012920-1887927527-16406637 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\CSMDS_Service_RO                                      Alias            S-1-5-21-2127521184-1604012920-1887927527-8576469  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\MAVE USERS                                            Alias            S-1-5-21-2127521184-1604012920-1887927527-13072639 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Office_Specs_O15_RO                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-6634548  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\DFS_SAW_Software_RO                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-14393970 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WSSC PORTAL WW MEMBERS001                             Alias            S-1-5-21-2127521184-1604012920-1887927527-14671962 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WSSCFS_THRESHOLD_RED_CUSTOMER_RW                      Alias            S-1-5-21-2127521184-1604012920-1887927527-14820435 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-ECOSYSTEM-SEARCHER                       Alias            S-1-5-21-2127521184-1604012920-1887927527-19480555 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WM7CP_DocDrop_RO                                      Alias            S-1-5-21-2127521184-1604012920-1887927527-5848241  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SKYPE_WEB_DEMO_PLAYGROUND                             Alias            S-1-5-21-2127521184-1604012920-1887927527-20017760 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\VSTF_SCENARIOS_CONTRIBUTORS (DOMAIN LOCAL)            Alias            S-1-5-21-2127521184-1604012920-1887927527-11079131 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OSG-THR-WTTLOGROSG                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-14236027 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SAW_SASService-BUILD_SAWUser                          Alias            S-1-5-21-2127521184-1604012920-1887927527-19130822 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\COMPCENTRALAPI_RO                                     Alias            S-1-5-21-2127521184-1604012920-1887927527-18487810 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WACDATAACCESS                                         Alias            S-1-5-21-2127521184-1604012920-1887927527-14570412 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACMDS-UNIVERSAL_STORE                                 Alias            S-1-5-21-2127521184-1604012920-1887927527-16452107 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WIN_TEST_ CERT_2                                      Alias            S-1-5-21-2127521184-1604012920-1887927527-7239595  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\THRIVE_SG_EMP_CORP_AMERICAS                           Alias            S-1-5-21-2127521184-1604012920-1887927527-25191808 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS12-USERS                          Alias            S-1-5-21-2127521184-1604012920-1887927527-16406657 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\IRIS_DB_READ_SPROCS                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-11296976 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS7-USERS                           Alias            S-1-5-21-2127521184-1604012920-1887927527-16207864 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OSG_SD_RW                                             Alias            S-1-5-21-2127521184-1604012920-1887927527-14332525 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SM_MSCOMCMS_THEMEADMIN                                Alias            S-1-5-21-2127521184-1604012920-1887927527-15864344 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS51-DASHBOARDADMIN                 Alias            S-1-5-21-2127521184-1604012920-1887927527-20203036 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SP2                                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-11476979 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OFFICE_PORTAL_RW_REDMOND                              Alias            S-1-5-21-2127521184-1604012920-1887927527-14310918 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\REDMOND-WINPHONE-WP7-PLATINUM                         Alias            S-1-5-21-2127521184-1604012920-1887927527-10650648 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-DEV-USERS                                Alias            S-1-5-21-2127521184-1604012920-1887927527-15623486 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS22-USERS                          Alias            S-1-5-21-2127521184-1604012920-1887927527-16897966 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\TODOIMDF-CP                                           Alias            S-1-5-21-2127521184-1604012920-1887927527-14575617 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OSG_VSO_RW                                            Alias            S-1-5-21-2127521184-1604012920-1887927527-17852362 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SQL_WorkflowTools_Resources                           Alias            S-1-5-21-2127521184-1604012920-1887927527-4840475  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SQLInfra_RE_HISDB_RO                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-3264487  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACMDS - MGX_FY12                                      Alias            S-1-5-21-2127521184-1604012920-1887927527-11503526 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OSG_BUILDS_RO                                         Alias            S-1-5-21-2127521184-1604012920-1887927527-13966269 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS32-USERS                          Alias            S-1-5-21-2127521184-1604012920-1887927527-17355086 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS32-SEARCHER                       Alias            S-1-5-21-2127521184-1604012920-1887927527-17355085 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ADITIPROJECT                                          Alias            S-1-5-21-2127521184-1604012920-1887927527-17011589 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACL_IE CAT_READ                                       Alias            S-1-5-21-2127521184-1604012920-1887927527-4968904  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS21-SEARCHER002                    Alias            S-1-5-21-2127521184-1604012920-1887927527-16769842 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WIN_PORTAL_ARCHIVE                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-14510599 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WASDRGCMSMONITORINGRO                                 Alias            S-1-5-21-2127521184-1604012920-1887927527-14354437 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS1-USERS                           Alias            S-1-5-21-2127521184-1604012920-1887927527-15880960 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WASDRGCASSTAGEMON001                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-14724095 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\MDSSMOKERW                                            Alias            S-1-5-21-2127521184-1604012920-1887927527-12219933 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\REDMOND-WINPHONE-WPBLUE-PLATINUM                      Alias            S-1-5-21-2127521184-1604012920-1887927527-10140585 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RED_Office14OBTriage                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-3457292  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\CRP MDS READ ONLY (LOCAL DOMAIN)                      Alias            S-1-5-21-2127521184-1604012920-1887927527-23037436 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\CLOUD ANALYTICS USERS                                 Alias            S-1-5-21-2127521184-1604012920-1887927527-15875169 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SSL Testing Domain Local                              Alias            S-1-5-21-2127521184-1604012920-1887927527-10482262 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OFFICE_PORTAL_RO_REDMOND                              Alias            S-1-5-21-2127521184-1604012920-1887927527-14310917 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Office_Specs_O15_RW                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-6634510  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\DXT_COMPONENT_RO                                      Alias            S-1-5-21-2127521184-1604012920-1887927527-17628399 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\$F80VA0-UDUKPTGT4M0I                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-11501839 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS15-SEARCHER                       Alias            S-1-5-21-2127521184-1604012920-1887927527-16406640 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\BCDRMANAGERCONTRIBUTORS                               Alias            S-1-5-21-2127521184-1604012920-1887927527-17429680 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\BING TFS CONTRIBUTORS                                 Alias            S-1-5-21-2127521184-1604012920-1887927527-14462783 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\REDMOND-WINPHONE-WP7-ALL                              Alias            S-1-5-21-2127521184-1604012920-1887927527-10650647 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\MBD Interop Document Depot Access                     Alias            S-1-5-21-2127521184-1604012920-1887927527-4854470  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS30-SEARCHER                       Alias            S-1-5-21-2127521184-1604012920-1887927527-16993352 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS50-USERS                          Alias            S-1-5-21-2127521184-1604012920-1887927527-19776519 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\power                                                 Alias            S-1-5-21-2127521184-1604012920-1887927527-11444559 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\msrn-ftred                                            Alias            S-1-5-21-2127521184-1604012920-1887927527-15269782 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\VSTS TEST SECRET RO                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-20203053 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WIN_REL_ESC_ACDC_SOCSYM_R                             Alias            S-1-5-21-2127521184-1604012920-1887927527-12329280 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACMDS - GLOBAL MIGRATION_GLOMIG                       Alias            S-1-5-21-2127521184-1604012920-1887927527-11496376 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WIN8_TC_WCS_STORE_R                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-11640904 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Office_Source_O15_RO                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-6634516  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\CSMDS_CAPACITY_RO                                     Alias            S-1-5-21-2127521184-1604012920-1887927527-11525840 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACMDS - ENGINEERING_EXCELLENCE                        Alias            S-1-5-21-2127521184-1604012920-1887927527-11496382 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Redmond-WinPhone-WP8-Project-RO                       Alias            S-1-5-21-2127521184-1604012920-1887927527-6801454  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RED_Office_DESIGNER_SVR                               Alias            S-1-5-21-2127521184-1604012920-1887927527-1908118  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SAWRoles_SAWUser                                      Alias            S-1-5-21-2127521184-1604012920-1887927527-13449362 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RED_Office_AUTHOR_SVR                                 Alias            S-1-5-21-2127521184-1604012920-1887927527-1908119  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS50-SEARCHER                       Alias            S-1-5-21-2127521184-1604012920-1887927527-19776514 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Roslyn Drop Access                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-7125322  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\CPS-FED-SG-LOCAL                                      Alias            S-1-5-21-2127521184-1604012920-1887927527-15037877 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SQLNUGETREADERS                                       Alias            S-1-5-21-2127521184-1604012920-1887927527-14390717 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RRD-WAUTIL-RO-12238                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-7806088  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACMDS-WDG-QUICK-TALKS                                 Alias            S-1-5-21-2127521184-1604012920-1887927527-18177933 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\REDMOND-WINPHONE-WPBLUE-SOURCE-RW                     Alias            S-1-5-21-2127521184-1604012920-1887927527-10140589 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENS-EXPLORER-DATA-SEARCHER                           Alias            S-1-5-21-2127521184-1604012920-1887927527-15597912 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\FIMPerfGroupWith10000Users                            Alias            S-1-5-21-2127521184-1604012920-1887927527-16217823 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RED_Office_GFT11_RO                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-1230890  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS28-USERS                          Alias            S-1-5-21-2127521184-1604012920-1887927527-16897972 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LPA-MSRWEB                                            Alias            S-1-5-21-2127521184-1604012920-1887927527-2319803  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OFFICE_BUGS_O16_RO                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-9159775  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS37-SEARCHER                       Alias            S-1-5-21-2127521184-1604012920-1887927527-18361361 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OSG-T3T-ROSG                                          Alias            S-1-5-21-2127521184-1604012920-1887927527-14252468 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OFFICE_SOURCE_RO_REDMOND                              Alias            S-1-5-21-2127521184-1604012920-1887927527-14310661 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WASDRGWINFABPRODRO                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-14479269 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\MaddogUsersOrcas                                      Alias            S-1-5-21-2127521184-1604012920-1887927527-2542707  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RED_Office_CONTRIBUTOR_SVR                            Alias            S-1-5-21-2127521184-1604012920-1887927527-1908120  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RRD-Read Only-RG-14252                                Alias            S-1-5-21-2127521184-1604012920-1887927527-9762033  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\MSDNSECURE                                            Alias            S-1-5-21-2127521184-1604012920-1887927527-12133417 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SAWRoles_RDGUser                                      Alias            S-1-5-21-2127521184-1604012920-1887927527-14456588 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\REDMOND-WINPHONE-WBLUE-WTTLOGROSG                     Alias            S-1-5-21-2127521184-1604012920-1887927527-12133380 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WASDRGRMPRODVIEWER                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-14683734 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\PILOT REGISTRATION PORTAL ACCESS                      Alias            S-1-5-21-2127521184-1604012920-1887927527-14497020 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WorldClients                                          Alias            S-1-5-21-2127521184-1604012920-1887927527-158181   Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-ECOSYSTEM-USERS                          Alias            S-1-5-21-2127521184-1604012920-1887927527-19480556 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ADS TFS CONTRIBUTORS                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-10140915 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENS-EXPLORER-USERS                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-15597950 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\DFS_SAW_SCCM_RO                                       Alias            S-1-5-21-2127521184-1604012920-1887927527-17053196 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS28-SEARCHER                       Alias            S-1-5-21-2127521184-1604012920-1887927527-16897796 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS1-SEARCHER                        Alias            S-1-5-21-2127521184-1604012920-1887927527-15880956 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WSSCLSE_RSG_RD3                                       Alias            S-1-5-21-2127521184-1604012920-1887927527-14428441 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-AZNW-SEARCHER                            Alias            S-1-5-21-2127521184-1604012920-1887927527-22268913 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACMDS - WWSMM_FY13                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-11496410 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-ICMCUSTOM-DASHBOARDADMIN                 Alias            S-1-5-21-2127521184-1604012920-1887927527-20470101 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Office_Bugs_O14_RW                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-6639811  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS7-DASHBOARDADMIN                  Alias            S-1-5-21-2127521184-1604012920-1887927527-16207734 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RRD-SSADED-15208                                      Alias            S-1-5-21-2127521184-1604012920-1887927527-10463114 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS14-USERS                          Alias            S-1-5-21-2127521184-1604012920-1887927527-16406659 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SQL Drop Share Service Accounts                       Alias            S-1-5-21-2127521184-1604012920-1887927527-2931967  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SAW_CloudEnterprise_SAWUser                           Alias            S-1-5-21-2127521184-1604012920-1887927527-16047374 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SQLInfra_CL_AutoSql_RO                                Alias            S-1-5-21-2127521184-1604012920-1887927527-3243991  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OFFICE_DROP_O16_RO                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-9159778  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS33-SEARCHER                       Alias            S-1-5-21-2127521184-1604012920-1887927527-17355088 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS12-DASHBOARDADMIN                 Alias            S-1-5-21-2127521184-1604012920-1887927527-16406633 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\PBIVSTS_DROPSHARE_READERS                             Alias            S-1-5-21-2127521184-1604012920-1887927527-25960819 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\MODSHARE                                              Alias            S-1-5-21-2127521184-1604012920-1887927527-10572875 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\HRw_sg_US_1010_emp_corp_nonmgr                        Alias            S-1-5-21-2127521184-1604012920-1887927527-16580306 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\COMPCENTRALAPI_RW                                     Alias            S-1-5-21-2127521184-1604012920-1887927527-18487755 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\AD (STB) - FRIENDSPARTNERS001                         Alias            S-1-5-21-2127521184-1604012920-1887927527-9724319  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Redmond-WinPhone-WP8-Silver                           Alias            S-1-5-21-2127521184-1604012920-1887927527-7205159  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WDGIS VSO WIDE ACCESS                                 Alias            S-1-5-21-2127521184-1604012920-1887927527-24912312 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS21-USERS                          Alias            S-1-5-21-2127521184-1604012920-1887927527-16769929 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\AD (STB) - FTE                                        Alias            S-1-5-21-2127521184-1604012920-1887927527-9724465  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\THRIVE_SG_EMP_CORP_GLOBAL                             Alias            S-1-5-21-2127521184-1604012920-1887927527-25191759 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Office_Portal_O14_RW                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-6639898  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-CAS-USERS                                Alias            S-1-5-21-2127521184-1604012920-1887927527-16168888 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-CAS-SEARCHER                             Alias            S-1-5-21-2127521184-1604012920-1887927527-16168763 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS24-SEARCHER                       Alias            S-1-5-21-2127521184-1604012920-1887927527-16897787 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OFFICE_BUG_RW_REDMOND                                 Alias            S-1-5-21-2127521184-1604012920-1887927527-14310664 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACMDS - WWSMM                                         Alias            S-1-5-21-2127521184-1604012920-1887927527-11496440 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\GEMINIIMDF-HALFMAIN                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-16814516 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RED-BPG-R                                             Alias            S-1-5-21-2127521184-1604012920-1887927527-771112   Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS9-USERS                           Alias            S-1-5-21-2127521184-1604012920-1887927527-16207866 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RRD-Read Only-RG-18271                                Alias            S-1-5-21-2127521184-1604012920-1887927527-13872854 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WSSCLSE_RSG_CAZ                                       Alias            S-1-5-21-2127521184-1604012920-1887927527-14207993 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-DEV-SEARCHER                             Alias            S-1-5-21-2127521184-1604012920-1887927527-15623461 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WSSCLSE_RSG_INT                                       Alias            S-1-5-21-2127521184-1604012920-1887927527-14428438 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WP_TEXUS_REPORTING                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-8354823  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS4-USERS                           Alias            S-1-5-21-2127521184-1604012920-1887927527-16207709 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RED_OfficeWebAuthor                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-590058   Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RRD-Read Only-RG-9944                                 Alias            S-1-5-21-2127521184-1604012920-1887927527-6318186  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WASDRGSECRETSTORETESTRW                               Alias            S-1-5-21-2127521184-1604012920-1887927527-22467652 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\AZURE MEDIA TFS                                       Alias            S-1-5-21-2127521184-1604012920-1887927527-18420390 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\EXCELCOSMOSSQLREADERS                                 Alias            S-1-5-21-2127521184-1604012920-1887927527-12069936 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\DESIGNDEPOT USERS RO                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-19808783 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SAW_CloudEnterprise_RDGUser                           Alias            S-1-5-21-2127521184-1604012920-1887927527-16047376 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACL_IE Public_READ                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-5107804  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SQLInfra_CL_DynamicImaging_RO                         Alias            S-1-5-21-2127521184-1604012920-1887927527-3611135  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SQLInfra_CL_MST_RO                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-2912824  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ISRM SHAREPOINT VISITORS - ALL DOMAINS001             Alias            S-1-5-21-2127521184-1604012920-1887927527-14892106 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WINSE SWIM - ALL FTES                                 Alias            S-1-5-21-2127521184-1604012920-1887927527-9779894  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SM_SMOKETEST_MSCOM_PROD_PUB                           Alias            S-1-5-21-2127521184-1604012920-1887927527-15762383 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Office_Bugs_O14_RO                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-6639929  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RRD-AntaresRG-16553                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-11818470 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OFFICE_SOURCE_O16_RO                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-9159876  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACMDS - STB-INTERNAL                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-11503512 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WASDRGWINFABTESTRO                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-14479432 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\REDMOND-WINPHONE-WP8-WTTLOGROSG                       Alias            S-1-5-21-2127521184-1604012920-1887927527-12243913 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS22-SEARCHER                       Alias            S-1-5-21-2127521184-1604012920-1887927527-16897783 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Redmond-WinPhone-WP8-Platinum                         Alias            S-1-5-21-2127521184-1604012920-1887927527-7581326  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\AZURE COMPUTE INSIGHTS PORTAL ACCESS2                 Alias            S-1-5-21-2127521184-1604012920-1887927527-16479523 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SECURITYPATCH-BACKENDACCESS-GENERAL                   Alias            S-1-5-21-2127521184-1604012920-1887927527-10504209 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-AZNW-USERS                               Alias            S-1-5-21-2127521184-1604012920-1887927527-22268917 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RED_Office10OBTriage                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-2361613  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OSG_TFS_READERS                                       Alias            S-1-5-21-2127521184-1604012920-1887927527-14290815 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SQL Server VSTS Contributor Access                    Alias            S-1-5-21-2127521184-1604012920-1887927527-2784722  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RRD-Read Only-RG-11287                                Alias            S-1-5-21-2127521184-1604012920-1887927527-7001939  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Office_Releases_O14_RO                                Alias            S-1-5-21-2127521184-1604012920-1887927527-6639879  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS4-SEARCHER                        Alias            S-1-5-21-2127521184-1604012920-1887927527-16207699 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\HR THRIVE UAT PARTICIPANTS                            Alias            S-1-5-21-2127521184-1604012920-1887927527-25438959 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SQLInfra_CL_AutoSql_RW                                Alias            S-1-5-21-2127521184-1604012920-1887927527-3243992  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OSG_SP_RW                                             Alias            S-1-5-21-2127521184-1604012920-1887927527-14303669 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\TFSRSADC                                              Alias            S-1-5-21-2127521184-1604012920-1887927527-4861897  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS5-USERS                           Alias            S-1-5-21-2127521184-1604012920-1887927527-16207862 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\VSTF_UDC_READERS_REDMOND                              Alias            S-1-5-21-2127521184-1604012920-1887927527-15500549 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\FIMCM-SAW                                             Alias            S-1-5-21-2127521184-1604012920-1887927527-17640078 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SM_ATH_OFC_RD                                         Alias            S-1-5-21-2127521184-1604012920-1887927527-15582906 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WindowsProtocolGenDoxAccess                           Alias            S-1-5-21-2127521184-1604012920-1887927527-6452940  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\XBOX_OSG_TFS_RW                                       Alias            S-1-5-21-2127521184-1604012920-1887927527-14880107 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OSG_SPO_RW                                            Alias            S-1-5-21-2127521184-1604012920-1887927527-13966267 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\W8_TFS_RED                                            Alias            S-1-5-21-2127521184-1604012920-1887927527-5960049  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Corp_FIMCM_ModernApp_Pilot                            Alias            S-1-5-21-2127521184-1604012920-1887927527-14174400 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RRD-Read Write-RG-11288                               Alias            S-1-5-21-2127521184-1604012920-1887927527-7001940  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACL_IE Public_WRITE                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-5107803  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OSG_TFS_RW                                            Alias            S-1-5-21-2127521184-1604012920-1887927527-14295359 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\DOMINO READERS (REDMOND)                              Alias            S-1-5-21-2127521184-1604012920-1887927527-15258135 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RRD-Read Write-RG-14546                               Alias            S-1-5-21-2127521184-1604012920-1887927527-10016664 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-ONEDEPLOY-SEARCHER                       Alias            S-1-5-21-2127521184-1604012920-1887927527-19127865 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Office_Portal_O15_RO                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-6634541  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACMDS - THINKWEEK                                     Alias            S-1-5-21-2127521184-1604012920-1887927527-11503505 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACMDS - WWSMM_FY11                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-11496446 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\PILOT REGISTRATION PORTAL EAST ACCESS                 Alias            S-1-5-21-2127521184-1604012920-1887927527-14880472 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WABCP                                                 Alias            S-1-5-21-2127521184-1604012920-1887927527-14256314 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WSSC PORTAL WW VISITORS                               Alias            S-1-5-21-2127521184-1604012920-1887927527-14683510 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\XBOX SWIFTSURE AUTOMATION USERS SG                    Alias            S-1-5-21-2127521184-1604012920-1887927527-14792520 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\CDB-XTS                                               Alias            S-1-5-21-2127521184-1604012920-1887927527-6305403  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SM_MSCOMEVERYONE                                      Alias            S-1-5-21-2127521184-1604012920-1887927527-15855995 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Redmond-WinPhone-WP8-Source-RW                        Alias            S-1-5-21-2127521184-1604012920-1887927527-6801257  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RED_Office_ADMIN_SVR                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-1908117  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RED_Office_READER_SVR                                 Alias            S-1-5-21-2127521184-1604012920-1887927527-1908121  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ReportingGroup {0bf24d65-f516-47ce-b46a-6fd2d25c4692} Alias            S-1-5-21-2127521184-1604012920-1887927527-2984327  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OFFICE_SPECS_O16_RW                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-9159926  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\AZURE-ALL-PSV                                         Alias            S-1-5-21-2127521184-1604012920-1887927527-14229296 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\REDMOND-WINPHONE-WPBLUE-GOLD                          Alias            S-1-5-21-2127521184-1604012920-1887927527-10140584 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-SVCFABKPI-SEARCHER                       Alias            S-1-5-21-2127521184-1604012920-1887927527-20203439 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACMDS - ENGINEERING_SYSTEM                            Alias            S-1-5-21-2127521184-1604012920-1887927527-24281406 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-LAB-SEARCHER                             Alias            S-1-5-21-2127521184-1604012920-1887927527-16029623 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ADBUILD-BIZTALK                                       Alias            S-1-5-21-2127521184-1604012920-1887927527-13564652 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS33-USERS                          Alias            S-1-5-21-2127521184-1604012920-1887927527-17355089 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\DDCMS_AWSUA_ALL                                       Alias            S-1-5-21-2127521184-1604012920-1887927527-11366201 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SQL VSTS Reporting                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-2706096  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RED_MBDProtocolProductStudio_RW                       Alias            S-1-5-21-2127521184-1604012920-1887927527-4782732  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS30-USERS                          Alias            S-1-5-21-2127521184-1604012920-1887927527-17029852 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\GEMINIIMDF-APFORCED                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-16802953 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Office_Drop_O14_RO                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-6639833  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Redmond_Files_Blast_RW                                Alias            S-1-5-21-2127521184-1604012920-1887927527-1486138  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Domain RODC Password Replication Allowed Group        Alias            S-1-5-21-2127521184-1604012920-1887927527-571      Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OFFICE_BUG_RO_REDMOND                                 Alias            S-1-5-21-2127521184-1604012920-1887927527-14310663 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\AADRMMONSG                                            Alias            S-1-5-21-2127521184-1604012920-1887927527-10882960 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OFFICE_PORTAL_O16_RW                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-9159878  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\IRIS_DB_READ_WRITE_SPROCS                             Alias            S-1-5-21-2127521184-1604012920-1887927527-11307503 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SM_ATH_OFCADM                                         Alias            S-1-5-21-2127521184-1604012920-1887927527-15582910 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WM7CP_DocDrop_Ext                                     Alias            S-1-5-21-2127521184-1604012920-1887927527-5986243  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Office_Releases_O15_RO                                Alias            S-1-5-21-2127521184-1604012920-1887927527-6634528  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS21-SEARCHER001                    Alias            S-1-5-21-2127521184-1604012920-1887927527-16769870 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-SERVICEBUSEH-SEARCHER                    Alias            S-1-5-21-2127521184-1604012920-1887927527-19154352 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SKYPE_WEBCLIENT_DOGFOOD                               Alias            S-1-5-21-2127521184-1604012920-1887927527-15060613 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACMDS-CE_CHAT                                         Alias            S-1-5-21-2127521184-1604012920-1887927527-14648873 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-SERVICEBUSEH-USERS                       Alias            S-1-5-21-2127521184-1604012920-1887927527-19154353 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\THRIVE_SG_EMP_CORP_GLOBAL_WC                          Alias            S-1-5-21-2127521184-1604012920-1887927527-25927719 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Redmond-WinPhone-WP8-Info-RW                          Alias            S-1-5-21-2127521184-1604012920-1887927527-7010810  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS49-SEARCHER                       Alias            S-1-5-21-2127521184-1604012920-1887927527-19587725 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\NETMON-UI                                             Alias            S-1-5-21-2127521184-1604012920-1887927527-15481304 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS9-SEARCHER                        Alias            S-1-5-21-2127521184-1604012920-1887927527-16207843 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\IE Files Access                                       Alias            S-1-5-21-2127521184-1604012920-1887927527-2564673  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RRD-SSTA-14867                                        Alias            S-1-5-21-2127521184-1604012920-1887927527-10135903 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Redmond-WinPhone-WP8-Gold                             Alias            S-1-5-21-2127521184-1604012920-1887927527-7205122  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS14-SEARCHER                       Alias            S-1-5-21-2127521184-1604012920-1887927527-16406638 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\AZURE-SECRETSTOREWARMPATHPROD-READONLY                Alias            S-1-5-21-2127521184-1604012920-1887927527-22295052 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS13-SEARCHER                       Alias            S-1-5-21-2127521184-1604012920-1887927527-16406636 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ADBUILD-ALL-R                                         Alias            S-1-5-21-2127521184-1604012920-1887927527-13143728 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\AZURE-SOURCE-RW                                       Alias            S-1-5-21-2127521184-1604012920-1887927527-14395628 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACMDS - OSG_DEMOS                                     Alias            S-1-5-21-2127521184-1604012920-1887927527-14724456 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SM_SMOKETEST_MSCOM_PROD_READ                          Alias            S-1-5-21-2127521184-1604012920-1887927527-15762381 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACMDS - WWSMM_FY12                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-11496409 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WIN_SPECS_ARCHIVE                                     Alias            S-1-5-21-2127521184-1604012920-1887927527-14510600 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OFFICE_RELEASES_O16_RO                                Alias            S-1-5-21-2127521184-1604012920-1887927527-9159877  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RED_OfficeWebBrowse                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-576701   Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\w8_windowsbuilds                                      Alias            S-1-5-21-2127521184-1604012920-1887927527-6098201  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Sirona - TAM Managers                                 Alias            S-1-5-21-2127521184-1604012920-1887927527-7314345  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Office_Drop_O15_RO                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-6634503  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\HRweb_sg_US_1010_emp_corp_nonmgr_Redmond_6            Alias            S-1-5-21-2127521184-1604012920-1887927527-16581208 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RRD-DE-READER-12648                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-8036651  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RED_OfficeOBTriage                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-2361612  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WASDRGCASPRODACCESS                                   Alias            S-1-5-21-2127521184-1604012920-1887927527-14724090 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS21-DASHBOARDADMIN001              Alias            S-1-5-21-2127521184-1604012920-1887927527-16769881 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS2-SEARCHER                        Alias            S-1-5-21-2127521184-1604012920-1887927527-15880958 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS7-SEARCHER                        Alias            S-1-5-21-2127521184-1604012920-1887927527-16207740 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RRD-DELA-R-14432                                      Alias            S-1-5-21-2127521184-1604012920-1887927527-9888973  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\Redmond-smartcard-logon                               Alias            S-1-5-21-2127521184-1604012920-1887927527-9747992  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS9-DASHBOARDADMIN                  Alias            S-1-5-21-2127521184-1604012920-1887927527-16207736 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\FS_RED-FSU_DEEPLEARNING_R                             Alias            S-1-5-21-2127521184-1604012920-1887927527-22223486 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\SM_MSCOMCMS_NAVIGATOR                                 Alias            S-1-5-21-2127521184-1604012920-1887927527-15756679 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OSG_REL_APPSRM_C                                      Alias            S-1-5-21-2127521184-1604012920-1887927527-15289922 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\CSBUILDEVENTJOBRUNNERS                                Alias            S-1-5-21-2127521184-1604012920-1887927527-14553205 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\DDTHRESHOLD_BUILD                                     Alias            S-1-5-21-2127521184-1604012920-1887927527-14558704 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS27-SEARCHER                       Alias            S-1-5-21-2127521184-1604012920-1887927527-16897793 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS12-SEARCHER                       Alias            S-1-5-21-2127521184-1604012920-1887927527-16406634 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\AZURE-ALL-STD                                         Alias            S-1-5-21-2127521184-1604012920-1887927527-14229295 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\OFFICE_PORTAL_O16_RO                                  Alias            S-1-5-21-2127521184-1604012920-1887927527-9159879  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-REPORTS6-SEARCHER                        Alias            S-1-5-21-2127521184-1604012920-1887927527-16207739 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\ACMDS-OSG_FTE_ONLY                                    Alias            S-1-5-21-2127521184-1604012920-1887927527-13962792 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\COMMSKB                                               Alias            S-1-5-21-2127521184-1604012920-1887927527-21988069 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\MSAllFTE                                              Alias            S-1-5-21-2127521184-1604012920-1887927527-1926035  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\WSSCLSE_RSG_RD2                                       Alias            S-1-5-21-2127521184-1604012920-1887927527-14428440 Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\RRD-Read Only-RG-13311                                Alias            S-1-5-21-2127521184-1604012920-1887927527-8479067  Mandatory group, Enabled by default, Enabled group, Local Group
+REDMOND\LENSEXPLORER-ICMCUSTOM-USERS                          Alias            S-1-5-21-2127521184-1604012920-1887927527-20470119 Mandatory group, Enabled by default, Enabled group, Local Group
+NT AUTHORITY\This Organization Certificate                    Well-known group S-1-5-65-1                                         Mandatory group, Enabled by default, Enabled group             
+Mandatory Label\Medium Mandatory Level                        Label            S-1-16-8192                                                                                                       

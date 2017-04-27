@@ -39,8 +39,6 @@ namespace SimpleWAWS.Code.CsmExtensions
                 resources = (await csmResourceGroupResourcesResponse.Content.ReadAsAsync<CsmArrayWrapper<object>>()).value;
             }
 
-
-
             if (loadSubResources)
             {
                 if (resourceGroup.SubscriptionType == SubscriptionType.AppService)
@@ -52,7 +50,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 }
                 else
                 {
-                    await Task.WhenAll(LoadJenkinsResources(resourceGroup));
+                    await Task.WhenAll(LoadLinuxResources(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/sites", StringComparison.OrdinalIgnoreCase))));
                 }
             }
 
@@ -70,7 +68,6 @@ namespace SimpleWAWS.Code.CsmExtensions
             return resourceGroup;
         }
 
-
         //Shallow load
         public static async Task<ResourceGroup> LoadLogicApps(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> logicApps = null)
         {
@@ -86,19 +83,10 @@ namespace SimpleWAWS.Code.CsmExtensions
             return resourceGroup;
         }
 
-        public static async Task<ResourceGroup> LoadJenkinsResources(this ResourceGroup resourceGroup, CsmWrapper<CsmJenkinsResource> jenkinsResources = null)
+        public static async Task<ResourceGroup> LoadLinuxResources(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> sites = null)
         {
-            //Dont try to look for the IP address if the resourcegroup hasnt been assgined yet.
-            if (jenkinsResources == null && !string.IsNullOrEmpty(resourceGroup.UserId))
-            {
-                var csmjenkinsResourcesResponse = await jenkinsClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.JenkinsResource.Bind(resourceGroup));
-                await csmjenkinsResourcesResponse.EnsureSuccessStatusCodeWithFullError();
-                jenkinsResources = await csmjenkinsResourcesResponse.Content.ReadAsAsync<CsmWrapper<CsmJenkinsResource>>();
-            }
-            resourceGroup.JenkinsResources = new JenkinsResource(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, jenkinsResources?.properties?.ipAddress, jenkinsResources?.properties?.dnsSettings);
-            return resourceGroup;
+            return await LoadSites(resourceGroup,sites);
         }
-
         //Shallow load
         public static async Task<ResourceGroup> LoadServerFarms(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> serverFarms = null)
         {
@@ -228,6 +216,20 @@ namespace SimpleWAWS.Code.CsmExtensions
 
                 await InitFunctionsContainer(resourceGroup);
             }
+            else if (resourceGroup.SubscriptionType == SubscriptionType.Linux)
+            {
+                // If the resourceGroup is assigned, don't mess with it
+                if (!string.IsNullOrEmpty(resourceGroup.UserId))
+                {
+                    return resourceGroup;
+                }
+
+                if (!resourceGroup.Sites.Any(s => s.IsSimpleWAWSOriginalSite))
+                {
+                        resourceGroup.Sites = new List<Site> {(await CreateLinuxSite(resourceGroup, SiteNameGenerator.GenerateName))};
+                }
+
+            }
             return resourceGroup;
         }
 
@@ -246,8 +248,8 @@ namespace SimpleWAWS.Code.CsmExtensions
             resourceGroup.Tags[Constants.StartTime] = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
             switch (appService)
             {
-                case AppService.Jenkins:
-                    resourceGroup.Tags[Constants.LifeTimeInMinutes] = ResourceGroup.JenkinsUsageTimeSpan.TotalMinutes.ToString();
+                case AppService.Linux:
+                    resourceGroup.Tags[Constants.LifeTimeInMinutes] = ResourceGroup.LinuxUsageTimeSpan.TotalMinutes.ToString();
                     break;
                 default:
                     resourceGroup.Tags[Constants.LifeTimeInMinutes] = ResourceGroup.DefaultUsageTimeSpan.TotalMinutes.ToString();
@@ -323,6 +325,29 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             return await Load(site, csmSite);
         }
+
+        private static async Task<Site> CreateLinuxSite(ResourceGroup resourceGroup, Func<string> nameGenerator, string siteKind = null)
+        {
+            var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, nameGenerator(), siteKind);
+            var csmTemplateString = string.Empty;
+            var template = TemplatesManager.GetTemplates().FirstOrDefault(t => t.Name == "Linux") as LinuxTemplate;
+
+            using (var reader = new StreamReader(template.CsmTemplateFilePath))
+            {
+                csmTemplateString = await reader.ReadToEndAsync();
+            }
+
+            csmTemplateString = csmTemplateString
+                                .Replace("{{siteName}}", site.SiteName)
+                                .Replace("{{aspName}}", site.SiteName + "-plan")
+                                .Replace("{{vmLocation}}", resourceGroup.GeoRegion);
+            var inProgressOperation = new InProgressOperation(resourceGroup, DeploymentType.CsmDeploy);
+            await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true, subscriptionType: resourceGroup.SubscriptionType);
+            resourceGroup.Tags.Add(Constants.LinuxAppDeployed, "1");
+            await resourceGroup.Update();
+            return await Load(site, null);
+        }
+
         private static async Task<Site> CreateFunctionApp(ResourceGroup resourceGroup, Func<string> nameGenerator, string siteKind = null)
         {
             var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, nameGenerator(), siteKind);
@@ -353,6 +378,8 @@ namespace SimpleWAWS.Code.CsmExtensions
             return IsSimpleWawsResourceName(csmResourceGroup) &&
                 csmResourceGroup.properties.provisioningState == "Succeeded" &&
                 csmResourceGroup.tags != null && !csmResourceGroup.tags.ContainsKey("Bad")
+                && csmResourceGroup.tags.ContainsKey(Constants.SubscriptionType)
+                && string.Equals(csmResourceGroup.tags[Constants.SubscriptionType], SubscriptionType.AppService.ToString(), StringComparison.OrdinalIgnoreCase)
                 && csmResourceGroup.tags.ContainsKey("FunctionsContainerDeployed");
         }
         private static bool IsSimpleWawsResourceName(CsmWrapper<CsmResourceGroup> csmResourceGroup)
@@ -379,13 +406,14 @@ namespace SimpleWAWS.Code.CsmExtensions
             }
         }
 
-        private static bool IsJenkinsResource(CsmWrapper<CsmResourceGroup> csmResourceGroup)
+        private static bool IsLinuxResource(CsmWrapper<CsmResourceGroup> csmResourceGroup)
         {
             return IsSimpleWawsResourceName(csmResourceGroup) &&
                 csmResourceGroup.properties.provisioningState == "Succeeded" &&
-                csmResourceGroup.tags != null && !csmResourceGroup.tags.ContainsKey("Bad") 
+                csmResourceGroup.tags != null && !csmResourceGroup.tags.ContainsKey("Bad")
                 && csmResourceGroup.tags.ContainsKey(Constants.SubscriptionType)
-                && string.Equals(csmResourceGroup.tags[Constants.SubscriptionType], SubscriptionType.Jenkins.ToString(),StringComparison.OrdinalIgnoreCase);
+                && string.Equals(csmResourceGroup.tags[Constants.SubscriptionType], SubscriptionType.Linux.ToString(), StringComparison.OrdinalIgnoreCase)
+                && csmResourceGroup.tags.ContainsKey(Constants.LinuxAppDeployed);
         }
 
         private static async Task InitFunctionsContainer(ResourceGroup resourceGroup)

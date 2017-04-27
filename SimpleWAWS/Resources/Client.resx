@@ -492,9 +492,6 @@
   <data name="Information_InstallAndroidStudio" xml:space="preserve">
     <value>Download Android Studio</value>
   </data>
-  <data name="Templates_AzureDevOpsDescription" xml:space="preserve">
-    <value>This template will create an Azure Jenkins CI</value>
-  </data>
   <data name="Information_FunctionApp" xml:space="preserve">
     <value>Function App</value>
   </data>
@@ -503,5 +500,8 @@
   </data>
   <data name="TryFunctions" xml:space="preserve">
     <value>Try Functions</value>
+  </data>
+  <data name="Information_LinuxWebAppDescription" xml:space="preserve">
+    <value>Azure Linux Web Apps enable developers to easily deploy and scale enterprise grade linux web applications written in a variety of languages and integrated with a multitude of services without ever worrying about infrastructure management.</value>
   </data>
 </root>

@@ -28,8 +28,7 @@
         public const string TryAppServiceSkuFamily = "F";
         public const int    TryAppServiceSkuCapacity = 0;
         public const string DefaultServerFarmName = "Default1";
-        public const string JenkinsUri = "JenkinsUri";
-        public const string JenkinsDnsUri = "JenkinsDnsUri";
         public const string SubscriptionType = "SubscriptionType";
+        public const string LinuxAppDeployed = "LinuxAppDeployed";
     }
 }

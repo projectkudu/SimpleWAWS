@@ -43,4 +43,5 @@
     export var Information_XamarinForms: string;
     export var Information_DownloadWUniversalWindowsPlatformClient: string;
     export var Information_InstallAndroidStudio: string;
+    export var Information_LinuxAppDescription: string;
 }

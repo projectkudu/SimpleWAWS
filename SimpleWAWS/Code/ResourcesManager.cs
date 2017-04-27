@@ -91,9 +91,9 @@ namespace SimpleWAWS.Code
                     throw new MoreThanOneResourceGroupException();
                 }
                 bool resourceGroupFound = false;
-                if (appService == AppService.Jenkins)
+                if ((appService == AppService.Linux))
                 {
-                    resourceGroupFound = _backgroundQueueManager.FreeJenkinsResourceGroups.TryDequeue(out resourceGroup);
+                    resourceGroupFound = _backgroundQueueManager.FreeLinuxResourceGroups.TryDequeue(out resourceGroup);
                 }
                 else
                 {
@@ -337,44 +337,30 @@ namespace SimpleWAWS.Code
             });
         }
 
-        public async Task<ResourceGroup> ActivateJenkinsResource(JenkinsTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
+        public async Task<ResourceGroup> ActivateLinuxResource(LinuxTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
-            return await ActivateResourceGroup(userIdentity, AppService.Jenkins, DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
+            return await ActivateResourceGroup(userIdentity, AppService.Linux, DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
             {
 
                 SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
                     userIdentity.Name, template, resourceGroup);
                 SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}; {6}",
                             AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
-                            "Jenkins", template.Name, resourceGroup.ResourceUniqueId, AppService.Jenkins.ToString(), anonymousUserName);
-                SimpleTrace.UserCreatedApp(userIdentity, template, resourceGroup, AppService.Jenkins);
+                            "Linux", template.Name, resourceGroup.ResourceUniqueId, AppService.Linux.ToString(), anonymousUserName);
+                SimpleTrace.UserCreatedApp(userIdentity, template, resourceGroup, AppService.Linux);
 
-                var csmTemplateString = string.Empty;
 
-                using (var reader = new StreamReader(template.CsmTemplateFilePath))
-                {
-                    csmTemplateString = await reader.ReadToEndAsync();
-                }
-
-                var hostName = SiteNameGenerator.GenerateJenksinsDnsName();
-                csmTemplateString = csmTemplateString
-                                    .Replace("{{jenkinsPassword}}", SimpleSettings.JenkinsVMPassword)
-                                    .Replace("{{jenkinsDnsNameForPublicIP}}", hostName)
-                                    .Replace("{{vmLocation}}", resourceGroup.GeoRegion);
-
-                await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true, subscriptionType: resourceGroup.SubscriptionType);
-                resourceGroup.Tags[Constants.JenkinsDnsUri] = hostName;
-                await resourceGroup.Update();
                 // After a deployment, fetch the Ip address. if the vm is up
                 // we should reload it.
-                // TODO: consider reloading the resourceGroup along with the deployment itself.
                 await resourceGroup.Load();
-                Util.FireAndForget(resourceGroup.JenkinsResources?.JenkinsResourceUrl);
-                resourceGroup.IsRbacEnabled = false;
+                Util.FireAndForget($"https://{resourceGroup.Sites.FirstOrDefault().HostName}.azurewebsites.net");
+                Util.FireAndForget($"https://{resourceGroup.Sites.FirstOrDefault().HostName}.scm.azurewebsites.net");
+
+                var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email);
+                resourceGroup.IsRbacEnabled = await rbacTask;
                 return resourceGroup;
             });
         }
-
         // ARM
         public async Task<ResourceGroup> ActivateFunctionApp(FunctionTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
@@ -419,16 +405,6 @@ namespace SimpleWAWS.Code
                         SimpleTrace.Diagnostics.Fatal(e, "Error in GetResourceGroup, Count: {Count}", Interlocked.Increment(ref _getResourceGroupErrorCount));
                     }
                     _backgroundQueueManager.ResourceGroupsInUse.TryGetValue(userId, out resourceGroup);
-                }
-            }
-            if (resourceGroup?.AppService == AppService.Jenkins && string.IsNullOrEmpty(resourceGroup.JenkinsUri))
-            {
-                await resourceGroup.LoadJenkinsResources();
-                if (!string.IsNullOrEmpty(resourceGroup.JenkinsResources?.JenkinsResourceUrl))
-                {
-                    resourceGroup.Tags[Constants.JenkinsUri] = resourceGroup.JenkinsResources?.JenkinsResourceUrl;
-                    resourceGroup.Tags[Constants.JenkinsDnsUri] = resourceGroup.JenkinsResources?.JenkinsDnsUrl;
-                    await resourceGroup.Update();
                 }
             }
             return resourceGroup;
@@ -485,11 +461,10 @@ namespace SimpleWAWS.Code
         {
             return _backgroundQueueManager.FreeResourceGroups.ToList();
         }
-        public IReadOnlyCollection<ResourceGroup> GetAllFreeJenkinsResourceGroups()
+        public IReadOnlyCollection<ResourceGroup> GetAllFreeLinuxResourceGroups()
         {
-            return _backgroundQueueManager.FreeJenkinsResourceGroups.ToList();
+            return _backgroundQueueManager.FreeLinuxResourceGroups.ToList();
         }
-
         // ARM
         public IReadOnlyCollection<ResourceGroup> GetAllInUseResourceGroups()
         {

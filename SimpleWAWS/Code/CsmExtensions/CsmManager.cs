@@ -17,7 +17,7 @@ namespace SimpleWAWS.Code.CsmExtensions
     {
         private static readonly AzureClient csmClient;
         private static readonly AzureClient graphClient;
-        private static readonly AzureClient jenkinsClient;
+        private static readonly AzureClient linuxClient;
 
         private const string _readerRole = "acdd72a7-3385-48ef-bd42-f606fba81ae7";
         private const string _contributorRold = "b24988ac-6180-42a0-ab88-20f7382dd24c";
@@ -32,8 +32,9 @@ namespace SimpleWAWS.Code.CsmExtensions
             graphClient = new AzureClient(retryCount: 3);
             graphClient.ConfigureUpnLogin(SimpleSettings.GraphUserName, SimpleSettings.GraphPassword);
 
-            jenkinsClient = new AzureClient(retryCount: 3);
-            jenkinsClient.ConfigureSpnLogin(SimpleSettings.JenkinsTenant, SimpleSettings.JenkinsServicePrincipal , SimpleSettings.JenkinsServicePrincipalKey);
+            linuxClient = new AzureClient(retryCount: 3);
+            linuxClient.ConfigureSpnLogin(SimpleSettings.LinuxTenant, SimpleSettings.LinuxServicePrincipal, SimpleSettings.LinuxServicePrincipalKey);
+
         }
 
         public static async Task<IEnumerable<string>> GetSubscriptions()
@@ -43,9 +44,9 @@ namespace SimpleWAWS.Code.CsmExtensions
                 // Load all subscriptions
                 var csmSubscriptions = await CsmManager.GetSubscriptionNamesToIdMap();
                 _subscriptions = (SimpleSettings.Subscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                    .Concat(SimpleSettings.JenkinsSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)))
+                    .Concat(SimpleSettings.LinuxSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)))
                     //It can be either a displayName or a subscriptionId
-                    //For Jenkins it needs to be subscriptionId
+                    //For Linux it needs to be subscriptionId
                     .Select(s => s.Trim())
                     .Where(n =>
                     {
@@ -65,9 +66,9 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             switch (subscriptionType)
             {
-                    case SubscriptionType.Jenkins:
-                            return jenkinsClient;
-                    case SubscriptionType.AppService:
+                case SubscriptionType.Linux:
+                            return linuxClient;
+                case SubscriptionType.AppService:
                     default:
                             return csmClient;
             }
@@ -193,11 +194,13 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             var appServiceSubscriptions = await response.Content.ReadAsAsync<CsmSubscriptionsArray>();
 
-            response = await jenkinsClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.Subscriptions.Bind(""));
+            response = await linuxClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.Subscriptions.Bind(""));
             await response.EnsureSuccessStatusCodeWithFullError();
 
-            var jenkinsSubscriptions = await response.Content.ReadAsAsync<CsmSubscriptionsArray>();
-            return appServiceSubscriptions.value.Concat(jenkinsSubscriptions.value).ToDictionary(k => k.displayName, v => v.subscriptionId);
+            var linuxSubscriptions = await response.Content.ReadAsAsync<CsmSubscriptionsArray>();
+
+            return (appServiceSubscriptions.value.Union(linuxSubscriptions.value)).GroupBy(sub => sub.subscriptionId)
+                   .Select(group => group.First()).ToDictionary(k => k.displayName, v => v.subscriptionId);
         }
 
         private static async Task<GraphArrayWrapper<GraphUser>> SearchGraph(RbacUser rbacUser)

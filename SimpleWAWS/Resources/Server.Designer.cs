@@ -205,11 +205,11 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This template will create an Azure Jenkins CI.
+        ///   Looks up a localized string similar to This template will create a Linux WebApp.
         /// </summary>
-        internal static string Templates_JenkinsDescription {
+        internal static string Templates_LinuxDescription {
             get {
-                return ResourceManager.GetString("Templates_JenkinsDescription", resourceCulture);
+                return ResourceManager.GetString("Templates_LinuxDescription", resourceCulture);
             }
         }
         

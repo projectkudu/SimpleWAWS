@@ -28,5 +28,6 @@ namespace SimpleWAWS.Models
 
         [JsonProperty(PropertyName = "msdeployPackageUrl")]
         public string MSDeployPackageUrl { get; set; }
+
     }
 }
