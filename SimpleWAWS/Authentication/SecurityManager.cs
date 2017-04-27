@@ -189,8 +189,12 @@ namespace SimpleWAWS.Authentication
             try
             {
                 var userCookie = context.Request.Cookies[AuthConstants.AnonymousUser];
-                var user = Uri.UnescapeDataString(userCookie.Value).Decrypt(AuthConstants.EncryptionReason);
-                return new TryWebsitesIdentity(user, null, "Anonymous").Name;
+                if (userCookie != null)
+                {
+                    var user = Uri.UnescapeDataString(userCookie.Value).Decrypt(AuthConstants.EncryptionReason);
+                    return new TryWebsitesIdentity(user, null, "Anonymous").Name;
+                }
+                return string.Empty;
             }
             catch (Exception e)
             {
