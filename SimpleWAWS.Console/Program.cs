@@ -13,7 +13,7 @@ namespace SimpleWAWS.Console
         static void Main(string[] args)
         {
             var log = new LoggerConfiguration()
-                .WriteTo.Console()
+                .WriteTo.ColoredConsole()
                 .CreateLogger();
             SimpleTrace.Diagnostics = log;
             SimpleTrace.Analytics = log;

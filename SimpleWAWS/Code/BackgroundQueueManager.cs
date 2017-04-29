@@ -57,7 +57,7 @@ namespace SimpleWAWS.Code
             {
                 Description = $"Loading subscription {subscriptionId}",
                 Type = OperationType.SubscriptionLoad,
-                Task = subscription.Load(deleteBadResourceGroups : true),
+                Task = subscription.Load(deleteBadResourceGroups : false),
                 RetryAction = () => LoadSubscription(subscriptionId)
             });
         }
