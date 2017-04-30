@@ -24,6 +24,7 @@ namespace SimpleWAWS
         {
             //Init logger
             InitAppInsights();
+            System.Net.ServicePointManager.DefaultConnectionLimit = 12 * SimpleSettings.NUMBER_OF_PROCESSORS;
             var config = GlobalConfiguration.Configuration;
             config.Services.Add(typeof(IExceptionLogger), new TelemetryExceptionLogger());
             config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;

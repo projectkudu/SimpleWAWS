@@ -76,7 +76,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             return subscription;
         }
 
-        private static  async Task<CsmArrayWrapper<CsmResourceGroup>> LoadResourceGroupsForSubscription(this Subscription subscription)
+        public static  async Task<CsmArrayWrapper<CsmResourceGroup>> LoadResourceGroupsForSubscription(this Subscription subscription)
         {
             var csmResourceGroupsRespnose = await GetClient(subscription.Type).HttpInvoke(HttpMethod.Get, ArmUriTemplates.ResourceGroups.Bind(subscription));
             await csmResourceGroupsRespnose.EnsureSuccessStatusCodeWithFullError();
@@ -99,7 +99,6 @@ namespace SimpleWAWS.Code.CsmExtensions
                                     .Select(i => i)
                                     .SelectMany(i => i)
                                     );
-
             result.ToDelete = subscription.ResourceGroups
                 .GroupBy(s => s.GeoRegion)
                 .Select(g => new { Region = g.Key, ResourceGroups = g.Select(r => r), Count = g.Count() })

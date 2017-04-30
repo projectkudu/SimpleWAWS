@@ -11,6 +11,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.ApplicationInsights;
 
 namespace SimpleWAWS.Code.CsmExtensions
 {
@@ -60,11 +61,25 @@ namespace SimpleWAWS.Code.CsmExtensions
         // Full Site Load
         public static async Task<ResourceGroup> LoadSites(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> sites = null)
         {
-            var csmSitesResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.Sites.Bind(resourceGroup));
-            await csmSitesResponse.EnsureSuccessStatusCodeWithFullError();
+            try
+            {
+                var csmSitesResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.Sites.Bind(resourceGroup));
+                await csmSitesResponse.EnsureSuccessStatusCodeWithFullError();
 
-            var csmSites = await csmSitesResponse.Content.ReadAsAsync<CsmArrayWrapper<CsmSite>>();
-            resourceGroup.Sites = await csmSites.value.Select(async cs => await Load(new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, cs.name, cs.kind), cs)).WhenAll();
+                var csmSites = await csmSitesResponse.Content.ReadAsAsync<CsmArrayWrapper<CsmSite>>();
+                resourceGroup.Sites = await csmSites.value.Select(async cs => await Load(new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, cs.name, cs.kind), cs)).WhenAll();
+
+            }
+            catch (Exception ex)
+            {
+                // Set up some properties:
+                var properties = new Dictionary<string, string>
+                {{"RGName", resourceGroup?.ResourceGroupName},
+                { "SubId", resourceGroup?.SubscriptionId},
+                { "SubType", resourceGroup?.SubscriptionType.ToString()}};
+
+                AppInsights.TelemetryClient.TrackException(ex,properties,null);
+            }
             return resourceGroup;
         }
 

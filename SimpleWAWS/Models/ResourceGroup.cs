@@ -100,7 +100,7 @@ namespace SimpleWAWS.Models
 
         public string GeoRegion
         {
-            get { return Tags[Constants.GeoRegion]; }
+            get { return Tags.ContainsKey(Constants.GeoRegion)? Tags[Constants.GeoRegion]: String.Empty; }
         }
 
         public bool IsRbacEnabled
@@ -229,6 +229,16 @@ namespace SimpleWAWS.Models
             this.LogicApps = Enumerable.Empty<LogicApp>();
             this.StorageAccounts = Enumerable.Empty<StorageAccount>();
             this.Tags = new Dictionary<string, string>();
+        }
+        public ResourceGroup(string subsciptionId, string resourceGroupName,string georegion)
+    : base(subsciptionId, resourceGroupName)
+        {
+            this.Sites = Enumerable.Empty<Site>();
+            this.ServerFarms = Enumerable.Empty<ServerFarm>();
+            this.LogicApps = Enumerable.Empty<LogicApp>();
+            this.StorageAccounts = Enumerable.Empty<StorageAccount>();
+            this.Tags = new Dictionary<string, string>();
+            this.Tags[Constants.GeoRegion] = georegion;
         }
     }
 }

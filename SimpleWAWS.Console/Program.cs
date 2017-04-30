@@ -1,6 +1,7 @@
 ﻿using SimpleWAWS.Models;
 using SimpleWAWS.Code;
 using System;
+using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using SimpleWAWS.Code.CsmExtensions;
@@ -10,14 +11,17 @@ namespace SimpleWAWS.Console
 {
     static class Program
     {
+        private static Hashtable georegionHashMap =new Hashtable();
         static void Main(string[] args)
         {
+            System.Net.ServicePointManager.DefaultConnectionLimit = 12 * SimpleSettings.NUMBER_OF_PROCESSORS;
             var log = new LoggerConfiguration()
                 .WriteTo.ColoredConsole()
                 .CreateLogger();
             SimpleTrace.Diagnostics = log;
             SimpleTrace.Analytics = log;
-            switch (args[0])
+            var arg = args.Length > 0 ? args[0] : String.Empty;
+            switch (arg)
             {
                 case "fixfunctionssetting":
                     Task.Run(() => FixFunctionsSetting()).Wait();
@@ -46,6 +50,101 @@ namespace SimpleWAWS.Console
         }
 
         public static async Task MainAsync()
+        {
+            foreach (var a in SimpleSettings.GeoRegions.Split(','))
+            {
+                georegionHashMap.Add(a.ToLowerInvariant().Replace(" ","") ,a);
+            }
+            //var subscriptionNames = System.Environment.GetEnvironmentVariable("Subscriptions").Split(',');
+            var csmSubscriptions = await CsmManager.GetSubscriptionNamesToIdMap();
+            var subscriptionsIds = SimpleSettings.Subscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Union(SimpleSettings.LinuxSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                //It can be either a displayName or a subscriptionId
+                .Select(s => s.Trim())
+                .Where(n =>
+                {
+                    Guid temp;
+                    return csmSubscriptions.ContainsKey(n) || Guid.TryParse(n, out temp);
+                })
+                .Select(sn =>
+                {
+                    Guid temp;
+                    if (Guid.TryParse(sn, out temp)) return sn;
+                    else return csmSubscriptions[sn];
+                });
+            //var subscriptionNames = new[] { "bd5cf6af-4d44-449e-adaf-20626ae5013e" };
+            var startTime = DateTime.UtcNow;
+
+            Action<object> console = (s) => System.Console.WriteLine("[" + (DateTime.UtcNow - startTime).TotalMilliseconds + "] " + s);
+            Action<Subscription> printSub = (sub) => sub.ResourceGroups.ToList().ForEach(e =>
+                console(string.Format("RG: {0} has {1} sites, named: {2}",
+                e.ResourceGroupName,
+                e.Sites.Count(),
+                e.Sites.Count() > 0
+                ? e.Sites.Select(s => s.SiteName).Aggregate((a, b) => string.Join(",", a, b))
+                : "No sites")
+                ));
+
+
+            console("start loading subscriptions");
+            console("We have " + subscriptionsIds.Count() + " subscriptions");
+            //var subscriptions = await subscriptionsIds.Select(s => new Subscription(s).Load(false)).WhenAll();
+            //console("done loading subscriptions");
+
+            //console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()) + " resourceGroups");
+
+            console("calling MakeTrialSubscription on all subscriptions");
+            foreach (var sub in subscriptionsIds)
+            {
+                var s = await new Subscription(sub).Load(false);
+                console($"Deleting resources in {s.Type} subscription {s.SubscriptionId}");
+
+                var csmResourceGroups = await s.LoadResourceGroupsForSubscription();
+                var deleteExtras = csmResourceGroups.value
+                    .GroupBy(rg => rg.location)
+                    .Select(g => new { Region = g.Key, ResourceGroups = g.Select(r => r), Count = g.Count() })
+                    .Where(g => g.Count > s.ResourceGroupsPerGeoRegion)
+                    .Select(g => g.ResourceGroups.Where(rg => !rg.tags.ContainsKey("UserId") ).Skip((s.ResourceGroupsPerGeoRegion)))
+                    .SelectMany(i => i);
+
+                Parallel.ForEach(deleteExtras, async (resourceGroup) =>
+                {
+                    try
+                    {
+                        var georegion = getGeoRegionfromLocation(resourceGroup.location);
+                        console($"Deleting leaked {georegion} resource  {resourceGroup.name}");
+                        await new ResourceGroup(s.SubscriptionId,resourceGroup.name, georegion).Delete(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        console($"Extra RG Delete Exception:{ex.ToString()}-{ex.StackTrace}-{ex.InnerException?.StackTrace.ToString() ?? String.Empty}");
+                    }
+                });
+                var result = s.MakeTrialSubscription();
+
+                Parallel.ForEach(result.ToDelete, async (resourceGroup) =>
+                {
+                    try
+                    {
+                        console($"Deleting {resourceGroup.ResourceGroupName} resource in {s.Type} subscription {s.SubscriptionId}");
+                        await resourceGroup.Delete(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        console($"RG Delete Exception:{ex.ToString()}-{ex.StackTrace}-{ex.InnerException?.StackTrace.ToString() ?? String.Empty}");
+                    }
+                });
+            }
+            //subscriptions.ToList().ForEach(printSub);
+            console("Done");
+        }
+
+        private static string getGeoRegionfromLocation(string location)
+        {
+            return georegionHashMap.ContainsKey(location)? georegionHashMap[location].ToString() :String.Empty;
+        }
+
+        public static async Task Main2Async()
         {
             //var subscriptionNames = System.Environment.GetEnvironmentVariable("Subscriptions").Split(',');
             var csmSubscriptions = await CsmManager.GetSubscriptionNamesToIdMap();
@@ -161,7 +260,7 @@ namespace SimpleWAWS.Console
             //console("done loading subscriptions");
 
             Parallel.ForEach(
-                subscriptions.Where(r => r.Type == SubscriptionType.AppService).SelectMany(subscription => subscription.ResourceGroups), async (resourcegroup) =>
+                subscriptions.Where(r => r.Type == SubscriptionType.AppService  || r.Type == SubscriptionType.Linux).SelectMany(subscription => subscription.ResourceGroups), async (resourcegroup) =>
                 {
                     //foreach (var resourcegroup in subscriptions.Where(r => r.Type == SubscriptionType.AppService).SelectMany(subscription => subscription.ResourceGroups))
                     //{

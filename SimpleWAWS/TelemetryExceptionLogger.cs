@@ -1,4 +1,5 @@
-﻿using System.Web.Http.ExceptionHandling;
+﻿using System.Collections.Generic;
+using System.Web.Http.ExceptionHandling;
 
 namespace SimpleWAWS
 {
@@ -6,7 +7,12 @@ namespace SimpleWAWS
     {
         public override void Log(ExceptionLoggerContext context)
         {
-            AppInsights.TelemetryClient.TrackException(context.Exception);
+            var properties = new Dictionary<string, string>
+            {{"Uri", context.Request?.RequestUri?.AbsoluteUri},
+            { "Method", context.Request?.Method?.ToString()},
+            { "Content", context.Request?.Content?.ToString()}
+            };
+            AppInsights.TelemetryClient.TrackException(context.Exception, properties, null);
         }
     }
 }
