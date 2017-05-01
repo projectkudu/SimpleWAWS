@@ -345,7 +345,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, nameGenerator(), siteKind);
             var csmTemplateString = string.Empty;
-            var template = TemplatesManager.GetTemplates().FirstOrDefault(t => t.Name == "Linux") as LinuxTemplate;
+            var template = TemplatesManager.GetTemplates().FirstOrDefault(t => t.Name == Constants.LinuxWebAppTemplateName) as LinuxTemplate;
 
             using (var reader = new StreamReader(template.CsmTemplateFilePath))
             {
