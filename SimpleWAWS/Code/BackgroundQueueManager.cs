@@ -5,11 +5,13 @@ using SimpleWAWS.Trace;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.ApplicationInsights;
 
 namespace SimpleWAWS.Code
 {
@@ -201,10 +203,45 @@ namespace SimpleWAWS.Code
                         DeleteResourceGroup(resource);
                     }
 
+                    var subscriptions = await CsmManager.GetSubscriptions();
+                    var totalDeletedRGs = 0;
+                    Stopwatch sw = new Stopwatch();
+                    sw.Start();
+                    foreach (var sub in subscriptions)
+                    {
+                        var s = await new Subscription(sub).Load(false);
+                        SimpleTrace.Diagnostics.Information($"Deleting resources in {s.Type} subscription {s.SubscriptionId}");
+
+                        var csmResourceGroups = await s.LoadResourceGroupsForSubscription();
+                        var resourceManager = await ResourcesManager.GetInstanceAsync();
+                        var deleteExtras = csmResourceGroups.value
+                            .Where(p => !resourceManager.GetAllLoadedResourceGroups().Any(p2 => string.Equals(p.id, p2.CsmId, StringComparison.OrdinalIgnoreCase))).GroupBy(rg => rg.location)
+                            .Select(g => new { Region = g.Key, ResourceGroups = g.Select(r => r), Count = g.Count() })
+                            .Where(g => g.Count > s.ResourceGroupsPerGeoRegion)
+                            .Select(g => g.ResourceGroups.Where(rg => !rg.tags.ContainsKey("UserId")))
+                            .SelectMany(i => i);
+                        
+                        totalDeletedRGs += deleteExtras.Count();
+                        AppInsights.TelemetryClient.TrackMetric("deletedRGs", deleteExtras.Count());
+                        Parallel.ForEach(deleteExtras, async (resourceGroup) =>
+                        {
+                            try
+                            {
+                                var georegion = CsmManager.RegionHashTable[resourceGroup.location].ToString();
+                                SimpleTrace.Diagnostics.Information($"Deleting leaked {georegion} resource  {resourceGroup.name}");
+                                await new ResourceGroup(s.SubscriptionId, resourceGroup.name, georegion).Delete(false);
+                            }
+                            catch (Exception ex)
+                            {
+                                SimpleTrace.Diagnostics.Error($"Leaking RG Delete Exception:{ex.ToString()}-{ex.StackTrace}-{ex.InnerException?.StackTrace.ToString() ?? String.Empty}");
+                            }
+                        });
+                    }
+
+                    AppInsights.TelemetryClient.TrackMetric("leakingCleanupTime", sw.Elapsed.TotalSeconds);
                     //Delete any duplicate resourcegroups in same subscription loaded in the same region
                     //or create any missing resourcegroups in a region
                     IList<Tuple<string, MakeSubscriptionFreeTrialResult>> subscriptionStates = new List<Tuple<string, MakeSubscriptionFreeTrialResult>>();
-                    var subscriptions = await CsmManager.GetSubscriptions();
                     foreach (var subscription in subscriptions)
                     {
                         var sub = new Subscription(subscription);
@@ -224,7 +261,8 @@ namespace SimpleWAWS.Code
                             DeleteResourceGroupOperation(resourceGroup);
                         }
                     }
-                    //TODO: Figure out another option for Cleaning up subscriptions
+                    AppInsights.TelemetryClient.TrackMetric("fullCleanupTime", sw.Elapsed.TotalSeconds);
+                    sw.Stop();
                 });
             }
             catch (Exception e)

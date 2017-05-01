@@ -55,6 +55,7 @@ namespace SimpleWAWS.Console
             {
                 georegionHashMap.Add(a.ToLowerInvariant().Replace(" ","") ,a);
             }
+
             //var subscriptionNames = System.Environment.GetEnvironmentVariable("Subscriptions").Split(',');
             var csmSubscriptions = await CsmManager.GetSubscriptionNamesToIdMap();
             var subscriptionsIds = SimpleSettings.Subscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
@@ -93,6 +94,7 @@ namespace SimpleWAWS.Console
 
             //console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()) + " resourceGroups");
 
+            var resources = await CsmManager.GetLoadedResources();
             console("calling MakeTrialSubscription on all subscriptions");
             foreach (var sub in subscriptionsIds)
             {

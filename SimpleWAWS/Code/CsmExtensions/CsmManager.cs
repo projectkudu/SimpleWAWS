@@ -4,6 +4,7 @@ using SimpleWAWS.Models;
 using SimpleWAWS.Models.CsmModels;
 using SimpleWAWS.Trace;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         private static readonly AsyncLock _rbacLock = new AsyncLock();
         private static IEnumerable<string> _subscriptions;
+        private static Hashtable georegionHashMap = new Hashtable();
         static CsmManager()
         {
             csmClient = new AzureClient(retryCount: 3);
@@ -62,6 +64,22 @@ namespace SimpleWAWS.Code.CsmExtensions
             }
             return _subscriptions;
         }
+
+        public static Hashtable RegionHashTable
+        {
+            get
+            {
+                if (georegionHashMap.Count ==0)
+                {
+                    foreach (var a in SimpleSettings.GeoRegions.Split(','))
+                    {
+                        georegionHashMap.Add(a.ToLowerInvariant().Replace(" ", ""), a);
+                    }
+                }
+                return georegionHashMap;
+            }
+        }
+
         static AzureClient GetClient(SubscriptionType subscriptionType)
         {
             switch (subscriptionType)
@@ -253,6 +271,13 @@ namespace SimpleWAWS.Code.CsmExtensions
             {
                 yield return batch;
             }
+        }
+        public static async Task<JObject> GetLoadedResources()
+        {
+
+            var tryAppServiceResponse = await graphClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.LoadedResources);
+            await tryAppServiceResponse.EnsureSuccessStatusCodeWithFullError();
+            return await tryAppServiceResponse.Content.ReadAsAsync<JObject>();
         }
     }
 
