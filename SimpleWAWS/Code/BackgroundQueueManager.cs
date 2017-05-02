@@ -213,9 +213,8 @@ namespace SimpleWAWS.Code
                         SimpleTrace.Diagnostics.Information($"Deleting resources in {s.Type} subscription {s.SubscriptionId}");
 
                         var csmResourceGroups = await s.LoadResourceGroupsForSubscription();
-                        var resourceManager = await ResourcesManager.GetInstanceAsync();
                         var deleteExtras = csmResourceGroups.value
-                            .Where(p => !resourceManager.GetAllLoadedResourceGroups().Any(p2 => string.Equals(p.id, p2.CsmId, StringComparison.OrdinalIgnoreCase))).GroupBy(rg => rg.location)
+                            .Where(p => ! LoadedResourceGroups.Any(p2 => string.Equals(p.id, p2.CsmId, StringComparison.OrdinalIgnoreCase))).GroupBy(rg => rg.location)
                             .Select(g => new { Region = g.Key, ResourceGroups = g.Select(r => r), Count = g.Count() })
                             .Where(g => g.Count > s.ResourceGroupsPerGeoRegion)
                             .Select(g => g.ResourceGroups.Where(rg => !rg.tags.ContainsKey("UserId")))

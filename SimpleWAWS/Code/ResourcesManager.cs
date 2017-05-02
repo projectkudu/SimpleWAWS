@@ -454,7 +454,7 @@ namespace SimpleWAWS.Code
         }
         public IEnumerable<ResourceGroup> GetAllLoadedResourceGroups()
         {
-            return _backgroundQueueManager.LoadedResourceGroups;
+            return _instance._backgroundQueueManager.LoadedResourceGroups;
         }
 
         public IReadOnlyCollection<ResourceGroup> GetAllFreeResourceGroups()
