@@ -282,7 +282,7 @@ namespace SimpleWAWS.Code
                     RemoveFromFreeLinuxQueue(resourceGroup);
                     break;
                 default:
-                    SimpleTrace.Diagnostics.Warning($"Resourcegroup subscriptiontype cannot be determined {resourceGroup.ResourceGroupName}");
+                    SimpleTrace.Diagnostics.Warning($"Resourcegroup subscriptiontype cannot be determined {resourceGroup.CsmId}");
                     break;
             } 
         }
@@ -341,7 +341,7 @@ namespace SimpleWAWS.Code
         {
             AddOperation(new BackgroundOperation<ResourceGroup>
             {
-                Description = $"Logging usage statistics for resourceGroup {resourceGroup.ResourceGroupName}",
+                Description = $"Logging usage statistics for resourceGroup {resourceGroup.CsmId}",
                 Type = OperationType.LogUsageStatistics,
                 Task = LogActiveUsageStatistics(resourceGroup),
                 RetryAction = () => LogUsageStatistics(resourceGroup)
@@ -352,7 +352,7 @@ namespace SimpleWAWS.Code
         {
             AddOperation(new BackgroundOperation<ResourceGroup>
             {
-                Description = $"Deleting and creating resourceGroup {resourceGroup.ResourceGroupName}",
+                Description = $"Deleting and creating resourceGroup {resourceGroup.CsmId}",
                 Type = OperationType.ResourceGroupDeleteThenCreate,
                 Task = resourceGroup.DeleteAndCreateReplacement(blockDelete: false),
                 RetryAction = () => DeleteAndCreateResourceGroupOperation(resourceGroup)
@@ -395,7 +395,7 @@ namespace SimpleWAWS.Code
         {
             AddOperation(new BackgroundOperation<ResourceGroup>
             {
-                Description = $"Deleting resourceGroup {resourceGroup.ResourceGroupName}",
+                Description = $"Deleting resourceGroup {resourceGroup.CsmId}",
                 Type = OperationType.ResourceGroupDelete,
                 Task = resourceGroup.Delete(false),
                 RetryAction = () => DeleteResourceGroupOperation(resourceGroup)
@@ -417,7 +417,7 @@ namespace SimpleWAWS.Code
         {
             AddOperation(new BackgroundOperation<ResourceGroup>
             {
-                Description = $"Putting resourceGroup {resourceGroup.ResourceGroupName} in desired state",
+                Description = $"Putting resourceGroup {resourceGroup.CsmId} in desired state",
                 Type = OperationType.ResourceGroupPutInDesiredState,
                 Task = resourceGroup.PutInDesiredState(),
                 RetryAction = () => PutResourceGroupInDesiredStateOperation(resourceGroup)

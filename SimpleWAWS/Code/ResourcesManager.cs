@@ -121,6 +121,7 @@ namespace SimpleWAWS.Code
                     {
                         //this means the user is trying to add more than 1 site.
                         //delete the new site that's not yet added to the used list
+                        SimpleTrace.Diagnostics.Information("User asked for more than 1 site. Replacing {resourceGroup.CsmId}", resourceGroup.CsmId);
                         await resourceGroup.DeleteAndCreateReplacement();
                         throw new MoreThanOneResourceGroupException();
                     }
