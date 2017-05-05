@@ -78,6 +78,8 @@ namespace SimpleWAWS.Controllers
                 var inUseLinuxResources = resourceManager.GetAllInUseResourceGroups().Where(sub => sub.SubscriptionType == SubscriptionType.Linux);
                 var freeSitesList = freeSites as IList<ResourceGroup> ?? freeSites.ToList();
                 var inUseLinuxResourcesList = inUseLinuxResources as IList<ResourceGroup> ?? inUseLinuxResources.ToList();
+                var uptime = resourceManager.GetUptime();
+                var resourceGroupCleanupCount = resourceManager.GetResourceGroupCleanupCount();
 
                 return Request.CreateResponse(HttpStatusCode.OK,
                     new
@@ -97,7 +99,9 @@ namespace SimpleWAWS.Controllers
                         freeSites = showFreeResources ? freeSitesList : null,
                         freeLinuxResources = showFreeResources ? freeLinuxResources : null,
                         inProgress = inProgress,
-                        backgroundOperations = backgroundOperations
+                        backgroundOperations = backgroundOperations,
+                        uptime = uptime,
+                        resourceGroupCleanupCount = resourceGroupCleanupCount
 
                     });
             });
@@ -171,7 +175,8 @@ namespace SimpleWAWS.Controllers
                     AppService = linuxtemplate.AppService,
                     Name = linuxtemplate.Name,
                     CsmTemplateFilePath = linuxtemplate.CsmTemplateFilePath,
-                    Description = linuxtemplate.Description
+                    Description = linuxtemplate.Description,
+                    MSDeployPackageUrl = linuxtemplate.MSDeployPackageUrl
                 };
             }
             else if (template.Name != null && !template.Name.Equals("Github Repo") && !template.AppService.Equals(AppService.Function))

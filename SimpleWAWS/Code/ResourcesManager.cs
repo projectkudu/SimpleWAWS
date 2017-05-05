@@ -350,12 +350,25 @@ namespace SimpleWAWS.Code
                             "Linux", template.Name, resourceGroup.ResourceUniqueId, AppService.Linux.ToString(), anonymousUserName);
                 SimpleTrace.UserCreatedApp(userIdentity, template, resourceGroup, AppService.Linux);
 
+                var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
 
-                // After a deployment, fetch the Ip address. if the vm is up
-                // we should reload it.
-                await resourceGroup.Load();
-                Util.FireAndForget($"https://{resourceGroup.Sites.FirstOrDefault().HostName}.azurewebsites.net");
-                Util.FireAndForget($"https://{resourceGroup.Sites.FirstOrDefault().HostName}.scm.azurewebsites.net");
+                if (template?.MSDeployPackageUrl != null)
+                {
+                    var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+                    var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
+                    Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.MSDeployPackageUrl);
+                    var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
+                    Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
+                    await Task.WhenAll(zipUpload, deleteHostingStart);
+                }
+
+                if (template.Name.Equals(Constants.NodeJSWebAppLinuxTemplateName, StringComparison.OrdinalIgnoreCase))
+                {
+                        await site.UpdateConfig(new { properties = new { linuxFxVersion = "NODE|6.10", appCommandLine= "process.json" } });
+                }
+
+                Util.FireAndForget($"{resourceGroup.Sites.FirstOrDefault().HostName}.azurewebsites.net");
+                Util.FireAndForget($"{resourceGroup.Sites.FirstOrDefault().HostName}.scm.azurewebsites.net");
 
                 var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email);
                 resourceGroup.IsRbacEnabled = await rbacTask;
@@ -480,7 +493,14 @@ namespace SimpleWAWS.Code
         {
             return this._backgroundQueueManager.BackgroundInternalOperations.Select(s => s.Value).ToList();
         }
-
+        public double GetUptime()
+        {
+            return this._backgroundQueueManager._uptime.Elapsed.TotalMinutes;
+        }
+        public int GetResourceGroupCleanupCount()
+        {
+            return this._backgroundQueueManager._cleanupOperationsTriggered;
+        }
         public async Task<string> GetResourceStatusAsync(string userId)
         {
             InProgressOperation inProgressOperation;

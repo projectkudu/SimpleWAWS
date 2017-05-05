@@ -45,18 +45,32 @@ namespace SimpleWAWS.Models
                 {
                     foreach (var template in Directory.GetFiles(languagePath))
                     {
-                        var iconUri = Path.Combine(ImagesFolder, string.Format(CultureInfo.InvariantCulture, "{0}.png", Path.GetFileNameWithoutExtension(template)));
+                        var iconUri = Path.Combine(ImagesFolder,
+                            string.Format(CultureInfo.InvariantCulture, "{0}.png",
+                                Path.GetFileNameWithoutExtension(template)));
                         var cssClass = GetShortName(Path.GetFileNameWithoutExtension(template));
-                        var iconCssClass = File.Exists(iconUri) ? string.Format(CultureInfo.InvariantCulture, "sprite-{0}", cssClass) : "sprite-Large";
+                        var iconCssClass = File.Exists(iconUri)
+                            ? string.Format(CultureInfo.InvariantCulture, "sprite-{0}", cssClass)
+                            : "sprite-Large";
                         var language = Path.GetFileName(languagePath);
                         list.Add(new WebsiteTemplate
                         {
                             Name = Path.GetFileNameWithoutExtension(template),
                             FileName = Path.GetFileName(template),
-                            Language = (language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) || language.Equals("Api", StringComparison.OrdinalIgnoreCase)) ? null : language,
+                            Language =
+                                (language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) ||
+                                 language.Equals("Api", StringComparison.OrdinalIgnoreCase))
+                                    ? null
+                                    : language,
                             SpriteName = string.Format(CultureInfo.InvariantCulture, "{0} {1}", iconCssClass, cssClass),
-                            AppService = language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) ? AppService.Mobile : language.Equals("Api", StringComparison.OrdinalIgnoreCase) ? AppService.Api : AppService.Web,
-                            MSDeployPackageUrl = $"{SimpleSettings.ZippedRepoUrl}/{Uri.EscapeDataString(Path.GetFileName(Path.GetDirectoryName(template)))}/{Uri.EscapeDataString(Path.GetFileName(template))}"
+                            AppService =
+                                language.Equals("Mobile", StringComparison.OrdinalIgnoreCase)
+                                    ? AppService.Mobile
+                                    : language.Equals("Api", StringComparison.OrdinalIgnoreCase)
+                                        ? AppService.Api
+                                        : AppService.Web,
+                            MSDeployPackageUrl =
+                                $"{SimpleSettings.ZippedRepoUrl}/{Uri.EscapeDataString(Path.GetFileName(Path.GetDirectoryName(template)))}/{Uri.EscapeDataString(Path.GetFileName(template))}"
                         });
                     }
                 }
@@ -69,14 +83,25 @@ namespace SimpleWAWS.Models
                     Description = Resources.Server.Templates_PingSiteDescription
                 });
                 if (File.Exists(HostingEnvironment.MapPath("~/ARMTemplates/LinuxResource.json")))
-                list.Add(new LinuxTemplate
-                {
-                    Name = Constants.LinuxWebAppTemplateName,
-                    SpriteName = "sprite-LinuxWebApp LinuxWebApp",
-                    AppService = AppService.Linux,
+                {   list.Add(new LinuxTemplate
+                    {
+                        Name = Constants.NodeJSWebAppLinuxTemplateName,
+                        SpriteName = "sprite-LinuxNodeJSExpress LinuxWebApp",
+                        AppService = AppService.Linux,
+                    MSDeployPackageUrl = HostingEnvironment.MapPath("~/App_Data/LinuxTemplates/Node.jsLinuxApp.zip"),
                     CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/LinuxResource.json"),
-                    Description = Resources.Server.Templates_LinuxDescription
-                });                
+                        Description = Resources.Server.Templates_LinuxDescription
+                    });
+                    list.Add(new LinuxTemplate
+                    {
+                        Name = Constants.PHPWebAppLinuxTemplateName,
+                        SpriteName = "sprite-LinuxPHPEmptySite LinuxWebApp",
+                        AppService = AppService.Linux,
+                        MSDeployPackageUrl = HostingEnvironment.MapPath("~/App_Data/LinuxTemplates/PHPLinuxApp.zip"),
+                        CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/LinuxResource.json"),
+                        Description = Resources.Server.Templates_LinuxDescription
+                    });
+                }
                 //Use JObject.Parse to quickly build up the armtemplate object used for LRS
                 _baseARMTemplate = JObject.Parse( File.ReadAllText(HostingEnvironment.MapPath("~/ARMTemplates/BaseARMTemplate.json")));
                 //TODO: Implement a FileSystemWatcher for changes in the directory

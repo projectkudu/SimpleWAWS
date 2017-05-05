@@ -31,6 +31,7 @@
         public const string SubscriptionType = "SubscriptionType";
         public const string LinuxAppDeployed = "LinuxAppDeployed";
         public const string NextSlotName = "next";
-        public const string LinuxWebAppTemplateName = "Linux Web App";
+        public const string PHPWebAppLinuxTemplateName = "PHP Web App on Linux";
+        public const string NodeJSWebAppLinuxTemplateName = "Node.js Web App on Linux";
     }
 }

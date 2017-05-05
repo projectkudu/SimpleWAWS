@@ -9102,6 +9102,9 @@ div.sprite-django{ background-position: -165px -1225px; width: 115px; height: 11
 div.sprite-git{ background-position: -165px -1390px; width: 50px; height: 50px; } 
 div.sprite-WordPress{ background-position: -165px -1685px; width: 115px; height: 115px; }
 
+div.sprite-LinuxPHPEmptySite{ background-position: -165px -365px; width: 115px; height: 115px; } 
+div.sprite-LinuxNodeJSExpress{ background-position: 0 -1190px; width: 115px; height: 115px; } 
+
 div.sprite-PingSite { background: url(/Content/images/packages/logic-message-red.png?v=2) no-repeat top left; }
 
 span.error-message-text {

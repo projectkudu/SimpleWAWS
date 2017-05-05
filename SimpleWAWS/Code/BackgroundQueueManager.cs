@@ -36,9 +36,12 @@ namespace SimpleWAWS.Code
         public readonly ConcurrentDictionary<Guid, BackgroundOperation> BackgroundInternalOperations = new ConcurrentDictionary<Guid, BackgroundOperation>();
         private Timer _logQueueStatsTimer;
         private Timer _cleanupSubscriptionsTimer;
+        private Timer _cleanupExpiredResourceGroupsTimer;
         private readonly JobHost _jobHost = new JobHost();
         private static int _maintainResourceGroupListErrorCount = 0;
         private static Random rand = new Random();
+        internal Stopwatch _uptime;
+        internal int _cleanupOperationsTriggered;
 
         public BackgroundQueueManager()
         {
@@ -49,6 +52,14 @@ namespace SimpleWAWS.Code
             if (_cleanupSubscriptionsTimer == null)
             {
                 _cleanupSubscriptionsTimer = new Timer(OnCleanupSubscriptionsTimerElapsed, null, TimeSpan.FromMinutes(SimpleSettings.CleanupSubscriptionMinutes), TimeSpan.FromMinutes(SimpleSettings.CleanupSubscriptionMinutes));
+            }
+            if (_cleanupExpiredResourceGroupsTimer == null)
+            {
+                _cleanupExpiredResourceGroupsTimer = new Timer(OnExpiredResourceGroupsTimerElapsed, null, TimeSpan.FromMinutes(SimpleSettings.CleanupExpiredResourceGroupsMinutes), TimeSpan.FromMinutes(SimpleSettings.CleanupExpiredResourceGroupsMinutes));
+            }
+            if (_uptime == null)
+            {
+                _uptime = Stopwatch.StartNew();
             }
         }
 
@@ -187,6 +198,28 @@ namespace SimpleWAWS.Code
                 SimpleTrace.Diagnostics.Fatal(e, "LogQueueStatistics error, Count {Count}", Interlocked.Increment(ref _maintainResourceGroupListErrorCount));
             }
         }
+        private void OnExpiredResourceGroupsTimerElapsed(object state)
+        {
+            try
+            {
+                _jobHost.DoWork(() =>
+                {
+                    var resources = this.ResourceGroupsInUse
+                        .Select(e => e.Value)
+                        .Where(rg => (int)rg.TimeLeft.TotalSeconds == 0);
+
+                    foreach (var resource in resources)
+                    {
+                        DeleteResourceGroup(resource);
+                    }
+
+                });
+            }
+            catch
+            {
+            }
+
+        }
 
         private void OnCleanupSubscriptionsTimerElapsed(object state)
         {
@@ -194,14 +227,6 @@ namespace SimpleWAWS.Code
             {
                 _jobHost.DoWork(async () =>
                 {
-                    var resources = this.ResourceGroupsInUse
-                    .Select(e => e.Value)
-                    .Where(rg => (int)rg.TimeLeft.TotalSeconds == 0);
-
-                    foreach (var resource in resources)
-                    {
-                        DeleteResourceGroup(resource);
-                    }
 
                     var subscriptions = await CsmManager.GetSubscriptions();
                     var totalDeletedRGs = 0;
@@ -212,17 +237,18 @@ namespace SimpleWAWS.Code
                         var s = await new Subscription(sub).Load(false);
                         SimpleTrace.Diagnostics.Information($"Deleting resources in {s.Type} subscription {s.SubscriptionId}");
 
+                        //Delete any leaking resourcegroups in subscription that cannot be loaded
                         var csmResourceGroups = await s.LoadResourceGroupsForSubscription();
-                        var deleteExtras = csmResourceGroups.value
+                        var deleteLeakingRGs = csmResourceGroups.value
                             .Where(p => ! LoadedResourceGroups.Any(p2 => string.Equals(p.id, p2.CsmId, StringComparison.OrdinalIgnoreCase))).GroupBy(rg => rg.location)
                             .Select(g => new { Region = g.Key, ResourceGroups = g.Select(r => r), Count = g.Count() })
                             .Where(g => g.Count > s.ResourceGroupsPerGeoRegion)
                             .Select(g => g.ResourceGroups.Where(rg => !rg.tags.ContainsKey("UserId")))
                             .SelectMany(i => i);
                         
-                        totalDeletedRGs += deleteExtras.Count();
-                        AppInsights.TelemetryClient.TrackMetric("deletedRGs", deleteExtras.Count());
-                        Parallel.ForEach(deleteExtras, async (resourceGroup) =>
+                        totalDeletedRGs += deleteLeakingRGs.Count();
+                        AppInsights.TelemetryClient.TrackMetric("deletedLeakingRGs", deleteLeakingRGs.Count());
+                        foreach (var resourceGroup in deleteLeakingRGs)
                         {
                             try
                             {
@@ -234,32 +260,45 @@ namespace SimpleWAWS.Code
                             {
                                 SimpleTrace.Diagnostics.Error($"Leaking RG Delete Exception:{ex.ToString()}-{ex.StackTrace}-{ex.InnerException?.StackTrace.ToString() ?? String.Empty}");
                             }
-                        });
+                        }
                     }
+                    AppInsights.TelemetryClient.TrackMetric("totalDeletedLeakingRGs", totalDeletedRGs);
+                    AppInsights.TelemetryClient.TrackMetric("leakingRGsCleanupTime", sw.Elapsed.TotalSeconds);
 
-                    AppInsights.TelemetryClient.TrackMetric("leakingCleanupTime", sw.Elapsed.TotalSeconds);
                     //Delete any duplicate resourcegroups in same subscription loaded in the same region
                     //or create any missing resourcegroups in a region
                     IList<Tuple<string, MakeSubscriptionFreeTrialResult>> subscriptionStates = new List<Tuple<string, MakeSubscriptionFreeTrialResult>>();
+                    var deletedDuplicateRGs = 0;
+                    var createdMissingRGs = 0;
                     foreach (var subscription in subscriptions)
                     {
                         var sub = new Subscription(subscription);
                         sub.ResourceGroups = LoadedResourceGroups.Where(r => r.SubscriptionId == sub.SubscriptionId);
                         var trialsubresult = sub.MakeTrialSubscription();
-                        subscriptionStates.Add(new Tuple<string, MakeSubscriptionFreeTrialResult>(subscription, trialsubresult));
+                        if (trialsubresult.ToCreateInRegions.Any() || trialsubresult.ToDelete.Any())
+                        {
+                            subscriptionStates.Add(new Tuple<string, MakeSubscriptionFreeTrialResult>(subscription, trialsubresult));
+                        }
                     }
+
+                    AppInsights.TelemetryClient.TrackMetric("subsWithIncorrectRGs", subscriptionStates.Count());
+
                     foreach (var subscriptionState in subscriptionStates)
                     {
                         foreach (var geoRegion in subscriptionState.Item2.ToCreateInRegions)
                         {
                             CreateResourceGroupOperation(subscriptionState.Item1, geoRegion);
+                            createdMissingRGs ++;
                         }
                         foreach (var resourceGroup in subscriptionState.Item2.ToDelete)
                         {
                             RemoveFromFreeQueue(resourceGroup);
                             DeleteResourceGroupOperation(resourceGroup);
+                            deletedDuplicateRGs ++;
                         }
                     }
+                    AppInsights.TelemetryClient.TrackMetric("createdMissingRGs", createdMissingRGs);
+                    AppInsights.TelemetryClient.TrackMetric("deletedDuplicateRGs", deletedDuplicateRGs);
                     AppInsights.TelemetryClient.TrackMetric("fullCleanupTime", sw.Elapsed.TotalSeconds);
                     sw.Stop();
                 });

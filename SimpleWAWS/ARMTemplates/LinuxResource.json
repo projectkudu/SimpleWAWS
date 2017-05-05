@@ -47,7 +47,7 @@
             "siteConfig": {
               "properties": {
                 "numberOfWorkers": "1",
-                "phpVersion": "7.0.6"
+                "linuxFxVersion": "7.0.6"
               }
             },
             "maxNumberOfWorkers": "1"
