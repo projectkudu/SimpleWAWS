@@ -268,7 +268,7 @@ namespace SimpleWAWS.Code
 
                     resourceGroup.IsRbacEnabled = await rbacTask;
                     Util.FireAndForget(site.HostName);
-                    Util.FireAndForget(site.MonacoUrl);
+                    Util.FireAndForget(site.ScmHostName);
                     return resourceGroup;
                 });
         }
@@ -351,7 +351,8 @@ namespace SimpleWAWS.Code
                 SimpleTrace.UserCreatedApp(userIdentity, template, resourceGroup, AppService.Linux);
 
                 var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
-
+                resourceGroup.Tags[Constants.TemplateName] = template.Name;
+                resourceGroup = await resourceGroup.Update();
                 if (template?.MSDeployPackageUrl != null)
                 {
                     var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
@@ -367,8 +368,8 @@ namespace SimpleWAWS.Code
                         await site.UpdateConfig(new { properties = new { linuxFxVersion = "NODE|6.10", appCommandLine= "process.json" } });
                 }
 
-                Util.FireAndForget($"{resourceGroup.Sites.FirstOrDefault().HostName}.azurewebsites.net");
-                Util.FireAndForget($"{resourceGroup.Sites.FirstOrDefault().HostName}.scm.azurewebsites.net");
+                Util.FireAndForget($"{resourceGroup.Sites.FirstOrDefault().HostName}");
+                Util.FireAndForget($"{resourceGroup.Sites.FirstOrDefault().ScmHostName}");
 
                 var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email);
                 resourceGroup.IsRbacEnabled = await rbacTask;
