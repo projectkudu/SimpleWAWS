@@ -36,7 +36,17 @@ namespace SimpleWAWS.Controllers
                 return Request.CreateResponse(HttpStatusCode.Accepted);
             });
         }
+        [HttpGet]
+        public Task<HttpResponseMessage> RunCleanupSubscriptions()
+        {
+            return SecurityManager.AdminOnly(async () => {
 
+                var resourceManager = await ResourcesManager.GetInstanceAsync();
+                resourceManager.RunCleanupSubscriptions();
+                return Request.CreateResponse(HttpStatusCode.Accepted);
+            });
+        }
+        
         [HttpGet]
         public Task<HttpResponseMessage> DropAndReloadFromAzure()
         {
@@ -77,6 +87,7 @@ namespace SimpleWAWS.Controllers
                 var freeLinuxResources = resourceManager.GetAllFreeLinuxResourceGroups();
                 var inUseLinuxResources = resourceManager.GetAllInUseResourceGroups().Where(sub => sub.SubscriptionType == SubscriptionType.Linux);
                 var freeSitesList = freeSites as IList<ResourceGroup> ?? freeSites.ToList();
+                var freeLinuxSitesList = freeLinuxResources as IList<ResourceGroup> ?? freeLinuxResources.ToList();
                 var inUseLinuxResourcesList = inUseLinuxResources as IList<ResourceGroup> ?? inUseLinuxResources.ToList();
                 var uptime = resourceManager.GetUptime();
                 var resourceGroupCleanupCount = resourceManager.GetResourceGroupCleanupCount();
@@ -97,7 +108,7 @@ namespace SimpleWAWS.Controllers
                         inUseSites = inUseSitesList,
                         inUseLinuxResources = inUseLinuxResourcesList,
                         freeSites = showFreeResources ? freeSitesList : null,
-                        freeLinuxResources = showFreeResources ? freeLinuxResources : null,
+                        freeLinuxResources = showFreeResources ? freeLinuxSitesList : null,
                         inProgress = inProgress,
                         backgroundOperations = backgroundOperations,
                         uptime = uptime,

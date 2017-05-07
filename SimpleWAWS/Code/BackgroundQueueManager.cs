@@ -51,7 +51,7 @@ namespace SimpleWAWS.Code
             }
             if (_cleanupSubscriptionsTimer == null)
             {
-                _cleanupSubscriptionsTimer = new Timer(OnCleanupSubscriptionsTimerElapsed, null, TimeSpan.FromMinutes(SimpleSettings.CleanupSubscriptionMinutes), TimeSpan.FromMinutes(SimpleSettings.CleanupSubscriptionMinutes));
+                _cleanupSubscriptionsTimer = new Timer(RunCleanupSubscriptions, null, TimeSpan.FromMinutes(SimpleSettings.CleanupSubscriptionMinutes), TimeSpan.FromMinutes(SimpleSettings.CleanupSubscriptionMinutes));
             }
             if (_cleanupExpiredResourceGroupsTimer == null)
             {
@@ -221,13 +221,13 @@ namespace SimpleWAWS.Code
 
         }
 
-        private void OnCleanupSubscriptionsTimerElapsed(object state)
+        internal void RunCleanupSubscriptions(object state)
         {
             try
             {
                 _jobHost.DoWork(async () =>
                 {
-
+                    _cleanupOperationsTriggered++;
                     var subscriptions = await CsmManager.GetSubscriptions();
                     var totalDeletedRGs = 0;
                     Stopwatch sw = new Stopwatch();

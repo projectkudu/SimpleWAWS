@@ -498,6 +498,10 @@ namespace SimpleWAWS.Code
         {
             return this._backgroundQueueManager._uptime.Elapsed.TotalMinutes;
         }
+        public void RunCleanupSubscriptions()
+        {
+            this._backgroundQueueManager.RunCleanupSubscriptions(null);
+        }
         public int GetResourceGroupCleanupCount()
         {
             return this._backgroundQueueManager._cleanupOperationsTriggered;
