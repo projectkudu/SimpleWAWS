@@ -500,7 +500,9 @@ namespace SimpleWAWS.Code
         }
         public void RunCleanupSubscriptions()
         {
-            this._backgroundQueueManager.RunCleanupSubscriptions(null);
+            //not adding await to just do a fire and forget.
+            //resource loading can be monitored at /api/resource
+            this._backgroundQueueManager.CleanupSubscriptions();
         }
         public int GetResourceGroupCleanupCount()
         {

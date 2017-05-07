@@ -27,7 +27,7 @@ namespace SimpleWAWS.Code
                 return FreeResourceGroups.ToList()
                        .Concat(FreeLinuxResourceGroups.ToList())
                        .Concat(ResourceGroupsInUse.Where(e => e.Value != null).Select(e => e.Value))
-                       .Concat(ResourceGroupsInProgress.Where(e => e.Value != null).Select(e => e.Value.ResourceGroup)); 
+                       .Concat(ResourceGroupsInProgress.Where(e => e.Value != null).Select(e => e.Value.ResourceGroup));
             }
         }
         public readonly ConcurrentQueue<ResourceGroup> FreeLinuxResourceGroups = new ConcurrentQueue<ResourceGroup>();
@@ -51,7 +51,7 @@ namespace SimpleWAWS.Code
             }
             if (_cleanupSubscriptionsTimer == null)
             {
-                _cleanupSubscriptionsTimer = new Timer(RunCleanupSubscriptions, null, TimeSpan.FromMinutes(SimpleSettings.CleanupSubscriptionMinutes), TimeSpan.FromMinutes(SimpleSettings.CleanupSubscriptionMinutes));
+                _cleanupSubscriptionsTimer = new Timer(OnCleanupSubscriptionsTimerElapsed, null, TimeSpan.FromMinutes(SimpleSettings.CleanupSubscriptionMinutes), TimeSpan.FromMinutes(SimpleSettings.CleanupSubscriptionMinutes));
             }
             if (_cleanupExpiredResourceGroupsTimer == null)
             {
@@ -70,7 +70,7 @@ namespace SimpleWAWS.Code
             {
                 Description = $"Loading subscription {subscriptionId}",
                 Type = OperationType.SubscriptionLoad,
-                Task = subscription.Load(deleteBadResourceGroups : false),
+                Task = subscription.Load(deleteBadResourceGroups: false),
                 RetryAction = () => LoadSubscription(subscriptionId)
             });
         }
@@ -86,29 +86,29 @@ namespace SimpleWAWS.Code
 
         private async Task<ResourceGroup> LogActiveUsageStatistics(ResourceGroup resourceGroup)
         {
-                try
-                {
-                    var site = resourceGroup.Sites.FirstOrDefault(s => resourceGroup.SubscriptionType == SubscriptionType.AppService
-                            ? s.IsSimpleWAWSOriginalSite
-                            : s.IsFunctionsContainer);
-                    if (site == null) throw new ArgumentNullException(nameof(site));
-                    var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-                    var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
+            try
+            {
+                var site = resourceGroup.Sites.FirstOrDefault(s => resourceGroup.SubscriptionType == SubscriptionType.AppService
+                        ? s.IsSimpleWAWSOriginalSite
+                        : s.IsFunctionsContainer);
+                if (site == null) throw new ArgumentNullException(nameof(site));
+                var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+                var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);
 
-                    using (var httpContentStream = await zipManager.GetZipFileStreamAsync("LogFiles/http/RawLogs"))
-                    {
-                        await StorageHelper.UploadBlob(resourceGroup.ResourceUniqueId, httpContentStream);
-                    }
-                    await StorageHelper.AddQueueMessage(new { BlobName = resourceGroup.ResourceUniqueId });
-                    SimpleTrace.TraceInformation("{0}; {1}", AnalyticsEvents.SiteIISLogsName, resourceGroup.ResourceUniqueId);
-                }
-                catch (Exception e)
+                using (var httpContentStream = await zipManager.GetZipFileStreamAsync("LogFiles/http/RawLogs"))
                 {
-                    if (!(e is HttpRequestException))
-                    {
-                        SimpleTrace.Diagnostics.Error(e, "Error logging active usage numbers");
-                    }
+                    await StorageHelper.UploadBlob(resourceGroup.ResourceUniqueId, httpContentStream);
                 }
+                await StorageHelper.AddQueueMessage(new { BlobName = resourceGroup.ResourceUniqueId });
+                SimpleTrace.TraceInformation("{0}; {1}", AnalyticsEvents.SiteIISLogsName, resourceGroup.ResourceUniqueId);
+            }
+            catch (Exception e)
+            {
+                if (!(e is HttpRequestException))
+                {
+                    SimpleTrace.Diagnostics.Error(e, "Error logging active usage numbers");
+                }
+            }
             return resourceGroup;
         }
 
@@ -218,97 +218,103 @@ namespace SimpleWAWS.Code
             catch
             {
             }
-
         }
 
-        internal void RunCleanupSubscriptions(object state)
+        private void OnCleanupSubscriptionsTimerElapsed(object state)
+        {
+
+            _jobHost.DoWork(async () =>
+            {
+                await CleanupSubscriptions();
+            });
+        }
+
+        internal async Task CleanupSubscriptions()
         {
             try
             {
-                _jobHost.DoWork(async () =>
+
+                _cleanupOperationsTriggered++;
+                var subscriptions = await CsmManager.GetSubscriptions();
+                var totalDeletedRGs = 0;
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
+                foreach (var sub in subscriptions)
                 {
-                    _cleanupOperationsTriggered++;
-                    var subscriptions = await CsmManager.GetSubscriptions();
-                    var totalDeletedRGs = 0;
-                    Stopwatch sw = new Stopwatch();
-                    sw.Start();
-                    foreach (var sub in subscriptions)
-                    {
-                        var s = await new Subscription(sub).Load(false);
-                        SimpleTrace.Diagnostics.Information($"Deleting resources in {s.Type} subscription {s.SubscriptionId}");
+                    var s = await new Subscription(sub).Load(false);
+                    SimpleTrace.Diagnostics.Information($"Deleting resources in {s.Type} subscription {s.SubscriptionId}");
 
-                        //Delete any leaking resourcegroups in subscription that cannot be loaded
-                        var csmResourceGroups = await s.LoadResourceGroupsForSubscription();
-                        var deleteLeakingRGs = csmResourceGroups.value
-                            .Where(p => ! LoadedResourceGroups.Any(p2 => string.Equals(p.id, p2.CsmId, StringComparison.OrdinalIgnoreCase))).GroupBy(rg => rg.location)
-                            .Select(g => new { Region = g.Key, ResourceGroups = g.Select(r => r), Count = g.Count() })
-                            .Where(g => g.Count > s.ResourceGroupsPerGeoRegion)
-                            .Select(g => g.ResourceGroups.Where(rg => !rg.tags.ContainsKey("UserId")))
-                            .SelectMany(i => i);
-                        
-                        totalDeletedRGs += deleteLeakingRGs.Count();
-                        AppInsights.TelemetryClient.TrackMetric("deletedLeakingRGs", deleteLeakingRGs.Count());
-                        foreach (var resourceGroup in deleteLeakingRGs)
+                    //Delete any leaking resourcegroups in subscription that cannot be loaded
+                    var csmResourceGroups = await s.LoadResourceGroupsForSubscription();
+                    var deleteLeakingRGs = csmResourceGroups.value
+                        .Where(p => !LoadedResourceGroups.Any(p2 => string.Equals(p.id, p2.CsmId, StringComparison.OrdinalIgnoreCase))).GroupBy(rg => rg.location)
+                        .Select(g => new { Region = g.Key, ResourceGroups = g.Select(r => r), Count = g.Count() })
+                        .Where(g => g.Count > s.ResourceGroupsPerGeoRegion)
+                        .Select(g => g.ResourceGroups.Where(rg => !rg.tags.ContainsKey("UserId")))
+                        .SelectMany(i => i);
+
+                    totalDeletedRGs += deleteLeakingRGs.Count();
+                    AppInsights.TelemetryClient.TrackMetric("deletedLeakingRGs", deleteLeakingRGs.Count());
+                    foreach (var resourceGroup in deleteLeakingRGs)
+                    {
+                        try
                         {
-                            try
-                            {
-                                var georegion = CsmManager.RegionHashTable[resourceGroup.location].ToString();
-                                SimpleTrace.Diagnostics.Information($"Deleting leaked {georegion} resource  {resourceGroup.name}");
-                                await new ResourceGroup(s.SubscriptionId, resourceGroup.name, georegion).Delete(false);
-                            }
-                            catch (Exception ex)
-                            {
-                                SimpleTrace.Diagnostics.Error($"Leaking RG Delete Exception:{ex.ToString()}-{ex.StackTrace}-{ex.InnerException?.StackTrace.ToString() ?? String.Empty}");
-                            }
+                            var georegion = CsmManager.RegionHashTable[resourceGroup.location].ToString();
+                            SimpleTrace.Diagnostics.Information($"Deleting leaked {georegion} resource  {resourceGroup.name}");
+                            await new ResourceGroup(s.SubscriptionId, resourceGroup.name, georegion).Delete(false);
+                        }
+                        catch (Exception ex)
+                        {
+                            SimpleTrace.Diagnostics.Error($"Leaking RG Delete Exception:{ex.ToString()}-{ex.StackTrace}-{ex.InnerException?.StackTrace.ToString() ?? String.Empty}");
                         }
                     }
-                    AppInsights.TelemetryClient.TrackMetric("totalDeletedLeakingRGs", totalDeletedRGs);
-                    AppInsights.TelemetryClient.TrackMetric("leakingRGsCleanupTime", sw.Elapsed.TotalSeconds);
+                }
+                AppInsights.TelemetryClient.TrackMetric("totalDeletedLeakingRGs", totalDeletedRGs);
+                AppInsights.TelemetryClient.TrackMetric("leakingRGsCleanupTime", sw.Elapsed.TotalSeconds);
 
-                    //Delete any duplicate resourcegroups in same subscription loaded in the same region
-                    //or create any missing resourcegroups in a region
-                    IList<Tuple<string, MakeSubscriptionFreeTrialResult>> subscriptionStates = new List<Tuple<string, MakeSubscriptionFreeTrialResult>>();
-                    var deletedDuplicateRGs = 0;
-                    var createdMissingRGs = 0;
-                    foreach (var subscription in subscriptions)
+                //Delete any duplicate resourcegroups in same subscription loaded in the same region
+                //or create any missing resourcegroups in a region
+                IList<Tuple<string, MakeSubscriptionFreeTrialResult>> subscriptionStates = new List<Tuple<string, MakeSubscriptionFreeTrialResult>>();
+                var deletedDuplicateRGs = 0;
+                var createdMissingRGs = 0;
+                foreach (var subscription in subscriptions)
+                {
+                    var sub = new Subscription(subscription);
+                    sub.ResourceGroups = LoadedResourceGroups.Where(r => r.SubscriptionId == sub.SubscriptionId);
+                    var trialsubresult = sub.MakeTrialSubscription();
+                    if (trialsubresult.ToCreateInRegions.Any() || trialsubresult.ToDelete.Any())
                     {
-                        var sub = new Subscription(subscription);
-                        sub.ResourceGroups = LoadedResourceGroups.Where(r => r.SubscriptionId == sub.SubscriptionId);
-                        var trialsubresult = sub.MakeTrialSubscription();
-                        if (trialsubresult.ToCreateInRegions.Any() || trialsubresult.ToDelete.Any())
-                        {
-                            subscriptionStates.Add(new Tuple<string, MakeSubscriptionFreeTrialResult>(subscription, trialsubresult));
-                        }
+                        subscriptionStates.Add(new Tuple<string, MakeSubscriptionFreeTrialResult>(subscription, trialsubresult));
                     }
+                }
 
-                    AppInsights.TelemetryClient.TrackMetric("subsWithIncorrectRGs", subscriptionStates.Count());
+                AppInsights.TelemetryClient.TrackMetric("subsWithIncorrectRGs", subscriptionStates.Count());
 
-                    foreach (var subscriptionState in subscriptionStates)
+                foreach (var subscriptionState in subscriptionStates)
+                {
+                    foreach (var geoRegion in subscriptionState.Item2.ToCreateInRegions)
                     {
-                        foreach (var geoRegion in subscriptionState.Item2.ToCreateInRegions)
-                        {
-                            CreateResourceGroupOperation(subscriptionState.Item1, geoRegion);
-                            createdMissingRGs ++;
-                        }
-                        foreach (var resourceGroup in subscriptionState.Item2.ToDelete)
-                        {
-                            RemoveFromFreeQueue(resourceGroup);
-                            DeleteResourceGroupOperation(resourceGroup);
-                            deletedDuplicateRGs ++;
-                        }
+                        CreateResourceGroupOperation(subscriptionState.Item1, geoRegion);
+                        createdMissingRGs++;
                     }
-                    AppInsights.TelemetryClient.TrackMetric("createdMissingRGs", createdMissingRGs);
-                    AppInsights.TelemetryClient.TrackMetric("deletedDuplicateRGs", deletedDuplicateRGs);
-                    AppInsights.TelemetryClient.TrackMetric("fullCleanupTime", sw.Elapsed.TotalSeconds);
-                    sw.Stop();
-                });
+                    foreach (var resourceGroup in subscriptionState.Item2.ToDelete)
+                    {
+                        RemoveFromFreeQueue(resourceGroup);
+                        DeleteResourceGroupOperation(resourceGroup);
+                        deletedDuplicateRGs++;
+                    }
+                }
+                AppInsights.TelemetryClient.TrackMetric("createdMissingRGs", createdMissingRGs);
+                AppInsights.TelemetryClient.TrackMetric("deletedDuplicateRGs", deletedDuplicateRGs);
+                AppInsights.TelemetryClient.TrackMetric("fullCleanupTime", sw.Elapsed.TotalSeconds);
+                sw.Stop();
             }
             catch (Exception e)
             {
                 SimpleTrace.Diagnostics.Fatal(e, "CleanupSubscriptions error, Count {Count}", Interlocked.Increment(ref _maintainResourceGroupListErrorCount));
             }
-
         }
+
 
         private void RemoveFromFreeQueue(ResourceGroup resourceGroup)
         {
@@ -323,7 +329,7 @@ namespace SimpleWAWS.Code
                 default:
                     SimpleTrace.Diagnostics.Warning($"Resourcegroup subscriptiontype cannot be determined {resourceGroup.CsmId}");
                     break;
-            } 
+            }
         }
 
         private void RemoveFromFreeAppServiceQueue(ResourceGroup resourceGroup)

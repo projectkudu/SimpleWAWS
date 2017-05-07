@@ -42,7 +42,7 @@ namespace SimpleWAWS.Controllers
             return SecurityManager.AdminOnly(async () => {
 
                 var resourceManager = await ResourcesManager.GetInstanceAsync();
-                resourceManager.RunCleanupSubscriptions();
+                await resourceManager.CleanupSubscriptions();
                 return Request.CreateResponse(HttpStatusCode.Accepted);
             });
         }
