@@ -498,11 +498,10 @@ namespace SimpleWAWS.Code
         {
             return this._backgroundQueueManager._uptime.Elapsed.TotalMinutes;
         }
-        public void RunCleanupSubscriptions()
+        public async Task CleanupSubscriptions()
         {
-            //not adding await to just do a fire and forget.
             //resource loading can be monitored at /api/resource
-            this._backgroundQueueManager.CleanupSubscriptions();
+            await this._backgroundQueueManager.CleanupSubscriptions();
         }
         public int GetResourceGroupCleanupCount()
         {
