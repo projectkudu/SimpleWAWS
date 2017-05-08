@@ -233,7 +233,6 @@ namespace SimpleWAWS.Code
         {
             try
             {
-
                 _cleanupOperationsTriggered++;
                 var subscriptions = await CsmManager.GetSubscriptions();
                 var totalDeletedRGs = 0;
@@ -255,7 +254,7 @@ namespace SimpleWAWS.Code
 
                     totalDeletedRGs += deleteLeakingRGs.Count();
                     AppInsights.TelemetryClient.TrackMetric("deletedLeakingRGs", deleteLeakingRGs.Count());
-                    foreach (var resourceGroup in deleteLeakingRGs)
+                    Parallel.ForEach(deleteLeakingRGs , async resourceGroup =>
                     {
                         try
                         {
@@ -267,7 +266,7 @@ namespace SimpleWAWS.Code
                         {
                             SimpleTrace.Diagnostics.Error($"Leaking RG Delete Exception:{ex.ToString()}-{ex.StackTrace}-{ex.InnerException?.StackTrace.ToString() ?? String.Empty}");
                         }
-                    }
+                    });
                 }
                 AppInsights.TelemetryClient.TrackMetric("totalDeletedLeakingRGs", totalDeletedRGs);
                 AppInsights.TelemetryClient.TrackMetric("leakingRGsCleanupTime", sw.Elapsed.TotalSeconds);
