@@ -51,7 +51,7 @@ namespace SimpleWAWS.Code
             }
             if (_cleanupSubscriptionsTimer == null)
             {
-                _cleanupSubscriptionsTimer = new Timer(OnCleanupSubscriptionsTimerElapsed, null, TimeSpan.FromMinutes(SimpleSettings.CleanupSubscriptionMinutes), TimeSpan.FromMinutes(SimpleSettings.CleanupSubscriptionMinutes));
+                _cleanupSubscriptionsTimer = new Timer(OnCleanupSubscriptionsTimerElapsed, null, TimeSpan.FromMinutes(SimpleSettings.CleanupSubscriptionFirstInvokeMinutes), TimeSpan.FromMinutes(SimpleSettings.CleanupSubscriptionMinutes));
             }
             if (_cleanupExpiredResourceGroupsTimer == null)
             {
