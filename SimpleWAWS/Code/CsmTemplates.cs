@@ -5,16 +5,16 @@ namespace SimpleWAWS.Code
 {
     public static class ArmUriTemplates
     {
-        private const string csmApiVersoin = "2014-04-01";
+        private const string csmApiVersion = "2014-04-01";
         private const string websitesApiVersion = "2014-06-01";
         private const string functionsApiVersion = "2015-08-01";
         private const string newWebsitesApiVersion = "2015-02-01";
         private const string appServiceApiVersion = "2015-03-01-preview";
         private const string logicAppsApiVersion = "2015-02-01-preview";
-        private const string linuxResourceApiVersion = "2015-08-01";
+        private const string linuxResourceApiVersion = "2016-08-01";
         private const string graphApiVersion = "1.42-previewInternal";
         private const string storageApiVersion = "2015-05-01-preview";
-        private const string csmTemplateApiVersoin = "2016-02-01";
+        private const string csmTemplateApiVersion = "2017-05-10";
 
         public const string RbacApiVersion = "2014-07-01-preview";
         public const string CsmRootUrl = "https://management.azure.com";
@@ -22,15 +22,15 @@ namespace SimpleWAWS.Code
         public const string TryAppServiceUrl = "https://tryappservice.azure.com/api/resource/all/true";
 
         public static readonly Uri LoadedResources = new Uri(TryAppServiceUrl);
-        public static readonly ArmUriTemplate Subscriptions = new ArmUriTemplate(CsmRootUrl + "/subscriptions", csmApiVersoin);
-        public static readonly ArmUriTemplate Subscription = new ArmUriTemplate(Subscriptions.TemplateUrl + "/{subscriptionId}", csmApiVersoin);
-        public static readonly ArmUriTemplate SubscriptionResources = new ArmUriTemplate(Subscription.TemplateUrl + "/resources", csmApiVersoin);
+        public static readonly ArmUriTemplate Subscriptions = new ArmUriTemplate(CsmRootUrl + "/subscriptions", csmApiVersion);
+        public static readonly ArmUriTemplate Subscription = new ArmUriTemplate(Subscriptions.TemplateUrl + "/{subscriptionId}", csmApiVersion);
+        public static readonly ArmUriTemplate SubscriptionResources = new ArmUriTemplate(Subscription.TemplateUrl + "/resources", csmApiVersion);
 
-        public static readonly ArmUriTemplate ResourceGroups = new ArmUriTemplate(Subscription.TemplateUrl + "/resourceGroups", csmApiVersoin);
-        public static readonly ArmUriTemplate ResourceGroup = new ArmUriTemplate(ResourceGroups.TemplateUrl + "/{resourceGroupName}", csmApiVersoin);
-        public static readonly ArmUriTemplate ResourceGroupResources = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/resources", csmApiVersoin);
+        public static readonly ArmUriTemplate ResourceGroups = new ArmUriTemplate(Subscription.TemplateUrl + "/resourceGroups", csmApiVersion);
+        public static readonly ArmUriTemplate ResourceGroup = new ArmUriTemplate(ResourceGroups.TemplateUrl + "/{resourceGroupName}", csmApiVersion);
+        public static readonly ArmUriTemplate ResourceGroupResources = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/resources", csmApiVersion);
 
-        public static readonly ArmUriTemplate CsmTemplateDeployment = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/deployments/{deploymentName}", csmTemplateApiVersoin);
+        public static readonly ArmUriTemplate CsmTemplateDeployment = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/deployments/{deploymentName}", csmTemplateApiVersion);
 
         public static readonly ArmUriTemplate AppServiceRegister = new ArmUriTemplate(Subscription.TemplateUrl + "/providers/Microsoft.AppService/register", appServiceApiVersion);
         public static readonly ArmUriTemplate AppServiceGenerateCsmDeployTemplate = new ArmUriTemplate(Subscription.TemplateUrl + "/providers/Microsoft.AppService/deploymenttemplates/{microserviceId}/generate?resourceGroup={resourceGroupName}", appServiceApiVersion);
