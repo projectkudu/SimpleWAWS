@@ -353,21 +353,27 @@ namespace SimpleWAWS.Code
                 var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
                 resourceGroup.Tags[Constants.TemplateName] = template.Name;
                 resourceGroup = await resourceGroup.Update();
+
                 if (template?.MSDeployPackageUrl != null)
                 {
-                    var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-                    var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
-                    Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.MSDeployPackageUrl);
-                    var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
-                    Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
-                    await Task.WhenAll(zipUpload, deleteHostingStart);
+                    try
+                    {
+                        var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+                        var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
+                        Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.MSDeployPackageUrl);
+                        var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
+                        Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
+                        await Task.WhenAll(zipUpload, deleteHostingStart);
+                    }
+                    catch (Exception ex)
+                    {
+                        SimpleTrace.TraceError(ex.Message + ex.StackTrace);
+                    }
                 }
-
                 if (template.Name.Equals(Constants.NodeJSWebAppLinuxTemplateName, StringComparison.OrdinalIgnoreCase))
                 {
-                        await site.UpdateConfig(new { properties = new { linuxFxVersion = "NODE|6.10", appCommandLine= "process.json" } });
+                    await site.UpdateConfig(new { properties = new { linuxFxVersion = "NODE|6.10", appCommandLine = "process.json" } });
                 }
-
                 Util.FireAndForget($"{resourceGroup.Sites.FirstOrDefault().HostName}");
                 Util.FireAndForget($"{resourceGroup.Sites.FirstOrDefault().ScmHostName}");
 
