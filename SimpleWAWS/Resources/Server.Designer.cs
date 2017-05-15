@@ -133,6 +133,15 @@ namespace SimpleWAWS.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Mobile resourcegroup has not been checked out.
+        /// </summary>
+        internal static string Error_InvalidMobileResourceGroup {
+            get {
+                return ResourceManager.GetString("Error_InvalidMobileResourceGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid user..
         /// </summary>
         internal static string Error_InvalidUserIdentity {

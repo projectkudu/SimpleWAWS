@@ -138,10 +138,15 @@ namespace SimpleWAWS.Controllers
             }
         }
 
-        public async Task<HttpResponseMessage> GetMobileClientZip(string platformString, string templateName)
+        public async Task<HttpResponseMessage> GetMobileClientZip(string platformString, string templateName, string siteName)
         {
             var resourceManager = await ResourcesManager.GetInstanceAsync();
-            var resourceGroup = await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name);
+            var resourceGroup = resourceManager.GetAllInUseResourceGroups().FirstOrDefault(r => r.AppService == AppService.Mobile && r.Sites.Any(s=> s.SiteName.Equals(siteName, StringComparison.OrdinalIgnoreCase)));
+            if (resourceGroup == null)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_InvalidMobileResourceGroup);
+            }
+            
             MobileClientPlatform platform;
             if (resourceGroup.AppService != AppService.Mobile)
             {

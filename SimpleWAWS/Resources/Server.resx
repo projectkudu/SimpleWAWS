@@ -141,6 +141,9 @@
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
     <value>The Github repo URI is either invalid of from an trusted organization.</value>
   </data>
+  <data name="Error_InvalidMobileResourceGroup" xml:space="preserve">
+    <value>The Mobile resourcegroup has not been checked out</value>
+  </data>
   <data name="Error_InvalidUserIdentity" xml:space="preserve">
     <value>Invalid user.</value>
   </data>

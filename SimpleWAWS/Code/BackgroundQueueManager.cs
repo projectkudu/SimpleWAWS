@@ -249,10 +249,10 @@ namespace SimpleWAWS.Code
                         .Where(p => !LoadedResourceGroups.Any(p2 => string.Equals(p.id, p2.CsmId, StringComparison.OrdinalIgnoreCase))).GroupBy(rg => rg.location)
                         .Select(g => new { Region = g.Key, ResourceGroups = g.Select(r => r), Count = g.Count() })
                         .Where(g => g.Count > s.ResourceGroupsPerGeoRegion)
-                        .Select(g => g.ResourceGroups.Where(rg => !rg.tags.ContainsKey("UserId")))
+                        .Select(g => g.ResourceGroups.Where(rg => rg.tags != null && !rg.tags.ContainsKey("UserId")))
                         .SelectMany(i => i);
 
-                    totalDeletedRGs += deleteLeakingRGs.Count();
+                    totalDeletedRGs += (deleteLeakingRGs == null)? 0: deleteLeakingRGs.Count();
                     AppInsights.TelemetryClient.TrackMetric("deletedLeakingRGs", deleteLeakingRGs.Count());
                     Parallel.ForEach(deleteLeakingRGs , async resourceGroup =>
                     {

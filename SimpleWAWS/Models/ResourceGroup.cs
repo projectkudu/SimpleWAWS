@@ -160,6 +160,7 @@ namespace SimpleWAWS.Models
                         ibizaUrl = siteToUseForUi.IbizaUrl;
                         break;
                     case Models.AppService.Logic:
+                        siteToUseForUi = Sites.First(s => s.IsSimpleWAWSOriginalSite);
                         ibizaUrl = LogicApps.Any()?LogicApps.First().IbizaUrl : null;
                         break;
                     case Models.AppService.Function:
@@ -177,6 +178,7 @@ namespace SimpleWAWS.Models
                 }
                 return new UIResource
                 {
+                    SiteName = siteToUseForUi.SiteName,
                     Url = siteToUseForUi.Url,
                     MobileWebClient = AppService == Models.AppService.Mobile ? siteToUseForUi.GetMobileUrl(templateName) : null,
                     IbizaUrl = ibizaUrl,
@@ -204,6 +206,7 @@ namespace SimpleWAWS.Models
 
                 return new UIResource
                 {
+                    SiteName = siteToUseForUi.SiteName,
                     Url = siteToUseForUi.Url,
                     MobileWebClient = null,
                     IbizaUrl = siteToUseForUi.IbizaUrl,

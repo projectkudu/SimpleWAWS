@@ -43,6 +43,7 @@ namespace SimpleWAWS.Models
         [JsonProperty(PropertyName = "userName", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string UserName { get; set; }
 
-
+        [JsonProperty(PropertyName = "siteName", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string SiteName { get; set; }
     }
 }

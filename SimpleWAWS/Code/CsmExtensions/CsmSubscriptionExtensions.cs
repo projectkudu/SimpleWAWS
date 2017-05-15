@@ -106,6 +106,8 @@ namespace SimpleWAWS.Code.CsmExtensions
                 .Select(g => g.ResourceGroups.Where(rg => string.IsNullOrEmpty(rg.UserId)).Skip((subscription.ResourceGroupsPerGeoRegion)))
                 .SelectMany(i => i);
 
+            //TODO:Also delete RGs that are not in subscription.GeoRegions
+
             result.Ready = subscription.ResourceGroups.Where(rg => !result.ToDelete.Any(drg => drg.ResourceGroupName == rg.ResourceGroupName));
 
             return result;
