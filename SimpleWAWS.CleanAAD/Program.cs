@@ -38,7 +38,7 @@ namespace SimpleWAWS.CleanAAD
             while (true)
             {
                 var users = (GraphArray)await GraphClient.Users.Query("$top=999").GetAsync<GraphArray>();
-                var usersToDelete = users.value.Where(user => user.acceptedOn != null && user.acceptedOn < DateTime.UtcNow.AddDays(-2) && IsNotAdminUserName(user.displayName)).ToList();
+                var usersToDelete = users.value.Where(user => user.acceptedOn != null && user.acceptedOn < DateTime.UtcNow.AddHours(-4) && IsNotAdminUserName(user.displayName)).ToList();
                 if (!usersToDelete.Any())
                 {
                     if (tasks.Any())
@@ -67,7 +67,7 @@ namespace SimpleWAWS.CleanAAD
         private static bool IsNotAdminUserName(string usernName)
         {
             return
-                new[] { "ahmels", "graphAdmin", "tryappservice", "trywebsitesnow", "faiz_a_shaikh", "arroyc", "soninaren", "rcarun", "odvoskin", "yochay", "aaronl", "modembug", "cory.fowler" }.All(
+                new[] { "ahmels", "graphAdmin", "tryappservice", "trywebsitesnow", "faiz_a_shaikh", "odvoskin"}.All(
                     n => usernName.IndexOf(n, StringComparison.OrdinalIgnoreCase) == -1);
         }
 
