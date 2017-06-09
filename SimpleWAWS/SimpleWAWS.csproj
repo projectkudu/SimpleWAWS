@@ -505,7 +505,6 @@
     </Content>
     <Content Include="ARMTemplates\BaseARMTemplate.json" />
     <Content Include="ARMTemplates\LinuxResource.json" />
-    <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\app.ts" />
