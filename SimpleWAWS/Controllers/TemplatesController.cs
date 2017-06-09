@@ -5,7 +5,9 @@ using SimpleWAWS.Models;
 using System.Net.Http;
 using System.Net;
 using System;
+using System.IO;
 using System.Net.Http.Headers;
+using SimpleWAWS.Code;
 
 namespace SimpleWAWS.Controllers
 {
@@ -45,7 +47,12 @@ namespace SimpleWAWS.Controllers
         }
         public HttpResponseMessage GetARMTemplate(string templateName)
         {
-            var list = TemplatesManager.GetTemplates();
+            var list = TemplatesManager.GetTemplates().ToList();
+            var emptyTemplate= WebsiteTemplate.EmptySiteTemplate;
+            emptyTemplate.MSDeployPackageUrl = $"{SimpleSettings.ZippedRepoUrl}/Default/{Uri.EscapeDataString((emptyTemplate.Name))}.zip";
+
+            list.Add(emptyTemplate);
+
             var template = list.FirstOrDefault((temp) => string.Equals(temp.Name, templateName,StringComparison.OrdinalIgnoreCase ));
             if (template != null)
             {
