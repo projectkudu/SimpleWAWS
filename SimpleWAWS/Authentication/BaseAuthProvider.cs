@@ -23,6 +23,7 @@ namespace SimpleWAWS.Authentication
                         if (context.IsAjaxRequest() || context.IsFunctionsPortalBackendRequest())
                         {
                             context.Response.Headers["LoginUrl"] = GetLoginUrl(context);
+                            context.Response.Headers["loginurl"] = GetLoginUrl(context);
                             context.Response.StatusCode = 403; // Forbidden
                         }
                         else

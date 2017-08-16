@@ -6,6 +6,7 @@ namespace SimpleWAWS.Code
         GitWithCsmDeploy,
         GitNoCsmDeploy,
         CsmDeploy,
-        FunctionDeploy
+        FunctionDeploy,
+        RbacOnly
     }
 }

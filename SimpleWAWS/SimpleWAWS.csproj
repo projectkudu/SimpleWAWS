@@ -315,6 +315,7 @@
     <Compile Include="Models\LogicTemplate.cs" />
     <Compile Include="Models\MakeSubscriptionFreeTrialResult.cs" />
     <Compile Include="Models\MobileTemplate.cs" />
+    <Compile Include="Models\MonitoringToolsTemplate.cs" />
     <Compile Include="Models\RbacUser.cs" />
     <Compile Include="Models\ResourceGroup.cs" />
     <Compile Include="Code\AnalyticsEvents.cs" />

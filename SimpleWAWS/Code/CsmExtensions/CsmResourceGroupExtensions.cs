@@ -28,10 +28,14 @@ namespace SimpleWAWS.Code.CsmExtensions
                 csmResourceGroup = await csmResourceGroupResponse.Content.ReadAsAsync<CsmWrapper<CsmResourceGroup>>();
             }
 
-            //Not sure what to do at this point TODO
-            Validate.NotNull(csmResourceGroup.tags, "csmResorucegroup.tags");
+            // We dont care about tags for MonitoringTools Sub
+            if (resourceGroup.SubscriptionType != SubscriptionType.MonitoringTools)
+            {
+                //Not sure what to do at this point TODO
+                Validate.NotNull(csmResourceGroup.tags, "csmResourcegroup.tags");
 
-            resourceGroup.Tags = csmResourceGroup.tags;
+                resourceGroup.Tags = csmResourceGroup.tags;
+            }
 
             if (resources == null)
             {
@@ -49,9 +53,13 @@ namespace SimpleWAWS.Code.CsmExtensions
                                    LoadServerFarms(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/serverFarms", StringComparison.OrdinalIgnoreCase))),
                                    LoadStorageAccounts(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Storage/storageAccounts", StringComparison.OrdinalIgnoreCase))));
                 }
-                else
+                else if(resourceGroup.SubscriptionType ==SubscriptionType.Linux)
                 {
                     await Task.WhenAll(LoadLinuxResources(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/sites", StringComparison.OrdinalIgnoreCase))));
+                }
+                else if (resourceGroup.SubscriptionType == SubscriptionType.MonitoringTools)
+                {
+                    await Task.WhenAll(LoadMonitoringToolResources(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/sites", StringComparison.OrdinalIgnoreCase))));
                 }
             }
 
@@ -63,7 +71,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             try
             {
-                var csmSitesResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.Sites.Bind(resourceGroup));
+                var csmSitesResponse = await GetClient(resourceGroup.SubscriptionType).HttpInvoke(HttpMethod.Get, ArmUriTemplates.Sites.Bind(resourceGroup));
                 await csmSitesResponse.EnsureSuccessStatusCodeWithFullError();
 
                 var csmSites = await csmSitesResponse.Content.ReadAsAsync<CsmArrayWrapper<CsmSite>>();
@@ -101,6 +109,10 @@ namespace SimpleWAWS.Code.CsmExtensions
         public static async Task<ResourceGroup> LoadLinuxResources(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> sites = null)
         {
             return await LoadSites(resourceGroup,sites);
+        }
+        public static async Task<ResourceGroup> LoadMonitoringToolResources(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> sites = null)
+        {
+            return await LoadSites(resourceGroup, sites);
         }
         //Shallow load
         public static async Task<ResourceGroup> LoadServerFarms(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> serverFarms = null)

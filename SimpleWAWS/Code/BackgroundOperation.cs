@@ -41,6 +41,7 @@ namespace SimpleWAWS.Code
         ResourceGroupCreate,
         ResourceGroupPutInDesiredState,
         LogUsageStatistics,
-        SubscriptionCleanup
+        SubscriptionCleanup,
+        LoadMonitoringToolSubscription
     }
 }

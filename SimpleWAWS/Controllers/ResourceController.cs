@@ -91,7 +91,7 @@ namespace SimpleWAWS.Controllers
                 var inUseLinuxResourcesList = inUseLinuxResources as IList<ResourceGroup> ?? inUseLinuxResources.ToList();
                 var uptime = resourceManager.GetUptime();
                 var resourceGroupCleanupCount = resourceManager.GetResourceGroupCleanupCount();
-
+                var monitoringToolsResource= resourceManager.GetMonitoringToolResourceGroup();
                 return Request.CreateResponse(HttpStatusCode.OK,
                     new
                     {
@@ -105,6 +105,7 @@ namespace SimpleWAWS.Controllers
                         inUseLinuxResourceCount = inUseLinuxResourcesList.Count(),
                         inProgressSitesCount = inProgress.Count(),
                         backgroundOperationsCount = backgroundOperations.Count(),
+                        monitoringToolsResource = monitoringToolsResource,
                         inUseSites = inUseSitesList,
                         inUseLinuxResources = inUseLinuxResourcesList,
                         freeSites = showFreeResources ? freeSitesList : null,
@@ -264,6 +265,17 @@ namespace SimpleWAWS.Controllers
                             return SecurityManager.RedirectToAAD(template.CreateQueryString());
                         }
                         resourceGroup = await resourceManager.ActivateLinuxResource(template as LinuxTemplate, identity, anonymousUserName);
+                        break;
+                    case AppService.MonitoringTools:
+                        if (identity.Issuer == "OrgId")
+                        {
+                            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_OrgIdNotSupported);
+                        }
+                        else if (identity.Issuer != "MSA")
+                        {
+                            return SecurityManager.RedirectToAAD(template.CreateQueryString());
+                        }
+                        resourceGroup = await resourceManager.ActivateMonitoringToolsApp(template as MonitoringToolsTemplate, identity, anonymousUserName);
                         break;
                 }
                 return Request.CreateResponse(HttpStatusCode.OK, resourceGroup == null ? null : GetUIResource(resourceGroup) );

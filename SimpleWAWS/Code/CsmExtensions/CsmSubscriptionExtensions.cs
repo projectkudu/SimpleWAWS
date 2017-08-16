@@ -75,13 +75,44 @@ namespace SimpleWAWS.Code.CsmExtensions
             }
             return subscription;
         }
+        public static async Task<Subscription> LoadMonitoringToolSubscription(this Subscription subscription)
+        {
+            Validate.ValidateCsmSubscription(subscription);
+            //Make sure to register for AppServices RP at least once for each 
+            await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.WebsitesRegister.Bind(subscription));
+            await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.AppServiceRegister.Bind(subscription));
+            await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.StorageRegister.Bind(subscription));
 
+            var csmResourceGroups = await subscription.LoadResourceGroupsForSubscription();
+            var csmSubscriptionResourcesReponse = await GetClient(subscription.Type).HttpInvoke(HttpMethod.Get, ArmUriTemplates.SubscriptionResources.Bind(subscription));
+
+            await csmSubscriptionResourcesReponse.EnsureSuccessStatusCodeWithFullError();
+
+            var csmSubscriptionResources =
+                await csmSubscriptionResourcesReponse.Content.ReadAsAsync<CsmArrayWrapper<object>>();
+
+            var goodResourceGroups = csmResourceGroups.value
+                .Where(r => r.name == SimpleSettings.MonitoringToolsResourceGroupName)
+                .Select(r => new
+                {
+                    ResourceGroup = r,
+                    Resources = csmSubscriptionResources.value.Where(
+                                resource => resource.id.IndexOf(r.id, StringComparison.OrdinalIgnoreCase) != -1)
+                });
+
+            subscription.ResourceGroups = await goodResourceGroups
+            .Select(async r => await Load(new ResourceGroup(subscription.SubscriptionId, r.ResourceGroup.name), r.ResourceGroup, r.Resources))
+            .IgnoreAndFilterFailures();
+
+
+            return subscription;
+        }
         public static  async Task<CsmArrayWrapper<CsmResourceGroup>> LoadResourceGroupsForSubscription(this Subscription subscription)
         {
-            var csmResourceGroupsRespnose = await GetClient(subscription.Type).HttpInvoke(HttpMethod.Get, ArmUriTemplates.ResourceGroups.Bind(subscription));
-            await csmResourceGroupsRespnose.EnsureSuccessStatusCodeWithFullError();
+            var csmResourceGroupsResponse = await GetClient(subscription.Type).HttpInvoke(HttpMethod.Get, ArmUriTemplates.ResourceGroups.Bind(subscription));
+            await csmResourceGroupsResponse.EnsureSuccessStatusCodeWithFullError();
 
-            return  await csmResourceGroupsRespnose.Content.ReadAsAsync<CsmArrayWrapper<CsmResourceGroup>>();
+            return  await csmResourceGroupsResponse.Content.ReadAsAsync<CsmArrayWrapper<CsmResourceGroup>>();
         }
 
         public static MakeSubscriptionFreeTrialResult MakeTrialSubscription(this Subscription subscription)
@@ -109,6 +140,14 @@ namespace SimpleWAWS.Code.CsmExtensions
             //TODO:Also delete RGs that are not in subscription.GeoRegions
 
             result.Ready = subscription.ResourceGroups.Where(rg => !result.ToDelete.Any(drg => drg.ResourceGroupName == rg.ResourceGroupName));
+
+            return result;
+        }
+        public static MakeSubscriptionFreeTrialResult GetMonitoringToolsResource(this Subscription subscription)
+        {
+            var result = new MakeSubscriptionFreeTrialResult();
+
+            result.Ready = subscription.ResourceGroups.Where(rg => rg.ResourceGroupName==SimpleSettings.MonitoringToolsResourceGroupName);
 
             return result;
         }

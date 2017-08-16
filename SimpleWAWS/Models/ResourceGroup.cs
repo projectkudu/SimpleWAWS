@@ -23,8 +23,9 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return SimpleSettings.LinuxSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                       .Contains(SubscriptionId)
+                return SimpleSettings.MonitoringToolsSubscription.Equals(SubscriptionId, StringComparison.OrdinalIgnoreCase) 
+                       ? SubscriptionType.MonitoringTools
+                       : SimpleSettings.LinuxSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Contains(SubscriptionId)
                        ? SubscriptionType.Linux
                        : SubscriptionType.AppService;
             }
@@ -37,7 +38,7 @@ namespace SimpleWAWS.Models
 
         public DateTime StartTime
         {
-            get { return DateTime.Parse(Tags[Constants.StartTime], CultureInfo.InvariantCulture); }
+            get { return Tags.ContainsKey(Constants.StartTime) ?DateTime.Parse(Tags[Constants.StartTime], CultureInfo.InvariantCulture):DateTime.UtcNow; }
         }
 
         public TimeSpan LifeTime
@@ -77,7 +78,9 @@ namespace SimpleWAWS.Models
             get
             {
                 var appService = AppService.Web;
-                return Tags.ContainsKey(Constants.AppService) && Enum.TryParse<AppService>(Tags[Constants.AppService], out appService)
+                return (SubscriptionType == SubscriptionType.MonitoringTools) 
+                    ? AppService.MonitoringTools
+                    : Tags.ContainsKey(Constants.AppService) && Enum.TryParse<AppService>(Tags[Constants.AppService], out appService)
                     ? appService
                     : AppService.Web;
             }
@@ -105,7 +108,7 @@ namespace SimpleWAWS.Models
 
         public bool IsRbacEnabled
         {
-            get { return bool.Parse(Tags[Constants.IsRbacEnabled]); }
+            get { return SubscriptionType==SubscriptionType.MonitoringTools ? true : bool.Parse(Tags[Constants.IsRbacEnabled]); }
             set { Tags[Constants.IsRbacEnabled] = value.ToString(); }
         }
 
@@ -170,11 +173,19 @@ namespace SimpleWAWS.Models
                         siteToUseForUi = Sites.First(s => s.IsSimpleWAWSOriginalSite);
                         ibizaUrl = siteToUseForUi.IbizaUrl;
                         break;
+                    case Models.AppService.MonitoringTools:
+                        siteToUseForUi = Sites.First();
+                        ibizaUrl = siteToUseForUi.IbizaUrl;
+                        break;
                 }
                 var templateName = Tags.ContainsKey(Constants.TemplateName) ? Tags[Constants.TemplateName] : string.Empty;
                 if (string.IsNullOrEmpty(templateName) && AppService == AppService.Logic)
                 {
                     templateName = TemplatesManager.GetTemplates().FirstOrDefault((template) => template.AppService == AppService.Logic)?.Name;
+                }
+                if (string.IsNullOrEmpty(templateName) && AppService == AppService.MonitoringTools)
+                {
+                    templateName = TemplatesManager.GetTemplates().FirstOrDefault((template) => template.AppService == AppService.MonitoringTools)?.Name;
                 }
                 return new UIResource
                 {

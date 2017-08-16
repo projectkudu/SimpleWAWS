@@ -19,9 +19,10 @@ namespace SimpleWAWS.Code.CsmExtensions
         private static readonly AzureClient csmClient;
         private static readonly AzureClient graphClient;
         private static readonly AzureClient linuxClient;
+        private static readonly AzureClient monitoringToolsClient;
 
         private const string _readerRole = "acdd72a7-3385-48ef-bd42-f606fba81ae7";
-        private const string _contributorRold = "b24988ac-6180-42a0-ab88-20f7382dd24c";
+        private const string _contributorRole = "b24988ac-6180-42a0-ab88-20f7382dd24c";
 
         private static readonly AsyncLock _rbacLock = new AsyncLock();
         private static IEnumerable<string> _subscriptions;
@@ -37,8 +38,14 @@ namespace SimpleWAWS.Code.CsmExtensions
             linuxClient = new AzureClient(retryCount: 3);
             linuxClient.ConfigureSpnLogin(SimpleSettings.LinuxTenant, SimpleSettings.LinuxServicePrincipal, SimpleSettings.LinuxServicePrincipalKey);
 
-        }
+            monitoringToolsClient = new AzureClient(retryCount: 3);
+            monitoringToolsClient.ConfigureSpnLogin(SimpleSettings.MonitoringToolsTenant, SimpleSettings.MonitoringToolsServicePrincipal, SimpleSettings.MonitoringToolsServicePrincipalKey);
 
+        }
+        public static string LoadMonitoringToolsSubscription()
+        {
+            return SimpleSettings.MonitoringToolsSubscription;
+        }
         public static async Task<IEnumerable<string>> GetSubscriptions()
         {
             if (_subscriptions == null)
@@ -86,6 +93,8 @@ namespace SimpleWAWS.Code.CsmExtensions
             {
                 case SubscriptionType.Linux:
                             return linuxClient;
+                case SubscriptionType.MonitoringTools:
+                    return monitoringToolsClient;
                 case SubscriptionType.AppService:
                     default:
                             return csmClient;
@@ -168,7 +177,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             {
                 var rbacRole = csmResource is ServerFarm || csmResource is ResourceGroup
                 ? _readerRole
-                : _contributorRold;
+                : _contributorRole;
                 // add rbac contributor
                 // after adding a user, CSM can't find the user for a while
                 // pulling on the Graph GET doesn't work because that would return 200 while CSM still doesn't recognize the new user

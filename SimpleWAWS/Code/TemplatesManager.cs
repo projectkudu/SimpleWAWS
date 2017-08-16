@@ -82,6 +82,13 @@ namespace SimpleWAWS.Models
                     CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/PingSite.json"),
                     Description = Resources.Server.Templates_PingSiteDescription
                 });
+                list.Add(new MonitoringToolsTemplate
+                {
+                    Name = "Monitoring And Diagnostics Site",
+                    SpriteName = "sprite-EmptySite sprite-Large",
+                    AppService = AppService.MonitoringTools,
+                    Description = Resources.Server.Templates_PingSiteDescription
+                });
                 if (File.Exists(HostingEnvironment.MapPath("~/ARMTemplates/LinuxResource.json")))
                 {   list.Add(new LinuxTemplate
                     {

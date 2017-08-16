@@ -8,7 +8,8 @@ namespace SimpleWAWS.Models
     public enum SubscriptionType
     {
         AppService,
-        Linux
+        Linux,
+        MonitoringTools
     }
 
     public class Subscription
@@ -19,7 +20,7 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return SimpleSettings.LinuxSubscriptions.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries)
+                return SimpleSettings.MonitoringToolsSubscription.Equals(SubscriptionId,StringComparison.OrdinalIgnoreCase)?SubscriptionType.MonitoringTools: SimpleSettings.LinuxSubscriptions.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries)
                        .Contains(SubscriptionId)
                        ? SubscriptionType.Linux
                        : SubscriptionType.AppService;

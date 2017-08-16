@@ -56,7 +56,13 @@ namespace SimpleWAWS.Code
         public static string LinuxSubscriptions { get { return config(); } }
         public static string LinuxGeoRegions { get { return config("West US,Southeast Asia"); } }
         public static int LinuxResourceGroupsPerRegion { get { return Int32.Parse(config("1")); } }
+        public static string MonitoringToolsTenant { get { return config(); } }
+        public static string MonitoringToolsServicePrincipal { get { return config(); } }
+        public static string MonitoringToolsServicePrincipalKey { get { return config(); } }
+        public static string MonitoringToolsResourceGroupName { get { return config("musicstore-trial-test"); } }
+        public static string MonitoringToolsSubscription { get { return config("a9b1c9db-b3b7-4fa6-8c2d-69d567d657d1"); } }
         public static string WEBSITE_SLOT_NAME { get { return config(); } }
+        public static string WEBSITE_HOSTNAME { get { return config();}}
         public static int NUMBER_OF_PROCESSORS { get { return Int32.Parse(config("4")); } }
     }
 

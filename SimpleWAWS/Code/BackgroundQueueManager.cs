@@ -42,7 +42,7 @@ namespace SimpleWAWS.Code
         private static Random rand = new Random();
         internal Stopwatch _uptime;
         internal int _cleanupOperationsTriggered;
-
+        public ResourceGroup MonitoringResourceGroup ;
         public BackgroundQueueManager()
         {
             if (_logQueueStatsTimer == null)
@@ -74,6 +74,18 @@ namespace SimpleWAWS.Code
                 RetryAction = () => LoadSubscription(subscriptionId)
             });
         }
+        public void LoadMonitoringToolSubscription(string subscriptionId)
+        {
+            var subscription = new Subscription(subscriptionId);
+            AddOperation(new BackgroundOperation<Subscription>
+            {
+                Description = $"Loading subscription {subscriptionId}",
+                Type = OperationType.LoadMonitoringToolSubscription,
+                Task = subscription.LoadMonitoringToolSubscription(),
+                RetryAction = () => LoadMonitoringToolSubscription(subscriptionId)
+            });
+        }
+
 
         public void DeleteResourceGroup(ResourceGroup resourceGroup)
         {
@@ -130,6 +142,11 @@ namespace SimpleWAWS.Code
 
             switch (operation.Type)
             {
+                case OperationType.LoadMonitoringToolSubscription:
+                    var monitoringToolsSubscription = subTask.Task.Result;
+                    var monitoringToolsResource = monitoringToolsSubscription.GetMonitoringToolsResource();
+                    MonitoringResourceGroup = monitoringToolsResource.Ready.First();
+                    break;
                 case OperationType.SubscriptionLoad:
                     var subscription = subTask.Task.Result;
                     var result = subscription.MakeTrialSubscription();

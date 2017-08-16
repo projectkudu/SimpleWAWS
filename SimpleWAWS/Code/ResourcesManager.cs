@@ -57,6 +57,7 @@ namespace SimpleWAWS.Code
         // ARM
         private async Task LoadAzureResources()
         {
+            LoadMonitoringToolResources();
             var subscriptions = await CsmManager.GetSubscriptions();
             HostingEnvironment.QueueBackgroundWorkItem(_ =>
             {
@@ -67,6 +68,15 @@ namespace SimpleWAWS.Code
             });
         }
 
+        private void LoadMonitoringToolResources()
+        {
+            var subscription =  CsmManager.LoadMonitoringToolsSubscription();
+            HostingEnvironment.QueueBackgroundWorkItem(_ =>
+            {
+                    _backgroundQueueManager.LoadMonitoringToolSubscription(subscription);
+            });
+        }
+        
         // ARM
         private void DeleteResourceGroup(ResourceGroup resourceGroup)
         {
@@ -95,9 +105,15 @@ namespace SimpleWAWS.Code
                 {
                     resourceGroupFound = _backgroundQueueManager.FreeLinuxResourceGroups.TryDequeue(out resourceGroup);
                 }
-                else
+                else if ((appService != AppService.MonitoringTools))
                 {
                     resourceGroupFound = _backgroundQueueManager.FreeResourceGroups.TryDequeue(out resourceGroup);
+                }
+                else if ((appService == AppService.MonitoringTools))
+                {
+                    resourceGroup = _backgroundQueueManager.MonitoringResourceGroup;
+                    SimpleTrace.Diagnostics.Information("resourceGroup {resourceGroupId} is now assigned to {userId}", resourceGroup.CsmId, userId);
+                    return resourceGroup;
                 }
                 if (resourceGroupFound)
                 {
@@ -337,7 +353,24 @@ namespace SimpleWAWS.Code
                 return resourceGroup;
             });
         }
+        public async Task<ResourceGroup> ActivateMonitoringToolsApp(MonitoringToolsTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
+        {
+            return await ActivateResourceGroup(userIdentity, AppService.MonitoringTools, DeploymentType.RbacOnly, async (resourceGroup, inProgressOperation) =>
+            {
 
+                SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
+                    userIdentity.Name, template, resourceGroup);
+                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}; {6}",
+                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
+                            "MonitoringTools", template.Name, resourceGroup.ResourceUniqueId, AppService.MonitoringTools.ToString(), anonymousUserName);
+                SimpleTrace.UserCreatedApp(userIdentity, template, resourceGroup, AppService.MonitoringTools);
+               await resourceGroup.Load();
+
+                var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email);
+                resourceGroup.IsRbacEnabled = await rbacTask;
+                return resourceGroup;
+            });
+        }
         public async Task<ResourceGroup> ActivateLinuxResource(LinuxTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
             return await ActivateResourceGroup(userIdentity, AppService.Linux, DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
@@ -485,6 +518,10 @@ namespace SimpleWAWS.Code
         public IReadOnlyCollection<ResourceGroup> GetAllFreeLinuxResourceGroups()
         {
             return _backgroundQueueManager.FreeLinuxResourceGroups.ToList();
+        }
+        public ResourceGroup GetMonitoringToolResourceGroup()
+        {
+            return _backgroundQueueManager.MonitoringResourceGroup;
         }
         // ARM
         public IReadOnlyCollection<ResourceGroup> GetAllInUseResourceGroups()
