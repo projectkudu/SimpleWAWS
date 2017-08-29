@@ -49,18 +49,23 @@ namespace SimpleWAWS.Code
         public static int CleanupSubscriptionMinutes { get { return Int32.Parse(config("240")); } }
         public static int LoqQueueStatsMinutes { get { return Int32.Parse(config("5")); } }
         public static int BackGroundQueueSize{ get { return Int32.Parse(config("50")); } }
-        public static string LinuxTenant { get { return config(TryTenantId); } }
+        public static string LinuxTenantId { get { return config(TryTenantId); } }
+        public static string LinuxTenantName { get { return config(TryTenantName); } }
         public static string LinuxServicePrincipal { get { return config(TryUserName); } }
         public static string LinuxServicePrincipalKey { get { return config(TryPassword); } }
         public static string LinuxExpiryMinutes { get { return config("30"); } }
         public static string LinuxSubscriptions { get { return config(); } }
         public static string LinuxGeoRegions { get { return config("West US,Southeast Asia"); } }
         public static int LinuxResourceGroupsPerRegion { get { return Int32.Parse(config("1")); } }
-        public static string MonitoringToolsTenant { get { return config(); } }
+        public static string MonitoringToolsExpiryMinutes { get { return config("240"); } }
+        public static string MonitoringToolsTenantName { get { return config(); } }
+        public static string MonitoringToolsTenantId { get { return config(); } }
         public static string MonitoringToolsServicePrincipal { get { return config(); } }
         public static string MonitoringToolsServicePrincipalKey { get { return config(); } }
         public static string MonitoringToolsResourceGroupName { get { return config("musicstore-trial-test"); } }
-        public static string MonitoringToolsSubscription { get { return config("a9b1c9db-b3b7-4fa6-8c2d-69d567d657d1"); } }
+        public static string MonitoringToolsSubscription { get { return config("0396d5df-005a-4c6b-9665-714ae60c5eb9"); } }
+        public static string MonitoringToolsGraphUserName { get { return config(); } }
+        public static string MonitoringToolsGraphPassword { get { return config(); } }
         public static string WEBSITE_SLOT_NAME { get { return config(); } }
         public static string WEBSITE_HOSTNAME { get { return config();}}
         public static int NUMBER_OF_PROCESSORS { get { return Int32.Parse(config("4")); } }

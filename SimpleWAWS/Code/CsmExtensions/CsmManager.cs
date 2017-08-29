@@ -20,6 +20,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         private static readonly AzureClient graphClient;
         private static readonly AzureClient linuxClient;
         private static readonly AzureClient monitoringToolsClient;
+        private static readonly AzureClient monitoringToolsGraphClient;
 
         private const string _readerRole = "acdd72a7-3385-48ef-bd42-f606fba81ae7";
         private const string _contributorRole = "b24988ac-6180-42a0-ab88-20f7382dd24c";
@@ -36,11 +37,13 @@ namespace SimpleWAWS.Code.CsmExtensions
             graphClient.ConfigureUpnLogin(SimpleSettings.GraphUserName, SimpleSettings.GraphPassword);
 
             linuxClient = new AzureClient(retryCount: 3);
-            linuxClient.ConfigureSpnLogin(SimpleSettings.LinuxTenant, SimpleSettings.LinuxServicePrincipal, SimpleSettings.LinuxServicePrincipalKey);
+            linuxClient.ConfigureSpnLogin(SimpleSettings.LinuxTenantId, SimpleSettings.LinuxServicePrincipal, SimpleSettings.LinuxServicePrincipalKey);
 
             monitoringToolsClient = new AzureClient(retryCount: 3);
-            monitoringToolsClient.ConfigureSpnLogin(SimpleSettings.MonitoringToolsTenant, SimpleSettings.MonitoringToolsServicePrincipal, SimpleSettings.MonitoringToolsServicePrincipalKey);
+            monitoringToolsClient.ConfigureSpnLogin(SimpleSettings.MonitoringToolsTenantId, SimpleSettings.MonitoringToolsServicePrincipal, SimpleSettings.MonitoringToolsServicePrincipalKey);
 
+            monitoringToolsGraphClient = new AzureClient(retryCount: 3);
+            monitoringToolsGraphClient.ConfigureUpnLogin(SimpleSettings.MonitoringToolsGraphUserName, SimpleSettings.MonitoringToolsGraphPassword);
         }
         public static string LoadMonitoringToolsSubscription()
         {
@@ -86,7 +89,17 @@ namespace SimpleWAWS.Code.CsmExtensions
                 return georegionHashMap;
             }
         }
-
+        static AzureClient GetGraphClient(SubscriptionType subscriptionType) {
+            switch (subscriptionType)
+            {
+                case SubscriptionType.MonitoringTools:
+                    return monitoringToolsGraphClient;
+                case SubscriptionType.Linux:
+                case SubscriptionType.AppService:
+                default:
+                    return graphClient;
+            }
+        }
         static AzureClient GetClient(SubscriptionType subscriptionType)
         {
             switch (subscriptionType)
@@ -101,7 +114,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             }
         }
 
-        public static async Task<string> GetUserObjectId(string puidOrAltSec, string emailAddress)
+        public static async Task<string> GetUserObjectId(string puidOrAltSec, string emailAddress, ResourceGroup resourceGroup)
         {
             if (string.IsNullOrEmpty(puidOrAltSec) ||
                 string.IsNullOrEmpty(emailAddress) ||
@@ -113,13 +126,13 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             var rbacUser = new RbacUser
             {
-                TenantId = SimpleSettings.TryTenantId,
+                TenantId = resourceGroup.TenantName,
                 UserPuid = puidOrAltSec.Split(':').Last()
             };
 
             try
             {
-                var users = await SearchGraph(rbacUser);
+                var users = await SearchGraph(rbacUser, resourceGroup);
 
                 if (!users.value.Any())
                 {
@@ -133,13 +146,13 @@ namespace SimpleWAWS.Code.CsmExtensions
 
                     SimpleTrace.Diagnostics.Verbose(AnalyticsEvents.InviteUser, rbacUser);
                     //invite user
-                    var graphResponse = await graphClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.GraphUsers.Bind(rbacUser), invitation);
+                    var graphResponse = await GetGraphClient(resourceGroup.SubscriptionType).HttpInvoke(HttpMethod.Post, ArmUriTemplates.GraphUsers.Bind(rbacUser), invitation);
                     await graphResponse.EnsureSuccessStatusCodeWithFullError();
                     var invite = await graphResponse.Content.ReadAsAsync<JObject>();
 
                     SimpleTrace.Diagnostics.Verbose(AnalyticsEvents.RedeemUserInvitation);
                     //redeem invite on user's behalf
-                    graphResponse = await graphClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.GraphRedeemInvite.Bind(rbacUser), new
+                    graphResponse = await GetGraphClient(resourceGroup.SubscriptionType).HttpInvoke(HttpMethod.Post, ArmUriTemplates.GraphRedeemInvite.Bind(rbacUser), new
                     {
                         altSecIds = new[]{ new {
                             identityProvider = (string)null,
@@ -175,7 +188,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             try
             {
-                var rbacRole = csmResource is ServerFarm || csmResource is ResourceGroup
+                var rbacRole = csmResource.SubscriptionType == SubscriptionType.MonitoringTools|| csmResource is ServerFarm || csmResource is ResourceGroup
                 ? _readerRole
                 : _contributorRole;
                 // add rbac contributor
@@ -183,7 +196,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 // pulling on the Graph GET doesn't work because that would return 200 while CSM still doesn't recognize the new user
                 for (var i = 0; i < 30; i++)
                 {
-                    var csmResponse = await csmClient.HttpInvoke(HttpMethod.Put,
+                    var csmResponse = await GetClient(csmResource.SubscriptionType).HttpInvoke(HttpMethod.Put,
                         new Uri(string.Concat(ArmUriTemplates.CsmRootUrl, csmResource.CsmId, "/providers/Microsoft.Authorization/RoleAssignments/", Guid.NewGuid().ToString(), "?api-version=", ArmUriTemplates.RbacApiVersion)),
                         new
                         {
@@ -230,9 +243,9 @@ namespace SimpleWAWS.Code.CsmExtensions
                    .Select(group => group.First()).ToDictionary(k => k.displayName, v => v.subscriptionId);
         }
 
-        private static async Task<GraphArrayWrapper<GraphUser>> SearchGraph(RbacUser rbacUser)
+        private static async Task<GraphArrayWrapper<GraphUser>> SearchGraph(RbacUser rbacUser, ResourceGroup resourceGroup)
         {
-            var graphResponse = await graphClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.GraphSearchUsers.Bind(rbacUser));
+            var graphResponse = await GetGraphClient(resourceGroup.SubscriptionType).HttpInvoke(HttpMethod.Get, ArmUriTemplates.GraphSearchUsers.Bind(rbacUser));
             await graphResponse.EnsureSuccessStatusCodeWithFullError();
             return await graphResponse.Content.ReadAsAsync<GraphArrayWrapper<GraphUser>>();
         }
@@ -281,13 +294,13 @@ namespace SimpleWAWS.Code.CsmExtensions
                 yield return batch;
             }
         }
-        public static async Task<JObject> GetLoadedResources()
-        {
+        //public static async Task<JObject> GetLoadedResources()
+        //{
 
-            var tryAppServiceResponse = await graphClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.LoadedResources);
-            await tryAppServiceResponse.EnsureSuccessStatusCodeWithFullError();
-            return await tryAppServiceResponse.Content.ReadAsAsync<JObject>();
-        }
+        //    var tryAppServiceResponse = await GetGraphClient(resourceGroup.SubscriptionType).HttpInvoke(HttpMethod.Get, ArmUriTemplates.LoadedResources);
+        //    await tryAppServiceResponse.EnsureSuccessStatusCodeWithFullError();
+        //    return await tryAppServiceResponse.Content.ReadAsAsync<JObject>();
+        //}
     }
 
 }

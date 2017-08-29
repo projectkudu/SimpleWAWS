@@ -23,7 +23,7 @@ namespace SimpleWAWS.Controllers
         {
              var resourceManager = await ResourcesManager.GetInstanceAsync();
              var resourceGroup = await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name);
-             return Request.CreateResponse(HttpStatusCode.OK, resourceGroup == null ? null : (HttpContext.Current.Request.QueryString["appServiceName"] == "Function")? resourceGroup.FunctionsUIResource: resourceGroup.UIResource);
+             return Request.CreateResponse(HttpStatusCode.OK, resourceGroup == null ? null : (HttpContext.Current.Request.QueryString["appServiceName"] == "Function")? resourceGroup.FunctionsUIResource: UpdateMonitoringToolsTimeLeft(resourceGroup.UIResource));
         }
 
         [HttpGet]
@@ -104,8 +104,10 @@ namespace SimpleWAWS.Controllers
                         inUseLogicAppCount =inUseLogicAppCount,
                         inUseLinuxResourceCount = inUseLinuxResourcesList.Count(),
                         inProgressSitesCount = inProgress.Count(),
+                        inUseMonitoringToolsUsersCount = BackgroundQueueManager.MonitoringResourceGroupCheckoutTimes.Count,
                         backgroundOperationsCount = backgroundOperations.Count(),
                         monitoringToolsResource = monitoringToolsResource,
+                        monitoringToolsResourceUsers = BackgroundQueueManager.MonitoringResourceGroupCheckoutTimes,
                         inUseSites = inUseSitesList,
                         inUseLinuxResources = inUseLinuxResourcesList,
                         freeSites = showFreeResources ? freeSitesList : null,
@@ -193,7 +195,8 @@ namespace SimpleWAWS.Controllers
                     Name = linuxtemplate.Name,
                     CsmTemplateFilePath = linuxtemplate.CsmTemplateFilePath,
                     Description = linuxtemplate.Description,
-                    MSDeployPackageUrl = linuxtemplate.MSDeployPackageUrl
+                    MSDeployPackageUrl = linuxtemplate.MSDeployPackageUrl,
+                    DockerContainer =String.Empty
                 };
             }
             else if (template.Name != null && !template.Name.Equals("Github Repo") && !template.AppService.Equals(AppService.Function))
@@ -295,9 +298,31 @@ namespace SimpleWAWS.Controllers
                    : ((HttpContext.Current.Request.QueryString["appServiceName"].Equals("Function",
                         StringComparison.InvariantCultureIgnoreCase))
                         ? resourceGroup.FunctionsUIResource
-                        : resourceGroup.UIResource);
+                        : UpdateMonitoringToolsTimeLeft(resourceGroup.UIResource));
         }
 
+        private UIResource UpdateMonitoringToolsTimeLeft(UIResource resourceGroup)
+        {
+            if (resourceGroup.AppService == AppService.MonitoringTools)
+            {
+                TimeSpan timeUsed = DateTime.UtcNow - BackgroundQueueManager.MonitoringResourceGroupCheckoutTimes.GetOrAdd(HttpContext.Current.User.Identity.Name, DateTime.UtcNow);
+                TimeSpan timeLeft;
+                TimeSpan LifeTime = TimeSpan.FromMinutes(int.Parse(SimpleSettings.MonitoringToolsExpiryMinutes));
+
+                if (timeUsed > LifeTime)
+                {
+                    timeLeft = TimeSpan.FromMinutes(0);
+                }
+                else
+                {
+                    timeLeft = LifeTime - timeUsed;
+                }
+                
+
+                resourceGroup.TimeLeftInSeconds = (int)timeLeft.TotalSeconds;
+            }
+            return resourceGroup;
+        }
         public async Task<HttpResponseMessage> DeleteResource()
         {
             var resourceManager = await ResourcesManager.GetInstanceAsync();

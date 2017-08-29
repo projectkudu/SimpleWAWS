@@ -22,7 +22,7 @@ namespace SimpleWAWS.Authentication
                     case TokenResults.DoesntExist:
                         if (context.IsAjaxRequest() || context.IsFunctionsPortalBackendRequest())
                         {
-                            context.Response.Headers["LoginUrl"] = GetLoginUrl(context);
+                            //context.Response.Headers["LoginUrl"] = GetLoginUrl(context);
                             context.Response.Headers["loginurl"] = GetLoginUrl(context);
                             context.Response.StatusCode = 403; // Forbidden
                         }

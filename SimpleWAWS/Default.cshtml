@@ -1,7 +1,13 @@
 ﻿@using SimpleWAWS.Resources
 @using System.Globalization
 @using SimpleWAWS.Code
-<!DOCTYPE html>
+@{
+    //add check for state to allow local functions to go against prod tryappservices
+    if (string.IsNullOrWhiteSpace(Request.QueryString["state"]) && (!string.Equals(SimpleSettings.WEBSITE_HOSTNAME, Constants.NextHostName)))
+    {
+        Response.Redirect("https://azure.microsoft.com/try/app-service/");
+    }
+}<!DOCTYPE html>
 <html xmlns = "http://www.w3.org/1999/xhtml" >
     <head>
         <base href="/" />

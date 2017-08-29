@@ -43,6 +43,8 @@ namespace SimpleWAWS.Code
         internal Stopwatch _uptime;
         internal int _cleanupOperationsTriggered;
         public ResourceGroup MonitoringResourceGroup ;
+        public static ConcurrentDictionary<string, DateTime> MonitoringResourceGroupCheckoutTimes = new ConcurrentDictionary<string, DateTime>();
+
         public BackgroundQueueManager()
         {
             if (_logQueueStatsTimer == null)

@@ -112,8 +112,9 @@ namespace SimpleWAWS.Code
                 else if ((appService == AppService.MonitoringTools))
                 {
                     resourceGroup = _backgroundQueueManager.MonitoringResourceGroup;
+                    BackgroundQueueManager.MonitoringResourceGroupCheckoutTimes.AddOrUpdate(userId, DateTime.UtcNow,(key, oldValue)=> DateTime.UtcNow);
                     SimpleTrace.Diagnostics.Information("resourceGroup {resourceGroupId} is now assigned to {userId}", resourceGroup.CsmId, userId);
-                    return resourceGroup;
+                    return await func(resourceGroup, null);
                 }
                 if (resourceGroupFound)
                 {
@@ -364,7 +365,7 @@ namespace SimpleWAWS.Code
                             AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
                             "MonitoringTools", template.Name, resourceGroup.ResourceUniqueId, AppService.MonitoringTools.ToString(), anonymousUserName);
                 SimpleTrace.UserCreatedApp(userIdentity, template, resourceGroup, AppService.MonitoringTools);
-               await resourceGroup.Load();
+                //await resourceGroup.Load();
 
                 var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email);
                 resourceGroup.IsRbacEnabled = await rbacTask;
@@ -386,26 +387,32 @@ namespace SimpleWAWS.Code
                 var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
                 resourceGroup.Tags[Constants.TemplateName] = template.Name;
                 resourceGroup = await resourceGroup.Update();
-
-                if (template?.MSDeployPackageUrl != null)
+                if (!string.IsNullOrEmpty(template.DockerContainer))
                 {
-                    try
-                    {
-                        var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-                        var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
-                        Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.MSDeployPackageUrl);
-                        var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
-                        Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
-                        await Task.WhenAll(zipUpload, deleteHostingStart);
-                    }
-                    catch (Exception ex)
-                    {
-                        SimpleTrace.TraceError(ex.Message + ex.StackTrace);
-                    }
+                    await site.UpdateConfig(new { properties = new { linuxFxVersion = template.DockerContainer } });
                 }
-                if (template.Name.Equals(Constants.NodeJSWebAppLinuxTemplateName, StringComparison.OrdinalIgnoreCase))
+                else
                 {
-                    await site.UpdateConfig(new { properties = new { linuxFxVersion = "NODE|6.10", appCommandLine = "process.json" } });
+                    if (template?.MSDeployPackageUrl != null)
+                    {
+                        try
+                        {
+                            var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+                            var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
+                            Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.MSDeployPackageUrl);
+                            var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
+                            Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
+                            await Task.WhenAll(zipUpload, deleteHostingStart);
+                        }
+                        catch (Exception ex)
+                        {
+                            SimpleTrace.TraceError(ex.Message + ex.StackTrace);
+                        }
+                    }
+                    if (template.Name.Equals(Constants.NodeJSWebAppLinuxTemplateName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        await site.UpdateConfig(new { properties = new { linuxFxVersion = "NODE|6.10", appCommandLine = "process.json" } });
+                    }
                 }
                 Util.FireAndForget($"{resourceGroup.Sites.FirstOrDefault().HostName}");
                 Util.FireAndForget($"{resourceGroup.Sites.FirstOrDefault().ScmHostName}");

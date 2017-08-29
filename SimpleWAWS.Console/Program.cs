@@ -95,7 +95,7 @@ namespace SimpleWAWS.Console
 
             //console("subscriptions have: " + subscriptions.Aggregate(0, (count, sub) => count += sub.ResourceGroups.Count()) + " resourceGroups");
 
-            var resources = await CsmManager.GetLoadedResources();
+            //var resources = await CsmManager.GetLoadedResources();
             console("calling MakeTrialSubscription on all subscriptions");
             foreach (var sub in subscriptionsIds)
             {

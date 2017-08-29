@@ -308,7 +308,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             try
             {
-                var objectId = await GetUserObjectId(puidOrAltSec, emailAddress);
+                var objectId = await GetUserObjectId(puidOrAltSec, emailAddress, resourceGroup);
 
                 if (string.IsNullOrEmpty(objectId)) return false;
 

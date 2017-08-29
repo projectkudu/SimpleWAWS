@@ -19,18 +19,6 @@ namespace SimpleWAWS.Models
             }
         }
 
-        public SubscriptionType SubscriptionType
-        {
-            get
-            {
-                return SimpleSettings.MonitoringToolsSubscription.Equals(SubscriptionId, StringComparison.OrdinalIgnoreCase) 
-                       ? SubscriptionType.MonitoringTools
-                       : SimpleSettings.LinuxSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Contains(SubscriptionId)
-                       ? SubscriptionType.Linux
-                       : SubscriptionType.AppService;
-            }
-        }
-
         public string UserId
         {
             get { return Tags.ContainsKey(Constants.UserId) ? Tags[Constants.UserId] : null; }
@@ -43,7 +31,7 @@ namespace SimpleWAWS.Models
 
         public TimeSpan LifeTime
         {
-            get { return TimeSpan.FromMinutes(int.Parse(Tags.ContainsKey(Constants.UserId) ? Tags[Constants.LifeTimeInMinutes] : "0" )); }
+            get { return TimeSpan.FromMinutes(int.Parse( Tags.ContainsKey(Constants.UserId) ? Tags[Constants.LifeTimeInMinutes] : "0" )); }
         }
 
         public static readonly TimeSpan DefaultUsageTimeSpan = TimeSpan.FromMinutes(int.Parse(SimpleSettings.SiteExpiryMinutes, CultureInfo.InvariantCulture));
@@ -175,6 +163,8 @@ namespace SimpleWAWS.Models
                         break;
                     case Models.AppService.MonitoringTools:
                         siteToUseForUi = Sites.First();
+                        siteToUseForUi.HostName = $"{siteToUseForUi.SiteName}.azurewebsites.net";
+                        siteToUseForUi.ScmHostName = $"{siteToUseForUi.SiteName}.scm.azurewebsites.net";
                         ibizaUrl = siteToUseForUi.IbizaUrl;
                         break;
                 }
@@ -228,7 +218,7 @@ namespace SimpleWAWS.Models
                     AppService = appService,
                     TemplateName = templateName,
                     IsExtended = IsExtended,
-                    TimeLeftInSeconds = (int)TimeLeft.TotalSeconds,
+                    TimeLeftInSeconds = SubscriptionType == SubscriptionType.MonitoringTools? Int32.Parse(SimpleSettings.MonitoringToolsExpiryMinutes): (int)TimeLeft.TotalSeconds,
                     CsmId = siteToUseForUi.CsmId,
                     UserName = userName
                 };
