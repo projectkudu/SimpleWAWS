@@ -389,7 +389,8 @@ namespace SimpleWAWS.Code
                 resourceGroup = await resourceGroup.Update();
                 if (!string.IsNullOrEmpty(template.DockerContainer))
                 {
-                    await site.UpdateConfig(new { properties = new { linuxFxVersion = template.DockerContainer } });
+                    var qualifiedContainerName = QualifyContainerName(template.DockerContainer);
+                    await site.UpdateConfig(new { properties = new { linuxFxVersion = qualifiedContainerName } });
                 }
                 else
                 {
@@ -422,6 +423,16 @@ namespace SimpleWAWS.Code
                 return resourceGroup;
             });
         }
+
+        private string QualifyContainerName(string containerName)
+        {
+            if (!containerName.Contains("|"))
+                containerName = "DOCKER|" + containerName;
+            if (!containerName.Contains(":"))
+                containerName = containerName + ":latest";
+            return containerName;
+        }
+
         // ARM
         public async Task<ResourceGroup> ActivateFunctionApp(FunctionTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
