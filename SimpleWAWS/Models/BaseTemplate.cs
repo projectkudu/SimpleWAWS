@@ -5,6 +5,9 @@ namespace SimpleWAWS.Models
 {
     public class BaseTemplate
     {
+        [JsonProperty(PropertyName = "dockerContainer")]
+        public string DockerContainer { get; set; }
+
         [JsonProperty(PropertyName="name")]
         public string Name { get; set; }
 

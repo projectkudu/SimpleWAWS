@@ -188,6 +188,12 @@ namespace SimpleWAWS.Controllers
             }
             else if (template.AppService.Equals(AppService.Linux))
             {
+                var container = String.Empty;
+                if (string.IsNullOrEmpty(template.Name))
+                {
+                    template.Name = "PHP Web App on Linux";
+                    container = template.DockerContainer??String.Empty;
+                }
                 var linuxtemplate = LinuxTemplate.GetLinuxTemplate(template.Name);
                 template = new LinuxTemplate
                 {
@@ -196,7 +202,7 @@ namespace SimpleWAWS.Controllers
                     CsmTemplateFilePath = linuxtemplate.CsmTemplateFilePath,
                     Description = linuxtemplate.Description,
                     MSDeployPackageUrl = linuxtemplate.MSDeployPackageUrl,
-                    DockerContainer =String.Empty
+                    DockerContainer = container
                 };
             }
             else if (template.Name != null && !template.Name.Equals("Github Repo") && !template.AppService.Equals(AppService.Function))
