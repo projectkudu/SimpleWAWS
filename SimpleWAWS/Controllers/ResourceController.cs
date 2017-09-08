@@ -188,7 +188,7 @@ namespace SimpleWAWS.Controllers
 
                 if ((await resourceManager.GetResourceGroup(identity.Name)) != null)
                 {
-                    SimpleTrace.Diagnostics.Fatal(AnalyticsEvents.MoreThanOneError, identity, 1);
+                    SimpleTrace.Diagnostics.Fatal(AnalyticsEvents.MoreThanOneError, 1);
                     //This should use the server version of the error, but due to a string bug they are not the same.
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Client.Information_YouCantHaveMoreThanOne);
                 }
@@ -260,7 +260,7 @@ namespace SimpleWAWS.Controllers
             catch (Exception ex)
             {
                 var message = ex is NullReferenceException ? Resources.Server.Error_GeneralErrorMessage : ex.Message;
-                SimpleTrace.Diagnostics.Fatal(ex, AnalyticsEvents.UserGotError, identity, message, Interlocked.Increment(ref _userGotErrorErrorCount));
+                SimpleTrace.Diagnostics.Fatal(ex, AnalyticsEvents.UserGotError,  message, Interlocked.Increment(ref _userGotErrorErrorCount));
                 return Request.CreateErrorResponse(HttpStatusCode.ServiceUnavailable, message);
             }
         }

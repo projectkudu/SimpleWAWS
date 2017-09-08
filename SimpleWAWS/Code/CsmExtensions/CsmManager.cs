@@ -120,7 +120,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 string.IsNullOrEmpty(emailAddress) ||
                 !SimpleWAWS.Authentication.AADProvider.IsMSA(puidOrAltSec))
             {
-                SimpleTrace.Diagnostics.Verbose(AnalyticsEvents.NoRbacAccess, puidOrAltSec, emailAddress);
+                SimpleTrace.Diagnostics.Verbose(AnalyticsEvents.NoRbacAccess);
                 return null;
             }
 
@@ -144,7 +144,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                         userType = "Guest"
                     };
 
-                    SimpleTrace.Diagnostics.Verbose(AnalyticsEvents.InviteUser, rbacUser);
+                    SimpleTrace.Diagnostics.Verbose(AnalyticsEvents.InviteUser);
                     //invite user
                     var graphResponse = await GetGraphClient(resourceGroup.SubscriptionType).HttpInvoke(HttpMethod.Post, ArmUriTemplates.GraphUsers.Bind(rbacUser), invitation);
                     await graphResponse.EnsureSuccessStatusCodeWithFullError();
@@ -168,12 +168,12 @@ namespace SimpleWAWS.Code.CsmExtensions
                     });
                     await graphResponse.EnsureSuccessStatusCodeWithFullError();
                     var redemption = await graphResponse.Content.ReadAsAsync<JObject>();
-                    SimpleTrace.Diagnostics.Verbose(AnalyticsEvents.UserAddedToTenant, redemption["objectId"].ToString());
+                    SimpleTrace.Diagnostics.Verbose(AnalyticsEvents.UserAddedToTenant);
                     return redemption["objectId"].ToString();
                 }
                 else
                 {
-                    SimpleTrace.Diagnostics.Verbose(AnalyticsEvents.UserAlreadyInTenant, users.value.First().objectId);
+                    SimpleTrace.Diagnostics.Verbose(AnalyticsEvents.UserAlreadyInTenant);
                     return users.value.First().objectId;
                 }
             }
@@ -220,7 +220,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             }
             catch(Exception e)
             {
-                SimpleTrace.Diagnostics.Error(e, AnalyticsEvents.ErrorInAddRbacUser, objectId);
+                SimpleTrace.Diagnostics.Error(e, AnalyticsEvents.ErrorInAddRbacUser);
             }
 
             SimpleTrace.Diagnostics.Verbose(AnalyticsEvents.FailedToAddRbacAccess);

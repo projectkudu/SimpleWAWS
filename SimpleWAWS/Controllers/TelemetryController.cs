@@ -36,9 +36,8 @@ namespace SimpleWAWS.Controllers
                     var cid = cleanUp(dic.Where(p => p.Key == "cid").Select(p => p.Value).FirstOrDefault());
                     var sv = cleanUp(dic.Where(p => p.Key == "sv").Select(p => p.Value).FirstOrDefault());
 
-                    SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}",
+                    SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
                             AnalyticsEvents.AnonymousUserInit,
-                            userName,
                             ExperimentManager.GetCurrentExperiment(),
                             referer,
                             cid,
@@ -53,7 +52,7 @@ namespace SimpleWAWS.Controllers
                     var eventProperties = properties != null
                         ? properties.ToObject<Dictionary<string, string>>().Select(e => e.Value).Aggregate((a, b) => string.Join(",", a, b))
                         : string.Empty;
-                    SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}", AnalyticsEvents.OldUiEvent, telemetryEvent, userName, eventProperties, anonymousUserName);
+                    SimpleTrace.TraceInformation("{0}; {1}; {2};", AnalyticsEvents.OldUiEvent, telemetryEvent, eventProperties);
                 }
             }
             return Request.CreateResponse(HttpStatusCode.Accepted);
@@ -68,10 +67,8 @@ namespace SimpleWAWS.Controllers
                     ? User.Identity.Name
                     : "-";
                 var anonymousUserName = SecurityManager.GetAnonymousUserName(context);
-                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
+                SimpleTrace.TraceInformation("{0}; {1}; {2};",
                     AnalyticsEvents.FeedbackComment,
-                    userName,
-                    anonymousUserName,
                     feedback.Comment.Replace(';', '_'),
                     feedback.ContactMe.ToString());
             }

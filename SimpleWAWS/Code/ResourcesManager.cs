@@ -113,7 +113,7 @@ namespace SimpleWAWS.Code
                 {
                     resourceGroup = _backgroundQueueManager.MonitoringResourceGroup;
                     BackgroundQueueManager.MonitoringResourceGroupCheckoutTimes.AddOrUpdate(userId, DateTime.UtcNow,(key, oldValue)=> DateTime.UtcNow);
-                    SimpleTrace.Diagnostics.Information("resourceGroup {resourceGroupId} is now assigned to {userId}", resourceGroup.CsmId, userId);
+                    SimpleTrace.Diagnostics.Information("resourceGroup {resourceGroupId} is now assigned", resourceGroup.CsmId);
                     return await func(resourceGroup, null);
                 }
                 if (resourceGroupFound)
@@ -192,12 +192,8 @@ namespace SimpleWAWS.Code
                 : DeploymentType.ZipDeploy;
             return await ActivateResourceGroup(userIdentity, temp, false, deploymentType, async (resourceGroup, inProgressOperation) =>
                 {
-                    SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
-                        userIdentity, template, resourceGroup.CsmId);
-                    SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}; {6}",
-                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
-                            template.Language, template.Name, resourceGroup.ResourceUniqueId, temp.ToString(), anonymousUserName);
-                    SimpleTrace.UserCreatedApp(userIdentity, template, resourceGroup, temp);
+                    SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; ",
+                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, template.Language, template.Name, resourceGroup.ResourceUniqueId, temp.ToString());
 
                     var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
                     var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email);
@@ -311,15 +307,8 @@ namespace SimpleWAWS.Code
         {
             return await ActivateResourceGroup(userIdentity, AppService.Logic, false, DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
             {
-
-                SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
-                    userIdentity.Name, template, resourceGroup);
-                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}; {6}",
-                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
-                            "Logic", template.Name, resourceGroup.ResourceUniqueId, AppService.Logic.ToString(), anonymousUserName);
-                SimpleTrace.UserCreatedApp(userIdentity, template, resourceGroup, AppService.Logic);
-
-                //await resourceGroup.InitApiApps();
+                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
+                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, "Logic", template.Name, resourceGroup.ResourceUniqueId, AppService.Logic.ToString());
 
                 var logicApp = new LogicApp(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, Guid.NewGuid().ToString().Replace("-", ""))
                 {
@@ -353,13 +342,9 @@ namespace SimpleWAWS.Code
             return await ActivateResourceGroup(userIdentity, AppService.MonitoringTools, false, DeploymentType.RbacOnly, async (resourceGroup, inProgressOperation) =>
             {
 
-                SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
-                    userIdentity.Name, template, resourceGroup);
-                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}; {6}",
-                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
-                            "MonitoringTools", template.Name, resourceGroup.ResourceUniqueId, AppService.MonitoringTools.ToString(), anonymousUserName);
-                SimpleTrace.UserCreatedApp(userIdentity, template, resourceGroup, AppService.MonitoringTools);
-                //await resourceGroup.Load();
+                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
+                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, 
+                            "MonitoringTools", template.Name, resourceGroup.ResourceUniqueId, AppService.MonitoringTools.ToString());
 
                 var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email);
                 resourceGroup.IsRbacEnabled = await rbacTask;
@@ -370,13 +355,8 @@ namespace SimpleWAWS.Code
         {
             return await ActivateResourceGroup(userIdentity, AppService.Web, true ,DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
             {
-
-                SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
-                    userIdentity.Name, template, resourceGroup);
-                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}; {6}",
-                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
-                            "Linux", template.Name, resourceGroup.ResourceUniqueId, AppService.Web.ToString(), anonymousUserName);
-                SimpleTrace.UserCreatedApp(userIdentity, template, resourceGroup, AppService.Web);
+                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
+                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, "Linux", template.Name, resourceGroup.ResourceUniqueId, AppService.Web.ToString());
 
                 var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
                 resourceGroup.Tags[Constants.TemplateName] = template.Name;
@@ -415,12 +395,9 @@ namespace SimpleWAWS.Code
             return await ActivateResourceGroup(userIdentity, AppService.Containers, true, DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
             {
 
-                SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
-                    userIdentity.Name, template, resourceGroup);
-                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}; {6}",
-                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
-                            "Containers", template.Name, resourceGroup.ResourceUniqueId, AppService.Containers.ToString(), anonymousUserName);
-                SimpleTrace.UserCreatedApp(userIdentity, template, resourceGroup, AppService.Containers);
+                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
+                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, 
+                            "Containers", template.Name, resourceGroup.ResourceUniqueId, AppService.Containers.ToString());
 
                 var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
                 resourceGroup.Tags[Constants.TemplateName] = template.Name;
@@ -453,12 +430,9 @@ namespace SimpleWAWS.Code
         {
             return await ActivateResourceGroup(userIdentity, AppService.Function, false, DeploymentType.FunctionDeploy, async (resourceGroup, inProgressOperation) =>
             {
-                SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
-                    userIdentity.Name, template, resourceGroup);
-                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}; {6}",
-                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
-                            "Function", template.Name, resourceGroup.ResourceUniqueId, AppService.Function.ToString(), anonymousUserName);
-                SimpleTrace.UserCreatedApp(userIdentity, template, resourceGroup, AppService.Function);
+                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
+                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName,
+                            "Function", template.Name, resourceGroup.ResourceUniqueId, AppService.Function.ToString());
 
                 Util.FireAndForget(resourceGroup.Sites.First(s => s.IsFunctionsContainer).HostName); 
                 var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email, isFunctionContainer: true);

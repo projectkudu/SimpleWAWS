@@ -11,16 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleWAWS.GenerateAppSetti
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SimpleWAWS.Tests", "SimpleWAWS.Tests\SimpleWAWS.Tests.fsproj", "{78A609B6-1E94-4F73-98BB-5E1261345D9D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analytics", "Analytics", "{3B874E77-1193-48BE-98E9-1BDC7738AFF1}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{CC03BF96-629C-44C3-A7AC-8D4F2835CA4D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TryAppService.Data", "Analytics\Server\TryAppService.Data\TryAppService.Data.csproj", "{E334B980-587A-4F2D-BB6D-07123914973B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TryAppService.WebJob.Aggregation", "Analytics\Server\TryAppService.WebJob.Aggregation\TryAppService.WebJob.Aggregation.csproj", "{BF64A531-D16C-41CA-9938-3A8B3A695FDA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TryAppService.WebJob.ProcessQueue", "Analytics\Server\TryAppService.WebJob.ProcessQueue\TryAppService.WebJob.ProcessQueue.csproj", "{5DC1FF81-D35A-499C-893E-60EB62C242CD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleWAWS.CleanAAD", "SimpleWAWS.CleanAAD\SimpleWAWS.CleanAAD.csproj", "{1CBC766D-1D61-4D65-8641-97F49032AF48}"
 EndProject
 Global
@@ -45,18 +35,6 @@ Global
 		{78A609B6-1E94-4F73-98BB-5E1261345D9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78A609B6-1E94-4F73-98BB-5E1261345D9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78A609B6-1E94-4F73-98BB-5E1261345D9D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E334B980-587A-4F2D-BB6D-07123914973B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E334B980-587A-4F2D-BB6D-07123914973B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E334B980-587A-4F2D-BB6D-07123914973B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E334B980-587A-4F2D-BB6D-07123914973B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BF64A531-D16C-41CA-9938-3A8B3A695FDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BF64A531-D16C-41CA-9938-3A8B3A695FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BF64A531-D16C-41CA-9938-3A8B3A695FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BF64A531-D16C-41CA-9938-3A8B3A695FDA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5DC1FF81-D35A-499C-893E-60EB62C242CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5DC1FF81-D35A-499C-893E-60EB62C242CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5DC1FF81-D35A-499C-893E-60EB62C242CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5DC1FF81-D35A-499C-893E-60EB62C242CD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1CBC766D-1D61-4D65-8641-97F49032AF48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1CBC766D-1D61-4D65-8641-97F49032AF48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CBC766D-1D61-4D65-8641-97F49032AF48}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -64,11 +42,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{CC03BF96-629C-44C3-A7AC-8D4F2835CA4D} = {3B874E77-1193-48BE-98E9-1BDC7738AFF1}
-		{E334B980-587A-4F2D-BB6D-07123914973B} = {CC03BF96-629C-44C3-A7AC-8D4F2835CA4D}
-		{BF64A531-D16C-41CA-9938-3A8B3A695FDA} = {CC03BF96-629C-44C3-A7AC-8D4F2835CA4D}
-		{5DC1FF81-D35A-499C-893E-60EB62C242CD} = {CC03BF96-629C-44C3-A7AC-8D4F2835CA4D}
 	EndGlobalSection
 EndGlobal
