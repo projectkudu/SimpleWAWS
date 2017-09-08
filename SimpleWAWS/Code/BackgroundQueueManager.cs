@@ -102,9 +102,9 @@ namespace SimpleWAWS.Code
         {
             try
             {
-                var site = resourceGroup.Sites.FirstOrDefault(s => resourceGroup.SubscriptionType == SubscriptionType.AppService
-                        ? s.IsSimpleWAWSOriginalSite
-                        : s.IsFunctionsContainer);
+                var site = resourceGroup.Sites.FirstOrDefault(s => resourceGroup.AppService == AppService.Function
+                        ? s.IsFunctionsContainer
+                        : s.IsSimpleWAWSOriginalSite);
                 if (site == null) throw new ArgumentNullException(nameof(site));
                 var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
                 var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials);

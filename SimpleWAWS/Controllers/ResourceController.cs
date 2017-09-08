@@ -241,7 +241,7 @@ namespace SimpleWAWS.Controllers
                         {
                             return SecurityManager.RedirectToAAD(template.CreateQueryString());
                         }
-                        resourceGroup = await resourceManager.ActivateLinuxResource(template as LinuxTemplate, identity, anonymousUserName);
+                        resourceGroup = await resourceManager.ActivateContainersResource(template as ContainersTemplate, identity, anonymousUserName);
                         break;
                     case AppService.MonitoringTools:
                         if (identity.Issuer == "OrgId")
