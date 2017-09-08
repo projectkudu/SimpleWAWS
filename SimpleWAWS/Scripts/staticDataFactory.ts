@@ -150,6 +150,28 @@ angular.module("tryApp")
                         }],
                     templates: [],
                     description: "MonitoringTools Description"
+                }, {
+                    name: "Containers",
+                    sprite: "sprite-WebApp",
+                    title: "Containers",
+                    steps: [{
+                        id: 1,
+                        title: Resources.Action_SelectAppType,
+                        sref: "home"
+                    }, {
+                            id: 2,
+                            title: Resources.Information_SelectTemplate,
+                            sref: "home.containers.templates",
+                            nextClass: "wa-button-primary",
+                            nextText: Resources.Action_Create
+                        }, {
+                            id: 3,
+                            title: Resources.Action_GenericWorkWithYourApp,
+                            sref: "home.monitoringtoolsapp.work",
+                            confirmDelete: true
+                        }],
+                    templates: [],
+                    description: "MonitoringTools Description"
                 }].filter((e) => { // HACK: This is a hack to filter App Type Selection for bdc campaign
                     if (sv && sv === "bdc") {
                         return e.name === "Web" || e.name === "Mobile";

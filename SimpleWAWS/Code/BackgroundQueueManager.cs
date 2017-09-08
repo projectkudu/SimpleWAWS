@@ -431,7 +431,7 @@ namespace SimpleWAWS.Code
             var inUseSitesCount = resourceGroups.Count();
             var inUseFunctionsCount = resourceGroups.Count(res => res.AppService == AppService.Function);
             var inUseWebsitesCount = resourceGroups.Count(res => res.AppService == AppService.Web);
-            var inUseMobileCount = resourceGroups.Count(res => res.AppService == AppService.Mobile);
+            var inUseContainerCount = resourceGroups.Count(res => res.AppService == AppService.Containers);
             var inUseLogicAppCount = resourceGroups.Count(res => res.AppService == AppService.Logic);
             var inUseApiAppCount = resourceGroups.Count(res => res.AppService == AppService.Api);
             var inProgress = ResourceGroupsInProgress.Select(s => s.Value).Count();
@@ -443,7 +443,7 @@ namespace SimpleWAWS.Code
             AppInsights.TelemetryClient.TrackMetric("inUseSites", inUseSitesCount);
             AppInsights.TelemetryClient.TrackMetric("inUseFunctionsCount", inUseFunctionsCount);
             AppInsights.TelemetryClient.TrackMetric("inUseWebsitesCount", inUseWebsitesCount);
-            AppInsights.TelemetryClient.TrackMetric("inUseMobileCount", inUseMobileCount);
+            AppInsights.TelemetryClient.TrackMetric("inUseContainersCount", inUseContainerCount);
             AppInsights.TelemetryClient.TrackMetric("inUseLogicAppCount", inUseLogicAppCount);
             AppInsights.TelemetryClient.TrackMetric("inUseApiAppCount", inUseApiAppCount);
             AppInsights.TelemetryClient.TrackMetric("inUseSites", inUseSitesCount);

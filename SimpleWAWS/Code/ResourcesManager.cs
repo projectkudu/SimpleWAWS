@@ -85,7 +85,7 @@ namespace SimpleWAWS.Code
         }
 
         // ARM
-        private async Task<ResourceGroup> ActivateResourceGroup(TryWebsitesIdentity userIdentity, AppService appService, DeploymentType deploymentType, Func<ResourceGroup, InProgressOperation, Task<ResourceGroup>> func)
+        private async Task<ResourceGroup> ActivateResourceGroup(TryWebsitesIdentity userIdentity, AppService appService, bool isLinux, DeploymentType deploymentType, Func<ResourceGroup, InProgressOperation, Task<ResourceGroup>> func)
         {
             ResourceGroup resourceGroup = null;
             if (userIdentity == null)
@@ -101,7 +101,7 @@ namespace SimpleWAWS.Code
                     throw new MoreThanOneResourceGroupException();
                 }
                 bool resourceGroupFound = false;
-                if ((appService == AppService.Linux))
+                if ((appService == AppService.Containers) || isLinux)
                 {
                     resourceGroupFound = _backgroundQueueManager.FreeLinuxResourceGroups.TryDequeue(out resourceGroup);
                 }
@@ -190,7 +190,7 @@ namespace SimpleWAWS.Code
             var deploymentType = template != null && template.GithubRepo != null
                 ? DeploymentType.GitWithCsmDeploy
                 : DeploymentType.ZipDeploy;
-            return await ActivateResourceGroup(userIdentity, temp, deploymentType, async (resourceGroup, inProgressOperation) =>
+            return await ActivateResourceGroup(userIdentity, temp, false, deploymentType, async (resourceGroup, inProgressOperation) =>
                 {
                     SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
                         userIdentity, template, resourceGroup.CsmId);
@@ -301,12 +301,6 @@ namespace SimpleWAWS.Code
         }
 
         // ARM
-        public async Task<ResourceGroup> ActivateMobileApp(WebsiteTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
-        {
-            return await ActivateWebApp(template, userIdentity, anonymousUserName, AppService.Mobile);
-        }
-
-        // ARM
         public async Task<ResourceGroup> ActivateApiApp(WebsiteTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
             return await ActivateWebApp(template, userIdentity, anonymousUserName, AppService.Api);
@@ -315,7 +309,7 @@ namespace SimpleWAWS.Code
         // ARM
         public async Task<ResourceGroup> ActivateLogicApp(LogicTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
-            return await ActivateResourceGroup(userIdentity, AppService.Logic, DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
+            return await ActivateResourceGroup(userIdentity, AppService.Logic, false, DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
             {
 
                 SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
@@ -356,7 +350,7 @@ namespace SimpleWAWS.Code
         }
         public async Task<ResourceGroup> ActivateMonitoringToolsApp(MonitoringToolsTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
-            return await ActivateResourceGroup(userIdentity, AppService.MonitoringTools, DeploymentType.RbacOnly, async (resourceGroup, inProgressOperation) =>
+            return await ActivateResourceGroup(userIdentity, AppService.MonitoringTools, false, DeploymentType.RbacOnly, async (resourceGroup, inProgressOperation) =>
             {
 
                 SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
@@ -374,46 +368,39 @@ namespace SimpleWAWS.Code
         }
         public async Task<ResourceGroup> ActivateLinuxResource(LinuxTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
-            return await ActivateResourceGroup(userIdentity, AppService.Linux, DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
+            return await ActivateResourceGroup(userIdentity, AppService.Web, true ,DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
             {
 
                 SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
                     userIdentity.Name, template, resourceGroup);
                 SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}; {6}",
                             AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
-                            "Linux", template.Name, resourceGroup.ResourceUniqueId, AppService.Linux.ToString(), anonymousUserName);
-                SimpleTrace.UserCreatedApp(userIdentity, template, resourceGroup, AppService.Linux);
+                            "Linux", template.Name, resourceGroup.ResourceUniqueId, AppService.Web.ToString(), anonymousUserName);
+                SimpleTrace.UserCreatedApp(userIdentity, template, resourceGroup, AppService.Web);
 
                 var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
                 resourceGroup.Tags[Constants.TemplateName] = template.Name;
                 resourceGroup = await resourceGroup.Update();
-                if (!string.IsNullOrEmpty(template.DockerContainer))
+
+                if (template?.MSDeployPackageUrl != null)
                 {
-                    var qualifiedContainerName = QualifyContainerName(template.DockerContainer);
-                    await site.UpdateConfig(new { properties = new { linuxFxVersion = qualifiedContainerName } });
+                    try
+                    {
+                        var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+                        var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
+                        Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.MSDeployPackageUrl);
+                        var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
+                        Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
+                        await Task.WhenAll(zipUpload, deleteHostingStart);
+                    }
+                    catch (Exception ex)
+                    {
+                        SimpleTrace.TraceError(ex.Message + ex.StackTrace);
+                    }
                 }
-                else
+                if (template.Name.Equals(Constants.NodeJSWebAppLinuxTemplateName, StringComparison.OrdinalIgnoreCase))
                 {
-                    if (template?.MSDeployPackageUrl != null)
-                    {
-                        try
-                        {
-                            var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-                            var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
-                            Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.MSDeployPackageUrl);
-                            var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
-                            Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
-                            await Task.WhenAll(zipUpload, deleteHostingStart);
-                        }
-                        catch (Exception ex)
-                        {
-                            SimpleTrace.TraceError(ex.Message + ex.StackTrace);
-                        }
-                    }
-                    if (template.Name.Equals(Constants.NodeJSWebAppLinuxTemplateName, StringComparison.OrdinalIgnoreCase))
-                    {
-                        await site.UpdateConfig(new { properties = new { linuxFxVersion = "NODE|6.10", appCommandLine = "process.json" } });
-                    }
+                    await site.UpdateConfig(new { properties = new { linuxFxVersion = "NODE|6.10", appCommandLine = "process.json" } });
                 }
                 Util.FireAndForget($"{resourceGroup.Sites.FirstOrDefault().HostName}");
                 Util.FireAndForget($"{resourceGroup.Sites.FirstOrDefault().ScmHostName}");
@@ -423,7 +410,35 @@ namespace SimpleWAWS.Code
                 return resourceGroup;
             });
         }
+        public async Task<ResourceGroup> ActivateContainersResource(ContainersTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
+        {
+            return await ActivateResourceGroup(userIdentity, AppService.Containers, true, DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
+            {
 
+                SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
+                    userIdentity.Name, template, resourceGroup);
+                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; {5}; {6}",
+                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, userIdentity.Name,
+                            "Containers", template.Name, resourceGroup.ResourceUniqueId, AppService.Containers.ToString(), anonymousUserName);
+                SimpleTrace.UserCreatedApp(userIdentity, template, resourceGroup, AppService.Containers);
+
+                var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
+                resourceGroup.Tags[Constants.TemplateName] = template.Name;
+                resourceGroup = await resourceGroup.Update();
+                if (!string.IsNullOrEmpty(template.DockerContainer))
+                {
+                    var qualifiedContainerName = QualifyContainerName(template.DockerContainer);
+                    await site.UpdateConfig(new { properties = new { linuxFxVersion = qualifiedContainerName } });
+                }
+
+                Util.FireAndForget($"{resourceGroup.Sites.FirstOrDefault().HostName}");
+                Util.FireAndForget($"{resourceGroup.Sites.FirstOrDefault().ScmHostName}");
+
+                var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email);
+                resourceGroup.IsRbacEnabled = await rbacTask;
+                return resourceGroup;
+            });
+        }
         private string QualifyContainerName(string containerName)
         {
             if (!containerName.Contains("|"))
@@ -436,7 +451,7 @@ namespace SimpleWAWS.Code
         // ARM
         public async Task<ResourceGroup> ActivateFunctionApp(FunctionTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
-            return await ActivateResourceGroup(userIdentity, AppService.Function, DeploymentType.FunctionDeploy, async (resourceGroup, inProgressOperation) =>
+            return await ActivateResourceGroup(userIdentity, AppService.Function, false, DeploymentType.FunctionDeploy, async (resourceGroup, inProgressOperation) =>
             {
                 SimpleTrace.Analytics.Information(AnalyticsEvents.UserCreatedSiteWithLanguageAndTemplateName,
                     userIdentity.Name, template, resourceGroup);

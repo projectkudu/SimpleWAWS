@@ -74,6 +74,16 @@ angular.module("tryApp")
                 name: "home.monitoringtoolsapp.work",
                 templateUrl: "/templates/work.cshtml",
             }];
+        var containersApps: ng.ui.IState[] = [{
+            name: "home.containersapp",
+            templateUrl: "templates/empty-shell.cshtml",
+        }, {
+                name: "home.containersapp.templates",
+                templateUrl: "/templates/templates.cshtml",
+            }, {
+                name: "home.containersapp.work",
+                templateUrl: "/templates/work.cshtml",
+            }];
         $stateProvider.state(homeState);
         webApps.forEach(s => $stateProvider.state(s));
         mobileApps.forEach(s => $stateProvider.state(s));
@@ -81,6 +91,7 @@ angular.module("tryApp")
         logicApps.forEach(s => $stateProvider.state(s));
         linuxWebApps.forEach(s => $stateProvider.state(s));
         monitoringToolsApps.forEach(s => $stateProvider.state(s));
+        containersApps.forEach(s => $stateProvider.state(s));
         $locationProvider.html5Mode(true);
 
     }])

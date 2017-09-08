@@ -69,6 +69,7 @@ namespace SimpleWAWS.Code
         public static string WEBSITE_SLOT_NAME { get { return config(); } }
         public static string WEBSITE_HOSTNAME { get { return config();}}
         public static int NUMBER_OF_PROCESSORS { get { return Int32.Parse(config("4")); } }
+        public static string ServerFarmTypeContent { get { return config(); } }
     }
 
 }

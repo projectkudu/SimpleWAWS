@@ -8,9 +8,6 @@ namespace SimpleWAWS.Models
         [JsonProperty(PropertyName = "url", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Url { get; set; }
 
-        [JsonProperty(PropertyName = "mobileWebClient", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string MobileWebClient { get; set; }
-
         [JsonProperty(PropertyName = "ibizaUrl", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string IbizaUrl { get; set; }
 
@@ -45,5 +42,9 @@ namespace SimpleWAWS.Models
 
         [JsonProperty(PropertyName = "siteName", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string SiteName { get; set; }
+        [JsonProperty(PropertyName = "publishingUserName", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string PublishingUserName { get; set; }
+        [JsonProperty(PropertyName = "publishingPassword", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string PublishingPassword { get; set; }
     }
 }

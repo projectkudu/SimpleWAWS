@@ -63,10 +63,7 @@ namespace SimpleWAWS.Models
                                     ? null
                                     : language,
                             SpriteName = string.Format(CultureInfo.InvariantCulture, "{0} {1}", iconCssClass, cssClass),
-                            AppService =
-                                language.Equals("Mobile", StringComparison.OrdinalIgnoreCase)
-                                    ? AppService.Mobile
-                                    : language.Equals("Api", StringComparison.OrdinalIgnoreCase)
+                            AppService =language.Equals("Api", StringComparison.OrdinalIgnoreCase)
                                         ? AppService.Api
                                         : AppService.Web,
                             MSDeployPackageUrl =
@@ -79,34 +76,37 @@ namespace SimpleWAWS.Models
                     Name = "Ping Site",
                     SpriteName = "sprite-PingSite PingSite",
                     AppService = AppService.Logic,
-                    CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/PingSite.json"),
-                    Description = Resources.Server.Templates_PingSiteDescription
+                    CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/PingSite.json")
                 });
                 list.Add(new MonitoringToolsTemplate
                 {
                     Name = "Monitoring And Diagnostics Site",
                     SpriteName = "sprite-EmptySite sprite-Large",
-                    AppService = AppService.MonitoringTools,
-                    Description = Resources.Server.Templates_PingSiteDescription
+                    AppService = AppService.MonitoringTools
                 });
                 if (File.Exists(HostingEnvironment.MapPath("~/ARMTemplates/LinuxResource.json")))
                 {   list.Add(new LinuxTemplate
                     {
                         Name = Constants.NodeJSWebAppLinuxTemplateName,
                         SpriteName = "sprite-LinuxNodeJSExpress LinuxWebApp",
-                        AppService = AppService.Linux,
-                    MSDeployPackageUrl = HostingEnvironment.MapPath("~/App_Data/LinuxTemplates/Node.jsLinuxApp.zip"),
-                    CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/LinuxResource.json"),
-                        Description = Resources.Server.Templates_LinuxDescription
+                        AppService = AppService.Web,
+                        MSDeployPackageUrl = HostingEnvironment.MapPath("~/App_Data/LinuxTemplates/Node.jsLinuxApp.zip"),
+                        CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/LinuxResource.json")
                     });
                     list.Add(new LinuxTemplate
                     {
                         Name = Constants.PHPWebAppLinuxTemplateName,
                         SpriteName = "sprite-LinuxPHPEmptySite LinuxWebApp",
-                        AppService = AppService.Linux,
+                        AppService = AppService.Web,
                         MSDeployPackageUrl = HostingEnvironment.MapPath("~/App_Data/LinuxTemplates/PHPLinuxApp.zip"),
-                        CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/LinuxResource.json"),
-                        Description = Resources.Server.Templates_LinuxDescription
+                        CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/LinuxResource.json")
+                    });
+                    list.Add(new ContainersTemplate
+                    {
+                        Name = Constants.DefaultContainerName,
+                        SpriteName = "sprite-LinuxPHPEmptySite LinuxWebApp",
+                        AppService = AppService.Containers,
+                        CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/LinuxResource.json")
                     });
                 }
                 //Use JObject.Parse to quickly build up the armtemplate object used for LRS

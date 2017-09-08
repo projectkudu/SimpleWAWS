@@ -143,9 +143,6 @@ namespace SimpleWAWS.Models
                         siteToUseForUi = Sites.First(s => s.IsSimpleWAWSOriginalSite);
                         ibizaUrl = siteToUseForUi.IbizaUrl;
                         break;
-                    case Models.AppService.Mobile:
-                        siteToUseForUi = Sites.First(s => s.IsSimpleWAWSOriginalSite);
-                        break;
                     case Models.AppService.Api:
                         siteToUseForUi = Sites.First(s => s.IsSimpleWAWSOriginalSite);
                         ibizaUrl = siteToUseForUi.IbizaUrl;
@@ -157,7 +154,7 @@ namespace SimpleWAWS.Models
                     case Models.AppService.Function:
                         csmId = Sites.First(s => s.IsFunctionsContainer).CsmId;
                         break;
-                    case Models.AppService.Linux:
+                    case Models.AppService.Containers:
                         siteToUseForUi = Sites.First(s => s.IsSimpleWAWSOriginalSite);
                         ibizaUrl = siteToUseForUi.IbizaUrl;
                         break;
@@ -181,7 +178,6 @@ namespace SimpleWAWS.Models
                 {
                     SiteName = siteToUseForUi.SiteName,
                     Url = siteToUseForUi.Url,
-                    MobileWebClient = AppService == Models.AppService.Mobile ? siteToUseForUi.GetMobileUrl(templateName) : null,
                     IbizaUrl = ibizaUrl,
                     MonacoUrl = siteToUseForUi.MonacoUrl,
                     ContentDownloadUrl = siteToUseForUi.ContentDownloadUrl,
@@ -191,7 +187,9 @@ namespace SimpleWAWS.Models
                     TemplateName = templateName,
                     IsExtended = IsExtended,
                     TimeLeftInSeconds = (int)TimeLeft.TotalSeconds,
-                    CsmId = csmId
+                    CsmId = csmId,
+                    PublishingUserName = siteToUseForUi.PublishingUserName,
+                    PublishingPassword = siteToUseForUi.PublishingPassword
                 };
             }
         }
@@ -209,11 +207,10 @@ namespace SimpleWAWS.Models
                 {
                     SiteName = siteToUseForUi.SiteName,
                     Url = siteToUseForUi.Url,
-                    MobileWebClient = null,
                     IbizaUrl = siteToUseForUi.IbizaUrl,
                     MonacoUrl = siteToUseForUi.MonacoUrl,
-                    ContentDownloadUrl = siteToUseForUi.ContentDownloadUrl,
                     GitUrl = siteToUseForUi.GitUrlWithCreds,
+                    ContentDownloadUrl = siteToUseForUi.ContentDownloadUrl,
                     IsRbacEnabled = IsRbacEnabled,
                     AppService = appService,
                     TemplateName = templateName,

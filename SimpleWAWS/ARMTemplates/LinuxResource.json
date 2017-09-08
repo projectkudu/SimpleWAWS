@@ -26,6 +26,7 @@
             "maximumNumberOfWorkers": 1,
             "geoRegion": "[resourceGroup().location]",
             "reserved": true,
+            {{serverFarmType}}
             "planName": "VirtualDedicatedPlan"
           },
           "sku": {
@@ -50,7 +51,7 @@
                 "linuxFxVersion": "7.0.6"
               }
             },
-            "maxNumberOfWorkers": "1"
+            "maxNumberOfWorkers": "0"
           }
         }
       ]

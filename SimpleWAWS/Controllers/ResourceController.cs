@@ -77,8 +77,8 @@ namespace SimpleWAWS.Controllers
                 var inUseSitesList = inUseSites as IList<ResourceGroup> ?? inUseSites.ToList();
                 var inUseSitesCount = inUseSitesList.Count();
                 var inUseFunctionsCount = inUseSitesList.Count(res => res.AppService == AppService.Function);
-                var inUseWebsitesCount = inUseSitesList.Count(res => res.AppService == AppService.Web);
-                var inUseMobileCount = inUseSitesList.Count(res => res.AppService == AppService.Mobile);
+                var inUseWebsitesCount = inUseSitesList.Count(res => res.AppService == AppService.Web && res.SubscriptionType == SubscriptionType.AppService);
+                var inUseContainerCount = inUseSitesList.Count(res => res.AppService == AppService.Containers || (res.AppService == AppService.Web && res.SubscriptionType == SubscriptionType.Linux));
                 var inUseLogicAppCount = inUseSitesList.Count(res => res.AppService == AppService.Logic);
 
 
@@ -100,7 +100,7 @@ namespace SimpleWAWS.Controllers
                         inUseSitesCount = inUseSitesCount,
                         inUseFunctionsCount = inUseFunctionsCount,
                         inUseWebsitesCount= inUseWebsitesCount,
-                        inUseMobileCount= inUseMobileCount,
+                        inUseContainerCount= inUseContainerCount,
                         inUseLogicAppCount =inUseLogicAppCount,
                         inUseLinuxResourceCount = inUseLinuxResourcesList.Count(),
                         inProgressSitesCount = inProgress.Count(),
@@ -141,41 +141,6 @@ namespace SimpleWAWS.Controllers
             }
         }
 
-        public async Task<HttpResponseMessage> GetMobileClientZip(string platformString, string templateName, string siteName)
-        {
-            var resourceManager = await ResourcesManager.GetInstanceAsync();
-            var resourceGroup = resourceManager.GetAllInUseResourceGroups().FirstOrDefault(r => r.AppService == AppService.Mobile && r.Sites.Any(s=> s.SiteName.Equals(siteName, StringComparison.OrdinalIgnoreCase)));
-            if (resourceGroup == null)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_InvalidMobileResourceGroup);
-            }
-            
-            MobileClientPlatform platform;
-            if (resourceGroup.AppService != AppService.Mobile)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_InvalidAppServiceType);
-            }
-
-            if (!Enum.TryParse<MobileClientPlatform>(platformString, out platform))
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_UnsupportedPlatform);
-            }
-
-            var response = Request.CreateResponse();
-            var replacement = new Dictionary<string, string> 
-            {
-                { "ZUMOAPPURL", resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).First().Url },
-                { "{siteurl}", resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).First().Url.Trim('/') },
-                { "ZUMOAPPNAME", "TryMobileApp" },
-                { "{sitename}", "TryMobileApp" },
-                { "ZUMOGATEWAYURL", resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).First().Url },
-                { "{gateway_url}", resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).First().Url.Trim('/') },
-                { "ZUMONETRUNTIMESERVERPORT", "44300" }
-            };
-            response.Content = MobileHelper.CreateClientZip(platform, templateName, replacement);
-            return response;
-        }
-
         public async Task<HttpResponseMessage> CreateResource(BaseTemplate template)
         {
             if (template == null)
@@ -186,24 +151,15 @@ namespace SimpleWAWS.Controllers
             {
                 template = FunctionTemplate.DefaultFunctionTemplate(template.Name);
             }
-            else if (template.AppService.Equals(AppService.Linux))
+            else if (template.AppService.Equals(AppService.Web) && template.IsLinux)
             {
-                var container = String.Empty;
-                if (string.IsNullOrEmpty(template.Name))
-                {
-                    template.Name = "PHP Web App on Linux";
-                    container = template.DockerContainer??String.Empty;
-                }
-                var linuxtemplate = LinuxTemplate.GetLinuxTemplate(template.Name);
-                template = new LinuxTemplate
-                {
-                    AppService = linuxtemplate.AppService,
-                    Name = linuxtemplate.Name,
-                    CsmTemplateFilePath = linuxtemplate.CsmTemplateFilePath,
-                    Description = linuxtemplate.Description,
-                    MSDeployPackageUrl = linuxtemplate.MSDeployPackageUrl,
-                    DockerContainer = container
-                };
+                template = LinuxTemplate.GetLinuxTemplate(template.Name);
+            }
+            else if (template.AppService.Equals(AppService.Containers))
+            {
+                var containersTemplate = ContainersTemplate.GetContainersTemplate(template.Name);
+                containersTemplate.DockerContainer = template.DockerContainer;
+                template = containersTemplate;
             }
             else if (template.Name != null && !template.Name.Equals("Github Repo") && !template.AppService.Equals(AppService.Function))
             {
@@ -242,10 +198,22 @@ namespace SimpleWAWS.Controllers
                 switch (template.AppService)
                 {
                     case AppService.Web:
-                        resourceGroup = await resourceManager.ActivateWebApp(template as WebsiteTemplate, identity, anonymousUserName);
-                        break;
-                    case AppService.Mobile:
-                        resourceGroup = await resourceManager.ActivateMobileApp(template as WebsiteTemplate, identity, anonymousUserName);
+                        if (template.IsLinux)
+                        {
+                            if (identity.Issuer == "OrgId")
+                            {
+                                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_OrgIdNotSupported);
+                            }
+                            else if (identity.Issuer != "MSA")
+                            {
+                                return SecurityManager.RedirectToAAD(template.CreateQueryString());
+                            }
+                            resourceGroup = await resourceManager.ActivateLinuxResource(template as LinuxTemplate, identity, anonymousUserName);
+                        }
+                        else
+                        {
+                            resourceGroup = await resourceManager.ActivateWebApp(template as WebsiteTemplate, identity, anonymousUserName);
+                        }
                         break;
                     case AppService.Api:
                         resourceGroup = await resourceManager.ActivateApiApp(template as WebsiteTemplate, identity, anonymousUserName);
@@ -264,7 +232,7 @@ namespace SimpleWAWS.Controllers
                     case AppService.Function:
                         resourceGroup = await resourceManager.ActivateFunctionApp(template as FunctionTemplate, identity, anonymousUserName);
                         break;
-                    case AppService.Linux:
+                    case AppService.Containers:
                         if (identity.Issuer == "OrgId")
                         {
                             return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_OrgIdNotSupported);

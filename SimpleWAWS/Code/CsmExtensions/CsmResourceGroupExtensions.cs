@@ -275,8 +275,18 @@ namespace SimpleWAWS.Code.CsmExtensions
             resourceGroup.Tags[Constants.StartTime] = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
             switch (appService)
             {
-                case AppService.Linux:
+                case AppService.Containers:
                     resourceGroup.Tags[Constants.LifeTimeInMinutes] = ResourceGroup.LinuxUsageTimeSpan.TotalMinutes.ToString();
+                    break;
+                case AppService.Web:
+                    if (resourceGroup.SubscriptionType == SubscriptionType.AppService)
+                    {
+                        resourceGroup.Tags[Constants.LifeTimeInMinutes] = ResourceGroup.DefaultUsageTimeSpan.TotalMinutes.ToString();
+                    }
+                    else
+                    {
+                        resourceGroup.Tags[Constants.LifeTimeInMinutes] = ResourceGroup.LinuxUsageTimeSpan.TotalMinutes.ToString();
+                    }
                     break;
                 default:
                     resourceGroup.Tags[Constants.LifeTimeInMinutes] = ResourceGroup.DefaultUsageTimeSpan.TotalMinutes.ToString();
@@ -367,7 +377,8 @@ namespace SimpleWAWS.Code.CsmExtensions
             csmTemplateString = csmTemplateString
                                 .Replace("{{siteName}}", site.SiteName)
                                 .Replace("{{aspName}}", site.SiteName + "-plan")
-                                .Replace("{{vmLocation}}", resourceGroup.GeoRegion);
+                                .Replace("{{vmLocation}}", resourceGroup.GeoRegion)
+                                .Replace("{{serverFarmType}}",SimpleSettings.ServerFarmTypeContent) ;
             var inProgressOperation = new InProgressOperation(resourceGroup, DeploymentType.CsmDeploy);
             await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true, subscriptionType: resourceGroup.SubscriptionType);
             resourceGroup.Tags.Add(Constants.LinuxAppDeployed, "1");

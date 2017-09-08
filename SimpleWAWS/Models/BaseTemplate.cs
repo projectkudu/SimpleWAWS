@@ -21,9 +21,6 @@ namespace SimpleWAWS.Models
         [JsonProperty(PropertyName = "githubRepo")]
         public string GithubRepo { get; set; }
 
-        [JsonProperty(PropertyName = "description")]
-        public string Description { get; set; }
-
         public string CreateQueryString()
         {
             return string.Concat("appServiceName=", AppService.ToString(), "&name=", Name, "&autoCreate=true");
@@ -31,6 +28,9 @@ namespace SimpleWAWS.Models
 
         [JsonProperty(PropertyName = "msdeployPackageUrl")]
         public string MSDeployPackageUrl { get; set; }
+        [JsonProperty(PropertyName = "isLinux")]
+        public bool IsLinux { get { return Name.EndsWith("Web App on Linux"); } }
+
 
     }
 }

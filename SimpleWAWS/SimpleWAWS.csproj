@@ -309,12 +309,12 @@
     <Compile Include="Models\Experiment.cs" />
     <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\FunctionTemplate.cs" />
+    <Compile Include="Models\ContainersTemplate.cs" />
     <Compile Include="Models\LinuxTemplate.cs" />
     <Compile Include="Models\LinuxResource.cs" />
     <Compile Include="Models\LogicApp.cs" />
     <Compile Include="Models\LogicTemplate.cs" />
     <Compile Include="Models\MakeSubscriptionFreeTrialResult.cs" />
-    <Compile Include="Models\MobileTemplate.cs" />
     <Compile Include="Models\MonitoringToolsTemplate.cs" />
     <Compile Include="Models\RbacUser.cs" />
     <Compile Include="Models\ResourceGroup.cs" />
