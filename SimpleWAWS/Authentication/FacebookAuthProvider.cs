@@ -85,7 +85,7 @@ namespace SimpleWAWS.Authentication
         private string GetGraphUrl(string userId, string accessToken)
         {
             var builder = new StringBuilder();
-            builder.Append("https://graph.facebook.com/v2.2");
+            builder.Append("https://graph.facebook.com/v2.10");
             builder.AppendFormat("/{0}", userId);
             builder.AppendFormat("?access_token={0}", accessToken);
             builder.Append("&format=json");
