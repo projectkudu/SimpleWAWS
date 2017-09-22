@@ -438,6 +438,20 @@ namespace SimpleWAWS.Code
                 var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email, isFunctionContainer: true);
                 resourceGroup.Tags[Constants.TemplateName] = template.Name;
                 await resourceGroup.Update();
+                await resourceGroup.Sites.First(s => s.IsFunctionsContainer).UpdateConfig(new
+                {
+                    properties =
+                new
+                {
+                    cors = new
+                    {
+                        allowedOrigins = new string[]{ "https://functions.azure.com",
+                                    "https://functions-staging.azure.com", "https://functions-next.azure.com" ,
+                                    "https://localhost:44300"
+                                                     }
+                    }
+                }
+                });
                 resourceGroup.IsRbacEnabled = await rbacTask;
                 return resourceGroup;
             });

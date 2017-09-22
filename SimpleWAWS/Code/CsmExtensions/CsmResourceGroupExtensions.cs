@@ -53,7 +53,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                                    LoadServerFarms(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/serverFarms", StringComparison.OrdinalIgnoreCase))),
                                    LoadStorageAccounts(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Storage/storageAccounts", StringComparison.OrdinalIgnoreCase))));
                 }
-                else if(resourceGroup.SubscriptionType ==SubscriptionType.Linux)
+                else if (resourceGroup.SubscriptionType == SubscriptionType.Linux)
                 {
                     await Task.WhenAll(LoadLinuxResources(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/sites", StringComparison.OrdinalIgnoreCase))));
                 }
@@ -86,7 +86,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 { "SubId", resourceGroup?.SubscriptionId},
                 { "SubType", resourceGroup?.SubscriptionType.ToString()}};
 
-                AppInsights.TelemetryClient.TrackException(ex,properties,null);
+                AppInsights.TelemetryClient.TrackException(ex, properties, null);
             }
             return resourceGroup;
         }
@@ -108,7 +108,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task<ResourceGroup> LoadLinuxResources(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> sites = null)
         {
-            return await LoadSites(resourceGroup,sites);
+            return await LoadSites(resourceGroup, sites);
         }
         public static async Task<ResourceGroup> LoadMonitoringToolResources(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> sites = null)
         {
@@ -253,7 +253,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
                 if (!resourceGroup.Sites.Any(s => s.IsSimpleWAWSOriginalSite))
                 {
-                        resourceGroup.Sites = new List<Site> {(await CreateLinuxSite(resourceGroup, SiteNameGenerator.GenerateName))};
+                    resourceGroup.Sites = new List<Site> { (await CreateLinuxSite(resourceGroup, SiteNameGenerator.GenerateName)) };
                 }
 
             }
@@ -378,7 +378,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                                 .Replace("{{siteName}}", site.SiteName)
                                 .Replace("{{aspName}}", site.SiteName + "-plan")
                                 .Replace("{{vmLocation}}", resourceGroup.GeoRegion)
-                                .Replace("{{serverFarmType}}",SimpleSettings.ServerFarmTypeContent) ;
+                                .Replace("{{serverFarmType}}", SimpleSettings.ServerFarmTypeContent);
             var inProgressOperation = new InProgressOperation(resourceGroup, DeploymentType.CsmDeploy);
             await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true, subscriptionType: resourceGroup.SubscriptionType);
             resourceGroup.Tags.Add(Constants.LinuxAppDeployed, "1");
@@ -423,7 +423,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         private static bool IsSimpleWawsResourceName(CsmWrapper<CsmResourceGroup> csmResourceGroup)
         {
             return !string.IsNullOrEmpty(csmResourceGroup.name) &&
-                csmResourceGroup.name.StartsWith(Constants.TryResourceGroupPrefix, StringComparison.OrdinalIgnoreCase) ;
+                csmResourceGroup.name.StartsWith(Constants.TryResourceGroupPrefix, StringComparison.OrdinalIgnoreCase);
         }
 
         private static bool IsSimpleWawsResourceActive(CsmWrapper<CsmResourceGroup> csmResourceGroup)
@@ -483,9 +483,25 @@ namespace SimpleWAWS.Code.CsmExtensions
             {
                 await LinkStorageAndUpdateSettings(functionContainer, functionsStorageAccount);
             }
-            //TODO: add localhost:44300 to cors allowed list here for -next slot subs
+            await AddLocalHostCors(functionContainer);
         }
-
+        public static async Task AddLocalHostCors(Site site)
+        {
+            await site.UpdateConfig(new
+            {
+                properties =
+                new
+                {
+                    cors =new
+                    {
+                        allowedOrigins = new string[]{ "https://functions.azure.com",
+                                    "https://functions-staging.azure.com", "https://functions-next.azure.com" ,
+                                    "https://localhost:44300"
+                    }
+                }
+             }
+            });
+        }
         private static async Task LinkStorageAndUpdateSettings(Site site, StorageAccount storageAccount)
         {
             // Assumes site and storage are loaded
