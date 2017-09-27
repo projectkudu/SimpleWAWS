@@ -74,7 +74,7 @@ namespace SimpleWAWS.Authentication
             }
             catch
             { }
-            return new HttpCookie(AuthConstants.LoginSessionCookie, GetSessionCookieString(user)) { Path = "/", Expires = DateTime.UtcNow.AddDays(2) };
+            return new HttpCookie(AuthConstants.LoginSessionCookie, GetSessionCookieString(user)) { Path = "/", Expires = DateTime.UtcNow.AddHours(1) };
         }
 
         public string GetRedirectLocationFromState(HttpContextBase context)
