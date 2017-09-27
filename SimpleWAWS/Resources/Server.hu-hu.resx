@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ARMTemplate_AppPostfix" xml:space="preserve">
+    <value>Alkalmazás</value>
+  </data>
+  <data name="ARMTemplate_MyPrefix" xml:space="preserve">
+    <value>My</value>
+  </data>
   <data name="Deployment_DeploymentInProgress" xml:space="preserve">
     <value>Telepítés folyamatban.</value>
   </data>
@@ -134,6 +140,9 @@
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
     <value>A GitHub-tárház URI azonosítója érvénytelen vagy nem megbízható szervezettől származik.</value>
+  </data>
+  <data name="Error_InvalidMobileResourceGroup" xml:space="preserve">
+    <value>A mobilerőforrás-csoport nincs ellenőrizve</value>
   </data>
   <data name="Error_InvalidUserIdentity" xml:space="preserve">
     <value>Érvénytelen felhasználó.</value>
@@ -153,11 +162,14 @@
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>Nem támogatott platform.</value>
   </data>
+  <data name="Templates_APIAppDescription" xml:space="preserve">
+    <value>Az Azure API Apps megkönnyíti a különböző nyelveken írt API-k létrehozását, üzemeltetését és felhasználását. Kihasználhatja a kulcsrakész API-k által biztosított biztonságot, a helyi erőforrásokhoz való csatlakoztathatóságot és a Swagger-definíciók támogatását.</value>
+  </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
     <value>Egy mobil irányítópult-alkalmazás egy kábeltelevíziós társaság technikusai vagy bármilyen más mobil dolgozók számára, mely elérhető a Xamarin Forms eszközkészlethez. A teljes minta a &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt; címen érhető el.</value>
   </data>
-  <data name="Templates_JenkinsDescription" xml:space="preserve">
-    <value>Ez a sablon egy Azure Jenkins CI-t hoz létre</value>
+  <data name="Templates_LinuxDescription" xml:space="preserve">
+    <value>A sablon egy Linux-webalkalmazást hoz létre</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>A Logic App-sablon ismétlődő ütemezéssel pingel egy webhelyet. Kiterjesztheti úgy, hogy a pingelés eredményétől függően végezzen el műveleteket.</value>

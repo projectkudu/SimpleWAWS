@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ARMTemplate_AppPostfix" xml:space="preserve">
+    <value>App</value>
+  </data>
+  <data name="ARMTemplate_MyPrefix" xml:space="preserve">
+    <value>Min</value>
+  </data>
   <data name="Deployment_DeploymentInProgress" xml:space="preserve">
     <value>Distribution pågår.</value>
   </data>
@@ -134,6 +140,9 @@
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
     <value>Github-repo-URI är antingen ogiltig eller från en betrodd organisation.</value>
+  </data>
+  <data name="Error_InvalidMobileResourceGroup" xml:space="preserve">
+    <value>Den mobila resursgruppen har inte checkats ut</value>
   </data>
   <data name="Error_InvalidUserIdentity" xml:space="preserve">
     <value>Ogiltig användare.</value>
@@ -153,11 +162,14 @@
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>Plattformen stöds inte.</value>
   </data>
+  <data name="Templates_APIAppDescription" xml:space="preserve">
+    <value>Med Azure API Apps är det enkelt att bygga, köra och förbruka API:er skrivna på en mängd olika språk. Utnyttja nyckelfärdig API-säkerhet, anslut till lokala resurser och få Swagger-definitionssupport.</value>
+  </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
     <value>En mobil instrumentpanelsapp för kabelföretagstekniker, eller vilka andra fältarbetare som helst, finns nu tillgänglig för Xamarin Forms. Kompletta exempel finns på &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
   </data>
-  <data name="Templates_JenkinsDescription" xml:space="preserve">
-    <value>Den här mallen skapar en Azure Jenkins CI</value>
+  <data name="Templates_LinuxDescription" xml:space="preserve">
+    <value>Med den här mallen skapas en Linux-webbapp</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>Den här logiska appmallen pingar en webbplats enligt ett regelbundet schema.  Du kan utvidga den så att den vidtar åtgärder beroende på pingets resultat.</value>

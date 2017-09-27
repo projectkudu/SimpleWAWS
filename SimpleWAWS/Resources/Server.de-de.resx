@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ARMTemplate_AppPostfix" xml:space="preserve">
+    <value>App</value>
+  </data>
+  <data name="ARMTemplate_MyPrefix" xml:space="preserve">
+    <value>Meine</value>
+  </data>
   <data name="Deployment_DeploymentInProgress" xml:space="preserve">
     <value>Die Bereitstellung wird ausgeführt.</value>
   </data>
@@ -134,6 +140,9 @@
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
     <value>Der GitHub-Repository-URI ist ungültig oder stammt von einer vertrauenswürdigen Organisation.</value>
+  </data>
+  <data name="Error_InvalidMobileResourceGroup" xml:space="preserve">
+    <value>The Mobile resourcegroup has not been checked out</value>
   </data>
   <data name="Error_InvalidUserIdentity" xml:space="preserve">
     <value>Ungültiger Benutzer.</value>
@@ -153,11 +162,14 @@
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>Nicht unterstützte Plattform.</value>
   </data>
+  <data name="Templates_APIAppDescription" xml:space="preserve">
+    <value>Mit Azure-API-Apps können Sie ganz einfach APIs erstellen, hosten und nutzen, die in einer Vielzahl von Sprachen geschrieben wurden. Profitieren Sie von der sofort verfügbaren API-Sicherheit, der Konnektivität mit lokalen Ressourcen und der Unterstützung für Swagger-Definitionen.</value>
+  </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
     <value>Eine mobile Dashboard-App für Techniker eines Kabelnetzbetreibers oder andere mobile Mitarbeiter, die für Xamarin Forms verfügbar ist. Das vollständige Codebeispiel finden Sie unter "&lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;".</value>
   </data>
-  <data name="Templates_JenkinsDescription" xml:space="preserve">
-    <value>Mit dieser Vorlage wird eine Azure Jenkins-CI erstellt.</value>
+  <data name="Templates_LinuxDescription" xml:space="preserve">
+    <value>Mit dieser Vorlage wird eine Linux-Web-App erstellt.</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>Diese Logik-App-Vorlage führt Ping für eine Website gemäß einer Zeitplanserie aus. Sie können sie so erweitern, dass abhängig vom Ergebnis des Ping-Vorgangs eine Aktion ausgeführt wird.</value>

@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ARMTemplate_AppPostfix" xml:space="preserve">
+    <value>Aplicação</value>
+  </data>
+  <data name="ARMTemplate_MyPrefix" xml:space="preserve">
+    <value>O Meu</value>
+  </data>
   <data name="Deployment_DeploymentInProgress" xml:space="preserve">
     <value>Implementação em curso.</value>
   </data>
@@ -134,6 +140,9 @@
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
     <value>O URI de repositório do Github é inválido ou não é proveniente de uma organização fidedigna.</value>
+  </data>
+  <data name="Error_InvalidMobileResourceGroup" xml:space="preserve">
+    <value>O grupo de recursos Móvel não foi verificado</value>
   </data>
   <data name="Error_InvalidUserIdentity" xml:space="preserve">
     <value>Utilizador inválido.</value>
@@ -153,11 +162,14 @@
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>Plataforma não suportada.</value>
   </data>
+  <data name="Templates_APIAppDescription" xml:space="preserve">
+    <value>As Aplicações API do Azure tornam fácil criar, alojar e consumir APIs escritas em variadas linguagens. Aproveite a segurança de API pronta, a ligação a recursos locais e o suporte à definição do Swagger.</value>
+  </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
     <value>Uma aplicação de dashboard móvel para um técnico de uma empresa de serviços por cabo, ou qualquer outra mão-de-obra móvel, disponível para o Xamarin Forms. Exemplo completo em &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
   </data>
-  <data name="Templates_JenkinsDescription" xml:space="preserve">
-    <value>Este modelo irá criar um Azure Jenkins CI</value>
+  <data name="Templates_LinuxDescription" xml:space="preserve">
+    <value>Este modelo irá criar uma WebApp do Linux</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>Este modelo de Aplicação Lógica vai enviar um ping para um Web site de acordo com uma agenda periódica. Pode expandi-lo de modo a efetuar uma ação consoante o resultado do ping.</value>

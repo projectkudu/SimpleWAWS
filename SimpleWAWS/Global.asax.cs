@@ -41,7 +41,6 @@ namespace SimpleWAWS
             {
 
                 var analyticsLogger = new LoggerConfiguration()
-                    .Enrich.With(new ExperimentEnricher())
                     .Enrich.With(new UserNameEnricher())
                     .Destructure.JsonNetTypes()
                     .WriteTo.ApplicationInsightsEvents(AppInsights.TelemetryClient)
@@ -51,7 +50,6 @@ namespace SimpleWAWS
                 //Diagnostics Logger
                 var diagnosticsLogger = new LoggerConfiguration()
                     .MinimumLevel.Verbose()
-                    .Enrich.With(new ExperimentEnricher())
                     .Enrich.With(new UserNameEnricher())
                     .WriteTo.ApplicationInsightsTraces(AppInsights.TelemetryClient)
                     .WriteTo.Logger(lc => lc
@@ -134,7 +132,6 @@ namespace SimpleWAWS
         protected void Application_BeginRequest(Object sender, EventArgs e)
         {
             var context = new HttpContextWrapper(HttpContext.Current);
-            ExperimentManager.AssignExperiment(context);
             GlobalizationManager.SetCurrentCulture(context);
 
             context.Response.Headers["Access-Control-Expose-Headers"] = "LoginUrl";

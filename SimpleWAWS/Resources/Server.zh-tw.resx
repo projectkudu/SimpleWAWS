@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ARMTemplate_AppPostfix" xml:space="preserve">
+    <value>應用程式</value>
+  </data>
+  <data name="ARMTemplate_MyPrefix" xml:space="preserve">
+    <value>我的</value>
+  </data>
   <data name="Deployment_DeploymentInProgress" xml:space="preserve">
     <value>部署進行中。</value>
   </data>
@@ -134,6 +140,9 @@
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
     <value>Github 儲存機制 URI 無效，或該 URI 來自信任的組織。</value>
+  </data>
+  <data name="Error_InvalidMobileResourceGroup" xml:space="preserve">
+    <value>尚未簽出行動資源群組</value>
   </data>
   <data name="Error_InvalidUserIdentity" xml:space="preserve">
     <value>無效的使用者。</value>
@@ -153,11 +162,14 @@
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>不支援的平台。</value>
   </data>
+  <data name="Templates_APIAppDescription" xml:space="preserve">
+    <value>Azure API Apps 讓您輕易建置、裝載及使用以不同語言撰寫的 API。運用周全的 API 安全性、內部部署資源的連線能力，以及 Swagger 定義支援。</value>
+  </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
     <value>專為有線電視公司技術人員或任何其他行動工作力所設計的行動儀表板應用程式，其適用於 Xamarin 格式。如需完整範例，請移至 &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;。</value>
   </data>
-  <data name="Templates_JenkinsDescription" xml:space="preserve">
-    <value>此範本會建立 Azure Jenkins CI</value>
+  <data name="Templates_LinuxDescription" xml:space="preserve">
+    <value>此範本會建立 Linux WebApp</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>此邏輯應用程式範本會依照排程定期 Ping 網站。您可以擴充其功能，依據 Ping 的結果採取動作。</value>

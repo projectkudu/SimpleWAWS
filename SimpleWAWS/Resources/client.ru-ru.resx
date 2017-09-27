@@ -249,12 +249,6 @@
   <data name="Information_DownloadXamariniOSClient" xml:space="preserve">
     <value>Скачать клиентское приложение Xamarin iOS</value>
   </data>
-  <data name="Information_ExperienceComingSoon" xml:space="preserve">
-    <value>Пробная версия Azure {0} еще не доступна, но вы можете создать {0}, зарегистрировавшись для получения бесплатной 30-дневной пробной версии, которая позволяет создать до 10 приложений любого типа</value>
-  </data>
-  <data name="Information_ExperienceNotHereYet" xml:space="preserve">
-    <value>Версия {0} еще не доступна.</value>
-  </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
     <value>Бесплатная версия {0} истечет через:</value>
   </data>
@@ -445,7 +439,7 @@
     <value>Назад</value>
   </data>
   <data name="Information_ApiAppDescription" xml:space="preserve">
-    <value>Пробная версия приложения API Azure еще не доступна, но вы можете создать приложения API, зарегистрировавшись для получения бесплатной 30-дневной пробной версии, которая позволяет создать до 10 приложений любого типа.</value>
+    <value>Приложения Azure API сильно облегчают создание, размещение и использование API-интерфейсов на различных языках. Вам станут доступны защита, каналы подключения к локальным ресурсам и поддержка определений Swagger "под ключ".</value>
   </data>
   <data name="Information_MobileAppDescription" xml:space="preserve">
     <value>Мобильные приложения Azure позволяют легко выполнять вход, отправку и синхронизацию данных в приложении iOS, Android или Windows, глобально масштабировать и подключать приложение к корпоративным системам и локальным ресурсам.</value>
@@ -498,9 +492,6 @@
   <data name="Information_InstallAndroidStudio" xml:space="preserve">
     <value>Скачать Android Studio</value>
   </data>
-  <data name="Templates_AzureDevOpsDescription" xml:space="preserve">
-    <value>На основе этого шаблона создается Azure Jenkins CI</value>
-  </data>
   <data name="Information_FunctionApp" xml:space="preserve">
     <value>Приложение-функция</value>
   </data>
@@ -509,5 +500,8 @@
   </data>
   <data name="TryFunctions" xml:space="preserve">
     <value>Испробовать функции</value>
+  </data>
+  <data name="Information_LinuxWebAppDescription" xml:space="preserve">
+    <value>Веб-приложения Azure Linux позволяют разработчикам легко развертывать и масштабировать высококлассные веб-приложения на основе Linux, написанные на разных языках и интегрированные с разнообразными службами, не беспокоясь об управлении инфраструктурой.</value>
   </data>
 </root>

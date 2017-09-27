@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ARMTemplate_AppPostfix" xml:space="preserve">
+    <value>App</value>
+  </data>
+  <data name="ARMTemplate_MyPrefix" xml:space="preserve">
+    <value>Mijn</value>
+  </data>
   <data name="Deployment_DeploymentInProgress" xml:space="preserve">
     <value>De implementatie wordt uitgevoerd.</value>
   </data>
@@ -134,6 +140,9 @@
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
     <value>De Github-repo-URI is ongeldig of afkomstig van een vertrouwde organisatie.</value>
+  </data>
+  <data name="Error_InvalidMobileResourceGroup" xml:space="preserve">
+    <value>De resourcegroup voor mobiel is niet uitgecheckt</value>
   </data>
   <data name="Error_InvalidUserIdentity" xml:space="preserve">
     <value>Ongeldige gebruiker.</value>
@@ -153,11 +162,14 @@
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>Niet-ondersteund platform.</value>
   </data>
+  <data name="Templates_APIAppDescription" xml:space="preserve">
+    <value>Met Azure API Apps kunt u eenvoudig API's maken, hosten en gebruiken die zijn geschreven in verschillende talen. U kunt gebruikmaken van kant-en-klare API-beveiliging, verbinding met on-premises resources en ondersteuning voor Swagger-definitie.</value>
+  </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
     <value>Een mobiele dashboard-app voor een technicus van een kabelbedrijf of andere mobiele werknemers beschikbaar voor Xamarin Forms. Het volledige voorbeeld is beschikbaar op &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
   </data>
-  <data name="Templates_JenkinsDescription" xml:space="preserve">
-    <value>Met deze sjabloon maakt u een Azure Jenkins-oplossing voor continue integratie</value>
+  <data name="Templates_LinuxDescription" xml:space="preserve">
+    <value>Met deze sjabloon wordt een Linux-web-app gemaakt</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>Dit sjabloon voor logische apps pingt een website volgens een vaste planning. U kunt ook instellen dat er, afhankelijk van het resultaat van het pingen, actie wordt ondernomen.</value>

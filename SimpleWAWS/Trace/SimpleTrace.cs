@@ -25,7 +25,7 @@ namespace SimpleWAWS.Trace
         {
             if (args.Length > 0)
             {
-                args[0] = string.Concat(args[0], "#", ExperimentManager.GetCurrentExperiment(), "$", ExperimentManager.GetCurrentSourceVariation(), "%", CultureInfo.CurrentCulture.EnglishName);
+                args[0] = string.Concat(args[0], "#", "", "$", "", "%", CultureInfo.CurrentCulture.EnglishName);
             }
             args = args.Select(e => e?.Replace(";", "&semi")).ToArray();
 
@@ -41,7 +41,7 @@ namespace SimpleWAWS.Trace
         {
             if (args.Length > 0)
             {
-                args[0] = string.Concat(args[0], "#", ExperimentManager.GetCurrentExperiment(), "$", ExperimentManager.GetCurrentSourceVariation(), "%", CultureInfo.CurrentCulture.EnglishName);
+                args[0] = string.Concat(args[0], "#", "", "$", "", "%", CultureInfo.CurrentCulture.EnglishName);
             }
 
             System.Diagnostics.Trace.TraceError(format, args);
@@ -56,7 +56,7 @@ namespace SimpleWAWS.Trace
         {
             if (args.Length > 0)
             {
-                args[0] = string.Concat(args[0], "#", ExperimentManager.GetCurrentExperiment(), "$", ExperimentManager.GetCurrentSourceVariation(), "%", CultureInfo.CurrentCulture.EnglishName);
+                args[0] = string.Concat(args[0], "#", "", "$", "", "%", CultureInfo.CurrentCulture.EnglishName);
             }
 
             System.Diagnostics.Trace.TraceWarning(format, args);

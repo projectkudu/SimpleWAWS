@@ -249,12 +249,6 @@
   <data name="Information_DownloadXamariniOSClient" xml:space="preserve">
     <value>Descargar la aplicación de cliente de Xamarin para iOS</value>
   </data>
-  <data name="Information_ExperienceComingSoon" xml:space="preserve">
-    <value>Aún no tenemos preparada la experiencia de prueba de {0} de Azure, pero todavía puede crear {0} si se suscribe; obtendrá un período de prueba de 30 días y podrá crear de forma gratuita hasta 10 aplicaciones de cualquier tipo.</value>
-  </data>
-  <data name="Information_ExperienceNotHereYet" xml:space="preserve">
-    <value>Aún no tenemos preparada la experiencia {0}.</value>
-  </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
     <value>La versión gratuita {0} expirará en:</value>
   </data>
@@ -445,7 +439,7 @@
     <value>Anterior</value>
   </data>
   <data name="Information_ApiAppDescription" xml:space="preserve">
-    <value>Aún no tenemos preparada la experiencia de prueba de Azure API App, pero todavía puede crear instancias de API Apps si se suscribe; obtendrá un período de prueba de 30 días y podrá crear de forma gratuita hasta 10 aplicaciones de cualquier tipo.</value>
+    <value>Azure API Apps facilita la creación, el hospedaje y el consumo de API escritas en diversos lenguajes. Aproveche de forma inmediata la seguridad de API, la conectividad a los recursos locales y la compatibilidad con la definición de Swagger.</value>
   </data>
   <data name="Information_MobileAppDescription" xml:space="preserve">
     <value>Azure Mobile Apps le permitirán agregar fácilmente a su aplicación de iOS, Android o Windows elementos de inicio de sesión y de inserción y sincronización de datos; asimismo, podrá conectar su aplicación a los sistemas de la empresa y a los recursos locales.</value>
@@ -498,9 +492,6 @@
   <data name="Information_InstallAndroidStudio" xml:space="preserve">
     <value>Descargar Android Studio</value>
   </data>
-  <data name="Templates_AzureDevOpsDescription" xml:space="preserve">
-    <value>Esta plantilla creará una integración continua (CI) de Azure Jenkins</value>
-  </data>
   <data name="Information_FunctionApp" xml:space="preserve">
     <value>Aplicación Función</value>
   </data>
@@ -509,5 +500,8 @@
   </data>
   <data name="TryFunctions" xml:space="preserve">
     <value>Probar Functions</value>
+  </data>
+  <data name="Information_LinuxWebAppDescription" xml:space="preserve">
+    <value>Azure Linux Web Apps permiten a los desarrolladores diseñar y escalar aplicaciones web de categoría empresarial, escritas en una gran variedad de idiomas e integradas en multitud de servicios, sin tener que preocuparse por la administración de la infraestructura.</value>
   </data>
 </root>

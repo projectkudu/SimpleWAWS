@@ -249,12 +249,6 @@
   <data name="Information_DownloadXamariniOSClient" xml:space="preserve">
     <value>下載 Xamarin iOS 用戶端應用程式</value>
   </data>
-  <data name="Information_ExperienceComingSoon" xml:space="preserve">
-    <value>Azure {0} 試用版尚未推出，但您仍然可以註冊 30 天的免費試用版 (可讓您免費建立最多 10 個各種類型的應用程式) 來建立 {0}。</value>
-  </data>
-  <data name="Information_ExperienceNotHereYet" xml:space="preserve">
-    <value>{0} 尚未推出。</value>
-  </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
     <value>您的免費 {0} 到期前剩餘時間:</value>
   </data>
@@ -445,7 +439,7 @@
     <value>上一個</value>
   </data>
   <data name="Information_ApiAppDescription" xml:space="preserve">
-    <value>Azure API 應用程式試用版尚未推出，但您仍可註冊 30 天的免費試用版 (可讓您免費建立最多 10 個各種類型的應用程式) 來建立 API 應用程式。</value>
+    <value>Azure API Apps 讓您輕易建置、裝載及使用以不同語言撰寫的 API。運用周全的 API 安全性、內部部署資源的連線能力，以及 Swagger 定義支援。</value>
   </data>
   <data name="Information_MobileAppDescription" xml:space="preserve">
     <value>Azure 行動應用程式讓您很輕鬆就能將登入、推送及資料同步加入您的 iOS、Android 或 Windows 應用程式，而且進行全域調整也非常容易，將您的應用程式連接到企業系統及內部部署資源也十分簡單。</value>
@@ -498,9 +492,6 @@
   <data name="Information_InstallAndroidStudio" xml:space="preserve">
     <value>下載 Android Studio</value>
   </data>
-  <data name="Templates_AzureDevOpsDescription" xml:space="preserve">
-    <value>此範本會建立 Azure Jenkins CI</value>
-  </data>
   <data name="Information_FunctionApp" xml:space="preserve">
     <value>函數應用程式</value>
   </data>
@@ -509,5 +500,8 @@
   </data>
   <data name="TryFunctions" xml:space="preserve">
     <value>試試 Functions</value>
+  </data>
+  <data name="Information_LinuxWebAppDescription" xml:space="preserve">
+    <value>Azure Linux Web Apps 可讓開發人員輕鬆部署及調整以各種語言編寫的企業級 Linux Web 應用程式，而且很容易就能與多種服務進行整合，完全無須為基礎結構的管理煩惱。</value>
   </data>
 </root>

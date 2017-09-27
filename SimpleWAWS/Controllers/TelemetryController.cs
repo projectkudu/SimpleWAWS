@@ -38,12 +38,12 @@ namespace SimpleWAWS.Controllers
 
                     SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
                             AnalyticsEvents.AnonymousUserInit,
-                            ExperimentManager.GetCurrentExperiment(),
+                            "",
                             referer,
                             cid,
                             sv
                         );
-                    SimpleTrace.InitializeAnonymousUser(userName, ExperimentManager.GetCurrentExperiment(), referer, cid, sv);
+                    SimpleTrace.InitializeAnonymousUser(userName, "", referer, cid, sv);
                 }
                 else
                 {

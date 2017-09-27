@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ARMTemplate_AppPostfix" xml:space="preserve">
+    <value>Aplicación</value>
+  </data>
+  <data name="ARMTemplate_MyPrefix" xml:space="preserve">
+    <value>Mis</value>
+  </data>
   <data name="Deployment_DeploymentInProgress" xml:space="preserve">
     <value>Implementación en curso.</value>
   </data>
@@ -134,6 +140,9 @@
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
     <value>La URI del repositorio de Github no es válida o proviene de una organización que no es de confianza.</value>
+  </data>
+  <data name="Error_InvalidMobileResourceGroup" xml:space="preserve">
+    <value>No se comprobó el grupo de recursos Móvil</value>
   </data>
   <data name="Error_InvalidUserIdentity" xml:space="preserve">
     <value>Usuario no válido.</value>
@@ -153,11 +162,14 @@
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>Plataforma no admitida.</value>
   </data>
+  <data name="Templates_APIAppDescription" xml:space="preserve">
+    <value>Azure API Apps facilita la creación, el hospedaje y el consumo de API escritas en diversos lenguajes. Aproveche de forma inmediata la seguridad de API, la conectividad a los recursos locales y la compatibilidad con la definición de Swagger.</value>
+  </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
     <value>Una aplicación de paneles móviles para un técnico de una compañía de TV por cable o cualquier otro recurso móvil, disponible para Xamarin Forms. Consulte la muestra completa en &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
   </data>
-  <data name="Templates_JenkinsDescription" xml:space="preserve">
-    <value>Esta plantilla creará una integración continua (CI) de Azure Jenkins</value>
+  <data name="Templates_LinuxDescription" xml:space="preserve">
+    <value>Esta plantilla creará una instancia de Linux WebApp</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>Esta plantilla de Aplicación lógica hará ping a un sitio web durante un horario establecido. Puede ampliarlo para que tome medidas según el resultado del ping.</value>

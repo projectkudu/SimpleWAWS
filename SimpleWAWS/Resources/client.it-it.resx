@@ -249,12 +249,6 @@
   <data name="Information_DownloadXamariniOSClient" xml:space="preserve">
     <value>Scarica l'app client per Xamarin iOS</value>
   </data>
-  <data name="Information_ExperienceComingSoon" xml:space="preserve">
-    <value>L'esperienza di valutazione per le {0} di Azure non è ancora disponibile, ma è possibile creare {0} tramite l'iscrizione alla versione di valutazione gratuita valida 30 giorni che consente di creare fino a un massimo di 10 app di qualsiasi tipo.</value>
-  </data>
-  <data name="Information_ExperienceNotHereYet" xml:space="preserve">
-    <value>L'esperienza per le {0} non è ancora disponibile.</value>
-  </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
     <value>La versione di valutazione gratuita di {0} scade tra:</value>
   </data>
@@ -445,7 +439,7 @@
     <value>Indietro</value>
   </data>
   <data name="Information_ApiAppDescription" xml:space="preserve">
-    <value>L'esperienza di valutazione delle app per le API di Azure non è ancora disponibile, ma è possibile creare app per le API tramite l'iscrizione alla versione di valutazione gratuita valida 30 giorni che consente di creare fino a un massimo di 10 app di qualsiasi tipo.</value>
+    <value>Le app per le API di Azure semplificano la compilazione, l'hosting e l'utilizzo di API scritte in linguaggi diversi e offrono soluzioni per sicurezza API, connettività alle risorse locali e supporto della definizione Swagger chiavi in mano.</value>
   </data>
   <data name="Information_MobileAppDescription" xml:space="preserve">
     <value>Le app per dispositivi mobili di Azure semplificano l'aggiunta di funzionalità di accesso, push e sincronizzazione dati alle app per iOS, Android e Windows per offrire una scalabilità globale e consentire alle app di connettersi a sistemi aziendali e risorse locali.</value>
@@ -498,9 +492,6 @@
   <data name="Information_InstallAndroidStudio" xml:space="preserve">
     <value>Scarica Android Studio</value>
   </data>
-  <data name="Templates_AzureDevOpsDescription" xml:space="preserve">
-    <value>Questo modello crea una soluzione di integrazione continua Jenkins di Azure</value>
-  </data>
   <data name="Information_FunctionApp" xml:space="preserve">
     <value>App per le funzioni</value>
   </data>
@@ -509,5 +500,8 @@
   </data>
   <data name="TryFunctions" xml:space="preserve">
     <value>Prova Funzioni di Azure</value>
+  </data>
+  <data name="Information_LinuxWebAppDescription" xml:space="preserve">
+    <value>Le app Web Linux di Azure consentono agli sviluppatori di distribuire e ridimensionare facilmente applicazioni Web Linux di classe enterprise scritte in vari linguaggi e integrate con diversi servizi senza doversi preoccupare della gestione dell'infrastruttura.</value>
   </data>
 </root>

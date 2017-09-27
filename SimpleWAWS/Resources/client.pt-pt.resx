@@ -249,17 +249,11 @@
   <data name="Information_DownloadXamariniOSClient" xml:space="preserve">
     <value>Transferir a aplicação cliente do Xamarin iOS</value>
   </data>
-  <data name="Information_ExperienceComingSoon" xml:space="preserve">
-    <value>A experiência de avaliação do Azure {0} ainda não está disponível, mas pode, ainda assim, criar aplicações do {0} ao inscrever-se na avaliação gratuita de 30 dias, que permite criar um máximo de dez aplicações, de qualquer tipo, gratuitamente</value>
-  </data>
-  <data name="Information_ExperienceNotHereYet" xml:space="preserve">
-    <value>A experiência do {0} ainda não está disponível.</value>
-  </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
     <value>O {0} gratuito expira em:</value>
   </data>
   <data name="Information_GenericBrandingLine1" xml:space="preserve">
-    <value>O Serviço de Aplicações do Azure é um serviço de aplicações na nuvem que integra tudo o que necessita para criar, rápida e facilmente, aplicações Web e móveis para qualquer plataforma ou dispositivo.</value>
+    <value>O Serviço de Aplicações do Azure é um serviço de aplicações na cloud que integra tudo o que necessita para criar, rápida e facilmente, aplicações Web e móveis para qualquer plataforma ou dispositivo.</value>
   </data>
   <data name="Information_GenericBrandingLine2" xml:space="preserve">
     <value>Seja nosso convidado por uma hora e experimente o Serviço de Aplicações do Azure sem precisar de uma subscrição do Azure, sem custos e sem compromissos. Desfrute da experiência completa do Serviço de Aplicações do Azure com uma subscrição de avaliação gratuita do Azure.</value>
@@ -445,7 +439,7 @@
     <value>Anterior</value>
   </data>
   <data name="Information_ApiAppDescription" xml:space="preserve">
-    <value>A experiência de avaliação gratuita da Aplicação API do Azure ainda não está disponível, mas pode, ainda assim, criar Aplicações API ao inscrever-se na avaliação gratuita de 30 dias, que permite criar um máximo de dez aplicações, de qualquer tipo, gratuitamente.</value>
+    <value>As Aplicações API do Azure tornam fácil criar, alojar e consumir APIs escritas em variadas linguagens. Aproveite a segurança de API pronta, a ligação a recursos locais e o suporte à definição do Swagger.</value>
   </data>
   <data name="Information_MobileAppDescription" xml:space="preserve">
     <value>As Aplicações Móveis do Azure permitem adicionar facilmente início de sessão, emissões via push e sincronização de dados às suas aplicações iOS, Android ou Windows, para dimensioná-las globalmente e ligá-las a sistemas empresariais e recursos no local.</value>
@@ -498,9 +492,6 @@
   <data name="Information_InstallAndroidStudio" xml:space="preserve">
     <value>Transferir o Android Studio</value>
   </data>
-  <data name="Templates_AzureDevOpsDescription" xml:space="preserve">
-    <value>Este modelo irá criar um Azure Jenkins CI</value>
-  </data>
   <data name="Information_FunctionApp" xml:space="preserve">
     <value>Aplicação de Funções</value>
   </data>
@@ -509,5 +500,8 @@
   </data>
   <data name="TryFunctions" xml:space="preserve">
     <value>Experimente Funções</value>
+  </data>
+  <data name="Information_LinuxWebAppDescription" xml:space="preserve">
+    <value>As Aplicações Web do Linux do Azure permitem aos programadores implementar e dimensionar facilmente aplicações Web do linux de nível empresarial escritas em várias linguagens e integradas em diversos serviços sem que se tenham de preocupar com a gestão de infraestruturas.</value>
   </data>
 </root>

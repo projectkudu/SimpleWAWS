@@ -249,12 +249,6 @@
   <data name="Information_DownloadXamariniOSClient" xml:space="preserve">
     <value>Xamarin iOS istemci uygulamasını indir</value>
   </data>
-  <data name="Information_ExperienceComingSoon" xml:space="preserve">
-    <value>Azure {0} deneme sürümü deneyimi henüz hazır değil. Ancak istediğiniz türdeki 10 adede kadar uygulamayı ücretsiz olarak oluşturmanıza olanak tanıyan 30 günlük ücretsiz denemeye kaydolarak {0} oluşturabilirsiniz</value>
-  </data>
-  <data name="Information_ExperienceNotHereYet" xml:space="preserve">
-    <value>{0} deneyimi henüz hazır değil.</value>
-  </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
     <value>Ücretsiz {0} sürümünüzün süresi şu tarihte dolacak:</value>
   </data>
@@ -445,7 +439,7 @@
     <value>Önceki</value>
   </data>
   <data name="Information_ApiAppDescription" xml:space="preserve">
-    <value>Azure API App deneme sürümü deneyimi henüz hazır değil. Ancak istediğiniz türdeki 10 adede kadar uygulamayı ücretsiz olarak oluşturmanıza olanak tanıyan 30 günlük ücretsiz denemeye kaydolarak API Apps oluşturabilirsiniz.</value>
+    <value>Azure API Apps, çeşitli dillerde yazılmış API'leri derlemeyi, barındırmayı ve kullanmayı kolaylaştırır. Eksiksiz API güvenliğinden, şirket içi kaynaklarla bağlantı olanağından ve Swagger tanımı desteğinden yararlanın.</value>
   </data>
   <data name="Information_MobileAppDescription" xml:space="preserve">
     <value>Azure Mobile Apps; iOS, Android veya Windows uygulamanıza oturum açma, gönderim ve veri eşitleme özellikleri eklemeyi, uygulamanızı küresel olarak ölçeklendirmeyi ve uygulamanızı kurumsal sistemler ile şirket içi kaynaklara bağlamayı kolaylaştırır.</value>
@@ -498,9 +492,6 @@
   <data name="Information_InstallAndroidStudio" xml:space="preserve">
     <value>Android Studio'yu indir</value>
   </data>
-  <data name="Templates_AzureDevOpsDescription" xml:space="preserve">
-    <value>Bu şablon bir Azure Jenkins CI oluşturur</value>
-  </data>
   <data name="Information_FunctionApp" xml:space="preserve">
     <value>İşlev Uygulaması</value>
   </data>
@@ -509,5 +500,8 @@
   </data>
   <data name="TryFunctions" xml:space="preserve">
     <value>İşlevler'i deneyin</value>
+  </data>
+  <data name="Information_LinuxWebAppDescription" xml:space="preserve">
+    <value>Azure Linux Web Apps, geliştiricilerin çeşitli dillerde yazılmış ve birçok hizmetle tümleştirilmiş kurumsal sınıf Linux web uygulamalarını, altyapı yönetimi konusunda endişe duymadan kolayca dağıtmasına ve ölçeklendirmesine olanak sağlar.</value>
   </data>
 </root>

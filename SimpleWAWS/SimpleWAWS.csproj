@@ -321,8 +321,6 @@
     <Compile Include="Code\AnalyticsEvents.cs" />
     <Compile Include="Code\AzureSearchHelper.cs" />
     <Compile Include="Code\CsmExtensions\CsmDeploymentExtensions.cs" />
-    <Compile Include="Code\ExperimentEnricher.cs" />
-    <Compile Include="Code\ExperimentManager.cs" />
     <Compile Include="Code\RetryHelper.cs" />
     <Compile Include="Code\SimpleSettings.cs" />
     <Compile Include="Code\UserNameEnricher.cs" />

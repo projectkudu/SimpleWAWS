@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ARMTemplate_AppPostfix" xml:space="preserve">
+    <value>App</value>
+  </data>
+  <data name="ARMTemplate_MyPrefix" xml:space="preserve">
+    <value>Personale</value>
+  </data>
   <data name="Deployment_DeploymentInProgress" xml:space="preserve">
     <value>Distribuzione in corso.</value>
   </data>
@@ -134,6 +140,9 @@
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
     <value>L'URI del repository di GitHub non è valido o non proviene da un'organizzazione attendibile.</value>
+  </data>
+  <data name="Error_InvalidMobileResourceGroup" xml:space="preserve">
+    <value>Il gruppo di risorse per dispositivi mobili non è stato estratto</value>
   </data>
   <data name="Error_InvalidUserIdentity" xml:space="preserve">
     <value>L'utente non è valido.</value>
@@ -153,11 +162,14 @@
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>La piattaforma non è supportata.</value>
   </data>
+  <data name="Templates_APIAppDescription" xml:space="preserve">
+    <value>Le app per le API di Azure semplificano la compilazione, l'hosting e l'utilizzo di API scritte in linguaggi diversi e offrono soluzioni per sicurezza API, connettività alle risorse locali e supporto della definizione Swagger chiavi in mano.</value>
+  </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
     <value>Un'app dashboard per dispositivi mobili progettata per gli addetti all'installazione di cavi o per altri tecnici che operano fuori sede, disponibile per Xamarin Forms. Per un esempio completo, consultare il sito Web all'indirizzo &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
   </data>
-  <data name="Templates_JenkinsDescription" xml:space="preserve">
-    <value>Questo modello crea una soluzione di integrazione continua Jenkins di Azure</value>
+  <data name="Templates_LinuxDescription" xml:space="preserve">
+    <value>Questo modello creerà un'app Web Linux</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>Il modello di app per la logica eseguirà il ping di un sito Web in base a una pianificazione ricorrente. È possibile estenderlo in modo che esegua un'azione a seconda del risultato dell'operazione di ping.</value>

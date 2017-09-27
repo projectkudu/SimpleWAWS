@@ -118,66 +118,66 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ARMTemplate_AppPostfix" xml:space="preserve">
-    <value>アプリ</value>
+    <value>Aplikacja</value>
   </data>
   <data name="ARMTemplate_MyPrefix" xml:space="preserve">
-    <value>自分</value>
+    <value>Moje</value>
   </data>
   <data name="Deployment_DeploymentInProgress" xml:space="preserve">
-    <value>デプロイは進行中です。</value>
+    <value>Wdrażanie jest w toku.</value>
   </data>
   <data name="Deployment_GitDeploymentInProgress" xml:space="preserve">
-    <value>Git デプロイは進行中です。</value>
+    <value>Wdrażanie Git jest w toku.</value>
   </data>
   <data name="Error_GeneralErrorMessage" xml:space="preserve">
-    <value>エラーが発生しました。後でもう一度実行してください。</value>
+    <value>Wystąpił błąd. Spróbuj ponownie później.</value>
   </data>
   <data name="Error_GettingPublishingProfileStream" xml:space="preserve">
-    <value>発行プロファイルを取得できません。後でもう一度実行してください。</value>
+    <value>Nie można pobrać profilu publikowania. Spróbuj ponownie później.</value>
   </data>
   <data name="Error_InvalidAppServiceType" xml:space="preserve">
-    <value>モバイル クライアントをダウンロードするには、App Service の種類が 'Mobile' である必要があります。</value>
+    <value>Usługa App Service musi być typu mobilnego, aby można było pobierać klientów mobilnych.</value>
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
-    <value>Github リポジトリ URI が無効か、信頼できない組織からのものです。</value>
+    <value>Identyfikator URI repozytorium Github jest nieprawidłowy lub pochodzi z niezaufanej organizacji.</value>
   </data>
   <data name="Error_InvalidMobileResourceGroup" xml:space="preserve">
-    <value>モバイル リソースグループがチェックアウトされていません</value>
+    <value>Grupa zasobów dla urządzeń mobilnych nie została wyewidencjonowana</value>
   </data>
   <data name="Error_InvalidUserIdentity" xml:space="preserve">
-    <value>無効なユーザーです。</value>
+    <value>Nieprawidłowy użytkownik.</value>
   </data>
   <data name="Error_MoreThanOneFreeResource" xml:space="preserve">
-    <value>同時に複数の無料リソースを使用することはできません。</value>
+    <value>Nie możesz mieć więcej niż jednego bezpłatnego zasobu naraz.</value>
   </data>
   <data name="Error_NoFreeResourcesAvailable" xml:space="preserve">
-    <value>現在無料リソースを使用できません。後でもう一度実行してください。</value>
+    <value>Obecnie brak jest dostępnych bezpłatnych zasobów. Spróbuj ponownie później.</value>
   </data>
   <data name="Error_OrgIdNotSupported" xml:space="preserve">
-    <value>組織アカウントはサポートされていません。Microsoft アカウントを使用してください。</value>
+    <value>Konta organizacyjne nie są obsługiwane. Użyj konta Microsoft.</value>
   </data>
   <data name="Error_ResourceExpirationTimeAlreadyExtended" xml:space="preserve">
-    <value>リソースの有効期限を既に延長しています。1 つのリソースの有効期限を延長できるのは 1 回のみです。</value>
+    <value>Czas wygaśnięcia zasobu był już wydłużany wcześniej. Dla każdego zasobu czas wygaśnięcia można wydłużyć tylko raz.</value>
   </data>
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
-    <value>サポートされていないプラットフォームです。</value>
+    <value>Nieobsługiwana platforma.</value>
   </data>
   <data name="Templates_APIAppDescription" xml:space="preserve">
-    <value>Azure API Apps では、さまざまな言語で記述された API を簡単にビルド、ホスト、使用できます。ターンキー API セキュリティ、オンプレミス リソースへの接続、Swagger 定義のサポートを活用してください。</value>
+    <value>Aplikacje interfejsu API platformy Azure ułatwiają tworzenie, hostowanie i używanie interfejsów API napisanych w różnych językach. Korzystaj z gotowych do użycia zabezpieczeń interfejsu API, łączności z zasobami lokalnymi i obsługi definicji programu Swagger.</value>
   </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
-    <value>ケーブル会社の技術者や他のモバイル従業員向けのモバイル ダッシュボード アプリは Xamarin Forms でご利用いただけます。フル サンプルは、&lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt; にあります。</value>
+    <value>Aplikacja mobilnego pulpitu nawigacyjnego dla techników w firmie dostarczającej telewizję kablową i dla wszystkich innych pracowników pracujących w terenie, dostępna dla platformy Xamarin Forms. Pełny przykład można znaleźć pod adresem &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
   </data>
   <data name="Templates_LinuxDescription" xml:space="preserve">
-    <value>このテンプレートでは、Linux Web アプリが作成されます</value>
+    <value>Za pomocą tego szablonu zostanie utworzona aplikacja internetowa systemu Linux</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
-    <value>この Logic App テンプレートは、定期的なスケジュールで Web サイトを ping します。ping の結果に応じて、それを拡張して、対応策を取ることができます。</value>
+    <value>Szablon aplikacji logiki będzie cyklicznie badać witrynę internetową za pomocą polecenia ping. Możesz go tak rozszerzyć, aby podejmować działanie na podstawie wyniku polecenia ping.</value>
   </data>
   <data name="Templates_TodoListDescription" xml:space="preserve">
-    <value>これはシンプルな ToDo リスト アプリです。iOS、Android、Xamarin、HTML/JS でご利用いただけます。</value>
+    <value>To jest prosta aplikacja z listą rzeczy do zrobienia, dostępna dla systemów iOS i Android oraz platform Xamarin i HTML/JS.</value>
   </data>
   <data name="Templates_XamarinCrmDescription" xml:space="preserve">
-    <value>モバイル販売ダッシュボード CRM アプリは、Xamarin Forms でご利用いただけます。フル サンプルは、&lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt; にあります。</value>
+    <value>Aplikacja CRM mobilnego pulpitu nawigacyjnego sprzedaży, dostępna dla platformy Xamarin Forms. Pełny przykład można znaleźć pod adresem &lt;a href="https://github.com/xamarin/app-crm/" target="_blank"&gt;https://github.com/xamarin/app-crm/&lt;/a&gt;.</value>
   </data>
 </root>

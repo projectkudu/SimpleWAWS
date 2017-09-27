@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ARMTemplate_AppPostfix" xml:space="preserve">
+    <value>Uygulama</value>
+  </data>
+  <data name="ARMTemplate_MyPrefix" xml:space="preserve">
+    <value>Benim</value>
+  </data>
   <data name="Deployment_DeploymentInProgress" xml:space="preserve">
     <value>Dağıtım sürüyor.</value>
   </data>
@@ -134,6 +140,9 @@
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
     <value>Github depo URI'si geçersiz veya güvenilmeyen bir kuruma ait.</value>
+  </data>
+  <data name="Error_InvalidMobileResourceGroup" xml:space="preserve">
+    <value>Mobil kaynak grubu kullanıma alınmadı</value>
   </data>
   <data name="Error_InvalidUserIdentity" xml:space="preserve">
     <value>Geçersiz kullanıcı.</value>
@@ -153,11 +162,14 @@
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>Desteklenmeyen platform.</value>
   </data>
+  <data name="Templates_APIAppDescription" xml:space="preserve">
+    <value>Azure API Apps, çeşitli dillerde yazılmış API'leri derlemeyi, barındırmayı ve kullanmayı kolaylaştırır. Eksiksiz API güvenliğinden, şirket içi kaynaklarla bağlantı olanağından ve Swagger tanımı desteğinden yararlanın.</value>
+  </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
     <value>Bir telefon şirketi teknisyeni veya herhangi başka bir mobil iş gücü için Xamarin Forms ile kullanılabilen bir mobil pano uygulaması. Tam örneğini şurada bulabilirsiniz: &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
   </data>
-  <data name="Templates_JenkinsDescription" xml:space="preserve">
-    <value>Bu şablon bir Azure Jenkins CI oluşturur</value>
+  <data name="Templates_LinuxDescription" xml:space="preserve">
+    <value>Bu şablon bir Linux WebApp oluşturur</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>Bu Mantıksal Uygulama şablonu, yinelenen bir zamanlamaya göre bir web sitesine ping gönderecek.  Şablonu, ping sonucuna göre eylem gerçekleştirecek şekilde genişletebilirsiniz.</value>

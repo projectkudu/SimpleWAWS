@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ARMTemplate_AppPostfix" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="ARMTemplate_MyPrefix" xml:space="preserve">
+    <value>Mon</value>
+  </data>
   <data name="Deployment_DeploymentInProgress" xml:space="preserve">
     <value>Déploiement en cours.</value>
   </data>
@@ -134,6 +140,9 @@
   </data>
   <data name="Error_InvalidGithubRepo" xml:space="preserve">
     <value>L'URI du référentiel Github n'est pas valide ou ne provient pas d'une organisation approuvée.</value>
+  </data>
+  <data name="Error_InvalidMobileResourceGroup" xml:space="preserve">
+    <value>Le groupe de ressources mobile n'a pas été extrait</value>
   </data>
   <data name="Error_InvalidUserIdentity" xml:space="preserve">
     <value>Utilisateur non valide.</value>
@@ -153,11 +162,14 @@
   <data name="Error_UnsupportedPlatform" xml:space="preserve">
     <value>Plateforme non prise en charge.</value>
   </data>
+  <data name="Templates_APIAppDescription" xml:space="preserve">
+    <value>Les applications API Azure facilitent la création, l'hébergement et la consommation d'API écrites en différents langages. Exploitez la sécurité des API clés en main, la connectivité aux ressources locales et la prise en charge de la définition Swagger.</value>
+  </data>
   <data name="Templates_FieldEngineerDescription" xml:space="preserve">
     <value>Application mobile de tableau de bord pour technicien d'entreprise de câblage ou tout autre travailleur itinérant, disponible pour Xamarin Forms. Exemple complet sur &lt;a href="https://github.com/azure/fieldengineer/" target="_blank"&gt;https://github.com/azure/fieldengineer/&lt;/a&gt;.</value>
   </data>
-  <data name="Templates_JenkinsDescription" xml:space="preserve">
-    <value>Ce modèle crée une CI Azure Jenkins</value>
+  <data name="Templates_LinuxDescription" xml:space="preserve">
+    <value>Ce modèle crée une application web Linux</value>
   </data>
   <data name="Templates_PingSiteDescription" xml:space="preserve">
     <value>Le modèle d'application logique effectue un test Ping avec un site web selon une planification récurrente. Vous pouvez l'étendre de façon à effectuer une action en fonction du résultat du test Ping.</value>

@@ -196,7 +196,7 @@
     <value>Det inträffade ett fel när du skulle skicka din feedback. Försök igen senare.</value>
   </data>
   <data name="Events" xml:space="preserve">
-    <value>Evenemang</value>
+    <value>Händelser</value>
   </data>
   <data name="Facebook" xml:space="preserve">
     <value>Facebook</value>
@@ -248,12 +248,6 @@
   </data>
   <data name="Information_DownloadXamariniOSClient" xml:space="preserve">
     <value>Hämta Xamarin iOS-klientappen</value>
-  </data>
-  <data name="Information_ExperienceComingSoon" xml:space="preserve">
-    <value>Utvärderingsversionen av Azure {0} är inte här ännu, men du kan ändå skapa flera {0} genom att registrera dig för en kostnadsfri 30 dagars utvärderingsversion med vilken du kan skapa upp till 10 appar av valfri typ utan någon extra kostnad.</value>
-  </data>
-  <data name="Information_ExperienceNotHereYet" xml:space="preserve">
-    <value>{0}-erfarenheten är inte här ännu.</value>
   </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
     <value>Din kostnadsfria {0} upphör att gälla om:</value>
@@ -445,7 +439,7 @@
     <value>Föregående</value>
   </data>
   <data name="Information_ApiAppDescription" xml:space="preserve">
-    <value>Utvärderingsversionen av Azure API-appen är inte här ännu, men du kan ändå skapa API Apps genom att registrera dig för en kostnadsfri 30 dagars utvärderingsversion med vilken du kan skapa upp till 10 appar av valfri typ utan någon extra kostnad.</value>
+    <value>Med Azure API Apps är det enkelt att bygga, köra och förbruka API:er skrivna på en mängd olika språk. Utnyttja nyckelfärdig API-säkerhet, anslut till lokala resurser och få Swagger-definitionssupport.</value>
   </data>
   <data name="Information_MobileAppDescription" xml:space="preserve">
     <value>Med Azure Mobile Apps är det lätt att lägga till inloggnings-, push- och datasynkronisering till din iOS-, Android- eller Windows-app, skalanpassa globalt och ansluta din app till företagssystem och lokala resurser.</value>
@@ -498,9 +492,6 @@
   <data name="Information_InstallAndroidStudio" xml:space="preserve">
     <value>Hämta Android Studio</value>
   </data>
-  <data name="Templates_AzureDevOpsDescription" xml:space="preserve">
-    <value>Den här mallen skapar en Azure Jenkins CI</value>
-  </data>
   <data name="Information_FunctionApp" xml:space="preserve">
     <value>Funktionsapp</value>
   </data>
@@ -509,5 +500,8 @@
   </data>
   <data name="TryFunctions" xml:space="preserve">
     <value>Prova Functions</value>
+  </data>
+  <data name="Information_LinuxWebAppDescription" xml:space="preserve">
+    <value>Med Azure Linux Web Apps kan utvecklare enkelt distribuera och skalanpassa linux-företagswebbprogram som har skrivits på olika språk och integrerats med flera olika typer av tjänster utan att behöva tänka på infrastrukturhantering.</value>
   </data>
 </root>

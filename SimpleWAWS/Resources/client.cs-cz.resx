@@ -249,12 +249,6 @@
   <data name="Information_DownloadXamariniOSClient" xml:space="preserve">
     <value>Stáhnout klientskou aplikaci Xamarin iOS</value>
   </data>
-  <data name="Information_ExperienceComingSoon" xml:space="preserve">
-    <value>Zkušební verze aplikace Azure {0} ještě není dostupná. I přesto můžete aplikace {0} vytvářet, když si zaregistrujete bezplatnou třicetidenní zkušební verzi, ve které můžete zadarmo vytvořit až 10 aplikací libovolného typu.</value>
-  </data>
-  <data name="Information_ExperienceNotHereYet" xml:space="preserve">
-    <value>Prostředí {0} ještě není dostupné.</value>
-  </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
     <value>Platnost zkušební verze {0} vyprší za:</value>
   </data>
@@ -388,7 +382,7 @@
     <value>Aktualizace služeb</value>
   </data>
   <data name="Subscriptions" xml:space="preserve">
-    <value>Předplatné</value>
+    <value>Předplatná</value>
   </data>
   <data name="Support" xml:space="preserve">
     <value>Podpora</value>
@@ -445,7 +439,7 @@
     <value>Předchozí</value>
   </data>
   <data name="Information_ApiAppDescription" xml:space="preserve">
-    <value>Zkušební verze Azure API App ještě není dostupná. I přesto můžete API Apps vytvářet, když si zaregistrujete bezplatnou třicetidenní zkušební verzi, ve které můžete zadarmo vytvořit až 10 aplikací libovolného typu.</value>
+    <value>Funkce Azure API Apps usnadňuje vytváření, hostování a využívání rozhraní API napsaných v nejrůznějších jazycích. Umožňuje využívat výhod zabezpečení API na klíč, připojení k místním prostředkům a podpory definice Swaggeru.</value>
   </data>
   <data name="Information_MobileAppDescription" xml:space="preserve">
     <value>Mobilní aplikace Azure umožňují jednoduše přidávat přihlašovací údaje, nabízená oznámení a data, která se synchronizují s aplikací pro iOS, Android nebo Windows, globálně škálovat a připojovat vaše aplikace k podnikovým systémům a místním zdrojům.</value>
@@ -498,9 +492,6 @@
   <data name="Information_InstallAndroidStudio" xml:space="preserve">
     <value>Stáhnout Android Studio</value>
   </data>
-  <data name="Templates_AzureDevOpsDescription" xml:space="preserve">
-    <value>Tato šablona vytvoří Azure Jenkins CI.</value>
-  </data>
   <data name="Information_FunctionApp" xml:space="preserve">
     <value>Aplikace zajišťující funkci</value>
   </data>
@@ -509,5 +500,8 @@
   </data>
   <data name="TryFunctions" xml:space="preserve">
     <value>Vyzkoušet Functions</value>
+  </data>
+  <data name="Information_LinuxWebAppDescription" xml:space="preserve">
+    <value>Webové aplikace Azure Linux umožňují vývojářům jednoduše nasazovat a škálovat podnikové linuxové webové aplikace, které jsou napsané v různých jazycích a integrují různé služby bez starostí o správu infrastruktury.</value>
   </data>
 </root>

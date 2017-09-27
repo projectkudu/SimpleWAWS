@@ -249,12 +249,6 @@
   <data name="Information_DownloadXamariniOSClient" xml:space="preserve">
     <value>Xamarin iOS クライアント アプリケーションのダウンロード</value>
   </data>
-  <data name="Information_ExperienceComingSoon" xml:space="preserve">
-    <value>Azure {0} の試用エクスペリエンスはまだ提供されていませんが、30 日間の無料試用版にサインアップして、{0} を作成できます。任意の種類のアプリを無料で 10 個まで作成できます。</value>
-  </data>
-  <data name="Information_ExperienceNotHereYet" xml:space="preserve">
-    <value>{0} エクスペリエンスはまだ提供されていません。</value>
-  </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
     <value>無料の {0} が期限切れになるまでの時間:</value>
   </data>
@@ -445,7 +439,7 @@
     <value>前へ</value>
   </data>
   <data name="Information_ApiAppDescription" xml:space="preserve">
-    <value>Azure API App の試用エクスペリエンスはまだ提供されていませんが、30 日間の無料試用版にサインアップして、API Apps を作成できます。任意の種類のアプリを無料で 10 個まで作成できます。</value>
+    <value>Azure API Apps では、さまざまな言語で記述された API を簡単にビルド、ホスト、使用できます。ターンキー API セキュリティ、オンプレミス リソースへの接続、Swagger 定義のサポートを活用してください。</value>
   </data>
   <data name="Information_MobileAppDescription" xml:space="preserve">
     <value>Azure Mobile App により簡単に、iOS、Android、または Windows アプリにログイン、プッシュ、およびデータ同期を追加して、グローバルに拡大縮小し、アプリをエンタープライズ システムおよびオンプレミス リソースに接続できます。</value>
@@ -498,9 +492,6 @@
   <data name="Information_InstallAndroidStudio" xml:space="preserve">
     <value>Android Studio のダウンロード</value>
   </data>
-  <data name="Templates_AzureDevOpsDescription" xml:space="preserve">
-    <value>このテンプレートでは、Azure Jenkins CI を作成します</value>
-  </data>
   <data name="Information_FunctionApp" xml:space="preserve">
     <value>Function App</value>
   </data>
@@ -509,5 +500,8 @@
   </data>
   <data name="TryFunctions" xml:space="preserve">
     <value>Functions を試す</value>
+  </data>
+  <data name="Information_LinuxWebAppDescription" xml:space="preserve">
+    <value>Azure Linux Web Apps により、開発者はインフラストラクチャの管理に関して心配することなく、多様な言語で作成され、多くのサービスと統合されるエンタープライズ レベルの Linux Web アプリケーションを簡単にデプロイし、スケールできます。</value>
   </data>
 </root>

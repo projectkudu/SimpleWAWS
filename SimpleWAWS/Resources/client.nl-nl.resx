@@ -249,12 +249,6 @@
   <data name="Information_DownloadXamariniOSClient" xml:space="preserve">
     <value>De Xamarin iOS-clientapp downloaden</value>
   </data>
-  <data name="Information_ExperienceComingSoon" xml:space="preserve">
-    <value>Er bestaat nog geen gratis versie van Azure {0}, maar u kunt wel een {0} maken door u aan te melden voor een gratis proefperiode van 30 dagen waarbij u gratis maximaal 10 apps kunt maken.</value>
-  </data>
-  <data name="Information_ExperienceNotHereYet" xml:space="preserve">
-    <value>U kunt de {0} nog niet zelf ervaren.</value>
-  </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
     <value>Uw gratis {0} verloopt over:</value>
   </data>
@@ -445,7 +439,7 @@
     <value>Vorige</value>
   </data>
   <data name="Information_ApiAppDescription" xml:space="preserve">
-    <value>Er bestaat nog geen gratis versie van Azure API Apps, maar u kunt wel API Apps maken door u aan te melden voor een gratis proefperiode van 30 dagen waarbij u gratis maximaal 10 apps kunt maken.</value>
+    <value>Met Azure API Apps kunt u eenvoudig API's maken, hosten en gebruiken die zijn geschreven in verschillende talen. U kunt gebruikmaken van kant-en-klare API-beveiliging, verbinding met on-premises resources en ondersteuning voor Swagger-definitie.</value>
   </data>
   <data name="Information_MobileAppDescription" xml:space="preserve">
     <value>Met Azure Mobile Apps kunt u eenvoudig aanmeld-, push- en gegevenssynchronisatiefunctionaliteit toevoegen aan uw iOS-, Android- of Windows-app zodat u wereldwijd kunt schalen en uw app kunt koppelen aan het bedrijfssysteem en on-premises resources.</value>
@@ -498,9 +492,6 @@
   <data name="Information_InstallAndroidStudio" xml:space="preserve">
     <value>Android Studio downloaden</value>
   </data>
-  <data name="Templates_AzureDevOpsDescription" xml:space="preserve">
-    <value>Met deze sjabloon maakt u een Azure Jenkins-oplossing voor continue integratie</value>
-  </data>
   <data name="Information_FunctionApp" xml:space="preserve">
     <value>Functie-app</value>
   </data>
@@ -509,5 +500,8 @@
   </data>
   <data name="TryFunctions" xml:space="preserve">
     <value>Functies uitproberen</value>
+  </data>
+  <data name="Information_LinuxWebAppDescription" xml:space="preserve">
+    <value>Met Linux Azure Web Apps kunnen ontwikkelaars eenvoudig Linux-bedrijfswebtoepassingen implementeren en schalen die zijn geschreven in verschillende talen en die zijn geïntegreerd met meerdere services zonder zich zorgen te hoeven maken over infrastructuurbeheer.</value>
   </data>
 </root>

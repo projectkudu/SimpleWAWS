@@ -249,12 +249,6 @@
   <data name="Information_DownloadXamariniOSClient" xml:space="preserve">
     <value>Pobierz aplikację klienta dla systemu Xamarin iOS</value>
   </data>
-  <data name="Information_ExperienceComingSoon" xml:space="preserve">
-    <value>Mimo że środowisko wersji próbnej składników {0} platformy Azure nie jest jeszcze dostępne, można tworzyć składniki {0} po utworzeniu konta w celu używania bezpłatnej 30-dniowej wersji próbnej, która umożliwia bezpłatne utworzenie do 10 aplikacji dowolnego typu.</value>
-  </data>
-  <data name="Information_ExperienceNotHereYet" xml:space="preserve">
-    <value>Środowisko {0} nie jest jeszcze dostępne.</value>
-  </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
     <value>Bezpłatny składnik {0} wygaśnie w ciągu:</value>
   </data>
@@ -445,7 +439,7 @@
     <value>Wstecz</value>
   </data>
   <data name="Information_ApiAppDescription" xml:space="preserve">
-    <value>Mimo że środowisko wersji próbnej usługi Azure API Apps nie jest jeszcze dostępne, można tworzyć aplikacje usługi API Apps po utworzeniu konta w celu używania bezpłatnej 30-dniowej wersji próbnej, która umożliwia bezpłatne utworzenie do 10 aplikacji dowolnego typu.</value>
+    <value>Aplikacje interfejsu API platformy Azure ułatwiają tworzenie, hostowanie i używanie interfejsów API napisanych w różnych językach. Korzystaj z gotowych do użycia zabezpieczeń interfejsu API, łączności z zasobami lokalnymi i obsługi definicji programu Swagger.</value>
   </data>
   <data name="Information_MobileAppDescription" xml:space="preserve">
     <value>Usługa Azure Mobile Apps ułatwia dodawanie logowania, wypychania i synchronizacji danych do aplikacji dla systemów iOS, Android i Windows, globalne skalowanie, a także łączenie aplikacji z systemami przedsiębiorstw oraz z zasobami lokalnymi.</value>
@@ -498,9 +492,6 @@
   <data name="Information_InstallAndroidStudio" xml:space="preserve">
     <value>Pobierz program Android Studio</value>
   </data>
-  <data name="Templates_AzureDevOpsDescription" xml:space="preserve">
-    <value>Za pomocą tego szablonu zostanie utworzone rozwiązanie ciągłej integracji (CI) Azure Jenkins</value>
-  </data>
   <data name="Information_FunctionApp" xml:space="preserve">
     <value>Aplikacja obsługująca funkcje</value>
   </data>
@@ -509,5 +500,8 @@
   </data>
   <data name="TryFunctions" xml:space="preserve">
     <value>Wypróbuj usługę Functions</value>
+  </data>
+  <data name="Information_LinuxWebAppDescription" xml:space="preserve">
+    <value>Aplikacje internetowe systemu Linux platformy Azure umożliwiają deweloperom łatwe wdrażanie i skalowanie aplikacji internetowych klasy przedsiębiorstwa systemu Linux, które mogą być napisane w różnych językach i zintegrowane z wieloma usługami, bez obaw o zarządzanie infrastrukturą.</value>
   </data>
 </root>

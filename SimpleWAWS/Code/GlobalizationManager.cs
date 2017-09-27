@@ -21,7 +21,7 @@ namespace SimpleWAWS.Code
                 if (cultureCookie == null ||
                     !cultureCookie.Value.Equals(culture.Name, StringComparison.OrdinalIgnoreCase))
                 {
-                    context.Response.Cookies.Add(new HttpCookie(_cultureCookieName, culture.Name) { Path = "/", Expires = DateTime.UtcNow.AddYears(2) });
+                    context.Response.Cookies.Add(new HttpCookie(_cultureCookieName, culture.Name) { Path = "/", Expires = DateTime.UtcNow.AddHours(1) });
                 }
             }
         }

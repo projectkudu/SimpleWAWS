@@ -181,7 +181,7 @@
     <value>社区</value>
   </data>
   <data name="Compliance" xml:space="preserve">
-    <value>合规性</value>
+    <value>符合性</value>
   </data>
   <data name="ContactUs" xml:space="preserve">
     <value>联系我们</value>
@@ -248,12 +248,6 @@
   </data>
   <data name="Information_DownloadXamariniOSClient" xml:space="preserve">
     <value>下载 Xamarin iOS 客户端应用</value>
-  </data>
-  <data name="Information_ExperienceComingSoon" xml:space="preserve">
-    <value>此处尚未提供 Azure {0} 试用体验，但你仍可以通过注册免费 30 天试用版来创建 {0}。你可以通过这种方式免费创建多达 10 个任何类型的应用。</value>
-  </data>
-  <data name="Information_ExperienceNotHereYet" xml:space="preserve">
-    <value>此处尚未提供 {0} 体验。</value>
   </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
     <value>你的免费 {0} 将在以下时间到期:</value>
@@ -445,7 +439,7 @@
     <value>上一页</value>
   </data>
   <data name="Information_ApiAppDescription" xml:space="preserve">
-    <value>此处尚未提供 Azure API 应用试用体验，但你仍可以通过注册免费 30 天试用版来创建 API 应用。你可以通过这种方式免费创建多达 10 个任何类型的应用。</value>
+    <value>借助 Azure API 应用，可轻松构建、托管和使用按各种语言编写的 API。可利用一站式 API 安全性、到本地资源的连接以及 Swagger 定义支持。</value>
   </data>
   <data name="Information_MobileAppDescription" xml:space="preserve">
     <value>使用 Azure 移动应用可以轻松地为你的 iOS、Android 或 Windows 应用添加登录、推送和数据同步功能，在全球进行扩展，并可将你的应用连接到企业系统和本地资源。</value>
@@ -498,9 +492,6 @@
   <data name="Information_InstallAndroidStudio" xml:space="preserve">
     <value>下载 Android Studio</value>
   </data>
-  <data name="Templates_AzureDevOpsDescription" xml:space="preserve">
-    <value>此模板将创建 Azure Jenkins CI</value>
-  </data>
   <data name="Information_FunctionApp" xml:space="preserve">
     <value>函数应用</value>
   </data>
@@ -509,5 +500,8 @@
   </data>
   <data name="TryFunctions" xml:space="preserve">
     <value>尝试 Functions</value>
+  </data>
+  <data name="Information_LinuxWebAppDescription" xml:space="preserve">
+    <value>有了 Azure Linux Web 应用，开发人员就能够轻松地部署和扩展使用各种语言编写并与多种服务集成的企业级 Linux Web 应用程序，而不用担心基础结构管理。</value>
   </data>
 </root>

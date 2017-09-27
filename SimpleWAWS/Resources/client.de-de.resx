@@ -181,7 +181,7 @@
     <value>Community</value>
   </data>
   <data name="Compliance" xml:space="preserve">
-    <value>Kompatibilität</value>
+    <value>Konformität</value>
   </data>
   <data name="ContactUs" xml:space="preserve">
     <value>Kontakt</value>
@@ -248,12 +248,6 @@
   </data>
   <data name="Information_DownloadXamariniOSClient" xml:space="preserve">
     <value>Xamarin iOS-Client-App herunterladen</value>
-  </data>
-  <data name="Information_ExperienceComingSoon" xml:space="preserve">
-    <value>Die Azure-{0}-Testbenutzeroberfläche ist noch nicht verfügbar. Sie können dennoch {0}s erstellen, indem Sie sich für einen kostenlosen Testzeitraum von 30 Tagen registrieren. Dies ermöglicht das kostenlose Erstellen von bis zu 10 Apps eines beliebigen Typs.</value>
-  </data>
-  <data name="Information_ExperienceNotHereYet" xml:space="preserve">
-    <value>Die {0}-Benutzeroberfläche ist noch nicht verfügbar.</value>
   </data>
   <data name="Information_ExpireMessage" xml:space="preserve">
     <value>Die kostenlose Version von {0} läuft ab in:</value>
@@ -445,7 +439,7 @@
     <value>Zurück</value>
   </data>
   <data name="Information_ApiAppDescription" xml:space="preserve">
-    <value>Die Azure-API-App-Testbenutzeroberfläche ist noch nicht verfügbar. Sie können dennoch API-Apps erstellen, indem Sie sich für einen kostenlosen Testzeitraum von 30 Tagen registrieren. Dies ermöglicht das kostenlose Erstellen von bis zu 10 Apps eines beliebigen Typs.</value>
+    <value>Mit Azure-API-Apps können Sie ganz einfach APIs erstellen, hosten und nutzen, die in einer Vielzahl von Sprachen geschrieben wurden. Profitieren Sie von der sofort verfügbaren API-Sicherheit, der Konnektivität mit lokalen Ressourcen und der Unterstützung für Swagger-Definitionen.</value>
   </data>
   <data name="Information_MobileAppDescription" xml:space="preserve">
     <value>Mit Azure Mobile Apps ist es ganz einfach, Ihrer iOS-, Android- oder Windows-App Anmelde-, Push- und Datensynchronisierungsfunktionen hinzuzufügen, die App global zu skalieren und Ihre App mit Unternehmenssystemen und lokalen Ressourcen zu verbinden.</value>
@@ -498,9 +492,6 @@
   <data name="Information_InstallAndroidStudio" xml:space="preserve">
     <value>Android Studio herunterladen</value>
   </data>
-  <data name="Templates_AzureDevOpsDescription" xml:space="preserve">
-    <value>Mit dieser Vorlage wird eine Azure Jenkins-CI erstellt.</value>
-  </data>
   <data name="Information_FunctionApp" xml:space="preserve">
     <value>Funktions-App</value>
   </data>
@@ -509,5 +500,8 @@
   </data>
   <data name="TryFunctions" xml:space="preserve">
     <value>Functions testen</value>
+  </data>
+  <data name="Information_LinuxWebAppDescription" xml:space="preserve">
+    <value>Azure Linux-Web-Apps ermöglichen Entwicklern das einfache Bereitstellen und Skalieren von Linux-Webanwendungen auf Unternehmensniveau, die in verschiedensten Sprachen geschrieben und in vielfältige Dienste integriert werden können, ohne sich Gedanken über die Infrastrukturverwaltung machen zu müssen.</value>
   </data>
 </root>
