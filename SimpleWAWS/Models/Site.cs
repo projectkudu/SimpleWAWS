@@ -84,7 +84,7 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return ScmUrl + "dev";
+                return ScmUrlWithCreds + "dev";
             }
         }
 
@@ -92,7 +92,7 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return ScmUrl + "zip/site/wwwroot";
+                return ScmUrlWithCreds + "zip/site/wwwroot";
             }
         }
 
