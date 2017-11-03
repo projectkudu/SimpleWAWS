@@ -59,8 +59,8 @@ namespace SimpleWAWS.Console
             //var subscriptionNames = System.Environment.GetEnvironmentVariable("Subscriptions").Split(',');
             var csmSubscriptions = await CsmManager.GetSubscriptionNamesToIdMap();
             var subscriptionsIds = SimpleSettings.Subscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                .Union(SimpleSettings.LinuxSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-                .Union(SimpleSettings.MonitoringToolsSubscription.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                //.Union(SimpleSettings.LinuxSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                //.Union(SimpleSettings.MonitoringToolsSubscription.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 //It can be either a displayName or a subscriptionId
                 .Select(s => s.Trim())
                 .Where(n =>
@@ -73,7 +73,7 @@ namespace SimpleWAWS.Console
                     Guid temp;
                     if (Guid.TryParse(sn, out temp)) return sn;
                     else return csmSubscriptions[sn];
-                });
+                }).OrderByDescending(s=> s);
             //var subscriptionNames = new[] { "bd5cf6af-4d44-449e-adaf-20626ae5013e" };
             var startTime = DateTime.UtcNow;
 
@@ -103,14 +103,14 @@ namespace SimpleWAWS.Console
                 console($"Deleting resources in {s.Type} subscription {s.SubscriptionId}");
 
                 var csmResourceGroups = await s.LoadResourceGroupsForSubscription();
-                var deleteExtras = csmResourceGroups.value
-                    .GroupBy(rg => rg.location)
-                    .Select(g => new { Region = g.Key, ResourceGroups = g.Select(r => r), Count = g.Count() })
-                    .Where(g => g.Count > s.ResourceGroupsPerGeoRegion)
-                    .Select(g => g.ResourceGroups.Where(rg => !rg.tags.ContainsKey("UserId") ).Skip((s.ResourceGroupsPerGeoRegion)))
-                    .SelectMany(i => i);
+                //var deleteExtras = csmResourceGroups.value
+                //    .GroupBy(rg => rg.location)
+                //    .Select(g => new { Region = g.Key, ResourceGroups = g.Select(r => r), Count = g.Count() })
+                //    .Where(g => g.Count > s.ResourceGroupsPerGeoRegion)
+                //    .Select(g => g.ResourceGroups.Where(rg => rg.tags!=null && !rg.tags.ContainsKey("UserId") ).Skip((s.ResourceGroupsPerGeoRegion)))
+                //    .SelectMany(i => i);
 
-                Parallel.ForEach(deleteExtras, async (resourceGroup) =>
+                Parallel.ForEach(csmResourceGroups.value, async (resourceGroup) =>
                 {
                     try
                     {
@@ -123,20 +123,20 @@ namespace SimpleWAWS.Console
                         console($"Extra RG Delete Exception:{ex.ToString()}-{ex.StackTrace}-{ex.InnerException?.StackTrace.ToString() ?? String.Empty}");
                     }
                 });
-                var result = s.MakeTrialSubscription();
+                //var result = s.MakeTrialSubscription();
 
-                Parallel.ForEach(result.ToDelete, async (resourceGroup) =>
-                {
-                    try
-                    {
-                        console($"Deleting {resourceGroup.ResourceGroupName} resource in {s.Type} subscription {s.SubscriptionId}");
-                        await resourceGroup.Delete(false);
-                    }
-                    catch (Exception ex)
-                    {
-                        console($"RG Delete Exception:{ex.ToString()}-{ex.StackTrace}-{ex.InnerException?.StackTrace.ToString() ?? String.Empty}");
-                    }
-                });
+                //Parallel.ForEach(result.ToDelete, async (resourceGroup) =>
+                //{
+                //    try
+                //    {
+                //        console($"Deleting {resourceGroup.ResourceGroupName} resource in {s.Type} subscription {s.SubscriptionId}");
+                //        await resourceGroup.Delete(false);
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        console($"RG Delete Exception:{ex.ToString()}-{ex.StackTrace}-{ex.InnerException?.StackTrace.ToString() ?? String.Empty}");
+                //    }
+                //});
             }
             //subscriptions.ToList().ForEach(printSub);
             console("Done");

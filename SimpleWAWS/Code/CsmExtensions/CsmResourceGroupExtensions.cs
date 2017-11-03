@@ -236,7 +236,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 {
                     createdSites.Add(CreateFunctionApp(resourceGroup,
                         (() => $"{Constants.FunctionsSitePrefix}{Guid.NewGuid().ToString().Split('-').First()}"),
-                        "functionapp"));
+                        Constants.FunctionsContainerSiteKind));
                 }
 
                 resourceGroup.Sites = resourceGroup.Sites.Union(await createdSites.WhenAll());
@@ -343,19 +343,42 @@ namespace SimpleWAWS.Code.CsmExtensions
             await resourceGroup.LoadServerFarms(serverFarms: null);
             var serverFarm = new ServerFarm(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName,
                 Constants.DefaultServerFarmName, resourceGroup.GeoRegion);
+            if (resourceGroup.ServerFarms.Count() < 1) {
+                var csmServerFarmResponse =
+                    await
+                        csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.ServerFarmCreate.Bind(serverFarm),
+                            new
+                            {
+                                location = resourceGroup.GeoRegion,
+                                kind = "app",
+                                name = serverFarm.ServerFarmName,
+                                sku= serverFarm.Sku,
+                                properties = new
+                                {
+                                    name = serverFarm.ServerFarmName,
+                                    workerSizeId=0,
+                                    numberOfWorkers= 0,
+                                    geoRegion=resourceGroup.GeoRegion,
+                                    kind="app"
+                                }
+                            });
+                await csmServerFarmResponse.EnsureSuccessStatusCodeWithFullError();
+
+            }
+
             var csmSiteResponse =
                 await
-                    csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.Site.Bind(site),
+                    csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.SiteCreate.Bind(site),
                         new
                         {
                             properties =
                                 new
                                 {
-                                    serverFarm = serverFarm,
-                                    sku = Constants.TryAppServiceTier
+                                    serverFarmId = serverFarm.CsmId
                                 },
                             location = resourceGroup.GeoRegion,
-                            kind = siteKind
+                            kind = "app",
+                            name = site.SiteName
                         });
             await csmSiteResponse.EnsureSuccessStatusCodeWithFullError();
             var csmSite = await csmSiteResponse.Content.ReadAsAsync<CsmWrapper<CsmSite>>();
@@ -400,11 +423,11 @@ namespace SimpleWAWS.Code.CsmExtensions
                             properties =
                                 new
                                 {
-                                    serverFarmId = serverFarm.CsmId,
-                                    sku = Constants.TryAppServiceTier
+                                    serverFarmId = serverFarm.CsmId
                                 },
                             location = resourceGroup.GeoRegion,
-                            kind = siteKind
+                            kind = Constants.FunctionsContainerSiteKind,
+                            name = site.SiteName
                         });
             await csmSiteResponse.EnsureSuccessStatusCodeWithFullError();
             var csmSite = await csmSiteResponse.Content.ReadAsAsync<CsmWrapper<CsmSite>>();

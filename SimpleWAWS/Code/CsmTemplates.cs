@@ -7,7 +7,9 @@ namespace SimpleWAWS.Code
     {
         private const string csmApiVersion = "2014-04-01";
         private const string websitesApiVersion = "2014-06-01";
-        private const string functionsApiVersion = "2015-08-01";
+        private const string websitesCreateApiVersion = "2016-08-01";
+        private const string websitesServerFarmCreateApiVersion = "2016-09-01";
+        private const string functionsApiVersion = "2016-08-01";
         private const string newWebsitesApiVersion = "2015-02-01";
         private const string appServiceApiVersion = "2015-03-01-preview";
         private const string logicAppsApiVersion = "2015-02-01-preview";
@@ -38,6 +40,7 @@ namespace SimpleWAWS.Code
         public static readonly ArmUriTemplate WebsitesRegister = new ArmUriTemplate(Subscription.TemplateUrl + "/providers/Microsoft.Web/register", websitesApiVersion);
         public static readonly ArmUriTemplate Sites = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Web/sites", websitesApiVersion);
         public static readonly ArmUriTemplate Site = new ArmUriTemplate(Sites.TemplateUrl + "/{siteName}", websitesApiVersion);
+        public static readonly ArmUriTemplate SiteCreate = new ArmUriTemplate(Sites.TemplateUrl + "/{siteName}", websitesCreateApiVersion);
         public static readonly ArmUriTemplate FunctionsAppApiVersionTemplate = new ArmUriTemplate(Sites.TemplateUrl + "/{siteName}", functionsApiVersion);
         public static readonly ArmUriTemplate GetSiteAppSettings = new ArmUriTemplate(Site.TemplateUrl + "/config/AppSettings/list", websitesApiVersion);
         public static readonly ArmUriTemplate PutSiteAppSettings = new ArmUriTemplate(Site.TemplateUrl + "/config/AppSettings", websitesApiVersion);
@@ -59,6 +62,7 @@ namespace SimpleWAWS.Code
 
         public static readonly ArmUriTemplate ServerFarms = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Web/serverFarms", websitesApiVersion);
         public static readonly ArmUriTemplate ServerFarm = new ArmUriTemplate(ServerFarms.TemplateUrl + "/{serverFarmName}", websitesApiVersion);
+        public static readonly ArmUriTemplate ServerFarmCreate = new ArmUriTemplate(ServerFarms.TemplateUrl + "/{serverFarmName}", websitesServerFarmCreateApiVersion);
 
         public static readonly ArmUriTemplate GraphTenant = new ArmUriTemplate(GraphRootUrl + "/{tenantId}", graphApiVersion);
         public static readonly ArmUriTemplate GraphUsers = new ArmUriTemplate(GraphTenant.TemplateUrl + "/users", graphApiVersion);
