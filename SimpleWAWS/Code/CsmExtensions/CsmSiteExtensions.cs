@@ -1,4 +1,5 @@
 ﻿using Kudu.Client.Editor;
+using Kudu.Client.Zip;
 using Newtonsoft.Json;
 using SimpleWAWS.Models;
 using SimpleWAWS.Models.CsmModels;
@@ -154,6 +155,14 @@ namespace SimpleWAWS.Code.CsmExtensions
             var response = await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.SitePublishingProfile.Bind(site));
             await response.EnsureSuccessStatusCodeWithFullError();
             return await response.Content.ReadAsStreamAsync();
+        }
+        public static async Task<Stream> GetSiteContent(this Site site)
+        {
+            Validate.ValidateCsmSite(site);
+            var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+            var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
+            return await zipManager.GetZipFileStreamAsync("site/wwwroot");
+
         }
 
         public static async Task Delete(this Site site)

@@ -141,6 +141,25 @@ namespace SimpleWAWS.Controllers
             }
         }
 
+        public async Task<HttpResponseMessage> GetWebAppContent(string siteName)
+        {
+            var resourceManager = await ResourcesManager.GetInstanceAsync();
+            var response = Request.CreateResponse();
+            var resourceGroup = await resourceManager.GetResourceGroupFromSiteName(siteName);
+            var stream = await resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).Select(s => s.GetSiteContent()).FirstOrDefault();
+            if (stream != null)
+            {
+                response.Content = new StreamContent(stream);
+                response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                response.Content.Headers.ContentDisposition =
+                    new ContentDispositionHeaderValue("attachment") { FileName = "wwwroot.zip" };
+                return response;
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, Resources.Server.Error_GettingPublishingProfileStream);
+            }
+        }
         public async Task<HttpResponseMessage> CreateResource(BaseTemplate template)
         {
             if (template == null)

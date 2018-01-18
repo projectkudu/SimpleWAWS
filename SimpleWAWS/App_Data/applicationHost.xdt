@@ -1,21 +1,15 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
-  <system.applicationHost>
-    <sites>
-      <site name="%XDT_SITENAME%" xdt:Locator="Match(name)">
-        <application path="/Dev" xdt:Locator="Match(path)" xdt:Transform="Remove" />
-        <application path="/Dev" xdt:Transform="Insert">
-          <virtualDirectory path="/" physicalPath="D:\Program Files (x86)\SiteExtensions\Monaco\1.0.0-20140820" />
-        </application>
-        <application path="/scm" xdt:Locator="Match(path)" xdt:Transform="Remove" />
-        <application path="/scm" xdt:Transform="Insert">
-          <virtualDirectory path="/" physicalPath="D:\home\site\scmApp" />
-        </application>
-        <application path="/scm/kudu" xdt:Locator="Match(path)" xdt:Transform="Remove" />
-        <application path="/scm/kudu" xdt:Transform="Insert">
-          <virtualDirectory path="/" physicalPath="D:\Program Files (x86)\SiteExtensions\Kudu\28.30721.1045" />
-        </application>
-      </site>
-    </sites>
-  </system.applicationHost>
+  <location path="%XDT_SCMSITENAME%">
+    <system.webServer>
+      <rewrite>
+        <rules xdt:Transform="Replace">
+          <rule name="Root Hit Redirect" stopProcessing="true">
+            <match url="^$" />
+            <action type="Redirect" url="/dev" />
+          </rule>
+        </rules>
+      </rewrite>
+    </system.webServer>
+  </location>
 </configuration>

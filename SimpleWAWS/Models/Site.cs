@@ -84,7 +84,7 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return ScmUrlWithCreds + "dev";
+                return ScmUrlWithCreds + "basicauth";
             }
         }
 
@@ -92,7 +92,7 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return ScmUrlWithCreds + "zip/site/wwwroot";
+                return string.Concat("https://tryappservice.azure.com/api/resource/getwebappcontent/", SiteName);
             }
         }
 

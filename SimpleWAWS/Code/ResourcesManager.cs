@@ -202,9 +202,14 @@ namespace SimpleWAWS.Code
                         var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
                         var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
                         Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.GetFullPath());
+
+                        var vfsSCMManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
+                        Task scmRedirectUpload = vfsSCMManager.Put("site/applicationHost.xdt", Path.Combine(HostingEnvironment.MapPath(@"~/App_Data"), "applicationHost.xdt"));
+
                         var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
                         Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
-                        await Task.WhenAll(zipUpload, deleteHostingStart);
+
+                        await Task.WhenAll(zipUpload, scmRedirectUpload, deleteHostingStart);
                     }
                     else if (template != null && template.GithubRepo != null)
                     {
@@ -484,7 +489,13 @@ namespace SimpleWAWS.Code
             }
             return resourceGroup;
         }
+        public async Task<ResourceGroup> GetResourceGroupFromSiteName(string siteName)
+        {
+            ResourceGroup resourceGroup;
+            resourceGroup = _backgroundQueueManager.LoadedResourceGroups.Where(a => a.Sites.Any(s=> s.SiteName.Equals(siteName,StringComparison.OrdinalIgnoreCase))).First();
 
+            return resourceGroup;
+        }
         // ARM
         public async Task ResetAllFreeResourceGroups()
         {
