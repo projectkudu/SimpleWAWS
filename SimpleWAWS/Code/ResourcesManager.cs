@@ -452,7 +452,8 @@ namespace SimpleWAWS.Code
                     {
                         allowedOrigins = new string[]{ "https://functions.azure.com",
                                     "https://functions-staging.azure.com", "https://functions-next.azure.com" ,
-                                    "https://localhost:44300"
+                                    "https://localhost:44300", "https://tryfunctions.com", "https://www.tryfunctions.com", "https://tryfunctions.azure.com",
+                                     "https://tryfunctions-staging.azure.com", "https://www.tryfunctions-staging.azure.com"
                                                      }
                     }
                 }
