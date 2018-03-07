@@ -8,6 +8,9 @@ namespace SimpleWAWS.Authentication
     {
         public static string GetContentFromUrl(string url)
         {
+            //specify to use TLS 1.2 as default connection
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+
             var request = (HttpWebRequest)WebRequest.Create(url);
             using (var response = request.GetResponse())
             {
@@ -19,6 +22,10 @@ namespace SimpleWAWS.Authentication
         }
         public static string GetContentFromGitHubUrl(string url, string method = "GET", bool jsonAccept = false, bool addGitHubHeaders = false, string AuthorizationHeader = "")
         {
+
+            //specify to use TLS 1.2 as default connection
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = method;
             request.UserAgent = "x-ms-try-appservice";
