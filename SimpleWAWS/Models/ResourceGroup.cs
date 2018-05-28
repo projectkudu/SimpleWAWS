@@ -198,27 +198,31 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                var templateName = Tags.ContainsKey(Constants.TemplateName) ? Tags[Constants.TemplateName] : string.Empty;
-                var userName = Tags.ContainsKey(Constants.UserId) ? Tags[Constants.UserId] : string.Empty;
-                var appService = AppService.Function;
-                var siteToUseForUi = Sites.First(s => s.IsFunctionsContainer);
-
-                return new UIResource
+                if (SubscriptionType == SubscriptionType.AppService)
                 {
-                    SiteName = siteToUseForUi.SiteName,
-                    Url = siteToUseForUi.Url,
-                    IbizaUrl = siteToUseForUi.IbizaUrl,
-                    MonacoUrl = siteToUseForUi.MonacoUrl,
-                    GitUrl = siteToUseForUi.GitUrlWithCreds,
-                    ContentDownloadUrl = siteToUseForUi.ContentDownloadUrl,
-                    IsRbacEnabled = IsRbacEnabled,
-                    AppService = appService,
-                    TemplateName = templateName,
-                    IsExtended = IsExtended,
-                    TimeLeftInSeconds = SubscriptionType == SubscriptionType.MonitoringTools? Int32.Parse(SimpleSettings.MonitoringToolsExpiryMinutes): (int)TimeLeft.TotalSeconds,
-                    CsmId = siteToUseForUi.CsmId,
-                    UserName = userName
-                };
+                    var templateName = Tags.ContainsKey(Constants.TemplateName) ? Tags[Constants.TemplateName] : string.Empty;
+                    var userName = Tags.ContainsKey(Constants.UserId) ? Tags[Constants.UserId] : string.Empty;
+                    var appService = AppService.Function;
+                    var siteToUseForUi = Sites.First(s => s.IsFunctionsContainer);
+
+                    return new UIResource
+                    {
+                        SiteName = siteToUseForUi.SiteName,
+                        Url = siteToUseForUi.Url,
+                        IbizaUrl = siteToUseForUi.IbizaUrl,
+                        MonacoUrl = siteToUseForUi.MonacoUrl,
+                        GitUrl = siteToUseForUi.GitUrlWithCreds,
+                        ContentDownloadUrl = siteToUseForUi.ContentDownloadUrl,
+                        IsRbacEnabled = IsRbacEnabled,
+                        AppService = appService,
+                        TemplateName = templateName,
+                        IsExtended = IsExtended,
+                        TimeLeftInSeconds = SubscriptionType == SubscriptionType.MonitoringTools ? Int32.Parse(SimpleSettings.MonitoringToolsExpiryMinutes) : (int)TimeLeft.TotalSeconds,
+                        CsmId = siteToUseForUi.CsmId,
+                        UserName = userName
+                    };
+                }
+                else return null;
             }
         }
 

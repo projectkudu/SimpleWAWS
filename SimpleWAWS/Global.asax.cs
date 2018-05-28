@@ -15,15 +15,20 @@ using System.Net;
 using System.Linq;
 using System.Web.Http.ExceptionHandling;
 using Microsoft.ApplicationInsights.Extensibility;
+using System.Collections.Generic;
+using System.Web.Hosting;
 
 namespace SimpleWAWS
 {
     public class SimpleWawsService : System.Web.HttpApplication
     {
+        public static List<string> Animals = new List<string>();
+        public static List<string> Adjectives = new List<string>();
         protected void Application_Start()
         {
             //Init logger
             InitAppInsights();
+            InitSiteNames();
             System.Net.ServicePointManager.DefaultConnectionLimit = 12 * SimpleSettings.NUMBER_OF_PROCESSORS;
             var config = GlobalConfiguration.Configuration;
             config.Services.Add(typeof(IExceptionLogger), new TelemetryExceptionLogger());
@@ -115,6 +120,12 @@ namespace SimpleWAWS
             //Register auth provider
             SecurityManager.InitAuthProviders();
             ResourcesManager.GetInstanceAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        private void InitSiteNames()
+        {
+            Animals= File.ReadAllLines(HostingEnvironment.MapPath(@"~/SiteNames/animals.txt")).ToList();
+            Adjectives = File.ReadAllLines(HostingEnvironment.MapPath(@"~/SiteNames/adjectives.txt")).ToList();
         }
 
         private void InitAppInsights()

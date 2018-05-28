@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
   <location path="%XDT_SCMSITENAME%">
-    <system.webServer>
-      <rewrite>
-        <rules xdt:Transform="Replace">
-          <rule name="Root Hit Redirect" stopProcessing="true">
-            <match url="^$" />
-            <action type="Redirect" url="/dev" />
-          </rule>
-        </rules>
-      </rewrite>
-    </system.webServer>
-  </location>
+  <system.webServer>
+    <rewrite>
+      <rules xdt:Transform="Replace">
+        <rule name="Root Hit Redirect" stopProcessing="true">
+          <match url="^$" />
+          <action type="Redirect" url="/dev" />
+        </rule>
+      </rules>
+    </rewrite>
+  </system.webServer>
+</location>
 </configuration>

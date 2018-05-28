@@ -253,7 +253,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
                 if (!resourceGroup.Sites.Any(s => s.IsSimpleWAWSOriginalSite))
                 {
-                    resourceGroup.Sites = new List<Site> { (await CreateLinuxSite(resourceGroup, SiteNameGenerator.GenerateName)) };
+                    resourceGroup.Sites = new List<Site> { (await CreateLinuxSite(resourceGroup, SiteNameGenerator.GenerateLinuxSiteName)) };
                 }
 
             }

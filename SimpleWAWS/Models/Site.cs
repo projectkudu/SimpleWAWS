@@ -100,7 +100,7 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return string.Concat("https://portal.azure.com/", TenantName, "#resource", CsmId);
+                return string.Concat("https://portal.azure.com/#@", TenantName, "/resource", CsmId, "/appServices");
             }
         }
 
@@ -112,8 +112,7 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return !string.IsNullOrEmpty(SiteName) &&
-                       Regex.IsMatch(SiteName, "^[A-F0-9]{8}-0ee0-4-231-b9ee$", RegexOptions.IgnoreCase);
+                return !string.IsNullOrEmpty(SiteName) && !SiteName.StartsWith(Constants.FunctionsSitePrefix); //&&Regex.IsMatch(SiteName, "^[A-F0-9]{8}-0ee0-4-231-b9ee$", RegexOptions.IgnoreCase);
             }
         }
         public string Kind { get; set; }
