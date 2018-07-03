@@ -387,6 +387,10 @@ namespace SimpleWAWS.Code
                 {
                     await site.UpdateConfig(new { properties = new { linuxFxVersion = "NODE|6.10", appCommandLine = "process.json" } });
                 }
+                if (template.Name.Equals(Constants.NodeJSVSCodeWebAppLinuxTemplateName, StringComparison.OrdinalIgnoreCase))
+                {
+                    await site.UpdateConfig(new { properties = new { linuxFxVersion = "NODE|6.10", appCommandLine = "process.json" } });
+                }
                 Util.FireAndForget($"{resourceGroup.Sites.FirstOrDefault().HostName}");
                 Util.FireAndForget($"{resourceGroup.Sites.FirstOrDefault().ScmHostName}");
 
