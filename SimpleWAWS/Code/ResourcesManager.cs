@@ -394,7 +394,7 @@ namespace SimpleWAWS.Code
 
                 if (template.Name.Equals(Constants.PHPWebAppLinuxTemplateName, StringComparison.OrdinalIgnoreCase))
                 {
-                    await site.UpdateConfig(new { properties = new { linuxFxVersion = "7.0.6"} });
+                    await site.UpdateConfig(new { properties = new { linuxFxVersion = "PHP|7.2"} });
                 }
 
                 Util.FireAndForget($"{resourceGroup.Sites.FirstOrDefault().HostName}");
