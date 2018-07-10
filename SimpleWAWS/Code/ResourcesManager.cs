@@ -371,26 +371,32 @@ namespace SimpleWAWS.Code
                 {
                     try
                     {
-                        var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-                        var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
-                        Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.MSDeployPackageUrl);
-                        var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
-                        Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
-                        await Task.WhenAll(zipUpload, deleteHostingStart);
+                        if (template.Name != Constants.NodeJSVSCodeWebAppLinuxTemplateName)
+                        {
+                            var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+                            var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
+                            Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.MSDeployPackageUrl);
+                            var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
+                            Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
+                            await Task.WhenAll(zipUpload, deleteHostingStart);
+                        }
+                        else //for VSCode NodeJS templates all the code is pre-deployed
+                        {
+                            site.AppSettings["SITE_EXPIRY_UTC"] = DateTime.UtcNow.AddMinutes(Double.Parse(SimpleSettings.LinuxExpiryMinutes)).ToString(CultureInfo.InvariantCulture);
+                            await Task.WhenAll(site.UpdateAppSettings());
+                        }
                     }
                     catch (Exception ex)
                     {
                         SimpleTrace.TraceError(ex.Message + ex.StackTrace);
                     }
                 }
-                if (template.Name.Equals(Constants.NodeJSWebAppLinuxTemplateName, StringComparison.OrdinalIgnoreCase))
+
+                if (template.Name.Equals(Constants.PHPWebAppLinuxTemplateName, StringComparison.OrdinalIgnoreCase))
                 {
-                    await site.UpdateConfig(new { properties = new { linuxFxVersion = "NODE|6.10", appCommandLine = "process.json" } });
+                    await site.UpdateConfig(new { properties = new { linuxFxVersion = "7.0.6"} });
                 }
-                if (template.Name.Equals(Constants.NodeJSVSCodeWebAppLinuxTemplateName, StringComparison.OrdinalIgnoreCase))
-                {
-                    await site.UpdateConfig(new { properties = new { linuxFxVersion = "NODE|6.10", appCommandLine = "process.json" } });
-                }
+
                 Util.FireAndForget($"{resourceGroup.Sites.FirstOrDefault().HostName}");
                 Util.FireAndForget($"{resourceGroup.Sites.FirstOrDefault().ScmHostName}");
 

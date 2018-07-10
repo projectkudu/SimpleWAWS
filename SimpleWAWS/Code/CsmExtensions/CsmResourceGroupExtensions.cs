@@ -12,6 +12,9 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.ApplicationInsights;
+using Kudu.Client.Zip;
+using Kudu.Client.Editor;
+using System.Web.Hosting;
 
 namespace SimpleWAWS.Code.CsmExtensions
 {
@@ -390,7 +393,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, nameGenerator(), siteKind);
             var csmTemplateString = string.Empty;
-            var template = TemplatesManager.GetTemplates().FirstOrDefault(t => t.Name == Constants.PHPWebAppLinuxTemplateName) as LinuxTemplate;
+            var template = TemplatesManager.GetTemplates().FirstOrDefault(t => t.Name == Constants.NodeJSWebAppLinuxTemplateName) as LinuxTemplate;
 
             using (var reader = new StreamReader(template.CsmTemplateFilePath))
             {
@@ -406,7 +409,25 @@ namespace SimpleWAWS.Code.CsmExtensions
             await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true, subscriptionType: resourceGroup.SubscriptionType);
             resourceGroup.Tags.Add(Constants.LinuxAppDeployed, "1");
             await resourceGroup.Update();
-            return await Load(site, null);
+            await Load(site, null);
+            
+            await site.UpdateConfig(new
+            {
+                properties =
+                new
+                {
+                    linuxFxVersion = "NODE|10.1",
+                    appCommandLine = "process.json"
+                }
+            });
+            var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+            var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
+            //Pre-deploy VSCode Node site
+            Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", HostingEnvironment.MapPath("~/App_Data/LinuxTemplates/Node.jsVSCodeLinuxApp.zip"));
+            var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
+            Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
+
+            return site;
         }
 
         private static async Task<Site> CreateFunctionApp(ResourceGroup resourceGroup, Func<string> nameGenerator, string siteKind = null)

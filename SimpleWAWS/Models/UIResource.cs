@@ -20,6 +20,9 @@ namespace SimpleWAWS.Models
         [JsonProperty(PropertyName = "gitUrl", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string GitUrl { get; set; }
 
+        [JsonProperty(PropertyName = "bashGitUrl", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string BashGitUrl { get; set; }
+
         [JsonProperty(PropertyName = "timeLeft", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int TimeLeftInSeconds { get; set; }
 

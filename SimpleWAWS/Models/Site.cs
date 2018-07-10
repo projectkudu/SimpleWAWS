@@ -63,6 +63,13 @@ namespace SimpleWAWS.Models
                 return String.Format(CultureInfo.InvariantCulture, "https://{0}:{1}@{2}/", PublishingUserName, PublishingPassword, ScmHostName);
             }
         }
+        public string BashScmUrlWithCreds
+        {
+            get
+            {
+                return String.Format(CultureInfo.InvariantCulture, @"https://\{0}:{1}@{2}/", PublishingUserName, PublishingPassword, ScmHostName);
+            }
+        }
 
         public string KuduConsoleWithCreds
         {
@@ -77,6 +84,14 @@ namespace SimpleWAWS.Models
             get
             {
                 return ScmUrlWithCreds + SiteName + ".git";
+            }
+        }
+
+        public string BashGitUrlWithCreds
+        {
+            get
+            {
+                return BashScmUrlWithCreds + SiteName + ".git";
             }
         }
 

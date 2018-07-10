@@ -85,12 +85,20 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             await Task.WhenAll(LoadAppSettings(site), LoadPublishingCredentials(site), UpdateScmConfig(site));
 
-            site.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = SimpleSettings.SiteExpiryMinutes;
             if (!site.IsSimpleWAWSOriginalSite)
             {
                 site.AppSettings["FUNCTIONS_EXTENSION_VERSION"] = SimpleSettings.FunctionsExtensionVersion;
             }
-            site.AppSettings["WEBSITE_NODE_DEFAULT_VERSION"] = SimpleSettings.WebsiteNodeDefautlVersion;
+            if (site.SubscriptionType != SubscriptionType.Linux)
+            {
+                site.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = SimpleSettings.SiteExpiryMinutes;
+                site.AppSettings["WEBSITE_NODE_DEFAULT_VERSION"] = SimpleSettings.WebsiteNodeDefautlVersion;
+            }
+            else if (site.SubscriptionType == SubscriptionType.Linux)
+            {
+                site.AppSettings["SITE_GIT_URL"] = site.GitUrlWithCreds;
+                site.AppSettings["SITE_BASH_GIT_URL"] = site.BashGitUrlWithCreds ;
+            }
             site.AppSettings["WEBSITE_TRY_MODE"] = "1";
             await site.UpdateAppSettings();
             return site;

@@ -182,6 +182,7 @@ namespace SimpleWAWS.Models
                     MonacoUrl = siteToUseForUi.MonacoUrl,
                     ContentDownloadUrl = siteToUseForUi.ContentDownloadUrl,
                     GitUrl = siteToUseForUi.GitUrlWithCreds,
+                    BashGitUrl = siteToUseForUi.BashGitUrlWithCreds,
                     IsRbacEnabled = IsRbacEnabled,
                     AppService = AppService,
                     TemplateName = templateName,
