@@ -420,13 +420,6 @@ namespace SimpleWAWS.Code.CsmExtensions
                     appCommandLine = "process.json"
                 }
             });
-            var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-            var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
-            //Pre-deploy VSCode Node site
-            Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", HostingEnvironment.MapPath("~/App_Data/LinuxTemplates/Node.jsVSCodeLinuxApp.zip"));
-            var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
-            Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
-
             return site;
         }
 

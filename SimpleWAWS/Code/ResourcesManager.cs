@@ -371,20 +371,13 @@ namespace SimpleWAWS.Code
                 {
                     try
                     {
-                        if (template.Name != Constants.NodeJSVSCodeWebAppLinuxTemplateName)
-                        {
-                            var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-                            var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
-                            Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.MSDeployPackageUrl);
-                            var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
-                            Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
-                            await Task.WhenAll(zipUpload, deleteHostingStart);
-                        }
-                        else //for VSCode NodeJS templates all the code is pre-deployed
-                        {
-                            site.AppSettings["SITE_EXPIRY_UTC"] = DateTime.UtcNow.AddMinutes(Double.Parse(SimpleSettings.LinuxExpiryMinutes)).ToString(CultureInfo.InvariantCulture);
-                            await Task.WhenAll(site.UpdateAppSettings());
-                        }
+                        var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+                        var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
+                        Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.MSDeployPackageUrl);
+                        var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
+                        Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
+                        site.AppSettings["SITE_EXPIRY_UTC"] = DateTime.UtcNow.AddMinutes(Double.Parse(SimpleSettings.LinuxExpiryMinutes)).ToString(CultureInfo.InvariantCulture);
+                        await Task.WhenAll(zipUpload, deleteHostingStart, site.UpdateAppSettings());
                     }
                     catch (Exception ex)
                     {
