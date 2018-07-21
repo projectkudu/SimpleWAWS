@@ -219,14 +219,6 @@ namespace SimpleWAWS.Controllers
                     case AppService.Web:
                         if (template.IsLinux)
                         {
-                            if (identity.Issuer == "OrgId")
-                            {
-                                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_OrgIdNotSupported);
-                            }
-                            else if (identity.Issuer != "MSA")
-                            {
-                                return SecurityManager.RedirectToAAD(template.CreateQueryString());
-                            }
                             resourceGroup = await resourceManager.ActivateLinuxResource(template as LinuxTemplate, identity, anonymousUserName);
                         }
                         else
