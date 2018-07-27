@@ -116,6 +116,14 @@ namespace SimpleWAWS.Models
                         MSDeployPackageUrl = HostingEnvironment.MapPath("~/App_Data/LinuxTemplates/Node.jsVSCodeLinuxApp.zip"),
                         CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/VSCodeLinuxResource.json")
                     });
+                    list.Add(new LinuxTemplate
+                    {
+                        Name = Constants.ReactVSCodeWebAppLinuxTemplateName,
+                        SpriteName = "sprite-LinuxNodeJSExpress LinuxWebApp",
+                        AppService = AppService.Web,
+                        MSDeployPackageUrl = HostingEnvironment.MapPath("~/App_Data/LinuxTemplates/ReactVSCodeWebApp.zip"),
+                        CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/VSCodeLinuxResource.json")
+                    });
                 }
                 //Use JObject.Parse to quickly build up the armtemplate object used for LRS
                 _baseARMTemplate = JObject.Parse( File.ReadAllText(HostingEnvironment.MapPath("~/ARMTemplates/BaseARMTemplate.json")));

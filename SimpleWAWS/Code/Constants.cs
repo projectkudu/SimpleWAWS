@@ -35,6 +35,7 @@
         public const string PHPWebAppLinuxTemplateName = "PHP Web App on Linux";
         public const string NodeJSWebAppLinuxTemplateName = "Node.js Web App on Linux";
         public const string NodeJSVSCodeWebAppLinuxTemplateName = "Node.js VSCode Web App on Linux";
+        public const string ReactVSCodeWebAppLinuxTemplateName = "React VSCode Web App on Linux";
         public const string DefaultContainerName = "DockerContainer";
     }
 }
