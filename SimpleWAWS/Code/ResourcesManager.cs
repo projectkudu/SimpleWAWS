@@ -372,7 +372,7 @@ namespace SimpleWAWS.Code
                     try
                     {
                         var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-                        var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3,delay: 100);
+                        var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
                         Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.MSDeployPackageUrl);
                         var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount:3);
                         Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
