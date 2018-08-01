@@ -261,6 +261,7 @@
   <ItemGroup>
     <Compile Include="Authentication\GitHubAuthProvider.cs" />
     <Compile Include="Code\AppInsights.cs" />
+    <Compile Include="Kudu\LinuxSiteManager.cs" />
     <Compile Include="Models\ApiApp.cs" />
     <Compile Include="Models\ApiTemplate.cs" />
     <Compile Include="Models\AppService.cs" />

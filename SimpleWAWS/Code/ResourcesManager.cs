@@ -375,20 +375,30 @@ namespace SimpleWAWS.Code
                         var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
                         Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.MSDeployPackageUrl);
                         var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount:3);
-                        //Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
+                        Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
                         site.AppSettings["SITE_EXPIRY_UTC"] = DateTime.UtcNow.AddMinutes(Double.Parse(SimpleSettings.LinuxExpiryMinutes)).ToString(CultureInfo.InvariantCulture);
 
                         await Task.WhenAll(zipUpload);
-                        await Task.WhenAll(site.UpdateAppSettings(), site.UpdateConfig(new
+                        await Task.WhenAll(site.UpdateAppSettings(), site.UpdateConfig( 
+                            new {
+                                    properties =
+                                    new
+                                    {
+                                        appCommandLine = "process.json"
+                                    }
+                                }));
+                        await Task.Delay(10 * 1000);
+                        var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount:2);
+                        Task checkSite = lsm.CheckSiteDeploymentStatusAsync(site.Url);
+                        try
                         {
-                            properties =
-                            new
-                            {
-                                appCommandLine = "process.json"
-                            }
-                        }));
+                            await checkSite;
+                        }
+                        catch(Exception ex)
+                        {
+                            SimpleTrace.TraceError("New Site wasnt deployed" + ex.Message + ex.StackTrace);
+                        }
 
-                        //await Task.Delay(10 * 1000);
                     }
                     catch (Exception ex)
                     {

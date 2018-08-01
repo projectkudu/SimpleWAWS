@@ -134,5 +134,17 @@ namespace SimpleWAWS
             }
             return response;
         }
+        public async static Task<HttpResponseMessage> EnsureSuccessStatusCodeAndNewSiteContentWithFullError(this HttpResponseMessage response)
+        {
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new FailedRequestException(response.RequestMessage.RequestUri, content, response.StatusCode, "Response status code does not indicate success");
+            }
+            if (!content.Contains("Hosted at"))
+                throw new FailedRequestException(response.RequestMessage.RequestUri, content, response.StatusCode, "Site still not deployed");
+
+            return response;
+        }
     }
 }
