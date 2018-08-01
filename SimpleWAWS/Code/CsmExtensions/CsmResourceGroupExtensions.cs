@@ -416,8 +416,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 properties =
                 new
                 {
-                    linuxFxVersion = "NODE|10.1",
-                    appCommandLine = "process.json"
+                    linuxFxVersion = "NODE|10.1"
                 }
             });
             return site;

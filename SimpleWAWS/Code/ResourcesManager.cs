@@ -375,11 +375,20 @@ namespace SimpleWAWS.Code
                         var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
                         Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.MSDeployPackageUrl);
                         var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount:3);
-                        Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
+                        //Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
                         site.AppSettings["SITE_EXPIRY_UTC"] = DateTime.UtcNow.AddMinutes(Double.Parse(SimpleSettings.LinuxExpiryMinutes)).ToString(CultureInfo.InvariantCulture);
-                        await (site.UpdateAppSettings());
 
-                        await Task.WhenAll(zipUpload, deleteHostingStart);
+                        await Task.WhenAll(zipUpload);
+                        await Task.WhenAll(site.UpdateAppSettings(), site.UpdateConfig(new
+                        {
+                            properties =
+                            new
+                            {
+                                appCommandLine = "process.json"
+                            }
+                        }));
+
+                        //await Task.Delay(10 * 1000);
                     }
                     catch (Exception ex)
                     {

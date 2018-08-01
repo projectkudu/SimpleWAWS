@@ -48,8 +48,7 @@
             "siteConfig": {
               "properties": {
                 "numberOfWorkers": "1",
-                "linuxFxVersion": "NODE|10.1",
-                "appCommandLine": "process.json"
+                "linuxFxVersion": "NODE|10.1"
               }
             },
             "maxNumberOfWorkers": "0",

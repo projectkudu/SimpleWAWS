@@ -16,7 +16,7 @@ namespace SimpleWAWS.Console
         {
             System.Net.ServicePointManager.DefaultConnectionLimit = 12 * SimpleSettings.NUMBER_OF_PROCESSORS;
             var log = new LoggerConfiguration()
-                .WriteTo.Console()
+                .WriteTo.ColoredConsole()
                 .CreateLogger();
             SimpleTrace.Diagnostics = log;
             SimpleTrace.Analytics = log;
