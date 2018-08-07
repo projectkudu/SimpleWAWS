@@ -20,6 +20,7 @@ namespace SimpleWAWS.Authentication
         public static string AADIssuerKeys { get { return config(); } }
         public static string GoogleIssuerCerts { get { return config(); } }
         public static string AdminUserId { get { return config(); } }
+        public static string AdminUserKeys { get { return config(); } }
         public static string VkClientSecret { get { return config(); } }
         public static string VkClientId { get { return config(); } }
         public static string GitHubClientSecret { get { return config(); } }
