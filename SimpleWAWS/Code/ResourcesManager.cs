@@ -123,7 +123,7 @@ namespace SimpleWAWS.Code
                     //var rbacTask = Task.FromResult(false); //RbacHelper.AddRbacUser(userIdentity.Puid, userIdentity.Email, resourceGroup);
                     var process = new InProgressOperation(resourceGroup, deploymentType);
                     _backgroundQueueManager.ResourceGroupsInProgress.AddOrUpdate(userId, s => process, (s, task) => process);
-                    SimpleTrace.Diagnostics.Information("resourceGroup {resourceGroupId} is now in use", resourceGroup.CsmId);
+                    SimpleTrace.Diagnostics.Information("site {siteId} is now in use", String.Concat( resourceGroup.CsmId, "/" ,resourceGroup.Sites.FirstOrDefault(s => s.IsSimpleWAWSOriginalSite).SiteName));
 
                     resourceGroup = await func(resourceGroup, process);
 
