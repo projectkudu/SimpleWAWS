@@ -77,7 +77,7 @@ namespace SimpleWAWS.Models
             FireAndForget(site.HostName);
             FireAndForget(site.ScmHostName);
         }
-        public static async Task DeployLinuxTemplateToSite(LinuxTemplate template, Site site)
+        public static async Task DeployLinuxTemplateToSite(BaseTemplate template, Site site)
         {
             if (template?.MSDeployPackageUrl != null)
             {
@@ -106,6 +106,7 @@ namespace SimpleWAWS.Models
                         await site.UpdateConfig(
                             new {
                                 properties = new {
+                                    linuxFxVersion = "NODE|9.4",
                                     appCommandLine = "process.json",
                                     alwaysOn = true
                                 }
@@ -153,7 +154,7 @@ namespace SimpleWAWS.Models
                     }
                 });
         }
-        public static async Task DeployVSCodeLinuxTemplateToSite(VSCodeLinuxTemplate template, Site site, bool addTimeStampFile = false)
+        public static async Task DeployVSCodeLinuxTemplateToSite(BaseTemplate template, Site site, bool addTimeStampFile = false)
         {
             if (template?.MSDeployPackageUrl != null)
             {

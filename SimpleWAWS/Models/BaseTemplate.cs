@@ -20,6 +20,13 @@ namespace SimpleWAWS.Models
 
         [JsonProperty(PropertyName = "githubRepo")]
         public string GithubRepo { get; set; }
+        [JsonProperty(PropertyName = "fileName")]
+        public string FileName { get; set; }
+
+        [JsonProperty(PropertyName = "language")]
+        public string Language { get; set; }
+
+        public string CsmTemplateFilePath { get; set; }
 
         public string CreateQueryString()
         {
@@ -31,6 +38,6 @@ namespace SimpleWAWS.Models
         [JsonProperty(PropertyName = "isLinux")]
         public bool IsLinux { get { return Name.EndsWith("Web App on Linux"); } }
 
+        }
 
     }
-}

@@ -171,34 +171,32 @@ namespace SimpleWAWS.Controllers
         }
         public async Task<HttpResponseMessage> CreateResource(BaseTemplate template)
         {
+            var tempTemplate = WebsiteTemplate.EmptySiteTemplate;
+
             if (template == null)
             {
                 template = WebsiteTemplate.EmptySiteTemplate;
             }
             else if (template.AppService.Equals(AppService.Function))
             {
-                template = FunctionTemplate.DefaultFunctionTemplate(template.Name);
-            }
-            else if (template.AppService.Equals(AppService.Web) && template.IsLinux)
-            {
-                template = LinuxTemplate.GetLinuxTemplate(template.Name);
+                tempTemplate = FunctionTemplate.DefaultFunctionTemplate(template.Name);
             }
             else if (template.AppService.Equals(AppService.Containers))
             {
                 var containersTemplate = ContainersTemplate.GetContainersTemplate(template.Name);
                 containersTemplate.DockerContainer = template.DockerContainer;
-                template = containersTemplate;
+                tempTemplate = containersTemplate;
             }
             else if (template.Name != null && !template.Name.Equals("Github Repo") && !template.AppService.Equals(AppService.Function))
             {
-                template = TemplatesManager.GetTemplates()
-                    .FirstOrDefault(t => t.Name == template.Name && t.AppService == template.AppService);
+                var temp = TemplatesManager.GetTemplates()
+                    .FirstOrDefault(t => t.Name == template.Name);
 
-                template = template ?? WebsiteTemplate.EmptySiteTemplate;
+                tempTemplate = WebsiteTemplate.DefaultTemplate(temp.Name,temp.AppService,temp.Language,temp.FileName,template.DockerContainer,temp.MSDeployPackageUrl);
             }
             else if (template.Name != null && template.Name.Equals("Github Repo"))
             {
-                template = new WebsiteTemplate
+                tempTemplate = new WebsiteTemplate
                 {
                     AppService = AppService.Web,
                     GithubRepo = template.GithubRepo,
@@ -223,19 +221,19 @@ namespace SimpleWAWS.Controllers
 
                 ResourceGroup resourceGroup = null;
 
-                switch (template.AppService)
+                switch (tempTemplate.AppService)
                 {
                     case AppService.Linux:
-                            resourceGroup = await resourceManager.ActivateLinuxResource(template as LinuxTemplate, identity, anonymousUserName);
+                            resourceGroup = await resourceManager.ActivateLinuxResource(tempTemplate , identity, anonymousUserName);
                         break;
                     case AppService.VSCodeLinux:
-                        resourceGroup = await resourceManager.ActivateVSCodeLinuxResource(template as VSCodeLinuxTemplate, identity, anonymousUserName);
+                        resourceGroup = await resourceManager.ActivateVSCodeLinuxResource(tempTemplate , identity, anonymousUserName);
                         break;
                     case AppService.Web:
-                            resourceGroup = await resourceManager.ActivateWebApp(template as WebsiteTemplate, identity, anonymousUserName);
+                            resourceGroup = await resourceManager.ActivateWebApp(tempTemplate , identity, anonymousUserName);
                         break;
                     case AppService.Api:
-                        resourceGroup = await resourceManager.ActivateApiApp(template as WebsiteTemplate, identity, anonymousUserName);
+                        resourceGroup = await resourceManager.ActivateApiApp(tempTemplate, identity, anonymousUserName);
                         break;
                     case AppService.Logic:
                         if (identity.Issuer == "OrgId")
@@ -244,12 +242,12 @@ namespace SimpleWAWS.Controllers
                         }
                         else if (identity.Issuer != "MSA")
                         {
-                            return SecurityManager.RedirectToAAD(template.CreateQueryString());
+                            return SecurityManager.RedirectToAAD(tempTemplate.CreateQueryString());
                         }
-                        resourceGroup = await resourceManager.ActivateLogicApp(template as LogicTemplate, identity, anonymousUserName);
+                        resourceGroup = await resourceManager.ActivateLogicApp(tempTemplate, identity, anonymousUserName);
                         break;
                     case AppService.Function:
-                        resourceGroup = await resourceManager.ActivateFunctionApp(template as FunctionTemplate, identity, anonymousUserName);
+                        resourceGroup = await resourceManager.ActivateFunctionApp(tempTemplate, identity, anonymousUserName);
                         break;
                     case AppService.Containers:
                         if (identity.Issuer == "OrgId")
@@ -260,7 +258,7 @@ namespace SimpleWAWS.Controllers
                         {
                             return SecurityManager.RedirectToAAD(template.CreateQueryString());
                         }
-                        resourceGroup = await resourceManager.ActivateContainersResource(template as ContainersTemplate, identity, anonymousUserName);
+                        resourceGroup = await resourceManager.ActivateContainersResource(tempTemplate as ContainersTemplate, identity, anonymousUserName);
                         break;
                     case AppService.MonitoringTools:
                         if (identity.Issuer == "OrgId")
@@ -271,7 +269,7 @@ namespace SimpleWAWS.Controllers
                         {
                             return SecurityManager.RedirectToAAD(template.CreateQueryString());
                         }
-                        resourceGroup = await resourceManager.ActivateMonitoringToolsApp(template as MonitoringToolsTemplate, identity, anonymousUserName);
+                        resourceGroup = await resourceManager.ActivateMonitoringToolsApp(tempTemplate as MonitoringToolsTemplate, identity, anonymousUserName);
                         break;
                 }
                 return Request.CreateResponse(HttpStatusCode.OK, resourceGroup == null ? null : GetUIResource(resourceGroup) );

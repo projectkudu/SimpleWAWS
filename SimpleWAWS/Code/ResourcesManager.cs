@@ -189,7 +189,7 @@ namespace SimpleWAWS.Code
         }
 
         // ARM
-        public async Task<ResourceGroup> ActivateWebApp(WebsiteTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName, AppService temp = AppService.Web)
+        public async Task<ResourceGroup> ActivateWebApp(BaseTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName, AppService temp = AppService.Web)
         {
             // Start site specific stuff
             var deploymentType = template != null && template.GithubRepo != null
@@ -197,7 +197,7 @@ namespace SimpleWAWS.Code
                 : DeploymentType.ZipDeploy;
             return await ActivateResourceGroup(userIdentity, temp, deploymentType, async (resourceGroup, inProgressOperation) =>                {
                     SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; ",
-                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, template.Language, template.Name, resourceGroup.ResourceUniqueId, temp.ToString());
+                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, "NA", template.Name, resourceGroup.ResourceUniqueId, temp.ToString());
 
                     var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
                     var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email);
@@ -305,13 +305,13 @@ namespace SimpleWAWS.Code
         }
 
         // ARM
-        public async Task<ResourceGroup> ActivateApiApp(WebsiteTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
+        public async Task<ResourceGroup> ActivateApiApp(BaseTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
             return await ActivateWebApp(template, userIdentity, anonymousUserName, AppService.Api);
         }
 
         // ARM
-        public async Task<ResourceGroup> ActivateLogicApp(LogicTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
+        public async Task<ResourceGroup> ActivateLogicApp(BaseTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
             return await ActivateResourceGroup(userIdentity, AppService.Logic, DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
             {
@@ -345,7 +345,7 @@ namespace SimpleWAWS.Code
                 return resourceGroup;
             });
         }
-        public async Task<ResourceGroup> ActivateMonitoringToolsApp(MonitoringToolsTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
+        public async Task<ResourceGroup> ActivateMonitoringToolsApp(BaseTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
             return await ActivateResourceGroup(userIdentity, AppService.MonitoringTools, DeploymentType.RbacOnly, async (resourceGroup, inProgressOperation) =>
             {
@@ -359,7 +359,7 @@ namespace SimpleWAWS.Code
                 return resourceGroup;
             });
         }
-        public async Task<ResourceGroup> ActivateLinuxResource(LinuxTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
+        public async Task<ResourceGroup> ActivateLinuxResource(BaseTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
             return await ActivateResourceGroup(userIdentity, AppService.Linux, DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
             {
@@ -377,7 +377,7 @@ namespace SimpleWAWS.Code
                 return resourceGroup;
             });
         }
-        public async Task<ResourceGroup> ActivateVSCodeLinuxResource(VSCodeLinuxTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
+        public async Task<ResourceGroup> ActivateVSCodeLinuxResource(BaseTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
             return await ActivateResourceGroup(userIdentity, AppService.VSCodeLinux, DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
             {
@@ -433,7 +433,7 @@ namespace SimpleWAWS.Code
         }
 
         // ARM
-        public async Task<ResourceGroup> ActivateFunctionApp(FunctionTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
+        public async Task<ResourceGroup> ActivateFunctionApp(BaseTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
             return await ActivateResourceGroup(userIdentity, AppService.Function, DeploymentType.FunctionDeploy, async (resourceGroup, inProgressOperation) =>
             {

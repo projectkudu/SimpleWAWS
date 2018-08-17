@@ -4,15 +4,22 @@ namespace SimpleWAWS.Models
 {
     public class WebsiteTemplate : BaseTemplate
     {
-        [JsonProperty(PropertyName="fileName")]
-        public string FileName { get; set; }
-
-        [JsonProperty(PropertyName="language")]
-        public string Language { get; set; }
-
-        public static WebsiteTemplate EmptySiteTemplate
+        public static BaseTemplate EmptySiteTemplate
         {
-            get { return new WebsiteTemplate() { Name = "Empty Site", Language = "Default", SpriteName = "sprite-Large" }; }
+            get { return new BaseTemplate() { Name = "Empty Site", Language = "Default", SpriteName = "sprite-Large" }; }
+        }
+        public static BaseTemplate DefaultTemplate(string templateName, AppService appService, string language,
+    string filename, string dockerContainer, string msdeployPackageUrl)
+        {
+            return new BaseTemplate()
+            {
+                Name = templateName,
+                AppService = appService,
+                Language = language,
+                FileName = filename,
+                DockerContainer = dockerContainer,
+                MSDeployPackageUrl = msdeployPackageUrl
+            };
         }
     }
 }

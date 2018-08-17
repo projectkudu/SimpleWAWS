@@ -202,7 +202,7 @@ namespace SimpleWAWS.Models
     }
     public static class TemplatesExtensions
     {
-        public static string GetFullPath(this WebsiteTemplate value)
+        public static string GetFullPath(this BaseTemplate value)
         {
             var language = value.Language ?? ((value.AppService == AppService.Api) ? "Api" : "Mobile");
             return Path.Combine(TemplatesManager.TemplatesFolder, language, value.FileName);
