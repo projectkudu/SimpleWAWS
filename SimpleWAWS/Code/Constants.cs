@@ -30,12 +30,15 @@
         public const string DefaultServerFarmName = "Default1";
         public const string SubscriptionType = "SubscriptionType";
         public const string LinuxAppDeployed = "LinuxAppDeployed";
+        public const string VSCodeLinuxAppDeployed = "VSCodeLinuxAppDeployed";
         public const string NextSlotName = "next";
         public const string NextHostName = "trywebsites-next.azurewebsites.net";
         public const string PHPWebAppLinuxTemplateName = "PHP Web App on Linux";
-        public const string NodeJSWebAppLinuxTemplateName = "Node.js Web App on Linux";
-        public const string NodeJSVSCodeWebAppLinuxTemplateName = "Node.js VSCode Web App on Linux";
+        public const string NodejsWebAppLinuxTemplateName = "Node.js Web App on Linux";
+        public const string NodejsVSCodeWebAppLinuxTemplateName = "Node.js VSCode Web App on Linux";
         public const string ReactVSCodeWebAppLinuxTemplateName = "React VSCode Web App on Linux";
+        public const string VuejsVSCodeWebAppLinuxTemplateName = "Vue.js VSCode Web App on Linux";
+        public const string AngularVSCodeWebAppLinuxTemplateName = "Angular VSCode Web App on Linux";
         public const string DefaultContainerName = "DockerContainer";
     }
 }

@@ -8,7 +8,7 @@ namespace SimpleWAWS.Models
         public string CsmTemplateFilePath { get; set; }
         public static LinuxTemplate GetLinuxTemplate(string templateName)
         {
-            return (LinuxTemplate)TemplatesManager.GetTemplates()?.FirstOrDefault(t => (t.AppService == AppService.Web && t.Name == templateName) );
+            return (LinuxTemplate)TemplatesManager.GetTemplates()?.FirstOrDefault(t => (t.AppService == AppService.Linux && t.Name == templateName) );
         }
 
     }

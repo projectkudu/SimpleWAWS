@@ -57,6 +57,14 @@ namespace SimpleWAWS.Code
         public static string LinuxSubscriptions { get { return config(); } }
         public static string LinuxGeoRegions { get { return config("West US,Southeast Asia"); } }
         public static int LinuxResourceGroupsPerRegion { get { return Int32.Parse(config("1")); } }
+        public static string VSCodeLinuxTenantId { get { return config(); } }
+        public static string VSCodeLinuxTenantName { get { return config(); } }
+        public static string VSCodeLinuxServicePrincipal { get { return config(); } }
+        public static string VSCodeLinuxServicePrincipalKey { get { return config(); } }
+        public static string VSCodeLinuxExpiryMinutes { get { return config("60"); } }
+        public static string VSCodeLinuxSubscriptions { get { return config(); } }
+        public static string VSCodeLinuxGeoRegions { get { return config("South Central US,North Europe"); } }
+        public static int VSCodeLinuxResourceGroupsPerRegion { get { return Int32.Parse(config("2")); } }
         public static string MonitoringToolsExpiryMinutes { get { return config("240"); } }
         public static string MonitoringToolsTenantName { get { return config(); } }
         public static string MonitoringToolsTenantId { get { return config(); } }

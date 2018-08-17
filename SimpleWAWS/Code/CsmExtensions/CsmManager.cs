@@ -19,6 +19,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         private static readonly AzureClient csmClient;
         private static readonly AzureClient graphClient;
         private static readonly AzureClient linuxClient;
+        private static readonly AzureClient vscodeLinuxClient;
         private static readonly AzureClient monitoringToolsClient;
         private static readonly AzureClient monitoringToolsGraphClient;
 
@@ -39,6 +40,9 @@ namespace SimpleWAWS.Code.CsmExtensions
             linuxClient = new AzureClient(retryCount: 3);
             linuxClient.ConfigureSpnLogin(SimpleSettings.LinuxTenantId, SimpleSettings.LinuxServicePrincipal, SimpleSettings.LinuxServicePrincipalKey);
 
+            vscodeLinuxClient= new AzureClient(retryCount: 3);
+            vscodeLinuxClient.ConfigureSpnLogin(SimpleSettings.VSCodeLinuxTenantId, SimpleSettings.VSCodeLinuxServicePrincipal, SimpleSettings.VSCodeLinuxServicePrincipalKey);
+
             monitoringToolsClient = new AzureClient(retryCount: 3);
             monitoringToolsClient.ConfigureSpnLogin(SimpleSettings.MonitoringToolsTenantId, SimpleSettings.MonitoringToolsServicePrincipal, SimpleSettings.MonitoringToolsServicePrincipalKey);
 
@@ -56,9 +60,10 @@ namespace SimpleWAWS.Code.CsmExtensions
                 // Load all subscriptions
                 var csmSubscriptions = await CsmManager.GetSubscriptionNamesToIdMap();
                 _subscriptions = (SimpleSettings.Subscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                    .Concat(SimpleSettings.LinuxSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)))
+                    .Concat(SimpleSettings.LinuxSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                    .Concat(SimpleSettings.VSCodeLinuxSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)))
                     //It can be either a displayName or a subscriptionId
-                    //For Linux it needs to be subscriptionId
+                    //For Linux and VSCodeLinux it needs to be subscriptionId
                     .Select(s => s.Trim())
                     .Where(n =>
                     {
@@ -83,7 +88,27 @@ namespace SimpleWAWS.Code.CsmExtensions
                 {
                     foreach (var a in SimpleSettings.GeoRegions.Split(','))
                     {
-                        georegionHashMap.Add(a.ToLowerInvariant().Replace(" ", ""), a);
+                        var key = a.ToLowerInvariant().Replace(" ", "");
+                        if (!georegionHashMap.ContainsKey(key))
+                        {
+                            georegionHashMap.Add(key, a);
+                        }
+                    }
+                    foreach (var a in SimpleSettings.LinuxGeoRegions.Split(','))
+                    {
+                        var key = a.ToLowerInvariant().Replace(" ", "");
+                        if (!georegionHashMap.ContainsKey(key))
+                        {
+                            georegionHashMap.Add(key, a);
+                        }
+                    }
+                    foreach (var a in SimpleSettings.VSCodeLinuxGeoRegions.Split(','))
+                    {
+                        var key = a.ToLowerInvariant().Replace(" ", "");
+                        if (!georegionHashMap.ContainsKey(key))
+                        {
+                            georegionHashMap.Add(key, a);
+                        }
                     }
                 }
                 return georegionHashMap;
@@ -94,6 +119,10 @@ namespace SimpleWAWS.Code.CsmExtensions
             {
                 case SubscriptionType.MonitoringTools:
                     return monitoringToolsGraphClient;
+
+                case SubscriptionType.VSCodeLinux:
+                    return null;
+
                 case SubscriptionType.Linux:
                 case SubscriptionType.AppService:
                 default:
@@ -105,12 +134,17 @@ namespace SimpleWAWS.Code.CsmExtensions
             switch (subscriptionType)
             {
                 case SubscriptionType.Linux:
-                            return linuxClient;
+                     return linuxClient;
+
+                case SubscriptionType.VSCodeLinux:
+                    return vscodeLinuxClient;
+
                 case SubscriptionType.MonitoringTools:
                     return monitoringToolsClient;
+
                 case SubscriptionType.AppService:
-                    default:
-                            return csmClient;
+                default:
+                    return csmClient;
             }
         }
 
@@ -188,6 +222,9 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             try
             {
+                if (csmResource.SubscriptionType == SubscriptionType.VSCodeLinux)
+                    return false;
+
                 var rbacRole = csmResource.SubscriptionType == SubscriptionType.MonitoringTools|| csmResource is ServerFarm || csmResource is ResourceGroup
                 ? _readerRole
                 : _contributorRole;
@@ -239,7 +276,13 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             var linuxSubscriptions = await response.Content.ReadAsAsync<CsmSubscriptionsArray>();
 
-            return (appServiceSubscriptions.value.Union(linuxSubscriptions.value)).GroupBy(sub => sub.subscriptionId)
+            response = await vscodeLinuxClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.Subscriptions.Bind(""));
+            await response.EnsureSuccessStatusCodeWithFullError();
+
+            var vscodeLinuxSubscriptions = await response.Content.ReadAsAsync<CsmSubscriptionsArray>();
+
+            return (appServiceSubscriptions.value.Union(linuxSubscriptions.value).Union(vscodeLinuxSubscriptions.value))
+                   .GroupBy(sub => sub.subscriptionId)
                    .Select(group => group.First()).ToDictionary(k => k.displayName, v => v.subscriptionId);
         }
 

@@ -9,6 +9,7 @@ namespace SimpleWAWS.Models
     {
         AppService,
         Linux,
+        VSCodeLinux,
         MonitoringTools
     }
 
@@ -20,9 +21,13 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return SimpleSettings.MonitoringToolsSubscription.Equals(SubscriptionId,StringComparison.OrdinalIgnoreCase)?SubscriptionType.MonitoringTools: SimpleSettings.LinuxSubscriptions.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries)
+                return SimpleSettings.MonitoringToolsSubscription.Equals(SubscriptionId,StringComparison.OrdinalIgnoreCase)?SubscriptionType.MonitoringTools: 
+                       SimpleSettings.LinuxSubscriptions.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries)
                        .Contains(SubscriptionId)
-                       ? SubscriptionType.Linux
+                       ? SubscriptionType.Linux:
+                       SimpleSettings.VSCodeLinuxSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                       .Contains(SubscriptionId)
+                       ? SubscriptionType.VSCodeLinux
                        : SubscriptionType.AppService;
             }
         }
@@ -44,6 +49,8 @@ namespace SimpleWAWS.Models
                         return SimpleSettings.GeoRegions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(r => r.Trim());
                     case SubscriptionType.Linux:
                         return SimpleSettings.LinuxGeoRegions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(r => r.Trim());
+                    case SubscriptionType.VSCodeLinux:
+                        return SimpleSettings.VSCodeLinuxGeoRegions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(r => r.Trim());
                     default:
                         return null;
                 };
@@ -60,6 +67,8 @@ namespace SimpleWAWS.Models
                         return 1;
                     case SubscriptionType.Linux:
                         return SimpleSettings.LinuxResourceGroupsPerRegion;
+                    case SubscriptionType.VSCodeLinux:
+                        return SimpleSettings.VSCodeLinuxResourceGroupsPerRegion;
                     default:
                         return 0;
                 };

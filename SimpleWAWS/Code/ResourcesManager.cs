@@ -85,7 +85,7 @@ namespace SimpleWAWS.Code
         }
 
         // ARM
-        private async Task<ResourceGroup> ActivateResourceGroup(TryWebsitesIdentity userIdentity, AppService appService, bool isLinux, DeploymentType deploymentType, Func<ResourceGroup, InProgressOperation, Task<ResourceGroup>> func)
+        private async Task<ResourceGroup> ActivateResourceGroup(TryWebsitesIdentity userIdentity, AppService appService, DeploymentType deploymentType, Func<ResourceGroup, InProgressOperation, Task<ResourceGroup>> func)
         {
             ResourceGroup resourceGroup = null;
             if (userIdentity == null)
@@ -101,9 +101,13 @@ namespace SimpleWAWS.Code
                     throw new MoreThanOneResourceGroupException();
                 }
                 bool resourceGroupFound = false;
-                if ((appService == AppService.Containers) || isLinux)
+                if (appService == AppService.Containers || appService == AppService.Linux)
                 {
                     resourceGroupFound = _backgroundQueueManager.FreeLinuxResourceGroups.TryDequeue(out resourceGroup);
+                }
+                else if ((appService == AppService.VSCodeLinux))
+                {
+                    resourceGroupFound = _backgroundQueueManager.FreeVSCodeLinuxResourceGroups.TryDequeue(out resourceGroup);
                 }
                 else if ((appService != AppService.MonitoringTools))
                 {
@@ -131,7 +135,8 @@ namespace SimpleWAWS.Code
                     if (addedResourceGroup.ResourceGroupName == resourceGroup.ResourceGroupName)
                     {
                         //this means we just added the resourceGroup for the user.
-                        await addedResourceGroup.MarkInUse(userId, appService);
+                        //Removing this line since we have already marked the resourcegroup as in use by the user
+                        //await addedResourceGroup.MarkInUse(userId, appService);
                         return addedResourceGroup;
                     }
                     else
@@ -190,8 +195,7 @@ namespace SimpleWAWS.Code
             var deploymentType = template != null && template.GithubRepo != null
                 ? DeploymentType.GitWithCsmDeploy
                 : DeploymentType.ZipDeploy;
-            return await ActivateResourceGroup(userIdentity, temp, false, deploymentType, async (resourceGroup, inProgressOperation) =>
-                {
+            return await ActivateResourceGroup(userIdentity, temp, deploymentType, async (resourceGroup, inProgressOperation) =>                {
                     SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}; ",
                             AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, template.Language, template.Name, resourceGroup.ResourceUniqueId, temp.ToString());
 
@@ -285,8 +289,7 @@ namespace SimpleWAWS.Code
                     }
 
                     resourceGroup.IsRbacEnabled = await rbacTask;
-                    Util.FireAndForget(site.HostName);
-                    Util.FireAndForget(site.ScmHostName);
+                    Util.WarmUpSite(site);
                     return resourceGroup;
                 });
         }
@@ -310,7 +313,7 @@ namespace SimpleWAWS.Code
         // ARM
         public async Task<ResourceGroup> ActivateLogicApp(LogicTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
-            return await ActivateResourceGroup(userIdentity, AppService.Logic, false, DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
+            return await ActivateResourceGroup(userIdentity, AppService.Logic, DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
             {
                 SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
                             AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, "Logic", template.Name, resourceGroup.ResourceUniqueId, AppService.Logic.ToString());
@@ -344,7 +347,7 @@ namespace SimpleWAWS.Code
         }
         public async Task<ResourceGroup> ActivateMonitoringToolsApp(MonitoringToolsTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
-            return await ActivateResourceGroup(userIdentity, AppService.MonitoringTools, false, DeploymentType.RbacOnly, async (resourceGroup, inProgressOperation) =>
+            return await ActivateResourceGroup(userIdentity, AppService.MonitoringTools, DeploymentType.RbacOnly, async (resourceGroup, inProgressOperation) =>
             {
 
                 SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
@@ -358,70 +361,46 @@ namespace SimpleWAWS.Code
         }
         public async Task<ResourceGroup> ActivateLinuxResource(LinuxTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
-            return await ActivateResourceGroup(userIdentity, AppService.Web, true ,DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
+            return await ActivateResourceGroup(userIdentity, AppService.Linux, DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
             {
                 SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
-                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, "Linux", template.Name, resourceGroup.ResourceUniqueId, AppService.Web.ToString());
+                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, "Linux", template.Name, resourceGroup.ResourceUniqueId, AppService.Linux.ToString());
 
                 var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
                 resourceGroup.Tags[Constants.TemplateName] = template.Name;
                 resourceGroup = await resourceGroup.Update();
 
-                if (template?.MSDeployPackageUrl != null)
-                {
-                    try
-                    {
-                        var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-                        var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
-                        Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.MSDeployPackageUrl);
-                        var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount:3);
-                        Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
-                        site.AppSettings["SITE_EXPIRY_UTC"] = DateTime.UtcNow.AddMinutes(Double.Parse(SimpleSettings.LinuxExpiryMinutes)).ToString(CultureInfo.InvariantCulture);
-
-                        await Task.WhenAll(zipUpload);
-                        await Task.WhenAll(site.UpdateAppSettings(), site.UpdateConfig( 
-                            new {
-                                    properties =
-                                    new
-                                    {
-                                        appCommandLine = "process.json"
-                                    }
-                                }));
-                        await Task.Delay(10 * 1000);
-                        var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount:2);
-                        Task checkSite = lsm.CheckSiteDeploymentStatusAsync(site.Url);
-                        try
-                        {
-                            await checkSite;
-                        }
-                        catch(Exception ex)
-                        {
-                            SimpleTrace.TraceError("New Site wasnt deployed" + ex.Message + ex.StackTrace);
-                        }
-
-                    }
-                    catch (Exception ex)
-                    {
-                        SimpleTrace.TraceError(ex.Message + ex.StackTrace);
-                    }
-                }
-
-                if (template.Name.Equals(Constants.PHPWebAppLinuxTemplateName, StringComparison.OrdinalIgnoreCase))
-                {
-                    await site.UpdateConfig(new { properties = new { linuxFxVersion = "PHP|7.2"} });
-                }
-
-                Util.FireAndForget($"{resourceGroup.Sites.FirstOrDefault().HostName}");
-                Util.FireAndForget($"{resourceGroup.Sites.FirstOrDefault().ScmHostName}");
+                await Util.DeployLinuxTemplateToSite(template, site);
 
                 var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email);
                 resourceGroup.IsRbacEnabled = await rbacTask;
                 return resourceGroup;
             });
         }
+        public async Task<ResourceGroup> ActivateVSCodeLinuxResource(VSCodeLinuxTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
+        {
+            return await ActivateResourceGroup(userIdentity, AppService.VSCodeLinux, DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
+            {
+                SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
+                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, "VSCodeLinux", template.Name, resourceGroup.ResourceUniqueId, AppService.VSCodeLinux.ToString());
+
+                var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
+                resourceGroup.Tags[Constants.TemplateName] = template.Name;
+                resourceGroup = await resourceGroup.Update();
+                if (template.Name.Equals(Constants.NodejsVSCodeWebAppLinuxTemplateName, StringComparison.OrdinalIgnoreCase))
+                {
+                    await Util.AddTimeStampFile(site);
+                }
+                else
+                {
+                    await Util.DeployVSCodeLinuxTemplateToSite(template, site, true);
+                }
+                return resourceGroup;
+            });
+        }
         public async Task<ResourceGroup> ActivateContainersResource(ContainersTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
-            return await ActivateResourceGroup(userIdentity, AppService.Containers, true, DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
+            return await ActivateResourceGroup(userIdentity, AppService.Containers,  DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
             {
 
                 SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
@@ -437,8 +416,7 @@ namespace SimpleWAWS.Code
                     await site.UpdateConfig(new { properties = new { linuxFxVersion = qualifiedContainerName } });
                 }
 
-                Util.FireAndForget($"{resourceGroup.Sites.FirstOrDefault().HostName}");
-                Util.FireAndForget($"{resourceGroup.Sites.FirstOrDefault().ScmHostName}");
+                Util.WarmUpSite(resourceGroup.Sites.FirstOrDefault());
 
                 var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email);
                 resourceGroup.IsRbacEnabled = await rbacTask;
@@ -457,31 +435,16 @@ namespace SimpleWAWS.Code
         // ARM
         public async Task<ResourceGroup> ActivateFunctionApp(FunctionTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
-            return await ActivateResourceGroup(userIdentity, AppService.Function, false, DeploymentType.FunctionDeploy, async (resourceGroup, inProgressOperation) =>
+            return await ActivateResourceGroup(userIdentity, AppService.Function, DeploymentType.FunctionDeploy, async (resourceGroup, inProgressOperation) =>
             {
                 SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
                             AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName,
                             "Function", template.Name, resourceGroup.ResourceUniqueId, AppService.Function.ToString());
 
-                Util.FireAndForget(resourceGroup.Sites.First(s => s.IsFunctionsContainer).HostName); 
+                Util.WarmUpSite(resourceGroup.Sites.First(s => s.IsFunctionsContainer)); 
                 var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email, isFunctionContainer: true);
                 resourceGroup.Tags[Constants.TemplateName] = template.Name;
                 await resourceGroup.Update();
-                await resourceGroup.Sites.First(s => s.IsFunctionsContainer).UpdateConfig(new
-                {
-                    properties =
-                new
-                {
-                    cors = new
-                    {
-                        allowedOrigins = new string[]{ "https://functions.azure.com",
-                                    "https://functions-staging.azure.com", "https://functions-next.azure.com" ,
-                                    "https://localhost:44300", "https://tryfunctions.com", "https://www.tryfunctions.com", "https://tryfunctions.azure.com",
-                                     "https://tryfunctions-staging.azure.com", "https://www.tryfunctions-staging.azure.com"
-                                                     }
-                    }
-                }
-                });
                 resourceGroup.IsRbacEnabled = await rbacTask;
                 return resourceGroup;
             });
@@ -518,7 +481,6 @@ namespace SimpleWAWS.Code
         {
             ResourceGroup resourceGroup;
             resourceGroup = _backgroundQueueManager.LoadedResourceGroups.Where(a => a.Sites.Any(s=> s.SiteName.Equals(siteName,StringComparison.OrdinalIgnoreCase))).First();
-
             return resourceGroup;
         }
         // ARM
@@ -575,6 +537,10 @@ namespace SimpleWAWS.Code
         public IReadOnlyCollection<ResourceGroup> GetAllFreeLinuxResourceGroups()
         {
             return _backgroundQueueManager.FreeLinuxResourceGroups.ToList();
+        }
+        public IReadOnlyCollection<ResourceGroup> GetAllFreeVSCodeLinuxResourceGroups()
+        {
+            return _backgroundQueueManager.FreeVSCodeLinuxResourceGroups.ToList();
         }
         public ResourceGroup GetMonitoringToolResourceGroup()
         {

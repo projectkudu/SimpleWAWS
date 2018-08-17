@@ -128,7 +128,29 @@ angular.module("tryApp")
                         }],
                     templates: [],
                     description: Resources.Information_LinuxAppDescription
+            }, {
+                name: "VSCodeLinux",
+                sprite: "sprite-LinuxWebApp",
+                title: "VSCode Linux Web App",
+                steps: [{
+                    id: 1,
+                    title: Resources.Action_SelectAppType,
+                    sref: "home"
                 }, {
+                        id: 2,
+                        title: Resources.Information_SelectTemplate,
+                        sref: "home.vscodelinuxwebapp.templates",
+                        nextClass: "wa-button-primary",
+                        nextText: Resources.Action_Create
+                    }, {
+                        id: 3,
+                        title: Resources.Action_GenericWorkWithYourApp,
+                        sref: "home.vscodelinuxwebapp.work",
+                        confirmDelete: true
+                    }],
+                templates: [],
+                description: Resources.Information_LinuxAppDescription
+            }, {
                     name: "MonitoringTools",
                     sprite: "sprite-WebApp",
                     title: "Monitoring Tools App",

@@ -26,13 +26,12 @@
             "maximumNumberOfWorkers": 1,
             "geoRegion": "[resourceGroup().location]",
             "reserved": true,
-            {{serverFarmType}}
             "planName": "VirtualDedicatedPlan"
           },
           "sku": {
-            "name": "B1",
+            "name": "B3",
             "tier": "Basic",
-            "size": "B1",
+            "size": "B3",
             "family": "B",
             "capacity": 1
           }
@@ -48,7 +47,8 @@
             "siteConfig": {
               "properties": {
                 "numberOfWorkers": "1",
-                "linuxFxVersion": "NODE|9.4"
+                "linuxFxVersion": "NODE|9.4",
+                "appCommandLine": "process.json"
               }
             },
             "maxNumberOfWorkers": "0",
@@ -63,7 +63,7 @@
                 "properties": {
                   "applicationLogs": {
                     "fileSystem": {
-                      "level": "Off"
+                      "level": "On"
                     },
                     "azureTableStorage": {
                       "level": "Off",
@@ -92,8 +92,8 @@
                   },
                   "detailedErrorMessages": {
                     "enabled": true
-                  }
-
+                  },
+                  "alwaysOn": true
                 }
               }
 

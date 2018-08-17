@@ -78,7 +78,7 @@ namespace SimpleWAWS.Controllers
                 var inUseSitesCount = inUseSitesList.Count();
                 var inUseFunctionsCount = inUseSitesList.Count(res => res.AppService == AppService.Function);
                 var inUseWebsitesCount = inUseSitesList.Count(res => res.AppService == AppService.Web && res.SubscriptionType == SubscriptionType.AppService);
-                var inUseContainerCount = inUseSitesList.Count(res => res.AppService == AppService.Containers || (res.AppService == AppService.Web && res.SubscriptionType == SubscriptionType.Linux));
+                var inUseContainerCount = inUseSitesList.Count(res => res.AppService == AppService.Containers || (res.SubscriptionType == SubscriptionType.Linux));
                 var inUseLogicAppCount = inUseSitesList.Count(res => res.AppService == AppService.Logic);
 
 
@@ -89,6 +89,12 @@ namespace SimpleWAWS.Controllers
                 var freeSitesList = freeSites as IList<ResourceGroup> ?? freeSites.ToList();
                 var freeLinuxSitesList = freeLinuxResources as IList<ResourceGroup> ?? freeLinuxResources.ToList();
                 var inUseLinuxResourcesList = inUseLinuxResources as IList<ResourceGroup> ?? inUseLinuxResources.ToList();
+
+                var freeVSCodeLinuxResources = resourceManager.GetAllFreeVSCodeLinuxResourceGroups();
+                var inUseVSCodeLinuxResources = resourceManager.GetAllInUseResourceGroups().Where(sub => sub.SubscriptionType == SubscriptionType.VSCodeLinux);
+                var freeVSCodeLinuxSitesList = freeVSCodeLinuxResources as IList<ResourceGroup> ?? freeVSCodeLinuxResources.ToList();
+                var inUseVSCodeLinuxResourcesList = inUseVSCodeLinuxResources as IList<ResourceGroup> ?? inUseVSCodeLinuxResources.ToList();
+
                 var uptime = resourceManager.GetUptime();
                 var resourceGroupCleanupCount = resourceManager.GetResourceGroupCleanupCount();
                 var monitoringToolsResource= resourceManager.GetMonitoringToolResourceGroup();
@@ -97,12 +103,14 @@ namespace SimpleWAWS.Controllers
                     {
                         freeSiteCount = freeSitesList.Count(),
                         freeLinuxResourceCount = freeLinuxResources.Count(),
+                        freeVSCodeLinuxResourceCount = freeVSCodeLinuxResources.Count(),
                         inUseSitesCount = inUseSitesCount,
                         inUseFunctionsCount = inUseFunctionsCount,
                         inUseWebsitesCount= inUseWebsitesCount,
                         inUseContainerCount= inUseContainerCount,
                         inUseLogicAppCount =inUseLogicAppCount,
                         inUseLinuxResourceCount = inUseLinuxResourcesList.Count(),
+                        inUseVSCodeLinuxResourceCount = inUseVSCodeLinuxResourcesList.Count(),
                         inProgressSitesCount = inProgress.Count(),
                         inUseMonitoringToolsUsersCount = BackgroundQueueManager.MonitoringResourceGroupCheckoutTimes.Count,
                         backgroundOperationsCount = backgroundOperations.Count(),
@@ -112,6 +120,7 @@ namespace SimpleWAWS.Controllers
                         inUseLinuxResources = inUseLinuxResourcesList,
                         freeSites = showFreeResources ? freeSitesList : null,
                         freeLinuxResources = showFreeResources ? freeLinuxSitesList : null,
+                        freeVSCodeLinuxResources = showFreeResources ? freeVSCodeLinuxSitesList : null,
                         inProgress = inProgress,
                         backgroundOperations = backgroundOperations,
                         uptime = uptime,
@@ -216,15 +225,14 @@ namespace SimpleWAWS.Controllers
 
                 switch (template.AppService)
                 {
-                    case AppService.Web:
-                        if (template.IsLinux)
-                        {
+                    case AppService.Linux:
                             resourceGroup = await resourceManager.ActivateLinuxResource(template as LinuxTemplate, identity, anonymousUserName);
-                        }
-                        else
-                        {
+                        break;
+                    case AppService.VSCodeLinux:
+                        resourceGroup = await resourceManager.ActivateVSCodeLinuxResource(template as VSCodeLinuxTemplate, identity, anonymousUserName);
+                        break;
+                    case AppService.Web:
                             resourceGroup = await resourceManager.ActivateWebApp(template as WebsiteTemplate, identity, anonymousUserName);
-                        }
                         break;
                     case AppService.Api:
                         resourceGroup = await resourceManager.ActivateApiApp(template as WebsiteTemplate, identity, anonymousUserName);
@@ -303,7 +311,6 @@ namespace SimpleWAWS.Controllers
                     timeLeft = LifeTime - timeUsed;
                 }
                 
-
                 resourceGroup.TimeLeftInSeconds = (int)timeLeft.TotalSeconds;
             }
             return resourceGroup;

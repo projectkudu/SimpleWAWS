@@ -14,6 +14,7 @@ namespace SimpleWAWS.Code
         private const string appServiceApiVersion = "2015-03-01-preview";
         private const string logicAppsApiVersion = "2015-02-01-preview";
         private const string linuxResourceApiVersion = "2016-08-01";
+        private const string vscodelinuxResourceApiVersion = "2016-08-01";
         private const string graphApiVersion = "1.42-previewInternal";
         private const string storageApiVersion = "2015-05-01-preview";
         private const string csmTemplateApiVersion = "2017-05-10";
@@ -76,5 +77,6 @@ namespace SimpleWAWS.Code
         public static readonly ArmUriTemplate StorageListKeys = new ArmUriTemplate(StorageAccount.TemplateUrl + "/listKeys", storageApiVersion);
 
         public static readonly ArmUriTemplate LinuxResource = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Web/sites/{siteName}", linuxResourceApiVersion);
+        public static readonly ArmUriTemplate VSCodeLinuxResource = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Web/sites/{siteName}", vscodelinuxResourceApiVersion);
     }
 }

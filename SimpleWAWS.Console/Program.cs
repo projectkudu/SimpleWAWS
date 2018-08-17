@@ -264,7 +264,7 @@ namespace SimpleWAWS.Console
             //console("done loading subscriptions");
 
             Parallel.ForEach(
-                subscriptions.Where(r => r.Type == SubscriptionType.AppService  || r.Type == SubscriptionType.Linux).SelectMany(subscription => subscription.ResourceGroups), async (resourcegroup) =>
+                subscriptions.Where(r => r.Type == SubscriptionType.AppService  || r.Type == SubscriptionType.Linux || r.Type == SubscriptionType.VSCodeLinux).SelectMany(subscription => subscription.ResourceGroups), async (resourcegroup) =>
                 {
                     //foreach (var resourcegroup in subscriptions.Where(r => r.Type == SubscriptionType.AppService).SelectMany(subscription => subscription.ResourceGroups))
                     //{

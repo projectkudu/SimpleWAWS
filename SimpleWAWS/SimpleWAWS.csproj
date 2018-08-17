@@ -311,8 +311,8 @@
     <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\FunctionTemplate.cs" />
     <Compile Include="Models\ContainersTemplate.cs" />
+    <Compile Include="Models\VSCodeLinuxTemplate.cs" />
     <Compile Include="Models\LinuxTemplate.cs" />
-    <Compile Include="Models\LinuxResource.cs" />
     <Compile Include="Models\LogicApp.cs" />
     <Compile Include="Models\LogicTemplate.cs" />
     <Compile Include="Models\MakeSubscriptionFreeTrialResult.cs" />

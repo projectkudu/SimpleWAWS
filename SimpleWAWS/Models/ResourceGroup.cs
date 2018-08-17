@@ -37,6 +37,7 @@ namespace SimpleWAWS.Models
         public static readonly TimeSpan DefaultUsageTimeSpan = TimeSpan.FromMinutes(int.Parse(SimpleSettings.SiteExpiryMinutes, CultureInfo.InvariantCulture));
         public static readonly TimeSpan ExtendedUsageTimeSpan = TimeSpan.FromHours(int.Parse(SimpleSettings.ExtendedResourceExpireHours, CultureInfo.InvariantCulture));
         public static readonly TimeSpan LinuxUsageTimeSpan = TimeSpan.FromMinutes(int.Parse(SimpleSettings.LinuxExpiryMinutes, CultureInfo.InvariantCulture));
+        public static readonly TimeSpan VSCodeLinuxUsageTimeSpan = TimeSpan.FromMinutes(int.Parse(SimpleSettings.VSCodeLinuxExpiryMinutes, CultureInfo.InvariantCulture));
         public TimeSpan TimeLeft
         {
             get
@@ -80,8 +81,8 @@ namespace SimpleWAWS.Models
         [JsonIgnore]
         public IEnumerable<LogicApp> LogicApps { get; set; }
 
-        [JsonIgnore]
-        public LinuxResource LinuxResources { get; set; }
+        //[JsonIgnore]
+        //public LinuxResource LinuxResources { get; set; }
 
         [JsonIgnore]
         public IEnumerable<ServerFarm> ServerFarms { get; set; }
@@ -139,26 +140,28 @@ namespace SimpleWAWS.Models
                 Site siteToUseForUi = null;
                 switch (AppService)
                 {
-                    case Models.AppService.Web:
+                    case AppService.Web:
                         siteToUseForUi = Sites.First(s => s.IsSimpleWAWSOriginalSite);
                         ibizaUrl = siteToUseForUi.IbizaUrl;
                         break;
-                    case Models.AppService.Api:
+                    case AppService.Api:
                         siteToUseForUi = Sites.First(s => s.IsSimpleWAWSOriginalSite);
                         ibizaUrl = siteToUseForUi.IbizaUrl;
                         break;
-                    case Models.AppService.Logic:
+                    case AppService.Logic:
                         siteToUseForUi = Sites.First(s => s.IsSimpleWAWSOriginalSite);
                         ibizaUrl = LogicApps.Any()?LogicApps.First().IbizaUrl : null;
                         break;
-                    case Models.AppService.Function:
+                    case AppService.Function:
                         csmId = Sites.First(s => s.IsFunctionsContainer).CsmId;
                         break;
-                    case Models.AppService.Containers:
+                    case AppService.Containers:
+                    case AppService.Linux:
+                    case AppService.VSCodeLinux:
                         siteToUseForUi = Sites.First(s => s.IsSimpleWAWSOriginalSite);
                         ibizaUrl = siteToUseForUi.IbizaUrl;
                         break;
-                    case Models.AppService.MonitoringTools:
+                    case AppService.MonitoringTools:
                         siteToUseForUi = Sites.First();
                         siteToUseForUi.HostName = $"{siteToUseForUi.SiteName}.azurewebsites.net";
                         siteToUseForUi.ScmHostName = $"{siteToUseForUi.SiteName}.scm.azurewebsites.net";

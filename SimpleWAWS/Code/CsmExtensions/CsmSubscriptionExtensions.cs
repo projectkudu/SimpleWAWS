@@ -20,9 +20,9 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             Validate.ValidateCsmSubscription(subscription);
             //Make sure to register for AppServices RP at least once for each 
-            await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.WebsitesRegister.Bind(subscription));
-            await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.AppServiceRegister.Bind(subscription));
-            await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.StorageRegister.Bind(subscription));
+            await GetClient(subscription.Type).HttpInvoke(HttpMethod.Post, ArmUriTemplates.WebsitesRegister.Bind(subscription));
+            await GetClient(subscription.Type).HttpInvoke(HttpMethod.Post, ArmUriTemplates.AppServiceRegister.Bind(subscription));
+            await GetClient(subscription.Type).HttpInvoke(HttpMethod.Post, ArmUriTemplates.StorageRegister.Bind(subscription));
 
             var csmResourceGroups = await subscription.LoadResourceGroupsForSubscription();
             if (deleteBadResourceGroups)
@@ -33,7 +33,10 @@ namespace SimpleWAWS.Code.CsmExtensions
                     //Some orphaned resourcegroups can have no tags. Okay to clean once in a while since they dont have any sites either
                     .Where(r =>   ((r.tags == null && IsSimpleWawsResourceName(r)) 
                                 || (r.tags != null && ((r.tags.ContainsKey("Bad") ||
-                                    (subscription.Type==SubscriptionType.AppService ? !r.tags.ContainsKey(Constants.FunctionsContainerDeployed) : !r.tags.ContainsKey(Constants.LinuxAppDeployed)))
+                                    (subscription.Type==SubscriptionType.AppService ? 
+                                    !r.tags.ContainsKey(Constants.FunctionsContainerDeployed) 
+                                    : subscription.Type == SubscriptionType.Linux? !r.tags.ContainsKey(Constants.LinuxAppDeployed): !r.tags.ContainsKey(Constants.VSCodeLinuxAppDeployed)
+                                    ))
                                   )) 
                                 && r.properties.provisioningState != "Deleting"))
                     .Where(p => !resourceManager.GetAllLoadedResourceGroups().Any(p2 => string.Equals(p.id, p2.CsmId, StringComparison.OrdinalIgnoreCase))) 
@@ -51,7 +54,9 @@ namespace SimpleWAWS.Code.CsmExtensions
                 await csmSubscriptionResourcesReponse.Content.ReadAsAsync<CsmArrayWrapper<object>>();
 
             var goodResourceGroups = csmResourceGroups.value
-                .Where(r => subscription.Type == SubscriptionType.AppService?IsSimpleWaws(r) : IsLinuxResource(r))
+                .Where(r => subscription.Type == SubscriptionType.AppService?IsSimpleWaws(r) 
+                          : subscription.Type == SubscriptionType.Linux? IsLinuxResource(r)
+                          : IsVSCodeLinuxResource(r))
                 .Select(r => new
                 {
                     ResourceGroup = r,
@@ -79,9 +84,9 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             Validate.ValidateCsmSubscription(subscription);
             //Make sure to register for AppServices RP at least once for each 
-            await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.WebsitesRegister.Bind(subscription));
-            await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.AppServiceRegister.Bind(subscription));
-            await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.StorageRegister.Bind(subscription));
+            await GetClient(subscription.Type).HttpInvoke(HttpMethod.Post, ArmUriTemplates.WebsitesRegister.Bind(subscription));
+            await GetClient(subscription.Type).HttpInvoke(HttpMethod.Post, ArmUriTemplates.AppServiceRegister.Bind(subscription));
+            await GetClient(subscription.Type).HttpInvoke(HttpMethod.Post, ArmUriTemplates.StorageRegister.Bind(subscription));
 
             var csmResourceGroups = await subscription.LoadResourceGroupsForSubscription();
             var csmSubscriptionResourcesReponse = await GetClient(subscription.Type).HttpInvoke(HttpMethod.Get, ArmUriTemplates.SubscriptionResources.Bind(subscription));

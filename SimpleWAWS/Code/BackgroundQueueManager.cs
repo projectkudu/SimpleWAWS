@@ -25,11 +25,13 @@ namespace SimpleWAWS.Code
             get
             {
                 return FreeResourceGroups.ToList()
+                       .Concat(FreeVSCodeLinuxResourceGroups.ToList())
                        .Concat(FreeLinuxResourceGroups.ToList())
                        .Concat(ResourceGroupsInUse.Where(e => e.Value != null).Select(e => e.Value))
                        .Concat(ResourceGroupsInProgress.Where(e => e.Value != null).Select(e => e.Value.ResourceGroup));
             }
         }
+        public readonly ConcurrentQueue<ResourceGroup> FreeVSCodeLinuxResourceGroups = new ConcurrentQueue<ResourceGroup>();
         public readonly ConcurrentQueue<ResourceGroup> FreeLinuxResourceGroups = new ConcurrentQueue<ResourceGroup>();
         public readonly ConcurrentDictionary<string, InProgressOperation> ResourceGroupsInProgress = new ConcurrentDictionary<string, InProgressOperation>();
         public readonly ConcurrentDictionary<string, ResourceGroup> ResourceGroupsInUse = new ConcurrentDictionary<string, ResourceGroup>();
@@ -178,11 +180,15 @@ namespace SimpleWAWS.Code
                     }
                     else
                     {
-                        if (readyToAddRg.SubscriptionType == SubscriptionType.AppService)
+                        if (readyToAddRg.SubscriptionType == SubscriptionType.AppService || readyToAddRg.SubscriptionType ==SubscriptionType.MonitoringTools)
                         {
                             FreeResourceGroups.Enqueue(readyToAddRg);
                         }
-                        else
+                        else if (readyToAddRg.SubscriptionType == SubscriptionType.VSCodeLinux)
+                        {
+                            FreeVSCodeLinuxResourceGroups.Enqueue(readyToAddRg);
+                        }
+                        else if (readyToAddRg.SubscriptionType == SubscriptionType.Linux)
                         {
                             FreeLinuxResourceGroups.Enqueue(readyToAddRg);
                         }
@@ -344,6 +350,9 @@ namespace SimpleWAWS.Code
                 case SubscriptionType.Linux:
                     RemoveFromFreeLinuxQueue(resourceGroup);
                     break;
+                case SubscriptionType.VSCodeLinux:
+                    RemoveFromFreeVSCodeLinuxQueue(resourceGroup);
+                    break;
                 default:
                     SimpleTrace.Diagnostics.Warning($"Resourcegroup subscriptiontype cannot be determined {resourceGroup.CsmId}");
                     break;
@@ -390,6 +399,27 @@ namespace SimpleWAWS.Code
                 }
             }
         }
+        private void RemoveFromFreeVSCodeLinuxQueue(ResourceGroup resourceGroup)
+        {
+            if (this.FreeVSCodeLinuxResourceGroups.ToList().Any(r => string.Equals(r.CsmId, resourceGroup.CsmId, StringComparison.OrdinalIgnoreCase)))
+            {
+                var dequeueCount = this.FreeVSCodeLinuxResourceGroups.Count;
+                ResourceGroup temp;
+                while (dequeueCount-- >= 0 && (this.FreeVSCodeLinuxResourceGroups.TryDequeue(out temp)))
+                {
+                    if (string.Equals(temp.ResourceGroupName, resourceGroup.ResourceGroupName,
+                        StringComparison.OrdinalIgnoreCase))
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        this.FreeVSCodeLinuxResourceGroups.Enqueue(temp);
+                    }
+                }
+            }
+        }
+
         private void SubscriptionCleanup(Subscription subscription)
         {
             AddOperation(new BackgroundOperation<Subscription>
@@ -437,7 +467,10 @@ namespace SimpleWAWS.Code
             var inProgress = ResourceGroupsInProgress.Select(s => s.Value).Count();
             var backgroundOperations = BackgroundInternalOperations.Select(s => s.Value).Count();
             var freeLinuxResources = FreeLinuxResourceGroups.Count(sub => sub.SubscriptionType == SubscriptionType.Linux);
+            var freeVSCodeLinuxResources = FreeVSCodeLinuxResourceGroups.Count(sub => sub.SubscriptionType == SubscriptionType.VSCodeLinux);
+
             var inUseLinuxResources = ResourceGroupsInUse.Select(s => s.Value).Count(sub => sub.SubscriptionType == SubscriptionType.Linux);
+            var inUseVSCodeLinuxResources = ResourceGroupsInUse.Select(s => s.Value).Count(sub => sub.SubscriptionType == SubscriptionType.VSCodeLinux);
 
             AppInsights.TelemetryClient.TrackMetric("freeSites", freeSitesCount);
             AppInsights.TelemetryClient.TrackMetric("inUseSites", inUseSitesCount);
@@ -452,6 +485,8 @@ namespace SimpleWAWS.Code
             AppInsights.TelemetryClient.TrackMetric("backgroundOperations", backgroundOperations);
             AppInsights.TelemetryClient.TrackMetric("freeLinuxResources", freeLinuxResources);
             AppInsights.TelemetryClient.TrackMetric("inUseLinuxResources", inUseLinuxResources);
+            AppInsights.TelemetryClient.TrackMetric("freeVSCodeLinuxResources", freeVSCodeLinuxResources);
+            AppInsights.TelemetryClient.TrackMetric("inUseVSCodeLinuxResources", inUseVSCodeLinuxResources);
         }
 
         private void DeleteResourceGroupOperation(ResourceGroup resourceGroup)

@@ -60,6 +60,10 @@ namespace SimpleWAWS.Code.CsmExtensions
                 {
                     await Task.WhenAll(LoadLinuxResources(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/sites", StringComparison.OrdinalIgnoreCase))));
                 }
+                else if (resourceGroup.SubscriptionType == SubscriptionType.VSCodeLinux)
+                {
+                    await Task.WhenAll(LoadVSCodeLinuxResources(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/sites", StringComparison.OrdinalIgnoreCase))));
+                }
                 else if (resourceGroup.SubscriptionType == SubscriptionType.MonitoringTools)
                 {
                     await Task.WhenAll(LoadMonitoringToolResources(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/sites", StringComparison.OrdinalIgnoreCase))));
@@ -99,7 +103,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             if (logicApps == null)
             {
-                var csmLogicAppsResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.LogicApps.Bind(resourceGroup));
+                var csmLogicAppsResponse = await GetClient(resourceGroup.SubscriptionType).HttpInvoke(HttpMethod.Get, ArmUriTemplates.LogicApps.Bind(resourceGroup));
                 await csmLogicAppsResponse.EnsureSuccessStatusCodeWithFullError();
                 logicApps = (await csmLogicAppsResponse.Content.ReadAsAsync<CsmArrayWrapper<object>>()).value;
             }
@@ -113,6 +117,10 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             return await LoadSites(resourceGroup, sites);
         }
+        public static async Task<ResourceGroup> LoadVSCodeLinuxResources(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> sites = null)
+        {
+            return await LoadSites(resourceGroup, sites);
+        }
         public static async Task<ResourceGroup> LoadMonitoringToolResources(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> sites = null)
         {
             return await LoadSites(resourceGroup, sites);
@@ -122,7 +130,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             if (serverFarms == null)
             {
-                var csmServerFarmsResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.ServerFarms.Bind(resourceGroup));
+                var csmServerFarmsResponse = await GetClient(resourceGroup.SubscriptionType).HttpInvoke(HttpMethod.Get, ArmUriTemplates.ServerFarms.Bind(resourceGroup));
                 await csmServerFarmsResponse.EnsureSuccessStatusCodeWithFullError();
                 serverFarms = (await csmServerFarmsResponse.Content.ReadAsAsync<CsmArrayWrapper<object>>()).value;
             }
@@ -135,7 +143,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             if (storageAccounts == null)
             {
-                var csmStorageAccountsResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.StorageAccounts.Bind(resourceGroup));
+                var csmStorageAccountsResponse = await GetClient(resourceGroup.SubscriptionType).HttpInvoke(HttpMethod.Get, ArmUriTemplates.StorageAccounts.Bind(resourceGroup));
                 await csmStorageAccountsResponse.EnsureSuccessStatusCodeWithFullError();
                 storageAccounts = (await csmStorageAccountsResponse.Content.ReadAsAsync<CsmArrayWrapper<object>>()).value;
             }
@@ -240,6 +248,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                     createdSites.Add(CreateFunctionApp(resourceGroup,
                         (() => $"{Constants.FunctionsSitePrefix}{Guid.NewGuid().ToString().Split('-').First()}"),
                         Constants.FunctionsContainerSiteKind));
+
                 }
 
                 resourceGroup.Sites = resourceGroup.Sites.Union(await createdSites.WhenAll());
@@ -257,6 +266,21 @@ namespace SimpleWAWS.Code.CsmExtensions
                 if (!resourceGroup.Sites.Any(s => s.IsSimpleWAWSOriginalSite))
                 {
                     resourceGroup.Sites = new List<Site> { (await CreateLinuxSite(resourceGroup, SiteNameGenerator.GenerateLinuxSiteName)) };
+                }
+
+            }
+            else if (resourceGroup.SubscriptionType == SubscriptionType.VSCodeLinux)
+            {
+                // If the resourceGroup is assigned, don't mess with it
+                if (!string.IsNullOrEmpty(resourceGroup.UserId))
+                {
+                    return resourceGroup;
+                }
+
+                if (!resourceGroup.Sites.Any(s => s.IsSimpleWAWSOriginalSite))
+                {
+                    var list = new List<Site> { (await CreateVSCodeLinuxSite(resourceGroup, SiteNameGenerator.GenerateLinuxSiteName)) };
+                    resourceGroup.Sites = list;
                 }
 
             }
@@ -286,9 +310,13 @@ namespace SimpleWAWS.Code.CsmExtensions
                     {
                         resourceGroup.Tags[Constants.LifeTimeInMinutes] = ResourceGroup.DefaultUsageTimeSpan.TotalMinutes.ToString();
                     }
-                    else
+                    else if(resourceGroup.SubscriptionType == SubscriptionType.Linux)
                     {
                         resourceGroup.Tags[Constants.LifeTimeInMinutes] = ResourceGroup.LinuxUsageTimeSpan.TotalMinutes.ToString();
+                    }
+                    else //VSCodeLinux Subscription
+                    {
+                        resourceGroup.Tags[Constants.LifeTimeInMinutes] = ResourceGroup.VSCodeLinuxUsageTimeSpan.TotalMinutes.ToString();
                     }
                     break;
                 default:
@@ -349,7 +377,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             if (resourceGroup.ServerFarms.Count() < 1) {
                 var csmServerFarmResponse =
                     await
-                        csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.ServerFarmCreate.Bind(serverFarm),
+                        GetClient(resourceGroup.SubscriptionType).HttpInvoke(HttpMethod.Put, ArmUriTemplates.ServerFarmCreate.Bind(serverFarm),
                             new
                             {
                                 location = resourceGroup.GeoRegion,
@@ -371,7 +399,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             var csmSiteResponse =
                 await
-                    csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.SiteCreate.Bind(site),
+                    GetClient(resourceGroup.SubscriptionType).HttpInvoke(HttpMethod.Put, ArmUriTemplates.SiteCreate.Bind(site),
                         new
                         {
                             properties =
@@ -393,7 +421,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, nameGenerator(), siteKind);
             var csmTemplateString = string.Empty;
-            var template = TemplatesManager.GetTemplates().FirstOrDefault(t => t.Name == Constants.NodeJSVSCodeWebAppLinuxTemplateName) as LinuxTemplate;
+            var template = TemplatesManager.GetTemplates().FirstOrDefault(t => t.Name == Constants.NodejsWebAppLinuxTemplateName) as LinuxTemplate;
 
             using (var reader = new StreamReader(template.CsmTemplateFilePath))
             {
@@ -407,20 +435,50 @@ namespace SimpleWAWS.Code.CsmExtensions
                                 .Replace("{{serverFarmType}}", SimpleSettings.ServerFarmTypeContent);
             var inProgressOperation = new InProgressOperation(resourceGroup, DeploymentType.CsmDeploy);
             await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true, subscriptionType: resourceGroup.SubscriptionType);
-            resourceGroup.Tags.Add(Constants.LinuxAppDeployed, "1");
-            await resourceGroup.Update();
-            await Load(site, null);
-            
-            await site.UpdateConfig(new
+ 
+            // Dont run this yet. Spot serverfarms clock will start 
+            //await Util.DeployLinuxTemplateToSite(template, site);
+
+            if (!resourceGroup.Tags.ContainsKey(Constants.LinuxAppDeployed))
             {
-                properties =
-                new
-                {
-                    linuxFxVersion = "NODE|9.4"
-                }
-            });
+                resourceGroup.Tags.Add(Constants.LinuxAppDeployed, "1");
+                await resourceGroup.Update();
+            }
+            await Load(site, null);
             return site;
         }
+
+        private static async Task<Site> CreateVSCodeLinuxSite(ResourceGroup resourceGroup, Func<string> nameGenerator, string siteKind = null)
+        {
+            var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, nameGenerator(), siteKind);
+            var csmTemplateString = string.Empty;
+            var template = TemplatesManager.GetTemplates().FirstOrDefault(t => t.Name == Constants.NodejsVSCodeWebAppLinuxTemplateName) as VSCodeLinuxTemplate;
+
+            using (var reader = new StreamReader(template.CsmTemplateFilePath))
+            {
+                csmTemplateString = await reader.ReadToEndAsync();
+            }
+
+            csmTemplateString = csmTemplateString
+                                .Replace("{{siteName}}", site.SiteName)
+                                .Replace("{{aspName}}", site.SiteName + "-plan")
+                                .Replace("{{vmLocation}}", resourceGroup.GeoRegion);
+            var inProgressOperation = new InProgressOperation(resourceGroup, DeploymentType.CsmDeploy);
+            await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true, subscriptionType: resourceGroup.SubscriptionType);
+            await Load(site, null);
+
+            await Util.UpdateVSCodeLinuxConfig(site);
+
+            await Util.DeployVSCodeLinuxTemplateToSite(template, site, false);
+            if (!resourceGroup.Tags.ContainsKey(Constants.VSCodeLinuxAppDeployed))
+            {
+                resourceGroup.Tags.Add(Constants.VSCodeLinuxAppDeployed, "1");
+                await resourceGroup.Update();
+            }
+
+            return site;
+        }
+
 
         private static async Task<Site> CreateFunctionApp(ResourceGroup resourceGroup, Func<string> nameGenerator, string siteKind = null)
         {
@@ -430,7 +488,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 resourceGroup.GeoRegion);
             var csmSiteResponse =
                 await
-                    csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.FunctionsAppApiVersionTemplate.Bind(site),
+                    GetClient(resourceGroup.SubscriptionType).HttpInvoke(HttpMethod.Put, ArmUriTemplates.FunctionsAppApiVersionTemplate.Bind(site),
                         new
                         {
                             properties =
@@ -442,6 +500,8 @@ namespace SimpleWAWS.Code.CsmExtensions
                             kind = Constants.FunctionsContainerSiteKind,
                             name = site.SiteName
                         });
+
+
             await csmSiteResponse.EnsureSuccessStatusCodeWithFullError();
             var csmSite = await csmSiteResponse.Content.ReadAsAsync<CsmWrapper<CsmSite>>();
 
@@ -490,6 +550,16 @@ namespace SimpleWAWS.Code.CsmExtensions
                 && csmResourceGroup.tags.ContainsKey(Constants.LinuxAppDeployed);
         }
 
+        private static bool IsVSCodeLinuxResource(CsmWrapper<CsmResourceGroup> csmResourceGroup)
+        {
+            return IsSimpleWawsResourceName(csmResourceGroup) &&
+                csmResourceGroup.properties.provisioningState == "Succeeded" &&
+                csmResourceGroup.tags != null && !csmResourceGroup.tags.ContainsKey("Bad")
+                && csmResourceGroup.tags.ContainsKey(Constants.SubscriptionType)
+                && (string.Equals(csmResourceGroup.tags[Constants.SubscriptionType], SubscriptionType.VSCodeLinux.ToString(), StringComparison.OrdinalIgnoreCase)
+                && csmResourceGroup.tags.ContainsKey(Constants.VSCodeLinuxAppDeployed));
+        }
+
         private static async Task InitFunctionsContainer(ResourceGroup resourceGroup)
         {
             var functionContainer = resourceGroup.Sites.FirstOrDefault(s => s.IsFunctionsContainer);
@@ -519,9 +589,9 @@ namespace SimpleWAWS.Code.CsmExtensions
             {
                 await LinkStorageAndUpdateSettings(functionContainer, functionsStorageAccount);
             }
-            await AddLocalHostCors(functionContainer);
+            await AddCors(functionContainer);
         }
-        public static async Task AddLocalHostCors(Site site)
+        public static async Task AddCors(Site site)
         {
             await site.UpdateConfig(new
             {
@@ -532,11 +602,13 @@ namespace SimpleWAWS.Code.CsmExtensions
                     {
                         allowedOrigins = new string[]{ "https://functions.azure.com",
                                     "https://functions-staging.azure.com", "https://functions-next.azure.com" ,
-                                    "https://localhost:44300"
+                                    "https://localhost:44300", "https://tryfunctions.com", "https://www.tryfunctions.com", "https://tryfunctions.azure.com",
+                                     "https://tryfunctions-staging.azure.com", "https://www.tryfunctions-staging.azure.com"
                     }
                 }
              }
             });
+
         }
         private static async Task LinkStorageAndUpdateSettings(Site site, StorageAccount storageAccount)
         {
@@ -554,7 +626,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         private static async Task<StorageAccount> CreateStorageAccount(ResourceGroup resourceGroup, Func<string> nameGenerator)
         {
             var storageAccount = new StorageAccount(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, nameGenerator());
-            var csmStorageResponse = await csmClient.HttpInvoke(HttpMethod.Put, ArmUriTemplates.StorageAccount.Bind(storageAccount), new { properties = new { accountType = "Standard_LRS" }, location = resourceGroup.GeoRegion });
+            var csmStorageResponse = await GetClient(resourceGroup.SubscriptionType).HttpInvoke(HttpMethod.Put, ArmUriTemplates.StorageAccount.Bind(storageAccount), new { properties = new { accountType = "Standard_LRS" }, location = resourceGroup.GeoRegion });
             await csmStorageResponse.EnsureSuccessStatusCodeWithFullError();
 
             var csmStorageAccount = await WaitUntilReady(storageAccount);

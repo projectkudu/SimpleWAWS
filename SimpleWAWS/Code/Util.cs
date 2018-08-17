@@ -4,6 +4,15 @@ using SimpleWAWS.Trace;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Net;
+using Kudu.Client.Zip;
+using Kudu.Client.Editor;
+using SimpleWAWS.Code.CsmExtensions;
+using SimpleWAWS.Code;
+using System.Globalization;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace SimpleWAWS.Models
 {
@@ -61,6 +70,128 @@ namespace SimpleWAWS.Models
             {
                 //log and ignore any tcp exceptions
                 SimpleTrace.Diagnostics.Error(ex, "TCP Error");
+            }
+        }
+
+        public static void WarmUpSite(Site site) {
+            FireAndForget(site.HostName);
+            FireAndForget(site.ScmHostName);
+        }
+        public static async Task DeployLinuxTemplateToSite(LinuxTemplate template, Site site)
+        {
+            if (template?.MSDeployPackageUrl != null)
+            {
+                try
+                {
+                    var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+                    var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
+                    Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.MSDeployPackageUrl);
+                    var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
+                    Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
+
+                    await Task.WhenAll(zipUpload);
+                    if (template.Name.Equals(Constants.PHPWebAppLinuxTemplateName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        await site.UpdateConfig(
+                            new {
+                                    properties = new {
+                                        linuxFxVersion = "PHP|7.2",
+                                        appCommandLine = "process.json",
+                                        alwaysOn = true
+                                    }
+                            });
+                    }
+                    else
+                    {
+                        await site.UpdateConfig(
+                            new {
+                                properties = new {
+                                    appCommandLine = "process.json",
+                                    alwaysOn = true
+                                }
+                            });
+                    }
+                    await Task.Delay(5 * 1000);
+                    var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount: 2);
+                    Task checkSite = lsm.CheckSiteDeploymentStatusAsync(site.Url);
+                    try
+                    {
+                        await checkSite;
+                    }
+                    catch (Exception ex)
+                    {
+                        SimpleTrace.TraceError("New Site wasnt deployed" + ex.Message + ex.StackTrace);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    SimpleTrace.TraceError(ex.Message + ex.StackTrace);
+                }
+
+                WarmUpSite(site);
+            }
+        }
+        public static async Task AddTimeStampFile(Site site)
+        {
+            var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+            var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
+            var json = JsonConvert.SerializeObject(new { expiryTime = DateTime.UtcNow.AddMinutes(Double.Parse(SimpleSettings.VSCodeLinuxExpiryMinutes)).ToString() });
+            HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            Task addTimeStampFile = vfsManager.Put("site/wwwroot/metadata.json" , content);
+            await addTimeStampFile;
+        }
+        //TODO: Remove this when the setting can be persisted on the first try during ARM create
+        public static async Task UpdateVSCodeLinuxConfig(Site site)
+        {
+            await site.UpdateConfig(
+                new
+                {
+                    properties = new {
+                        appCommandLine = "process.json",
+                        linuxFxVersion = "NODE|9.4",
+                        alwaysOn = true
+                    }
+                });
+        }
+        public static async Task DeployVSCodeLinuxTemplateToSite(VSCodeLinuxTemplate template, Site site, bool addTimeStampFile = false)
+        {
+            if (template?.MSDeployPackageUrl != null)
+            {
+                try
+                {
+                    var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+                    var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
+                    Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.MSDeployPackageUrl);
+                    var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
+                    Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
+                    List<Task> taskList = new List<Task>();
+                    taskList.Add(zipUpload);
+                    taskList.Add(deleteHostingStart);
+                    if (addTimeStampFile)
+                    {
+                        Task timeStampAdd = AddTimeStampFile(site);
+                        taskList.Add(timeStampAdd);
+                    }
+                    await Task.WhenAll(taskList.ToArray());
+
+                    await Task.Delay(10 * 1000);
+
+                    var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount: 4);
+                    Task checkSite = lsm.CheckSiteDeploymentStatusAsync(site.Url);
+                    try
+                    {
+                        await checkSite;
+                    }
+                    catch (Exception ex)
+                    {
+                        SimpleTrace.TraceError("New Site wasnt deployed" + ex.Message + ex.StackTrace);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    SimpleTrace.TraceError(ex.Message + ex.StackTrace);
+                }
+                WarmUpSite(site);
             }
         }
     }

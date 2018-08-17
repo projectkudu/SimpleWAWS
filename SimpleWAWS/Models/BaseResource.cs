@@ -11,10 +11,13 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return SimpleSettings.MonitoringToolsSubscription.Equals(SubscriptionId, StringComparison.OrdinalIgnoreCase)
-                       ? SubscriptionType.MonitoringTools
-                       : SimpleSettings.LinuxSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Contains(SubscriptionId)
-                       ? SubscriptionType.Linux
+                return SimpleSettings.MonitoringToolsSubscription.Equals(SubscriptionId, StringComparison.OrdinalIgnoreCase) ? SubscriptionType.MonitoringTools :
+                       SimpleSettings.LinuxSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                       .Contains(SubscriptionId)
+                       ? SubscriptionType.Linux :
+                       SimpleSettings.VSCodeLinuxSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                       .Contains(SubscriptionId)
+                       ? SubscriptionType.VSCodeLinux
                        : SubscriptionType.AppService;
             }
         }

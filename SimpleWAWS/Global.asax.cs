@@ -181,7 +181,7 @@ namespace SimpleWAWS
                 // If the route is not registered in the WebAPI RouteTable
                 //    then it's not an API route, which means it's a resource (*.js, *.css, *.cshtml), not authenticated.
                 // If the route doesn't have authenticated value assume true
-                var isAuthenticated = route != null && (route.Values["authenticated"] == null || (bool) route.Values["authenticated"]);
+                var isAuthenticated = route != null && ((route.Values["authenticated"] == null || (bool) route.Values["authenticated"]) && !(route.Values["action"] != null && String.Equals(route.Values["action"].ToString(),"All",StringComparison.OrdinalIgnoreCase)));
 
                 if (isAuthenticated)
                 {

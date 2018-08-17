@@ -62,6 +62,17 @@ angular.module("tryApp")
             }, {
                 name: "home.linuxwebapp.work",
                 templateUrl: "/templates/work.cshtml",
+        }];
+
+        var vscodelinuxWebApps: ng.ui.IState[] = [{
+            name: "home.vscodelinuxwebapp",
+            templateUrl: "templates/empty-shell.cshtml",
+        }, {
+                name: "home.vscodelinuxwebapp.templates",
+                templateUrl: "/templates/templates.cshtml",
+            }, {
+                name: "home.vscodelinuxwebapp.work",
+                templateUrl: "/templates/work.cshtml",
             }];
 
         var monitoringToolsApps: ng.ui.IState[] = [{
@@ -90,6 +101,7 @@ angular.module("tryApp")
         apiApps.forEach(s => $stateProvider.state(s));
         logicApps.forEach(s => $stateProvider.state(s));
         linuxWebApps.forEach(s => $stateProvider.state(s));
+        vscodelinuxWebApps.forEach(s => $stateProvider.state(s));
         monitoringToolsApps.forEach(s => $stateProvider.state(s));
         containersApps.forEach(s => $stateProvider.state(s));
         $locationProvider.html5Mode(true);

@@ -20,7 +20,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 csmStorageAccount = await WaitUntilReady(storageAccount);
             }
 
-            var csmStorageResponse = await csmClient.HttpInvoke(HttpMethod.Post, ArmUriTemplates.StorageListKeys.Bind(storageAccount));
+            var csmStorageResponse = await GetClient(storageAccount.SubscriptionType).HttpInvoke(HttpMethod.Post, ArmUriTemplates.StorageListKeys.Bind(storageAccount));
             await csmStorageResponse.EnsureSuccessStatusCodeWithFullError();
 
             var keys = await csmStorageResponse.Content.ReadAsAsync<Dictionary<string, string>>();
@@ -37,7 +37,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             CsmWrapper<CsmStorageAccount> csmStorageAccount = null;
             do
             {
-                var csmStorageResponse = await csmClient.HttpInvoke(HttpMethod.Get, ArmUriTemplates.StorageAccount.Bind(storageAccount));
+                var csmStorageResponse = await GetClient(storageAccount.SubscriptionType).HttpInvoke(HttpMethod.Get, ArmUriTemplates.StorageAccount.Bind(storageAccount));
                 await csmStorageResponse.EnsureSuccessStatusCodeWithFullError();
                 csmStorageAccount = await csmStorageResponse.Content.ReadAsAsync<CsmWrapper<CsmStorageAccount>>();
                 isSucceeded = csmStorageAccount.properties.provisioningState.Equals("Succeeded", StringComparison.OrdinalIgnoreCase);

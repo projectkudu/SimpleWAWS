@@ -7,6 +7,9 @@
         Logic = 2,
         Function = 3,
         Containers = 4,
-        MonitoringTools = 5
+        MonitoringTools = 5,
+        Linux = 6,
+        VSCodeLinux = 7
+
     }
 }
