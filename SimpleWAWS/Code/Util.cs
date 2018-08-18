@@ -144,15 +144,18 @@ namespace SimpleWAWS.Models
         //TODO: Remove this when the setting can be persisted on the first try during ARM create
         public static async Task UpdateVSCodeLinuxConfig(Site site)
         {
-            await site.UpdateConfig(
+            site.AppSettings["SITE_GIT_URL"] = site.GitUrlWithCreds;
+            site.AppSettings["SITE_BASH_GIT_URL"] = site.BashGitUrlWithCreds;
+            await Task.WhenAll(site.UpdateConfig(
                 new
                 {
-                    properties = new {
+                    properties = new
+                    {
                         appCommandLine = "process.json",
                         linuxFxVersion = "NODE|9.4",
                         alwaysOn = true
                     }
-                });
+                }), site.UpdateAppSettings());
         }
         public static async Task DeployVSCodeLinuxTemplateToSite(BaseTemplate template, Site site, bool addTimeStampFile = false)
         {
