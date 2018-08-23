@@ -31,6 +31,16 @@ namespace LinuxSiteManager.Client
                 await response.EnsureSuccessStatusCodeAndNewSiteContentWithFullError();
             }
         }
+        private async Task CheckTimeStampMetaDataStatus(string path)
+        {
+            using (var request = new HttpRequestMessage())
+            {
+                request.Method = HttpMethod.Get;
+                request.RequestUri = new Uri(path, UriKind.Absolute);
+                var response = await httpClient.SendAsync(request);
+                await response.EnsureSuccessStatusCodeAndUpdatedTimeStampWithFullError();
+            }
+        }
 
         public async Task CheckSiteDeploymentStatusAsync(string path)
         {
@@ -40,6 +50,15 @@ namespace LinuxSiteManager.Client
                     await CheckSiteDeploymentStatus(path);
                 }
             }, _retryCount, delay:5000);
+        }
+        public async Task CheckTimeStampMetaDataDeploymentStatusAsync(string path)
+        {
+            await RetryHelper.Retry(async () =>
+            {
+                {
+                    await CheckTimeStampMetaDataStatus(path);
+                }
+            }, _retryCount, delay: 1500);
         }
 
     }

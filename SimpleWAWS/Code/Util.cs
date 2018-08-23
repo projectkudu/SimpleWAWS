@@ -188,6 +188,7 @@ namespace SimpleWAWS.Models
                     }
                     catch (Exception ex)
                     {
+                        //TODO: Alert on this specifically
                         SimpleTrace.TraceError("New Site wasnt deployed" + ex.Message + ex.StackTrace);
                     }
                 }

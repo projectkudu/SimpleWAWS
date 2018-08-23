@@ -392,10 +392,22 @@ namespace SimpleWAWS.Code
                 if (template.Name.Equals(Constants.NodejsVSCodeWebAppLinuxTemplateName, StringComparison.OrdinalIgnoreCase))
                 {
                     await Util.AddTimeStampFile(site);
+                    var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount: 2);
+                    Task checkSite = lsm.CheckTimeStampMetaDataDeploymentStatusAsync(site.Url);
+                    try
+                    {
+                        await checkSite;
+                        SimpleTrace.TraceError("Forcing retry");
+                    }
+                    catch (Exception ex)
+                    {
+                        //TODO: Alert on this specifically after we add parsing logic
+                        SimpleTrace.TraceError("New TimeStamp wasnt deployed" + ex.Message + ex.StackTrace);
+                    }
                 }
                 else
                 {
-                    await Util.DeployVSCodeLinuxTemplateToSite(template, site, true);
+                    await Util.DeployVSCodeLinuxTemplateToSite(template, site, addTimeStampFile:true);
                 }
                 return resourceGroup;
             });
