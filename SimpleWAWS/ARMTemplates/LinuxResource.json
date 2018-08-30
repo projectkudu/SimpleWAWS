@@ -55,7 +55,7 @@
             "resources": [
               {
                 "apiVersion": "2015-08-01",
-                "name": "logs",
+                "name": "web",
                 "type": "config",
                 "dependsOn": [
                   "[resourceId('Microsoft.Web/Sites', parameters('siteName'))]"

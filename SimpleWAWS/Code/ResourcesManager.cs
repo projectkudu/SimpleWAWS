@@ -327,7 +327,7 @@ namespace SimpleWAWS.Code
 
                 var csmTemplateString = string.Empty;
 
-                using(var reader = new StreamReader(template.CsmTemplateFilePath))
+                using(var reader = new StreamReader(((SimpleWAWS.Models.LogicTemplate)(TemplatesManager.GetTemplates().FirstOrDefault((a) => a.AppService == AppService.Logic))).CsmTemplateFilePath))
                 {
                     csmTemplateString = await reader.ReadToEndAsync();
                 }

@@ -97,7 +97,8 @@ namespace SimpleWAWS.Models
                                     properties = new {
                                         linuxFxVersion = "PHP|7.2",
                                         appCommandLine = "process.json",
-                                        alwaysOn = true
+                                        alwaysOn = true,
+                                        httpLoggingEnabled = true
                                     }
                             });
                     }
@@ -108,7 +109,8 @@ namespace SimpleWAWS.Models
                                 properties = new {
                                     linuxFxVersion = "NODE|9.4",
                                     appCommandLine = "process.json",
-                                    alwaysOn = true
+                                    alwaysOn = true,
+                                    httpLoggingEnabled = true
                                 }
                             });
                     }
@@ -141,8 +143,7 @@ namespace SimpleWAWS.Models
             Task addTimeStampFile = vfsManager.Put("site/wwwroot/metadata.json" , content);
             await addTimeStampFile;
         }
-        //TODO: Remove this when the setting can be persisted on the first try during ARM create
-        public static async Task UpdateVSCodeLinuxConfig(Site site)
+        public static async Task UpdateVSCodeLinuxAppSettings(Site site)
         {
             site.AppSettings["SITE_GIT_URL"] = site.GitUrlWithCreds;
             site.AppSettings["SITE_BASH_GIT_URL"] = site.BashGitUrlWithCreds;
@@ -153,7 +154,8 @@ namespace SimpleWAWS.Models
                     {
                         appCommandLine = "process.json",
                         linuxFxVersion = "NODE|9.4",
-                        alwaysOn = true
+                        alwaysOn = true,
+                        httpLoggingEnabled = true
                     }
                 }), site.UpdateAppSettings());
         }

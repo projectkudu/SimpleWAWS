@@ -467,7 +467,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true, subscriptionType: resourceGroup.SubscriptionType);
             await Load(site, null);
 
-            await Util.UpdateVSCodeLinuxConfig(site);
+            await Util.UpdateVSCodeLinuxAppSettings(site);
 
             await Util.DeployVSCodeLinuxTemplateToSite(template, site, false);
             if (!resourceGroup.Tags.ContainsKey(Constants.VSCodeLinuxAppDeployed))

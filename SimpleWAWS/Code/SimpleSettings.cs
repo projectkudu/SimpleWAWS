@@ -45,7 +45,7 @@ namespace SimpleWAWS.Code
         public static string GraphPassword { get { return config(); } }
         public static string ZippedRepoUrl { get { return config(); } }
         public static int CleanupExpiredResourceGroupsMinutes { get { return Int32.Parse(config("5")); } }
-        public static int CleanupSubscriptionFirstInvokeMinutes { get { return Int32.Parse(config("15")); } }
+        public static int CleanupSubscriptionFirstInvokeMinutes { get { return Int32.Parse(config("10")); } }
         public static int CleanupSubscriptionMinutes { get { return Int32.Parse(config("240")); } }
         public static int LoqQueueStatsMinutes { get { return Int32.Parse(config("5")); } }
         public static int BackGroundQueueSize{ get { return Int32.Parse(config("50")); } }
