@@ -159,10 +159,10 @@ namespace SimpleWAWS.Code.CsmExtensions
             return resourceGroup;
         }
 
-        public static async Task<ResourceGroup> CreateResourceGroup(string subscriptionId, string region)
+        public static async Task<ResourceGroup> CreateResourceGroup(string subscriptionId, string region, string templateName)
         {
             var guid = Guid.NewGuid().ToString();
-            var resourceGroup = new ResourceGroup(subscriptionId, string.Join(Constants.TryResourceGroupSeparator, Constants.TryResourceGroupPrefix, region.Replace(" ", Constants.TryResourceGroupSeparator), guid))
+            var resourceGroup = new ResourceGroup(subscriptionId, string.Join(Constants.TryResourceGroupSeparator, Constants.TryResourceGroupPrefix, region.Replace(" ", Constants.TryResourceGroupSeparator), guid), templateName)
             {
                 Tags = new Dictionary<string, string>
                     {
@@ -170,7 +170,8 @@ namespace SimpleWAWS.Code.CsmExtensions
                         { Constants.IsRbacEnabled, false.ToString() },
                         { Constants.GeoRegion, region },
                         { Constants.IsExtended, false.ToString() },
-                        { Constants.SubscriptionType, (new Subscription(subscriptionId)).Type.ToString()}
+                        { Constants.SubscriptionType, (new Subscription(subscriptionId)).Type.ToString()},
+                        { Constants.TemplateName, templateName??String.Empty}
                     }
             };
 
@@ -181,7 +182,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 location = region
             });
             await csmResponse.EnsureSuccessStatusCodeWithFullError();
-
+            resourceGroup.TemplateName = templateName;
             return resourceGroup;
         }
 
@@ -290,10 +291,11 @@ namespace SimpleWAWS.Code.CsmExtensions
         public static async Task<ResourceGroup> DeleteAndCreateReplacement(this ResourceGroup resourceGroup, bool blockDelete = false)
         {
             var region = resourceGroup.GeoRegion;
+            var templateName = resourceGroup.TemplateName;
             var subscriptionId = resourceGroup.SubscriptionId;
             await Delete(resourceGroup, block: blockDelete);
             //TODO: add a check here to only create resourcegroup if the quota per sub/region is not met.
-            return await PutInDesiredState(await CreateResourceGroup(subscriptionId, region));
+            return await PutInDesiredState(await CreateResourceGroup(subscriptionId, region, templateName));
         }
 
         public static async Task<ResourceGroup> MarkInUse(this ResourceGroup resourceGroup, string userId, AppService appService)
@@ -452,7 +454,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, nameGenerator(), siteKind);
             var csmTemplateString = string.Empty;
-            var template = TemplatesManager.GetTemplates().FirstOrDefault(t => t.Name == Constants.NodejsVSCodeWebAppLinuxTemplateName) as VSCodeLinuxTemplate;
+            var template = TemplatesManager.GetTemplates().FirstOrDefault(t => t.Name == resourceGroup.TemplateName) as VSCodeLinuxTemplate;
 
             using (var reader = new StreamReader(template.CsmTemplateFilePath))
             {
@@ -470,12 +472,11 @@ namespace SimpleWAWS.Code.CsmExtensions
             await Util.UpdateVSCodeLinuxAppSettings(site);
 
             await Util.DeployVSCodeLinuxTemplateToSite(template, site, false);
-            if (!resourceGroup.Tags.ContainsKey(Constants.VSCodeLinuxAppDeployed))
+            if (!resourceGroup.Tags.ContainsKey(Constants.TemplateName))
             {
-                resourceGroup.Tags.Add(Constants.VSCodeLinuxAppDeployed, "1");
+                resourceGroup.Tags.Add(Constants.TemplateName, resourceGroup.TemplateName);
                 await resourceGroup.Update();
             }
-
             return site;
         }
 
@@ -557,7 +558,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 csmResourceGroup.tags != null && !csmResourceGroup.tags.ContainsKey("Bad")
                 && csmResourceGroup.tags.ContainsKey(Constants.SubscriptionType)
                 && (string.Equals(csmResourceGroup.tags[Constants.SubscriptionType], SubscriptionType.VSCodeLinux.ToString(), StringComparison.OrdinalIgnoreCase)
-                && csmResourceGroup.tags.ContainsKey(Constants.VSCodeLinuxAppDeployed));
+                && csmResourceGroup.tags.ContainsKey(Constants.TemplateName));
         }
 
         private static async Task InitFunctionsContainer(ResourceGroup resourceGroup)

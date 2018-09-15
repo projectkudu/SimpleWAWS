@@ -124,22 +124,22 @@ namespace SimpleWAWS.Models
                         MSDeployPackageUrl = HostingEnvironment.MapPath("~/App_Data/LinuxTemplates/ReactVSCodeWebApp.zip"),
                         CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/VSCodeLinuxResource.json")
                     });
-                    list.Add(new VSCodeLinuxTemplate
-                    {
-                        Name = Constants.VuejsVSCodeWebAppLinuxTemplateName,
-                        SpriteName = "sprite-LinuxNodeJSExpress LinuxWebApp",
-                        AppService = AppService.VSCodeLinux,
-                        MSDeployPackageUrl = HostingEnvironment.MapPath("~/App_Data/LinuxTemplates/Vue.jsVSCodeWebApp.zip"),
-                        CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/VSCodeLinuxResource.json")
-                    });
-                    list.Add(new VSCodeLinuxTemplate
-                    {
-                        Name = Constants.AngularVSCodeWebAppLinuxTemplateName,
-                        SpriteName = "sprite-LinuxNodeJSExpress LinuxWebApp",
-                        AppService = AppService.VSCodeLinux,
-                        MSDeployPackageUrl = HostingEnvironment.MapPath("~/App_Data/LinuxTemplates/AngularVSCodeWebApp.zip"),
-                        CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/VSCodeLinuxResource.json")
-                    });
+                    //list.Add(new VSCodeLinuxTemplate
+                    //{
+                    //    Name = Constants.VuejsVSCodeWebAppLinuxTemplateName,
+                    //    SpriteName = "sprite-LinuxNodeJSExpress LinuxWebApp",
+                    //    AppService = AppService.VSCodeLinux,
+                    //    MSDeployPackageUrl = HostingEnvironment.MapPath("~/App_Data/LinuxTemplates/Vue.jsVSCodeWebApp.zip"),
+                    //    CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/VSCodeLinuxResource.json")
+                    //});
+                    //list.Add(new VSCodeLinuxTemplate
+                    //{
+                    //    Name = Constants.AngularVSCodeWebAppLinuxTemplateName,
+                    //    SpriteName = "sprite-LinuxNodeJSExpress LinuxWebApp",
+                    //    AppService = AppService.VSCodeLinux,
+                    //    MSDeployPackageUrl = HostingEnvironment.MapPath("~/App_Data/LinuxTemplates/AngularVSCodeWebApp.zip"),
+                    //    CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/VSCodeLinuxResource.json")
+                    //});
                 }
                 //Use JObject.Parse to quickly build up the armtemplate object used for LRS
                 _baseARMTemplate = JObject.Parse( File.ReadAllText(HostingEnvironment.MapPath("~/ARMTemplates/BaseARMTemplate.json")));

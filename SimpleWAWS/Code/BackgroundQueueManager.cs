@@ -25,13 +25,14 @@ namespace SimpleWAWS.Code
             get
             {
                 return FreeResourceGroups.ToList()
-                       .Concat(FreeVSCodeLinuxResourceGroups.ToList())
+                       .Concat(FreeVSCodeLinuxResourceGroups.Values.SelectMany(e => e).ToList())
                        .Concat(FreeLinuxResourceGroups.ToList())
                        .Concat(ResourceGroupsInUse.Where(e => e.Value != null).Select(e => e.Value))
                        .Concat(ResourceGroupsInProgress.Where(e => e.Value != null).Select(e => e.Value.ResourceGroup));
             }
         }
-        public readonly ConcurrentQueue<ResourceGroup> FreeVSCodeLinuxResourceGroups = new ConcurrentQueue<ResourceGroup>();
+        //public readonly ConcurrentQueue<ResourceGroup> FreeVSCodeLinuxResourceGroups = new ConcurrentQueue<ResourceGroup>();
+        public ConcurrentDictionary<string, ConcurrentQueue<ResourceGroup>> FreeVSCodeLinuxResourceGroups = new ConcurrentDictionary<string, ConcurrentQueue<ResourceGroup>>();
         public readonly ConcurrentQueue<ResourceGroup> FreeLinuxResourceGroups = new ConcurrentQueue<ResourceGroup>();
         public readonly ConcurrentDictionary<string, InProgressOperation> ResourceGroupsInProgress = new ConcurrentDictionary<string, InProgressOperation>();
         public readonly ConcurrentDictionary<string, ResourceGroup> ResourceGroupsInUse = new ConcurrentDictionary<string, ResourceGroup>();
@@ -44,7 +45,7 @@ namespace SimpleWAWS.Code
         private static Random rand = new Random();
         internal Stopwatch _uptime;
         internal int _cleanupOperationsTriggered;
-        public ResourceGroup MonitoringResourceGroup ;
+        public ResourceGroup MonitoringResourceGroup;
         public static ConcurrentDictionary<string, DateTime> MonitoringResourceGroupCheckoutTimes = new ConcurrentDictionary<string, DateTime>();
 
         public BackgroundQueueManager()
@@ -158,9 +159,23 @@ namespace SimpleWAWS.Code
                     {
                         PutResourceGroupInDesiredStateOperation(resourceGroup);
                     }
-                    foreach (var geoRegion in result.ToCreateInRegions)
+                    if (result.ToCreateInRegions != null)
                     {
-                        CreateResourceGroupOperation(subscription.SubscriptionId, geoRegion);
+                        foreach (var geoRegion in result.ToCreateInRegions)
+                        {
+                            CreateResourceGroupOperation(subscription.SubscriptionId, geoRegion);
+                        }
+                    }
+                    if (result.ToCreateTemplates != null)
+                    {
+                        var rand = new Random();
+                        foreach (var template in result.ToCreateTemplates)
+                        {
+                            for (int i = 0; i < template.RemainingCount; i++)
+                            {
+                                CreateResourceGroupOperation(subscription.SubscriptionId, subscription.GeoRegions.ElementAt(rand.Next(subscription.GeoRegions.Count())), template.TemplateName);
+                            }
+                        }
                     }
                     foreach (var resourceGroup in result.ToDelete)
                     {
@@ -180,13 +195,17 @@ namespace SimpleWAWS.Code
                     }
                     else
                     {
-                        if (readyToAddRg.SubscriptionType == SubscriptionType.AppService || readyToAddRg.SubscriptionType ==SubscriptionType.MonitoringTools)
+                        if (readyToAddRg.SubscriptionType == SubscriptionType.AppService || readyToAddRg.SubscriptionType == SubscriptionType.MonitoringTools)
                         {
                             FreeResourceGroups.Enqueue(readyToAddRg);
                         }
                         else if (readyToAddRg.SubscriptionType == SubscriptionType.VSCodeLinux)
                         {
-                            FreeVSCodeLinuxResourceGroups.Enqueue(readyToAddRg);
+                            if (!FreeVSCodeLinuxResourceGroups.ContainsKey(readyToAddRg.TemplateName))
+                            {
+                                FreeVSCodeLinuxResourceGroups.GetOrAdd(readyToAddRg.TemplateName, new ConcurrentQueue<ResourceGroup>());
+                            }
+                            FreeVSCodeLinuxResourceGroups[readyToAddRg.TemplateName].Enqueue(readyToAddRg);
                         }
                         else if (readyToAddRg.SubscriptionType == SubscriptionType.Linux)
                         {
@@ -277,21 +296,21 @@ namespace SimpleWAWS.Code
                         .Select(g => g.ResourceGroups.Where(rg => rg.tags != null && !rg.tags.ContainsKey("UserId")))
                         .SelectMany(i => i);
 
-                    totalDeletedRGs += (deleteLeakingRGs == null)? 0: deleteLeakingRGs.Count();
+                    totalDeletedRGs += (deleteLeakingRGs == null) ? 0 : deleteLeakingRGs.Count();
                     AppInsights.TelemetryClient.TrackMetric("deletedLeakingRGs", deleteLeakingRGs.Count());
-                    Parallel.ForEach(deleteLeakingRGs , async resourceGroup =>
-                    {
-                        try
-                        {
-                            var georegion = CsmManager.RegionHashTable[resourceGroup.location].ToString();
-                            SimpleTrace.Diagnostics.Information($"Deleting leaked {georegion} resource  {resourceGroup.name}");
-                            await new ResourceGroup(s.SubscriptionId, resourceGroup.name, georegion).Delete(false);
-                        }
-                        catch (Exception ex)
-                        {
-                            SimpleTrace.Diagnostics.Error($"Leaking RG Delete Exception:{ex.ToString()}-{ex.StackTrace}-{ex.InnerException?.StackTrace.ToString() ?? String.Empty}");
-                        }
-                    });
+                    Parallel.ForEach(deleteLeakingRGs, async resourceGroup =>
+                   {
+                       try
+                       {
+                           var georegion = CsmManager.RegionHashTable[resourceGroup.location].ToString();
+                           SimpleTrace.Diagnostics.Information($"Deleting leaked {georegion} resource  {resourceGroup.name}");
+                           await new ResourceGroup(s.SubscriptionId, resourceGroup.name, georegion).Delete(false);
+                       }
+                       catch (Exception ex)
+                       {
+                           SimpleTrace.Diagnostics.Error($"Leaking RG Delete Exception:{ex.ToString()}-{ex.StackTrace}-{ex.InnerException?.StackTrace.ToString() ?? String.Empty}");
+                       }
+                   });
                 }
                 AppInsights.TelemetryClient.TrackMetric("totalDeletedLeakingRGs", totalDeletedRGs);
                 AppInsights.TelemetryClient.TrackMetric("leakingRGsCleanupTime", sw.Elapsed.TotalSeconds);
@@ -301,25 +320,32 @@ namespace SimpleWAWS.Code
                 IList<Tuple<string, MakeSubscriptionFreeTrialResult>> subscriptionStates = new List<Tuple<string, MakeSubscriptionFreeTrialResult>>();
                 var deletedDuplicateRGs = 0;
                 var createdMissingRGs = 0;
+                var createdMissingTemplates = 0;
                 foreach (var subscription in subscriptions)
                 {
                     var sub = new Subscription(subscription);
                     sub.ResourceGroups = LoadedResourceGroups.Where(r => r.SubscriptionId == sub.SubscriptionId);
                     var trialsubresult = sub.MakeTrialSubscription();
-                    if (trialsubresult.ToCreateInRegions.Any() || trialsubresult.ToDelete.Any())
+                    if ((trialsubresult.ToCreateInRegions != null && trialsubresult.ToCreateInRegions.Any())
+                        || (trialsubresult.ToCreateTemplates != null && trialsubresult.ToCreateTemplates.Any())
+                        || trialsubresult.ToDelete.Any())
                     {
                         subscriptionStates.Add(new Tuple<string, MakeSubscriptionFreeTrialResult>(subscription, trialsubresult));
                     }
                 }
 
                 AppInsights.TelemetryClient.TrackMetric("subsWithIncorrectRGs", subscriptionStates.Count());
+                var rand = new Random();
 
                 foreach (var subscriptionState in subscriptionStates)
                 {
-                    foreach (var geoRegion in subscriptionState.Item2.ToCreateInRegions)
+                    if (subscriptionState.Item2.ToCreateInRegions != null)
                     {
-                        CreateResourceGroupOperation(subscriptionState.Item1, geoRegion);
-                        createdMissingRGs++;
+                        foreach (var geoRegion in subscriptionState.Item2.ToCreateInRegions)
+                        {
+                            CreateResourceGroupOperation(subscriptionState.Item1, geoRegion);
+                            createdMissingRGs++;
+                        }
                     }
                     foreach (var resourceGroup in subscriptionState.Item2.ToDelete)
                     {
@@ -327,7 +353,21 @@ namespace SimpleWAWS.Code
                         DeleteResourceGroupOperation(resourceGroup);
                         deletedDuplicateRGs++;
                     }
+                    if (subscriptionState.Item2.ToCreateTemplates != null)
+                    {
+                        foreach (var template in subscriptionState.Item2.ToCreateTemplates)
+                        {
+                            var subscription = new Subscription(subscriptionState.Item1);
+                            for (int i = 0; i < template.RemainingCount; i++)
+                            {
+
+                                CreateResourceGroupOperation(subscriptionState.Item1, subscription.GeoRegions.ElementAt(rand.Next(subscription.GeoRegions.Count())), template.TemplateName);
+                                createdMissingTemplates++;
+                            }
+                        }
+                    }
                 }
+                AppInsights.TelemetryClient.TrackMetric("createdMissingTemplates", createdMissingTemplates);
                 AppInsights.TelemetryClient.TrackMetric("createdMissingRGs", createdMissingRGs);
                 AppInsights.TelemetryClient.TrackMetric("deletedDuplicateRGs", deletedDuplicateRGs);
                 AppInsights.TelemetryClient.TrackMetric("fullCleanupTime", sw.Elapsed.TotalSeconds);
@@ -401,11 +441,11 @@ namespace SimpleWAWS.Code
         }
         private void RemoveFromFreeVSCodeLinuxQueue(ResourceGroup resourceGroup)
         {
-            if (this.FreeVSCodeLinuxResourceGroups.ToList().Any(r => string.Equals(r.CsmId, resourceGroup.CsmId, StringComparison.OrdinalIgnoreCase)))
+            if (this.FreeVSCodeLinuxResourceGroups[resourceGroup.TemplateName].ToList().Any(r => string.Equals(r.CsmId, resourceGroup.CsmId, StringComparison.OrdinalIgnoreCase)))
             {
-                var dequeueCount = this.FreeVSCodeLinuxResourceGroups.Count;
+                var dequeueCount = this.FreeVSCodeLinuxResourceGroups[resourceGroup.TemplateName].Count;
                 ResourceGroup temp;
-                while (dequeueCount-- >= 0 && (this.FreeVSCodeLinuxResourceGroups.TryDequeue(out temp)))
+                while (dequeueCount-- >= 0 && (this.FreeVSCodeLinuxResourceGroups[resourceGroup.TemplateName].TryDequeue(out temp)))
                 {
                     if (string.Equals(temp.ResourceGroupName, resourceGroup.ResourceGroupName,
                         StringComparison.OrdinalIgnoreCase))
@@ -414,7 +454,7 @@ namespace SimpleWAWS.Code
                     }
                     else
                     {
-                        this.FreeVSCodeLinuxResourceGroups.Enqueue(temp);
+                        this.FreeVSCodeLinuxResourceGroups[resourceGroup.TemplateName].Enqueue(temp);
                     }
                 }
             }
@@ -467,7 +507,7 @@ namespace SimpleWAWS.Code
             var inProgress = ResourceGroupsInProgress.Select(s => s.Value).Count();
             var backgroundOperations = BackgroundInternalOperations.Select(s => s.Value).Count();
             var freeLinuxResources = FreeLinuxResourceGroups.Count(sub => sub.SubscriptionType == SubscriptionType.Linux);
-            var freeVSCodeLinuxResources = FreeVSCodeLinuxResourceGroups.Count(sub => sub.SubscriptionType == SubscriptionType.VSCodeLinux);
+            var freeVSCodeLinuxResources = FreeVSCodeLinuxResourceGroups.Values.SelectMany(e => e).ToList().Count(sub => sub.SubscriptionType == SubscriptionType.VSCodeLinux);
 
             var inUseLinuxResources = ResourceGroupsInUse.Select(s => s.Value).Count(sub => sub.SubscriptionType == SubscriptionType.Linux);
             var inUseVSCodeLinuxResources = ResourceGroupsInUse.Select(s => s.Value).Count(sub => sub.SubscriptionType == SubscriptionType.VSCodeLinux);
@@ -500,14 +540,14 @@ namespace SimpleWAWS.Code
             });
         }
 
-        private void CreateResourceGroupOperation(string subscriptionId, string geoRegion)
+        private void CreateResourceGroupOperation(string subscriptionId, string geoRegion, string templateName = "")
         {
             AddOperation(new BackgroundOperation<ResourceGroup>
             {
-                Description = $"Creating resourceGroup in {subscriptionId} in {geoRegion}",
+                Description = $"Creating resourceGroup in {subscriptionId} in {geoRegion} with templateName {templateName}",
                 Type = OperationType.ResourceGroupCreate,
-                Task = CsmManager.CreateResourceGroup(subscriptionId, geoRegion),
-                RetryAction = () => CreateResourceGroupOperation(subscriptionId, geoRegion)
+                Task = CsmManager.CreateResourceGroup(subscriptionId, geoRegion, templateName),
+                RetryAction = () => CreateResourceGroupOperation(subscriptionId, geoRegion, templateName)
             });
         }
 

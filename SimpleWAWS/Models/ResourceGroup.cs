@@ -249,5 +249,16 @@ namespace SimpleWAWS.Models
             this.Tags = new Dictionary<string, string>();
             this.Tags[Constants.GeoRegion] = georegion;
         }
+        public ResourceGroup(string subsciptionId, string resourceGroupName, string georegion,string templateName)
+: base(subsciptionId, resourceGroupName, templateName)
+        {
+            this.Sites = Enumerable.Empty<Site>();
+            this.ServerFarms = Enumerable.Empty<ServerFarm>();
+            this.LogicApps = Enumerable.Empty<LogicApp>();
+            this.StorageAccounts = Enumerable.Empty<StorageAccount>();
+            this.Tags = new Dictionary<string, string>();
+            this.Tags[Constants.GeoRegion] = georegion;
+            this.Tags[Constants.TemplateName] = templateName;
+        }
     }
 }

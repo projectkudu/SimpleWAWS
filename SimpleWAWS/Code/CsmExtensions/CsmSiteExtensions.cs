@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace SimpleWAWS.Code.CsmExtensions
 {
@@ -158,6 +159,24 @@ namespace SimpleWAWS.Code.CsmExtensions
             var response = await GetClient(site.SubscriptionType).HttpInvoke(HttpMethod.Post, ArmUriTemplates.SitePublishingProfile.Bind(site));
             await response.EnsureSuccessStatusCodeWithFullError();
             return await response.Content.ReadAsStreamAsync();
+        }
+
+        public static string GetGitCloneUrl(this Site site)
+        {
+            Validate.ValidateCsmSite(site);
+            return site.GitUrlWithCreds;
+        }
+        public static string GetVSCodeUrl(this Site site)
+        {
+            Validate.ValidateCsmSite(site);
+            var url = $"vscode://vscode.git/clone?url={HttpUtility.UrlEncode(site.GitUrlWithCreds)}";
+            return url;
+        }
+        public static string GetVSCodeInsidersUrl(this Site site)
+        {
+            Validate.ValidateCsmSite(site);
+            var url = $"vscode-insiders://vscode.git/clone?url={HttpUtility.UrlEncode(site.GitUrlWithCreds)}";
+            return url;
         }
         public static async Task<Stream> GetSiteContent(this Site site)
         {

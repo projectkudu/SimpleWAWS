@@ -47,11 +47,19 @@ namespace SimpleWAWS.Models
         public string ResourceGroupName { get; protected set; }
 
         public abstract string CsmId { get; }
+        public string TemplateName { get; set; }
 
         public BaseResource(string subscriptionId, string resourceGroupName)
         {
             this.SubscriptionId = subscriptionId;
             this.ResourceGroupName = resourceGroupName;
         }
+        public BaseResource(string subscriptionId, string resourceGroupName,string templateName)
+        {
+            this.SubscriptionId = subscriptionId;
+            this.ResourceGroupName = resourceGroupName;
+            this.TemplateName = templateName;
+        }
+
     }
 }

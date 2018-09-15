@@ -31,17 +31,17 @@ namespace SimpleWAWS.Code.CsmExtensions
 
                 var deleteBadResourceGroupsTasks = csmResourceGroups.value
                     //Some orphaned resourcegroups can have no tags. Okay to clean once in a while since they dont have any sites either
-                    .Where(r =>   ((r.tags == null && IsSimpleWawsResourceName(r)) 
+                    .Where(r => ((r.tags == null && IsSimpleWawsResourceName(r))
                                 || (r.tags != null && ((r.tags.ContainsKey("Bad") ||
-                                    (subscription.Type==SubscriptionType.AppService ? 
-                                    !r.tags.ContainsKey(Constants.FunctionsContainerDeployed) 
-                                    : subscription.Type == SubscriptionType.Linux? !r.tags.ContainsKey(Constants.LinuxAppDeployed): !r.tags.ContainsKey(Constants.VSCodeLinuxAppDeployed)
+                                    (subscription.Type == SubscriptionType.AppService ?
+                                    !r.tags.ContainsKey(Constants.FunctionsContainerDeployed)
+                                    : subscription.Type == SubscriptionType.Linux ? !r.tags.ContainsKey(Constants.LinuxAppDeployed) : !r.tags.ContainsKey(Constants.TemplateName)
                                     ))
-                                  )) 
+                                  ))
                                 && r.properties.provisioningState != "Deleting"))
-                    .Where(p => !resourceManager.GetAllLoadedResourceGroups().Any(p2 => string.Equals(p.id, p2.CsmId, StringComparison.OrdinalIgnoreCase))) 
+                    .Where(p => !resourceManager.GetAllLoadedResourceGroups().Any(p2 => string.Equals(p.id, p2.CsmId, StringComparison.OrdinalIgnoreCase)))
                     .Select(async r => await Delete(await Load(new ResourceGroup(subscription.SubscriptionId, r.name), r, loadSubResources: false), block: false));
-              
+
                 await deleteBadResourceGroupsTasks.IgnoreFailures().WhenAll();
 
                 csmResourceGroups = await subscription.LoadResourceGroupsForSubscription();
@@ -54,8 +54,8 @@ namespace SimpleWAWS.Code.CsmExtensions
                 await csmSubscriptionResourcesReponse.Content.ReadAsAsync<CsmArrayWrapper<object>>();
 
             var goodResourceGroups = csmResourceGroups.value
-                .Where(r => subscription.Type == SubscriptionType.AppService?IsSimpleWaws(r) 
-                          : subscription.Type == SubscriptionType.Linux? IsLinuxResource(r)
+                .Where(r => subscription.Type == SubscriptionType.AppService ? IsSimpleWaws(r)
+                          : subscription.Type == SubscriptionType.Linux ? IsLinuxResource(r)
                           : IsVSCodeLinuxResource(r))
                 .Select(r => new
                 {
@@ -64,9 +64,9 @@ namespace SimpleWAWS.Code.CsmExtensions
                                 resource => resource.id.IndexOf(r.id, StringComparison.OrdinalIgnoreCase) != -1)
                 });
 
-                subscription.ResourceGroups = await goodResourceGroups
-                .Select( async r => await Load(new ResourceGroup(subscription.SubscriptionId, r.ResourceGroup.name),r.ResourceGroup, r.Resources))
-                .IgnoreAndFilterFailures();
+            subscription.ResourceGroups = await goodResourceGroups
+            .Select(async r => await Load(new ResourceGroup(subscription.SubscriptionId, r.ResourceGroup.name), r.ResourceGroup, r.Resources))
+            .IgnoreAndFilterFailures();
 
             if (deleteBadResourceGroups)
             {
@@ -109,41 +109,69 @@ namespace SimpleWAWS.Code.CsmExtensions
             .Select(async r => await Load(new ResourceGroup(subscription.SubscriptionId, r.ResourceGroup.name), r.ResourceGroup, r.Resources))
             .IgnoreAndFilterFailures();
 
-
             return subscription;
         }
-        public static  async Task<CsmArrayWrapper<CsmResourceGroup>> LoadResourceGroupsForSubscription(this Subscription subscription)
+        public static async Task<CsmArrayWrapper<CsmResourceGroup>> LoadResourceGroupsForSubscription(this Subscription subscription)
         {
             var csmResourceGroupsResponse = await GetClient(subscription.Type).HttpInvoke(HttpMethod.Get, ArmUriTemplates.ResourceGroups.Bind(subscription));
             await csmResourceGroupsResponse.EnsureSuccessStatusCodeWithFullError();
 
-            return  await csmResourceGroupsResponse.Content.ReadAsAsync<CsmArrayWrapper<CsmResourceGroup>>();
+            return await csmResourceGroupsResponse.Content.ReadAsAsync<CsmArrayWrapper<CsmResourceGroup>>();
         }
 
         public static MakeSubscriptionFreeTrialResult MakeTrialSubscription(this Subscription subscription)
         {
             var result = new MakeSubscriptionFreeTrialResult();
-
-            result.ToCreateInRegions = subscription.GeoRegions
+            if (subscription.Type != SubscriptionType.VSCodeLinux)
+            {
+                result.ToCreateTemplates = new List<TemplateStats>();
+                result.ToCreateInRegions = subscription.GeoRegions
                 .Where(g => !subscription.ResourceGroups
                            .Any(rg => rg.ResourceGroupName.StartsWith(string.Format(CultureInfo.InvariantCulture, "{0}_{1}", Constants.TryResourceGroupPrefix, g.Replace(" ", Constants.TryResourceGroupSeparator)), StringComparison.OrdinalIgnoreCase)))
                            .Concat(subscription.ResourceGroups
                                     .GroupBy(s => s.GeoRegion)
                                     .Select(g => new { Region = g.Key, ResourceGroups = g.Select(r => r), RemainingCount = (subscription.ResourceGroupsPerGeoRegion) - g.Count() })
                                     .Where(g => g.RemainingCount > 0)
-                                    .Select(g => Enumerable.Repeat(g.Region,g.RemainingCount))
+                                    .Select(g => Enumerable.Repeat(g.Region, g.RemainingCount))
                                     .Select(i => i)
                                     .SelectMany(i => i)
                                     );
-            result.ToDelete = subscription.ResourceGroups
+                result.ToDelete = subscription.ResourceGroups
                 .GroupBy(s => s.GeoRegion)
                 .Select(g => new { Region = g.Key, ResourceGroups = g.Select(r => r), Count = g.Count() })
                 .Where(g => g.Count > subscription.ResourceGroupsPerGeoRegion)
                 .Select(g => g.ResourceGroups.Where(rg => string.IsNullOrEmpty(rg.UserId)).Skip((subscription.ResourceGroupsPerGeoRegion)))
                 .SelectMany(i => i);
 
-            //TODO:Also delete RGs that are not in subscription.GeoRegions
+            }
+            else if (subscription.Type == SubscriptionType.VSCodeLinux)
+            {
+                result.ToCreateInRegions = new List<string>();
+                var vscodeTemplates = TemplatesManager.GetTemplates().Where(a => a.AppService == AppService.VSCodeLinux);
+                var temp = subscription.ResourceGroups.GroupBy(a => a.TemplateName)
+                    .Select(g => new
+                    TemplateStats
+                    {
+                        TemplateName = g.Key,
+                        RemainingCount = (subscription.ResourceGroupsPerTemplate) - g.Count()
+                    })
+                   .Where(g => g.RemainingCount > 0);
+                var temp2 = new List<TemplateStats>();
+                foreach (var remaining in vscodeTemplates)
+                {
+                    var count = temp.Count(a => a.TemplateName == remaining.Name);
+                    temp2.Add(new TemplateStats { TemplateName = remaining.Name, RemainingCount = subscription.ResourceGroupsPerTemplate - count });
+                }
+                result.ToCreateTemplates = temp2;
+                result.ToDelete = subscription.ResourceGroups
+                        .GroupBy(s => s.TemplateName)
+                        .Select(g => new { TemplateName = g.Key, ResourceGroups = g.Select(r => r), ExtraCount = g.Count() - (subscription.ResourceGroupsPerTemplate) })
+                        .Where(g => g.ExtraCount > 0)
+                        .Select(g => g.ResourceGroups.Where(rg => string.IsNullOrEmpty(rg.UserId)).Skip((subscription.ResourceGroupsPerGeoRegion)))
+                        .SelectMany(i => i);
+            }
 
+            //TODO:Also delete RGs that are not in subscription.GeoRegions
             result.Ready = subscription.ResourceGroups.Where(rg => !result.ToDelete.Any(drg => drg.ResourceGroupName == rg.ResourceGroupName));
 
             return result;
@@ -152,7 +180,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             var result = new MakeSubscriptionFreeTrialResult();
 
-            result.Ready = subscription.ResourceGroups.Where(rg => rg.ResourceGroupName==SimpleSettings.MonitoringToolsResourceGroupName);
+            result.Ready = subscription.ResourceGroups.Where(rg => rg.ResourceGroupName == SimpleSettings.MonitoringToolsResourceGroupName);
 
             return result;
         }

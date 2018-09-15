@@ -85,7 +85,7 @@ namespace SimpleWAWS.Code
         }
 
         // ARM
-        private async Task<ResourceGroup> ActivateResourceGroup(TryWebsitesIdentity userIdentity, AppService appService, DeploymentType deploymentType, Func<ResourceGroup, InProgressOperation, Task<ResourceGroup>> func)
+        private async Task<ResourceGroup> ActivateResourceGroup(TryWebsitesIdentity userIdentity, AppService appService, DeploymentType deploymentType, Func<ResourceGroup, InProgressOperation, Task<ResourceGroup>> func, string template="")
         {
             ResourceGroup resourceGroup = null;
             if (userIdentity == null)
@@ -107,7 +107,14 @@ namespace SimpleWAWS.Code
                 }
                 else if ((appService == AppService.VSCodeLinux))
                 {
-                    resourceGroupFound = _backgroundQueueManager.FreeVSCodeLinuxResourceGroups.TryDequeue(out resourceGroup);
+                    if (_backgroundQueueManager.FreeVSCodeLinuxResourceGroups[template] != null)
+                    {
+                        resourceGroupFound = _backgroundQueueManager.FreeVSCodeLinuxResourceGroups[template].TryDequeue(out resourceGroup);
+                    }
+                    else
+                    {
+                        resourceGroupFound = false;
+                    }
                 }
                 else if ((appService != AppService.MonitoringTools))
                 {
@@ -387,10 +394,8 @@ namespace SimpleWAWS.Code
                             AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, "VSCodeLinux", template.Name, resourceGroup.ResourceUniqueId, AppService.VSCodeLinux.ToString());
 
                 var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
-                resourceGroup.Tags[Constants.TemplateName] = template.Name;
-                resourceGroup = await resourceGroup.Update();
-                if (template.Name.Equals(Constants.NodejsVSCodeWebAppLinuxTemplateName, StringComparison.OrdinalIgnoreCase))
-                {
+                //if (template.Name.Equals(Constants.NodejsVSCodeWebAppLinuxTemplateName, StringComparison.OrdinalIgnoreCase))
+                //{
                     await Util.AddTimeStampFile(site);
                     var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount: 2);
                     Task checkSite = lsm.CheckTimeStampMetaDataDeploymentStatusAsync(site.Url);
@@ -404,13 +409,13 @@ namespace SimpleWAWS.Code
                         //TODO: Alert on this specifically after we add parsing logic
                         SimpleTrace.TraceError("New TimeStamp wasnt deployed" + ex.Message + ex.StackTrace);
                     }
-                }
-                else
-                {
-                    await Util.DeployVSCodeLinuxTemplateToSite(template, site, addTimeStampFile:true);
-                }
+                //}
+                //else
+                //{
+                //    await Util.DeployVSCodeLinuxTemplateToSite(template, site, addTimeStampFile:true);
+                //}
                 return resourceGroup;
-            });
+            }, template.Name);
         }
         public async Task<ResourceGroup> ActivateContainersResource(ContainersTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
@@ -554,7 +559,7 @@ namespace SimpleWAWS.Code
         }
         public IReadOnlyCollection<ResourceGroup> GetAllFreeVSCodeLinuxResourceGroups()
         {
-            return _backgroundQueueManager.FreeVSCodeLinuxResourceGroups.ToList();
+            return _backgroundQueueManager.FreeVSCodeLinuxResourceGroups.Values.SelectMany(e => e).ToList();
         }
         public ResourceGroup GetMonitoringToolResourceGroup()
         {

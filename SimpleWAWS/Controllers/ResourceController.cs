@@ -13,6 +13,8 @@ using SimpleWAWS.Code.CsmExtensions;
 using System.Threading;
 using SimpleWAWS.Code;
 using SimpleWAWS.Trace;
+using System.IO;
+using System.Text;
 
 namespace SimpleWAWS.Controllers
 {
@@ -347,6 +349,56 @@ namespace SimpleWAWS.Controllers
             {
                 SimpleTrace.Diagnostics.Fatal(e, "Error extending expiration time");
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, Resources.Server.Error_GeneralErrorMessage);
+            }
+        }
+
+        public async Task<HttpResponseMessage> GetVSCodeUrl()
+        {
+            var resourceManager = await ResourcesManager.GetInstanceAsync();
+            var response = Request.CreateResponse();
+            var resourceGroup = await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name);
+            var stream = resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).Select(s => s.GetVSCodeUrl()).FirstOrDefault();
+            if (stream != null)
+            {
+                response.Headers.Location = new Uri(stream);
+                response.StatusCode = HttpStatusCode.Redirect;
+                return response;
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, Resources.Server.Error_InvalidUserIdentity);
+            }
+        }
+        public async Task<HttpResponseMessage> GetVSCodeInsidersUrl()
+        {
+            var resourceManager = await ResourcesManager.GetInstanceAsync();
+            var response = Request.CreateResponse();
+            var resourceGroup = await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name);
+            var stream = resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).Select(s => s.GetVSCodeInsidersUrl()).FirstOrDefault();
+            if (stream != null)
+            {
+                response.Headers.Location = new Uri(stream);
+                response.StatusCode = HttpStatusCode.Redirect;
+                return response;
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, Resources.Server.Error_InvalidUserIdentity);
+            }
+        }
+        public async Task<HttpResponseMessage> GetGitCloneUrl()
+        {
+            var resourceManager = await ResourcesManager.GetInstanceAsync();
+            var response = Request.CreateResponse();
+            var resourceGroup = await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name);
+            var url = resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).Select(s => s.GetGitCloneUrl()).FirstOrDefault();
+            if (url != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, url);
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, Resources.Server.Error_InvalidUserIdentity);
             }
         }
     }

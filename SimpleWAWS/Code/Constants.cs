@@ -30,7 +30,6 @@
         public const string DefaultServerFarmName = "Default1";
         public const string SubscriptionType = "SubscriptionType";
         public const string LinuxAppDeployed = "LinuxAppDeployed";
-        public const string VSCodeLinuxAppDeployed = "VSCodeLinuxAppDeployed";
         public const string NextSlotName = "next";
         public const string NextHostName = "trywebsites-next.azurewebsites.net";
         public const string PHPWebAppLinuxTemplateName = "PHP Web App on Linux";

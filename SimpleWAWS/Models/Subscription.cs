@@ -67,8 +67,19 @@ namespace SimpleWAWS.Models
                         return 1;
                     case SubscriptionType.Linux:
                         return SimpleSettings.LinuxResourceGroupsPerRegion;
+                    default:
+                        return 0;
+                };
+            }
+        }
+        public int ResourceGroupsPerTemplate
+        {
+            get
+            {
+                switch (Type)
+                {
                     case SubscriptionType.VSCodeLinux:
-                        return SimpleSettings.VSCodeLinuxResourceGroupsPerRegion;
+                        return SimpleSettings.VSCodeLinuxResourceGroupsPerTemplate;
                     default:
                         return 0;
                 };
