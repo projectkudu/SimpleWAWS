@@ -222,7 +222,8 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             try
             {
-                if (csmResource.SubscriptionType == SubscriptionType.VSCodeLinux)
+                //Disable RBAC access temporarily
+                //if (csmResource.SubscriptionType == SubscriptionType.VSCodeLinux)
                     return false;
 
                 var rbacRole = csmResource.SubscriptionType == SubscriptionType.MonitoringTools|| csmResource is ServerFarm || csmResource is ResourceGroup
