@@ -452,9 +452,12 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         private static async Task<Site> CreateVSCodeLinuxSite(ResourceGroup resourceGroup, Func<string> nameGenerator, string siteKind = null)
         {
+            var jsonSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
             var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, nameGenerator(), siteKind);
             var csmTemplateString = string.Empty;
             var template = TemplatesManager.GetTemplates().FirstOrDefault(t => t.Name == resourceGroup.TemplateName) as VSCodeLinuxTemplate;
+
+            SimpleTrace.TraceInformation($"Deploying {template.Name} to {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
 
             using (var reader = new StreamReader(template.CsmTemplateFilePath))
             {
@@ -466,16 +469,38 @@ namespace SimpleWAWS.Code.CsmExtensions
                                 .Replace("{{aspName}}", site.SiteName + "-plan")
                                 .Replace("{{vmLocation}}", resourceGroup.GeoRegion);
             var inProgressOperation = new InProgressOperation(resourceGroup, DeploymentType.CsmDeploy);
-            await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true, subscriptionType: resourceGroup.SubscriptionType);
+            var token = await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true, subscriptionType: resourceGroup.SubscriptionType);
+            SimpleTrace.TraceInformation($"ARM Deployment result: {JsonConvert.SerializeObject(token)} to {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
             await Load(site, null);
+            SimpleTrace.TraceInformation($"Site Loaded from ARM : {JsonConvert.SerializeObject(site)} to {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
 
             await Util.UpdateVSCodeLinuxAppSettings(site);
+            SimpleTrace.TraceInformation($"Site AppSettings Updated:  for {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
 
+            //await site.StopSite();
             await Util.DeployVSCodeLinuxTemplateToSite(template, site, false);
+            //await site.StartSite();
+
+            var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount: 6);
+            Task checkSite = lsm.CheckSiteDeploymentStatusAsync(site.HttpUrl);
+            try
+            {
+                await checkSite;
+            }
+            catch (Exception ex)
+            {
+                //TODO: Alert on this specifically
+                var message = "New Site didnt come up after zip deploy: " + ex.Message + ex.StackTrace;
+                SimpleTrace.TraceError(message);
+                throw new ZipDeploymentFailedException(message);
+            }
+
+            SimpleTrace.TraceInformation($"Site Code Zip PUT and restart complete: {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
             if (!resourceGroup.Tags.ContainsKey(Constants.TemplateName))
             {
                 resourceGroup.Tags.Add(Constants.TemplateName, resourceGroup.TemplateName);
                 await resourceGroup.Update();
+                SimpleTrace.TraceInformation($"ResourceGroup Templates Tag Updated: for {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
             }
             return site;
         }

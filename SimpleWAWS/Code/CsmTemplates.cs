@@ -42,6 +42,8 @@ namespace SimpleWAWS.Code
         public static readonly ArmUriTemplate Sites = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Web/sites", websitesApiVersion);
         public static readonly ArmUriTemplate Site = new ArmUriTemplate(Sites.TemplateUrl + "/{siteName}", websitesApiVersion);
         public static readonly ArmUriTemplate SiteCreate = new ArmUriTemplate(Sites.TemplateUrl + "/{siteName}", websitesCreateApiVersion);
+        public static readonly ArmUriTemplate SiteStart = new ArmUriTemplate(Sites.TemplateUrl + "/{siteName}/start", websitesCreateApiVersion);
+        public static readonly ArmUriTemplate SiteStop = new ArmUriTemplate(Sites.TemplateUrl + "/{siteName}/stop", websitesCreateApiVersion);
         public static readonly ArmUriTemplate FunctionsAppApiVersionTemplate = new ArmUriTemplate(Sites.TemplateUrl + "/{siteName}", functionsApiVersion);
         public static readonly ArmUriTemplate GetSiteAppSettings = new ArmUriTemplate(Site.TemplateUrl + "/config/AppSettings/list", websitesApiVersion);
         public static readonly ArmUriTemplate PutSiteAppSettings = new ArmUriTemplate(Site.TemplateUrl + "/config/AppSettings", websitesApiVersion);

@@ -25,7 +25,8 @@ namespace Kudu.Client.Infrastructure
             HttpClient client = new HttpClient(effectiveHandler)
             {
                 BaseAddress = serviceAddr,
-                MaxResponseContentBufferSize = 30 * 1024 * 1024
+                MaxResponseContentBufferSize = 60 * 1024 * 1024,
+                Timeout = new TimeSpan(0,25,0)
             };
 
             client.DefaultRequestHeaders.Accept.Clear();

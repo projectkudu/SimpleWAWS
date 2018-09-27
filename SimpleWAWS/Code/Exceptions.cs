@@ -31,7 +31,18 @@ namespace SimpleWAWS.Models
             : base(message)
         { }
     }
-
+    public class ZipDeploymentFailedException : Exception
+    {
+        public ZipDeploymentFailedException(string message)
+            : base(message)
+        { }
+    }
+    public class SiteStartStopFailedException : Exception
+    {
+        public SiteStartStopFailedException(string message)
+            : base(message)
+        { }
+    }
     public class InvalidGithubRepoException : Exception
     {
         public InvalidGithubRepoException()

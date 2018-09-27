@@ -201,11 +201,13 @@ namespace SimpleWAWS.Code
                         }
                         else if (readyToAddRg.SubscriptionType == SubscriptionType.VSCodeLinux)
                         {
-                            if (!FreeVSCodeLinuxResourceGroups.ContainsKey(readyToAddRg.TemplateName))
+                            if (!FreeVSCodeLinuxResourceGroups.ContainsKey(readyToAddRg.DeployedTemplateName))
                             {
-                                FreeVSCodeLinuxResourceGroups.GetOrAdd(readyToAddRg.TemplateName, new ConcurrentQueue<ResourceGroup>());
+                                readyToAddRg.TemplateName = readyToAddRg.DeployedTemplateName;
+                                FreeVSCodeLinuxResourceGroups.GetOrAdd(readyToAddRg.DeployedTemplateName, new ConcurrentQueue<ResourceGroup>());
                             }
-                            FreeVSCodeLinuxResourceGroups[readyToAddRg.TemplateName].Enqueue(readyToAddRg);
+                            readyToAddRg.TemplateName = readyToAddRg.DeployedTemplateName;
+                            FreeVSCodeLinuxResourceGroups[readyToAddRg.DeployedTemplateName].Enqueue(readyToAddRg);
                         }
                         else if (readyToAddRg.SubscriptionType == SubscriptionType.Linux)
                         {

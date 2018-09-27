@@ -9,6 +9,7 @@ using System.IO.Compression;
 using System.Threading.Tasks;
 using SimpleWAWS.Models;
 using System.Net.Http;
+using SimpleWAWS.Trace;
 
 namespace SimpleWAWS
 {
@@ -130,6 +131,7 @@ namespace SimpleWAWS
             if (!response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
+                SimpleTrace.TraceInformation($"{response.StatusCode}->{response.RequestMessage.RequestUri}->{response.ReasonPhrase}->{content}: Response status code does not indicate success");
                 throw new FailedRequestException(response.RequestMessage.RequestUri, content, response.StatusCode, "Response status code does not indicate success");
             }
             return response;
@@ -158,7 +160,7 @@ namespace SimpleWAWS
             {
                 throw new FailedRequestException(response.RequestMessage.RequestUri, content, response.StatusCode, "Response status code does not indicate success");
             }
-            if (!content.Contains("Hosted at"))
+            if (!content.Contains(@"App</title>"))
                 throw new FailedRequestException(response.RequestMessage.RequestUri, content, response.StatusCode, "Site still not deployed");
 
             return response;

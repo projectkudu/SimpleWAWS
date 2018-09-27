@@ -3,6 +3,7 @@ using Kudu.Client.Zip;
 using Newtonsoft.Json;
 using SimpleWAWS.Models;
 using SimpleWAWS.Models.CsmModels;
+using SimpleWAWS.Trace;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -58,7 +59,46 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             return site;
         }
-
+        public static async Task StopSite(this Site site)
+        {
+            var csmResponse = await GetClient(site.SubscriptionType).HttpInvoke(HttpMethod.Post, ArmUriTemplates.SiteStop.Bind(site), new { });
+            try
+            {
+                await csmResponse.EnsureSuccessStatusCodeWithFullError();
+            }
+            catch (Exception ex)
+            {
+                var message = $"Error Stopping site via ARM {site.SiteName} -> {site.ResourceGroupName} -> {site.SubscriptionId} : {ex.Message} -> {ex.StackTrace}";
+                SimpleTrace.TraceError(message);
+                throw new SiteStartStopFailedException(message);
+            }
+            if (!await Util.PingTillStatusCode(site.HostName, HttpStatusCode.Forbidden, 35, 5))
+            {
+                var message = $"Error Pinging site after stop {site.SiteName} -> {site.ResourceGroupName} -> {site.SubscriptionId}";
+                SimpleTrace.TraceError(message);
+                throw new SiteStartStopFailedException(message);
+            }
+        }
+        public static async Task StartSite(this Site site)
+        {
+            var csmResponse = await GetClient(site.SubscriptionType).HttpInvoke(HttpMethod.Post, ArmUriTemplates.SiteStart.Bind(site), new { });
+            try
+            {
+                await csmResponse.EnsureSuccessStatusCodeWithFullError();
+            }
+            catch (Exception ex)
+            {
+                var message = $"Error Starting site via ARM {site.SiteName} -> {site.ResourceGroupName} -> {site.SubscriptionId} : {ex.Message} -> {ex.StackTrace}";
+                SimpleTrace.TraceError(message);
+                throw new SiteStartStopFailedException(message);
+            }
+            if (!await Util.PingTillStatusCode(site.HostName, HttpStatusCode.OK, 35, 5))
+            {
+                var message = $"Error Pinging site after start {site.SiteName} -> {site.ResourceGroupName} -> {site.SubscriptionId}";
+                SimpleTrace.TraceError(message);
+                throw new SiteStartStopFailedException(message);
+            }
+        }
         public static async Task<Site> UpdateMetadata(this Site site)
         {
             var csmResponse = await GetClient(site.SubscriptionType).HttpInvoke(HttpMethod.Put, ArmUriTemplates.PutSiteMetadata.Bind(site), new { properties = site.Metadata });

@@ -13,6 +13,7 @@ using System.Globalization;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.IO;
 
 namespace SimpleWAWS.Models
 {
@@ -73,7 +74,9 @@ namespace SimpleWAWS.Models
             }
         }
 
-        public static void WarmUpSite(Site site) {
+        public static void WarmUpSite(Site site)
+        {
+            SimpleTrace.TraceInformation($"Warming up hostnames: {site.HostName},{site.ScmHostName}->{site.ResourceGroupName}->{site.SubscriptionId}");
             FireAndForget(site.HostName);
             FireAndForget(site.ScmHostName);
         }
@@ -93,20 +96,24 @@ namespace SimpleWAWS.Models
                     if (template.Name.Equals(Constants.PHPWebAppLinuxTemplateName, StringComparison.OrdinalIgnoreCase))
                     {
                         await site.UpdateConfig(
-                            new {
-                                    properties = new {
-                                        linuxFxVersion = "PHP|7.2",
-                                        appCommandLine = "process.json",
-                                        alwaysOn = true,
-                                        httpLoggingEnabled = true
-                                    }
+                            new
+                            {
+                                properties = new
+                                {
+                                    linuxFxVersion = "PHP|7.2",
+                                    appCommandLine = "process.json",
+                                    alwaysOn = true,
+                                    httpLoggingEnabled = true
+                                }
                             });
                     }
                     else
                     {
                         await site.UpdateConfig(
-                            new {
-                                properties = new {
+                            new
+                            {
+                                properties = new
+                                {
                                     linuxFxVersion = "NODE|9.4",
                                     appCommandLine = "process.json",
                                     alwaysOn = true,
@@ -116,7 +123,7 @@ namespace SimpleWAWS.Models
                     }
                     await Task.Delay(5 * 1000);
                     var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount: 2);
-                    Task checkSite = lsm.CheckSiteDeploymentStatusAsync(site.Url);
+                    Task checkSite = lsm.CheckSiteDeploymentStatusAsync(site.HttpUrl);
                     try
                     {
                         await checkSite;
@@ -134,17 +141,21 @@ namespace SimpleWAWS.Models
                 WarmUpSite(site);
             }
         }
+
+ 
         public static async Task AddTimeStampFile(Site site)
         {
             var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
             var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
             var json = JsonConvert.SerializeObject(new { expiryTime = DateTime.UtcNow.AddMinutes(Double.Parse(SimpleSettings.VSCodeLinuxExpiryMinutes)).ToString() });
             HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
-            Task addTimeStampFile = vfsManager.Put("site/wwwroot/metadata.json" , content);
+            Task addTimeStampFile = vfsManager.Put("site/wwwroot/metadata.json", content);
             await addTimeStampFile;
         }
         public static async Task UpdateVSCodeLinuxAppSettings(Site site)
         {
+            SimpleTrace.TraceInformation($"Site AppSettings Update started: for {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");
+
             site.AppSettings["SITE_GIT_URL"] = site.GitUrlWithCreds;
             site.AppSettings["SITE_BASH_GIT_URL"] = site.BashGitUrlWithCreds;
             await Task.WhenAll(site.UpdateConfig(
@@ -161,45 +172,126 @@ namespace SimpleWAWS.Models
         }
         public static async Task DeployVSCodeLinuxTemplateToSite(BaseTemplate template, Site site, bool addTimeStampFile = false)
         {
+            SimpleTrace.TraceInformation($"Site ZipDeploy started: for {template?.MSDeployPackageUrl} on {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");
             if (template?.MSDeployPackageUrl != null)
             {
                 try
                 {
                     var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-                    var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
-                    Task zipUpload = zipManager.PutZipFileAsync("site/wwwroot", template.MSDeployPackageUrl);
+                    var zipManager = new RemoteZipManager(site.ScmUrl + "api/zipdeploy?isAsync=true", credentials, retryCount: 3);
+                    Task<Uri> zipUpload = zipManager.PostZipFileAsync("", template.MSDeployPackageUrl);
+                    var deploystatusurl = await zipUpload;
+
+                    SimpleTrace.TraceInformation($"Site ZipDeployed: StatusUrl: {deploystatusurl} for {template?.MSDeployPackageUrl} on {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");
+
+                    var deploycheck = 0;
+                    var deploycheckTimes = 150;
+                    while (deploycheck++ < deploycheckTimes)
+                    {
+                        try
+                        {
+                            await Task.Delay(10 * 1000);
+
+                            var url = site.MonacoUrl.Replace(@"/basicauth", deploystatusurl.PathAndQuery);
+                            var httpClient = (HttpWebRequest)WebRequest.Create(url);
+                            {
+                                var creds = $"{site.PublishingUserName }:{ site.PublishingPassword}";
+                                var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(creds);
+                                var credsbase64 = System.Convert.ToBase64String(plainTextBytes);
+                                httpClient.Headers.Add($"Authorization: Basic {credsbase64}");
+                                using (var response = await httpClient.GetResponseAsync())
+                                {
+                                    using (var content = new StreamReader(response.GetResponseStream()))
+                                    {
+                                        var message = Newtonsoft.Json.Linq.JObject.Parse(content.ReadToEnd());
+                                        if ((bool)message["complete"] == false)
+                                        {
+                                            SimpleTrace.TraceInformation($"Zip Deployment going on: StatusUrl: {deploystatusurl} -{JsonConvert.SerializeObject(message)} for {template?.MSDeployPackageUrl} on {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");
+
+                                        }
+                                        else
+                                        {
+                                            SimpleTrace.TraceInformation($"Zip Deployment completed: StatusUrl: {deploystatusurl} -{JsonConvert.SerializeObject(message)} for {template?.MSDeployPackageUrl} on {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");
+                                            break;
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                        catch {
+                            SimpleTrace.TraceError($"Ping post ZipDeployed: StatusUrl: {deploystatusurl} for {template?.MSDeployPackageUrl} on {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");
+
+                        }
+
+                    }
+
                     var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
+
                     Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
+
                     List<Task> taskList = new List<Task>();
-                    taskList.Add(zipUpload);
+                    //taskList.Add(zipUpload);
                     taskList.Add(deleteHostingStart);
+                    if (template.Name == Constants.ReactVSCodeWebAppLinuxTemplateName)
+                    {
+                        Task uploaddeploymentfile = vfsManager.Put("site/wwwroot/deploy.sh", (template?.MSDeployPackageUrl.Replace("ReactVSCodeWebApp.zip", "deploy.sh")));
+                        Task uploaddeploysh = vfsManager.Put("site/wwwroot/.deployment", (template?.MSDeployPackageUrl.Replace("ReactVSCodeWebApp.zip", ".deployment")));
+                        taskList.Add(uploaddeploymentfile);
+                        taskList.Add(uploaddeploysh);
+                    }
                     if (addTimeStampFile)
                     {
+                        SimpleTrace.TraceInformation($"Adding TimeStamp File started: for {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");
                         Task timeStampAdd = AddTimeStampFile(site);
                         taskList.Add(timeStampAdd);
                     }
                     await Task.WhenAll(taskList.ToArray());
-
+                    SimpleTrace.TraceInformation($"Site ZipDeploy and Delete HostingStart completed: for {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");
                     await Task.Delay(10 * 1000);
-
-                    var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount: 4);
-                    Task checkSite = lsm.CheckSiteDeploymentStatusAsync(site.Url);
-                    try
-                    {
-                        await checkSite;
-                    }
-                    catch (Exception ex)
-                    {
-                        //TODO: Alert on this specifically
-                        SimpleTrace.TraceError("New Site wasnt deployed" + ex.Message + ex.StackTrace);
-                    }
                 }
                 catch (Exception ex)
                 {
-                    SimpleTrace.TraceError(ex.Message + ex.StackTrace);
+                    var message = "New Site wasnt deployed: " + ex.Message + ex.StackTrace;
+                    SimpleTrace.TraceError(message);
+                    throw new ZipDeploymentFailedException(message);
                 }
-                WarmUpSite(site);
             }
+            else
+            {
+                SimpleTrace.TraceError("New Site wasnt deployed: MsDeployPackageUrl wasnt set");
+            }
+        }
+        internal static async Task<bool> PingTillStatusCode(string path, HttpStatusCode statusCode, int tries, int retryInterval)
+        {
+                var trial = 0;
+                while (trial++ < tries)
+                {
+                    await Task.Delay(new TimeSpan(0, 0, 0, retryInterval, 0));
+                    try
+                    {
+                        using (var httpClient = new HttpClient())
+                        {
+                            using (var request = new HttpRequestMessage())
+                            {
+                                request.Method = HttpMethod.Get;
+                                request.RequestUri = new Uri($"http://{path}", UriKind.Absolute);
+                                var response = await httpClient.SendAsync(request);
+                                if (response.StatusCode == statusCode)
+                                {
+                                    await response.Content.ReadAsStringAsync();
+                                    SimpleTrace.TraceInformation($"Found StatusCode {statusCode.ToString()} at {path} after {trial} trial of {tries}");
+                                    return true;
+                                }
+                            }
+                        }
+                    } catch (Exception ex)
+                    {
+                        SimpleTrace.TraceError($"Error pinging {path} on {trial} of {tries}-> {ex.Message} -> {ex.StackTrace}");
+                    }
+                }
+            SimpleTrace.TraceInformation($"Didnt get StatusCode {statusCode.ToString()} at {path} after {tries} ");
+            return false;
         }
     }
 }

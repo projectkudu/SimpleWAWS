@@ -112,6 +112,15 @@ namespace SimpleWAWS.Models
             }
         }
 
+        public string DeployedTemplateName
+        {
+            get
+            {
+                if (Tags.ContainsKey(Constants.TemplateName))
+                    return Tags[Constants.TemplateName];
+                else return string.Empty;
+            }
+        }
         public Dictionary<string, string> Tags { get; set; }
 
         public bool IsSimpleWAWS
@@ -187,7 +196,7 @@ namespace SimpleWAWS.Models
                     GitUrl = siteToUseForUi.GitUrlWithCreds,
                     BashGitUrl = siteToUseForUi.BashGitUrlWithCreds,
                     IsRbacEnabled = IsRbacEnabled,
-                    AppService = AppService.Web,
+                    AppService = AppService,
                     TemplateName = templateName,
                     IsExtended = IsExtended,
                     TimeLeftInSeconds = (int)TimeLeft.TotalSeconds,
@@ -218,7 +227,7 @@ namespace SimpleWAWS.Models
                         GitUrl = siteToUseForUi.GitUrlWithCreds,
                         ContentDownloadUrl = siteToUseForUi.ContentDownloadUrl,
                         IsRbacEnabled = IsRbacEnabled,
-                        AppService = AppService.Web,
+                        AppService = AppService,
                         TemplateName = templateName,
                         IsExtended = IsExtended,
                         TimeLeftInSeconds = SubscriptionType == SubscriptionType.MonitoringTools ? Int32.Parse(SimpleSettings.MonitoringToolsExpiryMinutes) : (int)TimeLeft.TotalSeconds,
@@ -248,6 +257,10 @@ namespace SimpleWAWS.Models
             this.StorageAccounts = Enumerable.Empty<StorageAccount>();
             this.Tags = new Dictionary<string, string>();
             this.Tags[Constants.GeoRegion] = georegion;
+            if (this.Tags.ContainsKey(Constants.TemplateName))
+            {
+                this.TemplateName = this.Tags[Constants.TemplateName];
+            }
         }
         public ResourceGroup(string subsciptionId, string resourceGroupName, string georegion,string templateName)
 : base(subsciptionId, resourceGroupName, templateName)
@@ -259,6 +272,7 @@ namespace SimpleWAWS.Models
             this.Tags = new Dictionary<string, string>();
             this.Tags[Constants.GeoRegion] = georegion;
             this.Tags[Constants.TemplateName] = templateName;
+            this.TemplateName = templateName;
         }
     }
 }

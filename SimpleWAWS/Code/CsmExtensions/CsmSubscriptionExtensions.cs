@@ -1,5 +1,7 @@
-﻿using SimpleWAWS.Models;
+﻿using Newtonsoft.Json;
+using SimpleWAWS.Models;
 using SimpleWAWS.Models.CsmModels;
+using SimpleWAWS.Trace;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -159,12 +161,12 @@ namespace SimpleWAWS.Code.CsmExtensions
                 var temp2 = new List<TemplateStats>();
                 foreach (var remaining in vscodeTemplates)
                 {
-                    var count = temp.Count(a => a.TemplateName == remaining.Name);
-                    temp2.Add(new TemplateStats { TemplateName = remaining.Name, RemainingCount = subscription.ResourceGroupsPerTemplate - count });
+                    var count = temp.Count(a => a. TemplateName == remaining.Name);
+                    temp2.Add(new TemplateStats { TemplateName = remaining.Name, RemainingCount = count });
                 }
                 result.ToCreateTemplates = temp2;
                 result.ToDelete = subscription.ResourceGroups
-                        .GroupBy(s => s.TemplateName)
+                        .GroupBy(s => s.DeployedTemplateName)
                         .Select(g => new { TemplateName = g.Key, ResourceGroups = g.Select(r => r), ExtraCount = g.Count() - (subscription.ResourceGroupsPerTemplate) })
                         .Where(g => g.ExtraCount > 0)
                         .Select(g => g.ResourceGroups.Where(rg => string.IsNullOrEmpty(rg.UserId)).Skip((subscription.ResourceGroupsPerGeoRegion)))
@@ -173,7 +175,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             //TODO:Also delete RGs that are not in subscription.GeoRegions
             result.Ready = subscription.ResourceGroups.Where(rg => !result.ToDelete.Any(drg => drg.ResourceGroupName == rg.ResourceGroupName));
-
+            SimpleTrace.TraceInformation($"MakeTrialSubscription for: {subscription.SubscriptionId} -> Ready:{result.Ready.Count()} -> ToCreate:{result.ToCreateInRegions.Count()}  -> ToDelete:{result.ToDelete.Count()} -> result:{JsonConvert.SerializeObject(result)}");
             return result;
         }
         public static MakeSubscriptionFreeTrialResult GetMonitoringToolsResource(this Subscription subscription)

@@ -42,6 +42,13 @@ namespace SimpleWAWS.Models
                 return String.Format(CultureInfo.InvariantCulture, "https://{0}/", HostName);
             }
         }
+        public string HttpUrl
+        {
+            get
+            {
+                return String.Format(CultureInfo.InvariantCulture, "http://{0}/", HostName);
+            }
+        }
 
         public string GetMobileUrl(string templateName)
         {
