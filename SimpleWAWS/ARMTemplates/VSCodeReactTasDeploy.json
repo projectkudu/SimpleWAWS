@@ -1,0 +1,89 @@
+{
+{
+  "properties": {
+    "mode": "Complete",
+    "parameters": {
+      "siteName": {
+        "value": "{{siteName}}"
+      },
+      "aspName": {
+        "value": "{{aspName}}"
+      }
+    },
+    "template": {
+      "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "siteName": { "type": "string" },
+        "aspName": { "type": "string" }
+      },
+      "resources": [
+        {
+          "apiVersion": "2016-09-01",
+          "name": "[parameters('aspName')]",
+          "type": "Microsoft.Web/serverfarms",
+          "location": "[resourceGroup().location]",
+          "properties": {
+            "maximumNumberOfWorkers": 1,
+            "geoRegion": "[resourceGroup().location]",
+            "reserved": true,
+            "planName": "VirtualDedicatedPlan"
+          },
+          "sku": {
+            "name": "B2",
+            "tier": "Basic",
+            "size": "B2",
+            "family": "B",
+            "capacity": 1
+          }
+        },
+        {
+          "apiVersion": "2016-08-01",
+          "name": "[parameters('siteName')]",
+          "type": "Microsoft.Web/sites",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [ "[parameters('aspName')]" ],
+          "properties": {
+            "serverFarmId": "[parameters('aspName')]",
+            "siteConfig": {
+              "properties": {
+                "numberOfWorkers": "1",
+                "linuxFxVersion": "NODE|9.4",
+                "appCommandLine": "process.json"
+              }
+            },
+            "maxNumberOfWorkers": "0",
+            "resources": [
+              {
+                "apiVersion": "2015-08-01",
+                "name": "logs",
+                "type": "config",
+                "dependsOn": [
+                  "[resourceId('Microsoft.Web/Sites', parameters('siteName'))]"
+                ],
+                "properties": {
+                  "httpLoggingEnabled": true,
+                  "alwaysOn": true
+                }
+              },
+              {  
+               "apiVersion":"2016-08-01",
+               "name":"web",
+               "type":"sourcecontrols",
+               "dependsOn":[  
+                  "[resourceId('Microsoft.Web/Sites', variables('siteName'))]",
+                  "[concat('Microsoft.Web/sites/', variables('siteName'), '/config/web')]"
+               ],
+               "properties":{  
+                  "RepoUrl":"https://github.com/rramachand21/vscode-tas-react/",
+                  "branch":"cdias/sync",
+                  "IsManualIntegration":true
+               }
+            }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
