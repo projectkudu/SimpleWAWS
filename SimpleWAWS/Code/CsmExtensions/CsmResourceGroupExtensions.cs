@@ -477,25 +477,33 @@ namespace SimpleWAWS.Code.CsmExtensions
             await Util.UpdateVSCodeLinuxAppSettings(site);
             SimpleTrace.TraceInformation($"Site AppSettings Updated:  for {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
 
-            //await site.StopSite();
-            await Util.DeployVSCodeLinuxTemplateToSite(template, site, false);
-            //await site.StartSite();
-
-            var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount: 6);
-            Task checkSite = lsm.CheckSiteDeploymentStatusAsync(site.HttpUrl);
-            try
+            if (template.Name == Constants.NodejsVSCodeWebAppLinuxTemplateName)
             {
-                await checkSite;
-            }
-            catch (Exception ex)
-            {
-                //TODO: Alert on this specifically
-                var message = "New Site didnt come up after zip deploy: " + ex.Message + ex.StackTrace;
-                SimpleTrace.TraceError(message);
-                throw new ZipDeploymentFailedException(message);
-            }
+                SimpleTrace.TraceInformation($"Doing Zip Deploy: for template {template.Name} {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
+                //await site.StopSite();
+                await Util.DeployVSCodeLinuxTemplateToSite(template, site, false);
+                //await site.StartSite();
 
-            SimpleTrace.TraceInformation($"Site Code Zip PUT and restart complete: {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
+                var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount: 6);
+                Task checkSite = lsm.CheckSiteDeploymentStatusAsync(site.HttpUrl);
+                try
+                {
+                    await checkSite;
+                }
+                catch (Exception ex)
+                {
+                    //TODO: Alert on this specifically
+                    var message = "New Site didnt come up after zip deploy: " + ex.Message + ex.StackTrace;
+                    SimpleTrace.TraceError(message);
+                    throw new ZipDeploymentFailedException(message);
+                }
+                SimpleTrace.TraceInformation($"Site Code Zip Deploy checks complete: {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
+
+            }
+            else
+            {
+                SimpleTrace.TraceInformation($"Skipping Zip Deploy: for template {template.Name} {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
+            }
             if (!resourceGroup.Tags.ContainsKey(Constants.TemplateName))
             {
                 resourceGroup.Tags.Add(Constants.TemplateName, resourceGroup.TemplateName);
