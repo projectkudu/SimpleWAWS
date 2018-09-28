@@ -158,10 +158,15 @@ namespace SimpleWAWS.Code.CsmExtensions
                         RemainingCount = (subscription.ResourceGroupsPerTemplate) - g.Count()
                     })
                    .Where(g => g.RemainingCount > 0);
+
                 var temp2 = new List<TemplateStats>();
                 foreach (var remaining in vscodeTemplates)
                 {
-                    var count = temp.Count(a => a. TemplateName == remaining.Name);
+                    if (!temp.Any(a => a.TemplateName == remaining.Name))
+                    {
+                        temp = temp.Union(new List<TemplateStats> { new TemplateStats{ TemplateName = remaining.Name, RemainingCount = subscription.ResourceGroupsPerTemplate } });
+                    }
+                    var count = temp.First(a => a. TemplateName == remaining.Name).RemainingCount;
                     temp2.Add(new TemplateStats { TemplateName = remaining.Name, RemainingCount = count });
                 }
                 result.ToCreateTemplates = temp2;
