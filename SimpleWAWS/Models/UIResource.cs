@@ -49,5 +49,7 @@ namespace SimpleWAWS.Models
         public string PublishingUserName { get; set; }
         [JsonProperty(PropertyName = "publishingPassword", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string PublishingPassword { get; set; }
+        [JsonProperty(PropertyName = "siteGuid", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string SiteGuid { get; set; }
     }
 }

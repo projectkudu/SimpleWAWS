@@ -14,6 +14,7 @@
         public const string AppService = "AppService";
         public const string TiPCookie = "x-ms-routing-name";
         public const string TemplateName = "TemplateName";
+        public const string SiteGuid = "SiteGuid";
         public const string IsExtended = "IsExtended";
         public const string FunctionsSitePrefix = "Functions";
         public const string FunctionsContainerSiteKind = "functionapp";

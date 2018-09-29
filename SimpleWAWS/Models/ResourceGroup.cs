@@ -196,13 +196,16 @@ namespace SimpleWAWS.Models
                     GitUrl = siteToUseForUi.GitUrlWithCreds,
                     BashGitUrl = siteToUseForUi.BashGitUrlWithCreds,
                     IsRbacEnabled = IsRbacEnabled,
-                    AppService = AppService,
+                    AppService = (AppService== AppService.Containers
+                                    || AppService == AppService.Linux
+                                    ?AppService.Web : AppService) ,
                     TemplateName = templateName,
                     IsExtended = IsExtended,
                     TimeLeftInSeconds = (int)TimeLeft.TotalSeconds,
                     CsmId = csmId,
                     PublishingUserName = siteToUseForUi.PublishingUserName,
-                    PublishingPassword = siteToUseForUi.PublishingPassword
+                    PublishingPassword = siteToUseForUi.PublishingPassword,
+                    SiteGuid =siteToUseForUi.SiteGuid
                 };
             }
         }

@@ -145,19 +145,52 @@ namespace SimpleWAWS.Models
  
         public static async Task AddTimeStampFile(Site site)
         {
-            var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-            var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
-            var json = JsonConvert.SerializeObject(new { expiryTime = DateTime.UtcNow.AddMinutes(Double.Parse(SimpleSettings.VSCodeLinuxExpiryMinutes)).ToString() });
-            HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
-            Task addTimeStampFile = vfsManager.Put("site/wwwroot/metadata.json", content);
-            await addTimeStampFile;
+            var trial = 0;
+            var tries = 6;
+            var retryInterval = 1;
+            while (trial++ < tries)
+            {
+                await Task.Delay(new TimeSpan(0, 0, 0, retryInterval, 0));
+                try
+                {
+                    using (var httpClient = new HttpClient())
+                    {
+                        using (var request = new HttpRequestMessage())
+                        {
+                            var response = await httpClient.PostAsJsonAsync(new Uri($"http://{site.HostName}/api/metadata", UriKind.Absolute)
+                                , new  { userGuid= site.SiteGuid });
+                            if (response.StatusCode == HttpStatusCode.OK)
+                            {
+                                await response.Content.ReadAsStringAsync();
+                                SimpleTrace.TraceInformation($"Updated timestamp by calling {request.RequestUri} with {await request.Content.ReadAsStringAsync()} ");
+                                return;
+                             }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    SimpleTrace.TraceError($"Error updating timestamp on {trial} of {tries}-> {ex.Message} -> {ex.StackTrace} for for {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");
+                }
+            }
+            SimpleTrace.TraceError($"Fatal failure updating timestampfor {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId} after {tries} ");
+            throw new TimeStampUpdateFailedException($"Fatal failure updating timestampfor {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId} after {tries} ");
+            //var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+            //var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
+            //var json = JsonConvert.SerializeObject(new { expiryTime = DateTime.UtcNow.AddMinutes(Double.Parse(SimpleSettings.VSCodeLinuxExpiryMinutes)).ToString() });
+            //HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            //Task addTimeStampFile = vfsManager.Put("site/wwwroot/metadata.json", content);
+            //await addTimeStampFile;
+
         }
-        public static async Task UpdateVSCodeLinuxAppSettings(Site site)
+        public static async Task<string> UpdateVSCodeLinuxAppSettings(Site site)
         {
             SimpleTrace.TraceInformation($"Site AppSettings Update started: for {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");
 
             site.AppSettings["SITE_GIT_URL"] = site.GitUrlWithCreds;
             site.AppSettings["SITE_BASH_GIT_URL"] = site.BashGitUrlWithCreds;
+            var siteguid = Guid.NewGuid().ToString();
+            site.AppSettings["SITE_SITEKEY"] = siteguid;
             await Task.WhenAll(site.UpdateConfig(
                 new
                 {
@@ -169,6 +202,8 @@ namespace SimpleWAWS.Models
                         httpLoggingEnabled = true
                     }
                 }), site.UpdateAppSettings());
+
+            return siteguid;
         }
         public static async Task DeployVSCodeLinuxTemplateToSite(BaseTemplate template, Site site, bool addTimeStampFile = false)
         {
@@ -233,13 +268,13 @@ namespace SimpleWAWS.Models
                     List<Task> taskList = new List<Task>();
                     //taskList.Add(zipUpload);
                     taskList.Add(deleteHostingStart);
-                    if (template.Name == Constants.ReactVSCodeWebAppLinuxTemplateName)
-                    {
-                        Task uploaddeploymentfile = vfsManager.Put("site/wwwroot/deploy.sh", (template?.MSDeployPackageUrl.Replace("ReactVSCodeWebApp.zip", "deploy.sh")));
-                        Task uploaddeploysh = vfsManager.Put("site/wwwroot/.deployment", (template?.MSDeployPackageUrl.Replace("ReactVSCodeWebApp.zip", ".deployment")));
-                        taskList.Add(uploaddeploymentfile);
-                        taskList.Add(uploaddeploysh);
-                    }
+                    //if (template.Name == Constants.ReactVSCodeWebAppLinuxTemplateName)
+                    //{
+                    //    Task uploaddeploymentfile = vfsManager.Put("site/wwwroot/deploy.sh", (template?.MSDeployPackageUrl.Replace("ReactVSCodeWebApp.zip", "deploy.sh")));
+                    //    Task uploaddeploysh = vfsManager.Put("site/wwwroot/.deployment", (template?.MSDeployPackageUrl.Replace("ReactVSCodeWebApp.zip", ".deployment")));
+                    //    taskList.Add(uploaddeploymentfile);
+                    //    taskList.Add(uploaddeploysh);
+                    //}
                     if (addTimeStampFile)
                     {
                         SimpleTrace.TraceInformation($"Adding TimeStamp File started: for {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");

@@ -26,7 +26,7 @@ namespace LinuxSiteManager.Client
             using (var request = new HttpRequestMessage())
             {
                 request.Method = HttpMethod.Get;
-                request.RequestUri = new Uri(path, UriKind.Absolute);
+                        request.RequestUri = new Uri(path, UriKind.Absolute);
                 var response = await httpClient.SendAsync(request);
                 await response.EnsureSuccessStatusCodeAndNewSiteContentWithFullError();
             }

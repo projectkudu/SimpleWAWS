@@ -396,7 +396,6 @@ namespace SimpleWAWS.Code.CsmExtensions
                                 }
                             });
                 await csmServerFarmResponse.EnsureSuccessStatusCodeWithFullError();
-
             }
 
             var csmSiteResponse =
@@ -470,11 +469,12 @@ namespace SimpleWAWS.Code.CsmExtensions
                                 .Replace("{{vmLocation}}", resourceGroup.GeoRegion);
             var inProgressOperation = new InProgressOperation(resourceGroup, DeploymentType.CsmDeploy);
             var token = await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true, subscriptionType: resourceGroup.SubscriptionType);
+
             SimpleTrace.TraceInformation($"ARM Deployment result: {JsonConvert.SerializeObject(token)} to {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
             await Load(site, null);
             SimpleTrace.TraceInformation($"Site Loaded from ARM : {JsonConvert.SerializeObject(site)} to {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
 
-            await Util.UpdateVSCodeLinuxAppSettings(site);
+            var siteguid = await Util.UpdateVSCodeLinuxAppSettings(site);
             SimpleTrace.TraceInformation($"Site AppSettings Updated:  for {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
 
             if (template.Name == Constants.NodejsVSCodeWebAppLinuxTemplateName)
@@ -498,7 +498,6 @@ namespace SimpleWAWS.Code.CsmExtensions
                     throw new ZipDeploymentFailedException(message);
                 }
                 SimpleTrace.TraceInformation($"Site Code Zip Deploy checks complete: {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
-
             }
             else
             {
@@ -507,9 +506,11 @@ namespace SimpleWAWS.Code.CsmExtensions
             if (!resourceGroup.Tags.ContainsKey(Constants.TemplateName))
             {
                 resourceGroup.Tags.Add(Constants.TemplateName, resourceGroup.TemplateName);
-                await resourceGroup.Update();
-                SimpleTrace.TraceInformation($"ResourceGroup Templates Tag Updated: for {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
             }
+
+            resourceGroup.Tags.Add(Constants.SiteGuid, siteguid);
+            await resourceGroup.Update();
+            SimpleTrace.TraceInformation($"ResourceGroup Templates Tag Updated: with SiteGuid: {siteguid} for {site.SiteName} ->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
             return site;
         }
 

@@ -37,6 +37,12 @@ namespace SimpleWAWS.Models
             : base(message)
         { }
     }
+    public class TimeStampUpdateFailedException : Exception
+    {
+        public TimeStampUpdateFailedException(string message)
+            : base(message)
+        { }
+    }
     public class SiteStartStopFailedException : Exception
     {
         public SiteStartStopFailedException(string message)

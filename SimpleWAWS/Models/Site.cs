@@ -25,6 +25,7 @@ namespace SimpleWAWS.Models
         public Dictionary<string, string> Metadata { get; set; }
 
         public string HostName { get; set; }
+        public string SiteGuid { get { return AppSettings.ContainsKey(Constants.SiteGuid)?AppSettings[Constants.SiteGuid]:String.Empty; } }
 
         public string ScmHostName { get; set; }
 
