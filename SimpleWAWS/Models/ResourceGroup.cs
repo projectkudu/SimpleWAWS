@@ -18,7 +18,7 @@ namespace SimpleWAWS.Models
                 return string.Format(CultureInfo.InvariantCulture, _csmIdTemplate, SubscriptionId, ResourceGroupName);
             }
         }
-
+        public string SiteGuid { get { return Tags.ContainsKey(Constants.SiteGuid) ? Tags[Constants.SiteGuid] : String.Empty; } }
         public string UserId
         {
             get { return Tags.ContainsKey(Constants.UserId) ? Tags[Constants.UserId] : null; }
@@ -205,7 +205,7 @@ namespace SimpleWAWS.Models
                     CsmId = csmId,
                     PublishingUserName = siteToUseForUi.PublishingUserName,
                     PublishingPassword = siteToUseForUi.PublishingPassword,
-                    SiteGuid =siteToUseForUi.SiteGuid
+                    SiteGuid = SiteGuid
                 };
             }
         }
