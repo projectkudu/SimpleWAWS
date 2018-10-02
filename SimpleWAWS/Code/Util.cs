@@ -14,6 +14,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using System.Web.Hosting;
 
 namespace SimpleWAWS.Models
 {
@@ -241,11 +242,16 @@ namespace SimpleWAWS.Models
                                         var message = Newtonsoft.Json.Linq.JObject.Parse(content.ReadToEnd());
                                         if ((bool)message["complete"] == false)
                                         {
-                                            SimpleTrace.TraceInformation($"Zip Deployment going on: StatusUrl: {deploystatusurl} -{JsonConvert.SerializeObject(message)} for {template?.MSDeployPackageUrl} on {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");
+                                            var failed = $"Zip Deployment going on: StatusUrl: {deploystatusurl} -{JsonConvert.SerializeObject(message)} for {template?.MSDeployPackageUrl} on {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}";
+                                            SimpleTrace.TraceInformation(failed);
+                                            File.AppendAllLines(HostingEnvironment.MapPath(string.Format(CultureInfo.InvariantCulture, "~/App_data/filestatus.txt")), new string [] { failed});
                                         }
                                         else
                                         {
-                                            SimpleTrace.TraceInformation($"Zip Deployment completed: StatusUrl: {deploystatusurl} -{JsonConvert.SerializeObject(message)} for {template?.MSDeployPackageUrl} on {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");
+                                            var success =($"Zip Deployment completed: StatusUrl: {deploystatusurl} -{JsonConvert.SerializeObject(message)} for {template?.MSDeployPackageUrl} on {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");
+                                            SimpleTrace.TraceInformation(success);
+                                            File.AppendAllLines(HostingEnvironment.MapPath(string.Format(CultureInfo.InvariantCulture, "~/App_data/filestatus.txt")), new string[] { success });
+                                            
                                             break;
                                         }
                                     }
@@ -253,14 +259,16 @@ namespace SimpleWAWS.Models
 
                             }
                         }
-                        catch
+                        catch (Exception ex)
                         {
-                            SimpleTrace.TraceError($"Ping post ZipDeployed: StatusUrl: {deploystatusurl} for {template?.MSDeployPackageUrl} on {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");
-
+                            var exception = ($"Ping post ZipDeployed: StatusUrl: {deploystatusurl} for {template?.MSDeployPackageUrl} on {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId} -> {ex.Message}->{ex.StackTrace}s");
+                            SimpleTrace.TraceError(exception);
+                            File.AppendAllLines(HostingEnvironment.MapPath(string.Format(CultureInfo.InvariantCulture, "~/App_data/filestatus.txt")), new string[] { exception });
                         }
 
                     }
 
+                    File.AppendAllLines(HostingEnvironment.MapPath(string.Format(CultureInfo.InvariantCulture, "~/App_data/filestatus.txt")), new string[] { "Starting hostingstart file delete" });
                     var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
 
                     Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
@@ -283,6 +291,7 @@ namespace SimpleWAWS.Models
                     //}
                     await Task.WhenAll(taskList.ToArray());
                     SimpleTrace.TraceInformation($"Site ZipDeploy and Delete HostingStart completed: for {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");
+                    File.AppendAllLines(HostingEnvironment.MapPath(string.Format(CultureInfo.InvariantCulture, "~/App_data/filestatus.txt")), new string[] { "Starting hostingstart file delete" });
                     await Task.Delay(10 * 1000);
                 }
                 catch (Exception ex)

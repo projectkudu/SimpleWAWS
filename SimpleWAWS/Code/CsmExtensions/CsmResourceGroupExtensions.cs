@@ -483,8 +483,9 @@ namespace SimpleWAWS.Code.CsmExtensions
                 //await site.StopSite();
                 await Util.DeployVSCodeLinuxTemplateToSite(template, site);
                 //await site.StartSite();
+                SimpleTrace.TraceInformation($"Post Zip Deploy: for template {template.Name} {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
 
-                var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount: 6);
+                var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount: 36);
                 Task checkSite = lsm.CheckSiteDeploymentStatusAsync(site.HttpUrl);
                 try
                 {
@@ -493,7 +494,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 catch (Exception ex)
                 {
                     //TODO: Alert on this specifically
-                    var message = "New Site didnt come up after zip deploy: " + ex.Message + ex.StackTrace;
+                    var message = $"New Site didnt come up after zip deploy: {site?.HttpUrl} " + ex.Message + ex.StackTrace;
                     SimpleTrace.TraceError(message);
                     throw new ZipDeploymentFailedException(message);
                 }

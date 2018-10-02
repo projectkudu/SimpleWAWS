@@ -48,6 +48,7 @@ namespace SimpleWAWS
                 var analyticsLogger = new LoggerConfiguration()
                     .Enrich.With(new UserNameEnricher())
                     .Destructure.JsonNetTypes()
+                    .WriteTo.File(HostingEnvironment.MapPath("~/app_data/serilganalytics.txt"), restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Verbose, buffered: false)
                     .WriteTo.ApplicationInsightsEvents(AppInsights.TelemetryClient)
                     .CreateLogger();
 
@@ -57,18 +58,19 @@ namespace SimpleWAWS
                     .MinimumLevel.Verbose()
                     .Enrich.With(new UserNameEnricher())
                     .WriteTo.ApplicationInsightsTraces(AppInsights.TelemetryClient)
-                    .WriteTo.Logger(lc => lc
-                        .Filter.ByIncludingOnly(Matching.WithProperty<int>("Count", p => p % 10 == 0))
-                        .WriteTo.Email(new EmailConnectionInfo
-                        {
-                            EmailSubject = "TryAppService Alert",
-                            EnableSsl = true,
-                            FromEmail = SimpleSettings.FromEmail,
-                            MailServer = SimpleSettings.EmailServer,
-                            NetworkCredentials = new NetworkCredential(SimpleSettings.EmailUserName, SimpleSettings.EmailPassword),
-                            Port = 587,
-                            ToEmail = SimpleSettings.ToEmails
-                        }, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Fatal))
+                    .WriteTo.File(HostingEnvironment.MapPath("~/app_data/serilog.txt"), restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Verbose, buffered:false)
+                    //.WriteTo.Logger(lc => lc
+                    //    .Filter.ByIncludingOnly(Matching.WithProperty<int>("Count", p => p % 10 == 0))
+                    //    .WriteTo.Email(new EmailConnectionInfo
+                    //    {
+                    //        EmailSubject = "TryAppService Alert",
+                    //        EnableSsl = true,
+                    //        FromEmail = SimpleSettings.FromEmail,
+                    //        MailServer = SimpleSettings.EmailServer,
+                    //        NetworkCredentials = new NetworkCredential(SimpleSettings.EmailUserName, SimpleSettings.EmailPassword),
+                    //        Port = 587,
+                    //        ToEmail = SimpleSettings.ToEmails
+                    //    }, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Verbose))
                     .CreateLogger();
 
                 SimpleTrace.Diagnostics = diagnosticsLogger;
