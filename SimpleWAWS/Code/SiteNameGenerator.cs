@@ -25,7 +25,7 @@ namespace SimpleWAWS.Models
             {
                 var nextAdjective = rnd.Next(SimpleWawsService.Adjectives.Capacity - 1);
                 var nextAnimal = rnd.Next(SimpleWawsService.Animals.Capacity - 1);
-                nextName = string.Format(CultureInfo.InvariantCulture, "{0}{1}", SimpleWawsService.Adjectives[nextAdjective], SimpleWawsService.Animals[nextAnimal]);
+                nextName = string.Format(CultureInfo.InvariantCulture, "{0}{1}-{2}", SimpleWawsService.Adjectives[nextAdjective], SimpleWawsService.Animals[nextAnimal],Guid.NewGuid().ToString().Split('-')[1]);
                 try
                 {
                     IPHostEntry host;
