@@ -47,23 +47,21 @@
             "siteConfig": {
               "properties": {
                 "numberOfWorkers": "1",
-                "linuxFxVersion": "NODE|9.4",
-                "appCommandLine": "process.json"
+                "linuxFxVersion": "NODE|9.4"
               }
-            }
+            },
+            "maxNumberOfWorkers": "1",
           },
-          "maxNumberOfWorkers": "1",
           "resources": [
               {
-                "apiVersion": "2015-08-01",
-                "name": "logs",
+                "apiVersion": "2016-08-01",
+                "name": "web",
                 "type": "config",
                 "dependsOn": [
                   "[resourceId('Microsoft.Web/Sites', parameters('siteName'))]"
                 ],
                 "properties": {
-                  "httpLoggingEnabled": true,
-                  "alwaysOn": true
+                  "linuxFxVersion":"NODE|9.4"
                 }
               },
               {  
