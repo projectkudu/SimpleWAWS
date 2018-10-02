@@ -47,35 +47,22 @@
             "siteConfig": {
               "properties": {
                 "numberOfWorkers": "1",
-                "linuxFxVersion": "NODE|9.4"
+                "linuxFxVersion": "NODE|9.4",
+                "appCommandLine": "process.json"
               }
-            },
-            "maxNumberOfWorkers": "1"
+            }
           },
           "resources": [
               {
-                "apiVersion": "2016-08-01",
-                "name": "web",
+                "apiVersion": "2015-08-01",
+                "name": "logs",
                 "type": "config",
                 "dependsOn": [
                   "[resourceId('Microsoft.Web/Sites', parameters('siteName'))]"
                 ],
                 "properties": {
-                  "linuxFxVersion":"NODE|9.4"
-                }
-              },
-              {  
-                "apiVersion":"2016-08-01",
-                "name":"web",
-                "type":"sourcecontrols",
-                "dependsOn":[  
-                   "[resourceId('Microsoft.Web/Sites', parameters('siteName'))]",
-                   "[concat('Microsoft.Web/sites/', parameters('siteName'), '/config/web')]"
-                ],
-                "properties":{  
-                  "RepoUrl":"https://github.com/rramachand21/vscode-tas-react",
-                  "branch":"cdias/sync",
-                  "IsManualIntegration":true
+                  "httpLoggingEnabled": true,
+                  "alwaysOn": true
                 }
               }
             ]

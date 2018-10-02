@@ -481,7 +481,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             {
                 SimpleTrace.TraceInformation($"Doing Zip Deploy: for template {template.Name} {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
                 //await site.StopSite();
-                await Util.DeployVSCodeLinuxTemplateToSite(template, site, false);
+                await Util.DeployVSCodeLinuxTemplateToSite(template, site);
                 //await site.StartSite();
 
                 var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount: 6);

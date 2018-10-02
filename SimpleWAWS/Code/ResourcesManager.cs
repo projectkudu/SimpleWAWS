@@ -396,7 +396,7 @@ namespace SimpleWAWS.Code
                 var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
                 //if (template.Name.Equals(Constants.NodejsVSCodeWebAppLinuxTemplateName, StringComparison.OrdinalIgnoreCase))
                 //{
-                    await Util.AddTimeStampFile(site);
+                    await Util.AddTimeStampFile(site, resourceGroup.SiteGuid, DateTime.UtcNow.Add( resourceGroup.TimeLeft));
                     var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount: 2);
                     Task checkSite = lsm.CheckTimeStampMetaDataDeploymentStatusAsync(site.Url);
                     try

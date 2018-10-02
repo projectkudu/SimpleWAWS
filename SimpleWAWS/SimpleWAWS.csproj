@@ -565,7 +565,9 @@
     <EmbeddedResource Include="Resources\Server.pl-pl.resx" />
     <EmbeddedResource Include="Resources\Server.pt-br.resx" />
     <EmbeddedResource Include="Resources\Server.pt-pt.resx" />
-    <EmbeddedResource Include="Resources\Server.qps-ploc.resx" />
+    <EmbeddedResource Include="Resources\Server.qps-ploc.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Server.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Server.Designer.cs</LastGenOutput>
@@ -579,10 +581,16 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ARMTemplates\VSCodeLinuxResource.json" />
+    <Content Include="ARMTemplates\VSCodeLinuxResourceNode.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ARMTemplates\VSCodeLinuxResourceReact.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ARMTemplates\armresource.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ARMTemplates\VSCodeLinuxResourceReact - Copy.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

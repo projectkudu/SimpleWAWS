@@ -38,7 +38,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 }
                 else if (result.Equals("Accepted") || result.Equals("Running"))
                 {
-                    await Task.Delay(1000);
+                    await Task.Delay(10000);
                     count++;
                 }
                 else if (result.Equals("Succeeded"))
@@ -58,8 +58,8 @@ namespace SimpleWAWS.Code.CsmExtensions
                 csmResponse = await GetClient(subscriptionType).HttpInvoke(HttpMethod.Get, ArmUriTemplates.CsmTemplateDeployment.Bind(csmDeployment));
                 await csmResponse.EnsureSuccessStatusCodeWithFullError();
                 content = await csmResponse.Content.ReadAsAsync<JToken>();
-            } while (block && count < 100);
-            if (count == 120 && !result.Equals("Succeeded"))
+            } while (block && count < 30* 6);
+            if (count >= 179 && !result.Equals("Succeeded"))
                 throw new Exception(string.Format("Deploying CSM template taking too long, ID: {0}", content["id"]));
             return content;
         }

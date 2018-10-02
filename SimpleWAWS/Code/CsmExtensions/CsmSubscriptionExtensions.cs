@@ -180,7 +180,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             //TODO:Also delete RGs that are not in subscription.GeoRegions
             result.Ready = subscription.ResourceGroups.Where(rg => !result.ToDelete.Any(drg => drg.ResourceGroupName == rg.ResourceGroupName));
-            SimpleTrace.TraceInformation($"MakeTrialSubscription for: {subscription.SubscriptionId} -> Ready:{result.Ready.Count()} -> ToCreate:{result.ToCreateInRegions.Count()}  -> ToDelete:{result.ToDelete.Count()} -> result:{JsonConvert.SerializeObject(result)}");
+            //SimpleTrace.TraceInformation($"MakeTrialSubscription for: {subscription.SubscriptionId} -> Ready:{result.Ready.Count()} -> ToCreate:{result.ToCreateInRegions.Count()}  -> ToDelete:{result.ToDelete.Count()} -> result:{JsonConvert.SerializeObject(result)}");
             return result;
         }
         public static MakeSubscriptionFreeTrialResult GetMonitoringToolsResource(this Subscription subscription)

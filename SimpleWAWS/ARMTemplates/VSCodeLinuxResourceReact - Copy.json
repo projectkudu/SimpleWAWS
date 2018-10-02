@@ -50,9 +50,9 @@
                 "linuxFxVersion": "NODE|9.4",
                 "appCommandLine": "process.json"
               }
-            },
-            "maxNumberOfWorkers": "0",
-            "resources": [
+            }
+          },
+          "resources": [
               {
                 "apiVersion": "2015-08-01",
                 "name": "logs",
@@ -64,9 +64,22 @@
                   "httpLoggingEnabled": true,
                   "alwaysOn": true
                 }
+              },
+              {  
+                "apiVersion":"2016-08-01",
+                "name":"web",
+                "type":"sourcecontrols",
+                "dependsOn":[  
+                   "[resourceId('Microsoft.Web/Sites', parameters('siteName'))]",
+                   "[concat('Microsoft.Web/sites/', parameters('siteName'), '/config/web')]"
+                ],
+                "properties":{  
+                  "RepoUrl":"https://github.com/rramachand21/vscode-tas-react/",
+                  "branch":"cdias/sync",
+                  "IsManualIntegration":true
+                }
               }
             ]
-          }
         }
       ]
     }

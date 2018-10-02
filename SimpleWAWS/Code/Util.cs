@@ -143,7 +143,7 @@ namespace SimpleWAWS.Models
         }
 
  
-        public static async Task AddTimeStampFile(Site site)
+        public static async Task AddTimeStampFile(Site site, string siteGuid,DateTime utcDateTime)
         {
             var trial = 0;
             var tries = 6;
@@ -157,12 +157,12 @@ namespace SimpleWAWS.Models
                     {
                         using (var request = new HttpRequestMessage())
                         {
-                            var response = await httpClient.PostAsJsonAsync(new Uri($"http://{site.HostName}/api/metadata", UriKind.Absolute)
-                                , new  { userGuid= site.SiteGuid });
+                            var response = await httpClient.PutAsJsonAsync(new Uri($"http://{site.HostName}/api/metadata", UriKind.Absolute)
+                                , new  { userGuid= siteGuid , guid = siteGuid, timestamp = utcDateTime.ToString()});
                             if (response.StatusCode == HttpStatusCode.OK)
                             {
-                                await response.Content.ReadAsStringAsync();
-                                SimpleTrace.TraceInformation($"Updated timestamp by calling {request.RequestUri} with {await request.Content.ReadAsStringAsync()} ");
+                                var content= await response.Content.ReadAsStringAsync();
+                                SimpleTrace.TraceInformation($"Updated timestamp by calling {request.RequestUri} with {content} ");
                                 return;
                              }
                         }
@@ -205,7 +205,7 @@ namespace SimpleWAWS.Models
 
             return siteguid;
         }
-        public static async Task DeployVSCodeLinuxTemplateToSite(BaseTemplate template, Site site, bool addTimeStampFile = false)
+        public static async Task DeployVSCodeLinuxTemplateToSite(BaseTemplate template, Site site)
         {
             SimpleTrace.TraceInformation($"Site ZipDeploy started: for {template?.MSDeployPackageUrl} on {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");
             if (template?.MSDeployPackageUrl != null)
@@ -242,7 +242,6 @@ namespace SimpleWAWS.Models
                                         if ((bool)message["complete"] == false)
                                         {
                                             SimpleTrace.TraceInformation($"Zip Deployment going on: StatusUrl: {deploystatusurl} -{JsonConvert.SerializeObject(message)} for {template?.MSDeployPackageUrl} on {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");
-
                                         }
                                         else
                                         {
@@ -254,7 +253,8 @@ namespace SimpleWAWS.Models
 
                             }
                         }
-                        catch {
+                        catch
+                        {
                             SimpleTrace.TraceError($"Ping post ZipDeployed: StatusUrl: {deploystatusurl} for {template?.MSDeployPackageUrl} on {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");
 
                         }
@@ -275,12 +275,12 @@ namespace SimpleWAWS.Models
                     //    taskList.Add(uploaddeploymentfile);
                     //    taskList.Add(uploaddeploysh);
                     //}
-                    if (addTimeStampFile)
-                    {
-                        SimpleTrace.TraceInformation($"Adding TimeStamp File started: for {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");
-                        Task timeStampAdd = AddTimeStampFile(site);
-                        taskList.Add(timeStampAdd);
-                    }
+                    //if (addTimeStampFile)
+                    //{
+                    //    SimpleTrace.TraceInformation($"Adding TimeStamp File started: for {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");
+                    //    Task timeStampAdd = AddTimeStampFile(site, "");
+                    //    taskList.Add(timeStampAdd);
+                    //}
                     await Task.WhenAll(taskList.ToArray());
                     SimpleTrace.TraceInformation($"Site ZipDeploy and Delete HostingStart completed: for {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");
                     await Task.Delay(10 * 1000);
