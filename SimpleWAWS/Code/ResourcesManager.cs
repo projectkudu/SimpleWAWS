@@ -107,7 +107,7 @@ namespace SimpleWAWS.Code
                 }
                 else if ((appService == AppService.VSCodeLinux))
                 {
-                    if (_backgroundQueueManager.FreeVSCodeLinuxResourceGroups[template] != null)
+                    if (_backgroundQueueManager.FreeVSCodeLinuxResourceGroups.ContainsKey(template))
                     {
                         resourceGroupFound = _backgroundQueueManager.FreeVSCodeLinuxResourceGroups[template].TryDequeue(out resourceGroup);
                     }

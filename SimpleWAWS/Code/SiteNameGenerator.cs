@@ -9,7 +9,7 @@ namespace SimpleWAWS.Models
 
     public static class SiteNameGenerator
     {
-        static Random rnd = new Random(10001);
+        static Random rnd = new Random();
 
         public static string GenerateName()
         {

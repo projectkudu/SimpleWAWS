@@ -47,10 +47,10 @@
             "siteConfig": {
               "properties": {
                 "numberOfWorkers": "1",
-                "linuxFxVersion": "NODE|9.4",
-                "appCommandLine": "process.json"
+                "linuxFxVersion": "NODE|9.4"
               }
-            }
+            },
+            "maxNumberOfWorkers": "1"
           },
           "resources": [
               {
@@ -63,6 +63,31 @@
                 "properties": {
                   "httpLoggingEnabled": true,
                   "alwaysOn": true
+                }
+              },
+              {
+                "apiVersion": "2016-08-01",
+                "name": "web",
+                "type": "config",
+                "dependsOn": [
+                  "[resourceId('Microsoft.Web/Sites', parameters('siteName'))]"
+                ],
+                "properties": {
+                  "linuxFxVersion":"NODE|9.4"
+                }
+              },
+              {  
+                "apiVersion":"2016-08-01",
+                "name":"web",
+                "type":"sourcecontrols",
+                "dependsOn":[  
+                   "[resourceId('Microsoft.Web/Sites', parameters('siteName'))]",
+                   "[concat('Microsoft.Web/sites/', parameters('siteName'), '/config/web')]"
+                ],
+                "properties":{  
+                  "RepoUrl":"https://github.com/Microsoft/vscode-tas-express",
+                  "branch":"RELEASE",
+                  "IsManualIntegration":true
                 }
               }
             ]

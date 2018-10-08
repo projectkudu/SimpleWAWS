@@ -349,6 +349,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task<bool> AddResourceGroupRbac(this ResourceGroup resourceGroup, string puidOrAltSec, string emailAddress, bool isFunctionContainer = false)
         {
+            return false;
             try
             {
                 var objectId = await GetUserObjectId(puidOrAltSec, emailAddress, resourceGroup);
@@ -477,33 +478,33 @@ namespace SimpleWAWS.Code.CsmExtensions
             var siteguid = await Util.UpdateVSCodeLinuxAppSettings(site);
             SimpleTrace.TraceInformation($"Site AppSettings Updated:  for {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
 
-            if (template.Name == Constants.NodejsVSCodeWebAppLinuxTemplateName)
-            {
-                SimpleTrace.TraceInformation($"Doing Zip Deploy: for template {template.Name} {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
-                //await site.StopSite();
-                await Util.DeployVSCodeLinuxTemplateToSite(template, site);
-                //await site.StartSite();
-                SimpleTrace.TraceInformation($"Post Zip Deploy: for template {template.Name} {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
+            //if (template.Name == Constants.NodejsVSCodeWebAppLinuxTemplateName)
+            //{
+            //    SimpleTrace.TraceInformation($"Doing Zip Deploy: for template {template.Name} {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
+            //    //await site.StopSite();
+            //    await Util.DeployVSCodeLinuxTemplateToSite(template, site);
+            //    //await site.StartSite();
+            //    SimpleTrace.TraceInformation($"Post Zip Deploy: for template {template.Name} {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
 
-                var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount: 36);
-                Task checkSite = lsm.CheckSiteDeploymentStatusAsync(site.HttpUrl);
-                try
-                {
-                    await checkSite;
-                }
-                catch (Exception ex)
-                {
-                    //TODO: Alert on this specifically
-                    var message = $"New Site didnt come up after zip deploy: {site?.HttpUrl} " + ex.Message + ex.StackTrace;
-                    SimpleTrace.TraceError(message);
-                    throw new ZipDeploymentFailedException(message);
-                }
-                SimpleTrace.TraceInformation($"Site Code Zip Deploy checks complete: {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
-            }
-            else
-            {
-                SimpleTrace.TraceInformation($"Skipping Zip Deploy: for template {template.Name} {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
-            }
+            //    var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount: 36);
+            //    Task checkSite = lsm.CheckSiteDeploymentStatusAsync(site.HttpUrl);
+            //    try
+            //    {
+            //        await checkSite;
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        //TODO: Alert on this specifically
+            //        var message = $"New Site didnt come up after zip deploy: {site?.HttpUrl} " + ex.Message + ex.StackTrace;
+            //        SimpleTrace.TraceError(message);
+            //        throw new ZipDeploymentFailedException(message);
+            //    }
+            //    SimpleTrace.TraceInformation($"Site Code Zip Deploy checks complete: {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
+            //}
+            //else
+            //{
+            //    SimpleTrace.TraceInformation($"Skipping Zip Deploy: for template {template.Name} {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
+            //}
             if (!resourceGroup.Tags.ContainsKey(Constants.TemplateName))
             {
                 resourceGroup.Tags.Add(Constants.TemplateName, resourceGroup.TemplateName);
