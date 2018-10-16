@@ -19,7 +19,7 @@ namespace SimpleWAWS.Authentication
             return builder.ToString();
         }
 
-        protected override string GetValidAudiance()
+        protected override string GetValidAudience()
         {
             return AuthSettings.GoogleAppId;
         }

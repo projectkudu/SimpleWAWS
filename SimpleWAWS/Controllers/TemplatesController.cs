@@ -16,7 +16,6 @@ namespace SimpleWAWS.Controllers
         public IEnumerable<BaseTemplate> Get()
         {
             var list = TemplatesManager.GetTemplates().ToList();
-            list.Add(WebsiteTemplate.EmptySiteTemplate);
             return list;
         }
         public HttpResponseMessage GetARMTemplate(string templateName)

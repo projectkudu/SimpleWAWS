@@ -116,14 +116,15 @@ namespace SimpleWAWS.Models
                         MSDeployPackageUrl = HostingEnvironment.MapPath("~/App_Data/LinuxTemplates/Node.jsVSCodeLinuxApp.zip"),
                         CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/VSCodeLinuxResourceNode.json")
                     });
-                    list.Add(new VSCodeLinuxTemplate
-                    {
-                        Name = Constants.ReactVSCodeWebAppLinuxTemplateName,
-                        SpriteName = "sprite-LinuxNodeJSExpress LinuxWebApp",
-                        AppService = AppService.VSCodeLinux,
-                        MSDeployPackageUrl = HostingEnvironment.MapPath("~/App_Data/LinuxTemplates/ReactVSCodeWebApp.zip"),
-                        CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/VSCodeLinuxResourceReact.json")
-                    });
+                    list.Add(WebsiteTemplate.EmptySiteTemplate);
+                    //list.Add(new VSCodeLinuxTemplate
+                    //{
+                    //    Name = Constants.ReactVSCodeWebAppLinuxTemplateName,
+                    //    SpriteName = "sprite-LinuxNodeJSExpress LinuxWebApp",
+                    //    AppService = AppService.VSCodeLinux,
+                    //    MSDeployPackageUrl = HostingEnvironment.MapPath("~/App_Data/LinuxTemplates/ReactVSCodeWebApp.zip"),
+                    //    CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/VSCodeLinuxResourceReact.json")
+                    //});
                     //list.Add(new VSCodeLinuxTemplate
                     //{
                     //    Name = Constants.VuejsVSCodeWebAppLinuxTemplateName,

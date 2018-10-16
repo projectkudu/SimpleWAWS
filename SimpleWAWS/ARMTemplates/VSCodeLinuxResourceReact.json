@@ -73,7 +73,7 @@
                    "[concat('Microsoft.Web/sites/', parameters('siteName'), '/config/web')]"
                 ],
                 "properties":{  
-                  "RepoUrl":"-	https://github.com/Microsoft/vscode-tas-react",
+                  "RepoUrl":"https://github.com/Microsoft/vscode-tas-react",
                   "branch":"RELEASE",
                   "IsManualIntegration":true
                 }

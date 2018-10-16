@@ -264,7 +264,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                     return resourceGroup;
                 }
 
-                if (!resourceGroup.Sites.Any(s => s.IsSimpleWAWSOriginalSite))
+                if (!(resourceGroup.Sites.Any() && resourceGroup.Tags.ContainsKey(Constants.LinuxAppDeployed) && resourceGroup.Tags[Constants.LinuxAppDeployed]=="1"))
                 {
                     resourceGroup.Sites = new List<Site> { (await CreateLinuxSite(resourceGroup, SiteNameGenerator.GenerateLinuxSiteName)) };
                 }
@@ -278,7 +278,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                     return resourceGroup;
                 }
 
-                if (!resourceGroup.Sites.Any(s => s.IsSimpleWAWSOriginalSite))
+                if (!resourceGroup.Sites.Any() && !String.IsNullOrEmpty(resourceGroup.DeployedTemplateName))
                 {
                     var list = new List<Site> { (await CreateVSCodeLinuxSite(resourceGroup, SiteNameGenerator.GenerateLinuxSiteName)) };
                     resourceGroup.Sites = list;
@@ -477,39 +477,21 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             var siteguid = await Util.UpdateVSCodeLinuxAppSettings(site);
             SimpleTrace.TraceInformation($"Site AppSettings Updated:  for {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
-
-            //if (template.Name == Constants.NodejsVSCodeWebAppLinuxTemplateName)
-            //{
-            //    SimpleTrace.TraceInformation($"Doing Zip Deploy: for template {template.Name} {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
-            //    //await site.StopSite();
-            //    await Util.DeployVSCodeLinuxTemplateToSite(template, site);
-            //    //await site.StartSite();
-            //    SimpleTrace.TraceInformation($"Post Zip Deploy: for template {template.Name} {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
-
-            //    var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount: 36);
-            //    Task checkSite = lsm.CheckSiteDeploymentStatusAsync(site.HttpUrl);
-            //    try
-            //    {
-            //        await checkSite;
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        //TODO: Alert on this specifically
-            //        var message = $"New Site didnt come up after zip deploy: {site?.HttpUrl} " + ex.Message + ex.StackTrace;
-            //        SimpleTrace.TraceError(message);
-            //        throw new ZipDeploymentFailedException(message);
-            //    }
-            //    SimpleTrace.TraceInformation($"Site Code Zip Deploy checks complete: {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
-            //}
-            //else
-            //{
-            //    SimpleTrace.TraceInformation($"Skipping Zip Deploy: for template {template.Name} {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
-            //}
             if (!resourceGroup.Tags.ContainsKey(Constants.TemplateName))
             {
                 resourceGroup.Tags.Add(Constants.TemplateName, resourceGroup.TemplateName);
             }
 
+            await Task.Delay(30 * 1000);
+            try
+            {
+                var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount: 30);
+                await lsm.CheckSiteDeploymentStatusAsync(site.HttpUrl);
+            }
+            catch (Exception ex)
+            {
+                SimpleTrace.TraceError($"Unable to ping deployed site. Continuing regardless {ex.Message}->{ex.StackTrace} ");
+            }
             resourceGroup.Tags.Add(Constants.SiteGuid, siteguid);
             await resourceGroup.Update();
             SimpleTrace.TraceInformation($"ResourceGroup Templates Tag Updated: with SiteGuid: {siteguid} for {site.SiteName} ->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");

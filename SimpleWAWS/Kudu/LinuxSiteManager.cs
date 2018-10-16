@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Kudu.Client.Infrastructure;
 using SimpleWAWS.Code;
 using SimpleWAWS;
+using SimpleWAWS.Trace;
 
 namespace LinuxSiteManager.Client
 {
@@ -26,7 +27,7 @@ namespace LinuxSiteManager.Client
             using (var request = new HttpRequestMessage())
             {
                 request.Method = HttpMethod.Get;
-                        request.RequestUri = new Uri(path, UriKind.Absolute);
+                request.RequestUri = new Uri(path, UriKind.Absolute);
                 var response = await httpClient.SendAsync(request);
                 await response.EnsureSuccessStatusCodeAndNewSiteContentWithFullError();
             }
@@ -44,9 +45,11 @@ namespace LinuxSiteManager.Client
 
         public async Task CheckSiteDeploymentStatusAsync(string path)
         {
+            var trial = 1;
             await RetryHelper.Retry(async () =>
             {
                 {
+                    SimpleTrace.TraceInformation($"Checking if site was deployed {trial++} of {_retryCount} for -> {path}");
                     await CheckSiteDeploymentStatus(path);
                 }
             }, _retryCount, delay:5000);

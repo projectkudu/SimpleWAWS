@@ -57,7 +57,7 @@ namespace SimpleWAWS.Code
         // ARM
         private async Task LoadAzureResources()
         {
-            LoadMonitoringToolResources();
+            //LoadMonitoringToolResources();
             var subscriptions = await CsmManager.GetSubscriptions();
             HostingEnvironment.QueueBackgroundWorkItem(_ =>
             {
@@ -107,12 +107,16 @@ namespace SimpleWAWS.Code
                 }
                 else if ((appService == AppService.VSCodeLinux))
                 {
+                    SimpleTrace.TraceInformation($"Searching vscodequeue for template '{template}': Count of templates:{_backgroundQueueManager.FreeVSCodeLinuxResourceGroups.Count} ");
+
                     if (_backgroundQueueManager.FreeVSCodeLinuxResourceGroups.ContainsKey(template))
                     {
                         resourceGroupFound = _backgroundQueueManager.FreeVSCodeLinuxResourceGroups[template].TryDequeue(out resourceGroup);
+                        SimpleTrace.TraceInformation($"Found ResourceGroup '{resourceGroup.ResourceGroupName}' with template {resourceGroup.DeployedTemplateName}");
                     }
                     else
                     {
+                        SimpleTrace.TraceInformation($"No resource found in free queue for '{template}' ");
                         resourceGroupFound = false;
                     }
                 }
@@ -507,6 +511,28 @@ namespace SimpleWAWS.Code
         {
             using (await _lock.LockAsync())
             {
+                foreach (var template in _backgroundQueueManager.FreeVSCodeLinuxResourceGroups.Keys)
+                {
+                    while (!_backgroundQueueManager.FreeVSCodeLinuxResourceGroups[template].IsEmpty)
+                    {
+                        ResourceGroup temp;
+                        if (_backgroundQueueManager.FreeVSCodeLinuxResourceGroups[template].TryDequeue(out temp))
+                        {
+                            DeleteResourceGroup(temp);
+                        }
+                    }
+                }
+                foreach (var template in _backgroundQueueManager.FreeVSCodeLinuxResourceGroups.Keys)
+                {
+                    while (!_backgroundQueueManager.FreeLinuxResourceGroups.IsEmpty)
+                    {
+                        ResourceGroup temp;
+                        if (_backgroundQueueManager.FreeLinuxResourceGroups.TryDequeue(out temp))
+                        {
+                            DeleteResourceGroup(temp);
+                        }
+                    }
+                }
                 while (!_backgroundQueueManager.FreeResourceGroups.IsEmpty)
                 {
                     ResourceGroup temp;

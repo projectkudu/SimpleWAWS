@@ -14,7 +14,6 @@ namespace SimpleWAWS.Code
                 ? @default
                 : value;
         }
-
         public static string TryTenantId { get { return config(); } }
         public static string TryTenantName { get { return config(); } }
         public static string SiteExpiryMinutes { get { return config("60"); } }

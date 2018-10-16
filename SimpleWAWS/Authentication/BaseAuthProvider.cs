@@ -86,6 +86,13 @@ namespace SimpleWAWS.Authentication
                 var redirectlocation = state.Split('?')[0];
                 return $"{redirectlocation}?cookie={cookie}&state={Uri.EscapeDataString(state)}";
             }
+            else if (context.Request.Form !=null && context.Request.Form.Get("state") != null && (context.Request.Form["state"].Contains("appServiceName=Function")|| context.Request.Form["state"].Contains("appServiceName=VSCodeLinux")))
+            {
+                var cookie = GetSessionCookieString(context.User);
+                var state = context.Request.Form["state"];
+                var redirectlocation = state.Split('?')[0];
+                return $"{redirectlocation}?cookie={cookie}&state={Uri.EscapeDataString(state)}";
+            }
             else
             {
                 return context.Request["state"];

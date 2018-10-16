@@ -3,9 +3,30 @@
 @using SimpleWAWS.Code
 @{
     //add check for state to allow local functions to go against prod tryappservices
-    if (string.IsNullOrWhiteSpace(Request.QueryString["state"]) && (!string.Equals(SimpleSettings.WEBSITE_HOSTNAME, Constants.NextHostName)))
+    if (string.IsNullOrWhiteSpace(Request.QueryString["state"]))
     {
-        Response.Redirect("https://azure.microsoft.com/try/app-service/");
+        //For VSCode round trip
+        if ((Request.Form != null && (Request.Form.Get("code") != null || Request.Form.Get("id_token") != null)))
+        {
+            if (Request.Form.Get("state") != null)
+            {
+                var state = Request.Form.Get("state");
+                Uri parsedUri;
+                var whitelistedUris = new string[] { "vscode-ppe.azurewebsites.net" ,"visualstudio.com","localhost"};
+                if (Uri.TryCreate(state, UriKind.RelativeOrAbsolute, out parsedUri))
+                {
+                    if (!whitelistedUris.Contains(parsedUri.Host))
+                    {
+                        Response.Redirect("https://azure.microsoft.com/try/app-service/", true);
+                    }
+                }
+            }
+            else
+            {
+                Response.Redirect("https://azure.microsoft.com/try/app-service/", true);
+            }
+        }
+
     }
 }<!DOCTYPE html>
 <html xmlns = "http://www.w3.org/1999/xhtml" >

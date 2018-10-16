@@ -20,6 +20,7 @@ namespace SimpleWAWS.Models
 {
     class Util
     {
+        static System.Globalization.IdnMapping idnMapping = new System.Globalization.IdnMapping();
         public static async Task SafeGuard(Func<Task> action)
         {
             try
@@ -122,24 +123,13 @@ namespace SimpleWAWS.Models
                                 }
                             });
                     }
-                    await Task.Delay(5 * 1000);
-                    var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount: 2);
-                    Task checkSite = lsm.CheckSiteDeploymentStatusAsync(site.HttpUrl);
-                    try
-                    {
-                        await checkSite;
-                    }
-                    catch (Exception ex)
-                    {
-                        SimpleTrace.TraceError("New Site wasnt deployed" + ex.Message + ex.StackTrace);
-                    }
+
                 }
                 catch (Exception ex)
                 {
                     SimpleTrace.TraceError(ex.Message + ex.StackTrace);
                 }
 
-                WarmUpSite(site);
             }
         }
 
@@ -337,5 +327,40 @@ namespace SimpleWAWS.Models
             SimpleTrace.TraceInformation($"Didnt get StatusCode {statusCode.ToString()} at {path} after {tries} ");
             return false;
         }
+        internal static string PunicodeUrl(string url)
+        {
+            Uri uri;
+            if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
+            {
+                return url;
+            }
+
+            var idnHost = GetAscii(uri.Host);
+            if (string.Equals(idnHost, uri.Host, StringComparison.OrdinalIgnoreCase))
+            {
+                return url;
+            }
+
+            var urib = new UriBuilder(uri);
+            urib.Host = idnHost;
+            return urib.Uri.AbsoluteUri;
+        }
+        internal static string GetAscii(string name)
+        {
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                try
+                {
+                    name = idnMapping.GetAscii(name);
+                }
+                catch (ArgumentException)
+                {
+                    // In the case of invalid unicode we will use the original name.
+                }
+            }
+
+            return name;
+        }
+
     }
 }
