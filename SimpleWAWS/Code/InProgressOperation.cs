@@ -38,8 +38,10 @@ namespace SimpleWAWS.Code
                 ResourceGroupName = ResourceGroup.ResourceGroupName,
                 CsmTemplate = template
             };
-
-            return RetryHelper.Retry(() => Deployment.Deploy(block: block, subscriptionType: subscriptionType), 3);
+            if (subscriptionType == SubscriptionType.VSCodeLinux)
+                return Deployment.Deploy(block: block, subscriptionType: subscriptionType);
+            else
+                return RetryHelper.Retry(() => Deployment.Deploy(block: block, subscriptionType: subscriptionType), 3);
         }
 
         public void Complete()

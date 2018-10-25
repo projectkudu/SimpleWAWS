@@ -121,6 +121,14 @@ namespace SimpleWAWS.Models
                 else return string.Empty;
             }
         }
+        public override string TemplateName
+        {
+            get
+            {
+                return string.IsNullOrEmpty(DeployedTemplateName)?base.TemplateName:DeployedTemplateName;
+            }
+        }
+
         public Dictionary<string, string> Tags { get; set; }
 
         public bool IsSimpleWAWS
@@ -189,7 +197,7 @@ namespace SimpleWAWS.Models
                 return new UIResource
                 {
                     SiteName = siteToUseForUi.SiteName,
-                    Url = siteToUseForUi.Url,
+                    Url = (SubscriptionType == SubscriptionType.VSCodeLinux)? siteToUseForUi.CamelCasedUrl: siteToUseForUi.Url,
                     IbizaUrl = ibizaUrl,
                     MonacoUrl = siteToUseForUi.MonacoUrl,
                     ContentDownloadUrl = siteToUseForUi.ContentDownloadUrl,

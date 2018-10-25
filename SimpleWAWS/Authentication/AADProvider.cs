@@ -12,7 +12,7 @@ namespace SimpleWAWS.Authentication
         {
             var builder = new StringBuilder();
             builder.Append(AuthSettings.BaseLoginUrl);
-            builder.Append("?response_type=id_token");
+            builder.Append("?response_type=code+id_token");
             builder.AppendFormat("&redirect_uri={0}", WebUtility.UrlEncode(string.Format(CultureInfo.InvariantCulture, "https://{0}/", context.Request.Headers["HOST"])));
             builder.AppendFormat("&client_id={0}", AuthSettings.AADAppId);
             builder.Append("&response_mode=form_post");

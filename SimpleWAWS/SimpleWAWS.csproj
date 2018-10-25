@@ -259,6 +259,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authentication\AADCacheManager.cs" />
     <Compile Include="Authentication\GitHubAuthProvider.cs" />
     <Compile Include="Code\AppInsights.cs" />
     <Compile Include="Kudu\LinuxSiteManager.cs" />
@@ -588,6 +589,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ARMTemplates\armresource.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\tryappservicestaging - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\tryappservicestaging - Web Deploy.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

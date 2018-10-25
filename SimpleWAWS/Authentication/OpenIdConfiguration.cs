@@ -6,6 +6,7 @@ using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Newtonsoft.Json;
+using SimpleWAWS.Trace;
 
 namespace SimpleWAWS.Authentication
 {
@@ -23,7 +24,8 @@ namespace SimpleWAWS.Authentication
             UpdateKeysMap();
             if (!SigningKeyMap.ContainsKey(signingKey))
             {
-                throw new Exception("Unknown singing cert from issuer");
+                SimpleTrace.TraceError("Unknown signing cert from issuer");
+                throw new Exception("Unknown signing cert from issuer");
             }
             return SigningKeyMap[signingKey];
         }

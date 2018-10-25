@@ -42,6 +42,14 @@ namespace SimpleWAWS.Models
                 return String.Format(CultureInfo.InvariantCulture, "https://{0}/", HostName);
             }
         }
+        public string CamelCasedUrl
+        {
+            get
+            {
+                return String.Format(CultureInfo.InvariantCulture, "https://{0}.azurewebsites.net/", SiteName);
+            }
+        }
+
         public string HttpUrl
         {
             get

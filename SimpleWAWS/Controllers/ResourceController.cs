@@ -117,17 +117,17 @@ namespace SimpleWAWS.Controllers
                         inUseMonitoringToolsUsersCount = BackgroundQueueManager.MonitoringResourceGroupCheckoutTimes.Count,
                         backgroundOperationsCount = backgroundOperations.Count(),
                         freeVSCodeLinuxResources = showFreeResources ? freeVSCodeLinuxSitesList : null,
-                        monitoringToolsResource = monitoringToolsResource,
-                        monitoringToolsResourceUsers = BackgroundQueueManager.MonitoringResourceGroupCheckoutTimes,
+                        inUseVSCodeLinuxResources = showFreeResources ? inUseVSCodeLinuxResourcesList : null,
                         inUseSites = inUseSitesList,
                         inUseLinuxResources = inUseLinuxResourcesList,
                         freeSites = showFreeResources ? freeSitesList : null,
                         freeLinuxResources = showFreeResources ? freeLinuxSitesList : null,
                         inProgress = inProgress,
+                        monitoringToolsResource = monitoringToolsResource,
+                        monitoringToolsResourceUsers = BackgroundQueueManager.MonitoringResourceGroupCheckoutTimes,
                         backgroundOperations = backgroundOperations,
                         uptime = uptime,
                         resourceGroupCleanupCount = resourceGroupCleanupCount
-
                     });
             });
         }

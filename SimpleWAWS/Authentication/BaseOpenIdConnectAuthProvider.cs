@@ -1,7 +1,11 @@
-﻿using SimpleWAWS.Code;
+﻿/// 
+/// Reference https://github.com/projectkudu/ARMClient/tree/master/ARMClient.Authentication
+///
+using SimpleWAWS.Code;
 using SimpleWAWS.Trace;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IdentityModel.Claims;
 using System.IdentityModel.Selectors;
 using System.IdentityModel.Tokens;
@@ -9,6 +13,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +30,7 @@ namespace SimpleWAWS.Authentication
         private const string issuerClaimType = "iss";
         private const string puidClaimType = "puid";
         private const string altSecIdClaimType = "altsecid";
+        private static AADCacheManager<AADOAuth2AccessToken> _tokenCaches = new AADCacheManager<AADOAuth2AccessToken>(50, 500, TimeSpan.FromMinutes(52));
 
         public override void AuthenticateRequest(HttpContextBase context)
         {
@@ -94,7 +100,6 @@ namespace SimpleWAWS.Authentication
                 //failed validating
                 SimpleTrace.Diagnostics.Error(e, "Error reading claims {jwt}", jwt);
             }
-
             return null;
         }
 
@@ -108,11 +113,11 @@ namespace SimpleWAWS.Authentication
                 var jwtFromPost = context.Request.Form["id_token"];
                 if (jwtFromPost != null) return jwtFromPost;
             }
-            if (context.Request.Form != null && context.Request.Form.Get("code") != null)
-            {
-                var codeFromPost = context.Request.Form["code"];
-                if (codeFromPost != null) return GetJwtFromCode(codeFromPost);
-            }
+            //if (context.Request.Form != null && context.Request.Form.Get("code") != null)
+            //{
+            //    var codeFromPost = context.Request.Form["code"];
+            //    if (codeFromPost != null) return GetJwtFromCode(codeFromPost, context);
+            //}
             var authHeader = context.Request.Headers["Authorization"];
             if (authHeader == null || authHeader.IndexOf(AuthConstants.BearerHeader, StringComparison.OrdinalIgnoreCase) == -1) return null;
             return authHeader.Substring(AuthConstants.BearerHeader.Length).Trim();
@@ -133,12 +138,19 @@ namespace SimpleWAWS.Authentication
             }
             return token_endpoint.Replace("/common/", String.Format("/{0}/", tenantName));
         }
-        private string GetJwtFromCode(string codeFromPost)
+        private string GetJwtFromCode(string codeFromPost, HttpContextBase context)
         {
+            AADOAuth2AccessToken accessToken = new AADOAuth2AccessToken();
+            if (_tokenCaches.TryGetValue(codeFromPost, out accessToken) )
+            {
+                if (accessToken.IsValid())
+                return accessToken.access_token;
+            }
+
             // "token_endpoint":"https://login.windows-ppe.net/common/oauth2/token"
-            var tokenRequestUri = GetTokenEndpoint(String.Empty) ;
+            var tokenRequestUri = GetTokenEndpoint(AuthSettings.AADTokenEndpoint) ;
             string jwt = GetJwt(audience: tokenRequestUri);
-            var redirectUri = "https://localhost:44303";
+            var redirectUri = string.Format(CultureInfo.InvariantCulture, "https://{0}/", context.Request.Headers["HOST"]);
             var payload = new StringBuilder("grant_type=authorization_code");
             payload.AppendFormat("&redirect_uri={0}", WebUtility.UrlEncode(SimpleWAWS.Models.Util.PunicodeUrl(redirectUri)));
             payload.AppendFormat("&code={0}", WebUtility.UrlEncode(codeFromPost));
@@ -160,23 +172,32 @@ namespace SimpleWAWS.Authentication
 
                     var result = response.Content.ReadAsAsync<AADOAuth2AccessToken>().GetAwaiter().GetResult();
                     //result.TenantId = tenantId != "common" ? tenantId : GetTenantIdFromToken(result.access_token);
+                    _tokenCaches.Add(codeFromPost, result);
                     return result.access_token;
                 }
             }
-            return null;
+            //return null;
         }
         static string GetJwt(string audience)
         {
 
-            string clientId = "72f";
+            string clientId = AuthSettings.AADAppId;
             var claims = new List<System.Security.Claims.Claim>();
             claims.Add(new System.Security.Claims.Claim("sub", clientId));
             claims.Add(new System.Security.Claims.Claim("jti", Guid.NewGuid().ToString())); // RFC 7519: https://tools.ietf.org/html/rfc7519#section-4.1.7
 
             var handler = new JwtSecurityTokenHandler();
-            //TODO: Switch over to load from Machine CertCollection
-            var credentials = new X509SigningCredentials(new System.Security.Cryptography.X509Certificates.X509Certificate2(HostingEnvironment.MapPath("~/App_Data/"), AuthSettings.AADAppCertificatePassword,System.Security.Cryptography.X509Certificates.X509KeyStorageFlags.MachineKeySet));
+            var credentials = new X509SigningCredentials(GetCertificate(AuthSettings.AADAppCertificateThumbprint));
             return handler.CreateToken(clientId, audience, new ClaimsIdentity(claims), null, credentials).RawData;
+        }
+        static X509Certificate2 GetCertificate(string certificateThumbprint)
+        {
+            var store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
+            store.Open(OpenFlags.ReadOnly);
+            var cert = store.Certificates.OfType<X509Certificate2>()
+                .FirstOrDefault(x => x.Thumbprint == certificateThumbprint);
+            store.Close();
+            return cert;
         }
 
         static async Task<string> HandleOAuthError(HttpResponseMessage response, string requestUri)
@@ -207,5 +228,14 @@ namespace SimpleWAWS.Authentication
         public string access_token { get; set; }
         public string refresh_token { get; set; }
         public string TenantId { get; set; }
+        private static DateTime EpochTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+
+        // valid for at least 8 mins
+        public bool IsValid()
+        {
+            var secs = Int32.Parse(expires_on);
+            return EpochTime.AddSeconds(secs) > DateTime.UtcNow.AddMinutes(8);
+        }
+
     }
 }

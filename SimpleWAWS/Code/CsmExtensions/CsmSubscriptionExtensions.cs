@@ -151,15 +151,14 @@ namespace SimpleWAWS.Code.CsmExtensions
                 result.ToCreateInRegions = new List<string>();
                 var vscodeTemplates = TemplatesManager.GetTemplates().Where(a => a.AppService == AppService.VSCodeLinux);
                 var temp = subscription.ResourceGroups
-                    .Where(b=> !string.IsNullOrEmpty(b.DeployedTemplateName))
-                    .GroupBy(a => a.TemplateName)
+                    .Where(b=> !string.IsNullOrEmpty(b.DeployedTemplateName) && !string.IsNullOrEmpty(b.SiteGuid))
+                    .GroupBy(a => a.DeployedTemplateName)
                     .Select(g => new
                     TemplateStats
                     {
                         TemplateName = g.Key,
-                        RemainingCount = (subscription.ResourceGroupsPerTemplate) - g.Count()
-                    })
-                   .Where(g => g.RemainingCount > 0);
+                        RemainingCount = subscription.ResourceGroupsPerTemplate - g.Count()
+                    });
 
                 var temp2 = new List<TemplateStats>();
                 foreach (var remaining in vscodeTemplates)

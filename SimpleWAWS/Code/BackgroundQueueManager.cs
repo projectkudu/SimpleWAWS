@@ -202,13 +202,16 @@ namespace SimpleWAWS.Code
                         }
                         else if (readyToAddRg.SubscriptionType == SubscriptionType.VSCodeLinux)
                         {
-                            if (!FreeVSCodeLinuxResourceGroups.ContainsKey(readyToAddRg.DeployedTemplateName))
+                            if (!string.IsNullOrEmpty(readyToAddRg.DeployedTemplateName) && !string.IsNullOrEmpty(readyToAddRg.SiteGuid))
                             {
+                                if (!FreeVSCodeLinuxResourceGroups.ContainsKey(readyToAddRg.DeployedTemplateName))
+                                {
+                                    readyToAddRg.TemplateName = readyToAddRg.DeployedTemplateName;
+                                    FreeVSCodeLinuxResourceGroups.GetOrAdd(readyToAddRg.DeployedTemplateName, new ConcurrentQueue<ResourceGroup>());
+                                }
                                 readyToAddRg.TemplateName = readyToAddRg.DeployedTemplateName;
-                                FreeVSCodeLinuxResourceGroups.GetOrAdd(readyToAddRg.DeployedTemplateName, new ConcurrentQueue<ResourceGroup>());
+                                FreeVSCodeLinuxResourceGroups[readyToAddRg.DeployedTemplateName].Enqueue(readyToAddRg);
                             }
-                            readyToAddRg.TemplateName = readyToAddRg.DeployedTemplateName;
-                            FreeVSCodeLinuxResourceGroups[readyToAddRg.DeployedTemplateName].Enqueue(readyToAddRg);
                         }
                         else if (readyToAddRg.SubscriptionType == SubscriptionType.Linux)
                         {

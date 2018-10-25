@@ -79,7 +79,7 @@ namespace SimpleWAWS.Authentication
 
         public string GetRedirectLocationFromState(HttpContextBase context)
         {
-            if (context.Request["state"].Contains("appServiceName=Function"))
+            if (context.Request["state"].Contains("appServiceName=Function")|| context.Request["state"].Contains("appServiceName=VsCodeLinux"))
             {
                 var cookie = GetSessionCookieString(context.User);
                 var state = context.Request["state"];

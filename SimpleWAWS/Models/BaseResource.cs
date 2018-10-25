@@ -47,7 +47,7 @@ namespace SimpleWAWS.Models
         public string ResourceGroupName { get; protected set; }
 
         public abstract string CsmId { get; }
-        public string TemplateName { get; set; }
+        public virtual string TemplateName { get; set; }
 
         public BaseResource(string subscriptionId, string resourceGroupName)
         {

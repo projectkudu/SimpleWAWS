@@ -5,14 +5,15 @@ namespace SimpleWAWS.Authentication
 {
     public static class AuthSettings
     {
-        private static string config([CallerMemberName] string key = null)
+        private static string config(string @default = null, [CallerMemberName] string key = null)
         {
-            return System.Environment.GetEnvironmentVariable(key) ??
-                ConfigurationManager.AppSettings[key];
+            var value = System.Environment.GetEnvironmentVariable(key) ?? ConfigurationManager.AppSettings[key];
+            return string.IsNullOrEmpty(value)
+                ? @default
+                : value;
         }
         public static string AADTokenEndpoint { get { return config("https://login.windows-ppe.net/common/oauth2/token"); } }
-        public static string AADAppId { get { return config(); } }
-        public static string AADAppCertificatePassword { get { return config(); } }
+        public static string AADAppId { get { return config("2f2b272a-e0a7-458b-88d8-83c09ae715e5"); } }
 
         public static string AADAppCertificateThumbprint { get { return config(); } }
 

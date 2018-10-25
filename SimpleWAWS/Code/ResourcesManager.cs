@@ -112,20 +112,29 @@ namespace SimpleWAWS.Code
                     if (_backgroundQueueManager.FreeVSCodeLinuxResourceGroups.ContainsKey(template))
                     {
                         resourceGroupFound = _backgroundQueueManager.FreeVSCodeLinuxResourceGroups[template].TryDequeue(out resourceGroup);
-                        SimpleTrace.TraceInformation($"Found ResourceGroup '{resourceGroup.ResourceGroupName}' with template {resourceGroup.DeployedTemplateName}");
+                        if (resourceGroupFound)
+                        {
+                            SimpleTrace.TraceInformation($"Found ResourceGroup '{resourceGroup.ResourceGroupName}' with template {resourceGroup.DeployedTemplateName}");
+                        }
+                        else
+                        {
+                            SimpleTrace.TraceInformation($"No resource found in free queue for '{template}' ");
+                        }
                     }
                     else
                     {
-                        SimpleTrace.TraceInformation($"No resource found in free queue for '{template}' ");
+                        SimpleTrace.TraceInformation($"Queue for VSCode '{template}' is empty");
                         resourceGroupFound = false;
                     }
                 }
                 else if ((appService != AppService.MonitoringTools))
                 {
+                    SimpleTrace.TraceInformation($"Checking non Monitoring Tools -> free queue '{template}' ");
                     resourceGroupFound = _backgroundQueueManager.FreeResourceGroups.TryDequeue(out resourceGroup);
                 }
                 else if ((appService == AppService.MonitoringTools))
                 {
+                    SimpleTrace.TraceInformation($"No resource found in free queue for '{template}' ");
                     resourceGroup = _backgroundQueueManager.MonitoringResourceGroup;
                     BackgroundQueueManager.MonitoringResourceGroupCheckoutTimes.AddOrUpdate(userId, DateTime.UtcNow,(key, oldValue)=> DateTime.UtcNow);
                     SimpleTrace.Diagnostics.Information("resourceGroup {resourceGroupId} is now assigned", resourceGroup.CsmId);
@@ -161,6 +170,7 @@ namespace SimpleWAWS.Code
                 }
                 else
                 {
+                    SimpleTrace.Diagnostics.Information("No resource group found yet. Shouldnt be here");
                     throw new NoFreeResourceGroupsException();
                 }
                 // End site specific stuff
@@ -400,18 +410,20 @@ namespace SimpleWAWS.Code
                 var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
                 //if (template.Name.Equals(Constants.NodejsVSCodeWebAppLinuxTemplateName, StringComparison.OrdinalIgnoreCase))
                 //{
-                    await Util.AddTimeStampFile(site, resourceGroup.SiteGuid, DateTime.UtcNow.Add( resourceGroup.TimeLeft));
-                    var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount: 2);
-                    Task checkSite = lsm.CheckTimeStampMetaDataDeploymentStatusAsync(site.Url);
+
                     try
                     {
-                        await checkSite;
-                        SimpleTrace.TraceError("Forcing retry");
+                    SimpleTrace.TraceError("Adding time stamp");
+                    await Util.AddTimeStampFile(site, resourceGroup.SiteGuid, DateTime.UtcNow.Add(resourceGroup.TimeLeft));
+                    var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount: 2);
+                    Task checkSite = lsm.CheckTimeStampMetaDataDeploymentStatusAsync(site.Url);
+                    await checkSite;
+                    SimpleTrace.TraceError("Time stamp added");
                     }
                     catch (Exception ex)
                     {
                         //TODO: Alert on this specifically after we add parsing logic
-                        SimpleTrace.TraceError("New TimeStamp wasnt deployed" + ex.Message + ex.StackTrace);
+                        SimpleTrace.TraceError("New TimeStamp wasnt deployed" + ex.Message + ex.InnerException?.Message + ex.InnerException?.StackTrace+ ex.StackTrace);
                     }
                 //}
                 //else

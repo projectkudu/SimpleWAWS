@@ -137,7 +137,7 @@ namespace SimpleWAWS.Models
         public static async Task AddTimeStampFile(Site site, string siteGuid,DateTime utcDateTime)
         {
             var trial = 0;
-            var tries = 6;
+            var tries = 3;
             var retryInterval = 1;
             while (trial++ < tries)
             {
@@ -148,8 +148,11 @@ namespace SimpleWAWS.Models
                     {
                         using (var request = new HttpRequestMessage())
                         {
-                            var response = await httpClient.PutAsJsonAsync(new Uri($"http://{site.HostName}/api/metadata", UriKind.Absolute)
-                                , new  { userGuid= siteGuid , guid = siteGuid, timestamp = utcDateTime.ToString()});
+                            var uri = new Uri($"http://{site.HostName}/api/metadata", UriKind.Absolute);
+                            var payload = new { userGuid = siteGuid, guid = siteGuid, timestamp = utcDateTime.ToString() };
+                            SimpleTrace.TraceInformation($"Updating timestamp by calling {uri.OriginalString} with {JsonConvert.SerializeObject(payload)} ");
+
+                            var response = await httpClient.PutAsJsonAsync(uri, payload );
                             if (response.StatusCode == HttpStatusCode.OK)
                             {
                                 var content= await response.Content.ReadAsStringAsync();
