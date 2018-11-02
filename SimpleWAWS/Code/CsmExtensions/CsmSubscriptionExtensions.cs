@@ -175,13 +175,13 @@ namespace SimpleWAWS.Code.CsmExtensions
                         .GroupBy(s => s.DeployedTemplateName)
                         .Select(g => new { TemplateName = g.Key, ResourceGroups = g.Select(r => r), ExtraCount = g.Count() - (subscription.ResourceGroupsPerTemplate) })
                         .Where(g => g.ExtraCount > 0)
-                        .Select(g => g.ResourceGroups.Where(rg => string.IsNullOrEmpty(rg.UserId)).Skip((subscription.ResourceGroupsPerGeoRegion)))
-                        .SelectMany(i => i);
+                        .Select(g => g.ResourceGroups.Where(rg => string.IsNullOrEmpty(rg.UserId)).Skip((subscription.ResourceGroupsPerTemplate)))
+                        .SelectMany(i => i).Take(2);
             }
 
             //TODO:Also delete RGs that are not in subscription.GeoRegions
             result.Ready = subscription.ResourceGroups.Where(rg => !result.ToDelete.Any(drg => drg.ResourceGroupName == rg.ResourceGroupName));
-            //SimpleTrace.TraceInformation($"MakeTrialSubscription for: {subscription.SubscriptionId} -> Ready:{result.Ready.Count()} -> ToCreate:{result.ToCreateInRegions.Count()}  -> ToDelete:{result.ToDelete.Count()} -> result:{JsonConvert.SerializeObject(result)}");
+            SimpleTrace.TraceInformation($"MakeTrialSubscription for: {subscription.Type.ToString()} : {subscription.SubscriptionId} -> Ready:{result.Ready.Count()} -> ToCreate:{result.ToCreateInRegions.Count()}  -> ToDelete:{result.ToDelete.Count()}");
             return result;
         }
         public static MakeSubscriptionFreeTrialResult GetMonitoringToolsResource(this Subscription subscription)

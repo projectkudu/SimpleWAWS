@@ -453,22 +453,35 @@ namespace SimpleWAWS.Code
         }
         private void RemoveFromFreeVSCodeLinuxQueue(ResourceGroup resourceGroup)
         {
+            SimpleTrace.TraceInformation($"Removing {resourceGroup.CsmId} from FreeVSCodeLinuxQueue");
             if (this.FreeVSCodeLinuxResourceGroups[resourceGroup.TemplateName].ToList().Any(r => string.Equals(r.CsmId, resourceGroup.CsmId, StringComparison.OrdinalIgnoreCase)))
             {
+                SimpleTrace.TraceInformation($"Didnt find {resourceGroup.CsmId} in FreeVSCodeLinuxQueue. Dequeueing");
                 var dequeueCount = this.FreeVSCodeLinuxResourceGroups[resourceGroup.TemplateName].Count;
+                SimpleTrace.TraceInformation($"Searching for {resourceGroup.CsmId} in FreeVSCodeLinuxQueue for max dequeueCount: {dequeueCount}");
+
                 ResourceGroup temp;
+                
                 while (dequeueCount-- >= 0 && (this.FreeVSCodeLinuxResourceGroups[resourceGroup.TemplateName].TryDequeue(out temp)))
                 {
+                    SimpleTrace.TraceInformation($"Attempt {dequeueCount} looking for {resourceGroup.CsmId} in FreeVSCodeLinuxQueue. Found {temp.CsmId}");
+
                     if (string.Equals(temp.ResourceGroupName, resourceGroup.ResourceGroupName,
                         StringComparison.OrdinalIgnoreCase))
                     {
+                        SimpleTrace.TraceInformation($"Searching for {resourceGroup.CsmId} in FreeVSCodeLinuxQueue. Matched {temp.CsmId} . Returning");
                         return;
                     }
                     else
                     {
+                        SimpleTrace.TraceInformation($"Searching for {resourceGroup.CsmId} in FreeVSCodeLinuxQueue. Didnt match {temp.CsmId} . Enqueueing");
                         this.FreeVSCodeLinuxResourceGroups[resourceGroup.TemplateName].Enqueue(temp);
                     }
                 }
+            }
+            else
+            {
+                SimpleTrace.TraceInformation($"Didnt find {resourceGroup.CsmId} in FreeVSCodeLinuxQueue");
             }
         }
 

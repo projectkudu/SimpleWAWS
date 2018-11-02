@@ -144,7 +144,7 @@ namespace SimpleWAWS
             {
                 throw new FailedRequestException(response.RequestMessage.RequestUri, content, response.StatusCode, "Response status code does not indicate success");
             }
-            if (HasUpdatedTimeStamp(content))
+            if (!HasUpdatedTimeStamp(content))
                 throw new FailedRequestException(response.RequestMessage.RequestUri, content, response.StatusCode, "Site still not deployed");
 
             return response;
