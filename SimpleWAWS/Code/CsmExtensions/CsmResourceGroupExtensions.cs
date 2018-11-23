@@ -490,7 +490,8 @@ namespace SimpleWAWS.Code.CsmExtensions
             }
             catch (Exception ex)
             {
-                SimpleTrace.TraceError($"Unable to ping deployed site. Continuing regardless {ex.Message}->{ex.StackTrace} ");
+                SimpleTrace.TraceError($"Unable to ping deployed site {site.HostName}. Continuing regardless {ex.Message}->{ex.StackTrace} ");
+                throw ex;
             }
             resourceGroup.Tags.Add(Constants.SiteGuid, siteguid);
             await resourceGroup.Update();

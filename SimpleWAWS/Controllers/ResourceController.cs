@@ -23,9 +23,18 @@ namespace SimpleWAWS.Controllers
         private static int _userGotErrorErrorCount = 0;
         public async Task<HttpResponseMessage> GetResource()
         {
-             var resourceManager = await ResourcesManager.GetInstanceAsync();
-             var resourceGroup = await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name);
-             return Request.CreateResponse(HttpStatusCode.OK, resourceGroup == null ? null : (HttpContext.Current.Request.QueryString["appServiceName"] == "Function")? resourceGroup.FunctionsUIResource: UpdateMonitoringToolsTimeLeft(resourceGroup.UIResource));
+            var resourceManager = await ResourcesManager.GetInstanceAsync();
+            var resourceGroup = await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name);
+            var returning = resourceGroup == null ? null : (HttpContext.Current.Request.QueryString["appServiceName"] == "Function") ? resourceGroup.FunctionsUIResource : UpdateMonitoringToolsTimeLeft(resourceGroup.UIResource);
+            try
+            {
+                SimpleTrace.TraceInformation($"GET Resource. Returning { returning.SiteName } with template { returning.TemplateName } for user { ((TryWebsitesIdentity)(HttpContext.Current.User.Identity)).UniqueName}");
+            }
+            catch (Exception ex)
+            {
+                SimpleTrace.TraceError($"Error Logging Get Information: {ex.Message} -> {ex.StackTrace}");
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, returning);
         }
 
         [HttpGet]
@@ -173,6 +182,15 @@ namespace SimpleWAWS.Controllers
         }
         public async Task<HttpResponseMessage> CreateResource(BaseTemplate template)
         {
+            try
+            {
+                SimpleTrace.TraceInformation($"CREATE {template?.AppService} . Request Received");
+            }
+            catch (Exception ex)
+            {
+                SimpleTrace.TraceError($"Error Logging Create Start Information: {ex.Message} -> {ex.StackTrace}");
+
+            }
             var tempTemplate = WebsiteTemplate.EmptySiteTemplate;
 
             if (template == null)
@@ -273,6 +291,14 @@ namespace SimpleWAWS.Controllers
                         }
                         resourceGroup = await resourceManager.ActivateMonitoringToolsApp(tempTemplate as MonitoringToolsTemplate, identity, anonymousUserName);
                         break;
+                }
+                try
+                {
+                    SimpleTrace.TraceInformation($"CREATE {template?.AppService}. Returning { GetUIResource(resourceGroup).SiteName } with template { GetUIResource(resourceGroup).SiteName } for user {identity.UniqueName}");
+                }
+                catch  (Exception ex)
+                {
+                    SimpleTrace.TraceError($"Error Logging Create End Information: {ex.Message} -> {ex.StackTrace}");
                 }
                 return Request.CreateResponse(HttpStatusCode.OK, resourceGroup == null ? null : GetUIResource(resourceGroup) );
             }

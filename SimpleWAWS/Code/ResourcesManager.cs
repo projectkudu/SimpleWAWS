@@ -111,14 +111,33 @@ namespace SimpleWAWS.Code
 
                     if (_backgroundQueueManager.FreeVSCodeLinuxResourceGroups.ContainsKey(template))
                     {
-                        resourceGroupFound = _backgroundQueueManager.FreeVSCodeLinuxResourceGroups[template].TryDequeue(out resourceGroup);
-                        if (resourceGroupFound)
+                        var totalTries = 3;
+                        var tries = 0;
+                        bool siteFound = false;
+                        while (tries++ < totalTries && !siteFound)
                         {
-                            SimpleTrace.TraceInformation($"Found ResourceGroup '{resourceGroup.ResourceGroupName}' with template {resourceGroup.DeployedTemplateName}");
-                        }
-                        else
-                        {
-                            SimpleTrace.TraceInformation($"No resource found in free queue for '{template}' ");
+                            resourceGroupFound = _backgroundQueueManager.FreeVSCodeLinuxResourceGroups[template].TryDequeue(out resourceGroup);
+                            if (resourceGroupFound)
+                            {
+                                try
+                                {
+                                    var a = Dns.GetHostEntry(resourceGroup.Sites.FirstOrDefault().HostName);
+                                    if (a != null)
+                                    {
+                                        siteFound = true;
+                                    }
+                                }
+                                catch
+                                {
+                                    resourceGroupFound = false; 
+                                    SimpleTrace.TraceInformation($"Found ResourceGroup but HostName isnt active '{resourceGroup.ResourceGroupName}' with template {resourceGroup.DeployedTemplateName}");
+                                }
+                                SimpleTrace.TraceInformation($"Found ResourceGroup '{resourceGroup.ResourceGroupName}' with template {resourceGroup.DeployedTemplateName}");
+                            }
+                            else
+                            {
+                                SimpleTrace.TraceInformation($"No resource found in free queue for '{template}' ");
+                            }
                         }
                     }
                     else
