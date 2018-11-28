@@ -531,10 +531,10 @@ namespace SimpleWAWS.Code
             }
             return resourceGroup;
         }
-        public async Task<ResourceGroup> GetResourceGroupFromSiteName(string siteName)
+        public async Task<ResourceGroup> GetResourceGroupFromSiteName(string siteName, string resourceId)
         {
             ResourceGroup resourceGroup;
-            resourceGroup = _backgroundQueueManager.LoadedResourceGroups.Where(a => a.Sites.Any(s=> s.SiteName.Equals(siteName,StringComparison.OrdinalIgnoreCase))).First();
+            resourceGroup = _backgroundQueueManager.LoadedResourceGroups.Where(a => a.Sites.Any(s=> s.SiteName.Equals(siteName,StringComparison.OrdinalIgnoreCase) && s.ResourceGroupName.Equals(resourceId, StringComparison.OrdinalIgnoreCase))).First();
             return resourceGroup;
         }
         // ARM
