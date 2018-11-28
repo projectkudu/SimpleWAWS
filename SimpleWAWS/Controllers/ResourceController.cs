@@ -165,7 +165,8 @@ namespace SimpleWAWS.Controllers
         {
             var resourceManager = await ResourcesManager.GetInstanceAsync();
             var response = Request.CreateResponse();
-            var resourceGroup = await resourceManager.GetResourceGroupFromSiteName(siteName);
+            var resourceGroup = await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name);
+            //var resourceGroup = await resourceManager.GetResourceGroupFromSiteName(siteName);
             var stream = await resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).Select(s => s.GetSiteContent()).FirstOrDefault();
             if (stream != null)
             {
