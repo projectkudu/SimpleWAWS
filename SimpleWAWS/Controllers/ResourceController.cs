@@ -28,7 +28,7 @@ namespace SimpleWAWS.Controllers
             var returning = resourceGroup == null ? null : (HttpContext.Current.Request.QueryString["appServiceName"] == "Function") ? resourceGroup.FunctionsUIResource : UpdateMonitoringToolsTimeLeft(resourceGroup.UIResource);
             try
             {
-                SimpleTrace.TraceInformation($"GET Resource. Returning { returning.SiteName } with template { returning.TemplateName } for user { ((TryWebsitesIdentity)(HttpContext.Current.User.Identity)).UniqueName}");
+                SimpleTrace.TraceInformation($"GET Resource. Returning { returning?.SiteName } with template { returning?.TemplateName } for user { ((TryWebsitesIdentity)(HttpContext.Current.User.Identity)).UniqueName}");
             }
             catch (Exception ex)
             {
@@ -297,7 +297,7 @@ namespace SimpleWAWS.Controllers
                 }
                 try
                 {
-                    SimpleTrace.TraceInformation($"CREATE {template?.AppService}. Returning { GetUIResource(resourceGroup).SiteName } with template { GetUIResource(resourceGroup).SiteName } for user {identity.UniqueName}");
+                    SimpleTrace.TraceInformation($"CREATE {template?.AppService}. Returning { GetUIResource(resourceGroup).SiteName } with template { GetUIResource(resourceGroup).TemplateName } for user {identity.UniqueName}");
                 }
                 catch  (Exception ex)
                 {

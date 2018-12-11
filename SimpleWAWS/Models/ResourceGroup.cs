@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Globalization;
+using System.Web.Security;
 
 namespace SimpleWAWS.Models
 {
@@ -213,7 +214,8 @@ namespace SimpleWAWS.Models
                     CsmId = csmId,
                     PublishingUserName = siteToUseForUi.PublishingUserName,
                     PublishingPassword = siteToUseForUi.PublishingPassword,
-                    SiteGuid = SiteGuid
+                    SiteGuid = SiteGuid,
+                    LoginSession = UserId.Encrypt()
                 };
             }
         }
@@ -226,7 +228,6 @@ namespace SimpleWAWS.Models
                 {
                     var templateName = Tags.ContainsKey(Constants.TemplateName) ? Tags[Constants.TemplateName] : string.Empty;
                     var userName = Tags.ContainsKey(Constants.UserId) ? Tags[Constants.UserId] : string.Empty;
-                    var appService = AppService.Function;
                     var siteToUseForUi = Sites.First(s => s.IsFunctionsContainer);
 
                     return new UIResource

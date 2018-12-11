@@ -491,7 +491,10 @@ namespace SimpleWAWS.Code.CsmExtensions
             catch (Exception ex)
             {
                 SimpleTrace.TraceError($"Unable to ping deployed site {site.HostName}. Continuing regardless {ex.Message}->{ex.StackTrace} ");
-                throw ex;
+                //if (!ex.Message.Contains("The remote name could not be resolved:"))
+                //{
+                //    throw ex;
+                //}
             }
             resourceGroup.Tags.Add(Constants.SiteGuid, siteguid);
             await resourceGroup.Update();

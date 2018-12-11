@@ -424,7 +424,7 @@ namespace SimpleWAWS.Code
             return await ActivateResourceGroup(userIdentity, AppService.VSCodeLinux, DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
             {
                 SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
-                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, "VSCodeLinux", template.Name, resourceGroup.ResourceUniqueId, AppService.VSCodeLinux.ToString());
+                            AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, "VSCodeLinux", template.Name, resourceGroup.CsmId, resourceGroup.Sites.FirstOrDefault().SiteName);
 
                 var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
                 //if (template.Name.Equals(Constants.NodejsVSCodeWebAppLinuxTemplateName, StringComparison.OrdinalIgnoreCase))
