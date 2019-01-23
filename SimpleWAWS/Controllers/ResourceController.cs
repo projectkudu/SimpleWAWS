@@ -36,6 +36,35 @@ namespace SimpleWAWS.Controllers
             }
             return Request.CreateResponse(HttpStatusCode.OK, returning);
         }
+        [HttpGet]
+        public async Task<HttpResponseMessage> GetVSCodeResource()
+        {
+            try
+            {
+                var resourceManager = await ResourcesManager.GetInstanceAsync();
+                SimpleTrace.TraceInformation($"GetVSCodeResource called with text loginSessionCookie:{Uri.UnescapeDataString(HttpContext.Current.Request.Cookies[AuthConstants.LoginSessionCookie].Value)}");
+
+                var loginSessionCookie = Uri.UnescapeDataString(HttpContext.Current.Request.Cookies[AuthConstants.LoginSessionCookie].Value);
+                SimpleTrace.TraceInformation($"GetVSCodeResource called with loginSessionCookie:{loginSessionCookie}");
+                {
+
+                    var resourceGroup = resourceManager.GetAllInUseResourceGroups().ToList().First(a =>a.UIResource.LoginSession.Equals(loginSessionCookie));
+                    var returning = resourceGroup == null ? null : (HttpContext.Current.Request.QueryString["appServiceName"] == "Function") ? resourceGroup.FunctionsUIResource : UpdateMonitoringToolsTimeLeft(resourceGroup.UIResource);
+                    try
+                    {
+                        SimpleTrace.TraceInformation($"GET Resource. Returning { returning?.SiteName } with template { returning?.TemplateName } for user { returning?.UserName}");
+                    }
+                    catch (Exception ex)
+                    {
+                        SimpleTrace.TraceError($"Error Logging Get Information: {ex.Message} -> {ex.StackTrace}");
+                    }
+                    return Request.CreateResponse(HttpStatusCode.OK, returning);
+                }
+            }
+            catch (Exception ex){
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, $"key:{Uri.UnescapeDataString(HttpContext.Current.Request.Cookies[AuthConstants.LoginSessionCookie].Value)}. {ex.ToString()}");
+            }
+        }
 
         [HttpGet]
         public Task<HttpResponseMessage> Reset()

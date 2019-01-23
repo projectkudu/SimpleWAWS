@@ -113,25 +113,25 @@ namespace SimpleWAWS.Code
                     {
                         var totalTries = 3;
                         var tries = 0;
-                        bool siteFound = false;
-                        while (tries++ < totalTries && !siteFound)
+                        //bool siteFound = false;
+                        while (tries++ < totalTries && !resourceGroupFound)
                         {
                             resourceGroupFound = _backgroundQueueManager.FreeVSCodeLinuxResourceGroups[template].TryDequeue(out resourceGroup);
                             if (resourceGroupFound)
                             {
-                                try
-                                {
-                                    var a = Dns.GetHostEntry(resourceGroup.Sites.FirstOrDefault().HostName);
-                                    if (a != null)
-                                    {
-                                        siteFound = true;
-                                    }
-                                }
-                                catch
-                                {
-                                    resourceGroupFound = false; 
-                                    SimpleTrace.TraceInformation($"Found ResourceGroup but HostName isnt active '{resourceGroup.ResourceGroupName}' with template {resourceGroup.DeployedTemplateName}");
-                                }
+                            //    try
+                            //    {
+                            //        var a = Dns.GetHostEntry(resourceGroup.Sites.FirstOrDefault().HostName);
+                            //        if (a != null)
+                            //        {
+                            //            siteFound = true;
+                            //        }
+                            //    }
+                            //    catch
+                            //    {
+                            //        resourceGroupFound = false; 
+                            //        SimpleTrace.TraceInformation($"Found ResourceGroup but HostName isnt active '{resourceGroup.ResourceGroupName}' with template {resourceGroup.DeployedTemplateName}");
+                            //    }
                                 SimpleTrace.TraceInformation($"Found ResourceGroup '{resourceGroup.ResourceGroupName}' with template {resourceGroup.DeployedTemplateName}");
                             }
                             else
@@ -426,24 +426,24 @@ namespace SimpleWAWS.Code
                 SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
                             AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, "VSCodeLinux", template.Name, resourceGroup.CsmId, resourceGroup.Sites.FirstOrDefault().SiteName);
 
-                var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
+                //var site = resourceGroup.Sites.First(s => s.IsSimpleWAWSOriginalSite);
                 //if (template.Name.Equals(Constants.NodejsVSCodeWebAppLinuxTemplateName, StringComparison.OrdinalIgnoreCase))
                 //{
 
-                    try
-                    {
-                    SimpleTrace.TraceError("Adding time stamp");
-                    await Util.AddTimeStampFile(site, resourceGroup.SiteGuid, DateTime.UtcNow.Add(resourceGroup.TimeLeft));
-                    var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount: 2);
-                    Task checkSite = lsm.CheckTimeStampMetaDataDeploymentStatusAsync(site.Url);
-                    await checkSite;
-                    SimpleTrace.TraceError("Time stamp added");
-                    }
-                    catch (Exception ex)
-                    {
-                        //TODO: Alert on this specifically after we add parsing logic
-                        SimpleTrace.TraceError("New TimeStamp wasnt deployed" + ex.Message + ex.InnerException?.Message + ex.InnerException?.StackTrace+ ex.StackTrace);
-                    }
+                    //try
+                    //{
+                    //SimpleTrace.TraceError("Adding time stamp");
+                    //await Util.AddTimeStampFile(site, resourceGroup.SiteGuid, DateTime.UtcNow.Add(resourceGroup.TimeLeft));
+                    //var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount: 2);
+                    //Task checkSite = lsm.CheckTimeStampMetaDataDeploymentStatusAsync(site.Url);
+                    //await checkSite;
+                    //SimpleTrace.TraceError("Time stamp added");
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    //TODO: Alert on this specifically after we add parsing logic
+                    //    SimpleTrace.TraceError("New TimeStamp wasnt deployed" + ex.Message + ex.InnerException?.Message + ex.InnerException?.StackTrace+ ex.StackTrace);
+                    //}
                 //}
                 //else
                 //{
