@@ -50,6 +50,7 @@ namespace SimpleWAWS.Authentication
         public static void InitAuthProviders()
         {
             _authProviders.Add("AAD", new AADProvider());
+            _authProviders.Add("ReCaptcha", new ReCaptchaAuthProvider());
             _authProviders.Add("Facebook", new FacebookAuthProvider());
             _authProviders.Add("Twitter", new TwitterAuthProvider());
             _authProviders.Add("Google", new GoogleAuthProvider());
@@ -87,9 +88,7 @@ namespace SimpleWAWS.Authentication
                     token = authHeader.Substring(AuthConstants.BearerHeader.Length).Trim();
 
                 var loginSessionCookie =
-                    Uri.UnescapeDataString(string.IsNullOrEmpty(token)
-                        ? context.Request.Cookies[AuthConstants.LoginSessionCookie].Value
-                        : token)
+                    Uri.UnescapeDataString(token)
                         .Decrypt(AuthConstants.EncryptionReason);
                 var splited = loginSessionCookie.Split(';');
                 if (splited.Length == 2)

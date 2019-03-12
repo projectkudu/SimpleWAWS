@@ -22,7 +22,7 @@ namespace SimpleWAWS.Models
         public string SiteGuid { get { return Tags.ContainsKey(Constants.SiteGuid) ? Tags[Constants.SiteGuid] : String.Empty; } }
         public string UserId
         {
-            get { return Tags.ContainsKey(Constants.UserId) ? Tags[Constants.UserId] : null; }
+            get { return Tags.ContainsKey(Constants.UserId) ? Tags.ContainsKey(Constants.UserId2)? Tags[Constants.UserId] + Tags[Constants.UserId2] : Tags[Constants.UserId] : null; }
         }
 
         public DateTime StartTime
@@ -227,7 +227,7 @@ namespace SimpleWAWS.Models
                 if (SubscriptionType == SubscriptionType.AppService)
                 {
                     var templateName = Tags.ContainsKey(Constants.TemplateName) ? Tags[Constants.TemplateName] : string.Empty;
-                    var userName = Tags.ContainsKey(Constants.UserId) ? Tags[Constants.UserId] : string.Empty;
+                    var userName = Tags.ContainsKey(Constants.UserId) ? Tags.ContainsKey(Constants.UserId2)?Tags[Constants.UserId]+Tags[Constants.UserId2]:Tags[Constants.UserId] : string.Empty;
                     var siteToUseForUi = Sites.First(s => s.IsFunctionsContainer);
 
                     return new UIResource

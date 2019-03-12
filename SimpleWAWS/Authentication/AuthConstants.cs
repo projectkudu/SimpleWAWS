@@ -6,7 +6,7 @@ namespace SimpleWAWS.Authentication
     {
         public const string EncryptionReason = "ProtectCookie";
         public const string LoginSessionCookie = "loginsession";
-        public static readonly TimeSpan SessionCookieValidTimeSpan = TimeSpan.FromHours(48);
+        public static readonly TimeSpan SessionCookieValidTimeSpan = TimeSpan.FromMinutes(59);
         public const string BearerHeader = "Bearer ";
         public const string DefaultAuthProvider = "AAD";
         public const string AnonymousUser = "aus";

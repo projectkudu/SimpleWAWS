@@ -6,6 +6,7 @@
         public const string IsRbacEnabled = "IsRbacEnabled";
         public const string GeoRegion = "GeoRegion";
         public const string UserId = "UserId";
+        public const string UserId2 = "UserId2";
         public const string CommonApiAppsDeployed = "CommonApiAppsDeployed";
         public const string CommonApiAppsDeployedVersion = "1.0.0";
         public const string TryResourceGroupPrefix = "TRY_RG";

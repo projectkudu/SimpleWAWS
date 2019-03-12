@@ -22,6 +22,8 @@ namespace SimpleWAWS.Authentication
         public static string LoginErrorPage { get { return config(); } }
         public static string FacebookAppId { get { return config(); } }
         public static string GoogleAppId { get { return config(); } }
+        public static string CaptchaAppId { get { return config(); } }
+        public static string CaptchaAppSecret { get { return config(); } }
         public static string AADIssuerKeys { get { return config(); } }
         public static string GoogleIssuerCerts { get { return config(); } }
         public static string AdminUserId { get { return config(); } }
@@ -30,5 +32,7 @@ namespace SimpleWAWS.Authentication
         public static string VkClientId { get { return config(); } }
         public static string GitHubClientSecret { get { return config(); } }
         public static string GitHubClientId { get { return config(); } }
+        public static string ReCaptchaSecretKey { get { return config(); } }
+        public static string ReCaptchaSiteKey { get { return config(); } }
     }
 }
