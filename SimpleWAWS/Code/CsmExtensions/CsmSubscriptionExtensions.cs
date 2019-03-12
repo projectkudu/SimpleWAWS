@@ -23,7 +23,6 @@ namespace SimpleWAWS.Code.CsmExtensions
             Validate.ValidateCsmSubscription(subscription);
             //Make sure to register for AppServices RP at least once for each 
             await GetClient(subscription.Type).HttpInvoke(HttpMethod.Post, ArmUriTemplates.WebsitesRegister.Bind(subscription));
-            await GetClient(subscription.Type).HttpInvoke(HttpMethod.Post, ArmUriTemplates.AppServiceRegister.Bind(subscription));
             await GetClient(subscription.Type).HttpInvoke(HttpMethod.Post, ArmUriTemplates.StorageRegister.Bind(subscription));
 
             var csmResourceGroups = await subscription.LoadResourceGroupsForSubscription();
@@ -87,7 +86,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             Validate.ValidateCsmSubscription(subscription);
             //Make sure to register for AppServices RP at least once for each 
             await GetClient(subscription.Type).HttpInvoke(HttpMethod.Post, ArmUriTemplates.WebsitesRegister.Bind(subscription));
-            await GetClient(subscription.Type).HttpInvoke(HttpMethod.Post, ArmUriTemplates.AppServiceRegister.Bind(subscription));
+            //await GetClient(subscription.Type).HttpInvoke(HttpMethod.Post, ArmUriTemplates.AppServiceRegister.Bind(subscription));
             await GetClient(subscription.Type).HttpInvoke(HttpMethod.Post, ArmUriTemplates.StorageRegister.Bind(subscription));
 
             var csmResourceGroups = await subscription.LoadResourceGroupsForSubscription();

@@ -35,9 +35,6 @@ namespace SimpleWAWS.Code
 
         public static readonly ArmUriTemplate CsmTemplateDeployment = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/deployments/{deploymentName}", csmTemplateApiVersion);
 
-        public static readonly ArmUriTemplate AppServiceRegister = new ArmUriTemplate(Subscription.TemplateUrl + "/providers/Microsoft.AppService/register", appServiceApiVersion);
-        public static readonly ArmUriTemplate AppServiceGenerateCsmDeployTemplate = new ArmUriTemplate(Subscription.TemplateUrl + "/providers/Microsoft.AppService/deploymenttemplates/{microserviceId}/generate?resourceGroup={resourceGroupName}", appServiceApiVersion);
-
         public static readonly ArmUriTemplate WebsitesRegister = new ArmUriTemplate(Subscription.TemplateUrl + "/providers/Microsoft.Web/register", websitesApiVersion);
         public static readonly ArmUriTemplate Sites = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Web/sites", websitesApiVersion);
         public static readonly ArmUriTemplate Site = new ArmUriTemplate(Sites.TemplateUrl + "/{siteName}", websitesApiVersion);
@@ -53,12 +50,6 @@ namespace SimpleWAWS.Code
         public static readonly ArmUriTemplate SitePublishingCredentials = new ArmUriTemplate(Site.TemplateUrl + "/config/PublishingCredentials/list", websitesApiVersion);
         public static readonly ArmUriTemplate SitePublishingProfile = new ArmUriTemplate(Site.TemplateUrl + "/publishxml", websitesApiVersion);
         public static readonly ArmUriTemplate SiteDeployments = new ArmUriTemplate(Site.TemplateUrl + "/deployments", newWebsitesApiVersion);
-
-        public static readonly ArmUriTemplate ApiApps = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.AppService/apiapps", appServiceApiVersion);
-        public static readonly ArmUriTemplate ApiApp = new ArmUriTemplate(ApiApps.TemplateUrl + "/{apiAppName}", appServiceApiVersion);
-
-        public static readonly ArmUriTemplate Gateways = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.AppService/gateways", appServiceApiVersion);
-        public static readonly ArmUriTemplate Gateway = new ArmUriTemplate(Gateways.TemplateUrl + "/{gatewayName}", appServiceApiVersion);
 
         public static readonly ArmUriTemplate LogicApps = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Logic/workflows", logicAppsApiVersion);
         public static readonly ArmUriTemplate LogicApp = new ArmUriTemplate(LogicApps.TemplateUrl + "/{logicAppName}", logicAppsApiVersion);

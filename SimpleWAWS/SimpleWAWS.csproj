@@ -265,7 +265,6 @@
     <Compile Include="Authentication\ReCaptchaAuthProvider.cs" />
     <Compile Include="Code\AppInsights.cs" />
     <Compile Include="Kudu\LinuxSiteManager.cs" />
-    <Compile Include="Models\ApiApp.cs" />
     <Compile Include="Models\ApiTemplate.cs" />
     <Compile Include="Models\AppService.cs" />
     <Compile Include="Authentication\AADProvider.cs" />
@@ -290,7 +289,6 @@
     <Compile Include="Code\BackgroundQueueManager.cs" />
     <Compile Include="Code\CsmExtensions\CsmStorageAccountExtensions.cs" />
     <Compile Include="Code\GlobalizationManager.cs" />
-    <Compile Include="Models\CsmModels\CsmApiApp.cs" />
     <Compile Include="Models\CsmModels\CsmArrayWrapper.cs" />
     <Compile Include="Models\CsmModels\CsmDeployment.cs" />
     <Compile Include="Models\CsmModels\CsmLogicApp.cs" />
@@ -458,6 +456,7 @@
     <Content Include="ARMTemplates\PingSite.json" />
     <Content Include="Default.cshtml" />
     <Content Include="refs\ARMClient.Library.dll" />
+    <Content Include="robots.txt" />
     <Content Include="Scripts\ai.0.22.19-build00125.js" />
     <Content Include="Scripts\ai.0.22.19-build00125.min.js" />
     <Content Include="Scripts\angular-timer.min.js" />
