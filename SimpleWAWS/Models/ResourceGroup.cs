@@ -214,7 +214,7 @@ namespace SimpleWAWS.Models
                     PublishingUserName = siteToUseForUi.PublishingUserName,
                     PublishingPassword = siteToUseForUi.PublishingPassword,
                     SiteGuid = SiteGuid,
-                    LoginSession = UserId.Encrypt()
+                    LoginSession = $"{SiteGuid}-{ResourceUniqueId}"
                 };
             }
         }

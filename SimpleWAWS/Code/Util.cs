@@ -134,49 +134,49 @@ namespace SimpleWAWS.Models
         }
 
  
-        public static async Task AddTimeStampFile(Site site, string siteGuid,DateTime utcDateTime)
-        {
-            var trial = 0;
-            var tries = 3;
-            var retryInterval = 1;
-            while (trial++ < tries)
-            {
-                await Task.Delay(new TimeSpan(0, 0, 0, retryInterval, 0));
-                try
-                {
-                    using (var httpClient = new HttpClient())
-                    {
-                        using (var request = new HttpRequestMessage())
-                        {
-                            var uri = new Uri($"http://{site.HostName}/api/metadata", UriKind.Absolute);
-                            var payload = new { userGuid = siteGuid, guid = siteGuid, timestamp = utcDateTime.ToString() };
-                            SimpleTrace.TraceInformation($"Updating timestamp by calling {uri.OriginalString} with {JsonConvert.SerializeObject(payload)} ");
+        //public static async Task AddTimeStampFile(Site site, string siteGuid,DateTime utcDateTime)
+        //{
+        //    var trial = 0;
+        //    var tries = 3;
+        //    var retryInterval = 1;
+        //    while (trial++ < tries)
+        //    {
+        //        await Task.Delay(new TimeSpan(0, 0, 0, retryInterval, 0));
+        //        try
+        //        {
+        //            using (var httpClient = new HttpClient())
+        //            {
+        //                using (var request = new HttpRequestMessage())
+        //                {
+        //                    var uri = new Uri($"http://{site.HostName}/api/metadata", UriKind.Absolute);
+        //                    var payload = new { userGuid = siteGuid, guid = siteGuid, timestamp = utcDateTime.ToString() };
+        //                    SimpleTrace.TraceInformation($"Updating timestamp by calling {uri.OriginalString} with {JsonConvert.SerializeObject(payload)} ");
 
-                            var response = await httpClient.PutAsJsonAsync(uri, payload );
-                            if (response.StatusCode == HttpStatusCode.OK)
-                            {
-                                var content= await response.Content.ReadAsStringAsync();
-                                SimpleTrace.TraceInformation($"Updated timestamp by calling {request.RequestUri} with {content} ");
-                                return;
-                             }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    SimpleTrace.TraceError($"Error updating timestamp on {trial} of {tries}-> {ex.Message} -> {ex.StackTrace} for for {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");
-                }
-            }
-            SimpleTrace.TraceError($"Fatal failure updating timestampfor {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId} after {tries} ");
-            throw new TimeStampUpdateFailedException($"Fatal failure updating timestampfor {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId} after {tries} ");
-            //var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-            //var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
-            //var json = JsonConvert.SerializeObject(new { expiryTime = DateTime.UtcNow.AddMinutes(Double.Parse(SimpleSettings.VSCodeLinuxExpiryMinutes)).ToString() });
-            //HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
-            //Task addTimeStampFile = vfsManager.Put("site/wwwroot/metadata.json", content);
-            //await addTimeStampFile;
+        //                    var response = await httpClient.PutAsJsonAsync(uri, payload );
+        //                    if (response.StatusCode == HttpStatusCode.OK)
+        //                    {
+        //                        var content= await response.Content.ReadAsStringAsync();
+        //                        SimpleTrace.TraceInformation($"Updated timestamp by calling {request.RequestUri} with {content} ");
+        //                        return;
+        //                     }
+        //                }
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            SimpleTrace.TraceError($"Error updating timestamp on {trial} of {tries}-> {ex.Message} -> {ex.StackTrace} for for {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");
+        //        }
+        //    }
+        //    SimpleTrace.TraceError($"Fatal failure updating timestampfor {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId} after {tries} ");
+        //    throw new TimeStampUpdateFailedException($"Fatal failure updating timestampfor {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId} after {tries} ");
+        //    //var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+        //    //var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
+        //    //var json = JsonConvert.SerializeObject(new { expiryTime = DateTime.UtcNow.AddMinutes(Double.Parse(SimpleSettings.VSCodeLinuxExpiryMinutes)).ToString() });
+        //    //HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+        //    //Task addTimeStampFile = vfsManager.Put("site/wwwroot/metadata.json", content);
+        //    //await addTimeStampFile;
 
-        }
+        //}
         public static async Task<string> UpdateVSCodeLinuxAppSettings(Site site)
         {
             SimpleTrace.TraceInformation($"Site AppSettings Update started: for {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");

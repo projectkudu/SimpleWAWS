@@ -102,6 +102,7 @@ namespace SimpleWAWS
 
             //Resources Api Routes
             RouteTable.Routes.MapHttpRoute("get-resource", "api/resource", new { controller = "Resource", action = "GetResource", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("get-vscode-resource", "api/vscoderesource", new { controller = "Resource", action = "GetVSCodeResource", authenticated = false}, new { verb = new HttpMethodConstraint("GET") });
             RouteTable.Routes.MapHttpRoute("get-username", "api/resource/user", new { controller = "Resource", action = "GetUserIdentityName", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
             RouteTable.Routes.MapHttpRoute("create-resource", "api/resource", new { controller = "Resource", action = "CreateResource", authenticated = true }, new { verb = new HttpMethodConstraint("POST") });
             RouteTable.Routes.MapHttpRoute("get-webapp-publishing-profile", "api/resource/getpublishingprofile", new { controller = "Resource", action = "GetWebAppPublishingProfile", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
