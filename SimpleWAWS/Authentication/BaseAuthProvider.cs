@@ -20,7 +20,7 @@ namespace SimpleWAWS.Authentication
                 switch (providerSpecificAuthMethod(context))
                 {
                     case TokenResults.DoesntExist:
-                        if (context.IsAjaxRequest() || context.IsFunctionsPortalBackendRequest())
+                        if (context.IsAjaxRequest() || context.IsClientPortalBackendRequest())
                         {
                             //context.Response.Headers["LoginUrl"] = GetLoginUrl(context);
                             context.Response.Headers["loginurl"] = GetLoginUrl(context);
@@ -39,7 +39,7 @@ namespace SimpleWAWS.Authentication
                         break;
                     case TokenResults.ExistsAndCorrect:
                         // Ajax can never send Bearer token
-                        context.Response.Cookies.Add(CreateSessionCookie(context.User));
+                        //context.Response.Cookies.Add(CreateSessionCookie(context.User));
                         context.Response.RedirectLocation = GetRedirectLocationFromState(context);
                         context.Response.StatusCode = 302; // Redirect
                         break;
@@ -107,7 +107,7 @@ namespace SimpleWAWS.Authentication
 
         protected string LoginStateUrlFragment(HttpContextBase context, bool encodeTwice = false)
         {
-            if (context.IsFunctionsPortalBackendRequest())
+            if (context.IsClientPortalBackendRequest())
             {
                 return encodeTwice ? 
                       $"&state={WebUtility.UrlEncode(WebUtility.UrlEncode(string.Format(CultureInfo.InvariantCulture, "{0}{1}", context.Request.Headers["Referer"], context.Request.Url.Query)))}" 

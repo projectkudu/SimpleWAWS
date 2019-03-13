@@ -46,7 +46,7 @@ namespace SimpleWAWS.Authentication
         abstract public string GetIssuerName(string altSecId);
 
 
-        public TokenResults TryAuthenticateBearer(HttpContextBase context)
+        public virtual TokenResults TryAuthenticateBearer(HttpContextBase context)
         {
             var jwt = GetBearer(context);
 
@@ -103,7 +103,7 @@ namespace SimpleWAWS.Authentication
             return null;
         }
 
-        protected string GetBearer(HttpContextBase context)
+        protected virtual string GetBearer(HttpContextBase context)
         {
             //a jwt token can either be in the query string or in the Authorization header or for AAD in the POST Form body
             var jwt = context.Request["id_token"];

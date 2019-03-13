@@ -300,7 +300,8 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task<ResourceGroup> MarkInUse(this ResourceGroup resourceGroup, string userId, AppService appService)
         {
-            resourceGroup.Tags[Constants.UserId] = userId;
+            resourceGroup.Tags[Constants.UserId] = userId.Substring(0, Math.Min(userId.Length, 256));
+            resourceGroup.Tags[Constants.UserId2] = userId.Length>256?userId.Substring(256, Math.Min(userId.Length-256, 256)):String.Empty;
             resourceGroup.Tags[Constants.StartTime] = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
             switch (appService)
             {
@@ -550,7 +551,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             try
             {
                 return IsSimpleWawsResourceName(csmResourceGroup) &&
-                    csmResourceGroup.tags.ContainsKey(Constants.UserId)
+                    (csmResourceGroup.tags.ContainsKey(Constants.UserId) || csmResourceGroup.tags.ContainsKey(Constants.UserId2))
                     && csmResourceGroup.tags.ContainsKey(Constants.StartTime)
                     && csmResourceGroup.tags.ContainsKey(Constants.LifeTimeInMinutes)
                     && DateTime.UtcNow > DateTime.Parse(csmResourceGroup.tags[Constants.StartTime]).AddMinutes(Int32.Parse(csmResourceGroup.tags[Constants.LifeTimeInMinutes]));

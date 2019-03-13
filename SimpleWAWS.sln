@@ -13,6 +13,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SimpleWAWS.Tests", "SimpleW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleWAWS.CleanAAD", "SimpleWAWS.CleanAAD\SimpleWAWS.CleanAAD.csproj", "{1CBC766D-1D61-4D65-8641-97F49032AF48}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleWAWS.CaptchaAuth", "SimpleWAWS.CaptchaAuth\SimpleWAWS.CaptchaAuth.csproj", "{B2D69E13-6FD6-4E46-9F79-93652CBDE1CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{1CBC766D-1D61-4D65-8641-97F49032AF48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CBC766D-1D61-4D65-8641-97F49032AF48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CBC766D-1D61-4D65-8641-97F49032AF48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2D69E13-6FD6-4E46-9F79-93652CBDE1CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2D69E13-6FD6-4E46-9F79-93652CBDE1CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2D69E13-6FD6-4E46-9F79-93652CBDE1CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2D69E13-6FD6-4E46-9F79-93652CBDE1CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

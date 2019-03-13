@@ -170,7 +170,7 @@ namespace SimpleWAWS
             if (!SecurityManager.TryAuthenticateSessionCookie(context))
             {
                 // Support requests from non-browsers with bearer headers
-                if (context.IsFunctionsPortalBackendRequest() && !context.IsBrowserRequest() &&
+                if (context.IsClientPortalBackendRequest() && !context.IsBrowserRequest() &&
                     SecurityManager.TryAuthenticateBearer(context))
                 {
                     return;
@@ -187,7 +187,7 @@ namespace SimpleWAWS
                 // If the route is not registered in the WebAPI RouteTable
                 //    then it's not an API route, which means it's a resource (*.js, *.css, *.cshtml), not authenticated.
                 // If the route doesn't have authenticated value assume true
-                var isAuthenticated = route != null && ((route.Values["authenticated"] == null || (bool) route.Values["authenticated"]) && !(route.Values["action"] != null && String.Equals(route.Values["action"].ToString(),"All",StringComparison.OrdinalIgnoreCase)));
+                var isAuthenticated = route != null && ((route.Values["authenticated"] == null || (bool)route.Values["authenticated"]) && !(route.Values["action"] != null && String.Equals(route.Values["action"].ToString(), "All", StringComparison.OrdinalIgnoreCase)));
 
                 if (isAuthenticated)
                 {
@@ -198,6 +198,7 @@ namespace SimpleWAWS
                     SecurityManager.HandleAnonymousUser(context);
                 }
             }
+
         }
 
         protected void Application_Error(object sender, EventArgs e)
