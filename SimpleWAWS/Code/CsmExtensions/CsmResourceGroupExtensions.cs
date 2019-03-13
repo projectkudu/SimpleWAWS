@@ -468,7 +468,8 @@ namespace SimpleWAWS.Code.CsmExtensions
             csmTemplateString = csmTemplateString
                                 .Replace("{{siteName}}", site.SiteName)
                                 .Replace("{{aspName}}", site.SiteName + "-plan")
-                                .Replace("{{vmLocation}}", resourceGroup.GeoRegion);
+                                .Replace("{{vmLocation}}", resourceGroup.GeoRegion)
+                                .Replace("{{vsCodeNodeRepoUrl}}", SimpleSettings.VSCodeLinuxNodeRepoUrl);
             var inProgressOperation = new InProgressOperation(resourceGroup, DeploymentType.CsmDeploy);
             var token = await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true, subscriptionType: resourceGroup.SubscriptionType);
 
