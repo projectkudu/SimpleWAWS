@@ -259,8 +259,17 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
             var vfsManager = new RemoteVfsManager($"{site.ScmUrl}vfs/", credentials, retryCount: 3);
-            var hostId = new { id = Guid.NewGuid().ToString().Replace("-", "") };
-            var putTask = vfsManager.Put("site/wwwroot/host.json", new StringContent(JsonConvert.SerializeObject(hostId)));
+            object hostJson = null;
+            if (site.IsFunctionsContainer)
+            {
+                hostJson = new { id = Guid.NewGuid().ToString().Replace("-", ""), version = "2.0" };
+            }
+            else
+            {
+                hostJson = new { id = Guid.NewGuid().ToString().Replace("-", "") };
+            }
+
+            var putTask = vfsManager.Put("site/wwwroot/host.json", new StringContent(JsonConvert.SerializeObject(hostJson)));
             var deleteTask = vfsManager.Delete("site/wwwroot/hostingstart.html");
             await Task.WhenAll(putTask, deleteTask);
         }

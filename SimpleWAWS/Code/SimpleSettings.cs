@@ -37,7 +37,7 @@ namespace SimpleWAWS.Code
         private const string CommonApiAppsCsmTemplatePathLocal = @"C:\Users\fashaikh\Documents\GitHub\SimpleWAWS\SimpleWAWS\CSMTemplates\commonApiApps.json";
         public static string CommonApiAppsCsmTemplatePath { get; } = HostingEnvironment.MapPath("~/CSMTemplates/commonApiApps.json") ?? CommonApiAppsCsmTemplatePathLocal;
         public static string ElasticSearchUri = "http://10.0.0.4:9200";
-        public static string FunctionsExtensionVersion { get { return config("latest"); } }
+        public static string FunctionsExtensionVersion { get { return config("~2"); } }
         public static string WebsiteNodeDefautlVersion { get { return config("6.9.4"); } }
         public static string AppInsightsInstrumentationKey { get { return config(); } }
         public static string GraphUserName { get { return config(); } }

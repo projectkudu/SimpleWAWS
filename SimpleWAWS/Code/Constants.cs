@@ -41,5 +41,10 @@
         public const string VuejsVSCodeWebAppLinuxTemplateName = "Vue.js VSCode Web App on Linux";
         public const string AngularVSCodeWebAppLinuxTemplateName = "Angular VSCode Web App on Linux";
         public const string DefaultContainerName = "DockerContainer";
+        public const string CSharpLanguage = "CSharp";
+        public const string JavaScriptLanguage = "JavaScript";
+        public const string DotNetRuntime = "dotnet";
+        public const string JavaScriptRuntime = "node";
+        public const string FunctionsRuntimeAppSetting = "FUNCTIONS_WORKER_RUNTIME";
     }
 }

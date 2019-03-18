@@ -495,7 +495,20 @@ namespace SimpleWAWS.Code
                             AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName,
                             "Function", template.Name, resourceGroup.ResourceUniqueId, AppService.Function.ToString());
 
-                Util.WarmUpSite(resourceGroup.Sites.First(s => s.IsFunctionsContainer)); 
+                await resourceGroup.Load();
+                var functionApp = resourceGroup.Sites.First(s => s.IsFunctionsContainer);
+                if (template.Name.Contains(Constants.CSharpLanguage))
+                {
+                    functionApp.AppSettings[Constants.FunctionsRuntimeAppSetting] = Constants.DotNetRuntime;
+                }
+                else if (template.Name.Contains(Constants.JavaScriptLanguage))
+                {
+                    functionApp.AppSettings[Constants.FunctionsRuntimeAppSetting] = Constants.JavaScriptRuntime;
+                }
+
+                await functionApp.UpdateAppSettings();
+
+                Util.WarmUpSite(functionApp); 
                 var rbacTask = resourceGroup.AddResourceGroupRbac(userIdentity.Puid, userIdentity.Email, isFunctionContainer: true);
                 resourceGroup.Tags[Constants.TemplateName] = template.Name;
                 await resourceGroup.Update();
