@@ -126,6 +126,14 @@ namespace SimpleWAWS.Models
             }
         }
 
+        public string FunctionContentDownloadUrl
+        {
+            get
+            {
+                return string.Concat("https://tryappservice.azure.com/api/resource/getfunctionappcontent/", SiteName, "^", ResourceGroupName);
+            }
+        }
+        
         public string IbizaUrl
         {
             get
