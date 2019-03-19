@@ -20,7 +20,7 @@
         public const string FunctionsSitePrefix = "Functions";
         public const string FunctionsContainerSiteKind = "functionapp";
         public const string FunctionsContainerDeployed = "FunctionsContainerDeployed";
-        public const string FunctionsContainerDeployedVersion = "4.0.0";
+        public const string FunctionsContainerDeployedVersion = "5.0.0";
         public const string FunctionsStorageAccountPrefix = "Functions";
         public const string AzureStorageAppSettingsName = "AzureWebJobsStorage";
         public const string AzureStorageDashboardAppSettingsName = "AzureWebJobsDashboard";
@@ -46,5 +46,8 @@
         public const string DotNetRuntime = "dotnet";
         public const string JavaScriptRuntime = "node";
         public const string FunctionsRuntimeAppSetting = "FUNCTIONS_WORKER_RUNTIME";
-    }
+        public const string FunctionsVersionAppSetting = "FUNCTIONS_EXTENSION_VERSION";
+        public const string NodeDefaultVersionAppSetting = "WEBSITE_NODE_DEFAULT_VERSION";
+        public const string FunctionsVersion = "~2";
+        public const string MinNodeVersionForFunctions = "10.14.1";   }
 }

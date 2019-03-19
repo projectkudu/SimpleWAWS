@@ -495,8 +495,7 @@ namespace SimpleWAWS.Code
                             AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName,
                             "Function", template.Name, resourceGroup.ResourceUniqueId, AppService.Function.ToString());
 
-                await resourceGroup.Load();
-                var functionApp = resourceGroup.Sites.First(s => s.IsFunctionsContainer);
+                var functionApp = await resourceGroup.Sites.First(s => s.IsFunctionsContainer).LoadAppSettings();
                 if (template.Name.Contains(Constants.CSharpLanguage))
                 {
                     functionApp.AppSettings[Constants.FunctionsRuntimeAppSetting] = Constants.DotNetRuntime;
@@ -504,6 +503,20 @@ namespace SimpleWAWS.Code
                 else if (template.Name.Contains(Constants.JavaScriptLanguage))
                 {
                     functionApp.AppSettings[Constants.FunctionsRuntimeAppSetting] = Constants.JavaScriptRuntime;
+                    
+                    //update WEBSITE_NODE_DEFAULT_VERSION for functionApp
+                    try
+                    {
+                        if (functionApp.AppSettings[Constants.NodeDefaultVersionAppSetting] != null &&
+                            Int32.Parse(functionApp.AppSettings[Constants.NodeDefaultVersionAppSetting].Split(new[] { '.' })[0]) < 10)
+                        {
+                            functionApp.AppSettings[Constants.NodeDefaultVersionAppSetting] = Constants.MinNodeVersionForFunctions;
+                        }
+                    }
+                    catch //set it to min required version for V2 functionapp
+                    {
+                        functionApp.AppSettings[Constants.NodeDefaultVersionAppSetting] = Constants.MinNodeVersionForFunctions;
+                    }
                 }
 
                 await functionApp.UpdateAppSettings();
