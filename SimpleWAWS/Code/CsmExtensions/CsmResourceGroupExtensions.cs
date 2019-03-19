@@ -642,7 +642,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             site.AppSettings[Constants.AzureStorageDashboardAppSettingsName] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.StorageAccountName, storageAccount.StorageAccountKey);
             if (!site.IsSimpleWAWSOriginalSite)
             {
-                site.AppSettings["FUNCTIONS_EXTENSION_VERSION"] = SimpleSettings.FunctionsExtensionVersion;
+                site.AppSettings["FUNCTIONS_EXTENSION_VERSION"] = Constants.FunctionsVersion;
             }
             site.AppSettings["WEBSITE_NODE_DEFAULT_VERSION"] = SimpleSettings.WebsiteNodeDefautlVersion;
             await UpdateAppSettings(site);
