@@ -102,7 +102,7 @@ namespace SimpleWAWS.Authentication
         {
             var identity = user.Identity as TryWebsitesIdentity;
             var value = string.Format(CultureInfo.InvariantCulture, "{0};{1};{2};{3}", identity.Email, identity.Puid, identity.Issuer, DateTime.UtcNow.ToString(CultureInfo.InvariantCulture));
-            return Uri.EscapeDataString(value.Encrypt(AuthConstants.EncryptionReason));
+            return Uri.EscapeDataString(Crypto.EncryptStringAES(value));
         }
 
         protected string LoginStateUrlFragment(HttpContextBase context, bool encodeTwice = false)

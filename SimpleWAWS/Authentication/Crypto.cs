@@ -81,7 +81,7 @@ namespace SimpleWAWS.Authentication
         {
             if (string.IsNullOrEmpty(cipherText))
                 throw new ArgumentNullException("cipherText");
-            var sharedSecret = Environment.GetEnvironmentVariable("ReCaptchaSecretKey");
+            var sharedSecret = Environment.GetEnvironmentVariable("ReCaptchaSharedSecret");
             // Declare the RijndaelManaged object
             // used to decrypt the data.
             RijndaelManaged aesAlg = null;
@@ -107,6 +107,8 @@ namespace SimpleWAWS.Authentication
                     aesAlg.IV = ReadByteArray(msDecrypt);
                     // Create a decrytor to perform the stream transform.
                     ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+
+                    var cul = System.Threading.Thread.CurrentThread.CurrentCulture;
                     using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
                     {
                         using (StreamReader srDecrypt = new StreamReader(csDecrypt))
@@ -116,6 +118,10 @@ namespace SimpleWAWS.Authentication
                             plaintext = srDecrypt.ReadToEnd();
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
             finally
             {

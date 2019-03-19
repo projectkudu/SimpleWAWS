@@ -68,8 +68,7 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             { "Microsoft.Web/Sites", "" },
             { "Microsoft.Web/Sites/Config", "" },
-            { "Microsoft.Web/Sites/SourceControl", "" },
-            { "Microsoft.AppService/", "" }
+            { "Microsoft.Web/Sites/SourceControl", "" }
         };
 
         public static Task<string> GetStatus(this CsmDeployment deployment)

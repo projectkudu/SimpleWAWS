@@ -15,7 +15,7 @@ namespace SimpleWAWS
 {
     public static class Extensions
     {
-        private const string DefaultEncryptReason = "DefaultEncryptReason";
+//        private const string DefaultEncryptReason = "DefaultEncryptReason";
 
         public static string SerializeFixups(string value)
         {
@@ -39,23 +39,23 @@ namespace SimpleWAWS
             return Char.ToLowerInvariant(str[0]) + str.Substring(1);
         }
 
-        public static string Encrypt(this string str, string reason = null)
-        {
-            var valueBytes = Encoding.Default.GetBytes(str);
-            var encryptedBytes = MachineKey.Protect(valueBytes, reason ?? DefaultEncryptReason);
-            return Convert.ToBase64String(encryptedBytes);
-        }
+        //public static string Encrypt(this string str, string reason = null)
+        //{
+        //    var valueBytes = Encoding.Default.GetBytes(str);
+        //    var encryptedBytes = MachineKey.Protect(valueBytes, reason ?? DefaultEncryptReason);
+        //    return Convert.ToBase64String(encryptedBytes);
+        //}
 
-        public static string Decrypt(this string str, string reason = null)
-        {
-            var encryptedBytes = Convert.FromBase64String(str.PadBase64());
-            var decryptedBytes = MachineKey.Unprotect(encryptedBytes, reason ?? DefaultEncryptReason);
-            if (decryptedBytes != null)
-            {
-                return Encoding.Default.GetString(decryptedBytes);
-            }
-            throw new Exception("decrypted value is null");
-        }
+        //public static string Decrypt(this string str, string reason = null)
+        //{
+        //    var encryptedBytes = Convert.FromBase64String(str.PadBase64());
+        //    var decryptedBytes = MachineKey.Unprotect(encryptedBytes, reason ?? DefaultEncryptReason);
+        //    if (decryptedBytes != null)
+        //    {
+        //        return Encoding.Default.GetString(decryptedBytes);
+        //    }
+        //    throw new Exception("decrypted value is null");
+        //}
 
         public static bool IsAjaxRequest(this HttpContextBase context)
         {

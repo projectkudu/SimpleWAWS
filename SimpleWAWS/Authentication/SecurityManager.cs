@@ -88,12 +88,12 @@ namespace SimpleWAWS.Authentication
                     token = authHeader.Substring(AuthConstants.BearerHeader.Length).Trim();
 
                 var loginSessionCookie =
-                    Uri.UnescapeDataString(string.IsNullOrEmpty(token)
+                    Crypto.DecryptStringAES(Uri.UnescapeDataString(string.IsNullOrEmpty(token)
                         ? context.Request.Cookies[AuthConstants.LoginSessionCookie].Value
-                        : token)
-                        .Decrypt(AuthConstants.EncryptionReason);
+                        : token))
 
                 var splited = loginSessionCookie.Split(';');
+
                 if (splited.Length == 2)
                 {
                     var user = splited[0];
@@ -172,11 +172,11 @@ namespace SimpleWAWS.Authentication
                 if (userCookie == null)
                 {
                     var user = Guid.NewGuid().ToString();
-                    context.Response.Cookies.Add(new HttpCookie(AuthConstants.AnonymousUser, Uri.EscapeDataString(user.Encrypt(AuthConstants.EncryptionReason))) { Path = "/", Expires = DateTime.UtcNow.AddHours(1) });
+                    context.Response.Cookies.Add(new HttpCookie(AuthConstants.AnonymousUser, Uri.EscapeDataString(Crypto.EncryptStringAES( user))) { Path = "/", Expires = DateTime.UtcNow.AddHours(1) });
                 }
                 else
                 {
-                    var user = Uri.UnescapeDataString(userCookie.Value).Decrypt(AuthConstants.EncryptionReason);
+                    var user = Uri.UnescapeDataString(Crypto.DecryptStringAES(userCookie.Value));
                     context.User = new TryWebsitesPrincipal(new TryWebsitesIdentity(user, null, "Anonymous"));
                 }
             }
@@ -193,7 +193,7 @@ namespace SimpleWAWS.Authentication
                 var userCookie = context.Request.Cookies[AuthConstants.AnonymousUser];
                 if (userCookie != null)
                 {
-                    var user = Uri.UnescapeDataString(userCookie.Value).Decrypt(AuthConstants.EncryptionReason);
+                    var user = Uri.UnescapeDataString(Crypto.DecryptStringAES(userCookie.Value));
                     return new TryWebsitesIdentity(user, null, "Anonymous").Name;
                 }
                 return string.Empty;

@@ -54,21 +54,21 @@ let ``GetIssuerName for AAD Accounts`` (altSecId, issuer) =
     authProvider.GetIssuerName altSecId |> should equal issuer
 
 
-[<TestCase("user@example", "live.com:12244556464", "MSA")>]
-let ``Check session cookie format`` (email, puid, issuer) =
-    let principal = new TryWebsitesPrincipal(new TryWebsitesIdentity(email, puid, issuer))
-    let provider = new FacebookAuthProvider()
-    let cookie = provider.CreateSessionCookie principal
-    cookie |> should not' (be Null)
-
-    let values = SimpleWAWS.Extensions.Decrypt((cookie.Value |> Uri.UnescapeDataString), AuthConstants.EncryptionReason).Split(';')
-    values |> Seq.length |> should equal 4
-    values
-        |> Seq.zip [|email; puid; issuer|]
-        |> Seq.iter (fun (v, e) -> v |> should equal e)
-
-    let couldParse, date = values |> Seq.last |> DateTime.TryParse
-    couldParse |> should be True
+//[<TestCase("user@example", "live.com:12244556464", "MSA")>]
+//let ``Check session cookie format`` (email, puid, issuer) =
+//    let principal = new TryWebsitesPrincipal(new TryWebsitesIdentity(email, puid, issuer))
+//    let provider = new FacebookAuthProvider()
+//    let cookie = provider.CreateSessionCookie principal
+//    cookie |> should not' (be Null)
+//
+//    let values = SimpleWAWS.Extensions.Decrypt((cookie.Value |> Uri.UnescapeDataString), AuthConstants.EncryptionReason).Split(';')
+//    values |> Seq.length |> should equal 4
+//    values
+//        |> Seq.zip [|email; puid; issuer|]
+//        |> Seq.iter (fun (v, e) -> v |> should equal e)
+//
+//    let couldParse, date = values |> Seq.last |> DateTime.TryParse
+//    couldParse |> should be True
 
 [<TestCase("user@example.com", "puid", "Google")>]
 let ``Check identity name`` (email, puid, issuer) =
@@ -76,16 +76,17 @@ let ``Check identity name`` (email, puid, issuer) =
     identity.Name |> should equal (String.Join("#", issuer, email))
 
 
-[<Test>]
-let ``Ensure multiple calls to Authenticate request result in only 1 anonymous user created`` ()=
-    let getUser (context: HttpContextBase) =
-        SimpleWAWS.Extensions.Decrypt(context.Response.Cookies.[AuthConstants.AnonymousUser].Value |> Uri.UnescapeDataString, AuthConstants.EncryptionReason)
-    let initialContext = getMockedHttpContext()
-    initialContext |> SecurityManager.HandleAnonymousUser |> ignore
-    let initialUser = getUser initialContext
-    for i in 1 .. 10 do
-        let testContext = getMockedHttpContext()
-        for h in initialContext.Request.Headers.AllKeys do 
-            testContext.Request.Headers.Add (h, initialContext.Request.Headers.[h])
-        testContext |> SecurityManager.HandleAnonymousUser |> ignore
-        (getUser testContext) |> should equal initialUser
+//[<Test>]
+//let ``Ensure multiple calls to Authenticate request result in only 1 anonymous user created`` ()=
+//    let getUser (context: HttpContextBase) =
+//        SimpleWAWS.Extensions.Decrypt(context.Response.Cookies.[AuthConstants.AnonymousUser].Value |> Uri.UnescapeDataString, AuthConstants.EncryptionReason)
+//    let initialContext = getMockedHttpContext()
+//    initialContext |> SecurityManager.HandleAnonymousUser |> ignore
+//    let initialUser = getUser initialContext
+//    for i in 1 .. 10 do
+//        let testContext = getMockedHttpContext()
+//        for h in initialContext.Request.Headers.AllKeys do 
+//            testContext.Request.Headers.Add (h, initialContext.Request.Headers.[h])
+//        testContext |> SecurityManager.HandleAnonymousUser |> ignore
+//        (getUser testContext) |> should equal initialUser
+//
