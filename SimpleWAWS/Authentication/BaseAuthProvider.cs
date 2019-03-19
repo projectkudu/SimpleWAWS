@@ -39,7 +39,7 @@ namespace SimpleWAWS.Authentication
                         break;
                     case TokenResults.ExistsAndCorrect:
                         // Ajax can never send Bearer token
-                        //context.Response.Cookies.Add(CreateSessionCookie(context.User));
+                        context.Response.Cookies.Add(CreateSessionCookie(context.User));
                         context.Response.RedirectLocation = GetRedirectLocationFromState(context);
                         context.Response.StatusCode = 302; // Redirect
                         break;

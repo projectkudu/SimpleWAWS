@@ -34,5 +34,6 @@ namespace SimpleWAWS.Authentication
         public static string GitHubClientId { get { return config(); } }
         public static string ReCaptchaSecretKey { get { return config(); } }
         public static string ReCaptchaSiteKey { get { return config(); } }
+        public static string ReCaptchaEndpoint { get { return config("https://tryappservice.azure.com/recaptcha"); } }
     }
 }

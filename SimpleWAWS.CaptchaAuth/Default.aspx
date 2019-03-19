@@ -75,7 +75,7 @@
             if (response !== '') {
                 document.getElementById('lblMessage').innerHTML = "Success. Redirecting...";
                 setTimeout(function () {
-                    window.location.href = "http://tryappservice.azure.com/?code=" + response + "&state=" + urlParams["state"];
+                    window.location.href = "<%Environment.GetEnvironmentVariable("ReCaptchaEndpoint").Replace("/recaptcha", String.Empty);%>/?code=" + response + "&state=" + urlParams["state"];
                 }, 1000);
 
                 //theForm.submit();
