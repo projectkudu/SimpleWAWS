@@ -90,7 +90,7 @@ namespace SimpleWAWS.Authentication
                 var loginSessionCookie =
                     Crypto.DecryptStringAES(Uri.UnescapeDataString(string.IsNullOrEmpty(token)
                         ? context.Request.Cookies[AuthConstants.LoginSessionCookie].Value
-                        : token))
+                        : token));
 
                 var splited = loginSessionCookie.Split(';');
 
