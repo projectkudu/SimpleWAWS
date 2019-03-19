@@ -237,7 +237,7 @@ namespace SimpleWAWS.Models
                         IbizaUrl = siteToUseForUi.IbizaUrl,
                         MonacoUrl = siteToUseForUi.MonacoUrl,
                         GitUrl = siteToUseForUi.GitUrlWithCreds,
-                        ContentDownloadUrl = siteToUseForUi.ContentDownloadUrl,
+                        ContentDownloadUrl = siteToUseForUi.FunctionContentDownloadUrl,
                         IsRbacEnabled = IsRbacEnabled,
                         AppService = AppService,
                         TemplateName = templateName,

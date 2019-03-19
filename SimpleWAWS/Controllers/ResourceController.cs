@@ -212,6 +212,30 @@ namespace SimpleWAWS.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, Resources.Server.Error_GettingPublishingProfileStream);
             }
         }
+
+        public async Task<HttpResponseMessage> GetFunctionAppContent(string siteName)
+        {
+            var resourceManager = await ResourcesManager.GetInstanceAsync();
+            var response = Request.CreateResponse();
+            var split = siteName.Split('^');
+            var tasSiteName = split[0];
+            var rgName = split[1];
+            var resourceGroup = await resourceManager.GetResourceGroupFromSiteName(tasSiteName, rgName);
+            var stream = await resourceGroup.Sites.Where(s => s.IsFunctionsContainer).Select(s => s.GetSiteContent()).FirstOrDefault();
+            if (stream != null)
+            {
+                response.Content = new StreamContent(stream);
+                response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                response.Content.Headers.ContentDisposition =
+                    new ContentDispositionHeaderValue("attachment") { FileName = tasSiteName + ".zip" };
+                return response;
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, Resources.Server.Error_GettingPublishingProfileStream);
+            }
+        }
+
         public async Task<HttpResponseMessage> CreateResource(BaseTemplate template)
         {
             try
