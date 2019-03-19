@@ -128,7 +128,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             if (!site.IsSimpleWAWSOriginalSite)
             {
-                site.AppSettings["FUNCTIONS_EXTENSION_VERSION"] = SimpleSettings.FunctionsExtensionVersion;
+                site.AppSettings["FUNCTIONS_EXTENSION_VERSION"] = Constants.FunctionsVersion;
             }
             if (site.SubscriptionType != SubscriptionType.Linux && site.SubscriptionType != SubscriptionType.VSCodeLinux)
             {
@@ -259,14 +259,15 @@ namespace SimpleWAWS.Code.CsmExtensions
         {
             var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
             var vfsManager = new RemoteVfsManager($"{site.ScmUrl}vfs/", credentials, retryCount: 3);
+            var hostId = Guid.NewGuid().ToString().Replace("-", "");
             object hostJson = null;
             if (site.IsFunctionsContainer)
             {
-                hostJson = new { id = Guid.NewGuid().ToString().Replace("-", ""), version = "2.0" };
+                hostJson = new { id = hostId, version = "2.0" };
             }
             else
             {
-                hostJson = new { id = Guid.NewGuid().ToString().Replace("-", "") };
+                hostJson = new { id = hostId };
             }
 
             var putTask = vfsManager.Put("site/wwwroot/host.json", new StringContent(JsonConvert.SerializeObject(hostJson)));
