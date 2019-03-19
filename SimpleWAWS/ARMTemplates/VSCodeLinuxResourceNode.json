@@ -85,7 +85,7 @@
                    "[concat('Microsoft.Web/sites/', parameters('siteName'), '/config/web')]"
                 ],
                 "properties":{  
-                  "RepoUrl":"https://github.com/Microsoft/vscode-tas-express",
+                  "RepoUrl":"{{vsCodeNodeRepoUrl}}",
                   "branch":"RELEASE",
                   "IsManualIntegration":true
                 }

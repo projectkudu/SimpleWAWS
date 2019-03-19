@@ -18,7 +18,7 @@ namespace SimpleWAWS.Authentication
         public override string GetLoginUrl(HttpContextBase context)
         {
             var builder = new StringBuilder();
-            builder.Append("https://tryappservice.azure.com/recaptcha");
+            builder.Append(AuthSettings.ReCaptchaEndpoint);
             builder.AppendFormat("?redirect_uri={0}", WebUtility.UrlEncode(string.Format(CultureInfo.InvariantCulture, "https://{0}/Login", context.Request.Headers["HOST"])));
             builder.Append(LoginStateUrlFragment(context));
             return builder.ToString();

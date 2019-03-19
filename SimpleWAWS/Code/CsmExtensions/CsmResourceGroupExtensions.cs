@@ -468,7 +468,8 @@ namespace SimpleWAWS.Code.CsmExtensions
             csmTemplateString = csmTemplateString
                                 .Replace("{{siteName}}", site.SiteName)
                                 .Replace("{{aspName}}", site.SiteName + "-plan")
-                                .Replace("{{vmLocation}}", resourceGroup.GeoRegion);
+                                .Replace("{{vmLocation}}", resourceGroup.GeoRegion)
+                                .Replace("{{vsCodeNodeRepoUrl}}", SimpleSettings.VSCodeLinuxNodeRepoUrl);
             var inProgressOperation = new InProgressOperation(resourceGroup, DeploymentType.CsmDeploy);
             var token = await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true, subscriptionType: resourceGroup.SubscriptionType);
 
@@ -627,7 +628,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                         allowedOrigins = new string[]{ "https://functions.azure.com",
                                     "https://functions-staging.azure.com", "https://functions-next.azure.com" ,
                                     "https://localhost:44300", "https://tryfunctions.com", "https://www.tryfunctions.com", "https://tryfunctions.azure.com",
-                                     "https://tryfunctions-staging.azure.com", "https://www.tryfunctions-staging.azure.com"
+                                     "https://tryfunctions-staging.azure.com", "https://www.tryfunctions-staging.azure.com","https://try-functions-east-us-staging.azurewebsites.net"
                     }
                 }
              }

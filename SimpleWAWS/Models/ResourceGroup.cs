@@ -205,8 +205,7 @@ namespace SimpleWAWS.Models
                     GitUrl = siteToUseForUi.GitUrlWithCreds,
                     BashGitUrl = siteToUseForUi.BashGitUrlWithCreds,
                     IsRbacEnabled = IsRbacEnabled,
-                    AppService = (AppService== AppService.Containers
-                                    || AppService == AppService.Linux
+                    AppService = ( AppService == AppService.Linux
                                     ?AppService.Web : AppService) ,
                     TemplateName = templateName,
                     IsExtended = IsExtended,

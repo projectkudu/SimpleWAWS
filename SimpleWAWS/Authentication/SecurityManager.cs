@@ -87,11 +87,10 @@ namespace SimpleWAWS.Authentication
                     authHeader.IndexOf(AuthConstants.BearerHeader, StringComparison.OrdinalIgnoreCase) > -1)
                     token = authHeader.Substring(AuthConstants.BearerHeader.Length).Trim();
 
-                var isrecaptcha = context.Request.QueryString["provider"]?.Equals("recaptcha", StringComparison.OrdinalIgnoreCase)??false || token.Length>1000;
-
-                var loginSessionCookie = (isrecaptcha)? 
-                    Crypto.DecryptStringAES((token))
-                        : Uri.UnescapeDataString(token);
+                var loginSessionCookie =
+                    Crypto.DecryptStringAES(Uri.UnescapeDataString(string.IsNullOrEmpty(token)
+                        ? context.Request.Cookies[AuthConstants.LoginSessionCookie].Value
+                        : token));
 
                 var splited = loginSessionCookie.Split(';');
 
