@@ -49,5 +49,6 @@
         public const string FunctionsVersionAppSetting = "FUNCTIONS_EXTENSION_VERSION";
         public const string NodeDefaultVersionAppSetting = "WEBSITE_NODE_DEFAULT_VERSION";
         public const string FunctionsVersion = "~2";
-        public const string MinNodeVersionForFunctions = "10.14.1";   }
+        public const string MinNodeVersionForFunctions = "10.14.1";
+    }
 }
