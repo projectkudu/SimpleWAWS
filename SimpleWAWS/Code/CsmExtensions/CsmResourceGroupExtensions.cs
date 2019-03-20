@@ -643,8 +643,8 @@ namespace SimpleWAWS.Code.CsmExtensions
             site.AppSettings[Constants.NodeDefaultVersionAppSetting] = SimpleSettings.WebsiteNodeDefautlVersion;
             if (!site.IsSimpleWAWSOriginalSite)
             {
-                site.AppSettings[Constants.FunctionsVersionAppSetting] = Constants.FunctionsVersion;
-                site.AppSettings[Constants.NodeDefaultVersionAppSetting] = Constants.MinNodeVersionForFunctions;
+                site.AppSettings[Constants.FunctionsVersionAppSetting] = SimpleSettings.FunctionsExtensionVersion;
+                site.AppSettings[Constants.NodeDefaultVersionAppSetting] = SimpleSettings.FunctionsNodeDefaultVersion;
             }
             await UpdateAppSettings(site);
         }

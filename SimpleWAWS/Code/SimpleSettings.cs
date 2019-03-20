@@ -39,6 +39,7 @@ namespace SimpleWAWS.Code
         public static string ElasticSearchUri = "http://10.0.0.4:9200";
         public static string FunctionsExtensionVersion { get { return config("~2"); } }
         public static string WebsiteNodeDefautlVersion { get { return config("6.9.4"); } }
+        public static string FunctionsNodeDefaultVersion { get { return config("10.14.1"); } }
         public static string AppInsightsInstrumentationKey { get { return config(); } }
         public static string GraphUserName { get { return config(); } }
         public static string GraphPassword { get { return config(); } }
@@ -78,6 +79,7 @@ namespace SimpleWAWS.Code
         public static int NUMBER_OF_PROCESSORS { get { return Int32.Parse(config("4")); } }
         public static string ServerFarmTypeContent { get { return config(); } }
         public static string VSCodeLinuxNodeRepoUrl { get { return config("https://github.com/Microsoft/vscode-tas-express"); } }
+        public static string TryAppServiceSite {  get { return config("https://tryappservice.azure.com"); } }
     }
 
 }

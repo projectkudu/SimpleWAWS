@@ -122,7 +122,7 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return string.Concat("https://tryappservice.azure.com/api/resource/getwebappcontent/", SiteName,"^",ResourceGroupName);
+                return string.Concat(SimpleSettings.TryAppServiceSite, "/api/resource/getwebappcontent/", SiteName,"^",ResourceGroupName);
             }
         }
 
@@ -130,7 +130,7 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return string.Concat("https://tryappservice.azure.com/api/resource/getfunctionappcontent/", SiteName, "^", ResourceGroupName);
+                return string.Concat(SimpleSettings.TryAppServiceSite, "/api/resource/getfunctionappcontent/", SiteName, "^", ResourceGroupName);
             }
         }
         

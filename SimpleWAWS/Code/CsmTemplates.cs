@@ -22,7 +22,7 @@ namespace SimpleWAWS.Code
         public const string RbacApiVersion = "2014-07-01-preview";
         public const string CsmRootUrl = "https://management.azure.com";
         public const string GraphRootUrl = "https://graph.windows.net";
-        public const string TryAppServiceUrl = "https://tryappservice.azure.com/api/resource/all/true";
+        public static string TryAppServiceUrl = SimpleSettings.TryAppServiceSite + "/api/resource/all/true";
 
         public static readonly Uri LoadedResources = new Uri(TryAppServiceUrl);
         public static readonly ArmUriTemplate Subscriptions = new ArmUriTemplate(CsmRootUrl + "/subscriptions", csmApiVersion);
