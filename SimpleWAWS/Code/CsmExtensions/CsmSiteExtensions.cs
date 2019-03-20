@@ -128,7 +128,7 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             if (!site.IsSimpleWAWSOriginalSite)
             {
-                site.AppSettings["FUNCTIONS_EXTENSION_VERSION"] = Constants.FunctionsVersion;
+                site.AppSettings["FUNCTIONS_EXTENSION_VERSION"] = SimpleSettings.FunctionsExtensionVersion;
             }
             if (site.SubscriptionType != SubscriptionType.Linux && site.SubscriptionType != SubscriptionType.VSCodeLinux)
             {
@@ -137,7 +137,7 @@ namespace SimpleWAWS.Code.CsmExtensions
                 site.AppSettings[Constants.NodeDefaultVersionAppSetting] = SimpleSettings.WebsiteNodeDefautlVersion;
                 if (site.IsFunctionsContainer)
                 {
-                    site.AppSettings[Constants.NodeDefaultVersionAppSetting] = Constants.MinNodeVersionForFunctions;
+                    site.AppSettings[Constants.NodeDefaultVersionAppSetting] = SimpleSettings.FunctionsNodeDefaultVersion;
                 }
             }
             await site.UpdateAppSettings();
