@@ -503,20 +503,6 @@ namespace SimpleWAWS.Code
                 else if (template.Name.Contains(Constants.JavaScriptLanguage))
                 {
                     functionApp.AppSettings[Constants.FunctionsRuntimeAppSetting] = Constants.JavaScriptRuntime;
-                    
-                    //update WEBSITE_NODE_DEFAULT_VERSION for functionApp
-                    try
-                    {
-                        if (functionApp.AppSettings[Constants.NodeDefaultVersionAppSetting] != null &&
-                            Int32.Parse(functionApp.AppSettings[Constants.NodeDefaultVersionAppSetting].Split(new[] { '.' })[0]) < 10)
-                        {
-                            functionApp.AppSettings[Constants.NodeDefaultVersionAppSetting] = Constants.MinNodeVersionForFunctions;
-                        }
-                    }
-                    catch //set it to min required version for V2 functionapp
-                    {
-                        functionApp.AppSettings[Constants.NodeDefaultVersionAppSetting] = Constants.MinNodeVersionForFunctions;
-                    }
                 }
 
                 await functionApp.UpdateAppSettings();
