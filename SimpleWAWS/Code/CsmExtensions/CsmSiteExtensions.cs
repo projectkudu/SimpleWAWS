@@ -134,7 +134,11 @@ namespace SimpleWAWS.Code.CsmExtensions
             {
                 site.AppSettings["WEBSITE_TRY_MODE"] = "1";
                 site.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = SimpleSettings.SiteExpiryMinutes;
-                site.AppSettings["WEBSITE_NODE_DEFAULT_VERSION"] = SimpleSettings.WebsiteNodeDefautlVersion;
+                site.AppSettings[Constants.NodeDefaultVersionAppSetting] = SimpleSettings.WebsiteNodeDefautlVersion;
+                if (site.IsFunctionsContainer)
+                {
+                    site.AppSettings[Constants.NodeDefaultVersionAppSetting] = Constants.MinNodeVersionForFunctions;
+                }
             }
             await site.UpdateAppSettings();
             return site;
