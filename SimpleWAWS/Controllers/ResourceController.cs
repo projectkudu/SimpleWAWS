@@ -48,7 +48,7 @@ namespace SimpleWAWS.Controllers
                 SimpleTrace.TraceInformation($"GetVSCodeResource called with loginSessionCookie:{loginSessionCookie}");
                 {
 
-                    var resourceGroup = resourceManager.GetAllInUseResourceGroups().ToList().First(a =>a.UIResource.LoginSession.Equals(loginSessionCookie));
+                    var resourceGroup = resourceManager.GetAllInUseResourceGroups().Where(a=> a.AppService==AppService.VSCodeLinux).ToList().First(a =>a.UIResource.LoginSession.Equals(loginSessionCookie));
                     var returning = resourceGroup == null ? null : (HttpContext.Current.Request.QueryString["appServiceName"] == "Function") ? resourceGroup.FunctionsUIResource : UpdateMonitoringToolsTimeLeft(resourceGroup.UIResource);
                     try
                     {
