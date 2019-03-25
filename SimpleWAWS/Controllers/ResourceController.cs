@@ -312,39 +312,39 @@ namespace SimpleWAWS.Controllers
                         resourceGroup = await resourceManager.ActivateApiApp(tempTemplate, identity, anonymousUserName);
                         break;
                     case AppService.Logic:
-                        if (identity.Issuer == "OrgId")
-                        {
-                            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_OrgIdNotSupported);
-                        }
-                        else if (identity.Issuer != "MSA")
-                        {
-                            return SecurityManager.RedirectToAAD(tempTemplate.CreateQueryString());
-                        }
+                        //if (identity.Issuer == "OrgId")
+                        //{
+                        //    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_OrgIdNotSupported);
+                        //}
+                        //else if (identity.Issuer != "MSA")
+                        //{
+                        //    return SecurityManager.RedirectToAAD(tempTemplate.CreateQueryString());
+                        //}
                         resourceGroup = await resourceManager.ActivateLogicApp(tempTemplate, identity, anonymousUserName);
                         break;
                     case AppService.Function:
                         resourceGroup = await resourceManager.ActivateFunctionApp(tempTemplate, identity, anonymousUserName);
                         break;
                     case AppService.Containers:
-                        if (identity.Issuer == "OrgId")
-                        {
-                            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_OrgIdNotSupported);
-                        }
-                        else if (identity.Issuer != "MSA")
-                        {
-                            return SecurityManager.RedirectToAAD(template.CreateQueryString());
-                        }
+                        //if (identity.Issuer == "OrgId")
+                        //{
+                        //    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_OrgIdNotSupported);
+                        //}
+                        //else if (identity.Issuer != "MSA")
+                        //{
+                        //    return SecurityManager.RedirectToAAD(template.CreateQueryString());
+                        //}
                         resourceGroup = await resourceManager.ActivateContainersResource(tempTemplate as ContainersTemplate, identity, anonymousUserName);
                         break;
                     case AppService.MonitoringTools:
-                        if (identity.Issuer == "OrgId")
-                        {
-                            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_OrgIdNotSupported);
-                        }
-                        else if (identity.Issuer != "MSA")
-                        {
-                            return SecurityManager.RedirectToAAD(template.CreateQueryString());
-                        }
+                        //if (identity.Issuer == "OrgId")
+                        //{
+                        //    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_OrgIdNotSupported);
+                        //}
+                        //else if (identity.Issuer != "MSA")
+                        //{
+                        //    return SecurityManager.RedirectToAAD(template.CreateQueryString());
+                        //}
                         resourceGroup = await resourceManager.ActivateMonitoringToolsApp(tempTemplate as MonitoringToolsTemplate, identity, anonymousUserName);
                         break;
                 }
