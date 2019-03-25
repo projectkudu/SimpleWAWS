@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.ApplicationInsights;
+using System.Globalization;
 
 namespace SimpleWAWS.Code
 {
@@ -301,7 +302,7 @@ namespace SimpleWAWS.Code
                             .Where(p => !LoadedResourceGroups.Any(p2 => string.Equals(p.id, p2.CsmId, StringComparison.OrdinalIgnoreCase))).GroupBy(rg => rg.location)
                             .Select(g => new { Region = g.Key, ResourceGroups = g.Select(r => r), Count = g.Count() })
                             .Where(g => g.Count > s.ResourceGroupsPerGeoRegion)
-                            .Select(g => g.ResourceGroups.Where(rg => rg.tags != null && !rg.tags.ContainsKey("UserId")))
+                            .Select(g => g.ResourceGroups.Where(rg => rg.tags != null && (!rg.tags.ContainsKey("UserId")|| (rg.tags.ContainsKey("UserId") && (rg.tags.ContainsKey("StartTime")?DateTime.Parse(rg.tags[Constants.StartTime], CultureInfo.InvariantCulture):DateTime.UtcNow)<=DateTime.UtcNow.AddHours(-1) ))))
                             .SelectMany(i => i);
 
                         totalDeletedRGs += (deleteLeakingRGs == null) ? 0 : deleteLeakingRGs.Count();
