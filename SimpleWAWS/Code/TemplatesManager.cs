@@ -7,30 +7,14 @@ using System.Globalization;
 using Newtonsoft.Json.Linq;
 using SimpleWAWS.Code;
 using SimpleWAWS.Resources;
+using Newtonsoft.Json;
+using System.Net;
+using SimpleWAWS.Trace;
+
 namespace SimpleWAWS.Models
 {
     public static class TemplatesManager
     {
-        internal static string TemplatesFolder
-        {
-            get
-            {
-                var folder = HostingEnvironment.MapPath(@"~/App_Data/Templates");
-                Directory.CreateDirectory(folder);
-                return folder;
-            }
-        }
-
-        internal static string ImagesFolder
-        {
-            get
-            {
-                var folder = HostingEnvironment.MapPath(@"~/Content/images/packages");
-                Directory.CreateDirectory(folder);
-                return folder;
-            }
-        }
-
         private static dynamic _baseARMTemplate;
 
         private static IEnumerable<BaseTemplate> _templatesList;
@@ -41,109 +25,16 @@ namespace SimpleWAWS.Models
             {
                 _templatesList = new List<BaseTemplate>();
                 var list = _templatesList as List<BaseTemplate>;
-                foreach (var languagePath in Directory.GetDirectories(TemplatesFolder))
+                List<BaseTemplate> templates = JsonConvert.DeserializeObject<List<BaseTemplate>>( GetConfig("templates.json"));
+                List <Config> config = JsonConvert.DeserializeObject<List<Config>>(GetConfig("config.json"));
+                foreach (var template in templates)
                 {
-                    foreach (var template in Directory.GetFiles(languagePath))
-                    {
-                        var iconUri = Path.Combine(ImagesFolder,
-                            string.Format(CultureInfo.InvariantCulture, "{0}.png",
-                                Path.GetFileNameWithoutExtension(template)));
-                        var cssClass = GetShortName(Path.GetFileNameWithoutExtension(template));
-                        var iconCssClass = File.Exists(iconUri)
-                            ? string.Format(CultureInfo.InvariantCulture, "sprite-{0}", cssClass)
-                            : "sprite-Large";
-                        var language = Path.GetFileName(languagePath);
-                        list.Add(new WebsiteTemplate
-                        {
-                            Name = Path.GetFileNameWithoutExtension(template),
-                            FileName = Path.GetFileName(template),
-                            Language =
-                                (language.Equals("Mobile", StringComparison.OrdinalIgnoreCase) ||
-                                 language.Equals("Api", StringComparison.OrdinalIgnoreCase))
-                                    ? null
-                                    : language,
-                            SpriteName = string.Format(CultureInfo.InvariantCulture, "{0} {1}", iconCssClass, cssClass),
-                            AppService =language.Equals("Api", StringComparison.OrdinalIgnoreCase)
-                                        ? AppService.Api
-                                        : AppService.Web,
-                            MSDeployPackageUrl =
-                                $"{SimpleSettings.ZippedRepoUrl}/{Uri.EscapeDataString(Path.GetFileName(Path.GetDirectoryName(template)))}/{Uri.EscapeDataString(Path.GetFileName(template))}"
-                        });
-                    }
+                    var configToUse = config.First(a => a.AppService == template.AppService.ToString());
+                    template.Config = configToUse;
                 }
-                list.Add(new LogicTemplate
-                {
-                    Name = "Ping Site",
-                    SpriteName = "sprite-PingSite PingSite",
-                    AppService = AppService.Logic,
-                    CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/PingSite.json")
-                });
-                list.Add(new MonitoringToolsTemplate
-                {
-                    Name = "Monitoring And Diagnostics Site",
-                    SpriteName = "sprite-EmptySite sprite-Large",
-                    AppService = AppService.MonitoringTools
-                });
-                if (File.Exists(HostingEnvironment.MapPath("~/ARMTemplates/LinuxResource.json")))
-                {   list.Add(new LinuxTemplate
-                    {
-                        Name = Constants.NodejsWebAppLinuxTemplateName,
-                        SpriteName = "sprite-LinuxNodeJSExpress LinuxWebApp",
-                        AppService = AppService.Linux,
-                        MSDeployPackageUrl = HostingEnvironment.MapPath("~/App_Data/LinuxTemplates/Node.jsLinuxApp.zip"),
-                        CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/LinuxResource.json")
-                    });
-                    list.Add(new LinuxTemplate
-                    {
-                        Name = Constants.PHPWebAppLinuxTemplateName,
-                        SpriteName = "sprite-LinuxPHPEmptySite LinuxWebApp",
-                        AppService = AppService.Linux,
-                        MSDeployPackageUrl = HostingEnvironment.MapPath("~/App_Data/LinuxTemplates/PHPLinuxApp.zip"),
-                        CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/LinuxResource.json")
-                    });
-                    list.Add(new ContainersTemplate
-                    {
-                        Name = Constants.DefaultContainerName,
-                        SpriteName = "sprite-LinuxPHPEmptySite LinuxWebApp",
-                        AppService = AppService.Containers,
-                        CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/LinuxResource.json")
-                    });
-                    list.Add(new VSCodeLinuxTemplate
-                    {
-                        Name = Constants.NodejsVSCodeWebAppLinuxTemplateName,
-                        SpriteName = "sprite-LinuxNodeJSExpress LinuxWebApp",
-                        AppService = AppService.VSCodeLinux,
-                        MSDeployPackageUrl = HostingEnvironment.MapPath("~/App_Data/LinuxTemplates/Node.jsVSCodeLinuxApp.zip"),
-                        CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/VSCodeLinuxResourceNode.json")
-                    });
-                    list.Add(WebsiteTemplate.EmptySiteTemplate);
-                    //list.Add(new VSCodeLinuxTemplate
-                    //{
-                    //    Name = Constants.ReactVSCodeWebAppLinuxTemplateName,
-                    //    SpriteName = "sprite-LinuxNodeJSExpress LinuxWebApp",
-                    //    AppService = AppService.VSCodeLinux,
-                    //    MSDeployPackageUrl = HostingEnvironment.MapPath("~/App_Data/LinuxTemplates/ReactVSCodeWebApp.zip"),
-                    //    CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/VSCodeLinuxResourceReact.json")
-                    //});
-                    //list.Add(new VSCodeLinuxTemplate
-                    //{
-                    //    Name = Constants.VuejsVSCodeWebAppLinuxTemplateName,
-                    //    SpriteName = "sprite-LinuxNodeJSExpress LinuxWebApp",
-                    //    AppService = AppService.VSCodeLinux,
-                    //    MSDeployPackageUrl = HostingEnvironment.MapPath("~/App_Data/LinuxTemplates/Vue.jsVSCodeWebApp.zip"),
-                    //    CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/VSCodeLinuxResource.json")
-                    //});
-                    //list.Add(new VSCodeLinuxTemplate
-                    //{
-                    //    Name = Constants.AngularVSCodeWebAppLinuxTemplateName,
-                    //    SpriteName = "sprite-LinuxNodeJSExpress LinuxWebApp",
-                    //    AppService = AppService.VSCodeLinux,
-                    //    MSDeployPackageUrl = HostingEnvironment.MapPath("~/App_Data/LinuxTemplates/AngularVSCodeWebApp.zip"),
-                    //    CsmTemplateFilePath = HostingEnvironment.MapPath("~/ARMTemplates/VSCodeLinuxResource.json")
-                    //});
-                }
+                list.AddRange(templates);
                 //Use JObject.Parse to quickly build up the armtemplate object used for LRS
-                _baseARMTemplate = JObject.Parse( File.ReadAllText(HostingEnvironment.MapPath("~/ARMTemplates/BaseARMTemplate.json")));
+                _baseARMTemplate = JObject.Parse(GetConfig("BaseARMTemplate.json"));
                 //TODO: Implement a FileSystemWatcher for changes in the directory
             }
             catch (Exception)
@@ -151,6 +42,36 @@ namespace SimpleWAWS.Models
                 _templatesList = Enumerable.Empty<BaseTemplate>();
             }
         }
+
+        private static string GetConfig(string configjson)
+        {
+            var s = String.Empty;
+            try
+            {
+                using (WebClient client = new WebClient())
+                {
+                    // Add a user agent header in case the 
+                    // requested URI contains a query.
+
+                    client.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+
+                    using (Stream data = client.OpenRead(SimpleSettings.ConfigUrl + configjson))
+                    {
+                        using (StreamReader reader = new StreamReader(data))
+                        {
+                            s = reader.ReadToEnd();
+                            reader.Close();
+                        }
+                        data.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                SimpleTrace.TraceException(ex);
+            }
+            return s;     
+         }
 
         private static string GetShortName(string templateName)
         {
@@ -201,12 +122,5 @@ namespace SimpleWAWS.Models
         {
         }
     }
-    public static class TemplatesExtensions
-    {
-        public static string GetFullPath(this BaseTemplate value)
-        {
-            var language = value.Language ?? ((value.AppService == AppService.Api) ? "Api" : "Mobile");
-            return Path.Combine(TemplatesManager.TemplatesFolder, language, value.FileName);
-        }
-    }
+
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Security.Principal;
 
 namespace SimpleWAWS.Authentication
@@ -23,6 +24,15 @@ namespace SimpleWAWS.Authentication
             get
             {
                 return string.Format(CultureInfo.InvariantCulture, "{0};{1}", Issuer, Email);
+            }
+        }
+        public string FilteredName
+        {
+            get
+            {
+                var anonymizedEmail = "unknown.com";
+                anonymizedEmail = String.Join(String.Empty, Email.Split('@').Skip(1));
+                return string.Format(CultureInfo.InvariantCulture, "{0};[FILTERED]@{1}", Issuer, anonymizedEmail);
             }
         }
         public string Puid { get; private set; }

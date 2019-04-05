@@ -21,11 +21,7 @@ namespace SimpleWAWS.Code
         public static string TryUserName { get { return config(); } }
         public static string TryPassword { get { return config(); } }
         public static string Subscriptions { get { return config(); } }
-        public static string FreeSitesIISLogsBlob { get { return config(); } }
-        public static string FreeSitesIISLogsQueue { get { return config(); } }
         public static string StorageConnectionString { get { return config(); } }
-        public static string DocumentDbUrl { get { return config(); } }
-        public static string DocumentDbKey { get { return config(); } }
         public static string FromEmail { get { return config(); } }
         public static string EmailServer { get { return config(); } }
         public static string EmailUserName { get { return config(); } }
@@ -34,13 +30,12 @@ namespace SimpleWAWS.Code
         public static string SearchServiceName { get { return config(); } }
         public static string SearchServiceApiKeys { get { return config(); } }
         public static string ExtendedResourceExpireHours { get { return config("24"); } }
-        private const string CommonApiAppsCsmTemplatePathLocal = @"C:\Users\fashaikh\Documents\GitHub\SimpleWAWS\SimpleWAWS\CSMTemplates\commonApiApps.json";
-        public static string CommonApiAppsCsmTemplatePath { get; } = HostingEnvironment.MapPath("~/CSMTemplates/commonApiApps.json") ?? CommonApiAppsCsmTemplatePathLocal;
         public static string ElasticSearchUri = "http://10.0.0.4:9200";
         public static string FunctionsExtensionVersion { get { return config("~2"); } }
         public static string WebsiteNodeDefautlVersion { get { return config("6.9.4"); } }
         public static string FunctionsNodeDefaultVersion { get { return config("10.14.1"); } }
         public static string AppInsightsInstrumentationKey { get { return config(); } }
+        public static string ConfigUrl { get { return config("https://tro.blob.core.windows.net/config/"); } }
         public static string GraphUserName { get { return config(); } }
         public static string GraphPassword { get { return config(); } }
         public static string ZippedRepoUrl { get { return config(); } }
@@ -65,20 +60,21 @@ namespace SimpleWAWS.Code
         public static string VSCodeLinuxSubscriptions { get { return config(); } }
         public static string VSCodeLinuxGeoRegions { get { return config("South Central US,North Europe"); } }
         public static int VSCodeLinuxResourceGroupsPerTemplate { get { return Int32.Parse(config("4")); } }
+        public static int AppServiceResourceGroupsPerTemplate { get { return Int32.Parse(config("4")); } }
+        public static int LinuxResourceGroupsPerTemplate { get { return Int32.Parse(config("4")); } }
         public static string MonitoringToolsExpiryMinutes { get { return config("240"); } }
         public static string MonitoringToolsTenantName { get { return config(); } }
         public static string MonitoringToolsTenantId { get { return config(); } }
         public static string MonitoringToolsServicePrincipal { get { return config(); } }
         public static string MonitoringToolsServicePrincipalKey { get { return config(); } }
-        public static string MonitoringToolsResourceGroupName { get { return config("musicstore-trial-test"); } }
+        //public static string MonitoringToolsResourceGroupName { get { return config("musicstore-trial-test"); } }
         public static string MonitoringToolsSubscription { get { return config("0396d5df-005a-4c6b-9665-714ae60c5eb9"); } }
         public static string MonitoringToolsGraphUserName { get { return config(); } }
         public static string MonitoringToolsGraphPassword { get { return config(); } }
         public static string WEBSITE_SLOT_NAME { get { return config(); } }
-        public static string WEBSITE_HOSTNAME { get { return config();}}
+        public static string WEBSITE_HOSTNAME { get { return config(); } }
         public static int NUMBER_OF_PROCESSORS { get { return Int32.Parse(config("4")); } }
         public static string ServerFarmTypeContent { get { return config(); } }
-        public static string VSCodeLinuxNodeRepoUrl { get { return config("https://github.com/Microsoft/vscode-tas-express"); } }
         public static string TryAppServiceSite {  get { return config("https://tryappservice.azure.com"); } }
     }
 

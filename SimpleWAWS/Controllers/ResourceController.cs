@@ -25,10 +25,10 @@ namespace SimpleWAWS.Controllers
         {
             var resourceManager = await ResourcesManager.GetInstanceAsync();
             var resourceGroup = await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name);
-            var returning = resourceGroup == null ? null : (HttpContext.Current.Request.QueryString["appServiceName"] == "Function") ? resourceGroup.FunctionsUIResource : UpdateMonitoringToolsTimeLeft(resourceGroup.UIResource);
+            var returning = resourceGroup == null ? null : resourceGroup.UIResource;
             try
             {
-                SimpleTrace.TraceInformation($"GET Resource. Returning { returning?.SiteName } with template { returning?.TemplateName } for user { ((TryWebsitesIdentity)(HttpContext.Current.User.Identity)).UniqueName}");
+                SimpleTrace.TraceInformation($"GET Resource. Returning { returning?.SiteName } with template { returning?.TemplateName } for user { ((TryWebsitesIdentity)(HttpContext.Current.User.Identity)).FilteredName}");
             }
             catch (Exception ex)
             {
@@ -48,11 +48,11 @@ namespace SimpleWAWS.Controllers
                 SimpleTrace.TraceInformation($"GetVSCodeResource called with loginSessionCookie:{loginSessionCookie}");
                 {
 
-                    var resourceGroup = resourceManager.GetAllInUseResourceGroups().ToList().First(a =>a.UIResource.LoginSession.Equals(loginSessionCookie));
-                    var returning = resourceGroup == null ? null : (HttpContext.Current.Request.QueryString["appServiceName"] == "Function") ? resourceGroup.FunctionsUIResource : UpdateMonitoringToolsTimeLeft(resourceGroup.UIResource);
+                    var resourceGroup = resourceManager.GetAllInUseResourceGroups().Where(a => a.AppService == AppService.VSCodeLinux).ToList().First(a => a.UIResource.LoginSession.Equals(loginSessionCookie));
+                    var returning = resourceGroup == null ? null : resourceGroup.UIResource;
                     try
                     {
-                        SimpleTrace.TraceInformation($"GET Resource. Returning { returning?.SiteName } with template { returning?.TemplateName } for user { returning?.UserName}");
+                        SimpleTrace.TraceInformation($"GET Resource. Returning { returning?.SiteName } with template { returning?.TemplateName } for user { ((TryWebsitesIdentity)(HttpContext.Current.User.Identity)).FilteredName}");
                     }
                     catch (Exception ex)
                     {
@@ -119,18 +119,16 @@ namespace SimpleWAWS.Controllers
                 var inUseFunctionsCount = inUseSitesList.Count(res => res.AppService == AppService.Function);
                 var inUseWebsitesCount = inUseSitesList.Count(res => res.AppService == AppService.Web && res.SubscriptionType == SubscriptionType.AppService);
                 var inUseContainerCount = inUseSitesList.Count(res => res.AppService == AppService.Containers || (res.SubscriptionType == SubscriptionType.Linux));
-                var inUseLogicAppCount = inUseSitesList.Count(res => res.AppService == AppService.Logic);
-
 
                 var inProgress = resourceManager.GetAllInProgressResourceGroups();
                 var backgroundOperations = resourceManager.GetAllBackgroundOperations();
-                var freeLinuxResources = resourceManager.GetAllFreeLinuxResourceGroups();
+                var freeLinuxResources = resourceManager.GetAllFreeResourceGroups().Where(sub => sub.SubscriptionType == SubscriptionType.Linux);
                 var inUseLinuxResources = resourceManager.GetAllInUseResourceGroups().Where(sub => sub.SubscriptionType == SubscriptionType.Linux);
                 var freeSitesList = freeSites as IList<ResourceGroup> ?? freeSites.ToList();
                 var freeLinuxSitesList = freeLinuxResources as IList<ResourceGroup> ?? freeLinuxResources.ToList();
                 var inUseLinuxResourcesList = inUseLinuxResources as IList<ResourceGroup> ?? inUseLinuxResources.ToList();
 
-                var freeVSCodeLinuxResources = resourceManager.GetAllFreeVSCodeLinuxResourceGroups();
+                var freeVSCodeLinuxResources = resourceManager.GetAllFreeResourceGroups().Where(sub => sub.SubscriptionType == SubscriptionType.VSCodeLinux);
                 var inUseVSCodeLinuxResources = resourceManager.GetAllInUseResourceGroups().Where(sub => sub.SubscriptionType == SubscriptionType.VSCodeLinux);
                 var freeVSCodeLinuxSitesList = freeVSCodeLinuxResources as IList<ResourceGroup> ?? freeVSCodeLinuxResources.ToList();
                 var inUseVSCodeLinuxResourcesList = inUseVSCodeLinuxResources as IList<ResourceGroup> ?? inUseVSCodeLinuxResources.ToList();
@@ -148,7 +146,6 @@ namespace SimpleWAWS.Controllers
                         inUseFunctionsCount = inUseFunctionsCount,
                         inUseWebsitesCount= inUseWebsitesCount,
                         inUseContainerCount= inUseContainerCount,
-                        inUseLogicAppCount =inUseLogicAppCount,
                         inUseLinuxResourceCount = inUseLinuxResourcesList.Count(),
                         inUseVSCodeLinuxResourceCount = inUseVSCodeLinuxResourcesList.Count(),
                         inProgressSitesCount = inProgress.Count(),
@@ -175,13 +172,13 @@ namespace SimpleWAWS.Controllers
             var resourceManager = await ResourcesManager.GetInstanceAsync();
             var response = Request.CreateResponse();
             var resourceGroup = await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name);
-            var stream = await resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).Select(s => s.GetPublishingProfile()).FirstOrDefault();
+            var stream = await resourceGroup.Site.GetPublishingProfile();
             if (stream != null)
             {
                 response.Content = new StreamContent(stream);
                 response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
                 response.Content.Headers.ContentDisposition =
-                    new ContentDispositionHeaderValue("attachment") { FileName = string.Format("{0}.publishsettings", resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).Select(s => s.SiteName).FirstOrDefault()) };
+                    new ContentDispositionHeaderValue("attachment") { FileName = string.Format("{0}.publishsettings", resourceGroup.Site.SiteName) };
                 return response;
             }
             else
@@ -198,7 +195,7 @@ namespace SimpleWAWS.Controllers
             var tasSiteName = split[0];
             var rgName = split[1];
             var resourceGroup = await resourceManager.GetResourceGroupFromSiteName(tasSiteName, rgName);
-            var stream = await resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).Select(s => s.GetSiteContent()).FirstOrDefault();
+            var stream = await resourceGroup.Site.GetSiteContent();
             if (stream != null)
             {
                 response.Content = new StreamContent(stream);
@@ -221,7 +218,7 @@ namespace SimpleWAWS.Controllers
             var tasSiteName = split[0];
             var rgName = split[1];
             var resourceGroup = await resourceManager.GetResourceGroupFromSiteName(tasSiteName, rgName);
-            var stream = await resourceGroup.Sites.Where(s => s.IsFunctionsContainer).Select(s => s.GetSiteContent()).FirstOrDefault();
+            var stream = await resourceGroup.Site.GetSiteContent();
             if (stream != null)
             {
                 response.Content = new StreamContent(stream);
@@ -311,46 +308,16 @@ namespace SimpleWAWS.Controllers
                     case AppService.Api:
                         resourceGroup = await resourceManager.ActivateApiApp(tempTemplate, identity, anonymousUserName);
                         break;
-                    case AppService.Logic:
-                        //if (identity.Issuer == "OrgId")
-                        //{
-                        //    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_OrgIdNotSupported);
-                        //}
-                        //else if (identity.Issuer != "MSA")
-                        //{
-                        //    return SecurityManager.RedirectToAAD(tempTemplate.CreateQueryString());
-                        //}
-                        resourceGroup = await resourceManager.ActivateLogicApp(tempTemplate, identity, anonymousUserName);
-                        break;
                     case AppService.Function:
                         resourceGroup = await resourceManager.ActivateFunctionApp(tempTemplate, identity, anonymousUserName);
                         break;
                     case AppService.Containers:
-                        //if (identity.Issuer == "OrgId")
-                        //{
-                        //    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_OrgIdNotSupported);
-                        //}
-                        //else if (identity.Issuer != "MSA")
-                        //{
-                        //    return SecurityManager.RedirectToAAD(template.CreateQueryString());
-                        //}
                         resourceGroup = await resourceManager.ActivateContainersResource(tempTemplate as ContainersTemplate, identity, anonymousUserName);
-                        break;
-                    case AppService.MonitoringTools:
-                        //if (identity.Issuer == "OrgId")
-                        //{
-                        //    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Server.Error_OrgIdNotSupported);
-                        //}
-                        //else if (identity.Issuer != "MSA")
-                        //{
-                        //    return SecurityManager.RedirectToAAD(template.CreateQueryString());
-                        //}
-                        resourceGroup = await resourceManager.ActivateMonitoringToolsApp(tempTemplate as MonitoringToolsTemplate, identity, anonymousUserName);
                         break;
                 }
                 try
                 {
-                    SimpleTrace.TraceInformation($"CREATE {template?.AppService}. Returning { GetUIResource(resourceGroup).SiteName } with template { GetUIResource(resourceGroup).TemplateName } for user {identity.UniqueName}");
+                    SimpleTrace.TraceInformation($"CREATE {template?.AppService}. Returning { GetUIResource(resourceGroup).SiteName } with template { GetUIResource(resourceGroup).TemplateName } for user {identity.FilteredName}");
                 }
                 catch  (Exception ex)
                 {
@@ -368,35 +335,10 @@ namespace SimpleWAWS.Controllers
 
         private UIResource GetUIResource(ResourceGroup resourceGroup)
         {
-            return string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["appServiceName"])
-                   ? resourceGroup.UIResource
-                   : ((HttpContext.Current.Request.QueryString["appServiceName"].Equals("Function",
-                        StringComparison.InvariantCultureIgnoreCase))
-                        ? resourceGroup.FunctionsUIResource
-                        : UpdateMonitoringToolsTimeLeft(resourceGroup.UIResource));
+            return resourceGroup.UIResource;
         }
 
-        private UIResource UpdateMonitoringToolsTimeLeft(UIResource resourceGroup)
-        {
-            if (resourceGroup.AppService == AppService.MonitoringTools)
-            {
-                TimeSpan timeUsed = DateTime.UtcNow - BackgroundQueueManager.MonitoringResourceGroupCheckoutTimes.GetOrAdd(HttpContext.Current.User.Identity.Name, DateTime.UtcNow);
-                TimeSpan timeLeft;
-                TimeSpan LifeTime = TimeSpan.FromMinutes(int.Parse(SimpleSettings.MonitoringToolsExpiryMinutes));
 
-                if (timeUsed > LifeTime)
-                {
-                    timeLeft = TimeSpan.FromMinutes(0);
-                }
-                else
-                {
-                    timeLeft = LifeTime - timeUsed;
-                }
-                
-                resourceGroup.TimeLeftInSeconds = (int)timeLeft.TotalSeconds;
-            }
-            return resourceGroup;
-        }
         public async Task<HttpResponseMessage> DeleteResource()
         {
             var resourceManager = await ResourcesManager.GetInstanceAsync();
@@ -439,7 +381,7 @@ namespace SimpleWAWS.Controllers
             var resourceManager = await ResourcesManager.GetInstanceAsync();
             var response = Request.CreateResponse();
             var resourceGroup = await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name);
-            var stream = resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).Select(s => s.GetVSCodeUrl()).FirstOrDefault();
+            var stream = resourceGroup.Site.GetVSCodeUrl();
             if (stream != null)
             {
                 response.Headers.Location = new Uri(stream);
@@ -456,7 +398,7 @@ namespace SimpleWAWS.Controllers
             var resourceManager = await ResourcesManager.GetInstanceAsync();
             var response = Request.CreateResponse();
             var resourceGroup = await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name);
-            var stream = resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).Select(s => s.GetVSCodeInsidersUrl()).FirstOrDefault();
+            var stream = resourceGroup.Site.GetVSCodeInsidersUrl();
             if (stream != null)
             {
                 response.Headers.Location = new Uri(stream);
@@ -473,7 +415,7 @@ namespace SimpleWAWS.Controllers
             var resourceManager = await ResourcesManager.GetInstanceAsync();
             var response = Request.CreateResponse();
             var resourceGroup = await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name);
-            var url = resourceGroup.Sites.Where(s => s.IsSimpleWAWSOriginalSite).Select(s => s.GetGitCloneUrl()).FirstOrDefault();
+            var url = resourceGroup.Site.GetGitCloneUrl();
             if (url != null)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, url);

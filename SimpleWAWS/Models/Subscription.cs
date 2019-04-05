@@ -57,21 +57,6 @@ namespace SimpleWAWS.Models
             }
         }
 
-        public int ResourceGroupsPerGeoRegion
-        {
-            get
-            {
-                switch (Type)
-                {
-                    case SubscriptionType.AppService:
-                        return 1;
-                    case SubscriptionType.Linux:
-                        return SimpleSettings.LinuxResourceGroupsPerRegion;
-                    default:
-                        return 0;
-                };
-            }
-        }
         public int ResourceGroupsPerTemplate
         {
             get
@@ -80,8 +65,13 @@ namespace SimpleWAWS.Models
                 {
                     case SubscriptionType.VSCodeLinux:
                         return SimpleSettings.VSCodeLinuxResourceGroupsPerTemplate;
+                    case SubscriptionType.AppService:
+                        return SimpleSettings.AppServiceResourceGroupsPerTemplate;
+                    case SubscriptionType.Linux:
+                        return SimpleSettings.LinuxResourceGroupsPerTemplate;
                     default:
                         return 0;
+
                 };
             }
         }

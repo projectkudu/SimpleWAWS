@@ -36,12 +36,9 @@ namespace SimpleWAWS.Code
                 DeploymentName = ResourceGroup.ResourceUniqueId,
                 SubscriptionId = ResourceGroup.SubscriptionId,
                 ResourceGroupName = ResourceGroup.ResourceGroupName,
-                CsmTemplate = template
+                CsmTemplate = template,
             };
-            if (subscriptionType == SubscriptionType.VSCodeLinux)
-                return Deployment.Deploy(block: block, subscriptionType: subscriptionType);
-            else
-                return RetryHelper.Retry(() => Deployment.Deploy(block: block, subscriptionType: subscriptionType), 3);
+            return Deployment.Deploy(block: block, subscriptionType: subscriptionType);
         }
 
         public void Complete()

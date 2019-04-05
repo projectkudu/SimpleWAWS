@@ -52,7 +52,6 @@ namespace SimpleWAWS.Code.CsmExtensions
                 if (resourceGroup.SubscriptionType == SubscriptionType.AppService)
                 {
                     await Task.WhenAll(LoadSites(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/sites", StringComparison.OrdinalIgnoreCase))),
-                                   LoadLogicApps(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Logic/workflows", StringComparison.OrdinalIgnoreCase))),
                                    LoadServerFarms(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/serverFarms", StringComparison.OrdinalIgnoreCase))),
                                    LoadStorageAccounts(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Storage/storageAccounts", StringComparison.OrdinalIgnoreCase))));
                 }
@@ -82,7 +81,8 @@ namespace SimpleWAWS.Code.CsmExtensions
                 await csmSitesResponse.EnsureSuccessStatusCodeWithFullError();
 
                 var csmSites = await csmSitesResponse.Content.ReadAsAsync<CsmArrayWrapper<CsmSite>>();
-                resourceGroup.Sites = await csmSites.value.Select(async cs => await Load(new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, cs.name, cs.kind), cs)).WhenAll();
+                //TODO: At least log if somehow there were more than one site in there 
+                resourceGroup.Site = (await csmSites.value.Select(async cs => await Load(new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, cs.name, cs.kind), cs)).WhenAll()).FirstOrDefault(s => s.IsSimpleWAWSOriginalSite);
 
             }
             catch (Exception ex)
@@ -98,20 +98,6 @@ namespace SimpleWAWS.Code.CsmExtensions
             return resourceGroup;
         }
 
-        //Shallow load
-        public static async Task<ResourceGroup> LoadLogicApps(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> logicApps = null)
-        {
-            if (logicApps == null)
-            {
-                var csmLogicAppsResponse = await GetClient(resourceGroup.SubscriptionType).HttpInvoke(HttpMethod.Get, ArmUriTemplates.LogicApps.Bind(resourceGroup));
-                await csmLogicAppsResponse.EnsureSuccessStatusCodeWithFullError();
-                logicApps = (await csmLogicAppsResponse.Content.ReadAsAsync<CsmArrayWrapper<object>>()).value;
-            }
-
-            resourceGroup.LogicApps = logicApps.Select(a => new LogicApp(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, a.name));
-
-            return resourceGroup;
-        }
 
         public static async Task<ResourceGroup> LoadLinuxResources(this ResourceGroup resourceGroup, IEnumerable<CsmWrapper<object>> sites = null)
         {
@@ -229,63 +215,17 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task<ResourceGroup> PutInDesiredState(this ResourceGroup resourceGroup)
         {
-            if (resourceGroup.SubscriptionType == SubscriptionType.AppService)
+            // If the resourceGroup is assigned, don't mess with it
+            if (!string.IsNullOrEmpty(resourceGroup.UserId))
             {
-                // If the resourceGroup is assigned, don't mess with it
-                if (!string.IsNullOrEmpty(resourceGroup.UserId)) return resourceGroup;
-
-                var createdSites = new List<Task<Site>>();
-
-                if (!resourceGroup.Sites.Any(s => s.IsSimpleWAWSOriginalSite))
-                {
-                    createdSites.Add(CreateSite(resourceGroup, SiteNameGenerator.GenerateName));
-                }
-
-                resourceGroup.Sites = resourceGroup.Sites.Union(await createdSites.WhenAll());
-
-                // Create Functions Container Site
-                if (!resourceGroup.Sites.Any(s => s.IsFunctionsContainer))
-                {
-                    createdSites.Add(CreateFunctionApp(resourceGroup,
-                        (() => $"{Constants.FunctionsSitePrefix}{Guid.NewGuid().ToString().Split('-').First()}"),
-                        Constants.FunctionsContainerSiteKind));
-
-                }
-
-                resourceGroup.Sites = resourceGroup.Sites.Union(await createdSites.WhenAll());
-
-                await InitFunctionsContainer(resourceGroup);
+                return resourceGroup;
             }
-            else if (resourceGroup.SubscriptionType == SubscriptionType.Linux)
+
+            if (string.IsNullOrEmpty(resourceGroup.Site.SiteName) || String.IsNullOrEmpty(resourceGroup.SiteGuid))
             {
-                // If the resourceGroup is assigned, don't mess with it
-                if (!string.IsNullOrEmpty(resourceGroup.UserId))
-                {
-                    return resourceGroup;
-                }
-
-                if (!(resourceGroup.Sites.Any() && resourceGroup.Tags.ContainsKey(Constants.LinuxAppDeployed) && resourceGroup.Tags[Constants.LinuxAppDeployed]=="1"))
-                {
-                    resourceGroup.Sites = new List<Site> { (await CreateLinuxSite(resourceGroup, SiteNameGenerator.GenerateLinuxSiteName)) };
-                }
-
+                resourceGroup.Site  = await CreateVSCodeLinuxSite(resourceGroup, SiteNameGenerator.GenerateLinuxSiteName) ;
             }
-            else if (resourceGroup.SubscriptionType == SubscriptionType.VSCodeLinux)
-            {
-                // If the resourceGroup is assigned, don't mess with it
-                if (!string.IsNullOrEmpty(resourceGroup.UserId))
-                {
-                    return resourceGroup;
-                }
-
-                if (!resourceGroup.Sites.Any() && !String.IsNullOrEmpty(resourceGroup.DeployedTemplateName))
-                {
-                    var list = new List<Site> { (await CreateVSCodeLinuxSite(resourceGroup, SiteNameGenerator.GenerateLinuxSiteName)) };
-                    resourceGroup.Sites = list;
-                }
-
-            }
-            return resourceGroup;
+        return resourceGroup;
         }
 
         public static async Task<ResourceGroup> DeleteAndCreateReplacement(this ResourceGroup resourceGroup, bool blockDelete = false)
@@ -335,7 +275,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             resourceGroup.Tags[Constants.StartTime] = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
             resourceGroup.Tags[Constants.IsExtended] = true.ToString();
             resourceGroup.Tags[Constants.LifeTimeInMinutes] = ResourceGroup.ExtendedUsageTimeSpan.TotalMinutes.ToString();
-            var site = resourceGroup.Sites.FirstOrDefault(s => s.IsSimpleWAWSOriginalSite);
+            var site = resourceGroup.Site;
             var siteTask = Task.FromResult(site);
             if (site != null)
             {
@@ -348,29 +288,6 @@ namespace SimpleWAWS.Code.CsmExtensions
             return resourceGroupTask.Result;
         }
 
-        public static async Task<bool> AddResourceGroupRbac(this ResourceGroup resourceGroup, string puidOrAltSec, string emailAddress, bool isFunctionContainer = false)
-        {
-            return false;
-            try
-            {
-                var objectId = await GetUserObjectId(puidOrAltSec, emailAddress, resourceGroup);
-
-                if (string.IsNullOrEmpty(objectId)) return false;
-
-                return (await
-                    new[] { resourceGroup.AddRbacAccess(objectId) }
-                    .Concat(resourceGroup.Sites.Where(s => !s.IsFunctionsContainer || isFunctionContainer).Select(s => s.AddRbacAccess(objectId)))
-                    .Concat(resourceGroup.ServerFarms.Select(s => s.AddRbacAccess(objectId)))
-                    .Concat(resourceGroup.StorageAccounts.Where(s => isFunctionContainer).Select(s => s.AddRbacAccess(objectId)))
-                    .Concat(resourceGroup.LogicApps.Select(s => s.AddRbacAccess(objectId)))
-                    .WhenAll())
-                    .All(e => e);
-            }
-            catch
-            {
-                return false;
-            }
-        }
 
         private static async Task<Site> CreateSite(ResourceGroup resourceGroup, Func<string> nameGenerator, string siteKind = null)
         {
@@ -451,25 +368,51 @@ namespace SimpleWAWS.Code.CsmExtensions
             return site;
         }
 
+        private static async Task<string> GetConfig(string url)
+        {
+            var s = String.Empty;
+            try
+            {
+                using (WebClient client = new WebClient())
+                {
+                    // Add a user agent header in case the 
+                    // requested URI contains a query.
+
+                    client.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+
+                    using (Stream data =  client.OpenRead(new Uri(url)))
+                    {
+                        using (StreamReader reader = new StreamReader(data))
+                        {
+                            s = await reader.ReadToEndAsync();
+                            reader.Close();
+                        }
+                        data.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                SimpleTrace.TraceException(ex);
+            }
+            return s;
+        }
+
         private static async Task<Site> CreateVSCodeLinuxSite(ResourceGroup resourceGroup, Func<string> nameGenerator, string siteKind = null)
         {
             var jsonSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
             var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, nameGenerator(), siteKind);
             var csmTemplateString = string.Empty;
-            var template = TemplatesManager.GetTemplates().FirstOrDefault(t => t.Name == resourceGroup.TemplateName) as VSCodeLinuxTemplate;
+            var template = TemplatesManager.GetTemplates().FirstOrDefault(t => t.Name == resourceGroup.TemplateName);
 
             SimpleTrace.TraceInformation($"Deploying {template.Name} to {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
 
-            using (var reader = new StreamReader(template.CsmTemplateFilePath))
-            {
-                csmTemplateString = await reader.ReadToEndAsync();
-            }
+            csmTemplateString = await GetConfig(template.ARMTemplateLink);
 
             csmTemplateString = csmTemplateString
-                                .Replace("{{siteName}}", site.SiteName)
-                                .Replace("{{aspName}}", site.SiteName + "-plan")
-                                .Replace("{{vmLocation}}", resourceGroup.GeoRegion)
-                                .Replace("{{vsCodeNodeRepoUrl}}", SimpleSettings.VSCodeLinuxNodeRepoUrl);
+                                .Replace("{{appServiceName}}", site.SiteName)
+                                .Replace("{{msdeployPackageUrl}}", template.MSDeployPackageUrl)
+                                .Replace("{{serverFarmType}}", SimpleSettings.ServerFarmTypeContent);
             var inProgressOperation = new InProgressOperation(resourceGroup, DeploymentType.CsmDeploy);
             var token = await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true, subscriptionType: resourceGroup.SubscriptionType);
 
@@ -477,70 +420,33 @@ namespace SimpleWAWS.Code.CsmExtensions
             await Load(site, null);
             SimpleTrace.TraceInformation($"Site Loaded from ARM : {JsonConvert.SerializeObject(site)} to {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
 
-            var siteguid = await Util.UpdateVSCodeLinuxAppSettings(site);
+            var siteguid = await Util.UpdatePostDeployAppSettings(site);
             SimpleTrace.TraceInformation($"Site AppSettings Updated:  for {site.SiteName}->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
+
+            if (resourceGroup.AppService == AppService.VSCodeLinux)
+            {
+                await Task.Delay(30 * 1000);
+                try
+                {
+                    var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount: 30);
+                    await lsm.CheckSiteDeploymentStatusAsync(site.HttpUrl);
+                }
+                catch (Exception ex)
+                {
+                    SimpleTrace.TraceError($"Unable to ping deployed site {site.HostName}. Continuing regardless {ex.Message}->{ex.StackTrace} ");
+                }
+            }
             if (!resourceGroup.Tags.ContainsKey(Constants.TemplateName))
             {
                 resourceGroup.Tags.Add(Constants.TemplateName, resourceGroup.TemplateName);
-            }
-
-            await Task.Delay(30 * 1000);
-            try
-            {
-                var lsm = new LinuxSiteManager.Client.LinuxSiteManager(retryCount: 30);
-                await lsm.CheckSiteDeploymentStatusAsync(site.HttpUrl);
-            }
-            catch (Exception ex)
-            {
-                SimpleTrace.TraceError($"Unable to ping deployed site {site.HostName}. Continuing regardless {ex.Message}->{ex.StackTrace} ");
-                //if (!ex.Message.Contains("The remote name could not be resolved:"))
-                //{
-                //    throw ex;
-                //}
             }
             resourceGroup.Tags.Add(Constants.SiteGuid, siteguid);
             await resourceGroup.Update();
             SimpleTrace.TraceInformation($"ResourceGroup Templates Tag Updated: with SiteGuid: {siteguid} for {site.SiteName} ->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
             return site;
         }
+        
 
-
-        private static async Task<Site> CreateFunctionApp(ResourceGroup resourceGroup, Func<string> nameGenerator, string siteKind = null)
-        {
-            var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, nameGenerator(), siteKind);
-            await resourceGroup.LoadServerFarms(serverFarms: null);
-            ServerFarm serverFarm = new ServerFarm(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, Constants.DefaultServerFarmName,
-                resourceGroup.GeoRegion);
-            var csmSiteResponse =
-                await
-                    GetClient(resourceGroup.SubscriptionType).HttpInvoke(HttpMethod.Put, ArmUriTemplates.FunctionsAppApiVersionTemplate.Bind(site),
-                        new
-                        {
-                            properties =
-                                new
-                                {
-                                    serverFarmId = serverFarm.CsmId
-                                },
-                            location = resourceGroup.GeoRegion,
-                            kind = Constants.FunctionsContainerSiteKind,
-                            name = site.SiteName
-                        });
-
-
-            await csmSiteResponse.EnsureSuccessStatusCodeWithFullError();
-            var csmSite = await csmSiteResponse.Content.ReadAsAsync<CsmWrapper<CsmSite>>();
-
-            return await Load(site, csmSite);
-        }
-        private static bool IsSimpleWaws(CsmWrapper<CsmResourceGroup> csmResourceGroup)
-        {
-            return IsSimpleWawsResourceName(csmResourceGroup) &&
-                csmResourceGroup.properties.provisioningState == "Succeeded" &&
-                csmResourceGroup.tags != null && !csmResourceGroup.tags.ContainsKey("Bad")
-                && csmResourceGroup.tags.ContainsKey(Constants.SubscriptionType)
-                && string.Equals(csmResourceGroup.tags[Constants.SubscriptionType], SubscriptionType.AppService.ToString(), StringComparison.OrdinalIgnoreCase)
-                && csmResourceGroup.tags.ContainsKey("FunctionsContainerDeployed");
-        }
         private static bool IsSimpleWawsResourceName(CsmWrapper<CsmResourceGroup> csmResourceGroup)
         {
             return !string.IsNullOrEmpty(csmResourceGroup.name) &&
@@ -565,98 +471,16 @@ namespace SimpleWAWS.Code.CsmExtensions
             }
         }
 
-        private static bool IsLinuxResource(CsmWrapper<CsmResourceGroup> csmResourceGroup)
-        {
-            return IsSimpleWawsResourceName(csmResourceGroup) &&
-                csmResourceGroup.properties.provisioningState == "Succeeded" &&
-                csmResourceGroup.tags != null && !csmResourceGroup.tags.ContainsKey("Bad")
-                && csmResourceGroup.tags.ContainsKey(Constants.SubscriptionType)
-                && string.Equals(csmResourceGroup.tags[Constants.SubscriptionType], SubscriptionType.Linux.ToString(), StringComparison.OrdinalIgnoreCase)
-                && csmResourceGroup.tags.ContainsKey(Constants.LinuxAppDeployed);
-        }
 
-        private static bool IsVSCodeLinuxResource(CsmWrapper<CsmResourceGroup> csmResourceGroup)
+        private static bool IsValidResource(CsmWrapper<CsmResourceGroup> csmResourceGroup, SubscriptionType subType)
         {
             return IsSimpleWawsResourceName(csmResourceGroup) &&
                 csmResourceGroup.properties.provisioningState == "Succeeded" &&
                 csmResourceGroup.tags != null && !csmResourceGroup.tags.ContainsKey("Bad")
                 && csmResourceGroup.tags.ContainsKey(Constants.SubscriptionType)
-                && (string.Equals(csmResourceGroup.tags[Constants.SubscriptionType], SubscriptionType.VSCodeLinux.ToString(), StringComparison.OrdinalIgnoreCase)
+                && (string.Equals(csmResourceGroup.tags[Constants.SubscriptionType], subType.ToString(), StringComparison.OrdinalIgnoreCase)
                 && csmResourceGroup.tags.ContainsKey(Constants.TemplateName));
         }
 
-        private static async Task InitFunctionsContainer(ResourceGroup resourceGroup)
-        {
-            var functionContainer = resourceGroup.Sites.FirstOrDefault(s => s.IsFunctionsContainer);
-
-            var storageAccounts = new List<Task<StorageAccount>>();
-
-            if (!resourceGroup.StorageAccounts.Any(s => s.IsFunctionsStorageAccount))
-            {
-                storageAccounts.Add(CreateStorageAccount(resourceGroup, () => $"{resourceGroup.Sites.First((s) => s.IsFunctionsContainer).SiteName}".ToLowerInvariant()));
-            }
-
-            resourceGroup.StorageAccounts = resourceGroup.StorageAccounts.Union(await storageAccounts.WhenAll());
-
-            var functionsStorageAccount = resourceGroup.StorageAccounts.FirstOrDefault(s => s.IsFunctionsStorageAccount);
-
-            if (functionContainer == null || functionsStorageAccount == null) return; // This should throw some kind of error? maybe?
-            if (!resourceGroup.Tags.ContainsKey(Constants.FunctionsContainerDeployed) ||
-                !resourceGroup.Tags[Constants.FunctionsContainerDeployed].Equals(Constants.FunctionsContainerDeployedVersion))
-            {
-                await Task.WhenAll(CreateHostJson(functionContainer), CreateSecretsForFunctionsContainer(functionContainer));
-                resourceGroup.Tags[Constants.FunctionsContainerDeployed] = Constants.FunctionsContainerDeployedVersion;
-                await resourceGroup.Update();
-                await resourceGroup.Load();
-            }
-
-            if (!functionContainer.AppSettings.ContainsKey(Constants.AzureStorageAppSettingsName))
-            {
-                await LinkStorageAndUpdateSettings(functionContainer, functionsStorageAccount);
-            }
-            await AddCors(functionContainer);
-        }
-        public static async Task AddCors(Site site)
-        {
-            await site.UpdateConfig(new
-            {
-                properties =
-                new
-                {
-                    cors =new
-                    {
-                        allowedOrigins = new string[]{ "https://functions.azure.com",
-                                    "https://functions-staging.azure.com", "https://functions-next.azure.com" ,
-                                    "https://localhost:44300", "https://tryfunctions.com", "https://www.tryfunctions.com", "https://tryfunctions.azure.com",
-                                     "https://tryfunctions-staging.azure.com", "https://www.tryfunctions-staging.azure.com","https://try-functions-east-us-staging.azurewebsites.net"
-                    }
-                }
-             }
-            });
-
-        }
-        private static async Task LinkStorageAndUpdateSettings(Site site, StorageAccount storageAccount)
-        {
-            // Assumes site and storage are loaded
-            site.AppSettings[Constants.AzureStorageAppSettingsName] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.StorageAccountName, storageAccount.StorageAccountKey);
-            site.AppSettings[Constants.AzureStorageDashboardAppSettingsName] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.StorageAccountName, storageAccount.StorageAccountKey);
-            site.AppSettings[Constants.NodeDefaultVersionAppSetting] = SimpleSettings.WebsiteNodeDefautlVersion;
-            if (!site.IsSimpleWAWSOriginalSite)
-            {
-                site.AppSettings[Constants.FunctionsVersionAppSetting] = SimpleSettings.FunctionsExtensionVersion;
-                site.AppSettings[Constants.NodeDefaultVersionAppSetting] = SimpleSettings.FunctionsNodeDefaultVersion;
-            }
-            await UpdateAppSettings(site);
-        }
-
-        private static async Task<StorageAccount> CreateStorageAccount(ResourceGroup resourceGroup, Func<string> nameGenerator)
-        {
-            var storageAccount = new StorageAccount(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, nameGenerator());
-            var csmStorageResponse = await GetClient(resourceGroup.SubscriptionType).HttpInvoke(HttpMethod.Put, ArmUriTemplates.StorageAccount.Bind(storageAccount), new { properties = new { accountType = "Standard_LRS" }, location = resourceGroup.GeoRegion });
-            await csmStorageResponse.EnsureSuccessStatusCodeWithFullError();
-
-            var csmStorageAccount = await WaitUntilReady(storageAccount);
-            return await Load(storageAccount, csmStorageAccount);
-        }
     }
 }

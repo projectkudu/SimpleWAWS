@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using SimpleWAWS.Models;
 using SimpleWAWS.Authentication;
+using System;
 
 namespace SimpleWAWS.Trace
 {
@@ -35,6 +36,10 @@ namespace SimpleWAWS.Trace
         public static void TraceError(string message)
         {
             System.Diagnostics.Trace.TraceError(message);
+        }
+        public static void TraceException(Exception ex)
+        {
+            System.Diagnostics.Trace.TraceError(string.Concat(ex.Message,"-",ex.Source, "-", ex.StackTrace, "-", (ex.InnerException!=null)?ex.InnerException.Message : String.Empty));
         }
 
         public static void TraceError(string format, params string[] args)

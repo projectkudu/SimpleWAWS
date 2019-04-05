@@ -12,7 +12,6 @@ namespace SimpleWAWS.Code
         private const string functionsApiVersion = "2016-08-01";
         private const string newWebsitesApiVersion = "2015-02-01";
         private const string appServiceApiVersion = "2015-03-01-preview";
-        private const string logicAppsApiVersion = "2015-02-01-preview";
         private const string linuxResourceApiVersion = "2016-08-01";
         private const string vscodelinuxResourceApiVersion = "2016-08-01";
         private const string graphApiVersion = "1.42-previewInternal";
@@ -50,9 +49,6 @@ namespace SimpleWAWS.Code
         public static readonly ArmUriTemplate SitePublishingCredentials = new ArmUriTemplate(Site.TemplateUrl + "/config/PublishingCredentials/list", websitesApiVersion);
         public static readonly ArmUriTemplate SitePublishingProfile = new ArmUriTemplate(Site.TemplateUrl + "/publishxml", websitesApiVersion);
         public static readonly ArmUriTemplate SiteDeployments = new ArmUriTemplate(Site.TemplateUrl + "/deployments", newWebsitesApiVersion);
-
-        public static readonly ArmUriTemplate LogicApps = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Logic/workflows", logicAppsApiVersion);
-        public static readonly ArmUriTemplate LogicApp = new ArmUriTemplate(LogicApps.TemplateUrl + "/{logicAppName}", logicAppsApiVersion);
 
         public static readonly ArmUriTemplate ServerFarms = new ArmUriTemplate(ResourceGroup.TemplateUrl + "/providers/Microsoft.Web/serverFarms", websitesApiVersion);
         public static readonly ArmUriTemplate ServerFarm = new ArmUriTemplate(ServerFarms.TemplateUrl + "/{serverFarmName}", websitesApiVersion);

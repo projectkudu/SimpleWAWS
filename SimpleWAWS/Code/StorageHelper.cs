@@ -23,25 +23,45 @@ namespace SimpleWAWS.Models
             }
         }
 
-        public static async Task UploadBlob(string blobName, Stream contentStream)
+        public static async Task UploadBlob(string containerName, string blobName, Stream contentStream)
         {
-            if (!string.IsNullOrEmpty(SimpleSettings.FreeSitesIISLogsBlob))
+            if (!string.IsNullOrEmpty(containerName))
             {
-                var container = BlobClient.GetContainerReference(SimpleSettings.FreeSitesIISLogsBlob);
+                var container = BlobClient.GetContainerReference(containerName);
                 await container.CreateIfNotExistsAsync();
                 var blob = container.GetBlockBlobReference(blobName);
                 await blob.UploadFromStreamAsync(contentStream);
             }
         }
 
-        public static async Task AddQueueMessage(object message)
+        public static async Task AddQueueMessage(string queueName, object message)
         {
-            if (!string.IsNullOrEmpty(SimpleSettings.FreeSitesIISLogsQueue))
+            if (!string.IsNullOrEmpty(queueName))
             {
-                var queue = QueueClient.GetQueueReference(SimpleSettings.FreeSitesIISLogsQueue);
+                var queue = QueueClient.GetQueueReference(queueName);
                 await queue.CreateIfNotExistsAsync();
                 await queue.AddMessageAsync(new CloudQueueMessage(JsonConvert.SerializeObject(message)));
             }
+        }
+        public static async Task<object> GetQueueMessage(string queueName)
+        {
+            if (!string.IsNullOrEmpty(queueName))
+            {
+                var queue = QueueClient.GetQueueReference(queueName);
+                await queue.CreateIfNotExistsAsync();
+                return JsonConvert.DeserializeObject((await queue.GetMessageAsync()).AsString);
+            }
+            return null;
+        }
+        public static async Task<int?> GetQueueCount(string queueName)
+        {
+            if (!string.IsNullOrEmpty(queueName))
+            {
+                var queue = QueueClient.GetQueueReference(queueName);
+                await queue.CreateIfNotExistsAsync();
+                return queue.ApproximateMessageCount;
+            }
+            return null;
         }
     }
 }

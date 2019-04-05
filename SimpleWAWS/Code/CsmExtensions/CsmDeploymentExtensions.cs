@@ -47,7 +47,12 @@ namespace SimpleWAWS.Code.CsmExtensions
                 }
                 else if (result.Equals("Failed"))
                 {
-                    throw new Exception(string.Format("Deploying CSM template failed, ID: {0}", content["id"]));
+                    throw new Exception(
+                        string.Format("Deploying CSM template failed, ID: {0}: {1}: {2}: {3}", 
+                        content["properties"]["timestamp"], 
+                        content["properties"]["correlationid"], 
+                        content["id"],
+                        content["properties"]["error"]));
                 }
                 else
                 {

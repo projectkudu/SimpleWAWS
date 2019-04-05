@@ -113,11 +113,16 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=2.14.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.2.14.201151115\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms">
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms, Version=2.14.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.2.14.201151115\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Rest.ClientRuntime, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Rest.ClientRuntime.2.3.18\lib\net452\Microsoft.Rest.ClientRuntime.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
@@ -291,7 +296,6 @@
     <Compile Include="Code\GlobalizationManager.cs" />
     <Compile Include="Models\CsmModels\CsmArrayWrapper.cs" />
     <Compile Include="Models\CsmModels\CsmDeployment.cs" />
-    <Compile Include="Models\CsmModels\CsmLogicApp.cs" />
     <Compile Include="Models\CsmModels\CsmNameValuePair.cs" />
     <Compile Include="Models\CsmModels\CsmResourceGroup.cs" />
     <Compile Include="Models\CsmModels\CsmServerFarm.cs" />
@@ -314,9 +318,7 @@
     <Compile Include="Models\ContainersTemplate.cs" />
     <Compile Include="Models\VSCodeLinuxTemplate.cs" />
     <Compile Include="Models\LinuxTemplate.cs" />
-    <Compile Include="Models\LogicApp.cs" />
-    <Compile Include="Models\LogicTemplate.cs" />
-    <Compile Include="Models\MakeSubscriptionFreeTrialResult.cs" />
+    <Compile Include="Models\SubscriptionStats.cs" />
     <Compile Include="Models\MonitoringToolsTemplate.cs" />
     <Compile Include="Models\RbacUser.cs" />
     <Compile Include="Models\ResourceGroup.cs" />
@@ -450,10 +452,6 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="App_Data\applicationHost.xdt">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="ARMTemplates\PingSite.json" />
     <Content Include="Default.cshtml" />
     <Content Include="refs\ARMClient.Library.dll" />
     <Content Include="robots.txt" />
@@ -464,7 +462,6 @@
     <Content Include="SiteNames\adjectives.txt" />
     <Content Include="SiteNames\animals.txt" />
     <Content Include="Sorry.cshtml" />
-    <Content Include="App_Data\web.config.file" />
     <Content Include="Content\fonts\segoe-ui\bold\latest.eot" />
     <Content Include="Content\fonts\segoe-ui\bold\latest.ttf" />
     <Content Include="Content\fonts\segoe-ui\bold\latest.woff" />
@@ -495,6 +492,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\" />
     <Folder Include="App_Start\" />
   </ItemGroup>
   <ItemGroup>
@@ -507,8 +505,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="ARMTemplates\BaseARMTemplate.json" />
-    <Content Include="ARMTemplates\LinuxResource.json" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\app.ts" />
@@ -532,7 +528,9 @@
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\client.cs-cz.resx" />
+    <EmbeddedResource Include="Resources\client.cs-cz.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\client.de-de.resx" />
     <EmbeddedResource Include="Resources\client.en-us.resx" />
     <EmbeddedResource Include="Resources\client.es-es.resx" />
@@ -546,7 +544,9 @@
     <EmbeddedResource Include="Resources\client.pt-br.resx" />
     <EmbeddedResource Include="Resources\client.pt-pt.resx" />
     <EmbeddedResource Include="Resources\client.qps-ploc.resx" />
-    <EmbeddedResource Include="Resources\Client.resx" />
+    <EmbeddedResource Include="Resources\Client.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\client.ru-ru.resx" />
     <EmbeddedResource Include="Resources\client.sv-se.resx" />
     <EmbeddedResource Include="Resources\client.tr-tr.resx" />
@@ -581,15 +581,6 @@
     <EmbeddedResource Include="Resources\Server.zh-tw.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ARMTemplates\VSCodeLinuxResourceNode.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ARMTemplates\VSCodeLinuxResourceReact.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ARMTemplates\armresource.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\tryappservicestaging - FTP.pubxml" />

@@ -77,10 +77,9 @@ namespace SimpleWAWS.Models
         }
 
         [JsonIgnore]
-        public IEnumerable<Site> Sites { get; set; }
+        public Site Site { get; set; }
 
-        [JsonIgnore]
-        public IEnumerable<LogicApp> LogicApps { get; set; }
+
 
         //[JsonIgnore]
         //public LinuxResource LinuxResources { get; set; }
@@ -98,8 +97,9 @@ namespace SimpleWAWS.Models
 
         public bool IsRbacEnabled
         {
-            get { return SubscriptionType==SubscriptionType.MonitoringTools ? true : bool.Parse(Tags[Constants.IsRbacEnabled]); }
-            set { Tags[Constants.IsRbacEnabled] = value.ToString(); }
+            get { return false; }
+            //get { return SubscriptionType==SubscriptionType.MonitoringTools ? true : bool.Parse(Tags[Constants.IsRbacEnabled]); }
+            //set { Tags[Constants.IsRbacEnabled] = value.ToString(); }
         }
 
         public bool IsExtended
@@ -156,36 +156,7 @@ namespace SimpleWAWS.Models
                 string ibizaUrl = null;
                 string csmId = null;
                 Site siteToUseForUi = null;
-                switch (AppService)
-                {
-                    case AppService.Web:
-                        siteToUseForUi = Sites.First(s => s.IsSimpleWAWSOriginalSite);
-                        ibizaUrl = siteToUseForUi.IbizaUrl;
-                        break;
-                    case AppService.Api:
-                        siteToUseForUi = Sites.First(s => s.IsSimpleWAWSOriginalSite);
-                        ibizaUrl = siteToUseForUi.IbizaUrl;
-                        break;
-                    case AppService.Logic:
-                        siteToUseForUi = Sites.First(s => s.IsSimpleWAWSOriginalSite);
-                        ibizaUrl = LogicApps.Any()?LogicApps.First().IbizaUrl : null;
-                        break;
-                    case AppService.Function:
-                        csmId = Sites.First(s => s.IsFunctionsContainer).CsmId;
-                        break;
-                    case AppService.Containers:
-                    case AppService.Linux:
-                    case AppService.VSCodeLinux:
-                        siteToUseForUi = Sites.First(s => s.IsSimpleWAWSOriginalSite);
-                        ibizaUrl = siteToUseForUi.IbizaUrl;
-                        break;
-                    case AppService.MonitoringTools:
-                        siteToUseForUi = Sites.First();
-                        siteToUseForUi.HostName = $"{siteToUseForUi.SiteName}.azurewebsites.net";
-                        siteToUseForUi.ScmHostName = $"{siteToUseForUi.SiteName}.scm.azurewebsites.net";
-                        ibizaUrl = siteToUseForUi.IbizaUrl;
-                        break;
-                }
+
                 var templateName = Tags.ContainsKey(Constants.TemplateName) ? Tags[Constants.TemplateName] : string.Empty;
                 if (string.IsNullOrEmpty(templateName) && AppService == AppService.Logic)
                 {
@@ -197,13 +168,13 @@ namespace SimpleWAWS.Models
                 }
                 return new UIResource
                 {
-                    SiteName = siteToUseForUi.SiteName,
-                    Url = (SubscriptionType == SubscriptionType.VSCodeLinux)? siteToUseForUi.CamelCasedUrl: siteToUseForUi.Url,
-                    IbizaUrl = ibizaUrl,
-                    MonacoUrl = siteToUseForUi.MonacoUrl,
-                    ContentDownloadUrl = siteToUseForUi.ContentDownloadUrl,
-                    GitUrl = siteToUseForUi.GitUrlWithCreds,
-                    BashGitUrl = siteToUseForUi.BashGitUrlWithCreds,
+                    SiteName = Site.SiteName,
+                    Url = Site.CamelCasedUrl,
+                    IbizaUrl = Site.IbizaUrl,
+                    MonacoUrl = Site.MonacoUrl,
+                    ContentDownloadUrl = Site.ContentDownloadUrl,
+                    GitUrl = Site.GitUrlWithCreds,
+                    BashGitUrl = Site.BashGitUrlWithCreds,
                     IsRbacEnabled = IsRbacEnabled,
                     AppService = ( AppService == AppService.Linux
                                     ?AppService.Web : AppService) ,
@@ -211,60 +182,27 @@ namespace SimpleWAWS.Models
                     IsExtended = IsExtended,
                     TimeLeftInSeconds = (int)TimeLeft.TotalSeconds,
                     CsmId = csmId,
-                    PublishingUserName = siteToUseForUi.PublishingUserName,
-                    PublishingPassword = siteToUseForUi.PublishingPassword,
+                    PublishingUserName = Site.PublishingUserName,
+                    PublishingPassword = Site.PublishingPassword,
                     SiteGuid = SiteGuid,
                     LoginSession = $"{SiteGuid}-{ResourceUniqueId}"
                 };
             }
         }
 
-        public UIResource FunctionsUIResource
-        {
-            get
-            {
-                if (SubscriptionType == SubscriptionType.AppService)
-                {
-                    var templateName = Tags.ContainsKey(Constants.TemplateName) ? Tags[Constants.TemplateName] : string.Empty;
-                    var userName = Tags.ContainsKey(Constants.UserId) ? Tags.ContainsKey(Constants.UserId2)?Tags[Constants.UserId]+Tags[Constants.UserId2]:Tags[Constants.UserId] : string.Empty;
-                    var siteToUseForUi = Sites.First(s => s.IsFunctionsContainer);
-
-                    return new UIResource
-                    {
-                        SiteName = siteToUseForUi.SiteName,
-                        Url = siteToUseForUi.Url,
-                        IbizaUrl = siteToUseForUi.IbizaUrl,
-                        MonacoUrl = siteToUseForUi.MonacoUrl,
-                        GitUrl = siteToUseForUi.GitUrlWithCreds,
-                        ContentDownloadUrl = siteToUseForUi.FunctionContentDownloadUrl,
-                        IsRbacEnabled = IsRbacEnabled,
-                        AppService = AppService,
-                        TemplateName = templateName,
-                        IsExtended = IsExtended,
-                        TimeLeftInSeconds = SubscriptionType == SubscriptionType.MonitoringTools ? Int32.Parse(SimpleSettings.MonitoringToolsExpiryMinutes) : (int)TimeLeft.TotalSeconds,
-                        CsmId = siteToUseForUi.CsmId,
-                        UserName = userName
-                    };
-                }
-                else return null;
-            }
-        }
-
         public ResourceGroup(string subsciptionId, string resourceGroupName)
             : base(subsciptionId, resourceGroupName)
         {
-            this.Sites = Enumerable.Empty<Site>();
+            this.Site = null;
             this.ServerFarms = Enumerable.Empty<ServerFarm>();
-            this.LogicApps = Enumerable.Empty<LogicApp>();
             this.StorageAccounts = Enumerable.Empty<StorageAccount>();
             this.Tags = new Dictionary<string, string>();
         }
         public ResourceGroup(string subsciptionId, string resourceGroupName,string georegion)
     : base(subsciptionId, resourceGroupName)
         {
-            this.Sites = Enumerable.Empty<Site>();
+            this.Site = null;
             this.ServerFarms = Enumerable.Empty<ServerFarm>();
-            this.LogicApps = Enumerable.Empty<LogicApp>();
             this.StorageAccounts = Enumerable.Empty<StorageAccount>();
             this.Tags = new Dictionary<string, string>();
             this.Tags[Constants.GeoRegion] = georegion;
@@ -276,9 +214,8 @@ namespace SimpleWAWS.Models
         public ResourceGroup(string subsciptionId, string resourceGroupName, string georegion,string templateName)
 : base(subsciptionId, resourceGroupName, templateName)
         {
-            this.Sites = Enumerable.Empty<Site>();
+            this.Site = null;
             this.ServerFarms = Enumerable.Empty<ServerFarm>();
-            this.LogicApps = Enumerable.Empty<LogicApp>();
             this.StorageAccounts = Enumerable.Empty<StorageAccount>();
             this.Tags = new Dictionary<string, string>();
             this.Tags[Constants.GeoRegion] = georegion;
