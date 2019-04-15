@@ -4,10 +4,8 @@
     {
         Web = 0,
         Api = 1,
-        Logic = 2,
         Function = 3,
         Containers = 4,
-        MonitoringTools = 5,
         Linux = 6,
         VSCodeLinux = 7
 

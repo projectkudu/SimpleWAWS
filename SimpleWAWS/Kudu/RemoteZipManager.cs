@@ -45,30 +45,41 @@ namespace Kudu.Client.Zip
                 return response.Headers.Location;
             }
         }
-        public async Task PutZipFileAsync(string path, string localZipPath)
+        public async Task PutZipFileAsync(string path, string zipUrl)
         {
             await RetryHelper.Retry(async () =>
             {
                 var trial = 0;
-                SimpleTrace.TraceInformation($"Site Zip PUT started trial ({++trial}/{_retryCount}): for {localZipPath}->{ServiceUrl}-> size({new FileInfo(localZipPath).Length})");
-                using (var stream = File.OpenRead(localZipPath))
+                SimpleTrace.TraceInformation($"Site Zip PUT started trial ({++trial}/{_retryCount}): for {zipUrl}->{ServiceUrl}");
+                using (var stream = await GetHttpStream(zipUrl))
                 {
                     await PutZipStreamAsync(path, stream);
                 }
             }, _retryCount);
         }
-        public async Task<Uri> PostZipFileAsync(string path, string localZipPath)
+        public async Task<Uri> PostZipFileAsync(string path, string zipUrl)
         {
             return await RetryHelper.Retry(async () =>
             {
                 var trial = 0;
-                SimpleTrace.TraceInformation($"Site POST Zip Deploy started trial ({++trial}/{_retryCount}): for {localZipPath}->{ServiceUrl}-> size({new FileInfo(localZipPath).Length})");
-                using (var stream = File.OpenRead(localZipPath))
+                SimpleTrace.TraceInformation($"Site POST Zip Deploy started trial ({++trial}/{_retryCount}): for {zipUrl}->{ServiceUrl}");
+                using (var stream = await GetHttpStream(zipUrl))
                 {
                     return await PostZipStreamAsync(path, stream);
                  
                 }
             }, _retryCount);
+        }
+        private async Task<Stream> GetHttpStream(string zipUrl)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                var response = await client.GetAsync(zipUrl, HttpCompletionOption.ResponseHeadersRead);
+
+                response.EnsureSuccessStatusCode();
+
+                return await response.Content.ReadAsStreamAsync();
+            }
         }
         public async Task<Stream> GetZipFileStreamAsync(string path)
         {

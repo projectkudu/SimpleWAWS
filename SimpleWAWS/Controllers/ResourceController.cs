@@ -48,7 +48,7 @@ namespace SimpleWAWS.Controllers
                 SimpleTrace.TraceInformation($"GetVSCodeResource called with loginSessionCookie:{loginSessionCookie}");
                 {
 
-                    var resourceGroup = resourceManager.GetAllInUseResourceGroups().Where(a => a.AppService == AppService.VSCodeLinux).ToList().First(a => a.UIResource.LoginSession.Equals(loginSessionCookie));
+                    var resourceGroup = resourceManager.GetAllInUseResourceGroups().First(a => a.UIResource.LoginSession.Equals(loginSessionCookie,StringComparison.InvariantCultureIgnoreCase));
                     var returning = resourceGroup == null ? null : resourceGroup.UIResource;
                     try
                     {
@@ -135,10 +135,12 @@ namespace SimpleWAWS.Controllers
 
                 var uptime = resourceManager.GetUptime();
                 var resourceGroupCleanupCount = resourceManager.GetResourceGroupCleanupCount();
-                var monitoringToolsResource= resourceManager.GetMonitoringToolResourceGroup();
                 return Request.CreateResponse(HttpStatusCode.OK,
                     new
                     {
+                        inProgress = inProgress,
+                        uptime = uptime,
+                        resourceGroupCleanupCount = resourceGroupCleanupCount,
                         freeSiteCount = freeSitesList.Count(),
                         freeLinuxResourceCount = freeLinuxResources.Count(),
                         freeVSCodeLinuxResourceCount = freeVSCodeLinuxResources.Count(),
@@ -149,7 +151,6 @@ namespace SimpleWAWS.Controllers
                         inUseLinuxResourceCount = inUseLinuxResourcesList.Count(),
                         inUseVSCodeLinuxResourceCount = inUseVSCodeLinuxResourcesList.Count(),
                         inProgressSitesCount = inProgress.Count(),
-                        inUseMonitoringToolsUsersCount = BackgroundQueueManager.MonitoringResourceGroupCheckoutTimes.Count,
                         backgroundOperationsCount = backgroundOperations.Count(),
                         freeVSCodeLinuxResources = showFreeResources ? freeVSCodeLinuxSitesList : null,
                         inUseVSCodeLinuxResources = showFreeResources ? inUseVSCodeLinuxResourcesList : null,
@@ -157,12 +158,7 @@ namespace SimpleWAWS.Controllers
                         inUseLinuxResources = inUseLinuxResourcesList,
                         freeSites = showFreeResources ? freeSitesList : null,
                         freeLinuxResources = showFreeResources ? freeLinuxSitesList : null,
-                        inProgress = inProgress,
-                        monitoringToolsResource = monitoringToolsResource,
-                        monitoringToolsResourceUsers = BackgroundQueueManager.MonitoringResourceGroupCheckoutTimes,
-                        backgroundOperations = backgroundOperations,
-                        uptime = uptime,
-                        resourceGroupCleanupCount = resourceGroupCleanupCount
+                        backgroundOperations = backgroundOperations
                     });
             });
         }
@@ -260,21 +256,21 @@ namespace SimpleWAWS.Controllers
                 containersTemplate.DockerContainer = template.DockerContainer;
                 tempTemplate = containersTemplate;
             }
-            else if (template.Name != null && !template.Name.Equals("Github Repo") && !template.AppService.Equals(AppService.Function))
+            else if (template.Name != null && !template.Name.Equals("GitHub Repo") && !template.AppService.Equals(AppService.Function))
             {
                 var temp = TemplatesManager.GetTemplates()
                     .FirstOrDefault(t => t.Name == template.Name);
 
                 tempTemplate = WebsiteTemplate.DefaultTemplate(temp.Name,temp.AppService,temp.Language,temp.FileName,template.DockerContainer,temp.MSDeployPackageUrl);
             }
-            else if (template.Name != null && template.Name.Equals("Github Repo"))
+            else if (template.Name != null && template.Name.Equals("GitHub Repo"))
             {
                 tempTemplate = new WebsiteTemplate
                 {
                     AppService = AppService.Web,
                     GithubRepo = template.GithubRepo,
                     Name = template.Name,
-                    Language = "Github"
+                    Language = "GitHub"
                 };
             }
 

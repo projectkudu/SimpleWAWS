@@ -31,14 +31,10 @@ namespace SimpleWAWS.Code.CsmExtensions
                 csmResourceGroup = await csmResourceGroupResponse.Content.ReadAsAsync<CsmWrapper<CsmResourceGroup>>();
             }
 
-            // We dont care about tags for MonitoringTools Sub
-            if (resourceGroup.SubscriptionType != SubscriptionType.MonitoringTools)
-            {
                 //Not sure what to do at this point TODO
                 Validate.NotNull(csmResourceGroup.tags, "csmResourcegroup.tags");
 
                 resourceGroup.Tags = csmResourceGroup.tags;
-            }
 
             if (resources == null)
             {
@@ -62,10 +58,6 @@ namespace SimpleWAWS.Code.CsmExtensions
                 else if (resourceGroup.SubscriptionType == SubscriptionType.VSCodeLinux)
                 {
                     await Task.WhenAll(LoadVSCodeLinuxResources(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/sites", StringComparison.OrdinalIgnoreCase))));
-                }
-                else if (resourceGroup.SubscriptionType == SubscriptionType.MonitoringTools)
-                {
-                    await Task.WhenAll(LoadMonitoringToolResources(resourceGroup, resources.Where(r => r.type.Equals("Microsoft.Web/sites", StringComparison.OrdinalIgnoreCase))));
                 }
             }
 
@@ -147,8 +139,11 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task<ResourceGroup> CreateResourceGroup(string subscriptionId, string region, string templateName)
         {
-            var guid = Guid.NewGuid().ToString();
-            var resourceGroup = new ResourceGroup(subscriptionId, string.Join(Constants.TryResourceGroupSeparator, Constants.TryResourceGroupPrefix, region.Replace(" ", Constants.TryResourceGroupSeparator), guid), templateName)
+            var guid = Guid.NewGuid().ToString().Split('-')[1];
+
+            var rgName= string.IsNullOrEmpty(templateName) ? String.Empty : templateName.ToString().Trim().Replace(" ", Constants.TryResourceGroupSeparator).Replace(".", Constants.TryResourceGroupSeparator).ToLowerInvariant();
+
+            var resourceGroup = new ResourceGroup(subscriptionId, string.Join(Constants.TryResourceGroupSeparator, Constants.TryResourceGroupPrefix, rgName, guid), templateName)
             {
                 Tags = new Dictionary<string, string>
                     {
@@ -221,9 +216,9 @@ namespace SimpleWAWS.Code.CsmExtensions
                 return resourceGroup;
             }
 
-            if (string.IsNullOrEmpty(resourceGroup.Site.SiteName) || String.IsNullOrEmpty(resourceGroup.SiteGuid))
+            if (resourceGroup.Site ==null  || String.IsNullOrEmpty(resourceGroup.SiteGuid))
             {
-                resourceGroup.Site  = await CreateVSCodeLinuxSite(resourceGroup, SiteNameGenerator.GenerateLinuxSiteName) ;
+                 resourceGroup.Site  = await CreateVSCodeLinuxSite(resourceGroup, SiteNameGenerator.GenerateLinuxSiteName) ;
             }
         return resourceGroup;
         }
@@ -243,29 +238,7 @@ namespace SimpleWAWS.Code.CsmExtensions
             resourceGroup.Tags[Constants.UserId] = userId.Substring(0, Math.Min(userId.Length, 256));
             resourceGroup.Tags[Constants.UserId2] = userId.Length>256?userId.Substring(256, Math.Min(userId.Length-256, 256)):String.Empty;
             resourceGroup.Tags[Constants.StartTime] = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
-            switch (appService)
-            {
-                case AppService.Containers:
-                    resourceGroup.Tags[Constants.LifeTimeInMinutes] = ResourceGroup.LinuxUsageTimeSpan.TotalMinutes.ToString();
-                    break;
-                case AppService.Web:
-                    if (resourceGroup.SubscriptionType == SubscriptionType.AppService)
-                    {
-                        resourceGroup.Tags[Constants.LifeTimeInMinutes] = ResourceGroup.DefaultUsageTimeSpan.TotalMinutes.ToString();
-                    }
-                    else if(resourceGroup.SubscriptionType == SubscriptionType.Linux)
-                    {
-                        resourceGroup.Tags[Constants.LifeTimeInMinutes] = ResourceGroup.LinuxUsageTimeSpan.TotalMinutes.ToString();
-                    }
-                    else //VSCodeLinux Subscription
-                    {
-                        resourceGroup.Tags[Constants.LifeTimeInMinutes] = ResourceGroup.VSCodeLinuxUsageTimeSpan.TotalMinutes.ToString();
-                    }
-                    break;
-                default:
-                    resourceGroup.Tags[Constants.LifeTimeInMinutes] = ResourceGroup.DefaultUsageTimeSpan.TotalMinutes.ToString();
-                    break;
-            }
+            resourceGroup.Tags[Constants.LifeTimeInMinutes] = ResourceGroup.DefaultUsageTimeSpan.TotalMinutes.ToString();
             resourceGroup.Tags[Constants.AppService] = appService.ToString();
             return await Update(resourceGroup);
         }
@@ -472,15 +445,15 @@ namespace SimpleWAWS.Code.CsmExtensions
         }
 
 
-        private static bool IsValidResource(CsmWrapper<CsmResourceGroup> csmResourceGroup, SubscriptionType subType)
-        {
-            return IsSimpleWawsResourceName(csmResourceGroup) &&
-                csmResourceGroup.properties.provisioningState == "Succeeded" &&
-                csmResourceGroup.tags != null && !csmResourceGroup.tags.ContainsKey("Bad")
-                && csmResourceGroup.tags.ContainsKey(Constants.SubscriptionType)
-                && (string.Equals(csmResourceGroup.tags[Constants.SubscriptionType], subType.ToString(), StringComparison.OrdinalIgnoreCase)
-                && csmResourceGroup.tags.ContainsKey(Constants.TemplateName));
-        }
+        //private static bool IsValidResource(CsmWrapper<CsmResourceGroup> csmResourceGroup, SubscriptionType subType)
+        //{
+        //    return IsSimpleWawsResourceName(csmResourceGroup) &&
+        //        csmResourceGroup.properties.provisioningState == "Succeeded" &&
+        //        csmResourceGroup.tags != null && !csmResourceGroup.tags.ContainsKey("Bad")
+        //        && csmResourceGroup.tags.ContainsKey(Constants.SubscriptionType)
+        //        && (string.Equals(csmResourceGroup.tags[Constants.SubscriptionType], subType.ToString(), StringComparison.OrdinalIgnoreCase)
+        //        && csmResourceGroup.tags.ContainsKey(Constants.TemplateName));
+        //}
 
     }
 }

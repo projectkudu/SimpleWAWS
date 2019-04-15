@@ -140,18 +140,7 @@ namespace SimpleWAWS.Models
             site.AppSettings["SITE_BASH_GIT_URL"] = site.BashGitUrlWithCreds;
             var siteguid = Guid.NewGuid().ToString();
             site.AppSettings["SITE_SITEKEY"] = siteguid;
-            await Task.WhenAll(site.UpdateConfig(
-                new
-                {
-                    properties = new
-                    {
-                        appCommandLine = "process.json",
-                        linuxFxVersion = "NODE|9.4",
-                        alwaysOn = true,
-                        httpLoggingEnabled = true
-                    }
-                }), site.UpdateAppSettings());
-
+            await  site.UpdateAppSettings();
             return siteguid;
         }
         public static async Task DeployVSCodeLinuxTemplateToSite(BaseTemplate template, Site site)

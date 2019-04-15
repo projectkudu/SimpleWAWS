@@ -9,8 +9,8 @@
         public const string UserId2 = "UserId2";
         public const string CommonApiAppsDeployed = "CommonApiAppsDeployed";
         public const string CommonApiAppsDeployedVersion = "1.0.0";
-        public const string TryResourceGroupPrefix = "TRY_RG";
-        public const string TryResourceGroupSeparator = "_";
+        public const string TryResourceGroupPrefix = "try";
+        public const string TryResourceGroupSeparator = "-";
         public const string LifeTimeInMinutes = "LifeTimeInMinutes";
         public const string AppService = "AppService";
         public const string TiPCookie = "x-ms-routing-name";

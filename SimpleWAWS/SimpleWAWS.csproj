@@ -319,7 +319,6 @@
     <Compile Include="Models\VSCodeLinuxTemplate.cs" />
     <Compile Include="Models\LinuxTemplate.cs" />
     <Compile Include="Models\SubscriptionStats.cs" />
-    <Compile Include="Models\MonitoringToolsTemplate.cs" />
     <Compile Include="Models\RbacUser.cs" />
     <Compile Include="Models\ResourceGroup.cs" />
     <Compile Include="Code\AnalyticsEvents.cs" />
@@ -354,7 +353,6 @@
     <Compile Include="Code\MobileHelper.cs" />
     <Compile Include="Code\TelemetryEvent.cs" />
     <Compile Include="Code\Validate.cs" />
-    <Compile Include="Controllers\TelemetryController.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Code\StorageHelper.cs" />
     <Compile Include="Code\TemplatesManager.cs" />

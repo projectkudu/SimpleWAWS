@@ -18,6 +18,7 @@ namespace SimpleWAWS.Models
         private static dynamic _baseARMTemplate;
 
         private static IEnumerable<BaseTemplate> _templatesList;
+        private static Dictionary<string, SubscriptionType> _subTypeList;
 
         static TemplatesManager()
         {
@@ -33,6 +34,17 @@ namespace SimpleWAWS.Models
                     template.Config = configToUse;
                 }
                 list.AddRange(templates);
+                _subTypeList = new Dictionary<string, SubscriptionType>();
+                foreach (var template in GetTemplates())
+                {
+                    foreach (var sub in template.Config.Subscriptions)
+                    {
+                        if (!_subTypeList.ContainsKey(sub))
+                        {
+                            _subTypeList.Add(sub, template.Config.SubscriptionType);
+                        }
+                    }
+                }
                 //Use JObject.Parse to quickly build up the armtemplate object used for LRS
                 _baseARMTemplate = JObject.Parse(GetConfig("BaseARMTemplate.json"));
                 //TODO: Implement a FileSystemWatcher for changes in the directory
@@ -81,6 +93,10 @@ namespace SimpleWAWS.Models
         public static IEnumerable<BaseTemplate> GetTemplates()
         {
             return _templatesList;
+        }
+        public static Dictionary<string, SubscriptionType> GetSubscriptionTypeList()
+        {
+            return _subTypeList;
         }
 
         public static JObject GetARMTemplate(BaseTemplate template)

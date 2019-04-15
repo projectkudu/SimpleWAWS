@@ -138,7 +138,7 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return string.Concat("https://portal.azure.com/#@", TenantName, "/resource", CsmId, "/appServices");
+                return "https://portal.azure.com/";
             }
         }
 

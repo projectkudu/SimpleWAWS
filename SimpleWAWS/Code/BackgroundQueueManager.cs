@@ -29,9 +29,6 @@ namespace SimpleWAWS.Code
                        .Concat(ResourceGroupsInProgress.Where(e => e.Value != null).Select(e => e.Value.ResourceGroup));
             }
         }
-        //public readonly ConcurrentQueue<ResourceGroup> FreeVSCodeLinuxResourceGroups = new ConcurrentQueue<ResourceGroup>();
-        //public ConcurrentDictionary<string, ConcurrentQueue<ResourceGroup>> FreeVSCodeLinuxResourceGroups = new ConcurrentDictionary<string, ConcurrentQueue<ResourceGroup>>();
-        //public readonly ConcurrentDictionary<string, ConcurrentQueue<ResourceGroup>> FreeLinuxResourceGroups = new ConcurrentDictionary<string, ConcurrentQueue<ResourceGroup>>();
         public readonly ConcurrentDictionary<string, InProgressOperation> ResourceGroupsInProgress = new ConcurrentDictionary<string, InProgressOperation>();
         public readonly ConcurrentDictionary<string, ResourceGroup> ResourceGroupsInUse = new ConcurrentDictionary<string, ResourceGroup>();
         public readonly ConcurrentDictionary<Guid, BackgroundOperation> BackgroundInternalOperations = new ConcurrentDictionary<Guid, BackgroundOperation>();
@@ -116,17 +113,6 @@ namespace SimpleWAWS.Code
                     {
                         PutResourceGroupInDesiredStateOperation(resourceGroup);
                     }
-                    //if (result.ToCreateTemplates != null)
-                    //{
-                    //    var rand = new Random();
-                    //    foreach (var template in result.ToCreateTemplates)
-                    //    {
-                    //        for (int i = 0; i < template.RemainingCount; i++)
-                    //        {
-                    //            CreateResourceGroupOperation(subscription.SubscriptionId, subscription.GeoRegions.ElementAt(rand.Next(subscription.GeoRegions.Count())), template.TemplateName);
-                    //        }
-                    //    }
-                    //}
                     foreach (var resourceGroup in result.ToDelete)
                     {
                         DeleteResourceGroupOperation(resourceGroup);
@@ -250,13 +236,27 @@ namespace SimpleWAWS.Code
                     DeleteResourceGroupOperation(resourceGroup);
                     deletedDuplicateRGs++;
                 }
-                foreach (var template in TemplatesManager.GetTemplates())
+                foreach (var template in TemplatesManager.GetTemplates().Where(a => a.QueueSizeToMaintain > 0))
                 {
                     var deployedTemplates = ready.Count(a => a.DeployedTemplateName == template.Name);
-                    for (int i = 1; i <= template.QueueSizeToMaintain - deployedTemplates; i++)
+                    var delta = template.QueueSizeToMaintain - deployedTemplates;
+                    SimpleTrace.TraceInformation($"Template {template.Name} has {deployedTemplates} RGs deployed and requires {template.QueueSizeToMaintain}");
+
+                    for (int i = 1; i <= delta; i++)
                     {
+                        SimpleTrace.TraceInformation($"Template {template.Name} creating {1} of {delta}");
                         CreateResourceGroupOperation(template.Config.Subscriptions.OrderBy(a => Guid.NewGuid()).First(), template.Config.Regions.OrderBy(a => Guid.NewGuid()).First(), template.Name);
                         createdMissingTemplates++;
+                    }
+                    for (int i = 1; i <= -delta; i++)
+                    {
+                        ResourceGroup resourceGroup;
+                        if (FreeResourceGroups[template.Name].TryPeek(out resourceGroup))
+                        {
+                            SimpleTrace.TraceInformation($"Template {template.Name} deleting {1} of {-delta}->{resourceGroup.CsmId}");
+                            RemoveFromFreeResourcesQueue(resourceGroup);
+                            DeleteResourceGroupOperation(resourceGroup);
+                        }
                     }
                 }
                 AppInsights.TelemetryClient.TrackMetric("createdMissingTemplates", createdMissingTemplates);

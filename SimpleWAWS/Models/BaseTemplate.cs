@@ -2,12 +2,15 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
+using SimpleWAWS.Code;
 
 namespace SimpleWAWS.Models
 {
 
     public class Config
     {
+        [JsonProperty(PropertyName = "subscriptionType")]
+        public SubscriptionType SubscriptionType { get; set; }
         [JsonProperty(PropertyName = "appService")]
         public string AppService { get; set; }
         [JsonProperty(PropertyName = "subscriptions")]
@@ -74,7 +77,7 @@ namespace SimpleWAWS.Models
         public int DeploymentCheckIntervalSeconds { get { return Math.Max(10, _deploymentCheckIntervalSeconds); } set { _deploymentCheckIntervalSeconds = value; } }
         public string AzureEnvironment { get { return "AzureGlobalCloud"; } }
         public string DeploymentLoggingLevel { get { return "BodyAndHeaders";  } }
-        public string ARMTemplateLink { get { return "https://tro.blob.core.windows.net/armtemplates/" + CsmTemplateFilePath + ".json"; } }
+        public string ARMTemplateLink { get { return string.Concat(SimpleSettings.TemplatesUrl , CsmTemplateFilePath ,".json"); } }
         public string ARMParameters { get; set; }
         public string DeploymentMode { get { return "Complete"; } }
     }

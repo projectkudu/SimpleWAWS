@@ -9,8 +9,7 @@ namespace SimpleWAWS.Models
     {
         AppService,
         Linux,
-        VSCodeLinux,
-        MonitoringTools
+        VSCodeLinux
     }
 
     public class Subscription
@@ -21,14 +20,7 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return SimpleSettings.MonitoringToolsSubscription.Equals(SubscriptionId,StringComparison.OrdinalIgnoreCase)?SubscriptionType.MonitoringTools: 
-                       SimpleSettings.LinuxSubscriptions.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries)
-                       .Contains(SubscriptionId)
-                       ? SubscriptionType.Linux:
-                       SimpleSettings.VSCodeLinuxSubscriptions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                       .Contains(SubscriptionId)
-                       ? SubscriptionType.VSCodeLinux
-                       : SubscriptionType.AppService;
+                return SubscriptionType.AppService;
             }
         }
 
@@ -39,41 +31,6 @@ namespace SimpleWAWS.Models
             this.SubscriptionId = subscriptionId;
             ResourceGroups = Enumerable.Empty<ResourceGroup>();
         }
-        public IEnumerable<string> GeoRegions
-        {
-            get
-            {
-                switch (Type)
-                {
-                    case SubscriptionType.AppService:
-                        return SimpleSettings.GeoRegions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(r => r.Trim());
-                    case SubscriptionType.Linux:
-                        return SimpleSettings.LinuxGeoRegions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(r => r.Trim());
-                    case SubscriptionType.VSCodeLinux:
-                        return SimpleSettings.VSCodeLinuxGeoRegions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(r => r.Trim());
-                    default:
-                        return null;
-                };
-            }
-        }
 
-        public int ResourceGroupsPerTemplate
-        {
-            get
-            {
-                switch (Type)
-                {
-                    case SubscriptionType.VSCodeLinux:
-                        return SimpleSettings.VSCodeLinuxResourceGroupsPerTemplate;
-                    case SubscriptionType.AppService:
-                        return SimpleSettings.AppServiceResourceGroupsPerTemplate;
-                    case SubscriptionType.Linux:
-                        return SimpleSettings.LinuxResourceGroupsPerTemplate;
-                    default:
-                        return 0;
-
-                };
-            }
-        }
     }
 }

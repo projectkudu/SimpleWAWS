@@ -33,7 +33,6 @@ namespace SimpleWAWS.Code.CsmExtensions
                 await csmSubscriptionResourcesReponse.Content.ReadAsAsync<CsmArrayWrapper<object>>();
 
             var goodResourceGroups = csmResourceGroups.value
-                .Where(r => IsValidResource(r, subscription.Type))
                 .Select(r => new
                 {
                     ResourceGroup = r,
@@ -58,16 +57,15 @@ namespace SimpleWAWS.Code.CsmExtensions
         public static SubscriptionStats GetSubscriptionStats(this Subscription subscription)
         {
             var result = new SubscriptionStats();
-            {
-                var vscodeTemplates = TemplatesManager.GetTemplates();
 
-                result.ToDelete = subscription.ResourceGroups
-                    .Where(b=> string.IsNullOrEmpty(b.DeployedTemplateName) || string.IsNullOrEmpty(b.SiteGuid));
-            }
+            result.ToDelete = subscription.ResourceGroups
+                    .Where(b=> string.IsNullOrEmpty(b.DeployedTemplateName) || string.IsNullOrEmpty(b.SiteGuid)
+                    || (b.Tags!= null && b.Tags.ContainsKey("Bad"))
+                    );
 
             //TODO:Also delete RGs that are not in subscription.GeoRegions
             result.Ready = subscription.ResourceGroups.Where(rg => !result.ToDelete.Any(drg => drg.ResourceGroupName == rg.ResourceGroupName));
-            SimpleTrace.TraceInformation($"MakeTrialSubscription for: {subscription.Type.ToString()} : {subscription.SubscriptionId} -> Ready:{result.Ready.Count()} -> ToDelete:{result.ToDelete.Count()}");
+            SimpleTrace.TraceInformation($"GetSubscriptionStats for: {subscription.Type.ToString()} : {subscription.SubscriptionId} -> Ready:{result.Ready.Count()} -> ToDelete:{result.ToDelete.Count()}");
             return result;
         }
 

@@ -37,8 +37,6 @@ namespace SimpleWAWS.Models
 
         public static readonly TimeSpan DefaultUsageTimeSpan = TimeSpan.FromMinutes(int.Parse(SimpleSettings.SiteExpiryMinutes, CultureInfo.InvariantCulture));
         public static readonly TimeSpan ExtendedUsageTimeSpan = TimeSpan.FromHours(int.Parse(SimpleSettings.ExtendedResourceExpireHours, CultureInfo.InvariantCulture));
-        public static readonly TimeSpan LinuxUsageTimeSpan = TimeSpan.FromMinutes(int.Parse(SimpleSettings.LinuxExpiryMinutes, CultureInfo.InvariantCulture));
-        public static readonly TimeSpan VSCodeLinuxUsageTimeSpan = TimeSpan.FromMinutes(int.Parse(SimpleSettings.VSCodeLinuxExpiryMinutes, CultureInfo.InvariantCulture));
         public TimeSpan TimeLeft
         {
             get
@@ -68,9 +66,7 @@ namespace SimpleWAWS.Models
             get
             {
                 var appService = AppService.Web;
-                return (SubscriptionType == SubscriptionType.MonitoringTools) 
-                    ? AppService.MonitoringTools
-                    : Tags.ContainsKey(Constants.AppService) && Enum.TryParse<AppService>(Tags[Constants.AppService], out appService)
+                return Tags.ContainsKey(Constants.AppService) && Enum.TryParse<AppService>(Tags[Constants.AppService], out appService)
                     ? appService
                     : AppService.Web;
             }
@@ -129,18 +125,8 @@ namespace SimpleWAWS.Models
                 return string.IsNullOrEmpty(DeployedTemplateName)?base.TemplateName:DeployedTemplateName;
             }
         }
-
         public Dictionary<string, string> Tags { get; set; }
 
-        public bool IsSimpleWAWS
-        {
-            get
-            {
-                return IsSimpleWAWSResourceName
-                 && Tags != null && !Tags.ContainsKey("Bad")
-                && Tags.ContainsKey("FunctionsContainerDeployed");
-            }
-        }
         public bool IsSimpleWAWSResourceName
         {
             get
@@ -153,19 +139,10 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                string ibizaUrl = null;
                 string csmId = null;
-                Site siteToUseForUi = null;
 
                 var templateName = Tags.ContainsKey(Constants.TemplateName) ? Tags[Constants.TemplateName] : string.Empty;
-                if (string.IsNullOrEmpty(templateName) && AppService == AppService.Logic)
-                {
-                    templateName = TemplatesManager.GetTemplates().FirstOrDefault((template) => template.AppService == AppService.Logic)?.Name;
-                }
-                if (string.IsNullOrEmpty(templateName) && AppService == AppService.MonitoringTools)
-                {
-                    templateName = TemplatesManager.GetTemplates().FirstOrDefault((template) => template.AppService == AppService.MonitoringTools)?.Name;
-                }
+
                 return new UIResource
                 {
                     SiteName = Site.SiteName,
@@ -211,16 +188,6 @@ namespace SimpleWAWS.Models
                 this.TemplateName = this.Tags[Constants.TemplateName];
             }
         }
-        public ResourceGroup(string subsciptionId, string resourceGroupName, string georegion,string templateName)
-: base(subsciptionId, resourceGroupName, templateName)
-        {
-            this.Site = null;
-            this.ServerFarms = Enumerable.Empty<ServerFarm>();
-            this.StorageAccounts = Enumerable.Empty<StorageAccount>();
-            this.Tags = new Dictionary<string, string>();
-            this.Tags[Constants.GeoRegion] = georegion;
-            this.Tags[Constants.TemplateName] = templateName;
-            this.TemplateName = templateName;
-        }
+
     }
 }
