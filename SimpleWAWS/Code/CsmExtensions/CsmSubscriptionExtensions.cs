@@ -59,8 +59,11 @@ namespace SimpleWAWS.Code.CsmExtensions
             var result = new SubscriptionStats();
 
             result.ToDelete = subscription.ResourceGroups
-                    .Where(b=> string.IsNullOrEmpty(b.DeployedTemplateName) || string.IsNullOrEmpty(b.SiteGuid)
-                    || (b.Tags!= null && b.Tags.ContainsKey("Bad"))
+                    .Where(b=> 
+                        string.IsNullOrEmpty(b.DeployedTemplateName) 
+                    ||  string.IsNullOrEmpty(b.SiteGuid)
+                    ||  (b.Tags!= null && b.Tags.ContainsKey("Bad")) 
+                    ||  (!string.IsNullOrEmpty(b.UserId) &&  b.TimeLeft <= TimeSpan.FromSeconds(0))
                     );
 
             //TODO:Also delete RGs that are not in subscription.GeoRegions

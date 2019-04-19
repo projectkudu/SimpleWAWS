@@ -193,7 +193,6 @@ namespace SimpleWAWS.Code
             {
             }
         }
-
         private void OnCleanupSubscriptionsTimerElapsed(object state)
         {
 

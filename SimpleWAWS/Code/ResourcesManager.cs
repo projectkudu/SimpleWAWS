@@ -77,7 +77,7 @@ namespace SimpleWAWS.Code
         }
 
         // ARM
-        private async Task<ResourceGroup> ActivateResourceGroup(TryWebsitesIdentity userIdentity, AppService appService, DeploymentType deploymentType, Func<ResourceGroup, InProgressOperation, Task<ResourceGroup>> func, string template="")
+        private async Task<ResourceGroup> ActivateResourceGroup(TryWebsitesIdentity userIdentity, AppService appService, DeploymentType deploymentType, Func<ResourceGroup, InProgressOperation, Task<ResourceGroup>> func, BaseTemplate template =null )
         {
             ResourceGroup resourceGroup = null;
             if (userIdentity == null)
@@ -95,14 +95,14 @@ namespace SimpleWAWS.Code
                 bool resourceGroupFound = false;
                     SimpleTrace.TraceInformation($"Searching vscodequeue for template '{template}': Count of templates:{_backgroundQueueManager.FreeResourceGroups.Count} ");
 
-                if (_backgroundQueueManager.FreeResourceGroups.ContainsKey(template))
+                if (_backgroundQueueManager.FreeResourceGroups.ContainsKey(template.Name))
                 {
                     var totalTries = 3;
                     var tries = 0;
                     //bool siteFound = false;
                     while (tries++ < totalTries && !resourceGroupFound)
                     {
-                        resourceGroupFound = _backgroundQueueManager.FreeResourceGroups[template].TryDequeue(out resourceGroup);
+                        resourceGroupFound = _backgroundQueueManager.FreeResourceGroups[template.Name].TryDequeue(out resourceGroup);
                         if (resourceGroupFound)
                         {
                             //    try
@@ -122,7 +122,7 @@ namespace SimpleWAWS.Code
                         }
                         else
                         {
-                            SimpleTrace.TraceInformation($"No resource found in free queue for '{template}' ");
+                            SimpleTrace.TraceInformation($"No resource found in free queue for '{template.Name}' ");
                         }
                     }
                 }
@@ -246,7 +246,7 @@ namespace SimpleWAWS.Code
 
                     Util.WarmUpSite(site);
                     return resourceGroup;
-                });
+                }, template);
         }
 
         public async Task<ResourceGroup> ExtendResourceExpirationTime(ResourceGroup resourceGroup)
@@ -281,7 +281,7 @@ namespace SimpleWAWS.Code
                 await Util.DeployLinuxTemplateToSite(template, site);
 
                 return resourceGroup;
-            });
+            }, template);
         }
         public async Task<ResourceGroup> ActivateVSCodeLinuxResource(BaseTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
@@ -314,7 +314,7 @@ namespace SimpleWAWS.Code
                 //    await Util.DeployVSCodeLinuxTemplateToSite(template, site, addTimeStampFile:true);
                 //}
                 return resourceGroup;
-            }, template.Name);
+            }, template);
         }
         public async Task<ResourceGroup> ActivateContainersResource(ContainersTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
@@ -336,7 +336,7 @@ namespace SimpleWAWS.Code
 
                 Util.WarmUpSite(resourceGroup.Site);
                 return resourceGroup;
-            });
+            }, template);
         }
         private string QualifyContainerName(string containerName)
         {
@@ -356,23 +356,23 @@ namespace SimpleWAWS.Code
                             AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName,
                             "Function", template.Name, resourceGroup.ResourceUniqueId, AppService.Function.ToString());
 
-                var functionApp = await resourceGroup.Site.LoadAppSettings();
-                if (template.Name.Contains(Constants.CSharpLanguage))
-                {
-                    functionApp.AppSettings[Constants.FunctionsRuntimeAppSetting] = Constants.DotNetRuntime;
-                }
-                else if (template.Name.Contains(Constants.JavaScriptLanguage))
-                {
-                    functionApp.AppSettings[Constants.FunctionsRuntimeAppSetting] = Constants.JavaScriptRuntime;
-                }
+                //var functionApp =  resourceGroup.Site;
+                //if (template.Name.Contains(Constants.CSharpLanguage))
+                //{
+                //    functionApp.AppSettings[Constants.FunctionsRuntimeAppSetting] = Constants.DotNetRuntime;
+                //}
+                //else if (template.Name.Contains(Constants.JavaScriptLanguage))
+                //{
+                //    functionApp.AppSettings[Constants.FunctionsRuntimeAppSetting] = Constants.JavaScriptRuntime;
+                //}
 
-                await functionApp.UpdateAppSettings();
+                //await functionApp.UpdateAppSettings();
 
-                Util.WarmUpSite(functionApp); 
-                resourceGroup.Tags[Constants.TemplateName] = template.Name;
-                await resourceGroup.Update();
+                Util.WarmUpSite(resourceGroup.Site); 
+                //resourceGroup.Tags[Constants.TemplateName] = template.Name;
+                //await resourceGroup.Update();
                 return resourceGroup;
-            });
+            }, template);
         }
 
         // ARM

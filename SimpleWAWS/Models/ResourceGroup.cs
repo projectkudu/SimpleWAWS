@@ -44,7 +44,7 @@ namespace SimpleWAWS.Models
                 TimeSpan timeUsed = DateTime.UtcNow - StartTime;
                 TimeSpan timeLeft;
 
-                if (timeUsed > LifeTime)
+                if (timeUsed< TimeSpan.FromMinutes(0) || timeUsed > LifeTime)
                 {
                     timeLeft = TimeSpan.FromMinutes(0);
                 }

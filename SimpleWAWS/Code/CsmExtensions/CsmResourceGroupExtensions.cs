@@ -385,7 +385,9 @@ namespace SimpleWAWS.Code.CsmExtensions
             csmTemplateString = csmTemplateString
                                 .Replace("{{appServiceName}}", site.SiteName)
                                 .Replace("{{msdeployPackageUrl}}", template.MSDeployPackageUrl)
-                                .Replace("{{serverFarmType}}", SimpleSettings.ServerFarmTypeContent);
+                                .Replace("{{serverFarmType}}", SimpleSettings.ServerFarmTypeContent)
+                                .Replace("{{tryAppserviceUrl}}", SimpleSettings.TryAppServiceSite);
+
             var inProgressOperation = new InProgressOperation(resourceGroup, DeploymentType.CsmDeploy);
             var token = await inProgressOperation.CreateDeployment(JsonConvert.DeserializeObject<JToken>(csmTemplateString), block: true, subscriptionType: resourceGroup.SubscriptionType);
 
