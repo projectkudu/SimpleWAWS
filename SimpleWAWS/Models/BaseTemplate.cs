@@ -62,9 +62,8 @@ namespace SimpleWAWS.Models
         public int ItemstoCreate { get { return QueueSizeToMaintain - Math.Max(CurrentQueueSize, ResourceGroupsCreated); } }
         public int ResourceGroupsCreated { get; set; }
 
-
         [JsonProperty(PropertyName = "queuename")]
-        public string QueueName { get { return string.Concat(AppService.ToString(), "-", Name.ToString().Trim()).Replace(" ", "-").Replace(".", "-").ToLowerInvariant(); } }
+        public string QueueName { get { return string.Concat(SimpleSettings.FreeQueuePrefix, AppService.ToString(), "-", Name.ToString().Trim()).Replace(" ", "-").Replace(".", "-").ToLowerInvariant(); } }
 
         [JsonProperty(PropertyName = "config")]
         public Config Config { get; set; }
@@ -81,5 +80,4 @@ namespace SimpleWAWS.Models
         public string ARMParameters { get; set; }
         public string DeploymentMode { get { return "Complete"; } }
     }
-
 }

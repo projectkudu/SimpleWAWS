@@ -65,17 +65,12 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                var appService = AppService.Web;
-                return Tags.ContainsKey(Constants.AppService) && Enum.TryParse<AppService>(Tags[Constants.AppService], out appService)
-                    ? appService
-                    : AppService.Web;
+                return TemplatesManager.GetAppService(DeployedTemplateName);
             }
         }
 
         [JsonIgnore]
         public Site Site { get; set; }
-
-
 
         //[JsonIgnore]
         //public LinuxResource LinuxResources { get; set; }
@@ -108,6 +103,7 @@ namespace SimpleWAWS.Models
                        value;
             }
         }
+        public string QueueName { get { return string.Concat(SimpleSettings.FreeQueuePrefix, AppService.ToString(), "-", TemplateName.ToString().Trim()).Replace(" ", "-").Replace(".", "-").ToLowerInvariant(); } }
 
         public string DeployedTemplateName
         {
@@ -139,9 +135,9 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                string csmId = null;
+                //string csmId = null;
 
-                var templateName = Tags.ContainsKey(Constants.TemplateName) ? Tags[Constants.TemplateName] : string.Empty;
+                //var templateName = Tags.ContainsKey(Constants.TemplateName) ? Tags[Constants.TemplateName] : string.Empty;
 
                 return new UIResource
                 {
@@ -155,10 +151,9 @@ namespace SimpleWAWS.Models
                     IsRbacEnabled = IsRbacEnabled,
                     AppService = ( AppService == AppService.Linux
                                     ?AppService.Web : AppService) ,
-                    TemplateName = templateName,
+                    TemplateName = TemplateName,
                     IsExtended = IsExtended,
                     TimeLeftInSeconds = (int)TimeLeft.TotalSeconds,
-                    CsmId = csmId,
                     PublishingUserName = Site.PublishingUserName,
                     PublishingPassword = Site.PublishingPassword,
                     SiteGuid = SiteGuid,
@@ -166,7 +161,6 @@ namespace SimpleWAWS.Models
                 };
             }
         }
-
         public ResourceGroup(string subsciptionId, string resourceGroupName)
             : base(subsciptionId, resourceGroupName)
         {
@@ -175,6 +169,20 @@ namespace SimpleWAWS.Models
             this.StorageAccounts = Enumerable.Empty<StorageAccount>();
             this.Tags = new Dictionary<string, string>();
         }
+        [JsonConstructor]
+        public ResourceGroup(string subsciptionId, string resourceGroupName, UIResource uiResource)
+    : base(subsciptionId, resourceGroupName)
+        {
+            this.Site = new Site (subsciptionId,resourceGroupName, uiResource.SiteName);
+            this.Site.HostName = uiResource.HostName;
+            this.Site.ScmHostName = uiResource.ScmHostName;
+            this.Site.PublishingPassword = uiResource.PublishingPassword;
+            this.Site.PublishingUserName = uiResource.PublishingUserName;
+            this.ServerFarms = Enumerable.Empty<ServerFarm>();
+            this.StorageAccounts = Enumerable.Empty<StorageAccount>();
+            this.Tags = new Dictionary<string, string>();
+        }
+     
         public ResourceGroup(string subsciptionId, string resourceGroupName,string georegion)
     : base(subsciptionId, resourceGroupName)
         {

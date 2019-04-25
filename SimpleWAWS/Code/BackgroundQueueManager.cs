@@ -17,20 +17,19 @@ namespace SimpleWAWS.Code
 {
     public class BackgroundQueueManager
     {
+        public static bool IsWriteInstance = String.Equals(SimpleSettings.WEBSITE_HOME_STAMPNAME, SimpleSettings.BackgroundQueueManagerStampName, StringComparison.OrdinalIgnoreCase);
+        //public readonly ConcurrentDictionary<string, ConcurrentQueue<ResourceGroup>> FreeResourceGroups = new ConcurrentDictionary<string, ConcurrentQueue<ResourceGroup>>();
+        //public readonly ConcurrentDictionary<string, ResourceGroup> ResourceGroupsInUse = new ConcurrentDictionary<string, ResourceGroup>();
 
-        public readonly ConcurrentDictionary<string, ConcurrentQueue<ResourceGroup>> FreeResourceGroups = new ConcurrentDictionary<string, ConcurrentQueue<ResourceGroup>>();
-
-        public IEnumerable<ResourceGroup> LoadedResourceGroups
+        public async Task<IEnumerable<ResourceGroup>> LoadedResourceGroups()
         {
-            get
-            {
-                return FreeResourceGroups.Values.SelectMany(e => e).ToList()
-                       .Concat(ResourceGroupsInUse.Where(e => e.Value != null).Select(e => e.Value))
-                       .Concat(ResourceGroupsInProgress.Where(e => e.Value != null).Select(e => e.Value.ResourceGroup));
-            }
+                var list = new List<ResourceGroup>();
+                list.AddRange(await StorageHelper.GetAllFreeResources());
+                list.AddRange((await StorageHelper.GetInUseResourceGroups()).Where(e => e.Value != null).Select(e => e.Value));
+                list.AddRange(ResourceGroupsInProgress.Where(e => e.Value != null).Select(e => e.Value.ResourceGroup));
+                return list;
         }
         public readonly ConcurrentDictionary<string, InProgressOperation> ResourceGroupsInProgress = new ConcurrentDictionary<string, InProgressOperation>();
-        public readonly ConcurrentDictionary<string, ResourceGroup> ResourceGroupsInUse = new ConcurrentDictionary<string, ResourceGroup>();
         public readonly ConcurrentDictionary<Guid, BackgroundOperation> BackgroundInternalOperations = new ConcurrentDictionary<Guid, BackgroundOperation>();
         private Timer _logQueueStatsTimer;
         private Timer _cleanupSubscriptionsTimer;
@@ -40,26 +39,27 @@ namespace SimpleWAWS.Code
         private static Random rand = new Random();
         internal Stopwatch _uptime;
         internal int _cleanupOperationsTriggered;
-        public ResourceGroup MonitoringResourceGroup;
-        public static ConcurrentDictionary<string, DateTime> MonitoringResourceGroupCheckoutTimes = new ConcurrentDictionary<string, DateTime>();
 
         public BackgroundQueueManager()
         {
-            if (_logQueueStatsTimer == null)
+            if (IsWriteInstance)
             {
-                _logQueueStatsTimer = new Timer(OnLogQueueStatsTimerElapsed, null, TimeSpan.FromMinutes(SimpleSettings.LoqQueueStatsMinutes), TimeSpan.FromMinutes(SimpleSettings.LoqQueueStatsMinutes));
-            }
-            if (_cleanupSubscriptionsTimer == null)
-            {
-                _cleanupSubscriptionsTimer = new Timer(OnCleanupSubscriptionsTimerElapsed, null, TimeSpan.FromMinutes(SimpleSettings.CleanupSubscriptionFirstInvokeMinutes), TimeSpan.FromMinutes(SimpleSettings.CleanupSubscriptionMinutes));
-            }
-            if (_cleanupExpiredResourceGroupsTimer == null)
-            {
-                _cleanupExpiredResourceGroupsTimer = new Timer(OnExpiredResourceGroupsTimerElapsed, null, TimeSpan.FromMinutes(SimpleSettings.CleanupExpiredResourceGroupsMinutes), TimeSpan.FromMinutes(SimpleSettings.CleanupExpiredResourceGroupsMinutes));
-            }
-            if (_uptime == null)
-            {
-                _uptime = Stopwatch.StartNew();
+                if (_logQueueStatsTimer == null)
+                {
+                    _logQueueStatsTimer = new Timer(OnLogQueueStatsTimerElapsed, null, TimeSpan.FromMinutes(SimpleSettings.LoqQueueStatsMinutes), TimeSpan.FromMinutes(SimpleSettings.LoqQueueStatsMinutes));
+                }
+                if (_cleanupSubscriptionsTimer == null)
+                {
+                    _cleanupSubscriptionsTimer = new Timer(OnCleanupSubscriptionsTimerElapsed, null, TimeSpan.FromMinutes(SimpleSettings.CleanupSubscriptionFirstInvokeMinutes), TimeSpan.FromMinutes(SimpleSettings.CleanupSubscriptionMinutes));
+                }
+                if (_cleanupExpiredResourceGroupsTimer == null)
+                {
+                    _cleanupExpiredResourceGroupsTimer = new Timer(OnExpiredResourceGroupsTimerElapsed, null, TimeSpan.FromMinutes(SimpleSettings.CleanupExpiredResourceGroupsMinutes), TimeSpan.FromMinutes(SimpleSettings.CleanupExpiredResourceGroupsMinutes));
+                }
+                if (_uptime == null)
+                {
+                    _uptime = Stopwatch.StartNew();
+                }
             }
         }
 
@@ -75,20 +75,20 @@ namespace SimpleWAWS.Code
             });
         }
 
-        public void DeleteResourceGroup(ResourceGroup resourceGroup)
+        public async Task DeleteResourceGroup(ResourceGroup resourceGroup)
         {
-            ResourceGroup temp;
-            if (this.ResourceGroupsInUse.TryRemove(resourceGroup.UserId, out temp))
+            ///TODO: Add checks to ensure this is being called only if there RG has expired
+            if ((await StorageHelper.UnAssignResourceGroup(resourceGroup.UserId)))
             {
-                SimpleTrace.TraceInformation("{0} removed for user {1}", temp.CsmId, resourceGroup.UserId);
+                SimpleTrace.TraceInformation("resourcegroup removed for user {0}", resourceGroup.UserId);
             }
             else
             {
-                SimpleTrace.TraceError("No resourcegroup checked out for {0}", temp.UserId);
+                SimpleTrace.TraceError("No resourcegroup checked out for {0}", resourceGroup.UserId);
             }
         }
 
-        private void HandleBackgroundOperation(BackgroundOperation operation)
+        private async Task HandleBackgroundOperation(BackgroundOperation operation)
         {
             BackgroundOperation temp;
             if (!BackgroundInternalOperations.TryRemove(operation.OperationId, out temp)) return;
@@ -124,7 +124,7 @@ namespace SimpleWAWS.Code
                     var readyToAddRg = resourceGroupTask.Task.Result;
                     if (readyToAddRg.UserId != null)
                     {
-                        if (!ResourceGroupsInUse.TryAdd(readyToAddRg.UserId, readyToAddRg))
+                        if (await StorageHelper.AssignResourceGroup(readyToAddRg.UserId, readyToAddRg))
                         {
                             DeleteAndCreateResourceGroupOperation(readyToAddRg);
                         }
@@ -133,14 +133,14 @@ namespace SimpleWAWS.Code
                     {
                         if (!string.IsNullOrEmpty(readyToAddRg.DeployedTemplateName) && !string.IsNullOrEmpty(readyToAddRg.SiteGuid))
                         {
-                            if (!FreeResourceGroups.ContainsKey(readyToAddRg.DeployedTemplateName))
-                            {
-                                readyToAddRg.TemplateName = readyToAddRg.DeployedTemplateName;
-                                FreeResourceGroups.GetOrAdd(readyToAddRg.DeployedTemplateName, new ConcurrentQueue<ResourceGroup>());
-                            }
+                            //if (!FreeResourceGroups.ContainsKey(readyToAddRg.DeployedTemplateName))
+                            //{
+                            //    readyToAddRg.TemplateName = readyToAddRg.DeployedTemplateName;
+                            //    FreeResourceGroups.GetOrAdd(readyToAddRg.DeployedTemplateName, new ConcurrentQueue<ResourceGroup>());
+                            //}
                             readyToAddRg.TemplateName = readyToAddRg.DeployedTemplateName;
-                            FreeResourceGroups[readyToAddRg.DeployedTemplateName].Enqueue(readyToAddRg);
-                        }
+                            await StorageHelper.AddQueueMessage(readyToAddRg.QueueName, readyToAddRg);
+                         }
                     }
                     break;
 
@@ -176,15 +176,15 @@ namespace SimpleWAWS.Code
         {
             try
             {
-                _jobHost.DoWork(() =>
+                _jobHost.DoWork(async () =>
                 {
-                    var resources = this.ResourceGroupsInUse
+                    var resources = (await StorageHelper.GetInUseResourceGroups())
                         .Select(e => e.Value)
                         .Where(rg => (int)rg.TimeLeft.TotalSeconds == 0);
 
                     foreach (var resource in resources)
                     {
-                        DeleteResourceGroup(resource);
+                        await DeleteResourceGroup(resource);
                     }
 
                 });
@@ -222,7 +222,7 @@ namespace SimpleWAWS.Code
                 foreach (var subscription in subscriptions)
                 {
                     var sub = new Subscription(subscription);
-                    sub.ResourceGroups = LoadedResourceGroups.Where(r => r.SubscriptionId == sub.SubscriptionId);
+                    sub.ResourceGroups = (await LoadedResourceGroups()).Where(r => r.SubscriptionId == sub.SubscriptionId);
                     var trialsubresult = sub.GetSubscriptionStats();
                     toDelete.AddRange(trialsubresult.ToDelete);
                     ready.AddRange(trialsubresult.Ready);
@@ -231,7 +231,7 @@ namespace SimpleWAWS.Code
                 var rand = new Random();
                 foreach (var resourceGroup in toDelete)
                 {
-                    RemoveFromFreeResourcesQueue(resourceGroup);
+                    //RemoveFromFreeResourcesQueue(resourceGroup);
                     DeleteResourceGroupOperation(resourceGroup);
                     deletedDuplicateRGs++;
                 }
@@ -243,17 +243,17 @@ namespace SimpleWAWS.Code
 
                     for (int i = 1; i <= delta; i++)
                     {
-                        SimpleTrace.TraceInformation($"Template {template.Name} creating {1} of {delta}");
+                        SimpleTrace.TraceInformation($"Template {template.Name} creating {i} of {delta}");
                         CreateResourceGroupOperation(template.Config.Subscriptions.OrderBy(a => Guid.NewGuid()).First(), template.Config.Regions.OrderBy(a => Guid.NewGuid()).First(), template.Name);
                         createdMissingTemplates++;
                     }
                     for (int i = 1; i <= -delta; i++)
                     {
-                        ResourceGroup resourceGroup;
-                        if (FreeResourceGroups[template.Name].TryPeek(out resourceGroup))
+                        var resourceGroup= await StorageHelper.GetQueueMessage(template.QueueName);
+                        if (resourceGroup!=null)
                         {
-                            SimpleTrace.TraceInformation($"Template {template.Name} deleting {1} of {-delta}->{resourceGroup.CsmId}");
-                            RemoveFromFreeResourcesQueue(resourceGroup);
+                            SimpleTrace.TraceInformation($"Template {template.Name} deleting {i} of {-delta}->{resourceGroup.CsmId}");
+                            //RemoveFromFreeResourcesQueue(resourceGroup);
                             DeleteResourceGroupOperation(resourceGroup);
                         }
                     }
@@ -270,39 +270,38 @@ namespace SimpleWAWS.Code
             }
         }
 
-        private void RemoveFromFreeResourcesQueue(ResourceGroup resourceGroup)
-        {
-            SimpleTrace.TraceInformation($"Removing {resourceGroup.CsmId} from FreeResourceQueue");
-            if (this.FreeResourceGroups[resourceGroup.TemplateName].ToList().Any(r => string.Equals(r.CsmId, resourceGroup.CsmId, StringComparison.OrdinalIgnoreCase)))
-            {
-                SimpleTrace.TraceInformation($"Didnt find {resourceGroup.CsmId} in FreeResourceQueue. Dequeueing");
-                var dequeueCount = this.FreeResourceGroups[resourceGroup.TemplateName].Count;
-                SimpleTrace.TraceInformation($"Searching for {resourceGroup.CsmId} in FreeResourceQueue for max dequeueCount: {dequeueCount}");
+        //private void RemoveFromFreeResourcesQueue(ResourceGroup resourceGroup)
+        //{
+        //    SimpleTrace.TraceInformation($"Removing {resourceGroup.CsmId} from FreeResourceQueue");
+        //    if (StorageHelper.PeekQueueMessages(resourceGroup.QueueName).GetAwaiter().GetResult().ToList().Any(r => string.Equals(r.CsmId, resourceGroup.CsmId, StringComparison.OrdinalIgnoreCase)))
+        //    {
+        //        SimpleTrace.TraceInformation($"Didnt find {resourceGroup.CsmId} in FreeResourceQueue. Dequeueing");
+        //        var dequeueCount = StorageHelper.GetQueueCount(resourceGroup.QueueName).ConfigureAwait(false).GetAwaiter().GetResult();
+        //        SimpleTrace.TraceInformation($"Searching for {resourceGroup.CsmId} in FreeResourceQueue for max dequeueCount: {dequeueCount}");
 
-                ResourceGroup temp;
-                
-                while (dequeueCount-- >= 0 && (this.FreeResourceGroups[resourceGroup.TemplateName].TryDequeue(out temp)))
-                {
-                    SimpleTrace.TraceInformation($"Attempt {dequeueCount} looking for {resourceGroup.CsmId} in FreeResourceQueue. Found {temp.CsmId}");
+        //        ResourceGroup temp = StorageHelper.GetQueueMessage(resourceGroup.QueueName).ConfigureAwait(false).GetAwaiter().GetResult();
 
-                    if (string.Equals(temp.ResourceGroupName, resourceGroup.ResourceGroupName,
-                        StringComparison.OrdinalIgnoreCase))
-                    {
-                        SimpleTrace.TraceInformation($"Searching for {resourceGroup.CsmId} in FreeResourceQueue. Matched {temp.CsmId} . Returning");
-                        return;
-                    }
-                    else
-                    {
-                        SimpleTrace.TraceInformation($"Searching for {resourceGroup.CsmId} in FreeResourceQueue. Didnt match {temp.CsmId} . Enqueueing");
-                        this.FreeResourceGroups[resourceGroup.TemplateName].Enqueue(temp);
-                    }
-                }
-            }
-            else
-            {
-                SimpleTrace.TraceInformation($"Didnt find {resourceGroup.CsmId} in FreeResourceQueue");
-            }
-        }
+        //        while (dequeueCount-- >= 0 && temp != null)
+        //        {
+        //            SimpleTrace.TraceInformation($"Attempt {dequeueCount} looking for {resourceGroup.CsmId} in FreeResourceQueue. Found {temp.CsmId}");
+
+        //            if (string.Equals(temp.ResourceGroupName, resourceGroup.ResourceGroupName, StringComparison.OrdinalIgnoreCase))
+        //            {
+        //                SimpleTrace.TraceInformation($"Searching for {resourceGroup.CsmId} in FreeResourceQueue. Matched {temp.CsmId} . Returning");
+        //                return;
+        //            }
+        //            else
+        //            {
+        //                SimpleTrace.TraceInformation($"Searching for {resourceGroup.CsmId} in FreeResourceQueue. Didnt match {temp.CsmId} . Enqueueing");
+        //                StorageHelper[resourceGroup.TemplateName].Enqueue(temp);
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        SimpleTrace.TraceInformation($"Didnt find {resourceGroup.CsmId} in FreeResourceQueue");
+        //    }
+        //}
 
         private void SubscriptionCleanup(Subscription subscription)
         {
@@ -329,9 +328,9 @@ namespace SimpleWAWS.Code
         private void LogQueueStatistics()
         {
             AppInsights.TelemetryClient.TrackEvent("StartLoggingQueueStats", null);
-            var freeSitesCount = FreeResourceGroups.Values.SelectMany(e => e).ToList().Count(sub => sub.SubscriptionType == SubscriptionType.AppService);
-            var inUseSites = ResourceGroupsInUse.Select(s => s.Value).Where(sub => sub.SubscriptionType == SubscriptionType.AppService);
-            var resourceGroups = inUseSites as IList<ResourceGroup> ?? inUseSites.ToList();
+            //var freeSitesCount = FreeResourceGroups.Values.SelectMany(e => e).ToList().Count(sub => sub.SubscriptionType == SubscriptionType.AppService);
+            //var inUseSites = ResourceGroupsInUse.Select(s => s.Value).Where(sub => sub.SubscriptionType == SubscriptionType.AppService);
+            var resourceGroups = StorageHelper.GetAllFreeResources().ConfigureAwait(false).GetAwaiter().GetResult();
             var inUseSitesCount = resourceGroups.Count();
             var inUseFunctionsCount = resourceGroups.Count(res => res.AppService == AppService.Function);
             var inUseWebsitesCount = resourceGroups.Count(res => res.AppService == AppService.Web);
@@ -339,13 +338,13 @@ namespace SimpleWAWS.Code
             var inUseApiAppCount = resourceGroups.Count(res => res.AppService == AppService.Api);
             var inProgress = ResourceGroupsInProgress.Select(s => s.Value).Count();
             var backgroundOperations = BackgroundInternalOperations.Select(s => s.Value).Count();
-            var freeLinuxResources = FreeResourceGroups.Values.SelectMany(e => e).ToList().Count(sub => sub.SubscriptionType == SubscriptionType.Linux);
-            var freeVSCodeLinuxResources = FreeResourceGroups.Values.SelectMany(e => e).ToList().Count(sub => sub.SubscriptionType == SubscriptionType.VSCodeLinux);
+            //var freeLinuxResources = FreeResourceGroups.Values.SelectMany(e => e).ToList().Count(sub => sub.SubscriptionType == SubscriptionType.Linux);
+            //var freeVSCodeLinuxResources = FreeResourceGroups.Values.SelectMany(e => e).ToList().Count(sub => sub.SubscriptionType == SubscriptionType.VSCodeLinux);
 
-            var inUseLinuxResources = ResourceGroupsInUse.Select(s => s.Value).Count(sub => sub.SubscriptionType == SubscriptionType.Linux);
-            var inUseVSCodeLinuxResources = ResourceGroupsInUse.Select(s => s.Value).Count(sub => sub.SubscriptionType == SubscriptionType.VSCodeLinux);
+            //var inUseLinuxResources = ResourceGroupsInUse.Select(s => s.Value).Count(sub => sub.SubscriptionType == SubscriptionType.Linux);
+            //var inUseVSCodeLinuxResources = ResourceGroupsInUse.Select(s => s.Value).Count(sub => sub.SubscriptionType == SubscriptionType.VSCodeLinux);
 
-            AppInsights.TelemetryClient.TrackMetric("freeSites", freeSitesCount);
+            //AppInsights.TelemetryClient.TrackMetric("freeSites", freeSitesCount);
             AppInsights.TelemetryClient.TrackMetric("inUseSites", inUseSitesCount);
             AppInsights.TelemetryClient.TrackMetric("inUseFunctionsCount", inUseFunctionsCount);
             AppInsights.TelemetryClient.TrackMetric("inUseWebsitesCount", inUseWebsitesCount);
@@ -355,10 +354,10 @@ namespace SimpleWAWS.Code
 
             AppInsights.TelemetryClient.TrackMetric("inProgressOperations", inProgress);
             AppInsights.TelemetryClient.TrackMetric("backgroundOperations", backgroundOperations);
-            AppInsights.TelemetryClient.TrackMetric("freeLinuxResources", freeLinuxResources);
-            AppInsights.TelemetryClient.TrackMetric("inUseLinuxResources", inUseLinuxResources);
-            AppInsights.TelemetryClient.TrackMetric("freeVSCodeLinuxResources", freeVSCodeLinuxResources);
-            AppInsights.TelemetryClient.TrackMetric("inUseVSCodeLinuxResources", inUseVSCodeLinuxResources);
+            //AppInsights.TelemetryClient.TrackMetric("freeLinuxResources", freeLinuxResources);
+            //AppInsights.TelemetryClient.TrackMetric("inUseLinuxResources", inUseLinuxResources);
+            //AppInsights.TelemetryClient.TrackMetric("freeVSCodeLinuxResources", freeVSCodeLinuxResources);
+            //AppInsights.TelemetryClient.TrackMetric("inUseVSCodeLinuxResources", inUseVSCodeLinuxResources);
         }
 
         private void DeleteResourceGroupOperation(ResourceGroup resourceGroup)

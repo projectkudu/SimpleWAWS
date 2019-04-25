@@ -1,4 +1,5 @@
-﻿using SimpleWAWS.Code;
+﻿using Newtonsoft.Json;
+using SimpleWAWS.Code;
 using System;
 using System.Linq;
 
@@ -6,7 +7,7 @@ namespace SimpleWAWS.Models
 {
     public abstract class BaseResource
     {
-        public string SubscriptionId { get; protected set; }
+        public string SubscriptionId { get; set; }
         public SubscriptionType SubscriptionType
         {
             get
@@ -25,7 +26,7 @@ namespace SimpleWAWS.Models
 
         public abstract string CsmId { get; }
         public virtual string TemplateName { get; set; }
-
+        [JsonConstructor]
         public BaseResource(string subscriptionId, string resourceGroupName)
         {
             this.SubscriptionId = subscriptionId;

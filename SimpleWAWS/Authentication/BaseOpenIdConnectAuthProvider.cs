@@ -138,46 +138,46 @@ namespace SimpleWAWS.Authentication
             }
             return token_endpoint.Replace("/common/", String.Format("/{0}/", tenantName));
         }
-        private string GetJwtFromCode(string codeFromPost, HttpContextBase context)
-        {
-            AADOAuth2AccessToken accessToken = new AADOAuth2AccessToken();
-            if (_tokenCaches.TryGetValue(codeFromPost, out accessToken) )
-            {
-                if (accessToken.IsValid())
-                return accessToken.access_token;
-            }
+        //private string GetJwtFromCode(string codeFromPost, HttpContextBase context)
+        //{
+        //    AADOAuth2AccessToken accessToken = new AADOAuth2AccessToken();
+        //    if (_tokenCaches.TryGetValue(codeFromPost, out accessToken) )
+        //    {
+        //        if (accessToken.IsValid())
+        //        return accessToken.access_token;
+        //    }
 
-            // "token_endpoint":"https://login.windows-ppe.net/common/oauth2/token"
-            var tokenRequestUri = GetTokenEndpoint(AuthSettings.AADTokenEndpoint) ;
-            string jwt = GetJwt(audience: tokenRequestUri);
-            var redirectUri = string.Format(CultureInfo.InvariantCulture, "https://{0}/", context.Request.Headers["HOST"]);
-            var payload = new StringBuilder("grant_type=authorization_code");
-            payload.AppendFormat("&redirect_uri={0}", WebUtility.UrlEncode(SimpleWAWS.Models.Util.PunicodeUrl(redirectUri)));
-            payload.AppendFormat("&code={0}", WebUtility.UrlEncode(codeFromPost));
-            payload.AppendFormat("&client_assertion_type={0}", WebUtility.UrlEncode("urn:ietf:params:oauth:client-assertion-type:jwt-bearer"));
-            payload.AppendFormat("&client_assertion={0}", WebUtility.UrlEncode(jwt));
+        //    // "token_endpoint":"https://login.windows-ppe.net/common/oauth2/token"
+        //    var tokenRequestUri = GetTokenEndpoint(AuthSettings.AADTokenEndpoint) ;
+        //    string jwt = GetJwt(audience: tokenRequestUri);
+        //    var redirectUri = string.Format(CultureInfo.InvariantCulture, "https://{0}/", context.Request.Headers["HOST"]);
+        //    var payload = new StringBuilder("grant_type=authorization_code");
+        //    payload.AppendFormat("&redirect_uri={0}", WebUtility.UrlEncode(SimpleWAWS.Models.Util.PunicodeUrl(redirectUri)));
+        //    payload.AppendFormat("&code={0}", WebUtility.UrlEncode(codeFromPost));
+        //    payload.AppendFormat("&client_assertion_type={0}", WebUtility.UrlEncode("urn:ietf:params:oauth:client-assertion-type:jwt-bearer"));
+        //    payload.AppendFormat("&client_assertion={0}", WebUtility.UrlEncode(jwt));
 
-            var content = new StringContent(payload.ToString(), Encoding.UTF8, "application/x-www-form-urlencoded");
-            using (var client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Add("client-request-id", Guid.NewGuid().ToString());
-                client.DefaultRequestHeaders.Add("User-Agent", "Try App Service");
+        //    var content = new StringContent(payload.ToString(), Encoding.UTF8, "application/x-www-form-urlencoded");
+        //    using (var client = new HttpClient())
+        //    {
+        //        client.DefaultRequestHeaders.Add("client-request-id", Guid.NewGuid().ToString());
+        //        client.DefaultRequestHeaders.Add("User-Agent", "Try App Service");
 
-                using (var response =  client.PostAsync(tokenRequestUri, content).GetAwaiter().GetResult())
-                {
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        return HandleOAuthError(response, tokenRequestUri).GetAwaiter().GetResult();
-                    }
+        //        using (var response =  client.PostAsync(tokenRequestUri, content).ConfigureAwait(false).GetAwaiter().GetResult())
+        //        {
+        //            if (!response.IsSuccessStatusCode)
+        //            {
+        //                return HandleOAuthError(response, tokenRequestUri).ConfigureAwait(false).GetAwaiter().GetResult();
+        //            }
 
-                    var result = response.Content.ReadAsAsync<AADOAuth2AccessToken>().GetAwaiter().GetResult();
-                    //result.TenantId = tenantId != "common" ? tenantId : GetTenantIdFromToken(result.access_token);
-                    _tokenCaches.Add(codeFromPost, result);
-                    return result.access_token;
-                }
-            }
-            //return null;
-        }
+        //            var result = response.Content.ReadAsAsync<AADOAuth2AccessToken>().ConfigureAwait(false).GetAwaiter().GetResult();
+        //            //result.TenantId = tenantId != "common" ? tenantId : GetTenantIdFromToken(result.access_token);
+        //            _tokenCaches.Add(codeFromPost, result);
+        //            return result.access_token;
+        //        }
+        //    }
+        //    //return null;
+        //}
         static string GetJwt(string audience)
         {
 

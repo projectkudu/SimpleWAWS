@@ -94,6 +94,10 @@ namespace SimpleWAWS.Models
         {
             return _templatesList;
         }
+        public static AppService GetAppService(string templateName)
+        {
+            return _templatesList.First(a=> a.Name==templateName).AppService;
+        }
         public static Dictionary<string, SubscriptionType> GetSubscriptionTypeList()
         {
             return _subTypeList;

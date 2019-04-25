@@ -73,7 +73,7 @@ namespace SimpleWAWS.Code
         private void DeleteResourceGroup(ResourceGroup resourceGroup)
         {
             SimpleTrace.Diagnostics.Information("Deleting expired resourceGroup {resourceGroupId}", resourceGroup.CsmId);
-            HostingEnvironment.QueueBackgroundWorkItem(_ => _backgroundQueueManager.DeleteResourceGroup(resourceGroup));
+            HostingEnvironment.QueueBackgroundWorkItem(_ => _backgroundQueueManager.DeleteResourceGroup(resourceGroup).ConfigureAwait(false));
         }
 
         // ARM
@@ -88,21 +88,22 @@ namespace SimpleWAWS.Code
             var userId = userIdentity.Name;
             try
             {
-                if (_backgroundQueueManager.ResourceGroupsInUse.TryGetValue(userId, out resourceGroup))
+                if (await StorageHelper.GetAssignedResourceGroup(userId)!=null)
                 {
                     throw new MoreThanOneResourceGroupException();
                 }
                 bool resourceGroupFound = false;
-                    SimpleTrace.TraceInformation($"Searching vscodequeue for template '{template}': Count of templates:{_backgroundQueueManager.FreeResourceGroups.Count} ");
+                    SimpleTrace.TraceInformation($"Searching vscodequeue for template '{template}': Count of templates:{await StorageHelper.GetQueueCount(template.QueueName)} ");
 
-                if (_backgroundQueueManager.FreeResourceGroups.ContainsKey(template.Name))
+                if (await StorageHelper.GetQueueCount(template.QueueName)>0)
                 {
                     var totalTries = 3;
                     var tries = 0;
                     //bool siteFound = false;
                     while (tries++ < totalTries && !resourceGroupFound)
                     {
-                        resourceGroupFound = _backgroundQueueManager.FreeResourceGroups[template.Name].TryDequeue(out resourceGroup);
+                        resourceGroup = await StorageHelper.GetQueueMessage(template.QueueName);
+                        resourceGroupFound = (resourceGroup != null);
                         if (resourceGroupFound)
                         {
                             //    try
@@ -137,13 +138,13 @@ namespace SimpleWAWS.Code
 
                     resourceGroup = await func(resourceGroup, process);
 
-                    var addedResourceGroup = _backgroundQueueManager.ResourceGroupsInUse.GetOrAdd(userId, resourceGroup);
-                    if (addedResourceGroup.ResourceGroupName == resourceGroup.ResourceGroupName)
+                    var addedResourceGroup = await StorageHelper.AssignResourceGroup(userId, resourceGroup);
+                    if (addedResourceGroup)
                     {
                         //this means we just added the resourceGroup for the user.
                         //Removing this line since we have already marked the resourcegroup as in use by the user
                         //await addedResourceGroup.MarkInUse(userId, appService);
-                        return addedResourceGroup;
+                        return resourceGroup;
                     }
                     else
                     {
@@ -378,34 +379,33 @@ namespace SimpleWAWS.Code
         // ARM
         public async Task<ResourceGroup> GetResourceGroup(string userId)
         {
-            ResourceGroup resourceGroup;
-            _backgroundQueueManager.ResourceGroupsInUse.TryGetValue(userId, out resourceGroup);
-            if (resourceGroup == null)
-            {
-                InProgressOperation temp;
-                if (_backgroundQueueManager.ResourceGroupsInProgress.TryGetValue(userId, out temp))
-                {
-                    try
-                    {
-                        await temp.Task;
-                    }
-                    catch (TaskCanceledException)
-                    {
-                        //expected
-                    }
-                    catch (Exception e)
-                    {
-                        SimpleTrace.Diagnostics.Fatal(e, "Error in GetResourceGroup, Count: {Count}", Interlocked.Increment(ref _getResourceGroupErrorCount));
-                    }
-                    _backgroundQueueManager.ResourceGroupsInUse.TryGetValue(userId, out resourceGroup);
-                }
-            }
+            ResourceGroup resourceGroup= await StorageHelper.GetAssignedResourceGroup(userId);
+            //if (resourceGroup == null)
+            //{
+            //    InProgressOperation temp;
+            //    if (_backgroundQueueManager.ResourceGroupsInProgress.TryGetValue(userId, out temp))
+            //    {
+            //        try
+            //        {
+            //            await temp.Task;
+            //        }
+            //        catch (TaskCanceledException)
+            //        {
+            //            //expected
+            //        }
+            //        catch (Exception e)
+            //        {
+            //            SimpleTrace.Diagnostics.Fatal(e, "Error in GetResourceGroup, Count: {Count}", Interlocked.Increment(ref _getResourceGroupErrorCount));
+            //        }
+            //        _backgroundQueueManager.ResourceGroupsInUse.TryGetValue(userId, out resourceGroup);
+            //    }
+            //}
             return resourceGroup;
         }
         public async Task<ResourceGroup> GetResourceGroupFromSiteName(string siteName, string resourceId)
         {
             ResourceGroup resourceGroup;
-            resourceGroup = _backgroundQueueManager.LoadedResourceGroups.Where(a => a.Site.SiteName.Equals(siteName,StringComparison.OrdinalIgnoreCase) && a.ResourceGroupName.Equals(resourceId, StringComparison.OrdinalIgnoreCase)).First();
+            resourceGroup = (await _backgroundQueueManager.LoadedResourceGroups()).Where(a => a.Site.SiteName.Equals(siteName,StringComparison.OrdinalIgnoreCase) && a.ResourceGroupName.Equals(resourceId, StringComparison.OrdinalIgnoreCase)).First();
             return resourceGroup;
         }
         // ARM
@@ -413,12 +413,12 @@ namespace SimpleWAWS.Code
         {
             using (await _lock.LockAsync())
             {
-                foreach (var template in _backgroundQueueManager.FreeResourceGroups.Keys)
+                foreach (var queue in await StorageHelper.ListFreeQueues())
                 {
-                    while (!_backgroundQueueManager.FreeResourceGroups[template].IsEmpty)
+                    while (await StorageHelper.GetQueueCount(queue.Name)>0)
                     {
-                        ResourceGroup temp;
-                        if (_backgroundQueueManager.FreeResourceGroups[template].TryDequeue(out temp))
+                        ResourceGroup temp =await StorageHelper.GetQueueMessage(queue.Name);
+                        if (temp !=null)
                         {
                             DeleteResourceGroup(temp);
                         }
@@ -430,52 +430,33 @@ namespace SimpleWAWS.Code
         // ARM
         public async Task DropAndReloadFromAzure()
         {
+            await ResetAllFreeResourceGroups();
             using (await _lock.LockAsync())
             {
-                foreach (var template in _backgroundQueueManager.FreeResourceGroups.Keys)
-                {
-                    while (!_backgroundQueueManager.FreeResourceGroups[template].IsEmpty)
-                    {
-                        ResourceGroup temp;
-                        if (_backgroundQueueManager.FreeResourceGroups[template].TryDequeue(out temp))
-                        {
-                            DeleteResourceGroup(temp);
-                        }
-                    }
-                }
-                _backgroundQueueManager.ResourceGroupsInUse.Clear();
+                ///TODO:check if this maintians user state in table
+                //_backgroundQueueManager.ResourceGroupsInUse.Clear();
                 await LoadAzureResources();
             }
         }
 
         // ARM
-        public void DeleteResourceGroup(string userId)
+        public async Task DeleteResourceGroup(string userId)
         {
-            ResourceGroup resourceGroup;
-            _backgroundQueueManager.ResourceGroupsInUse.TryGetValue(userId, out resourceGroup);
+            ResourceGroup resourceGroup = await StorageHelper.GetAssignedResourceGroup(userId);
 
             if (resourceGroup != null)
             {
                 DeleteResourceGroup(resourceGroup);
             }
         }
-        public IEnumerable<ResourceGroup> GetAllLoadedResourceGroups()
+        public async Task<IReadOnlyCollection<ResourceGroup>> GetAllFreeResourceGroups()
         {
-            return _instance._backgroundQueueManager.LoadedResourceGroups;
-        }
-
-        public IReadOnlyCollection<ResourceGroup> GetAllFreeResourceGroups()
-        {
-            return _backgroundQueueManager.FreeResourceGroups.Values.SelectMany(e => e).ToList(); 
-        }
-        public ResourceGroup GetMonitoringToolResourceGroup()
-        {
-            return _backgroundQueueManager.MonitoringResourceGroup;
+            return await StorageHelper.GetAllFreeResources(); 
         }
         // ARM
-        public IReadOnlyCollection<ResourceGroup> GetAllInUseResourceGroups()
+        public async Task<IReadOnlyCollection<ResourceGroup>> GetAllInUseResourceGroups()
         {
-            return _backgroundQueueManager.ResourceGroupsInUse.Select(s => s.Value).ToList();
+            return (await StorageHelper.GetInUseResourceGroups()).Select(s => s.Value).ToList();
         }
 
         public IReadOnlyCollection<InProgressOperation> GetAllInProgressResourceGroups()

@@ -53,5 +53,9 @@ namespace SimpleWAWS.Models
         public string SiteGuid { get; set; }
         [JsonProperty(PropertyName = "loginSession", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string LoginSession { get; set; }
+        [JsonProperty(PropertyName = "hostName", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string HostName { get; set; }
+        [JsonProperty(PropertyName = "scmHostName", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string ScmHostName { get; set; }
     }
 }

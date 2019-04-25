@@ -48,7 +48,7 @@ namespace SimpleWAWS.Controllers
                 SimpleTrace.TraceInformation($"GetVSCodeResource called with loginSessionCookie:{loginSessionCookie}");
                 {
 
-                    var resourceGroup = resourceManager.GetAllInUseResourceGroups().First(a => a.UIResource.LoginSession.Equals(loginSessionCookie,StringComparison.InvariantCultureIgnoreCase));
+                    var resourceGroup = (await resourceManager.GetAllInUseResourceGroups()).First(a => a.UIResource.LoginSession.Equals(loginSessionCookie,StringComparison.InvariantCultureIgnoreCase));
                     var returning = resourceGroup == null ? null : resourceGroup.UIResource;
                     try
                     {
@@ -102,7 +102,7 @@ namespace SimpleWAWS.Controllers
         public async Task<HttpResponseMessage> DeleteUserResource(string userIdentity)
         {
             var resourceManager = await ResourcesManager.GetInstanceAsync();
-            resourceManager.DeleteResourceGroup(userIdentity);
+            await resourceManager.DeleteResourceGroup(userIdentity);
             return Request.CreateResponse(HttpStatusCode.Accepted,$"Queued up deletes for resource assigned to: {userIdentity}");
         }
 
@@ -112,8 +112,8 @@ namespace SimpleWAWS.Controllers
             return SecurityManager.AdminOnly(async () =>
             {
                 var resourceManager = await ResourcesManager.GetInstanceAsync();
-                var freeSites = resourceManager.GetAllFreeResourceGroups().Where(sub => sub.SubscriptionType == SubscriptionType.AppService);
-                var inUseSites = resourceManager.GetAllInUseResourceGroups().Where(sub => sub.SubscriptionType == SubscriptionType.AppService);
+                var freeSites = (await resourceManager.GetAllFreeResourceGroups()).Where(sub => sub.SubscriptionType == SubscriptionType.AppService);
+                var inUseSites = (await resourceManager.GetAllInUseResourceGroups()).Where(sub => sub.SubscriptionType == SubscriptionType.AppService);
                 var inUseSitesList = inUseSites as IList<ResourceGroup> ?? inUseSites.ToList();
                 var inUseSitesCount = inUseSitesList.Count();
                 var inUseFunctionsCount = inUseSitesList.Count(res => res.AppService == AppService.Function);
@@ -122,14 +122,14 @@ namespace SimpleWAWS.Controllers
 
                 var inProgress = resourceManager.GetAllInProgressResourceGroups();
                 var backgroundOperations = resourceManager.GetAllBackgroundOperations();
-                var freeLinuxResources = resourceManager.GetAllFreeResourceGroups().Where(sub => sub.SubscriptionType == SubscriptionType.Linux);
-                var inUseLinuxResources = resourceManager.GetAllInUseResourceGroups().Where(sub => sub.SubscriptionType == SubscriptionType.Linux);
+                var freeLinuxResources = (await resourceManager.GetAllFreeResourceGroups()).Where(sub => sub.SubscriptionType == SubscriptionType.Linux);
+                var inUseLinuxResources = (await resourceManager.GetAllInUseResourceGroups()).Where(sub => sub.SubscriptionType == SubscriptionType.Linux);
                 var freeSitesList = freeSites as IList<ResourceGroup> ?? freeSites.ToList();
                 var freeLinuxSitesList = freeLinuxResources as IList<ResourceGroup> ?? freeLinuxResources.ToList();
                 var inUseLinuxResourcesList = inUseLinuxResources as IList<ResourceGroup> ?? inUseLinuxResources.ToList();
 
-                var freeVSCodeLinuxResources = resourceManager.GetAllFreeResourceGroups().Where(sub => sub.SubscriptionType == SubscriptionType.VSCodeLinux);
-                var inUseVSCodeLinuxResources = resourceManager.GetAllInUseResourceGroups().Where(sub => sub.SubscriptionType == SubscriptionType.VSCodeLinux);
+                var freeVSCodeLinuxResources = (await resourceManager.GetAllFreeResourceGroups()).Where(sub => sub.SubscriptionType == SubscriptionType.VSCodeLinux);
+                var inUseVSCodeLinuxResources = (await resourceManager.GetAllInUseResourceGroups()).Where(sub => sub.SubscriptionType == SubscriptionType.VSCodeLinux);
                 var freeVSCodeLinuxSitesList = freeVSCodeLinuxResources as IList<ResourceGroup> ?? freeVSCodeLinuxResources.ToList();
                 var inUseVSCodeLinuxResourcesList = inUseVSCodeLinuxResources as IList<ResourceGroup> ?? inUseVSCodeLinuxResources.ToList();
 
@@ -338,7 +338,7 @@ namespace SimpleWAWS.Controllers
         public async Task<HttpResponseMessage> DeleteResource()
         {
             var resourceManager = await ResourcesManager.GetInstanceAsync();
-            resourceManager.DeleteResourceGroup(HttpContext.Current.User.Identity.Name);
+            await resourceManager.DeleteResourceGroup(HttpContext.Current.User.Identity.Name);
             return Request.CreateResponse(HttpStatusCode.Accepted, $"Removed any assigned resources to:{ HttpContext.Current.User.Identity.Name }");
         }
 

@@ -49,7 +49,7 @@ namespace SimpleWAWS
                     .Enrich.With(new UserNameEnricher())
                     .Destructure.JsonNetTypes()
                     .WriteTo.File(HostingEnvironment.MapPath("~/app_data/serilganalytics.txt"), restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Verbose, buffered: false)
-                    .WriteTo.ApplicationInsightsEvents(AppInsights.TelemetryClient)
+                    .WriteTo.ApplicationInsights(AppInsights.TelemetryClient,TelemetryConverter.Events,Serilog.Events.LogEventLevel.Verbose)
                     .CreateLogger();
 
                 SimpleTrace.Analytics = analyticsLogger;
@@ -57,7 +57,7 @@ namespace SimpleWAWS
                 var diagnosticsLogger = new LoggerConfiguration()
                     .MinimumLevel.Verbose()
                     .Enrich.With(new UserNameEnricher())
-                    .WriteTo.ApplicationInsightsTraces(AppInsights.TelemetryClient)
+                    .WriteTo.ApplicationInsights(AppInsights.TelemetryClient, TelemetryConverter.Traces, Serilog.Events.LogEventLevel.Verbose)
                     .WriteTo.File(HostingEnvironment.MapPath("~/app_data/serilog.txt"), restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Verbose, buffered:false)
                     //.WriteTo.Logger(lc => lc
                     //    .Filter.ByIncludingOnly(Matching.WithProperty<int>("Count", p => p % 10 == 0))

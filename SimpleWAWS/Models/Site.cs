@@ -58,11 +58,6 @@ namespace SimpleWAWS.Models
             }
         }
 
-        public string GetMobileUrl(string templateName)
-        {
-            return Url + (templateName.Equals("Todo List", StringComparison.OrdinalIgnoreCase) ? "jsclient" : "admin");
-        }
-
         public string ScmUrl
         {
             get
