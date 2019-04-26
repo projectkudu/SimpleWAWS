@@ -56,10 +56,10 @@ namespace SimpleWAWS.Code
                 {
                     _cleanupExpiredResourceGroupsTimer = new Timer(OnExpiredResourceGroupsTimerElapsed, null, TimeSpan.FromMinutes(SimpleSettings.CleanupExpiredResourceGroupsMinutes), TimeSpan.FromMinutes(SimpleSettings.CleanupExpiredResourceGroupsMinutes));
                 }
-                if (_uptime == null)
-                {
-                    _uptime = Stopwatch.StartNew();
-                }
+            }
+            if (_uptime == null)
+            {
+                _uptime = Stopwatch.StartNew();
             }
         }
 

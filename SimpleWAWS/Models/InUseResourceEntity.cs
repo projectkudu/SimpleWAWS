@@ -8,6 +8,6 @@ namespace SimpleWAWS.Models
 {
     public class InUseResourceEntity:TableEntity 
     {
-        public ResourceGroup ResourceGroup { get; set; }
+        public string ResourceGroup { get; set; }
     }
 }

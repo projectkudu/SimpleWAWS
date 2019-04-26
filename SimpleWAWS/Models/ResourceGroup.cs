@@ -75,11 +75,11 @@ namespace SimpleWAWS.Models
         //[JsonIgnore]
         //public LinuxResource LinuxResources { get; set; }
 
-        [JsonIgnore]
-        public IEnumerable<ServerFarm> ServerFarms { get; set; }
+        //[JsonIgnore]
+        //public IEnumerable<ServerFarm> ServerFarms { get; set; }
 
-        [JsonIgnore]
-        public IEnumerable<StorageAccount> StorageAccounts { get; set; }
+        //[JsonIgnore]
+        //public IEnumerable<StorageAccount> StorageAccounts { get; set; }
 
         public string GeoRegion
         {
@@ -157,7 +157,9 @@ namespace SimpleWAWS.Models
                     PublishingUserName = Site.PublishingUserName,
                     PublishingPassword = Site.PublishingPassword,
                     SiteGuid = SiteGuid,
-                    LoginSession = $"{SiteGuid}-{ResourceUniqueId}"
+                    LoginSession = $"{SiteGuid}-{ResourceUniqueId}",
+                    HostName = Site.HostName,
+                    ScmHostName = Site.ScmHostName
                 };
             }
         }
@@ -165,8 +167,8 @@ namespace SimpleWAWS.Models
             : base(subsciptionId, resourceGroupName)
         {
             this.Site = null;
-            this.ServerFarms = Enumerable.Empty<ServerFarm>();
-            this.StorageAccounts = Enumerable.Empty<StorageAccount>();
+            //this.ServerFarms = Enumerable.Empty<ServerFarm>();
+            //this.StorageAccounts = Enumerable.Empty<StorageAccount>();
             this.Tags = new Dictionary<string, string>();
         }
         [JsonConstructor]
@@ -178,8 +180,8 @@ namespace SimpleWAWS.Models
             this.Site.ScmHostName = uiResource.ScmHostName;
             this.Site.PublishingPassword = uiResource.PublishingPassword;
             this.Site.PublishingUserName = uiResource.PublishingUserName;
-            this.ServerFarms = Enumerable.Empty<ServerFarm>();
-            this.StorageAccounts = Enumerable.Empty<StorageAccount>();
+            //this.ServerFarms = Enumerable.Empty<ServerFarm>();
+            //this.StorageAccounts = Enumerable.Empty<StorageAccount>();
             this.Tags = new Dictionary<string, string>();
         }
      
@@ -187,8 +189,8 @@ namespace SimpleWAWS.Models
     : base(subsciptionId, resourceGroupName)
         {
             this.Site = null;
-            this.ServerFarms = Enumerable.Empty<ServerFarm>();
-            this.StorageAccounts = Enumerable.Empty<StorageAccount>();
+            //this.ServerFarms = Enumerable.Empty<ServerFarm>();
+            //this.StorageAccounts = Enumerable.Empty<StorageAccount>();
             this.Tags = new Dictionary<string, string>();
             this.Tags[Constants.GeoRegion] = georegion;
             if (this.Tags.ContainsKey(Constants.TemplateName))

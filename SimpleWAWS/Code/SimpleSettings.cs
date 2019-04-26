@@ -42,8 +42,8 @@ namespace SimpleWAWS.Code
         public static int BackGroundQueueSize{ get { return Int32.Parse(config("50")); } }
         public static string WEBSITE_SLOT_NAME { get { return config(); } }
         public static string WEBSITE_HOSTNAME { get { return config(); } }
-        public static string WEBSITE_HOME_STAMPNAME { get { return config("waws-prod-bay-035"); } }
-        public static string BackgroundQueueManagerStampName { get { return config("waws-prod-bay-035"); } }
+        public static string WEBSITE_HOME_STAMPNAME { get { return config("waws-prod-bay-089"); } }
+        public static string BackgroundQueueManagerStampName { get { return config("waws-prod-bay-089"); } }
         public static string InUseResourceTableName { get { return config("inuseresources"); } }
         public static string PartitionKey { get { return config("A"); } }
         public static string FreeQueuePrefix{ get { return config("free-"); } }

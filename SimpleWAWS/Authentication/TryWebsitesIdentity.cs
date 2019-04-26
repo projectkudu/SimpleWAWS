@@ -9,7 +9,7 @@ namespace SimpleWAWS.Authentication
     {
         public TryWebsitesIdentity(string email, string puid, string issuer)
         {
-            this.Name = string.Format(CultureInfo.InvariantCulture, "{0}#{1}", issuer, email);
+            this.Name = string.Format(CultureInfo.InvariantCulture, "{0}^^{1}", issuer, email);
             this.Email = email;
             this.Puid = puid;
             this.Issuer = issuer;

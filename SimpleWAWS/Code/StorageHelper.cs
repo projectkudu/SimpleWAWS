@@ -146,10 +146,13 @@ namespace SimpleWAWS.Models
             var entities = new ConcurrentDictionary<string, ResourceGroup>();
             do
             {
-                var queryResult = await table.ExecuteQuerySegmentedAsync(new TableQuery<InUseResourceEntity> { SelectColumns = new List<string> { "RowKey", "ResourceGroup" } }, token);
+                var queryResult = await table.ExecuteQuerySegmentedAsync(new TableQuery<InUseResourceEntity> { FilterString = $"PartitionKey eq '{SimpleSettings.PartitionKey}'",  SelectColumns = new List<string> { "RowKey", "ResourceGroup" } }, token);
                 foreach (var entry in queryResult.Results)
                 {
-                    entities.GetOrAdd(entry.RowKey,entry.ResourceGroup);
+                    if (entry.ResourceGroup != null)
+                    {
+                        entities.GetOrAdd(entry.RowKey, JsonConvert.DeserializeObject<ResourceGroup>(entry.ResourceGroup));
+                    }
                 }
                 token = queryResult.ContinuationToken;
             } while (token != null);
@@ -159,15 +162,15 @@ namespace SimpleWAWS.Models
 
         public static async Task<ResourceGroup> GetAssignedResourceGroup(string userName)
         {
-            var table = TableClient.GetTableReference(SimpleSettings.InUseResourceTableName);
-            TableContinuationToken token = null;
-            var entities = new ConcurrentDictionary<string, ResourceGroup>();
-            do
-            {
-                var queryResult = await table.ExecuteQuerySegmentedAsync(new TableQuery<InUseResourceEntity> { SelectColumns = new List<string> { "ResourceGroup" },FilterString= $"PartitionKey={SimpleSettings.PartitionKey} and RowKey eq '{userName}'",TakeCount=1 }, token);
-                token = queryResult.ContinuationToken;
-                return queryResult.Results.Count>0 ? queryResult.Results[0].ResourceGroup : null;
-            } while (token != null);
+                var table = TableClient.GetTableReference(SimpleSettings.InUseResourceTableName);
+                TableContinuationToken token = null;
+                var entities = new ConcurrentDictionary<string, ResourceGroup>();
+                do
+                {
+                    var queryResult = await table.ExecuteQuerySegmentedAsync(new TableQuery<InUseResourceEntity> { SelectColumns = new List<string> { "ResourceGroup" }, FilterString = $"PartitionKey eq '{SimpleSettings.PartitionKey}' and RowKey eq '{userName}'", TakeCount = 1 }, token);
+                    token = queryResult.ContinuationToken;
+                    return queryResult.Results.Count > 0 ? JsonConvert.DeserializeObject<ResourceGroup>(queryResult.Results[0].ResourceGroup) : null;
+                } while (token != null);
         }
 
         public static async Task<bool> UnAssignResourceGroup(string userName)
@@ -177,7 +180,7 @@ namespace SimpleWAWS.Models
             var entities = new ConcurrentDictionary<string, ResourceGroup>();
             do
             {
-                var queryResult = await table.ExecuteQuerySegmentedAsync(new TableQuery<InUseResourceEntity> { FilterString = $"PartitionKey={SimpleSettings.PartitionKey} and RowKey eq '{userName}'", TakeCount = 1 }, token);
+                var queryResult = await table.ExecuteQuerySegmentedAsync(new TableQuery<InUseResourceEntity> { FilterString = $"PartitionKey eq '{SimpleSettings.PartitionKey}' and RowKey eq '{userName}'", TakeCount = 1 }, token);
                 token = queryResult.ContinuationToken;
                 foreach (var item in queryResult)
                 {
@@ -190,15 +193,21 @@ namespace SimpleWAWS.Models
         }
         public static async Task<bool> AssignResourceGroup(string userName, ResourceGroup rg)
         {
-            var table = TableClient.GetTableReference(SimpleSettings.InUseResourceTableName);
- 
-                    var oper = TableOperation.InsertOrReplace(
-                        new InUseResourceEntity { PartitionKey=SimpleSettings.PartitionKey, RowKey=userName, ResourceGroup=rg});
-                    var x =await table.ExecuteAsync(oper);
-            if (x.Result != null)
-                return true;
-            else     
+            try
+            {
+                var table = TableClient.GetTableReference(SimpleSettings.InUseResourceTableName);
+
+                var oper = TableOperation.InsertOrReplace(
+                    new InUseResourceEntity { PartitionKey = SimpleSettings.PartitionKey, RowKey = userName, ResourceGroup =JsonConvert.SerializeObject(rg) });
+                var x = await table.ExecuteAsync(oper);
+                if (x.Result != null)
+                    return true;
+                else
+                    return false;
+            } catch (Exception ex)
+            {
                 return false;
+            }
         }
     }
 }
