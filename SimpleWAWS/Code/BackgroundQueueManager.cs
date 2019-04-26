@@ -118,18 +118,19 @@ namespace SimpleWAWS.Code
                         DeleteResourceGroupOperation(resourceGroup);
                     }
                     break;
-
-                case OperationType.ResourceGroupPutInDesiredState:
                 case OperationType.ResourceGroupDeleteThenCreate:
-                    var readyToAddRg = resourceGroupTask.Task.Result;
-                    if (readyToAddRg.UserId != null)
+                    var readyToDeleteThenCreateRg = resourceGroupTask.Task.Result;
+                    if (readyToDeleteThenCreateRg.UserId != null)
                     {
-                        if (await StorageHelper.AssignResourceGroup(readyToAddRg.UserId, readyToAddRg))
+                        if (!await StorageHelper.AssignResourceGroup(readyToDeleteThenCreateRg.UserId, readyToDeleteThenCreateRg))
                         {
-                            DeleteAndCreateResourceGroupOperation(readyToAddRg);
+                            DeleteAndCreateResourceGroupOperation(readyToDeleteThenCreateRg);
                         }
                     }
-                    else
+                    break;
+                case OperationType.ResourceGroupPutInDesiredState:
+                    var readyToAddRg = resourceGroupTask.Task.Result;
+                    if (String.IsNullOrEmpty( readyToAddRg.UserId ))
                     {
                         if (!string.IsNullOrEmpty(readyToAddRg.DeployedTemplateName) && !string.IsNullOrEmpty(readyToAddRg.SiteGuid))
                         {
