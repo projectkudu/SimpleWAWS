@@ -135,7 +135,7 @@ namespace SimpleWAWS.Models
         public static async Task<string> UpdatePostDeployAppSettings(Site site)
         {
             SimpleTrace.TraceInformation($"Site AppSettings Update started: for {site.SiteName}->{site.ResourceGroupName}->{site.SubscriptionId}");
-
+            await site.LoadAppSettings();
             site.AppSettings["SITE_GIT_URL"] = site.GitUrlWithCreds;
             site.AppSettings["SITE_BASH_GIT_URL"] = site.BashGitUrlWithCreds;
             var siteguid = Guid.NewGuid().ToString();

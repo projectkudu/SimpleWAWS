@@ -422,8 +422,29 @@ namespace SimpleWAWS.Code.CsmExtensions
             {
                 resourceGroup.Tags.Add(Constants.TemplateName, resourceGroup.TemplateName);
             }
+            if (resourceGroup.SubscriptionType == SubscriptionType.AppService)
+            {
+                if (template != null && template.FileName != null)
+                {
+                    var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+                    var vfsSCMManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
+                    Task scmRedirectUpload = vfsSCMManager.Put("site/applicationHost.xdt", Path.Combine(HostingEnvironment.MapPath(@"~/App_Data"), "applicationHost.xdt"));
+                    var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
+
+                    await Task.WhenAll(scmRedirectUpload);
+                }
+            }
+            if (template.Name.Equals("WordPress", StringComparison.OrdinalIgnoreCase))
+            {
+                await site.UpdateConfig(new { properties = new { scmType = "LocalGit", httpLoggingEnabled = true, localMySqlEnabled = true } });
+            }
+            resourceGroup.Tags[Constants.TemplateName] = template.Name;
+            site.SubscriptionId = resourceGroup.SubscriptionId;
+            //site.AppSettings = new Dictionary<string, string>();
             resourceGroup.Tags.Add(Constants.SiteGuid, siteguid);
-            await resourceGroup.Update();
+
+            await Task.WhenAll(resourceGroup.Update());
+
             SimpleTrace.TraceInformation($"ResourceGroup Templates Tag Updated: with SiteGuid: {siteguid} for {site.SiteName} ->{resourceGroup.ResourceGroupName}->{resourceGroup.SubscriptionId}");
             return site;
         }

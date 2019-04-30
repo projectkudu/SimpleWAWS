@@ -57,7 +57,7 @@ namespace SimpleWAWS.Models
         public bool IsLinux { get { return Name.EndsWith("Web App on Linux"); } }
 
         [JsonProperty(PropertyName = "queueSizeToMaintain")]
-        public int QueueSizeToMaintain { get { return _minQueueSize; } set { _minQueueSize = Math.Min(value, _minQueueSize); } }
+        public int QueueSizeToMaintain { get { return _minQueueSize; } set { _minQueueSize = Math.Max(value, _minQueueSize); } }
         public int CurrentQueueSize { get; set; }
         public int ItemstoCreate { get { return QueueSizeToMaintain - Math.Max(CurrentQueueSize, ResourceGroupsCreated); } }
         public int ResourceGroupsCreated { get; set; }

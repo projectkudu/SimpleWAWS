@@ -252,7 +252,7 @@ namespace SimpleWAWS.Controllers
             }
             else if (template.AppService.Equals(AppService.Containers))
             {
-                var containersTemplate = ContainersTemplate.GetContainersTemplate(template.Name);
+                var containersTemplate = ContainersTemplate.DefaultContainersTemplate(template.Name);
                 containersTemplate.DockerContainer = template.DockerContainer;
                 tempTemplate = containersTemplate;
             }
@@ -308,7 +308,7 @@ namespace SimpleWAWS.Controllers
                         resourceGroup = await resourceManager.ActivateFunctionApp(tempTemplate, identity, anonymousUserName);
                         break;
                     case AppService.Containers:
-                        resourceGroup = await resourceManager.ActivateContainersResource(tempTemplate as ContainersTemplate, identity, anonymousUserName);
+                        resourceGroup = await resourceManager.ActivateContainersResource(tempTemplate, identity, anonymousUserName);
                         break;
                 }
                 try

@@ -208,42 +208,44 @@ namespace SimpleWAWS.Code
                             AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, "NA", template.Name, resourceGroup.ResourceUniqueId, temp.ToString());
 
                     var site = resourceGroup.Site;
-                    if (template != null && template.FileName != null)
-                    {
-                        var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
-                        var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
-                        var vfsSCMManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
-                        Task scmRedirectUpload = vfsSCMManager.Put("site/applicationHost.xdt", Path.Combine(HostingEnvironment.MapPath(@"~/App_Data"), "applicationHost.xdt"));
+                    //if (template != null && template.FileName != null)
+                    //{
+                    //    var credentials = new NetworkCredential(site.PublishingUserName, site.PublishingPassword);
+                    //    var zipManager = new RemoteZipManager(site.ScmUrl + "zip/", credentials, retryCount: 3);
+                    //    var vfsSCMManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
+                    //    Task scmRedirectUpload = vfsSCMManager.Put("site/applicationHost.xdt", Path.Combine(HostingEnvironment.MapPath(@"~/App_Data"), "applicationHost.xdt"));
 
-                        var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
-                        Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
+                    //    var vfsManager = new RemoteVfsManager(site.ScmUrl + "vfs/", credentials, retryCount: 3);
+                    //    Task deleteHostingStart = vfsManager.Delete("site/wwwroot/hostingstart.html");
 
-                        await Task.WhenAll(scmRedirectUpload, deleteHostingStart);
-                    }
+                    //    await Task.WhenAll(scmRedirectUpload, deleteHostingStart);
+                    //}
                     resourceGroup.Tags[Constants.TemplateName] = template.Name;
+                    site.SubscriptionId = resourceGroup.SubscriptionId;
+                    await site.LoadAppSettings();
                     site.AppSettings["LAST_MODIFIED_TIME_UTC"] = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
-                    site.AppSettings["WEBSITE_TRY_MODE"] = "1";
-                    if (site.SubscriptionType != SubscriptionType.VSCodeLinux)
-                    {
-                        site.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = SimpleSettings.SiteExpiryMinutes;
-                    }
-                    if (site.AppSettings.ContainsKey("FUNCTIONS_EXTENSION_VERSION"))
-                    {
-                        site.AppSettings.Remove("FUNCTIONS_EXTENSION_VERSION");
-                    }
+                    //site.AppSettings["WEBSITE_TRY_MODE"] = "1";
+                    //if (site.SubscriptionType != SubscriptionType.VSCodeLinux)
+                    //{
+                    //    site.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = SimpleSettings.SiteExpiryMinutes;
+                    //}
+                    //if (site.AppSettings.ContainsKey("FUNCTIONS_EXTENSION_VERSION"))
+                    //{
+                    //    site.AppSettings.Remove("FUNCTIONS_EXTENSION_VERSION");
+                    //}
 
-                    if (template.Name.Equals("ASP.NET with Azure Search Site", StringComparison.OrdinalIgnoreCase))
-                    {
-                        site.AppSettings["SearchServiceName"] = SimpleSettings.SearchServiceName;
-                        site.AppSettings["SearchServiceApiKey"] = AzureSearchHelper.GetApiKey();
-                    }
+                    //if (template.Name.Equals("ASP.NET with Azure Search Site", StringComparison.OrdinalIgnoreCase))
+                    //{
+                    //    site.AppSettings["SearchServiceName"] = SimpleSettings.SearchServiceName;
+                    //    site.AppSettings["SearchServiceApiKey"] = AzureSearchHelper.GetApiKey();
+                    //}
 
                     await Task.WhenAll(site.UpdateAppSettings(), resourceGroup.Update());
 
-                    if (template.Name.Equals("WordPress", StringComparison.OrdinalIgnoreCase))
-                    {
-                        await site.UpdateConfig(new {properties = new {scmType = "LocalGit", httpLoggingEnabled = true, localMySqlEnabled = true} });
-                    }
+                    //if (template.Name.Equals("WordPress", StringComparison.OrdinalIgnoreCase))
+                    //{
+                    //    await site.UpdateConfig(new {properties = new {scmType = "LocalGit", httpLoggingEnabled = true, localMySqlEnabled = true} });
+                    //}
 
                     Util.WarmUpSite(site);
                     return resourceGroup;
@@ -317,7 +319,7 @@ namespace SimpleWAWS.Code
                 return resourceGroup;
             }, template);
         }
-        public async Task<ResourceGroup> ActivateContainersResource(ContainersTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
+        public async Task<ResourceGroup> ActivateContainersResource(BaseTemplate template, TryWebsitesIdentity userIdentity, string anonymousUserName)
         {
             return await ActivateResourceGroup(userIdentity, AppService.Containers,  DeploymentType.CsmDeploy, async (resourceGroup, inProgressOperation) =>
             {
@@ -327,13 +329,16 @@ namespace SimpleWAWS.Code
                             "Containers", template.Name, resourceGroup.ResourceUniqueId, AppService.Containers.ToString());
 
                 var site = resourceGroup.Site;
-                resourceGroup.Tags[Constants.TemplateName] = template.Name;
-                resourceGroup = await resourceGroup.Update();
-                if (!string.IsNullOrEmpty(template.DockerContainer))
+                //resourceGroup.Tags[Constants.TemplateName] = template.Name;
+                //resourceGroup = await resourceGroup.Update();
+                if (string.IsNullOrEmpty(template.DockerContainer))
                 {
-                    var qualifiedContainerName = QualifyContainerName(template.DockerContainer);
-                    await site.UpdateConfig(new { properties = new { linuxFxVersion = qualifiedContainerName } });
+                    template.DockerContainer = "appsvc/dotnetcore";
                 }
+                var qualifiedContainerName = QualifyContainerName(template.DockerContainer);
+                site.SubscriptionId = resourceGroup.SubscriptionId;
+                await site.UpdateConfig(new { properties = new { linuxFxVersion = qualifiedContainerName } });
+                
 
                 Util.WarmUpSite(resourceGroup.Site);
                 return resourceGroup;

@@ -141,6 +141,7 @@ namespace SimpleWAWS.Models
 
                 return new UIResource
                 {
+                    CsmId= Site.CsmId.Replace(@"//",$"/{SubscriptionId}/"),
                     SiteName = Site.SiteName,
                     Url = Site.CamelCasedUrl,
                     IbizaUrl = Site.IbizaUrl,

@@ -126,21 +126,21 @@ namespace SimpleWAWS.Code.CsmExtensions
 
             await Task.WhenAll(LoadAppSettings(site), LoadPublishingCredentials(site), UpdateScmConfig(site));
 
-            if (!site.IsSimpleWAWSOriginalSite)
-            {
-                site.AppSettings["FUNCTIONS_EXTENSION_VERSION"] = SimpleSettings.FunctionsExtensionVersion;
-            }
-            if (site.SubscriptionType != SubscriptionType.Linux && site.SubscriptionType != SubscriptionType.VSCodeLinux)
-            {
-                site.AppSettings["WEBSITE_TRY_MODE"] = "1";
-                site.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = SimpleSettings.SiteExpiryMinutes;
-                site.AppSettings[Constants.NodeDefaultVersionAppSetting] = SimpleSettings.WebsiteNodeDefautlVersion;
-                if (site.IsFunctionsContainer)
-                {
-                    site.AppSettings[Constants.NodeDefaultVersionAppSetting] = SimpleSettings.FunctionsNodeDefaultVersion;
-                }
-            }
-            await site.UpdateAppSettings();
+            //if (!site.IsSimpleWAWSOriginalSite)
+            //{
+            //    site.AppSettings["FUNCTIONS_EXTENSION_VERSION"] = SimpleSettings.FunctionsExtensionVersion;
+            //}
+            //if (site.SubscriptionType != SubscriptionType.Linux && site.SubscriptionType != SubscriptionType.VSCodeLinux)
+            //{
+            //    site.AppSettings["WEBSITE_TRY_MODE"] = "1";
+            //    site.AppSettings["SITE_LIFE_TIME_IN_MINUTES"] = SimpleSettings.SiteExpiryMinutes;
+            //    site.AppSettings[Constants.NodeDefaultVersionAppSetting] = SimpleSettings.WebsiteNodeDefautlVersion;
+            //    if (site.IsFunctionsContainer)
+            //    {
+            //        site.AppSettings[Constants.NodeDefaultVersionAppSetting] = SimpleSettings.FunctionsNodeDefaultVersion;
+            //    }
+            //}
+            //await site.UpdateAppSettings();
             return site;
         }
 
