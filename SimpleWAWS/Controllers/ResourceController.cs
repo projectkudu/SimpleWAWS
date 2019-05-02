@@ -168,6 +168,7 @@ namespace SimpleWAWS.Controllers
             var resourceManager = await ResourcesManager.GetInstanceAsync();
             var response = Request.CreateResponse();
             var resourceGroup = await resourceManager.GetResourceGroup(HttpContext.Current.User.Identity.Name);
+            resourceGroup.Site.SubscriptionId = resourceGroup.SubscriptionId;
             var stream = await resourceGroup.Site.GetPublishingProfile();
             if (stream != null)
             {
@@ -191,6 +192,7 @@ namespace SimpleWAWS.Controllers
             var tasSiteName = split[0];
             var rgName = split[1];
             var resourceGroup = await resourceManager.GetResourceGroupFromSiteName(tasSiteName, rgName);
+            resourceGroup.Site.SubscriptionId = resourceGroup.SubscriptionId;
             var stream = await resourceGroup.Site.GetSiteContent();
             if (stream != null)
             {
@@ -214,6 +216,7 @@ namespace SimpleWAWS.Controllers
             var tasSiteName = split[0];
             var rgName = split[1];
             var resourceGroup = await resourceManager.GetResourceGroupFromSiteName(tasSiteName, rgName);
+            resourceGroup.Site.SubscriptionId = resourceGroup.SubscriptionId;
             var stream = await resourceGroup.Site.GetSiteContent();
             if (stream != null)
             {

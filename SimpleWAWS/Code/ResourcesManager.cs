@@ -277,11 +277,11 @@ namespace SimpleWAWS.Code
                 SimpleTrace.TraceInformation("{0}; {1}; {2}; {3}; {4}",
                             AnalyticsEvents.OldUserCreatedSiteWithLanguageAndTemplateName, "Linux", template.Name, resourceGroup.ResourceUniqueId, AppService.Linux.ToString());
 
-                var site = resourceGroup.Site;
-                resourceGroup.Tags[Constants.TemplateName] = template.Name;
-                resourceGroup = await resourceGroup.Update();
-
-                await Util.DeployLinuxTemplateToSite(template, site);
+                //var site = resourceGroup.Site;
+                //resourceGroup.Tags[Constants.TemplateName] = template.Name;
+                //resourceGroup = await resourceGroup.Update();
+                //site.SubscriptionId = resourceGroup.SubscriptionId;
+                //await Util.DeployLinuxTemplateToSite(template, site);
 
                 return resourceGroup;
             }, template);
