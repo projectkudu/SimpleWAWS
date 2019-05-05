@@ -223,7 +223,8 @@ namespace SimpleWAWS.Code
                 foreach (var subscription in subscriptions)
                 {
                     var sub = new Subscription(subscription);
-                    sub.ResourceGroups = (await LoadedResourceGroups()).Where(r => r.SubscriptionId == sub.SubscriptionId);
+                    await sub.Load();
+                    //sub.ResourceGroups = (await LoadedResourceGroups()).Where(r => r.SubscriptionId == sub.SubscriptionId);
                     var trialsubresult = sub.GetSubscriptionStats();
                     toDelete.AddRange(trialsubresult.ToDelete);
                     ready.AddRange(trialsubresult.Ready);
