@@ -117,7 +117,7 @@ namespace SimpleWAWS.Models
         {
             get
             {
-                return string.Concat(SimpleSettings.TryAppServiceSite, "/api/resource/getwebappcontent/", SiteName,"^",ResourceGroupName);
+                return string.Concat(SimpleSettings.TryAppServiceSite, "/api/resource/getwebappcontent/a/?siteName=", SiteName,"^",ResourceGroupName);
             }
         }
 
