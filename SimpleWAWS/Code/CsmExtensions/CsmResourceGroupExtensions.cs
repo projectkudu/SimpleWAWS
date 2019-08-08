@@ -140,9 +140,9 @@ namespace SimpleWAWS.Code.CsmExtensions
 
         public static async Task<ResourceGroup> CreateResourceGroup(string subscriptionId, string region, string templateName)
         {
-            var guid = Guid.NewGuid().ToString().Split('-')[1];
+            var guid = Guid.NewGuid().ToString("N");
 
-            var rgName= string.IsNullOrEmpty(templateName) ? String.Empty : templateName.ToString().Trim().Replace(" ", Constants.TryResourceGroupSeparator).Replace(".", Constants.TryResourceGroupSeparator).ToLowerInvariant();
+            var rgName = string.IsNullOrEmpty(templateName) ? String.Empty : templateName.ToString().Trim().Replace(" ", Constants.TryResourceGroupSeparator).Replace(".", Constants.TryResourceGroupSeparator).ToLowerInvariant();
 
             var resourceGroup = new ResourceGroup(subscriptionId, string.Join(Constants.TryResourceGroupSeparator, Constants.TryResourceGroupPrefix, rgName, guid), templateName)
             {

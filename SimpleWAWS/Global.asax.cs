@@ -110,6 +110,7 @@ namespace SimpleWAWS
             RouteTable.Routes.MapHttpRoute("get-app-vscodeinsiders-url", "api/resource/vscodeinsidersurl", new { controller = "Resource", action = "GetVSCodeInsidersUrl", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
             RouteTable.Routes.MapHttpRoute("get-app-gitclone-url", "api/resource/gitcloneurl", new { controller = "Resource", action = "GetGitCloneUrl", authenticated = true }, new { verb = new HttpMethodConstraint("GET") });
             RouteTable.Routes.MapHttpRoute("get-webapp-content", "api/resource/getwebappcontent/{siteName}", new { controller = "Resource", action = "GetWebAppContent", authenticated = false }, new { verb = new HttpMethodConstraint("GET") });
+            RouteTable.Routes.MapHttpRoute("post-webapp-content", "api/resource/getwebappcontent", new { controller = "Resource", action = "GetWebAppContent", authenticated = false }, new { verb = new HttpMethodConstraint("POST") });
             RouteTable.Routes.MapHttpRoute("get-functionapp-content", "api/resource/getfunctionappcontent/{siteName}", new { controller = "Resource", action = "GetFunctionAppContent", authenticated = false }, new { verb = new HttpMethodConstraint("GET") });
             
             RouteTable.Routes.MapHttpRoute("get-mobile-client-app", "api/resource/mobileclient/{platformString}", new { controller = "Resource", action = "GetMobileClientZip", authenticated = false }, new { verb = new HttpMethodConstraint("GET") });
