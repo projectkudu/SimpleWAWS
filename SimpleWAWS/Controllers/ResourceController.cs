@@ -15,6 +15,7 @@ using SimpleWAWS.Code;
 using SimpleWAWS.Trace;
 using System.IO;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace SimpleWAWS.Controllers
 {
@@ -236,7 +237,8 @@ namespace SimpleWAWS.Controllers
         {
             try
             {
-                SimpleTrace.TraceInformation($"CREATE {template?.AppService} . Request Received");
+                var payload = JsonConvert.SerializeObject(template);
+                SimpleTrace.TraceInformation($"CREATE {template?.AppService} : {payload}. Request Received");
             }
             catch (Exception ex)
             {
@@ -292,7 +294,7 @@ namespace SimpleWAWS.Controllers
                 }
 
                 ResourceGroup resourceGroup = null;
-
+                SimpleTrace.TraceInformation($"Searching for {tempTemplate?.AppService} {tempTemplate?.Name}.");
                 switch (tempTemplate.AppService)
                 {
                     case AppService.Linux:

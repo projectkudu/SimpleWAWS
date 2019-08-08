@@ -93,7 +93,7 @@ namespace SimpleWAWS.Code
                     throw new MoreThanOneResourceGroupException();
                 }
                 bool resourceGroupFound = false;
-                    SimpleTrace.TraceInformation($"Searching vscodequeue for template '{template}': Count of templates:{await StorageHelper.GetQueueCount(template.QueueName)} ");
+                    SimpleTrace.TraceInformation($"Searching vscodequeue for template '{template.QueueName}': Count of templates:{await StorageHelper.GetQueueCount(template.QueueName)} ");
 
                 if (await StorageHelper.GetQueueCount(template.QueueName)>0)
                 {
