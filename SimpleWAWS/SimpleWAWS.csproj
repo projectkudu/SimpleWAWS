@@ -481,10 +481,6 @@
     <Content Include="Default.cshtml" />
     <Content Include="refs\ARMClient.Library.dll" />
     <Content Include="robots.txt" />
-    <Content Include="Scripts\ai.0.22.19-build00125.js" />
-    <Content Include="Scripts\ai.0.22.19-build00125.min.js" />
-    <Content Include="Scripts\angular-timer.min.js" />
-    <Content Include="Scripts\js.cookie-1.5.1.min.js" />
     <Content Include="SiteNames\adjectives.txt" />
     <Content Include="SiteNames\animals.txt" />
     <Content Include="Sorry.cshtml" />
@@ -500,7 +496,6 @@
     <Content Include="Content\fonts\segoe-ui\semibold\latest.eot" />
     <Content Include="Content\fonts\segoe-ui\semibold\latest.ttf" />
     <Content Include="Content\fonts\segoe-ui\semibold\latest.woff" />
-    <Content Include="Scripts\site.js" />
     <Content Include="templates\clients.cshtml" />
     <Content Include="templates\empty-shell.cshtml" />
     <Content Include="templates\templates.cshtml" />
@@ -530,27 +525,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="Scripts\app.ts" />
-    <TypeScriptCompile Include="Scripts\cookie.d.ts" />
-    <TypeScriptCompile Include="Scripts\models.ts" />
-    <TypeScriptCompile Include="Scripts\polyfill.ts" />
-    <TypeScriptCompile Include="Scripts\Resources.d.ts" />
-    <TypeScriptCompile Include="Scripts\selectOnClickDirective.ts" />
-    <TypeScriptCompile Include="Scripts\config.ts" />
-    <TypeScriptCompile Include="Scripts\global-init.ts" />
-    <TypeScriptCompile Include="Scripts\filters.ts" />
-    <TypeScriptCompile Include="Scripts\staticDataFactory.ts" />
-    <TypeScriptCompile Include="Scripts\typings\angular-ui-router\angular-ui-router.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-mocks.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-resource.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-route.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-sanitize.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\angularjs\angular.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\client.cs-cz.resx">
